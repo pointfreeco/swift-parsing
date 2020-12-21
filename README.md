@@ -13,7 +13,6 @@ A library for turning nebulous data into well-structured data, with a focus on c
 [Design](#design)<br>
 [Benchmarks](#benchmarks)<br>
 [Documentation](#documentation)<br>
-[Installation](#installation)<br>
 [Other libraries](#other-libraries)<br>
 [License](#license)<br>
 
