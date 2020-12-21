@@ -19,7 +19,7 @@ jobs:
           # - 11.7
           - 12
         command:
-          # - test
+          - test
           - benchmarks
     steps:
       - uses: actions/checkout@v2
