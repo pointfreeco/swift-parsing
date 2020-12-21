@@ -39,7 +39,8 @@ private let fileName = Skip(StartsWith("/".utf8))
   .take(PrefixThrough(".swift".utf8))
   .compactMap { $0.split(separator: .init(ascii: "/")).last }
 
-private let testCaseBody = fileName
+private let testCaseBody =
+  fileName
   .skip(StartsWith(":".utf8))
   .take(Int.parser())
   .skip(PrefixThrough("] : ".utf8))
@@ -71,7 +72,7 @@ struct TestCaseBody: Parser {
       return nil
     }
 
-    failure.removeLast() // trailing newline
+    failure.removeLast()  // trailing newline
     let output = testCaseBody.parse(&failure)
     return output
   }
@@ -79,16 +80,17 @@ struct TestCaseBody: Parser {
 
 enum TestResult {
   case failed(
-        failureMessage: Substring,
-        file: Substring,
-        line: Int,
-        testName: Substring,
-        time: Double
-       )
+    failureMessage: Substring,
+    file: Substring,
+    line: Int,
+    testName: Substring,
+    time: Double
+  )
   case passed(testName: Substring, time: Double)
 }
 
-private let testFailed = testCaseStartedLine
+private let testFailed =
+  testCaseStartedLine
   .take(Many(TestCaseBody()))
   .take(testCaseFinishedLine)
   .map { testName, bodyData, time in
@@ -106,7 +108,7 @@ private let testFailed = testCaseStartedLine
 
 private let testPassed = testCaseStartedLine.map(Substring.init)
   .take(testCaseFinishedLine)
-  .map { [TestResult.passed(testName: $0, time:$1)] }
+  .map { [TestResult.passed(testName: $0, time: $1)] }
 
 private let testResult = testFailed.orElse(testPassed)
 

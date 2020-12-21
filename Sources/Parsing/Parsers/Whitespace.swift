@@ -22,5 +22,5 @@ where
 }
 
 extension Parsers {
-  public typealias Whitespace = Parsing.Whitespace // NB: Convenience type alias for discovery
+  public typealias Whitespace = Parsing.Whitespace  // NB: Convenience type alias for discovery
 }

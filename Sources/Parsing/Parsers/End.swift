@@ -14,5 +14,5 @@ public struct End<Input>: Parser where Input: Collection {
 }
 
 extension Parsers {
-  public typealias End = Parsing.End // NB: Convenience type alias for discovery
+  public typealias End = Parsing.End  // NB: Convenience type alias for discovery
 }

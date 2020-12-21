@@ -32,7 +32,7 @@ where
     while let index = input.firstIndex(where: { self.areEquivalent(first, $0) }) {
       input = input[index...]
       if input.count >= count,
-         zip(input[index...], self.possibleMatch).allSatisfy(self.areEquivalent)
+        zip(input[index...], self.possibleMatch).allSatisfy(self.areEquivalent)
       {
         let index = input.index(index, offsetBy: count)
         input = input[index...]
@@ -53,7 +53,7 @@ extension PrefixThrough where Input.Element: Equatable {
 }
 
 extension Parsers {
-  public typealias PrefixThrough = Parsing.PrefixThrough // NB: Convenience type alias for discovery
+  public typealias PrefixThrough = Parsing.PrefixThrough  // NB: Convenience type alias for discovery
 }
 
 extension PrefixThrough where Input == Substring {

@@ -23,5 +23,5 @@ public final class Lazy<LazyParser>: Parser where LazyParser: Parser {
 }
 
 extension Parsers {
-  public typealias Lazy = Parsing.Lazy // NB: Convenience type alias for discovery
+  public typealias Lazy = Parsing.Lazy  // NB: Convenience type alias for discovery
 }

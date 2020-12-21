@@ -19,5 +19,5 @@ where
 }
 
 extension Parsers {
-  public typealias FirstWhere = Parsing.FirstWhere // NB: Convenience type alias for discovery
+  public typealias FirstWhere = Parsing.FirstWhere  // NB: Convenience type alias for discovery
 }

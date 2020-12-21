@@ -21,7 +21,8 @@ import Parsing
 
 private typealias Input = Slice<UnsafeBufferPointer<UInt8>>
 
-private let dateTime = offsetDateTime
+private let dateTime =
+  offsetDateTime
   .orElse(localDateTime)
   .orElse(localDate)
   .orElse(localTime)
@@ -48,7 +49,7 @@ private let timeNumoffset = StartsWith("+".utf8).map { 1 }.orElse(StartsWith("-"
   .take(timeMinute)
 private let timeOffset = StartsWith("Z".utf8).map { (sign: 1, minute: 0, second: 0) }
   .orElse(timeNumoffset)
-  .compactMap { TimeZone(secondsFromGMT: $0*($1*60 + $2)) }
+  .compactMap { TimeZone(secondsFromGMT: $0 * ($1 * 60 + $2)) }
 
 private let partialTime = timeHour.skip(StartsWith(":".utf8))
   .take(timeMinute).skip(StartsWith(":".utf8))
@@ -80,17 +81,19 @@ private let localDateTime = fullDate.skip(timeDelim).take(partialTime)
     )
   }
 
-private let localDate = fullDate
+private let localDate =
+  fullDate
   .map { DateComponents(year: $0, month: $1, day: $2) }
 
-private let localTime = partialTime
+private let localTime =
+  partialTime
   .map { DateComponents(hour: $0, minute: $1, second: $2, nanosecond: $3) }
 
 // MARK: - Suite
 
 let dateSuite = BenchmarkSuite(name: "Date") { suite in
   let input = "1979-05-27T00:32:00Z"
-  let expected = Date(timeIntervalSince1970: 296613120)
+  let expected = Date(timeIntervalSince1970: 296_613_120)
   var output: Date!
 
   let dateTimeParser = dateTime.compactMap(Calendar.current.date(from:))

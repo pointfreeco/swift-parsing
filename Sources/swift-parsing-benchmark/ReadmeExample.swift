@@ -1,4 +1,5 @@
 import Benchmark
+import Foundation
 import Parsing
 
 let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
@@ -65,7 +66,8 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
   suite.benchmark(
     name: "Adhoc",
     run: {
-      output = input
+      output =
+        input
         .split(separator: "\n")
         .compactMap { row -> User? in
           let fields = row.split(separator: ",")
@@ -109,8 +111,6 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
     )
   }
 }
-
-import Foundation
 
 extension Scanner {
   @available(macOS 10.15, *)

@@ -13,7 +13,6 @@ A library for turning nebulous data into well-structured data, with a focus on c
 [Design](#design)<br>
 [Benchmarks](#benchmarks)<br>
 [Documentation](#documentation)<br>
-[Installation](#installation)<br>
 [Other libraries](#other-libraries)<br>
 [License](#license)<br>
 
@@ -334,9 +333,9 @@ Numerics.Comma separated: Int.parser           5390299.000 ns ±   5.52 %       
 Numerics.Comma separated: Scanner.scanInt     86885256.500 ns ±   5.40 %         16
 Numerics.Comma separated: String.split       120884645.000 ns ±   2.18 %         11
 Numerics.Double.init                                62.000 ns ± 615.58 %    1000000
-Numerics.Double.parser                              60.000 ns ± 640.87 %    1000000
+Numerics.Double.parser                              92.000 ns ± 249.73 %    1000000
 Numerics.Scanner.scanDouble                        204.000 ns ± 301.13 %    1000000
-Numerics.Comma separated: Double.parser        6433494.000 ns ±   6.82 %        213
+Numerics.Comma separated: Double.parser        8743220.000 ns ±   6.54 %        138
 Numerics.Comma separated: Scanner.scanDouble  90561940.000 ns ±   1.49 %         16
 Numerics.Comma separated: String.split        36217863.000 ns ±   4.66 %         39
 PrefixUpTo.Parser                                22917.000 ns ±  39.36 %      53264

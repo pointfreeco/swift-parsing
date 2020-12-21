@@ -107,5 +107,5 @@ extension Parsers {
     }
   }
 
-  public typealias Skip = Parsing.Skip // NB: Convenience type alias for discovery
+  public typealias Skip = Parsing.Skip  // NB: Convenience type alias for discovery
 }

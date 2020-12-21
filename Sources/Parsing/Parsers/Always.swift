@@ -27,5 +27,5 @@ public struct Always<Input, Output>: Parser {
 }
 
 extension Parsers {
-  public typealias Always = Parsing.Always // NB: Convenience type alias for discovery
+  public typealias Always = Parsing.Always  // NB: Convenience type alias for discovery
 }

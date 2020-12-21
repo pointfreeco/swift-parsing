@@ -65,14 +65,15 @@ private let array = Skip(StartsWith("[".utf8))
   .map(JSON.array)
 
 private let stringLiteral = Skip(StartsWith<Input>("\"".utf8))
-  .take(Prefix { $0 != .init(ascii: "\"") }) // FIXME: implement according to spec
+  .take(Prefix { $0 != .init(ascii: "\"") })  // FIXME: implement according to spec
   .skip(StartsWith("\"".utf8))
   .map { String(decoding: $0, as: UTF8.self) }
 
-private let string = stringLiteral
+private let string =
+  stringLiteral
   .map(JSON.string)
 
-private let number = Double.parser(of: Input.self) // FIXME: implement according to spec
+private let number = Double.parser(of: Input.self)  // FIXME: implement according to spec
   .map(JSON.number)
 
 private let boolean = Bool.parser(of: Input.self)
@@ -83,33 +84,34 @@ private let null = StartsWith<Input>("null".utf8)
 
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   let input = #"""
-  {
-    "hello": true,
-    "goodbye": 42.42,
-    "whatever": null,
-    "xs": [1, "hello", null, false],
-    "ys": {
-      "0": 2,
-      "1": "goodbye"
+    {
+      "hello": true,
+      "goodbye": 42.42,
+      "whatever": null,
+      "xs": [1, "hello", null, false],
+      "ys": {
+        "0": 2,
+        "1": "goodbye"
+      }
     }
-  }
-  """#
+    """#
   var jsonOutput: JSON!
   suite.benchmark(
     name: "Parser",
     run: { jsonOutput = json.parse(input) },
     tearDown: {
       precondition(
-        jsonOutput == JSON.object([
-          "hello": .boolean(true),
-          "goodbye": .number(42.42),
-          "whatever": .null,
-          "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
-          "ys": .object([
-            "0": .number(2),
-            "1": .string("goodbye")
+        jsonOutput
+          == JSON.object([
+            "hello": .boolean(true),
+            "goodbye": .number(42.42),
+            "whatever": .null,
+            "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
+            "ys": .object([
+              "0": .number(2),
+              "1": .string("goodbye"),
+            ]),
           ])
-        ])
       )
     }
   )
@@ -127,8 +129,8 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           "xs": [1, "hello", nil, false],
           "ys": [
             "0": 2,
-            "1": "goodbye"
-          ]
+            "1": "goodbye",
+          ],
         ]
       )
     }

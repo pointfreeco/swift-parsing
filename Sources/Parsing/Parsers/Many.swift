@@ -37,75 +37,6 @@ where
   public let upstream: Upstream
 
   /// Initializes a parser that attempts to run the given parser at least and at most the given
-  /// number of times, accumulating the outputs in an array.
-  ///
-  /// - Parameters:
-  ///   - upstream: Another parser.
-  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
-  ///     successful.
-  ///   - maximum: The maximum number of times to run this parser before returning the output.
-  @inlinable
-  public init(
-    _ upstream: Upstream,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max
-  )
-  where Result == [Upstream.Output], Separator == Always<Input, Void> {
-    self.init(upstream, into: [], atLeast: minimum, atMost: maximum) {
-      $0.append($1)
-    }
-  }
-
-  /// Initializes a parser that attempts to run the given parser at least and at most the given
-  /// number of times, accumulating the outputs in an array.
-  ///
-  /// - Parameters:
-  ///   - upstream: Another parser.
-  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
-  ///     successful.
-  ///   - maximum: The maximum number of times to run this parser before returning the output.
-  ///   - separator: A parser that consumes input between each parsed output.
-  @inlinable
-  public init(
-    _ upstream: Upstream,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
-    separator: Separator
-  )
-  where Result == [Upstream.Output] {
-    self.init(upstream, into: [], atLeast: minimum, atMost: maximum, separator: separator) {
-      $0.append($1)
-    }
-  }
-
-  /// Initializes a parser that attempts to run the given parser at least and at most the given
-  /// number of times, accumulating the outputs into a result with a given closure.
-  ///
-  /// - Parameters:
-  ///   - upstream: Another parser.
-  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
-  ///     successful.
-  ///   - maximum: The maximum number of times to run this parser before returning the output.
-  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
-  ///     of the upstream parser.
-  @inlinable
-  public init(
-    _ upstream: Upstream,
-    into initialResult: Result,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
-  )
-  where Separator == Always<Input, Void> {
-    self.initialResult = initialResult
-    self.maximum = maximum
-    self.minimum = minimum
-    self.separator = nil
-    self.updateAccumulatingResult = updateAccumulatingResult
-    self.upstream = upstream
-  }
-
-  /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs into a result with a given closure.
   ///
   /// - Parameters:
@@ -160,6 +91,79 @@ where
   }
 }
 
+extension Many where Result == [Upstream.Output], Separator == Always<Input, Void> {
+  /// Initializes a parser that attempts to run the given parser at least and at most the given
+  /// number of times, accumulating the outputs in an array.
+  ///
+  /// - Parameters:
+  ///   - upstream: Another parser.
+  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
+  ///     successful.
+  ///   - maximum: The maximum number of times to run this parser before returning the output.
+  @inlinable
+  public init(
+    _ upstream: Upstream,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max
+  ) {
+    self.init(upstream, into: [], atLeast: minimum, atMost: maximum) {
+      $0.append($1)
+    }
+  }
+}
+
+extension Many where Result == [Upstream.Output] {
+  /// Initializes a parser that attempts to run the given parser at least and at most the given
+  /// number of times, accumulating the outputs in an array.
+  ///
+  /// - Parameters:
+  ///   - upstream: Another parser.
+  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
+  ///     successful.
+  ///   - maximum: The maximum number of times to run this parser before returning the output.
+  ///   - separator: A parser that consumes input between each parsed output.
+  @inlinable
+  public init(
+    _ upstream: Upstream,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    separator: Separator
+  ) {
+    self.init(upstream, into: [], atLeast: minimum, atMost: maximum, separator: separator) {
+      $0.append($1)
+    }
+  }
+}
+
+extension Many where Separator == Always<Input, Void> {
+
+  /// Initializes a parser that attempts to run the given parser at least and at most the given
+  /// number of times, accumulating the outputs into a result with a given closure.
+  ///
+  /// - Parameters:
+  ///   - upstream: Another parser.
+  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
+  ///     successful.
+  ///   - maximum: The maximum number of times to run this parser before returning the output.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the upstream parser.
+  @inlinable
+  public init(
+    _ upstream: Upstream,
+    into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
+  ) {
+    self.initialResult = initialResult
+    self.maximum = maximum
+    self.minimum = minimum
+    self.separator = nil
+    self.updateAccumulatingResult = updateAccumulatingResult
+    self.upstream = upstream
+  }
+}
+
 extension Parsers {
-  public typealias Many = Parsing.Many // NB: Convenience type alias for discovery
+  public typealias Many = Parsing.Many  // NB: Convenience type alias for discovery
 }

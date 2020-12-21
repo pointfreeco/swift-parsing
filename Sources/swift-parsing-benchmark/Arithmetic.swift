@@ -1,3 +1,4 @@
+import Benchmark
 import Parsing
 
 private var expr: AnyParser<Substring.UTF8View, Int> {
@@ -49,8 +50,6 @@ extension Parser {
     .eraseToAnyParser()
   }
 }
-
-import Benchmark
 
 let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   let arithmetic = "1 + 2 * 3 / 4 - 5"

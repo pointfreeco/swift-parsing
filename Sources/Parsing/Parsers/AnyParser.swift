@@ -55,5 +55,5 @@ public struct AnyParser<Input, Output>: Parser {
 }
 
 extension Parsers {
-  public typealias AnyParser = Parsing.AnyParser // NB: Convenience type alias for discovery
+  public typealias AnyParser = Parsing.AnyParser  // NB: Convenience type alias for discovery
 }

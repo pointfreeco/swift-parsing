@@ -32,7 +32,7 @@ where
     while let index = input.firstIndex(where: { self.areEquivalent(first, $0) }) {
       input = input[index...]
       if input.count >= count,
-         zip(input[index...], self.possibleMatch).allSatisfy(self.areEquivalent)
+        zip(input[index...], self.possibleMatch).allSatisfy(self.areEquivalent)
       {
         return original[..<index]
       }
@@ -51,7 +51,7 @@ extension PrefixUpTo where Input.Element: Equatable {
 }
 
 extension Parsers {
-  public typealias PrefixUpTo = Parsing.PrefixUpTo // NB: Convenience type alias for discovery
+  public typealias PrefixUpTo = Parsing.PrefixUpTo  // NB: Convenience type alias for discovery
 }
 
 extension PrefixUpTo where Input == Substring {

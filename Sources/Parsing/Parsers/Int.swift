@@ -110,7 +110,8 @@ extension Parsers {
       while let next = iterator.next(), let n = digit(for: next) {
         (output, overflow) = output.multipliedReportingOverflow(by: self.radix)
         guard !overflow else { return nil }
-        (output, overflow) = isPositive
+        (output, overflow) =
+          isPositive
           ? output.addingReportingOverflow(n)
           : output.subtractingReportingOverflow(n)
         guard !overflow else { return nil }

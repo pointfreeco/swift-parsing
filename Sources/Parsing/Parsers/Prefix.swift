@@ -126,5 +126,5 @@ where
 }
 
 extension Parsers {
-  public typealias Prefix = Parsing.Prefix // NB: Convenience type alias for discovery
+  public typealias Prefix = Parsing.Prefix  // NB: Convenience type alias for discovery
 }

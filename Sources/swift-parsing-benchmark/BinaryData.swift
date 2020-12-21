@@ -62,7 +62,8 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
       (qd: $0, an: $1, ns: $2, ar: $3)
     }
 
-  let header = id
+  let header =
+    id
     .take(fields1)
     .take(fields2)
     .take(counts)
@@ -74,13 +75,13 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
         aa: fields1.aa,
         tc: fields1.tc,
         rd: fields1.rd,
-        ra: fields2.ra ,
+        ra: fields2.ra,
         z: fields2.z,
         rcode: fields2.rcode,
         qdcount: counts.qd,
         ancount: counts.an,
-        nscount:counts.ns,
-        arcount:counts.ar
+        nscount: counts.ns,
+        arcount: counts.ar
       )
     }
 
@@ -107,21 +108,22 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
     },
     tearDown: {
       precondition(
-        output == DnsHeader(
-          id: 36_394,
-          qr: .one,
-          opcode: .inverseQuery,
-          aa: .one,
-          tc: .zero,
-          rd: .one,
-          ra: .zero,
-          z: UInt3(uint8: 0)!,
-          rcode: .nameError,
-          qdcount: 128,
-          ancount: 51_300,
-          nscount: 510,
-          arcount: 32_896
-        )
+        output
+          == DnsHeader(
+            id: 36_394,
+            qr: .one,
+            opcode: .inverseQuery,
+            aa: .one,
+            tc: .zero,
+            rd: .one,
+            ra: .zero,
+            z: UInt3(uint8: 0)!,
+            rcode: .nameError,
+            qdcount: 128,
+            ancount: 51_300,
+            nscount: 510,
+            arcount: 32_896
+          )
       )
       precondition(rest == Data([0xDE, 0xAD, 0xBE, 0xEF]))
     }
