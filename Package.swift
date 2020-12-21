@@ -30,7 +30,7 @@ let package = Package(
       name: "swift-parsing-benchmark",
       dependencies: [
         "Parsing",
-        .product(name: "Benchmark", package: "Benchmark"),
+        "Benchmark",
       ]
     ),
   ]
