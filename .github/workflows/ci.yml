@@ -15,9 +15,7 @@ jobs:
     strategy:
       matrix:
         xcode:
-          # - 11.3
-          # - 11.7
-          - 12
+          - 12.3
         command:
           - test
           - benchmarks
