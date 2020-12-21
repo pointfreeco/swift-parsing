@@ -25,14 +25,16 @@ let boolSuite = BenchmarkSuite(name: "Bool") { suite in
     tearDown: { precondition(output == true) }
   )
 
-  let scanner = Scanner(string: input)
-  suite.benchmark(
-    name: "Scanner.scanBool",
-    setUp: { scanner.currentIndex = input.startIndex },
-    run: {
-      output = scanner.scanString("true").map { _ in true }
-        ?? scanner.scanString("false").map { _ in false }
-    },
-    tearDown: { precondition(output == true) }
-  )
+  if #available(macOS 10.15, *) {
+    let scanner = Scanner(string: input)
+    suite.benchmark(
+      name: "Scanner.scanBool",
+      setUp: { scanner.currentIndex = input.startIndex },
+      run: {
+        output = scanner.scanString("true").map { _ in true }
+          ?? scanner.scanString("false").map { _ in false }
+      },
+      tearDown: { precondition(output == true) }
+    )
+  }
 }

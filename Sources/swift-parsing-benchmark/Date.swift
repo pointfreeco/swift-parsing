@@ -110,11 +110,13 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
     tearDown: { precondition(output == expected) }
   )
 
-  let iso8601DateFormatter = ISO8601DateFormatter()
-  iso8601DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-  suite.benchmark(
-    name: "ISO8601DateFormatter",
-    run: { output = iso8601DateFormatter.date(from: input) },
-    tearDown: { precondition(output == expected) }
-  )
+  if #available(macOS 10.12, *) {
+    let iso8601DateFormatter = ISO8601DateFormatter()
+    iso8601DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+    suite.benchmark(
+      name: "ISO8601DateFormatter",
+      run: { output = iso8601DateFormatter.date(from: input) },
+      tearDown: { precondition(output == expected) }
+    )
+  }
 }
