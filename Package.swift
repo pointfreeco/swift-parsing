@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.1
 
 import PackageDescription
 
@@ -18,7 +18,7 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark", from: "0.1.0"),
+    .package(url: "https://github.com/google/swift-benchmark", from: "0.1.0"),
   ],
   targets: [
     .target(
