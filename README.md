@@ -1,5 +1,7 @@
 # swift-parsing
 
+![CI](https://github.com/pointfreeco/swift-parsing/workflows/CI/badge.svg)
+
 A library for turning nebulous data into well-structured data, with a focus on composition, performance, and generality:
 
 * **Composition**: Ability to break large, complex parsing problems down into smaller, simpler ones. And the ability to take small, simple parsers and easily combine them into larger, more complex ones.
