@@ -125,33 +125,15 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout Input) -> Double? {
-      if let output = input.withContiguousStorageIfAvailable({ ptr in
-        ptr.withMemoryRebound(to: Int8.self) { ptr -> Double? in
-          guard let baseAddress = ptr.baseAddress else { return nil }
-          var offset: UnsafeMutablePointer<Int8>?
-          let output = strtod_l(baseAddress, &offset, cLocale)
-          guard let foundOffset = offset else { return nil }
-          let count = baseAddress.distance(to: foundOffset)
-          guard count > 0 else { return nil }
-          input.removeFirst(min(count, ptr.count))
-          return output
-        }
-      }) { return output }
-      // NB: In certain environments (virtualized CI, for example), the above fails. We can fall
-      //     back to checking if we're in a pointer slice already.
-      if let ptr = input as? Slice<UnsafeBufferPointer<UInt8>> {
-        return ptr.base.withMemoryRebound(to: Int8.self) { base -> Double? in
-          guard let baseAddress = base.baseAddress?.advanced(by: ptr.startIndex) else { return nil }
-          var offset: UnsafeMutablePointer<Int8>?
-          let output = strtod_l(baseAddress, &offset, cLocale)
-          guard let foundOffset = offset else { return nil }
-          let count = baseAddress.distance(to: foundOffset)
-          guard count > 0 else { return nil }
-          input.removeFirst(min(count, ptr.count))
-          return output
-        }
+      let original = input
+      guard
+        let s = input.parseFloat(),
+        let n = Double(String(decoding: s, as: UTF8.self))
+      else {
+        input = original
+        return nil
       }
-      return nil
+      return n
     }
   }
 
@@ -178,33 +160,15 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout Input) -> Float? {
-      if let output = input.withContiguousStorageIfAvailable({ ptr in
-        ptr.withMemoryRebound(to: Int8.self) { ptr -> Float? in
-          guard let baseAddress = ptr.baseAddress else { return nil }
-          var offset: UnsafeMutablePointer<Int8>?
-          let output = strtof_l(baseAddress, &offset, cLocale)
-          guard let foundOffset = offset else { return nil }
-          let count = baseAddress.distance(to: foundOffset)
-          guard count > 0 else { return nil }
-          input.removeFirst(min(count, ptr.count))
-          return output
-        }
-      }) { return output }
-      // NB: In certain environments (virtualized CI, for example), the above fails. We can fall
-      //     back to checking if we're in a pointer slice already.
-      if let ptr = input as? Slice<UnsafeBufferPointer<UInt8>> {
-        return ptr.base.withMemoryRebound(to: Int8.self) { base -> Float? in
-          guard let baseAddress = base.baseAddress?.advanced(by: ptr.startIndex) else { return nil }
-          var offset: UnsafeMutablePointer<Int8>?
-          let output = strtof_l(baseAddress, &offset, cLocale)
-          guard let foundOffset = offset else { return nil }
-          let count = baseAddress.distance(to: foundOffset)
-          guard count > 0 else { return nil }
-          input.removeFirst(min(count, ptr.count))
-          return output
-        }
+      let original = input
+      guard
+        let s = input.parseFloat(),
+        let n = Float(String(decoding: s, as: UTF8.self))
+      else {
+        input = original
+        return nil
       }
-      return nil
+      return n
     }
   }
 
@@ -232,33 +196,15 @@ extension Parsers {
 
       @inlinable
       public func parse(_ input: inout Input) -> Float80? {
-        if let output = input.withContiguousStorageIfAvailable({ ptr in
-          ptr.withMemoryRebound(to: Int8.self) { ptr -> Float80? in
-            guard let baseAddress = ptr.baseAddress else { return nil }
-            var offset: UnsafeMutablePointer<Int8>?
-            let output = strtold_l(baseAddress, &offset, cLocale)
-            guard let foundOffset = offset else { return nil }
-            let count = baseAddress.distance(to: foundOffset)
-            guard count > 0 else { return nil }
-            input.removeFirst(min(count, ptr.count))
-            return output
-          }
-        }) { return output }
-        // NB: In certain environments (virtualized CI, for example), the above fails. We can fall
-        //     back to checking if we're in a pointer slice already.
-        if let ptr = input as? Slice<UnsafeBufferPointer<UInt8>> {
-          return ptr.base.withMemoryRebound(to: Int8.self) { base -> Float80? in
-            guard let baseAddress = base.baseAddress?.advanced(by: ptr.startIndex) else { return nil }
-            var offset: UnsafeMutablePointer<Int8>?
-            let output = strtold_l(baseAddress, &offset, cLocale)
-            guard let foundOffset = offset else { return nil }
-            let count = baseAddress.distance(to: foundOffset)
-            guard count > 0 else { return nil }
-            input.removeFirst(min(count, ptr.count))
-            return output
-          }
+        let original = input
+        guard
+          let s = input.parseFloat(),
+          let n = Float80(String(decoding: s, as: UTF8.self))
+        else {
+          input = original
+          return nil
         }
-        return nil
+        return n
       }
     }
 
@@ -274,6 +220,39 @@ extension Parsers {
       }
     }
   #endif
+}
+
+extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
+  @inlinable
+  @inline(__always)
+  mutating func parseFloat() -> SubSequence? {
+    let original = self
+    if self.first == .init(ascii: "-") || self.first == .init(ascii: "+") {
+      self.removeFirst()
+    }
+    while let c = self.first, (.init(ascii: "0") ... .init(ascii: "9")).contains(c) {
+      self.removeFirst()
+    }
+    if self.first == .init(ascii: ".") {
+      self.removeFirst()
+      while let c = self.first, (.init(ascii: "0") ... .init(ascii: "9")).contains(c) {
+        self.removeFirst()
+      }
+    }
+    guard self.startIndex != original.startIndex else {
+      self = original
+      return nil
+    }
+    if self.first == .init(ascii: "e") || self.first == .init(ascii: "E") {
+      if self.first == .init(ascii: "-") || self.first == .init(ascii: "+") {
+        self.removeFirst()
+      }
+      while let c = self.first, (.init(ascii: "0") ... .init(ascii: "9")).contains(c) {
+        self.removeFirst()
+      }
+    }
+    return original[..<self.startIndex]
+  }
 }
 
 #if os(Windows)
