@@ -3,21 +3,21 @@ import Parsing
 
 Benchmark.main(
   [
-    defaultBenchmarkSuite,
-    arithmeticSuite,
-    binaryDataSuite,
-    boolSuite,
-    colorSuite,
-    csvSuite,
-    dateSuite,
-    httpSuite,
+//    defaultBenchmarkSuite,
+//    arithmeticSuite,
+//    binaryDataSuite,
+//    boolSuite,
+//    colorSuite,
+//    csvSuite,
+//    dateSuite,
+//    httpSuite,
 //    jsonSuite,
     numericsSuite,
-    prefixUpToSuite,
+//    prefixUpToSuite,
     //raceSuite,
-    readmeExampleSuite,
-    routingSuite,
-    stringAbstractionsSuite,
+//    readmeExampleSuite,
+//    routingSuite,
+//    stringAbstractionsSuite,
     //xcodeLogsSuite,
   ]
 )
