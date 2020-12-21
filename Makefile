@@ -5,7 +5,7 @@ PLATFORM_TVOS = tvOS Simulator,name=Apple TV 4K (at 1080p)
 default: test
 
 benchmarks:
-	swift run swift-parsing-benchmark --allow-debug-build
+	swift run -c release swift-parsing-benchmark
 
 test:
 	xcodebuild test \
