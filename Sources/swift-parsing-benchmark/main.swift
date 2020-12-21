@@ -14,10 +14,10 @@ Benchmark.main(
 //    jsonSuite,
     //numericsSuite,
     prefixUpToSuite,
-    raceSuite,
+    //raceSuite,
     readmeExampleSuite,
     routingSuite,
     stringAbstractionsSuite,
-    xcodeLogsSuite,
+    //xcodeLogsSuite,
   ]
 )
