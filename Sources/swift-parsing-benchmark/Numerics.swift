@@ -103,12 +103,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
       run: {
         output = Double.parser(of: Slice<UnsafeBufferPointer<UTF8.CodeUnit>>.self).parse(input)
       },
-      tearDown: {
-        print(output)
-        print(expected)
-        fflush(stdout)
-        precondition(output == expected)
-      }
+      tearDown: { precondition(output == expected) }
     )
 
     let scanner = Scanner(string: input)

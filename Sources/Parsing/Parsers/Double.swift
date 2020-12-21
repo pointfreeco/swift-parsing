@@ -125,6 +125,20 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout Input) -> Double? {
+      if let output = input.withContiguousStorageIfAvailable({ ptr in
+        ptr.withMemoryRebound(to: Int8.self) { ptr -> Double? in
+          guard let baseAddress = ptr.baseAddress else { return nil }
+          var offset: UnsafeMutablePointer<Int8>?
+          let output = strtod_l(baseAddress, &offset, cLocale)
+          guard let foundOffset = offset else { return nil }
+          let count = baseAddress.distance(to: foundOffset)
+          guard count > 0 else { return nil }
+          input.removeFirst(min(count, ptr.count))
+          return output
+        }
+      }) { return output }
+      // NB: In certain environments (virtualized CI, for example), the above fails. We can fall
+      //     back to checking if we're in a pointer slice already.
       if let ptr = input as? Slice<UnsafeBufferPointer<UInt8>> {
         return ptr.base.withMemoryRebound(to: Int8.self) { base -> Double? in
           guard let baseAddress = base.baseAddress?.advanced(by: ptr.startIndex) else { return nil }
@@ -137,21 +151,7 @@ extension Parsers {
           return output
         }
       }
-
-      guard let output = input.withContiguousStorageIfAvailable({ ptr in
-        ptr.withMemoryRebound(to: Int8.self) { ptr -> Output? in
-          guard let baseAddress = ptr.baseAddress else { return nil }
-          var offset: UnsafeMutablePointer<Int8>?
-          let output = strtod_l(baseAddress, &offset, cLocale)
-          guard let foundOffset = offset else { return nil }
-          let count = baseAddress.distance(to: foundOffset)
-          guard count > 0 else { return nil }
-          input.removeFirst(min(count, ptr.count))
-          return output
-        }
-      })
-      else { return nil }
-      return output
+      return nil
     }
   }
 
@@ -178,21 +178,33 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout Input) -> Float? {
-      guard
-        let output = input.withContiguousStorageIfAvailable({ ptr in
-          ptr.withMemoryRebound(to: Int8.self) { ptr -> Output? in
-            guard let baseAddress = ptr.baseAddress else { return nil }
-            var offset: UnsafeMutablePointer<Int8>?
-            let output = strtof_l(baseAddress, &offset, cLocale)
-            guard let foundOffset = offset else { return nil }
-            let count = baseAddress.distance(to: foundOffset)
-            guard count > 0 else { return nil }
-            input.removeFirst(min(count, ptr.count))
-            return output
-          }
-        })
-      else { return nil }
-      return output
+      if let output = input.withContiguousStorageIfAvailable({ ptr in
+        ptr.withMemoryRebound(to: Int8.self) { ptr -> Float? in
+          guard let baseAddress = ptr.baseAddress else { return nil }
+          var offset: UnsafeMutablePointer<Int8>?
+          let output = strtof_l(baseAddress, &offset, cLocale)
+          guard let foundOffset = offset else { return nil }
+          let count = baseAddress.distance(to: foundOffset)
+          guard count > 0 else { return nil }
+          input.removeFirst(min(count, ptr.count))
+          return output
+        }
+      }) { return output }
+      // NB: In certain environments (virtualized CI, for example), the above fails. We can fall
+      //     back to checking if we're in a pointer slice already.
+      if let ptr = input as? Slice<UnsafeBufferPointer<UInt8>> {
+        return ptr.base.withMemoryRebound(to: Int8.self) { base -> Float? in
+          guard let baseAddress = base.baseAddress?.advanced(by: ptr.startIndex) else { return nil }
+          var offset: UnsafeMutablePointer<Int8>?
+          let output = strtof_l(baseAddress, &offset, cLocale)
+          guard let foundOffset = offset else { return nil }
+          let count = baseAddress.distance(to: foundOffset)
+          guard count > 0 else { return nil }
+          input.removeFirst(min(count, ptr.count))
+          return output
+        }
+      }
+      return nil
     }
   }
 
@@ -220,21 +232,33 @@ extension Parsers {
 
       @inlinable
       public func parse(_ input: inout Input) -> Float80? {
-        guard
-          let output = input.withContiguousStorageIfAvailable({ ptr in
-            ptr.withMemoryRebound(to: Int8.self) { ptr -> Output? in
-              guard let baseAddress = ptr.baseAddress else { return nil }
-              var offset: UnsafeMutablePointer<Int8>?
-              let output = strtold_l(baseAddress, &offset, cLocale)
-              guard let foundOffset = offset else { return nil }
-              let count = baseAddress.distance(to: foundOffset)
-              guard count > 0 else { return nil }
-              input.removeFirst(min(count, ptr.count))
-              return output
-            }
-          })
-        else { return nil }
-        return output
+        if let output = input.withContiguousStorageIfAvailable({ ptr in
+          ptr.withMemoryRebound(to: Int8.self) { ptr -> Float80? in
+            guard let baseAddress = ptr.baseAddress else { return nil }
+            var offset: UnsafeMutablePointer<Int8>?
+            let output = strtold_l(baseAddress, &offset, cLocale)
+            guard let foundOffset = offset else { return nil }
+            let count = baseAddress.distance(to: foundOffset)
+            guard count > 0 else { return nil }
+            input.removeFirst(min(count, ptr.count))
+            return output
+          }
+        }) { return output }
+        // NB: In certain environments (virtualized CI, for example), the above fails. We can fall
+        //     back to checking if we're in a pointer slice already.
+        if let ptr = input as? Slice<UnsafeBufferPointer<UInt8>> {
+          return ptr.base.withMemoryRebound(to: Int8.self) { base -> Float80? in
+            guard let baseAddress = base.baseAddress?.advanced(by: ptr.startIndex) else { return nil }
+            var offset: UnsafeMutablePointer<Int8>?
+            let output = strtold_l(baseAddress, &offset, cLocale)
+            guard let foundOffset = offset else { return nil }
+            let count = baseAddress.distance(to: foundOffset)
+            guard count > 0 else { return nil }
+            input.removeFirst(min(count, ptr.count))
+            return output
+          }
+        }
+        return nil
       }
     }
 
