@@ -20,7 +20,7 @@ jobs:
           - 12
         command:
           - test
-          - benchmark
+          - benchmarks
     steps:
       - uses: actions/checkout@v2
       - name: Select Xcode ${{ matrix.xcode }}
