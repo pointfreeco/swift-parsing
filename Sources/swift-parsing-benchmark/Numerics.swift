@@ -106,6 +106,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
       tearDown: {
         print(output)
         print(expected)
+        fflush(stdout)
         precondition(output == expected)
       }
     )
