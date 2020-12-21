@@ -1,4 +1,4 @@
-PLATFORM_IOS = iOS Simulator,name=iPhone 12 Pro
+PLATFORM_IOS = iOS Simulator,name=iPhone 11 Pro
 PLATFORM_MACOS = macOS
 PLATFORM_TVOS = tvOS Simulator,name=Apple TV 4K (at 1080p)
 
