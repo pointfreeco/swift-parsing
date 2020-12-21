@@ -125,36 +125,32 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout Input) -> Double? {
-      guard
-        let output = input.withContiguousStorageIfAvailable({ ptr in
-          ptr.withMemoryRebound(to: Int8.self) { ptr -> Output? in
-            guard let baseAddress = ptr.baseAddress else {
-              print("nil1")
-              fflush(stdout)
-              return nil
-            }
-            var offset: UnsafeMutablePointer<Int8>?
-            let output = strtod_l(baseAddress, &offset, cLocale)
-            guard let foundOffset = offset else {
-              print("nil2")
-              fflush(stdout)
-              return nil
-            }
-            let count = baseAddress.distance(to: foundOffset)
-            guard count > 0 else {
-              print("nil3")
-              fflush(stdout)
-              return nil
-            }
-            input.removeFirst(min(count, ptr.count))
-            return output
-          }
-        })
-      else {
-        print("nil4")
-        fflush(stdout)
-        return nil
+      if let ptr = input as? Slice<UnsafeBufferPointer<UInt8>> {
+        return ptr.base.withMemoryRebound(to: Int8.self) { base -> Double? in
+          guard let baseAddress = base.baseAddress?.advanced(by: ptr.startIndex) else { return nil }
+          var offset: UnsafeMutablePointer<Int8>?
+          let output = strtod_l(baseAddress, &offset, cLocale)
+          guard let foundOffset = offset else { return nil }
+          let count = baseAddress.distance(to: foundOffset)
+          guard count > 0 else { return nil }
+          input.removeFirst(min(count, ptr.count))
+          return output
+        }
       }
+
+      guard let output = input.withContiguousStorageIfAvailable({ ptr in
+        ptr.withMemoryRebound(to: Int8.self) { ptr -> Output? in
+          guard let baseAddress = ptr.baseAddress else { return nil }
+          var offset: UnsafeMutablePointer<Int8>?
+          let output = strtod_l(baseAddress, &offset, cLocale)
+          guard let foundOffset = offset else { return nil }
+          let count = baseAddress.distance(to: foundOffset)
+          guard count > 0 else { return nil }
+          input.removeFirst(min(count, ptr.count))
+          return output
+        }
+      })
+      else { return nil }
       return output
     }
   }
