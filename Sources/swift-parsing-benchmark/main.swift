@@ -11,7 +11,7 @@ Benchmark.main(
     csvSuite,
     dateSuite,
     httpSuite,
-    jsonSuite,
+//    jsonSuite,
     numericsSuite,
     prefixUpToSuite,
     raceSuite,
