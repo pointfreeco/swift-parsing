@@ -4,9 +4,6 @@ import PackageDescription
 
 let package = Package(
   name: "swift-parsing",
-  platforms: [
-    .macOS(.v10_15)
-  ],
   products: [
     .library(
       name: "Parsing",
@@ -18,7 +15,7 @@ let package = Package(
     ),
   ],
   dependencies: [
-    .package(url: "https://github.com/google/swift-benchmark", from: "0.1.0")
+    .package(url: "https://github.com/google/swift-benchmark", from: "0.1.0"),
   ],
   targets: [
     .target(

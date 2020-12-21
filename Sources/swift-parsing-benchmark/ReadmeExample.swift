@@ -85,32 +85,35 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
     }
   )
 
-  let scanner = Scanner(string: input)
-  suite.benchmark(
-    name: "Scanner",
-    setUp: { scanner.currentIndex = input.startIndex },
-    run: {
-      output = []
-      while scanner.currentIndex != input.endIndex {
-        guard
-          let id = scanner.scanInt(),
-          let _ = scanner.scanString(","),
-          let name = scanner.scanUpToString(","),
-          let _ = scanner.scanString(","),
-          let isAdmin = scanner.scanBool()
-        else { break }
+  if #available(macOS 10.15, *) {
+    let scanner = Scanner(string: input)
+    suite.benchmark(
+      name: "Scanner",
+      setUp: { scanner.currentIndex = input.startIndex },
+      run: {
+        output = []
+        while scanner.currentIndex != input.endIndex {
+          guard
+            let id = scanner.scanInt(),
+            let _ = scanner.scanString(","),
+            let name = scanner.scanUpToString(","),
+            let _ = scanner.scanString(","),
+            let isAdmin = scanner.scanBool()
+          else { break }
 
-        output.append(User(id: id, name: name, isAdmin: isAdmin))
-        _ = scanner.scanString("\n")
+          output.append(User(id: id, name: name, isAdmin: isAdmin))
+          _ = scanner.scanString("\n")
+        }
+      },
+      tearDown: {
+        precondition(output == expectedOutput)
       }
-    },
-    tearDown: {
-      precondition(output == expectedOutput)
-    }
-  )
+    )
+  }
 }
 
 extension Scanner {
+  @available(macOS 10.15, *)
   func scanBool() -> Bool? {
     self.scanString("true").map { _ in true }
       ?? self.scanString("false").map { _ in false }

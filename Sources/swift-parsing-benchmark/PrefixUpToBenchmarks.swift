@@ -10,12 +10,13 @@ let prefixUpToSuite = BenchmarkSuite(name: "PrefixUpTo") { suite in
     precondition(PrefixUpTo("Hello".utf8).parse(&v)!.count == 10_000)
   }
 
-  let scanner = Scanner(string: str)
-  suite.register(
-    benchmark: Benchmarking(name: "Scanner.scanUpToString") {
-      precondition(scanner.scanUpToString("Hello")!.count == 10_000)
-    } setUp: {
-      scanner.currentIndex = str.startIndex
-    }
-  )
+  if #available(macOS 10.15, *) {
+    let scanner = Scanner(string: str)
+    suite.register(
+      benchmark: Benchmarking(name: "Scanner.scanUpToString") {
+        precondition(scanner.scanUpToString("Hello")!.count == 10_000)
+      }
+      setUp: { scanner.currentIndex = str.startIndex }
+    )
+  }
 }

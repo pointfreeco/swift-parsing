@@ -38,13 +38,15 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
       tearDown: { precondition(output == expected) }
     )
 
-    let scanner = Scanner(string: input)
-    suite.benchmark(
-      name: "Scanner.scanInt",
-      setUp: { scanner.currentIndex = input.startIndex },
-      run: { output = scanner.scanInt() },
-      tearDown: { precondition(output == expected) }
-    )
+    if #available(macOS 10.15, *) {
+      let scanner = Scanner(string: input)
+      suite.benchmark(
+        name: "Scanner.scanInt",
+        setUp: { scanner.currentIndex = input.startIndex },
+        run: { output = scanner.scanInt() },
+        tearDown: { precondition(output == expected) }
+      )
+    }
   }
 
   do {
@@ -62,23 +64,25 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
       tearDown: { precondition(output == expected) }
     )
 
-    let scanner = Scanner(string: input)
-    suite.benchmark(
-      name: "Comma separated: Scanner.scanInt",
-      setUp: { scanner.currentIndex = input.startIndex },
-      run: {
-        output = []
-        while let n = scanner.scanInt() {
-          output.append(n)
-          guard let separator = scanner.scanCharacter() else { break }
-          guard separator == "," else {
-            scanner.string.formIndex(before: &scanner.currentIndex)
-            break
+    if #available(macOS 10.15, *) {
+      let scanner = Scanner(string: input)
+      suite.benchmark(
+        name: "Comma separated: Scanner.scanInt",
+        setUp: { scanner.currentIndex = input.startIndex },
+        run: {
+          output = []
+          while let n = scanner.scanInt() {
+            output.append(n)
+            guard let separator = scanner.scanCharacter() else { break }
+            guard separator == "," else {
+              scanner.string.formIndex(before: &scanner.currentIndex)
+              break
+            }
           }
-        }
-      },
-      tearDown: { precondition(output == expected) }
-    )
+        },
+        tearDown: { precondition(output == expected) }
+      )
+    }
 
     suite.benchmark(
       name: "Comma separated: String.split",
@@ -106,13 +110,15 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
       tearDown: { precondition(output == expected) }
     )
 
-    let scanner = Scanner(string: input)
-    suite.benchmark(
-      name: "Scanner.scanDouble",
-      setUp: { scanner.currentIndex = input.startIndex },
-      run: { output = scanner.scanDouble() },
-      tearDown: { precondition(output == expected) }
-    )
+    if #available(macOS 10.15, *) {
+      let scanner = Scanner(string: input)
+      suite.benchmark(
+        name: "Scanner.scanDouble",
+        setUp: { scanner.currentIndex = input.startIndex },
+        run: { output = scanner.scanDouble() },
+        tearDown: { precondition(output == expected) }
+      )
+    }
   }
 
   do {
@@ -130,23 +136,25 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
       tearDown: { precondition(output == expected) }
     )
 
-    let scanner = Scanner(string: input)
-    suite.benchmark(
-      name: "Comma separated: Scanner.scanDouble",
-      setUp: { scanner.currentIndex = input.startIndex },
-      run: {
-        output = []
-        while let n = scanner.scanDouble() {
-          output.append(n)
-          guard let separator = scanner.scanCharacter() else { break }
-          guard separator == "," else {
-            scanner.string.formIndex(before: &scanner.currentIndex)
-            break
+    if #available(macOS 10.15, *) {
+      let scanner = Scanner(string: input)
+      suite.benchmark(
+        name: "Comma separated: Scanner.scanDouble",
+        setUp: { scanner.currentIndex = input.startIndex },
+        run: {
+          output = []
+          while let n = scanner.scanDouble() {
+            output.append(n)
+            guard let separator = scanner.scanCharacter() else { break }
+            guard separator == "," else {
+              scanner.string.formIndex(before: &scanner.currentIndex)
+              break
+            }
           }
-        }
-      },
-      tearDown: { precondition(output == expected) }
-    )
+        },
+        tearDown: { precondition(output == expected) }
+      )
+    }
 
     suite.benchmark(
       name: "Comma separated: String.split",

@@ -294,7 +294,7 @@ This allows you to parse as much as possible on the more performant, low-level `
 This library comes with a benchmark executable that not only demonstrates the performance of the library, but also provides a wide variety of parsing examples:
 
 * [URL router](Sources/swift-parsing-benchmark/Routing.swift)
-* [Xcode test logs](Sources/swift-parsing-benchmark/)
+* [Xcode test logs](Sources/swift-parsing-benchmark/XcodeLogs)
 * [Simplfied CSV](Sources/swift-parsing-benchmark/CSV)
 * [Hex color](Sources/swift-parsing-benchmark/Color.swift)
 * [ISO8601 date](Sources/swift-parsing-benchmark/Date.swift)
