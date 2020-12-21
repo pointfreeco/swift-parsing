@@ -12,7 +12,7 @@ Benchmark.main(
     dateSuite,
     httpSuite,
 //    jsonSuite,
-    numericsSuite,
+    //numericsSuite,
     prefixUpToSuite,
     raceSuite,
     readmeExampleSuite,
