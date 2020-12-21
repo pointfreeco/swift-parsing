@@ -34,7 +34,8 @@ private struct Coordinate {
 
 private let zeroOrMoreSpaces = Prefix<Input> { $0 == .init(ascii: " ") }
 
-private let coord = latitude
+private let coord =
+  latitude
   .skip(StartsWith(",".utf8))
   .skip(zeroOrMoreSpaces)
   .take(longitude)
@@ -68,7 +69,7 @@ private let race = locationName.map { String(decoding: $0, as: UTF8.self) }
   .take(money)
   .skip(StartsWith("\n".utf8))
   .take(Many(coord, separator: StartsWith("\n".utf8)))
-   .map(Race.init(location:entranceFee:path:))
+  .map(Race.init(location:entranceFee:path:))
 
 private let races = Many(race, separator: StartsWith("\n---\n".utf8))
 

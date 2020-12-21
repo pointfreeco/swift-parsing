@@ -161,5 +161,5 @@ where
 }
 
 extension Parsers {
-  public typealias Many = Parsing.Many // NB: Convenience type alias for discovery
+  public typealias Many = Parsing.Many  // NB: Convenience type alias for discovery
 }

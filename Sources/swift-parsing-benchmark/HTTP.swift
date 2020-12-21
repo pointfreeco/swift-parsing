@@ -23,25 +23,25 @@ private struct Header: Equatable {
 private func isToken(_ c: UTF8.CodeUnit) -> Bool {
   switch c {
   case 128...,
-       ...31,
-       .init(ascii: #"("#),
-       .init(ascii: #")"#),
-       .init(ascii: #"<"#),
-       .init(ascii: #">"#),
-       .init(ascii: #"@"#),
-       .init(ascii: #","#),
-       .init(ascii: #";"#),
-       .init(ascii: #":"#),
-       .init(ascii: #"\"#),
-       .init(ascii: #"'"#),
-       .init(ascii: #"/"#),
-       .init(ascii: #"["#),
-       .init(ascii: #"]"#),
-       .init(ascii: #"?"#),
-       .init(ascii: #"="#),
-       .init(ascii: #"{"#),
-       .init(ascii: #"}"#),
-       .init(ascii: #" "#):
+    ...31,
+    .init(ascii: #"("#),
+    .init(ascii: #")"#),
+    .init(ascii: #"<"#),
+    .init(ascii: #">"#),
+    .init(ascii: #"@"#),
+    .init(ascii: #","#),
+    .init(ascii: #";"#),
+    .init(ascii: #":"#),
+    .init(ascii: #"\"#),
+    .init(ascii: #"'"#),
+    .init(ascii: #"/"#),
+    .init(ascii: #"["#),
+    .init(ascii: #"]"#),
+    .init(ascii: #"?"#),
+    .init(ascii: #"="#),
+    .init(ascii: #"{"#),
+    .init(ascii: #"}"#),
+    .init(ascii: #" "#):
     return false
   default:
     return true
@@ -79,7 +79,8 @@ private let httpVersion = StartsWith<Input>("HTTP/".utf8)
   .take(Prefix(while: isVersion))
   .map { String(decoding: $0, as: UTF8.self) }
 
-private let requestLine = method
+private let requestLine =
+  method
   .skip(StartsWith(" ".utf8))
   .take(uri)
   .skip(StartsWith(" ".utf8))

@@ -15,10 +15,10 @@ let package = Package(
     .executable(
       name: "swift-parsing-benchmark",
       targets: ["swift-parsing-benchmark"]
-    )
+    ),
   ],
   dependencies: [
-    .package(url: "https://github.com/google/swift-benchmark", from: "0.1.0"),
+    .package(url: "https://github.com/google/swift-benchmark", from: "0.1.0")
   ],
   targets: [
     .target(

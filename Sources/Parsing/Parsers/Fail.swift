@@ -12,5 +12,5 @@ public struct Fail<Input, Output>: Parser {
 }
 
 extension Parsers {
-  public typealias Fail = Parsing.Fail // NB: Convenience type alias for discovery
+  public typealias Fail = Parsing.Fail  // NB: Convenience type alias for discovery
 }

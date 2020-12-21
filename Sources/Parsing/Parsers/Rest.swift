@@ -16,5 +16,5 @@ where
 }
 
 extension Parsers {
-  public typealias Rest = Parsing.Rest // NB: Convenience type alias for discovery
+  public typealias Rest = Parsing.Rest  // NB: Convenience type alias for discovery
 }

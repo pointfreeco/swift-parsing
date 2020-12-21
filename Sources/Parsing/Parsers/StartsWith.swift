@@ -44,5 +44,5 @@ extension Parsers.StartsWith where Input.Element: Equatable {
 }
 
 extension Parsers {
-  public typealias StartsWith = Parsing.StartsWith // NB: Convenience type alias for discovery
+  public typealias StartsWith = Parsing.StartsWith  // NB: Convenience type alias for discovery
 }

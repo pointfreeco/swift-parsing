@@ -56,5 +56,5 @@ extension Parsers {
     }
   }
 
-  public typealias OneOfMany = Parsing.OneOfMany // NB: Convenience type alias for discovery
+  public typealias OneOfMany = Parsing.OneOfMany  // NB: Convenience type alias for discovery
 }

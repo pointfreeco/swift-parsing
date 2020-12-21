@@ -34,5 +34,5 @@ where
 }
 
 extension Parsers {
-  public typealias Conditional = Parsing.Conditional // NB: Convenience type alias for discovery
+  public typealias Conditional = Parsing.Conditional  // NB: Convenience type alias for discovery
 }

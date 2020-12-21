@@ -17,6 +17,6 @@ test:
 
 format:
 	swift format --in-place --recursive \
-		./Examples ./Package.swift ./Sources ./Tests
+		./Package.swift ./Sources ./Tests
 
 .PHONY: format test-all test-swift test-workspace

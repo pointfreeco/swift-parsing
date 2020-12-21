@@ -14,7 +14,8 @@ let prefixUpToSuite = BenchmarkSuite(name: "PrefixUpTo") { suite in
   suite.register(
     benchmark: Benchmarking(name: "Scanner.scanUpToString") {
       precondition(scanner.scanUpToString("Hello")!.count == 10_000)
+    } setUp: {
+      scanner.currentIndex = str.startIndex
     }
-    setUp: { scanner.currentIndex = str.startIndex }
   )
 }

@@ -66,10 +66,11 @@ extension Parser {
   where
     Input == Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
   {
-    guard let output: Output? = input.utf8.withContiguousStorageIfAvailable({ input in
-      var input = input[...]
-      return self.parse(&input)
-    })
+    guard
+      let output: Output? = input.utf8.withContiguousStorageIfAvailable({ input in
+        var input = input[...]
+        return self.parse(&input)
+      })
     else { return nil }
     return output
   }

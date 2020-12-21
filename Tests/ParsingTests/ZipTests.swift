@@ -16,13 +16,17 @@ final class ZipTests: XCTestCase {
 
   func testTake4Success() {
     var input = "12345"[...]
-    XCTAssert(try ("1", "2", "3", "4") == XCTUnwrap(First().take(First()).take(First()).take(First()).parse(&input)))
+    XCTAssert(
+      try ("1", "2", "3", "4")
+        == XCTUnwrap(First().take(First()).take(First()).take(First()).parse(&input)))
     XCTAssertEqual("5", input)
   }
 
   func testTake5Success() {
     var input = "12345"[...]
-    XCTAssert(try ("1", "2", "3", "4", "5") == XCTUnwrap(First().take(First()).take(First()).take(First()).take(First()).parse(&input)))
+    XCTAssert(
+      try ("1", "2", "3", "4", "5")
+        == XCTUnwrap(First().take(First()).take(First()).take(First()).take(First()).parse(&input)))
     XCTAssertEqual("", input)
   }
 }

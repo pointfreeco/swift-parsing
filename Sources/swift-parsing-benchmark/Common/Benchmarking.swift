@@ -3,7 +3,7 @@ import Benchmark
 extension BenchmarkSuite {
   func benchmark(
     name: String,
-    setUp: @escaping () -> Void = { },
+    setUp: @escaping () -> Void = {},
     run: @escaping () throws -> Void,
     tearDown: @escaping () -> Void = {}
   ) {
