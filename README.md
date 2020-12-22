@@ -221,7 +221,7 @@ let parser = Prefix<Substring> { $0 != "," }
 
 var input = "Hello,World"[...]
 parser.parse(&input) // => "Hello"
-input // => ",Hello"
+input // => ",World"
 ```
 
 The type of this parser is:
