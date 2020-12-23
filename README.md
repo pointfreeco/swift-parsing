@@ -149,7 +149,7 @@ input // => "\n2,Blob Jr.,false\n3,Blob Sr.,true"
 To parse multiple users from the input we can use the `Many` parser:
 
 ```swift
-let users = Many(user, separator: StartsWith("\n"))
+let users = Many(user, separator: Newline())
 
 users.parse(&input) // => [User(id: 1, name: "Blob", isAdmin: true), ...]
 input // => ""
