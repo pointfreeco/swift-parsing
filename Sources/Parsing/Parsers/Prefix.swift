@@ -67,8 +67,22 @@ where
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
-  /// - Parameter length: An exact number of elements to consume for parsing to be considered
-  ///   successful.
+  /// - Parameter length: A closed range that provides a minimum number and maximum of elements to
+  ///   consume for parsing to be considered successful.
+  @inlinable
+  public init(
+    _ length: ClosedRange<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.minLength = length.lowerBound
+    self.maxLength = length.upperBound
+    self.predicate = nil
+  }
+
+  /// Initializes a parser that consumes a subsequence from the beginning of its input.
+  ///
+  /// - Parameter length: A partial range that provides a minimum number of elements to consume for
+  ///   parsing to be considered successful.
   @inlinable
   public init(
     _ length: PartialRangeFrom<Int>,
@@ -81,8 +95,8 @@ where
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
-  /// - Parameter length: An exact number of elements to consume for parsing to be considered
-  ///   successful.
+  /// - Parameter length: A partial, inclusive range that provides a maximum number of elements to
+  ///   consume for parsing to be considered successful.
   @inlinable
   public init(
     _ length: PartialRangeThrough<Int>,
@@ -95,14 +109,28 @@ where
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
-  /// - Parameter length: An exact number of elements to consume for parsing to be considered
-  ///   successful.
+  /// - Parameter length: A partial, exclusive range that provides a minimum number of elements to
+  ///   consume for parsing to be considered successful.
   @inlinable
   public init(
     _ length: PartialRangeUpTo<Int>,
     while predicate: ((Input.Element) -> Bool)? = nil
   ) {
     self.minLength = 0
+    self.maxLength = length.upperBound - 1
+    self.predicate = nil
+  }
+
+  /// Initializes a parser that consumes a subsequence from the beginning of its input.
+  ///
+  /// - Parameter length: A range that provides a minimum number and maximum of elements to consume
+  ///   for parsing to be considered successful.
+  @inlinable
+  public init(
+    _ length: Range<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.minLength = length.lowerBound
     self.maxLength = length.upperBound - 1
     self.predicate = nil
   }
