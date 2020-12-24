@@ -1,24 +1,55 @@
 import Parsing
 
-struct Color {
-  let red, green, blue: UInt8
+let parseHex = Prefix<Substring>(1...6) { $0.isHexDigit }
+let parseDelimitedHex = StartsWith("u{").take(parseHex).skip(StartsWith("}"))
+let parseUInt32 = parseDelimitedHex.compactMap { UInt32($0, radix: 16) }
+let parseUnicode = parseUInt32.compactMap { UnicodeScalar($0).map(Character.init) }
+
+let parseEscapedCharacter = StartsWith<Substring>(#"\"#)
+  .take(
+    parseUnicode
+      .orElse(StartsWith("n").map { "\n" })
+      .orElse(StartsWith("r").map { "\r" })
+      .orElse(StartsWith("t").map { "\t" })
+      .orElse(StartsWith("b").map { "\u{8}" })
+      .orElse(StartsWith("f").map { "\u{c}" })
+      .orElse(StartsWith(#"\"#).map { #"\"# })
+      .orElse(StartsWith("/").map { "/" })
+      .orElse(StartsWith("\"").map { "\"" })
+  )
+
+let parseEscapedWhitespace = StartsWith<Substring>(#"\"#)
+  .skip(Prefix(1...) { $0 == " " || $0 == "\t" || $0 == "\n" || $0 == "\r" })
+
+let parseLiteral = Prefix<Substring>(1...) { $0 != "\"" && $0 != #"\"# }
+
+enum StringFragment {
+  case literal(Substring)
+  case escapedCharacter(Character)
+  case escapedWhitespace
 }
 
-let hexPrimary = Prefix<Substring.UTF8View>(2)
-  .compactMap { UInt8(Substring($0), radix: 16) }
+let parseFragment = parseLiteral.map(StringFragment.literal)
+  .orElse(parseEscapedCharacter.map(StringFragment.escapedCharacter))
+  .orElse(parseEscapedWhitespace.map { .escapedWhitespace })
 
-let hexColor = StartsWith("#".utf8)
-  .take(hexPrimary)
-  .take(hexPrimary)
-  .take(hexPrimary)
-  .map(Color.init)
+let parseString = StartsWith("\"")
+  .take(
+    Many(parseFragment, into: "") {
+      switch $1 {
+      case let .literal(string):
+        $0.append(contentsOf: string)
+      case let .escapedCharacter(character):
+        $0.append(character)
+      case .escapedWhitespace:
+        return
+      }
+    }
+  )
+  .skip(StartsWith("\""))
 
-do {
-  var hex = "#000000"[...].utf8
-  print(hexColor.parse(&hex)!)
-}
+parseString.parse("\"abc\"")
 
-do {
-  var hex = "#FF0000"[...].utf8
-  print(hexColor.parse(&hex)!)
-}
+parseString.parse("\"\"")
+
+parseString.parse("\"tab:\\tafter tab, newline:\\nnew line, quote: \\\", emoji: \\u{1F602}, newline:\\nescaped whitespace: \\    abc\"")
