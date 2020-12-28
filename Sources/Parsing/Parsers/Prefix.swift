@@ -12,7 +12,7 @@
 /// length.
 ///
 ///     var input = "No numbers here"[...]
-///     Prefix(minLength: 1) { $0.isNumber }).parse(&input) // nil
+///     Prefix(1...) { $0.isNumber }).parse(&input) // nil
 ///     input // "No numbers here"
 ///
 /// If a predicate is not provided, the parser will simply consume the prefix within the minimum and
@@ -44,7 +44,7 @@ where
   public init(
     minLength: Int = 0,
     maxLength: Int? = nil,
-    while predicate: ((Input.Element) -> Bool)? = nil
+    while predicate: @escaping (Input.Element) -> Bool
   ) {
     self.minLength = minLength
     self.maxLength = maxLength
@@ -53,8 +53,36 @@ where
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
-  /// - Parameter length: An exact number of elements to consume for parsing to be considered
-  ///   successful.
+  ///     Prefix(2...4, while: { $0.isNumber }).parse("123456") // "1234"
+  ///     Prefix(2...4, while: { $0.isNumber }).parse("123")    // "123"
+  ///     Prefix(2...4, while: { $0.isNumber }).parse("1")      // nil
+  ///
+  /// - Parameters:
+  ///   - length: A closed range that provides a minimum number and maximum of elements to consume
+  ///     for parsing to be considered successful.
+  ///   - predicate: An optional closure that takes an element of the input sequence as its argument
+  ///     and returns `true` if the element should be included or `false` if it should be excluded.
+  ///     Once the predicate returns `false` it will not be called again.
+  @inlinable
+  public init(
+    _ length: ClosedRange<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.minLength = length.lowerBound
+    self.maxLength = length.upperBound
+    self.predicate = predicate
+  }
+
+  /// Initializes a parser that consumes a subsequence from the beginning of its input.
+  ///
+  ///     Prefix(4, while: { $0.isNumber }).parse("123456") // "1234"
+  ///     Prefix(4, while: { $0.isNumber }).parse("123")    // nil
+  ///
+  /// - Parameters:
+  ///   - length: An exact number of elements to consume for parsing to be considered successful.
+  ///   - predicate: An optional closure that takes an element of the input sequence as its argument
+  ///     and returns `true` if the element should be included or `false` if it should be excluded.
+  ///     Once the predicate returns `false` it will not be called again.
   @inlinable
   public init(
     _ length: Int,
@@ -67,8 +95,15 @@ where
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
-  /// - Parameter length: An exact number of elements to consume for parsing to be considered
-  ///   successful.
+  ///     Prefix(4..., while: { $0.isNumber }).parse("123456") // "123456"
+  ///     Prefix(4..., while: { $0.isNumber }).parse("123")    // nil
+  ///
+  /// - Parameters:
+  ///   - length: A partial range that provides a minimum number of elements to consume for
+  ///     parsing to be considered successful.
+  ///   - predicate: An optional closure that takes an element of the input sequence as its argument
+  ///     and returns `true` if the element should be included or `false` if it should be excluded.
+  ///     Once the predicate returns `false` it will not be called again.
   @inlinable
   public init(
     _ length: PartialRangeFrom<Int>,
@@ -76,13 +111,19 @@ where
   ) {
     self.minLength = length.lowerBound
     self.maxLength = nil
-    self.predicate = nil
+    self.predicate = predicate
   }
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
-  /// - Parameter length: An exact number of elements to consume for parsing to be considered
-  ///   successful.
+  ///     Prefix(...4, while: { $0.isNumber }).parse("123456") // "1234"
+  ///     Prefix(...4, while: { $0.isNumber }).parse("123")    // "123"
+  ///
+  /// - Parameters:
+  ///   - length: A partial, inclusive range that provides a maximum number of elements to consume.
+  ///   - predicate: An optional closure that takes an element of the input sequence as its argument
+  ///     and returns `true` if the element should be included or `false` if it should be excluded.
+  ///     Once the predicate returns `false` it will not be called again.
   @inlinable
   public init(
     _ length: PartialRangeThrough<Int>,
@@ -90,21 +131,7 @@ where
   ) {
     self.minLength = 0
     self.maxLength = length.upperBound
-    self.predicate = nil
-  }
-
-  /// Initializes a parser that consumes a subsequence from the beginning of its input.
-  ///
-  /// - Parameter length: An exact number of elements to consume for parsing to be considered
-  ///   successful.
-  @inlinable
-  public init(
-    _ length: PartialRangeUpTo<Int>,
-    while predicate: ((Input.Element) -> Bool)? = nil
-  ) {
-    self.minLength = 0
-    self.maxLength = length.upperBound - 1
-    self.predicate = nil
+    self.predicate = predicate
   }
 
   @inlinable

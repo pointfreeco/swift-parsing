@@ -5,12 +5,13 @@ import Parsing
 /*
  This benchmark shows how to create a naive JSON parser with combinators.
 
-     name                   time        std        iterations
-     --------------------------------------------------------
-     JSON.Parser            5500.000 ns ±  43.67 %     236332
-     JSON.JSONSerialization 2325.000 ns ± 120.39 %     536604
+ name                   time        std        iterations
+ --------------------------------------------------------
+ JSON.Parser            7322.000 ns ±  37.21 %     178840
+ JSON.JSONSerialization 3002.000 ns ±  61.04 %     450889
 
- It is not 100% correct according to the [spec](https://www.json.org/json-en.html).
+ It is mostly implemented according to the [spec](https://www.json.org/json-en.html) (we take a
+ shortcut and use `Double.parser()`, which behaves accordingly).
  */
 
 private enum JSON: Equatable {
@@ -38,6 +39,8 @@ private var json: AnyParser<Input, JSON> {
     .eraseToAnyParser()
 }
 
+// MARK: Object
+
 private let object = Skip(StartsWith("{".utf8))
   .take(
     Many(
@@ -52,6 +55,8 @@ private let object = Skip(StartsWith("{".utf8))
   )
   .map { JSON.object(Dictionary(uniqueKeysWithValues: $0)) }
 
+// MARK: Array
+
 private let array = Skip(StartsWith("[".utf8))
   .skip(Whitespace())
   .take(
@@ -64,20 +69,73 @@ private let array = Skip(StartsWith("[".utf8))
   .skip(StartsWith("]".utf8))
   .map(JSON.array)
 
-private let stringLiteral = Skip(StartsWith<Input>("\"".utf8))
-  .take(Prefix { $0 != .init(ascii: "\"") })  // FIXME: implement according to spec
+// MARK: String
+
+private let unicode = Prefix<Input>(4) {
+  (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
+    || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
+    || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
+}
+.compactMap {
+  UInt32(String(decoding: $0, as: UTF8.self), radix: 16)
+    .flatMap(UnicodeScalar.init)
+    .map(Character.init)
+}
+
+private let escape = StartsWith<Input>(#"\"#.utf8)
+  .take(
+    StartsWith("\"".utf8).map { "\"" }
+      .orElse(StartsWith(#"\"#.utf8).map { #"\"# })
+      .orElse(StartsWith("/".utf8).map { "/" })
+      .orElse(StartsWith("b".utf8).map { "\u{8}" })
+      .orElse(StartsWith("f".utf8).map { "\u{c}" })
+      .orElse(StartsWith("n".utf8).map { "\n" })
+      .orElse(StartsWith("r".utf8).map { "\r" })
+      .orElse(StartsWith("t".utf8).map { "\t" })
+      .orElse(unicode)
+  )
+
+private let literal = Prefix<Input>(1...) {
+  $0 != .init(ascii: "\"") && $0 != .init(ascii: #"\"#)
+}
+.map { String(decoding: $0, as: UTF8.self) }
+
+private enum StringFragment {
+  case escape(Character)
+  case literal(String)
+}
+
+private let fragment = literal.map(StringFragment.literal)
+  .orElse(escape.map(StringFragment.escape))
+
+private let stringLiteral = StartsWith("\"".utf8)
+  .take(
+    Many(fragment, into: "") {
+      switch $1 {
+      case let .escape(character):
+        $0.append(character)
+      case let .literal(string):
+        $0.append(contentsOf: string)
+      }
+    }
+  )
   .skip(StartsWith("\"".utf8))
-  .map { String(decoding: $0, as: UTF8.self) }
 
 private let string =
   stringLiteral
   .map(JSON.string)
 
-private let number = Double.parser(of: Input.self)  // FIXME: implement according to spec
+// MARK: Number
+
+private let number = Double.parser(of: Input.self)
   .map(JSON.number)
+
+// MARK: Boolean
 
 private let boolean = Bool.parser(of: Input.self)
   .map(JSON.boolean)
+
+// MARK: Null
 
 private let null = StartsWith<Input>("null".utf8)
   .map { _ in JSON.null }
@@ -102,7 +160,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
     tearDown: {
       precondition(
         jsonOutput
-          == JSON.object([
+          == .object([
             "hello": .boolean(true),
             "goodbye": .number(42.42),
             "whatever": .null,

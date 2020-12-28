@@ -2,10 +2,16 @@ import Parsing
 import XCTest
 
 final class PrefixTests: XCTestCase {
-  func testPrefixUnder() {
+  func testPrefixSuccess() {
     var input = "42 Hi!"[...]
     XCTAssertEqual("42", Prefix(2).parse(&input))
     XCTAssertEqual(" Hi!", input)
+  }
+
+  func testPrefixUnder() {
+    var input = "42 Hi!"[...]
+    XCTAssertEqual(nil, Prefix(8).parse(&input))
+    XCTAssertEqual("42 Hi!", input)
   }
 
   func testPrefixOver() {
@@ -38,15 +44,21 @@ final class PrefixTests: XCTestCase {
     XCTAssertEqual("42 Hello, world!", input)
   }
 
+  func testPrefixRangeFromWhileSuccess() {
+    var input = "42 Hello, world!"[...]
+    XCTAssertEqual("42", Prefix(1..., while: { $0.isNumber }).parse(&input))
+    XCTAssertEqual(" Hello, world!", input)
+  }
+
   func testPrefixRangeThroughSuccess() {
     var input = "42 Hello, world!"[...]
     XCTAssertEqual("42 Hello, ", Prefix(...10).parse(&input))
     XCTAssertEqual("world!", input)
   }
 
-  func testPrefixRangeUpToSuccess() {
+  func testPrefixRangeThroughWhileSuccess() {
     var input = "42 Hello, world!"[...]
-    XCTAssertEqual("42 Hello,", Prefix(..<10).parse(&input))
-    XCTAssertEqual(" world!", input)
+    XCTAssertEqual("42", Prefix(...10, while: { $0.isNumber }).parse(&input))
+    XCTAssertEqual(" Hello, world!", input)
   }
 }
