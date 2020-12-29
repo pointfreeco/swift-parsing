@@ -67,8 +67,8 @@ extension Parser {
     Input == Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
   {
     input.utf8.withContiguousStorageIfAvailable { input -> Output? in
-        var input = input[...]
-        return self.parse(&input)
+      var input = input[...]
+      return self.parse(&input)
     }?.flatMap { $0 }
   }
 }
