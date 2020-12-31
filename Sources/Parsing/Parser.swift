@@ -66,9 +66,25 @@ extension Parser {
   where
     Input == Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
   {
-    input.utf8.withContiguousStorageIfAvailable { input -> Output? in
-      var input = input[...]
-      return self.parse(&input)
-    }?.flatMap { $0 }
+    input.utf8
+      .withContiguousStorageIfAvailable { input -> Output? in
+        var input = input[...]
+        return self.parse(&input)
+      }?
+      .flatMap { $0 }
+  }
+
+  @inlinable
+  public func parse<C: Collection>(_ input: C) -> Output?
+  where
+    C.Element == UTF8.CodeUnit,
+    Input == Slice<UnsafeBufferPointer<C.Element>>
+  {
+    input
+      .withContiguousStorageIfAvailable { input -> Output? in
+        var input = input[...]
+        return self.parse(&input)
+      }?
+      .flatMap { $0 }
   }
 }

@@ -5,10 +5,10 @@ import Parsing
 /*
  This benchmark shows how to create a naive JSON parser with combinators.
 
- name                   time        std        iterations
- --------------------------------------------------------
- JSON.Parser            7322.000 ns ±  37.21 %     178840
- JSON.JSONSerialization 3002.000 ns ±  61.04 %     450889
+     name                   time        std        iterations
+     --------------------------------------------------------
+     JSON.Parser            7453.000 ns ±  57.46 %     169185
+     JSON.JSONSerialization 2700.000 ns ±  94.15 %     471544
 
  It is mostly implemented according to the [spec](https://www.json.org/json-en.html) (we take a
  shortcut and use `Double.parser()`, which behaves accordingly).
@@ -48,24 +48,26 @@ private let object = Skip(StartsWith("{".utf8))
         .take(stringLiteral)
         .skip(Whitespace())
         .skip(StartsWith(":".utf8))
-        .skip(Whitespace())
         .take(Lazy { json }),
-      separator: Skip(Whitespace()).skip(StartsWith(",".utf8)).skip(Whitespace())
-    )
+      into: [:],
+      separator: StartsWith(",".utf8).skip(Whitespace())
+    ) { object, pair in
+      let (name, value) = pair
+      object[name] = value
+    }
   )
-  .map { JSON.object(Dictionary(uniqueKeysWithValues: $0)) }
+  .skip(StartsWith("}".utf8))
+  .map(JSON.object)
 
 // MARK: Array
 
-private let array = Skip(StartsWith("[".utf8))
-  .skip(Whitespace())
+private let array = StartsWith("[".utf8)
   .take(
     Many(
       Lazy { json },
-      separator: Skip(Whitespace()).skip(StartsWith(",".utf8).skip(Whitespace()))
+      separator: StartsWith(",".utf8)
     )
   )
-  .skip(Whitespace())
   .skip(StartsWith("]".utf8))
   .map(JSON.array)
 
@@ -174,10 +176,11 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
     }
   )
 
+  let dataInput = Data(input.utf8)
   var objectOutput: Any!
   suite.benchmark(
     name: "JSONSerialization",
-    run: { objectOutput = try JSONSerialization.jsonObject(with: Data(input.utf8), options: []) },
+    run: { objectOutput = try JSONSerialization.jsonObject(with: dataInput, options: []) },
     tearDown: {
       precondition(
         (objectOutput as! NSDictionary) == [
