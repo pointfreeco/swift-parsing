@@ -26,8 +26,8 @@ extension CaseParsable where Self.RawValue == String {
   ///         case two
   ///     }
   ///
-  ///     SomeValues.firstMatchingValue(in: [.one]).parse("one").output // SomeValues.one
-  ///     SomeValues.firstMatchingValue(in: [.two]).parse("one").output // nil
+  ///     SomeValues.firstMatchingCase(in: [.one]).parse("one").output // SomeValues.one
+  ///     SomeValues.firstMatchingCase(in: [.two]).parse("one").output // nil
   ///
   public static func firstMatchingCase(
     in possibleValues: [Self]
@@ -46,8 +46,8 @@ extension CaseParsable where Self: CaseIterable, Self.RawValue == String {
   ///         case two
   ///     }
   ///
-  ///     SomeValues.firstMatchingValue.parse("one").output // SomeValues.one
-  ///     SomeValues.firstMatchingValue.parse("six").output // nil
+  ///     SomeValues.firstMatchingCase.parse("one").output // SomeValues.one
+  ///     SomeValues.firstMatchingCase.parse("six").output // nil
   ///
   public static var firstMatchingCase: AnyParser<Substring, Self> {
     Parsers.enumRawValue(in: allCases as? [Self] ?? [])
