@@ -13,4 +13,10 @@ final class WhitespaceTests: XCTestCase {
     XCTAssertNotNil(Whitespace().parse(&input))
     XCTAssertEqual("Hello, world!", Substring(input))
   }
+
+  func testExcludesNewlinesWhitespace() {
+    var input = "    \t\t    \r\nHello, world!"[...].utf8
+    XCTAssertNotNil(Whitespace(includeNewlines: false).parse(&input))
+    XCTAssertEqual("\r\nHello, world!", Substring(input))
+  }
 }
