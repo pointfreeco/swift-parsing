@@ -1,7 +1,7 @@
 import Parsing
 import XCTest
 
-final class ZipTests: XCTestCase {
+final class TakeTests: XCTestCase {
   func testTake2Success() {
     var input = "12345"[...]
     XCTAssert(try ("1", "2") == XCTUnwrap(First().take(First()).parse(&input)))
