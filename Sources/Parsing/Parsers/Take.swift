@@ -13,7 +13,8 @@ extension Parser {
   ///     var input = "-1.5,1"[...].utf8
   ///     let output = Double.parser()
   ///       .skip(StartsWith(","))
-  ///       .take(CGPoint.parser())
+  ///       .take(Double.parser())
+  ///       .map(Point.init)
   ///       .parse(&input) // => Point(x: -1.5, y: 1)
   ///     precondition(Substring(input) == "")
   ///
