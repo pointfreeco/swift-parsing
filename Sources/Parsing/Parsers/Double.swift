@@ -128,7 +128,8 @@ extension Parsers {
       let original = input
       guard
         let s = input.parseFloat(),
-        let n = Double(String(decoding: s, as: UTF8.self))
+        let n = Double(String(decoding: s, as: UTF8.self)),
+        n <= Double.greatestFiniteMagnitude
       else {
         input = original
         return nil
@@ -163,7 +164,8 @@ extension Parsers {
       let original = input
       guard
         let s = input.parseFloat(),
-        let n = Float(String(decoding: s, as: UTF8.self))
+        let n = Float(String(decoding: s, as: UTF8.self)),
+        n <= Float.greatestFiniteMagnitude
       else {
         input = original
         return nil
@@ -199,7 +201,8 @@ extension Parsers {
         let original = input
         guard
           let s = input.parseFloat(),
-          let n = Float80(String(decoding: s, as: UTF8.self))
+          let n = Float80(String(decoding: s, as: UTF8.self)),
+          n <= Float80.greatestFiniteMagnitude
         else {
           input = original
           return nil

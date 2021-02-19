@@ -21,6 +21,10 @@ final class DoubleTests: XCTestCase {
     XCTAssertEqual(1_234_567_890_123_456_846_996_462_118_072_609_669_120, parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
 
+    input = String(format: "1%f Hello", Double.greatestFiniteMagnitude)[...].utf8
+    XCTAssertEqual(nil, parser.parse(&input))
+    XCTAssertEqual(String(format: "1%f Hello", Double.greatestFiniteMagnitude), String(input))
+
     input = "-123 Hello"[...].utf8
     XCTAssertEqual(-123, parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
@@ -49,9 +53,9 @@ final class DoubleTests: XCTestCase {
     XCTAssertEqual(123.123, parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
 
-    input = "1234567890123456789012345678901234567890 Hello"[...].utf8
+    input = String(format: "1%f Hello", Float.greatestFiniteMagnitude)[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
-    XCTAssertEqual("1234567890123456789012345678901234567890 Hello", String(input))
+    XCTAssertEqual(String(format: "1%f Hello", Float.greatestFiniteMagnitude), String(input))
 
     input = "-123 Hello"[...].utf8
     XCTAssertEqual(-123, parser.parse(&input))
@@ -85,6 +89,10 @@ final class DoubleTests: XCTestCase {
       input = "1234567890123456789012345678901234567890 Hello"[...].utf8
       XCTAssertEqual(1_234_567_890_123_456_788_999_898_750_329_779_388_416, parser.parse(&input))
       XCTAssertEqual(" Hello", String(input))
+
+      input = String(format: "1%f Hello", Float80.greatestFiniteMagnitude)[...].utf8
+      XCTAssertEqual(nil, parser.parse(&input))
+      XCTAssertEqual(String(format: "1%f Hello", Float80.greatestFiniteMagnitude), String(input))
 
       input = "-123 Hello"[...].utf8
       XCTAssertEqual(-123, parser.parse(&input))
