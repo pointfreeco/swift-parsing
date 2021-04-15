@@ -95,31 +95,52 @@ final class TakeTests: XCTestCase {
 // MARK: - Tuple Equatable Conformance
 
 func == <A, B, C, D, E, F, G>(lhs: (A, B, C, D, E, F, G), rhs: (A, B, C, D, E, F, G)) -> Bool
-where A: Equatable, B: Equatable, C: Equatable, D: Equatable, E: Equatable, F: Equatable, G: Equatable {
+where
+  A: Equatable, B: Equatable, C: Equatable, D: Equatable, E: Equatable, F: Equatable, G: Equatable
+{
   (lhs.0, lhs.1, lhs.2, lhs.3, lhs.4, lhs.5) == (rhs.0, rhs.1, rhs.2, rhs.3, rhs.4, rhs.5)
     && lhs.6 == rhs.6
 }
 
-func == <A, B, C, D, E, F, G, H>(lhs: (A, B, C, D, E, F, G, H), rhs: (A, B, C, D, E, F, G, H)) -> Bool
-where A: Equatable, B: Equatable, C: Equatable, D: Equatable, E: Equatable, F: Equatable, G: Equatable, H: Equatable {
+func == <A, B, C, D, E, F, G, H>(lhs: (A, B, C, D, E, F, G, H), rhs: (A, B, C, D, E, F, G, H))
+  -> Bool
+where
+  A: Equatable, B: Equatable, C: Equatable, D: Equatable, E: Equatable, F: Equatable, G: Equatable,
+  H: Equatable
+{
   (lhs.0, lhs.1, lhs.2, lhs.3, lhs.4, lhs.5) == (rhs.0, rhs.1, rhs.2, rhs.3, rhs.4, rhs.5)
     && (lhs.6, lhs.7) == (rhs.6, rhs.7)
 }
 
-func == <A, B, C, D, E, F, G, H, I>(lhs: (A, B, C, D, E, F, G, H, I), rhs: (A, B, C, D, E, F, G, H, I)) -> Bool
-where A: Equatable, B: Equatable, C: Equatable, D: Equatable, E: Equatable, F: Equatable, G: Equatable, H: Equatable, I: Equatable {
+func == <A, B, C, D, E, F, G, H, I>(
+  lhs: (A, B, C, D, E, F, G, H, I), rhs: (A, B, C, D, E, F, G, H, I)
+) -> Bool
+where
+  A: Equatable, B: Equatable, C: Equatable, D: Equatable, E: Equatable, F: Equatable, G: Equatable,
+  H: Equatable, I: Equatable
+{
   (lhs.0, lhs.1, lhs.2, lhs.3, lhs.4, lhs.5) == (rhs.0, rhs.1, rhs.2, rhs.3, rhs.4, rhs.5)
     && (lhs.6, lhs.7, lhs.8) == (rhs.6, rhs.7, rhs.8)
 }
 
-func == <A, B, C, D, E, F, G, H, I, J>(lhs: (A, B, C, D, E, F, G, H, I, J), rhs: (A, B, C, D, E, F, G, H, I, J)) -> Bool
-where A: Equatable, B: Equatable, C: Equatable, D: Equatable, E: Equatable, F: Equatable, G: Equatable, H: Equatable, I: Equatable, J: Equatable {
+func == <A, B, C, D, E, F, G, H, I, J>(
+  lhs: (A, B, C, D, E, F, G, H, I, J), rhs: (A, B, C, D, E, F, G, H, I, J)
+) -> Bool
+where
+  A: Equatable, B: Equatable, C: Equatable, D: Equatable, E: Equatable, F: Equatable, G: Equatable,
+  H: Equatable, I: Equatable, J: Equatable
+{
   (lhs.0, lhs.1, lhs.2, lhs.3, lhs.4, lhs.5) == (rhs.0, rhs.1, rhs.2, rhs.3, rhs.4, rhs.5)
     && (lhs.6, lhs.7, lhs.8, lhs.9) == (rhs.6, rhs.7, rhs.8, rhs.9)
 }
 
-func == <A, B, C, D, E, F, G, H, I, J, K>(lhs: (A, B, C, D, E, F, G, H, I, J, K), rhs: (A, B, C, D, E, F, G, H, I, J, K)) -> Bool
-where A: Equatable, B: Equatable, C: Equatable, D: Equatable, E: Equatable, F: Equatable, G: Equatable, H: Equatable, I: Equatable, J: Equatable, K: Equatable {
+func == <A, B, C, D, E, F, G, H, I, J, K>(
+  lhs: (A, B, C, D, E, F, G, H, I, J, K), rhs: (A, B, C, D, E, F, G, H, I, J, K)
+) -> Bool
+where
+  A: Equatable, B: Equatable, C: Equatable, D: Equatable, E: Equatable, F: Equatable, G: Equatable,
+  H: Equatable, I: Equatable, J: Equatable, K: Equatable
+{
   (lhs.0, lhs.1, lhs.2, lhs.3, lhs.4, lhs.5) == (rhs.0, rhs.1, rhs.2, rhs.3, rhs.4, rhs.5)
     && (lhs.6, lhs.7, lhs.8, lhs.9, lhs.10) == (rhs.6, rhs.7, rhs.8, rhs.9, lhs.10)
 }

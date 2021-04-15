@@ -479,7 +479,8 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout ABCDEFGHIJ.Input) -> (A, B, C, D, E, F, G, H, I, J, K.Output)? {
+    public func parse(_ input: inout ABCDEFGHIJ.Input) -> (A, B, C, D, E, F, G, H, I, J, K.Output)?
+    {
       let original = input
       guard let (a, b, c, d, e, f, g, h, i, j) = self.abcdefghij.parse(&input)
       else { return nil }
