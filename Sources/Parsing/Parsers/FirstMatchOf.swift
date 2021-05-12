@@ -29,5 +29,5 @@ public struct FirstMatchOf<Input, P>: Parser
 }
 
 public extension Parsers {
-  typealias FirstMatch = Parsing.FirstMatchOf // NB: Convenience type alias for discovery
+  typealias FirstMatchOf = Parsing.FirstMatchOf // NB: Convenience type alias for discovery
 }
