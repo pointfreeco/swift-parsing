@@ -50,8 +50,13 @@ final class DoubleTests: XCTestCase {
     XCTAssertEqual(" Hello", String(input))
 
     input = "1234567890123456789012345678901234567890 Hello"[...].utf8
-    XCTAssertEqual(nil, parser.parse(&input))
-    XCTAssertEqual("1234567890123456789012345678901234567890 Hello", String(input))
+    if let n = Float("1234567890123456789012345678901234567890") {
+      XCTAssertEqual(n, parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+    } else {
+      XCTAssertEqual(nil, parser.parse(&input))
+      XCTAssertEqual("1234567890123456789012345678901234567890 Hello", String(input))
+    }
 
     input = "-123 Hello"[...].utf8
     XCTAssertEqual(-123, parser.parse(&input))
