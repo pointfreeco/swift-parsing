@@ -56,7 +56,7 @@ public struct DelimitedBy<Input>: Parser
   @inlinable
   @inline(__always)
   public func parse(_ input: inout Input) -> Input? {
-    let maxLevel = self.maxLevel == 0 ? Int.max : maxLevel
+    let maxLevel = self.maxLevel == 0 ? Int.max : self.maxLevel
 
     guard let firstOfStart = start.first else {
       return PrefixThrough(end, by: areEquivalent)
