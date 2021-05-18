@@ -292,9 +292,12 @@ where
   }
 }
 
-extension Parsers.OptionalParser: ParserPrinter where Upstream: ParserPrinter {
+extension Parsers.OptionalParser: ParserPrinter
+where
+  Upstream: ParserPrinter, Upstream.Input: Appendable
+{
   public func print(_ output: Upstream.Output?) -> Upstream.Input? {
-    output.flatMap(self.upstream.print)
+    output.flatMap(self.upstream.print) ?? .init()
   }
 }
 
