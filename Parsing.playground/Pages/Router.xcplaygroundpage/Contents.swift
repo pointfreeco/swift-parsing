@@ -32,14 +32,14 @@ public struct Request: Appendable, Equatable, Hashable {
   public var path: [Substring] = []
   public var query: [QueryItem] = []
   public var headers: [Header] = []
-  public var body: Data = .init()
+  public var body: Data = Data() // FIXME: Should this be `[UInt8]`?
 
   public init(
     method: String? = nil,
     path: [Substring] = [],
     query: [QueryItem] = [],
     headers: [Header] = [],
-    body: Data = .init()
+    body: Data = Data()
   ) {
     self.method = method
     self.path = path
@@ -86,17 +86,24 @@ extension Method: ParserPrinter {
   }
 }
 
-public struct PathComponent<Upstream>: Parser where Upstream: Parser, Upstream.Input == Substring {
-  public let upstream: Upstream
+public struct PathComponent<ComponentParser>: Parser
+where
+  ComponentParser: Parser, ComponentParser.Input == Substring
+{
+  public let componentParser: ComponentParser
 
-  public init(_ upstream: Upstream) {
-    self.upstream = upstream
+  public init(_ componentParser: ComponentParser) {
+    self.componentParser = componentParser
   }
 
-  public func parse(_ input: inout Request) -> Upstream.Output? {
+  public init(_ literal: String) where ComponentParser == StartsWith<Substring> {
+    self.init(StartsWith(literal))
+  }
+
+  public func parse(_ input: inout Request) -> ComponentParser.Output? {
     guard
       var component = input.path.first,
-      let output = self.upstream.parse(&component),
+      let output = self.componentParser.parse(&component),
       component.isEmpty
     else { return nil }
     input.path.removeFirst()
@@ -104,9 +111,9 @@ public struct PathComponent<Upstream>: Parser where Upstream: Parser, Upstream.I
   }
 }
 
-extension PathComponent: ParserPrinter where Upstream: ParserPrinter {
-  public func print(_ output: Upstream.Output) -> Request? {
-    guard let component = self.upstream.print(output)
+extension PathComponent: ParserPrinter where ComponentParser: ParserPrinter {
+  public func print(_ output: ComponentParser.Output) -> Request? {
+    guard let component = self.componentParser.print(output)
     else { return nil }
     return Request(path: component.isEmpty ? [] : [component])
   }
@@ -126,59 +133,105 @@ extension PathEnd: ParserPrinter {
   }
 }
 
-public struct QueryItem<Upstream>: Parser where Upstream: Parser, Upstream.Input == Substring {
+public struct QueryItem<ValueParser>: Parser // TODO: Add `NameParser`?
+where
+  ValueParser: Parser, ValueParser.Input == Substring
+{
   public let name: String
-  public let upstream: Upstream
+  public let valueParser: ValueParser
 
-  public init(_ name: String, _ upstream: Upstream) {
+  public init(_ name: String, _ valueParser: ValueParser) {
     self.name = name
-    self.upstream = upstream
+    self.valueParser = valueParser
   }
 
-  public func parse(_ input: inout Request) -> Upstream.Output? {
+  public init(_ name: String)
+  where
+    ValueParser == Parsers.MapViaParser<Rest<Substring>, Conversion<Substring, String>>
+  {
+    self.init(name, Rest().map(String.fromSubstring))
+  }
+
+  public func parse(_ input: inout Request) -> ValueParser.Output? {
     guard
       let index = input.query.firstIndex(where: { $0.name == self.name })
     else { return nil }
-    var substring = input.query[index].value[...]
+    var value = input.query[index].value[...]
     guard
-      let output = self.upstream.parse(&substring),
-      substring.isEmpty
+      let output = self.valueParser.parse(&value),
+      value.isEmpty
     else { return nil }
     input.query.remove(at: index)
     return output
   }
 }
 
-extension QueryItem: ParserPrinter where Upstream: ParserPrinter {
-  public func print(_ output: Upstream.Output) -> Request? {
-    guard let input = self.upstream.print(output)
+extension QueryItem: ParserPrinter where ValueParser: ParserPrinter {
+  public func print(_ output: ValueParser.Output) -> Request? {
+    guard let input = self.valueParser.print(output)
     else { return nil }
     return Request(query: [.init(name: self.name, value: String(input))])
   }
 }
 
-public struct Body<Upstream>: Parser
+public struct HeaderField<ValueParser>: Parser // TODO: Add `NameParser`?
 where
-  Upstream: Parser,
-  Upstream.Input == Data
+  ValueParser: Parser, ValueParser.Input == Substring
 {
-  public let upstream: Upstream
+  public let name: String
+  public let valueParser: ValueParser
 
-  public init(_ upstream: Upstream) {
-    self.upstream = upstream
+  public init(_ name: String, _ valueParser: ValueParser) {
+    self.name = name
+    self.valueParser = valueParser
   }
 
-  public func parse(_ input: inout Request) -> Upstream.Output? {
-    guard let output = self.upstream.parse(&input.body)
+  public func parse(_ input: inout Request) -> ValueParser.Output? {
+    guard
+      let index = input.headers
+        .firstIndex(where: { $0.name.caseInsensitiveCompare(self.name) == .orderedSame })
     else { return nil }
-    input.body = .init()
+    var value = input.headers[index].value[...]
+    guard
+      let output = self.valueParser.parse(&value),
+      value.isEmpty
+    else { return nil }
+    input.headers.remove(at: index)
     return output
   }
 }
 
-extension Body: ParserPrinter where Upstream: ParserPrinter {
-  public func print(_ output: Upstream.Output) -> Request? {
-    guard let input = self.upstream.print(output)
+extension HeaderField: ParserPrinter where ValueParser: ParserPrinter {
+  public func print(_ output: ValueParser.Output) -> Request? {
+    guard let input = self.valueParser.print(output)
+    else { return nil }
+    return Request(headers: [.init(name: self.name, value: String(input))])
+  }
+}
+
+public struct Body<BodyParser>: Parser
+where
+  BodyParser: Parser,
+  // FIXME: Should this be `: Collection where Self == SubSequence, .Element == UInt8`?
+  BodyParser.Input == Data
+{
+  public let bodyParser: BodyParser
+
+  public init(_ bodyParser: BodyParser) {
+    self.bodyParser = bodyParser
+  }
+
+  public func parse(_ input: inout Request) -> BodyParser.Output? {
+    guard let output = self.bodyParser.parse(&input.body)
+    else { return nil }
+    input.body = Data()
+    return output
+  }
+}
+
+extension Body: ParserPrinter where BodyParser: ParserPrinter {
+  public func print(_ output: BodyParser.Output) -> Request? {
+    guard let input = self.bodyParser.print(output)
     else { return nil }
     return Request(body: input)
   }
@@ -237,26 +290,26 @@ let home = Method.get
   .map(/Route.home)
 
 let episodes = Method.get
-  .skip(PathComponent(StartsWith("episodes")))
+  .skip(PathComponent("episodes"))
   .skip(PathEnd())
   .take(Optional.parser(of: QueryItem("limit", Int.parser(isSigned: false))))
   .take(Optional.parser(of: QueryItem("offset", Int.parser(isSigned: false))))
   .map(/Route.episodes)
 
 let episode = Method.get
-  .skip(PathComponent(StartsWith("episodes")))
+  .skip(PathComponent("episodes"))
   .take(PathComponent(Int.parser(isSigned: false)))
   .skip(PathEnd())
   .map(/Route.episode)
 
 let search = Method.get
-  .skip(PathComponent(StartsWith("search")))
+  .skip(PathComponent("search"))
   .skip(PathEnd())
-  .take(QueryItem("q", Rest().map(String.fromSubsequence)))
+  .take(QueryItem("q"))
   .map(/Route.search)
 
 let signUp = Method.post
-  .skip(PathComponent(StartsWith("sign-up")))
+  .skip(PathComponent("sign-up"))
   .skip(PathEnd())
   .take(Body(User.fromJSON))
   .map(/Route.signUp)
@@ -267,25 +320,32 @@ let router = home
   .orElse(search)
   .orElse(signUp)
 
-router.parse(.init(URLRequest(url: URL(string: "/?ga=1")!)))
-router.parse(.init(URLRequest(url: URL(string: "/episodes/1?ga=1")!)))
-router.parse(.init(URLRequest(url: URL(string: "/episodes?limit=10")!)))
-router.parse(.init(URLRequest(url: URL(string: "/episodes")!)))
-router.parse(.init(URLRequest(url: URL(string: "/search?ga=1")!)))
-router.parse(.init(URLRequest(url: URL(string: "/search?q=point%20free&ga=1")!)))
-router.parse(.init(URLRequest(url: URL(string: "/search")!)))
-router.parse(.init(URLRequest(url: URL(string: "/search?q=")!)))
+router.parse(Request(URLRequest(url: URL(string: "/?ga=1")!)))
+router.parse(Request(URLRequest(url: URL(string: "/episodes/1?ga=1")!)))
+router.parse(Request(URLRequest(url: URL(string: "/episodes?limit=10")!)))
+router.parse(Request(URLRequest(url: URL(string: "/episodes")!)))
+router.parse(Request(URLRequest(url: URL(string: "/search?ga=1")!)))
+router.parse(Request(URLRequest(url: URL(string: "/search?q=point%20free&ga=1")!)))
+router.parse(Request(URLRequest(url: URL(string: "/search")!)))
+router.parse(Request(URLRequest(url: URL(string: "/search?q=")!)))
 
 var req = URLRequest(url: URL(string: "/sign-up")!)
 req.httpMethod = "post"
-req.httpBody = Data("""
-{"email":"support@pointfree.co","password":"blob8108"}
-""".utf8)
+req.httpBody = Data(#"{"email":"support@pointfree.co","password":"blob8108"}"#.utf8)
 router.parse(.init(req))
 
-print(router.print(.search("blob"))!)
-print(router.print(.search(""))!)
-print(router.print(.episode(42))!)
-print(router.print(.episodes(limit: 10, offset: 10))!)
-print(router.print(.episodes(limit: 10, offset: nil))!)
-print(router.print(.episodes(limit: nil, offset: nil))!)
+URLRequest(router.print(.search("blob"))!)!
+URLRequest(router.print(.search(""))!)!
+URLRequest(router.print(.episode(42))!)!
+URLRequest(router.print(.episodes(limit: 10, offset: 10))!)!
+URLRequest(router.print(.episodes(limit: 10, offset: nil))!)!
+URLRequest(router.print(.episodes(limit: nil, offset: nil))!)!
+
+Many(QueryItem("xs", Int.parser()))
+  .parse(Request(URLRequest(url: URL(string: "?xs=1&xs=2&xs=3")!)))
+
+Many(QueryItem("xs[]", Int.parser()))
+  .parse(Request(URLRequest(url: URL(string: "?xs[]=1&xs[]=2&xs[]=3")!)))
+
+//Many(QueryItem("xs[]", Int.parser()))
+//  .parse(Request(URLRequest(url: URL(string: "?xs[]=1&xs[]=2&xs[]=3")!)))

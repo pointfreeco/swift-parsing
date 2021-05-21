@@ -110,6 +110,10 @@ where
   }
 }
 
+extension String {
+  public static var fromSubstring: Conversion<Substring, Self> { self.fromSubsequence }
+}
+
 extension Array where Element: RangeReplaceableCollection {
   public static var flatten: Conversion<Self, [Element.Element]> {
     .init(
