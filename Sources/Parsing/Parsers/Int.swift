@@ -121,9 +121,8 @@ extension Parsers {
         guard !overflow else { return nil }
         length += 1
       }
-      guard length > 0
+      guard length > (parsedSign ? 1 : 0)
       else { return nil }
-      if parsedSign && length == 1 { return nil }
       input.removeFirst(length)
       return output
     }
