@@ -92,17 +92,21 @@ extension Parsers {
       var iterator = input.makeIterator()
       guard let first = iterator.next() else { return nil }
       let isPositive: Bool
+      let parsedSign: Bool
       var overflow = false
       var output: Output
       switch (self.isSigned, first) {
       case (true, .init(ascii: "-")):
+        parsedSign = true
         isPositive = false
         output = 0
       case (true, .init(ascii: "+")):
+        parsedSign = true
         isPositive = true
         output = 0
       case let (_, n):
         guard let n = digit(for: n) else { return nil }
+        parsedSign = false
         isPositive = true
         output = n
       }
@@ -119,6 +123,7 @@ extension Parsers {
       }
       guard length > 0
       else { return nil }
+      if parsedSign && length == 1 { return nil }
       input.removeFirst(length)
       return output
     }
