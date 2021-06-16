@@ -164,11 +164,11 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout A.Input) -> (A.Output, B.Output)? {
+    public func parse(_ input: inout A.Input) async -> (A.Output, B.Output)? {
       let original = input
-      guard let a = self.a.parse(&input)
+      guard let a = await self.a.parse(&input)
       else { return nil }
-      guard let b = self.b.parse(&input)
+      guard let b = await self.b.parse(&input)
       else {
         input = original
         return nil
@@ -199,11 +199,11 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout AB.Input) -> (A, B, C.Output)? {
+    public func parse(_ input: inout AB.Input) async -> (A, B, C.Output)? {
       let original = input
-      guard let (a, b) = self.ab.parse(&input)
+      guard let (a, b) = await self.ab.parse(&input)
       else { return nil }
-      guard let c = self.c.parse(&input)
+      guard let c = await self.c.parse(&input)
       else {
         input = original
         return nil
@@ -234,11 +234,11 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout ABC.Input) -> (A, B, C, D.Output)? {
+    public func parse(_ input: inout ABC.Input) async -> (A, B, C, D.Output)? {
       let original = input
-      guard let (a, b, c) = self.abc.parse(&input)
+      guard let (a, b, c) = await self.abc.parse(&input)
       else { return nil }
-      guard let d = self.d.parse(&input)
+      guard let d = await self.d.parse(&input)
       else {
         input = original
         return nil
@@ -269,11 +269,11 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout ABCD.Input) -> (A, B, C, D, E.Output)? {
+    public func parse(_ input: inout ABCD.Input) async -> (A, B, C, D, E.Output)? {
       let original = input
-      guard let (a, b, c, d) = self.abcd.parse(&input)
+      guard let (a, b, c, d) = await self.abcd.parse(&input)
       else { return nil }
-      guard let e = self.e.parse(&input)
+      guard let e = await self.e.parse(&input)
       else {
         input = original
         return nil
@@ -304,11 +304,11 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout ABCDE.Input) -> (A, B, C, D, E, F.Output)? {
+    public func parse(_ input: inout ABCDE.Input) async -> (A, B, C, D, E, F.Output)? {
       let original = input
-      guard let (a, b, c, d, e) = self.abcde.parse(&input)
+      guard let (a, b, c, d, e) = await self.abcde.parse(&input)
       else { return nil }
-      guard let f = self.f.parse(&input)
+      guard let f = await self.f.parse(&input)
       else {
         input = original
         return nil
@@ -339,11 +339,11 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout ABCDEF.Input) -> (A, B, C, D, E, F, G.Output)? {
+    public func parse(_ input: inout ABCDEF.Input) async -> (A, B, C, D, E, F, G.Output)? {
       let original = input
-      guard let (a, b, c, d, e, f) = self.abcdef.parse(&input)
+      guard let (a, b, c, d, e, f) = await self.abcdef.parse(&input)
       else { return nil }
-      guard let g = self.g.parse(&input)
+      guard let g = await self.g.parse(&input)
       else {
         input = original
         return nil
@@ -374,11 +374,11 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout ABCDEFG.Input) -> (A, B, C, D, E, F, G, H.Output)? {
+    public func parse(_ input: inout ABCDEFG.Input) async -> (A, B, C, D, E, F, G, H.Output)? {
       let original = input
-      guard let (a, b, c, d, e, f, g) = self.abcdefg.parse(&input)
+      guard let (a, b, c, d, e, f, g) = await self.abcdefg.parse(&input)
       else { return nil }
-      guard let h = self.h.parse(&input)
+      guard let h = await self.h.parse(&input)
       else {
         input = original
         return nil
@@ -409,11 +409,11 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout ABCDEFGH.Input) -> (A, B, C, D, E, F, G, H, I.Output)? {
+    public func parse(_ input: inout ABCDEFGH.Input) async -> (A, B, C, D, E, F, G, H, I.Output)? {
       let original = input
-      guard let (a, b, c, d, e, f, g, h) = self.abcdefgh.parse(&input)
+      guard let (a, b, c, d, e, f, g, h) = await self.abcdefgh.parse(&input)
       else { return nil }
-      guard let i = self.i.parse(&input)
+      guard let i = await self.i.parse(&input)
       else {
         input = original
         return nil
@@ -444,11 +444,11 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout ABCDEFGHI.Input) -> (A, B, C, D, E, F, G, H, I, J.Output)? {
+    public func parse(_ input: inout ABCDEFGHI.Input) async -> (A, B, C, D, E, F, G, H, I, J.Output)? {
       let original = input
-      guard let (a, b, c, d, e, f, g, h, i) = self.abcdefghi.parse(&input)
+      guard let (a, b, c, d, e, f, g, h, i) = await self.abcdefghi.parse(&input)
       else { return nil }
-      guard let j = self.j.parse(&input)
+      guard let j = await self.j.parse(&input)
       else {
         input = original
         return nil
@@ -479,12 +479,12 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout ABCDEFGHIJ.Input) -> (A, B, C, D, E, F, G, H, I, J, K.Output)?
+    public func parse(_ input: inout ABCDEFGHIJ.Input) async -> (A, B, C, D, E, F, G, H, I, J, K.Output)?
     {
       let original = input
-      guard let (a, b, c, d, e, f, g, h, i, j) = self.abcdefghij.parse(&input)
+      guard let (a, b, c, d, e, f, g, h, i, j) = await self.abcdefghij.parse(&input)
       else { return nil }
-      guard let k = self.k.parse(&input)
+      guard let k = await self.k.parse(&input)
       else {
         input = original
         return nil

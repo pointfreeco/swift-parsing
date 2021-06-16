@@ -41,9 +41,9 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Output? {
+    public func parse(_ input: inout Upstream.Input) async -> Output? {
       let original = input
-      guard let newOutput = self.upstream.parse(&input).flatMap(self.transform)
+      guard let newOutput = await self.upstream.parse(&input).flatMap(self.transform)
       else {
         input = original
         return nil

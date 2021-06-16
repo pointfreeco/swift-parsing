@@ -42,12 +42,12 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout AnyIterator<Upstream.Input>) -> [Upstream.Output]? {
+    public func parse(_ input: inout AnyIterator<Upstream.Input>) async -> [Upstream.Output]? {
       var buffer = Upstream.Input()
       var outputs: Output = []
-      while let chunk = input.next() {
+      for chunk in input {
         buffer.append(contentsOf: chunk)
-        while let output = self.upstream.parse(&buffer) {
+        while let output = await self.upstream.parse(&buffer) {
           outputs.append(output)
         }
       }
@@ -55,3 +55,37 @@ extension Parsers {
     }
   }
 }
+
+
+@available(iOS 15.0, *)
+struct AsyncSequenceParser<Upstream, S: AsyncSequence>
+where
+  Upstream: Parser,
+  Upstream.Input: RangeReplaceableCollection,
+  S.Element == Upstream.Input.Element
+{
+  let upstream: Upstream
+
+  func parse(_ input: inout S) async -> [Upstream.Output]? {
+    do {
+      var buffer = Upstream.Input()
+      var outputs: [Upstream.Output] = []
+      for try await chunk in input {
+        buffer.append(chunk)
+
+        while true {
+          if let output = await self.upstream.parse(&buffer) {
+            outputs.append(output)
+          } else {
+            break
+          }
+        }
+      }
+      return outputs
+    } catch {
+      return nil
+    }
+  }
+}
+
+import Dispatch

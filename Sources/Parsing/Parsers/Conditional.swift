@@ -23,12 +23,12 @@ where
   case second(Second)
 
   @inlinable
-  public func parse(_ input: inout First.Input) -> First.Output? {
+  public func parse(_ input: inout First.Input) async -> First.Output? {
     switch self {
     case let .first(first):
-      return first.parse(&input)
+      return await first.parse(&input)
     case let .second(second):
-      return second.parse(&input)
+      return await second.parse(&input)
     }
   }
 }

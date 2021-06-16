@@ -29,62 +29,62 @@ public protocol Parser {
   ///
   /// - Parameter input: A nebulous piece of data to be parsed.
   /// - Returns: A more well-structured value parsed from the given input, or `nil`.
-  func parse(_ input: inout Input) -> Output?
+  func parse(_ input: inout Input) async -> Output?
 }
 
 extension Parser {
   @inlinable
-  public func parse(_ input: Input) -> (output: Output?, rest: Input) {
+  public func parse(_ input: Input) async -> (output: Output?, rest: Input) {
     var input = input
-    let output = self.parse(&input)
+    let output = await self.parse(&input)
     return (output, input)
   }
 
   @inlinable
   public func parse<SuperSequence>(
     _ input: SuperSequence
-  ) -> Output?
+  ) async -> Output?
   where
     SuperSequence: Collection,
     SuperSequence.SubSequence == Input
   {
     var input = input[...]
-    return self.parse(&input)
+    return await self.parse(&input)
   }
 
   @inlinable
-  public func parse<S: StringProtocol>(_ input: S) -> Output?
+  public func parse<S: StringProtocol>(_ input: S) async -> Output?
   where
     Input == S.SubSequence.UTF8View
   {
     var input = input[...].utf8
-    return self.parse(&input)
+    return await self.parse(&input)
   }
 
-  @inlinable
-  public func parse<S: StringProtocol>(_ input: S) -> Output?
-  where
-    Input == Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
-  {
-    input.utf8
-      .withContiguousStorageIfAvailable { input -> Output? in
-        var input = input[...]
-        return self.parse(&input)
-      }?
-      .flatMap { $0 }
-  }
+//  @inlinable
+//  public func parse<S: StringProtocol>(_ input: S) -> Output?
+//  where
+//    Input == Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
+//  {
+//    input.utf8
+//      .withContiguousStorageIfAvailable { input -> Output? in
+//        var input = input[...]
+//        return self.parse(&input)
+//      }?
+//      .flatMap { $0 }
+//  }
 
-  @inlinable
-  public func parse<C: Collection>(_ input: C) -> Output?
-  where
-    C.Element == UTF8.CodeUnit,
-    Input == Slice<UnsafeBufferPointer<C.Element>>
-  {
-    input
-      .withContiguousStorageIfAvailable { input -> Output? in
-        var input = input[...]
-        return self.parse(&input)
-      }?
-      .flatMap { $0 }
-  }
+//  @inlinable
+//  public func parse<C: Collection>(_ input: C) -> Output?
+//  where
+//    C.Element == UTF8.CodeUnit,
+//    Input == Slice<UnsafeBufferPointer<C.Element>>
+//  {
+//    input
+//      .withContiguousStorageIfAvailable { input -> Output? in
+//        var input = input[...]
+//        return self.parse(&input)
+//      }?
+//      .flatMap { $0 }
+//  }
 }

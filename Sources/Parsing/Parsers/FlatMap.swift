@@ -24,11 +24,11 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> NewParser.Output? {
+    public func parse(_ input: inout Upstream.Input) async -> NewParser.Output? {
       let original = input
-      guard let newParser = self.upstream.parse(&input).map(self.transform)
+      guard let newParser = await self.upstream.parse(&input).map(self.transform)
       else { return nil }
-      guard let output = newParser.parse(&input)
+      guard let output = await newParser.parse(&input)
       else {
         input = original
         return nil

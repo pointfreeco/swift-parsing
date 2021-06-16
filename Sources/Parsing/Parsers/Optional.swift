@@ -16,8 +16,8 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Upstream.Output?? {
-      .some(self.upstream.parse(&input))
+    public func parse(_ input: inout Upstream.Input) async -> Upstream.Output?? {
+      await .some(self.upstream.parse(&input))
     }
   }
 }

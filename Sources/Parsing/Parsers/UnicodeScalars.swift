@@ -20,10 +20,10 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Substring.UnicodeScalarView) -> Upstream.Output? {
+    public func parse(_ input: inout Substring.UnicodeScalarView) async -> Upstream.Output? {
       var substring = Substring(input)
       defer { input = substring.unicodeScalars }
-      return self.upstream.parse(&substring)
+      return await self.upstream.parse(&substring)
     }
   }
 }

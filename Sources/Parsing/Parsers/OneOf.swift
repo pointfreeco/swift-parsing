@@ -20,9 +20,9 @@ public struct OneOfMany<Upstream>: Parser where Upstream: Parser {
 
   @inlinable
   @inline(__always)
-  public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
+  public func parse(_ input: inout Upstream.Input) async -> Upstream.Output? {
     for parser in self.parsers {
-      if let output = parser.parse(&input) {
+      if let output = await parser.parse(&input) {
         return output
       }
     }
@@ -49,9 +49,9 @@ extension Parsers {
 
     @inlinable
     @inline(__always)
-    public func parse(_ input: inout A.Input) -> A.Output? {
-      if let output = self.a.parse(&input) { return output }
-      if let output = self.b.parse(&input) { return output }
+    public func parse(_ input: inout A.Input) async -> A.Output? {
+      if let output = await self.a.parse(&input) { return output }
+      if let output = await self.b.parse(&input) { return output }
       return nil
     }
   }

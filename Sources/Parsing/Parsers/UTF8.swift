@@ -29,10 +29,10 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Substring.UTF8View) -> Upstream.Output? {
+    public func parse(_ input: inout Substring.UTF8View) async -> Upstream.Output? {
       var substring = Substring(input)
       defer { input = substring.utf8 }
-      return self.upstream.parse(&substring)
+      return await self.upstream.parse(&substring)
     }
   }
 
@@ -49,10 +49,10 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Substring.UTF8View) -> Upstream.Output? {
+    public func parse(_ input: inout Substring.UTF8View) async -> Upstream.Output? {
       var unicodeScalars = Substring(input).unicodeScalars
       defer { input = Substring(unicodeScalars).utf8 }
-      return self.upstream.parse(&unicodeScalars)
+      return await self.upstream.parse(&unicodeScalars)
     }
   }
 }

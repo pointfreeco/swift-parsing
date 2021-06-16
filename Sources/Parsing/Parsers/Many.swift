@@ -65,16 +65,16 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout Upstream.Input) -> Result? {
+  public func parse(_ input: inout Upstream.Input) async -> Result? {
     let original = input
     var rest = input
     var result = self.initialResult
     var count = 0
-    while count < self.maximum, let output = self.upstream.parse(&input) {
+    while count < self.maximum, let output = await self.upstream.parse(&input) {
       count += 1
       rest = input
       self.updateAccumulatingResult(&result, output)
-      if self.separator != nil, self.separator?.parse(&input) == nil {
+      if self.separator != nil, await self.separator?.parse(&input) == nil {
         guard count >= self.minimum else {
           input = original
           return nil

@@ -24,7 +24,7 @@ extension Parser {
 /// underlying parser over time without affecting existing clients.
 public struct AnyParser<Input, Output>: Parser {
   @usableFromInline
-  let parser: (inout Input) -> Output?
+  let parser: (inout Input) async -> Output?
 
   /// Creates a type-erasing parser to wrap the given parser.
   ///
@@ -39,13 +39,13 @@ public struct AnyParser<Input, Output>: Parser {
   /// - Parameter parse: A closure that attempts to parse an output from an input. `parse` is
   ///   executed each time the `parse()` method is called on the resulting parser.
   @inlinable
-  public init(_ parse: @escaping (inout Input) -> Output?) {
+  public init(_ parse: @escaping (inout Input) async -> Output?) {
     self.parser = parse
   }
 
   @inlinable
-  public func parse(_ input: inout Input) -> Output? {
-    self.parser(&input)
+  public func parse(_ input: inout Input) async -> Output? {
+    await self.parser(&input)
   }
 
   @inlinable

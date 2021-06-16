@@ -31,8 +31,8 @@ extension Parsers {
 
     @inlinable
     @inline(__always)
-    public func parse(_ input: inout Upstream.Input) -> Output? {
-      self.upstream.parse(&input).map(self.transform)
+    public func parse(_ input: inout Upstream.Input) async -> Output? {
+      await self.upstream.parse(&input).map(self.transform)
     }
   }
 }

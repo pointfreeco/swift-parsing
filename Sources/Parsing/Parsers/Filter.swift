@@ -24,10 +24,10 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
+    public func parse(_ input: inout Upstream.Input) async -> Upstream.Output? {
       let original = input
       guard
-        let output = self.upstream.parse(&input),
+        let output = await self.upstream.parse(&input),
         self.predicate(output)
       else {
         input = original

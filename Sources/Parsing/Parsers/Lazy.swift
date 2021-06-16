@@ -12,13 +12,13 @@ public final class Lazy<LazyParser>: Parser where LazyParser: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout LazyParser.Input) -> LazyParser.Output? {
+  public func parse(_ input: inout LazyParser.Input) async -> LazyParser.Output? {
     guard let parser = self.lazyParser else {
       let parser = self.createParser()
       self.lazyParser = parser
-      return parser.parse(&input)
+      return await parser.parse(&input)
     }
-    return parser.parse(&input)
+    return await parser.parse(&input)
   }
 }
 

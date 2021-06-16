@@ -27,13 +27,13 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Downstream.Output? {
+    public func parse(_ input: inout Upstream.Input) async -> Downstream.Output? {
       let original = input
 
-      guard var downstreamInput = self.upstream.parse(&input)
+      guard var downstreamInput = await self.upstream.parse(&input)
       else { return nil }
 
-      guard let output = self.downstream.parse(&downstreamInput)
+      guard let output = await self.downstream.parse(&downstreamInput)
       else {
         input = original
         return nil

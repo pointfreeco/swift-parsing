@@ -41,8 +41,8 @@ public struct Skip<Upstream>: Parser where Upstream: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout Upstream.Input) -> Void? {
-    guard self.upstream.parse(&input) != nil else { return nil }
+  public func parse(_ input: inout Upstream.Input) async -> Void? {
+    guard await self.upstream.parse(&input) != nil else { return nil }
     return ()
   }
 }
@@ -61,13 +61,13 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout A.Input) -> B.Output? {
+    public func parse(_ input: inout A.Input) async -> B.Output? {
       let original = input
 
-      guard self.a.parse(&input) != nil
+      guard await self.a.parse(&input) != nil
       else { return nil }
 
-      guard let b = self.b.parse(&input)
+      guard let b = await self.b.parse(&input)
       else {
         input = original
         return nil
@@ -91,13 +91,13 @@ extension Parsers {
 
     @inlinable
     @inline(__always)
-    public func parse(_ input: inout A.Input) -> A.Output? {
+    public func parse(_ input: inout A.Input) async -> A.Output? {
       let original = input
 
-      guard let a = self.a.parse(&input)
+      guard let a = await self.a.parse(&input)
       else { return nil }
 
-      guard self.b.parse(&input) != nil
+      guard await self.b.parse(&input) != nil
       else {
         input = original
         return nil
