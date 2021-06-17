@@ -340,12 +340,13 @@ URLRequest(router.print(.episode(42))!)!
 URLRequest(router.print(.episodes(limit: 10, offset: 10))!)!
 URLRequest(router.print(.episodes(limit: 10, offset: nil))!)!
 URLRequest(router.print(.episodes(limit: nil, offset: nil))!)!
+String(
+  decoding: URLRequest(router.print(.signUp(User(email: "blob@pf.co", password: "1234")))!)!.httpBody!,
+  as: UTF8.self
+)
 
 Many(QueryItem("xs", Int.parser()))
   .parse(Request(URLRequest(url: URL(string: "?xs=1&xs=2&xs=3")!)))
 
 Many(QueryItem("xs[]", Int.parser()))
   .parse(Request(URLRequest(url: URL(string: "?xs[]=1&xs[]=2&xs[]=3")!)))
-
-//Many(QueryItem("xs[]", Int.parser()))
-//  .parse(Request(URLRequest(url: URL(string: "?xs[]=1&xs[]=2&xs[]=3")!)))
