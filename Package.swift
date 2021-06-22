@@ -8,7 +8,7 @@ let package = Package(
     .library(
       name: "Parsing",
       targets: ["Parsing"]
-    ),
+    )
   ],
   dependencies: [
     .package(url: "https://github.com/google/swift-benchmark", from: "0.1.0")
