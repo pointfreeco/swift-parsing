@@ -9,10 +9,6 @@ let package = Package(
       name: "Parsing",
       targets: ["Parsing"]
     ),
-    .executable(
-      name: "swift-parsing-benchmark",
-      targets: ["swift-parsing-benchmark"]
-    ),
   ],
   dependencies: [
     .package(url: "https://github.com/google/swift-benchmark", from: "0.1.0")
