@@ -15,8 +15,7 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "Parsing",
-      dependencies: []
+      name: "Parsing"
     ),
     .testTarget(
       name: "ParsingTests",

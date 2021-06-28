@@ -13,7 +13,6 @@ let package = Package(
   targets: [
     .target(
       name: "Parsing",
-      dependencies: []
     ),
     .testTarget(
       name: "ParsingTests",
