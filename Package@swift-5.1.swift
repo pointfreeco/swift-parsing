@@ -12,7 +12,7 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "Parsing",
+      name: "Parsing"
     ),
     .testTarget(
       name: "ParsingTests",
