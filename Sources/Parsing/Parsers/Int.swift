@@ -2,10 +2,12 @@ extension FixedWidthInteger {
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
   /// beginning of a collection of UTF-8 code units.
   ///
-  ///     var input = "123 Hello world"[...].utf8
-  ///     let output = Int.parser().parse(&input)
-  ///     precondition(output == 123)
-  ///     precondition(Substring(input) == " Hello world")
+  /// ```swift
+  /// var input = "123 Hello world"[...].utf8
+  /// let output = Int.parser().parse(&input)
+  /// precondition(output == 123)
+  /// precondition(Substring(input) == " Hello world")
+  /// ```
   ///
   /// - Parameters:
   ///   - inputType: The collection type of UTF-8 code units to parse.
@@ -26,10 +28,12 @@ extension FixedWidthInteger {
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
   /// beginning of a substring.
   ///
-  ///     var input = "123 Hello world"[...]
-  ///     let output = Int.parser().parse(&input)
-  ///     precondition(output == 123)
-  ///     precondition(input == " Hello world")
+  /// ```swift
+  /// var input = "123 Hello world"[...]
+  /// let output = Int.parser().parse(&input)
+  /// precondition(output == 123)
+  /// precondition(input == " Hello world")
+  /// ```
   ///
   /// - Parameters:
   ///   - inputType: The substring type. This parameter is included to mirror the interface that

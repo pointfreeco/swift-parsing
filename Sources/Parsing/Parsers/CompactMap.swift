@@ -5,10 +5,12 @@ extension Parser {
   /// This method is similar to `Sequence.compactMap` in the Swift standard library, as well as
   /// `Publisher.compactMap` in the Combine framework.
   ///
-  ///     let evenParser = Int.parser().compactMap { $0.isMultiple(of: 2) }
-  ///     var input = "124 hello world"[...].utf8
-  ///     let output = evenParser.parse(&input) // 124
-  ///     input // " hello world"
+  /// ```swift
+  /// let evenParser = Int.parser().compactMap { $0.isMultiple(of: 2) }
+  /// var input = "124 hello world"[...].utf8
+  /// let output = evenParser.parse(&input) // 124
+  /// input // " hello world"
+  /// ```
   ///
   /// - Parameter transform: A closure that accepts output of this parser as its argument and
   ///   returns an optional value.

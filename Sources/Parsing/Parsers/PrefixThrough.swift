@@ -1,11 +1,13 @@
 /// A parser that consumes a subsequence from the beginning of its input through a given sequence of
 /// elements.
 ///
-///     let lineParser = PrefixThrough<Substring>("\n")
+/// ```swift
+/// let lineParser = PrefixThrough<Substring>("\n")
 ///
-///     var input = "Hello\nworld\n"[...]
-///     line.parse(&input) // "Hello\n"
-///     input // "world\n"
+/// var input = "Hello\nworld\n"[...]
+/// line.parse(&input) // "Hello\n"
+/// input // "world\n"
+/// ```
 public struct PrefixThrough<Input>: Parser
 where
   Input: Collection,

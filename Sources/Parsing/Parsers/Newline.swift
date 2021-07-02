@@ -1,5 +1,6 @@
-/// A parser that consumes a single newline from the beginning of the input. It will consume both
-/// line feeds (`"\n"`) and carriage returns with line feeds (`"\r\n"`).
+/// A parser that consumes a single newline from the beginning of the input.
+///
+/// It will consume both line feeds (`"\n"`) and carriage returns with line feeds (`"\r\n"`).
 public struct Newline<Input>: Parser
 where
   Input: Collection,

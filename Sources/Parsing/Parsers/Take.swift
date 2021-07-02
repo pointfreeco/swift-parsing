@@ -3,20 +3,22 @@ extension Parser {
   /// tuple.
   ///
   /// This operator is used to gather up multiple values and can bundle them into a single data type
-  /// when used alongside the `map` operator.
+  /// when used alongside the ``map(_:)`` operator.
   ///
   /// In the following example, two `Double`s are parsed using `take` before they are combined into
   /// a `Point`.
   ///
-  ///     struct Point { var x, y: Double }
+  /// ```swift
+  /// struct Point { var x, y: Double }
   ///
-  ///     var input = "-1.5,1"[...].utf8
-  ///     let output = Double.parser()
-  ///       .skip(StartsWith(","))
-  ///       .take(Double.parser())
-  ///       .map(Point.init)
-  ///       .parse(&input) // => Point(x: -1.5, y: 1)
-  ///     precondition(Substring(input) == "")
+  /// var input = "-1.5,1"[...].utf8
+  /// let output = Double.parser()
+  ///   .skip(StartsWith(","))
+  ///   .take(Double.parser())
+  ///   .map(Point.init)
+  ///   .parse(&input) // => Point(x: -1.5, y: 1)
+  /// precondition(Substring(input) == "")
+  /// ```
   ///
   /// - Parameter parser: A parser to run immediately after this parser.
   /// - Returns: A parser that runs two parsers, returning both outputs in a tuple.

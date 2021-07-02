@@ -1,6 +1,10 @@
-/// A parser that consumes the first element from a collection. Fails on an empty collection.
+/// A parser that consumes the first element from a collection.
 ///
-///     First<Substring>().parse("Hello"[...]) // (output: "H", rest: "ello")
+/// Fails on an empty collection.
+///
+/// ```swift
+/// First<Substring>().parse("Hello"[...]) // (output: "H", rest: "ello")
+/// ```
 public struct First<Input>: Parser
 where
   Input: Collection,

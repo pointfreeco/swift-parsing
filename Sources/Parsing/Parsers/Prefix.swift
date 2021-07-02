@@ -4,23 +4,29 @@
 ///
 /// For example, to parse as many numbers off the beginning of a substring:
 ///
-///     var input = "123 hello world"[...]
-///     Prefix { $0.isNumber }.parse(&input) // "123"
-///     input // " Hello world"
+/// ```swift
+/// var input = "123 hello world"[...]
+/// Prefix { $0.isNumber }.parse(&input) // "123"
+/// input // " Hello world"
+/// ```
 ///
 /// If you wanted this parser to fail if _no_ numbers are consumed, you could introduce a minimum
 /// length.
 ///
-///     var input = "No numbers here"[...]
-///     Prefix(1...) { $0.isNumber }).parse(&input) // nil
-///     input // "No numbers here"
+/// ```swift
+/// var input = "No numbers here"[...]
+/// Prefix(1...) { $0.isNumber }).parse(&input) // nil
+/// input // "No numbers here"
+/// ```
 ///
 /// If a predicate is not provided, the parser will simply consume the prefix within the minimum and
 /// maximum lengths provided:
 ///
-///     var input = "Lorem ipsum dolor"[...]
-///     Prefix(2).parse(&input) // "Lo"
-///     input // "rem ipsum dolor"
+/// ```swift
+/// var input = "Lorem ipsum dolor"[...]
+/// Prefix(2).parse(&input) // "Lo"
+/// input // "rem ipsum dolor"
+/// ```
 public struct Prefix<Input>: Parser
 where
   Input: Collection,
@@ -53,9 +59,11 @@ where
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
-  ///     Prefix(2...4, while: { $0.isNumber }).parse("123456") // "1234"
-  ///     Prefix(2...4, while: { $0.isNumber }).parse("123")    // "123"
-  ///     Prefix(2...4, while: { $0.isNumber }).parse("1")      // nil
+  /// ```swift
+  /// Prefix(2...4, while: { $0.isNumber }).parse("123456") // "1234"
+  /// Prefix(2...4, while: { $0.isNumber }).parse("123")    // "123"
+  /// Prefix(2...4, while: { $0.isNumber }).parse("1")      // nil
+  /// ```
   ///
   /// - Parameters:
   ///   - length: A closed range that provides a minimum number and maximum of elements to consume
@@ -116,8 +124,10 @@ where
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
-  ///     Prefix(...4, while: { $0.isNumber }).parse("123456") // "1234"
-  ///     Prefix(...4, while: { $0.isNumber }).parse("123")    // "123"
+  /// ```swift
+  /// Prefix(...4, while: { $0.isNumber }).parse("123456") // "1234"
+  /// Prefix(...4, while: { $0.isNumber }).parse("123")    // "123"
+  /// ```
   ///
   /// - Parameters:
   ///   - length: A partial, inclusive range that provides a maximum number of elements to consume.

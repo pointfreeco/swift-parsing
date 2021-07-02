@@ -4,24 +4,29 @@ extension Parser where Input: RangeReplaceableCollection {
   /// For example, the following parser can parse an integer followed by a newline from a collection
   /// of UTF8 bytes:
   ///
-  ///     Parsers.Integer<ArraySlice<UInt8>, Int>()
-  ///       .skip(StartsWith("\n".utf8))
+  /// ```swift
+  /// Parsers.Integer<ArraySlice<UInt8>, Int>()
+  ///   .skip(StartsWith("\n".utf8))
+  /// ```
   ///
   /// This parser can be transformed into one that processes an incoming stream of UTF8 bytes:
   ///
-  ///     let newlineSeparatedIntegers = Parsers.Integer<ArraySlice<UInt8>, Int>()
-  ///       .skip(StartsWith("\n".utf8))
-  ///       .stream
+  /// ```swift
+  /// let newlineSeparatedIntegers = Parsers.Integer<ArraySlice<UInt8>, Int>()
+  ///   .skip(StartsWith("\n".utf8))
+  ///   .stream
+  /// ```
   ///
   /// And then it can be used on a stream, such as values coming from standard in:
   ///
-  ///     var stdin = AnyIterator {
-  ///       readLine().map { ArraySlice($0.utf8) }
-  ///     }
+  /// ```swift
+  /// var stdin = AnyIterator {
+  ///   readLine().map { ArraySlice($0.utf8) }
+  /// }
   ///
-  ///     newlineSeparatedIntegers
-  ///       .parse(&stdin)
-  ///
+  /// newlineSeparatedIntegers
+  ///   .parse(&stdin)
+  /// ```
   @inlinable
   public var stream: Parsers.Stream<Self> {
     .init(upstream: self)
