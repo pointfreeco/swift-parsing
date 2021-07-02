@@ -7,6 +7,8 @@ extension Parser {
   /// When you expose your composed parsers as the ``AnyParser`` type, you can change the underlying
   /// implementation over time without affecting existing clients.
   ///
+  /// Equivalent to passing `self` to ``AnyParser/init(_:)``.
+  ///
   /// - Returns: An ``AnyParser`` wrapping this publisher.
   @inlinable
   public func eraseToAnyParser() -> AnyParser<Input, Output> {
@@ -27,6 +29,8 @@ public struct AnyParser<Input, Output>: Parser {
   let parser: (inout Input) -> Output?
 
   /// Creates a type-erasing parser to wrap the given parser.
+  ///
+  /// Equivalent to calling ``Parser/eraseToAnyParser()`` on the parser.
   ///
   /// - Parameter parser: A parser to wrap with a type eraser.
   @inlinable

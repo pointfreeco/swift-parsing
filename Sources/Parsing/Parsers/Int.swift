@@ -55,6 +55,8 @@ extension FixedWidthInteger {
 extension Parsers {
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
   /// beginning of a collection of UTF8 code units.
+  ///
+  /// This parser is typically constructed using `Int.parser()`.
   public struct IntParser<Input, Output>: Parser
   where
     Input: Collection,

@@ -1,10 +1,28 @@
 extension Parser {
+  /// A parser that runs this parser and, if it fails, runs the given parser.
   @inlinable
   public func orElse<P>(_ parser: P) -> Parsers.OneOf<Self, P> {
     .init(self, parser)
   }
 }
 
+/// A parser that attempts to run a number of parsers till one succeeds.
+///
+/// This is an more performant version of ``Parser/orElse(_:)`` that can be used when `Upstream` is
+/// the same type.
+///
+/// For example, `OneOfMany` can capture the work of a number of parsers that do similar work and
+/// are thus all `Parsers.Map<StartsWith<Input>, Output>`:
+///
+/// ```swift
+/// enum Currency { case eur, gbp, usd }
+///
+/// let currency = OneOfMany(
+///   StartsWith("€").map { Currency.eur },
+///   StartsWith("£").map { .gbp },
+///   StartsWith("$").map { .usd }
+/// )
+/// ```
 public struct OneOfMany<Upstream>: Parser where Upstream: Parser {
   public let parsers: [Upstream]
 
@@ -31,6 +49,10 @@ public struct OneOfMany<Upstream>: Parser where Upstream: Parser {
 }
 
 extension Parsers {
+  /// A parser that runs the first parser and, if it fails, runs the second parser.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/orElse(_:)`` operation, which constructs this type.
   public struct OneOf<A, B>: Parser
   where
     A: Parser,

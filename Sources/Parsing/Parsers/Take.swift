@@ -5,8 +5,8 @@ extension Parser {
   /// This operator is used to gather up multiple values and can bundle them into a single data type
   /// when used alongside the ``map(_:)`` operator.
   ///
-  /// In the following example, two `Double`s are parsed using `take` before they are combined into
-  /// a `Point`.
+  /// In the following example, two `Double`s are parsed using ``take(_:)-1fw8y`` before they are
+  /// combined into a `Point`.
   ///
   /// ```swift
   /// struct Point { var x, y: Double }
@@ -150,6 +150,9 @@ extension Parser {
 
 extension Parsers {
   /// A parser that runs two parsers, one after the other, and returns both outputs in a tuple.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/take(_:)-6f1jr`` operation, which constructs this type.
   public struct Take2<A, B>: Parser
   where
     A: Parser,
@@ -181,6 +184,9 @@ extension Parsers {
 
   /// A parser that runs a parser of a tuple of outputs and another parser, one after the other,
   /// and returns a flattened tuple of the first parser's outputs and the second parser's output.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/take(_:)-3ezb3`` operation, which constructs this type.
   public struct Take3<AB, A, B, C>: Parser
   where
     AB: Parser,
@@ -216,6 +222,9 @@ extension Parsers {
 
   /// A parser that runs a parser of a tuple of outputs and another parser, one after the other,
   /// and returns a flattened tuple of the first parser's outputs and the second parser's output.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/take(_:)-3thpr`` operation, which constructs this type.
   public struct Take4<ABC, A, B, C, D>: Parser
   where
     ABC: Parser,
@@ -250,7 +259,10 @@ extension Parsers {
   }
 
   /// A parser that runs a parser of a tuple of outputs and another parser, one after the other,
-  /// and returns a flattened tuple of the first parser's outputs and the second parser's output.
+  /// and returns a flattened tuple of the first parser's outputs and the second parser's output.\
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/take(_:)-5qnt6`` operation, which constructs this type.
   public struct Take5<ABCD, A, B, C, D, E>: Parser
   where
     ABCD: Parser,
@@ -286,6 +298,9 @@ extension Parsers {
 
   /// A parser that runs a parser of a tuple of outputs and another parser, one after the other,
   /// and returns a flattened tuple of the first parser's outputs and the second parser's output.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/take(_:)-74wwn`` operation, which constructs this type.
   public struct Take6<ABCDE, A, B, C, D, E, F>: Parser
   where
     ABCDE: Parser,
@@ -321,6 +336,9 @@ extension Parsers {
 
   /// A parser that runs a parser of a tuple of outputs and another parser, one after the other,
   /// and returns a flattened tuple of the first parser's outputs and the second parser's output.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/take(_:)-5wm45`` operation, which constructs this type.
   public struct Take7<ABCDEF, A, B, C, D, E, F, G>: Parser
   where
     ABCDEF: Parser,
@@ -356,6 +374,9 @@ extension Parsers {
 
   /// A parser that runs a parser of a tuple of outputs and another parser, one after the other,
   /// and returns a flattened tuple of the first parser's outputs and the second parser's output.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/take(_:)-9ytif`` operation, which constructs this type.
   public struct Take8<ABCDEFG, A, B, C, D, E, F, G, H>: Parser
   where
     ABCDEFG: Parser,
@@ -391,6 +412,9 @@ extension Parsers {
 
   /// A parser that runs a parser of a tuple of outputs and another parser, one after the other,
   /// and returns a flattened tuple of the first parser's outputs and the second parser's output.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/take(_:)-226d4`` operation, which constructs this type.
   public struct Take9<ABCDEFGH, A, B, C, D, E, F, G, H, I>: Parser
   where
     ABCDEFGH: Parser,
@@ -426,6 +450,9 @@ extension Parsers {
 
   /// A parser that runs a parser of a tuple of outputs and another parser, one after the other,
   /// and returns a flattened tuple of the first parser's outputs and the second parser's output.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/take(_:)-fbhx`` operation, which constructs this type.
   public struct Take10<ABCDEFGHI, A, B, C, D, E, F, G, H, I, J>: Parser
   where
     ABCDEFGHI: Parser,
@@ -461,6 +488,9 @@ extension Parsers {
 
   /// A parser that runs a parser of a tuple of outputs and another parser, one after the other,
   /// and returns a flattened tuple of the first parser's outputs and the second parser's output.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/take(_:)-5a47k`` operation, which constructs this type.
   public struct Take11<ABCDEFGHIJ, A, B, C, D, E, F, G, H, I, J, K>: Parser
   where
     ABCDEFGHIJ: Parser,

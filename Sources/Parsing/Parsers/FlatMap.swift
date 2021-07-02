@@ -1,4 +1,5 @@
 extension Parser {
+  /// Returns a parser that transforms the output of this parser into a new parser.
   @inlinable
   public func flatMap<NewParser>(
     _ transform: @escaping (Output) -> NewParser
@@ -8,6 +9,10 @@ extension Parser {
 }
 
 extension Parsers {
+  /// A parser that transforms the output of another parser into a new parser.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/flatMap(_:)`` operation, which constructs this type.
   public struct FlatMap<NewParser, Upstream>: Parser
   where
     NewParser: Parser,

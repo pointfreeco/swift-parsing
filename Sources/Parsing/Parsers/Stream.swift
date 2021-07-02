@@ -34,6 +34,10 @@ extension Parser where Input: RangeReplaceableCollection {
 }
 
 extension Parsers {
+  /// A parser that can parse streams of input.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/stream`` operation, which constructs this type.
   public struct Stream<Upstream>: Parser
   where
     Upstream: Parser,

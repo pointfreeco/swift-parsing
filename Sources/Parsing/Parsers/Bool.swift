@@ -42,6 +42,9 @@ extension Bool {
 
 extension Parsers {
   /// A parser that consumes a Boolean value from the beginning of a collection of UTF-8 code units.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// `Bool.parser()`, which constructs this type.
   public struct BoolParser<Input>: Parser
   where
     Input: Collection,

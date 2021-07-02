@@ -28,7 +28,8 @@ extension Parsers {
   /// A parser that outputs the non-`nil` results of calling the given transformation with the
   /// output of its upstream parser.
   ///
-  /// Returned from the `Parser.compactMap(_:)` method.
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/compactMap(_:)`` operation, which constructs this type.
   public struct CompactMap<Upstream, Output>: Parser where Upstream: Parser {
     public let upstream: Upstream
     public let transform: (Upstream.Output) -> Output?

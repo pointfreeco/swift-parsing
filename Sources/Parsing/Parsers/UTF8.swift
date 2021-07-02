@@ -16,6 +16,10 @@ extension Parser where Input == Substring.UnicodeScalarView {
 }
 
 extension Parsers {
+  /// A parser that transforms a parser on `Substring` into a parser on `Substring.UTF8View`.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/utf8-6e25a`` operation, which constructs this type.
   public struct SubstringToUTF8View<Upstream>: Parser
   where
     Upstream: Parser,
@@ -36,6 +40,11 @@ extension Parsers {
     }
   }
 
+  /// A parser that transforms a parser on `Substring.UnicodeScalarView` into a parser on
+  /// `Substring.UTF8View`.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/utf8-1tosc`` operation, which constructs this type.
   public struct UnicodeScalarViewToUTF8View<Upstream>: Parser
   where
     Upstream: Parser,
