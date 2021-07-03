@@ -1,5 +1,8 @@
 /// A parser that consumes the first element from a collection.
 ///
+/// This parser is named after `Sequence.first`, and attempts to parse the first element from a
+/// collection of input by calling this property under the hood.
+///
 /// For example, it can parse the leading character off a substring:
 ///
 /// ```swift

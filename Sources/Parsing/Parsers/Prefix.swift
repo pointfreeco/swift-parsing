@@ -1,6 +1,8 @@
 /// A parser that consumes a subsequence from the beginning of its input.
 ///
-/// This parser can be configured with minimum and maximum lengths, as well as a predicate.
+/// This parser is named after `Sequence.prefix`, which it uses under the hood to consume a number
+/// of elements and return them as output. It can be configured with minimum and maximum lengths,
+/// as well as a predicate.
 ///
 /// For example, to parse as many numbers off the beginning of a substring:
 ///

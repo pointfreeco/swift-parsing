@@ -1,7 +1,7 @@
 extension Parser {
   /// Returns a parser that transforms the output of this parser with a given closure.
   ///
-  /// This method is similar to `Sequence.map`, `Optional.map`, and`Result.map` in the Swift
+  /// This method is similar to `Sequence.map`, `Optional.map`, and `Result.map` in the Swift
   /// standard library, as well as `Publisher.map` in the Combine framework.
   ///
   /// - Parameter transform: A closure that transforms values of this parser's output.

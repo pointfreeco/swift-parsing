@@ -9,13 +9,19 @@ extension Parser {
   /// and there's a key path from `Substring.UTF8View` to `Substring`, and so we can
   /// ``pullback(_:)``:
   ///
-  ///     var input = "123 Hello world"[...]
-  ///     let output = Int.parser.pullback(\.utf8).parse(&input)
-  ///     precondition(output == 123)
-  ///     precondition(input == "123 Hello world"
+  /// ```swift
+  /// var input = "123 Hello world"[...]
+  /// let output = Int.parser.pullback(\.utf8).parse(&input)
+  /// precondition(output == 123)
+  /// precondition(input == "123 Hello world"
+  /// ```
   ///
   /// This has allowed us to parse `Substring`s with something that is only defined on
   /// `Substring.UTF8View`.
+  ///
+  /// - Parameter keyPath: A key path to pull parsing back along from this parser's input to a new
+  ///   input.
+  /// - Returns: A parser that parses new input.
   @inlinable
   public func pullback<NewInput>(
     _ keyPath: WritableKeyPath<NewInput, Input>
@@ -28,7 +34,7 @@ extension Parsers {
   /// Transforms the `Input` of a downstream parser.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``pullback(_:)`` operator, which constructs this type.
+  /// the ``Parser/pullback(_:)`` operator, which constructs this type.
   public struct Pullback<Downstream, Input>: Parser where Downstream: Parser {
     public let downstream: Downstream
     public let keyPath: WritableKeyPath<Input, Downstream.Input>

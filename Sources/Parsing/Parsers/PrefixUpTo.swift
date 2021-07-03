@@ -1,6 +1,9 @@
 /// A parser that consumes a subsequence from the beginning of its input up to a given sequence of
 /// elements.
 ///
+/// This parser is named after `Sequence.prefix(upTo:)`, and uses similar logic under the hood to
+/// consume and return input through a particular subsequence.
+///
 /// ```swift
 /// let lineParser = PrefixUpTo<Substring>("\n")
 ///

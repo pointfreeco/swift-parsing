@@ -2,6 +2,9 @@ extension Parser {
   /// Returns a parser that filters output from this parser when its output does not satisfy the
   /// given predicate.
   ///
+  /// This method is similar to `Sequence.filter` in the Swift standard library, as well as
+  /// `Publisher.filter` in the Combine framework.
+  ///
   /// - Parameter predicate: A closure that takes an output from this parser and returns a Boolean
   ///   value indicating whether the output should be returned.
   /// - Returns: A parser that filters its output.

@@ -1,6 +1,9 @@
 /// A parser that consumes a subsequence from the beginning of its input through a given sequence of
 /// elements.
 ///
+/// This parser is named after `Sequence.prefix(through:)`, and uses similar logic under the hood to
+/// consume and return input through a particular subsequence.
+///
 /// ```swift
 /// let lineParser = PrefixThrough<Substring>("\n")
 ///
