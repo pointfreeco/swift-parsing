@@ -71,7 +71,6 @@ extension Parsers.StartsWith where Input.Element: Equatable {
     PossiblePrefix: Collection,
     PossiblePrefix.Element == Input.Element
   {
-    possiblePrefix.starts(with: possiblePrefix)
     self.init(possiblePrefix, by: ==)
   }
 }
