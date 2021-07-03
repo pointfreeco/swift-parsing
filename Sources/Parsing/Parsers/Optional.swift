@@ -1,7 +1,7 @@
 extension Optional {
   /// A parser that parses `nil` when this parser fails.
   ///
-  /// Use this parser when you are parsing into a data model that contains `nil`.
+  /// Use this parser when you are parsing into an output data model that contains `nil`.
   ///
   /// If you are optionally parsing input that should coalesce into some default, you can skip the
   /// optionality and instead use ``Parser/orElse(_:)`` with an ``Always`` parser, given a default:
