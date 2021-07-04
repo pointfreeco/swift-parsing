@@ -1,7 +1,7 @@
 /// A parser that parses a sequence of elements from its input.
 ///
 /// This parser is named after `Sequence.starts(with:)`, and tests that the input it is parsing
-/// starts with a given prefix by calling this method under the hood.
+/// starts with a given subsequence by calling this method under the hood.
 ///
 /// If `true`, it consumes this prefix and returns `Void`:
 ///
