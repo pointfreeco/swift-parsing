@@ -8,7 +8,7 @@ extension Parser {
 
 /// A parser that attempts to run a number of parsers till one succeeds.
 ///
-/// This is an more performant version of ``Parser/orElse(_:)`` that can be used when `Upstream` is
+/// This is a more performant version of ``Parser/orElse(_:)`` that can be used when `Upstream` is
 /// the same type.
 ///
 /// For example, `OneOfMany` can capture the work of a number of parsers that do similar work and
