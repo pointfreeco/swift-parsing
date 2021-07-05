@@ -10,6 +10,7 @@ Benchmark.main(
     colorSuite,
     csvSuite,
     dateSuite,
+    delimitedBySuite,
     httpSuite,
     jsonSuite,
     numericsSuite,
