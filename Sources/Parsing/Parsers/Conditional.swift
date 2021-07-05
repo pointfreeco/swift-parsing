@@ -1,17 +1,19 @@
 /// A parser that can parse output from two types of parsers.
 ///
 /// This parser is useful for situations where you want to run one of two different parsers based on
-/// a condition, which typically would force you to perform `.eraseToAnyParser()` and incur a
-/// performance penalty.
+/// a condition, which typically would force you to perform ``Parser/eraseToAnyParser()`` and incur
+/// a performance penalty.
 ///
-/// For example, you can use this parser in a `flatMap` operation to use the parsed output to
-/// determine what parser to run next:
+/// For example, you can use this parser in a ``Parser/flatMap(_:)`` operation to use the parsed
+/// output to determine what parser to run next:
 ///
-///     versionParser.flatMap { version in
-///       version == "2.0"
-///         ? Conditional.first(V2Parser())
-///         : Conditional.second(LegacyParser())
-///     }
+/// ```swift
+/// versionParser.flatMap { version in
+///   version == "2.0"
+///     ? Conditional.first(V2Parser())
+///     : Conditional.second(LegacyParser())
+/// }
+/// ```
 public enum Conditional<First, Second>: Parser
 where
   First: Parser,

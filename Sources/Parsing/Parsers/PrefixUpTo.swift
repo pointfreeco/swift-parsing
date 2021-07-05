@@ -1,11 +1,16 @@
 /// A parser that consumes a subsequence from the beginning of its input up to a given sequence of
 /// elements.
 ///
-///     let lineParser = PrefixUpTo<Substring>("\n")
+/// This parser is named after `Sequence.prefix(upTo:)`, and uses similar logic under the hood to
+/// consume and return input up to a particular subsequence.
 ///
-///     var input = "Hello\nworld\n"[...]
-///     line.parse(&input) // "Hello"
-///     input // "\nworld\n"
+/// ```swift
+/// let lineParser = PrefixUpTo<Substring>("\n")
+///
+/// var input = "Hello\nworld\n"[...]
+/// line.parse(&input) // "Hello"
+/// input // "\nworld\n"
+/// ```
 public struct PrefixUpTo<Input>: Parser
 where
   Input: Collection,

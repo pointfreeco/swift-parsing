@@ -43,9 +43,11 @@ private let coord =
 
 private enum Currency { case eur, gbp, usd }
 
-private let currency = StartsWith<Input>("€".utf8).map { Currency.eur }
-  .orElse(StartsWith("£".utf8).map { .gbp })
-  .orElse(StartsWith("$".utf8).map { .usd })
+private let currency = OneOfMany(
+  StartsWith<Input>("€".utf8).map { Currency.eur },
+  StartsWith("£".utf8).map { .gbp },
+  StartsWith("$".utf8).map { .usd }
+)
 
 private struct Money {
   let currency: Currency

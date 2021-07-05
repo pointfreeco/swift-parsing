@@ -1,7 +1,7 @@
 extension Parser {
   /// Returns a parser that transforms the output of this parser with a given closure.
   ///
-  /// This method is similar to `Sequence.map`, `Optional.map`, and`Result.map` in the Swift
+  /// This method is similar to `Sequence.map`, `Optional.map`, and `Result.map` in the Swift
   /// standard library, as well as `Publisher.map` in the Combine framework.
   ///
   /// - Parameter transform: A closure that transforms values of this parser's output.
@@ -16,6 +16,9 @@ extension Parser {
 
 extension Parsers {
   /// A parser that transforms the output of another parser with a given closure.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/map(_:)`` operation, which constructs this type.
   public struct Map<Upstream, Output>: Parser where Upstream: Parser {
     /// The parser from which this parser receives output.
     public let upstream: Upstream

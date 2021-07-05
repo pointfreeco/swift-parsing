@@ -50,6 +50,9 @@ public struct Skip<Upstream>: Parser where Upstream: Parser {
 extension Parsers {
   /// A parser that runs two parsers, one after the other, taking only the output of the second
   /// parser.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/take(_:)-1fw8y`` operation, which constructs this type.
   public struct SkipFirst<A, B>: Parser where A: Parser, B: Parser, A.Input == B.Input {
     public let a: A
     public let b: B
@@ -79,6 +82,9 @@ extension Parsers {
 
   /// A parser that runs two parsers, one after the other, taking only the output of the first
   /// parser.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/skip(_:)`` operation, which constructs this type.
   public struct SkipSecond<A, B>: Parser where A: Parser, B: Parser, A.Input == B.Input {
     public let a: A
     public let b: B
