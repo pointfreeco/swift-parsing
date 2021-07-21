@@ -138,6 +138,9 @@ extension Parsers {
   }
 
   public struct SubstringDoubleParser: Parser {
+    public typealias Input = Substring
+    public typealias Output = Double
+    
     public let parser = Double.parser(of: Substring.UTF8View.self)
 
     @inlinable
@@ -252,6 +255,15 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
       }
     }
     return original[..<self.startIndex]
+  }
+}
+
+extension Parsers.DoubleParser: Printer
+where
+  Input: RangeReplaceableCollection
+{
+  public func print(_ output: Output) -> Input? {
+    Input(String(output).utf8)
   }
 }
 

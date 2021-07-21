@@ -17,6 +17,18 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
     case episodeComments(id: Int)
   }
 
+//  let tmp = Method("GET")
+//    .skip(End())
+//    .map(Exactly(Route.home))
+//    .orElse(
+//      Method("GET")
+//        .skip(Path(StartsWith("contact-us".utf8)))
+//        .skip(End())
+//        .map(Exactly(Route.home))
+//    )
+//  tmp
+//    .print(Route.home)
+
   let router = Method("GET")
     .skip(End())
     .map { Route.home }
@@ -100,7 +112,17 @@ private struct RequestData {
   var queryItems: [(String, Substring.UTF8View)] = []
 }
 
-private struct Method: Parser {
+extension RequestData: Appendable {
+  mutating func append(contentsOf other: RequestData) {
+    self.body?.append(contentsOf: other.body ?? Data())
+    self.headers.append(contentsOf: other.headers)
+    self.method = self.method ?? other.method
+    self.pathComponents.append(contentsOf: other.pathComponents)
+    self.queryItems.append(contentsOf: other.queryItems)
+  }
+}
+
+private struct Method: ParserPrinter {
   typealias Input = RequestData
   typealias Output = Void
 
@@ -116,6 +138,10 @@ private struct Method: Parser {
 
     input.method = nil
     return ()
+  }
+
+  func print(_ output: Void) -> RequestData? {
+    .init(method: self.method)
   }
 }
 
@@ -149,6 +175,12 @@ where
   }
 }
 
+extension Path: Printer where Component: Printer {
+  func print(_ output: Component.Output) -> RequestData? {
+    .init(pathComponents: self.component.print(output).map { [$0] } ?? [])
+  }
+}
+
 private struct End: Parser {
   typealias Input = RequestData
   typealias Output = Void
@@ -162,5 +194,11 @@ private struct End: Parser {
     input = .init()
 
     return ()
+  }
+}
+
+extension End: Printer {
+  func print(_ output: Void) -> RequestData? {
+    .init()
   }
 }

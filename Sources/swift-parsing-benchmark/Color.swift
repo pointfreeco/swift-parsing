@@ -11,10 +11,12 @@ private typealias Output = Color
 private let hexPrimary = Prefix<Input>(2)
   .pipe(UInt8.parser(isSigned: false, radix: 16).skip(End()))
 
-private let hexColor = StartsWith("#".utf8)
+private let hexColor = StartsWith<Input>("#".utf8)
   .take(hexPrimary)
   .take(hexPrimary)
   .take(hexPrimary)
+//  .map(Conversion.init(apply: Color.init, unapply: { ($0.red, $0.green, $0.blue)}))
+//  .map(Conversion.unsafeBitCast(to: Color.init))
   .map(Color.init)
 
 let colorSuite = BenchmarkSuite(name: "Color") { suite in

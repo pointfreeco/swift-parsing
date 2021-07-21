@@ -43,6 +43,16 @@ public struct PartialConversion<Input, Output>: ParserPrinter {
 }
 
 extension Conversion {
+  public static func unsafeBitCast<A, B, C>(
+    to `init`: @escaping (Input) -> Output
+  ) -> Self
+  where Input == (A, B, C) {
+    Self(
+      apply: `init`,
+      unapply: { Swift.unsafeBitCast($0, to: Input.self) }
+    )
+  }
+
   public static func unsafeBitCast<A, B>(
     to `init`: @escaping (Input) -> Output
   ) -> Self
@@ -91,7 +101,6 @@ extension RawRepresentable {
   }
 }
 
-#warning("OPTIMIZE")
 extension RawRepresentable
 where
   Self: CaseIterable,
@@ -99,14 +108,13 @@ where
   Self: Equatable,
   RawValue.Element: Equatable
 {
-  public static var fromRawCase: AnyParserPrinter<RawValue.SubSequence, Self> {
+  public static var fromRawCase: OneOfMany<Parsers.MapViaParser<StartsWith<Self.RawValue.SubSequence>, Exactly<Self>>> {
     OneOfMany(
       Self.allCases.map {
         StartsWith<RawValue.SubSequence>($0.rawValue[...])
           .map(Exactly($0))
       }
     )
-    .eraseToAnyParserPrinter()
   }
 }
 

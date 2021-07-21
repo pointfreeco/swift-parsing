@@ -20,3 +20,14 @@ where
 extension Parsers {
   public typealias First = Parsing.First  // NB: Convenience type alias for discovery
 }
+
+extension First: Printer
+where
+  Input: RangeReplaceableCollection
+{
+  public func print(_ output: Input.Element) -> Input? {
+    var empty = Input()
+    empty.append(output)
+    return empty
+  }
+}

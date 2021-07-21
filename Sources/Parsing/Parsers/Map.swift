@@ -36,3 +36,62 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers {
+  public struct MapViaParser<Upstream, Transform>: Parser
+  where
+    Upstream: Parser,
+    Transform: Parser,
+    Upstream.Output == Transform.Input
+  {
+    public let upstream: Upstream
+    public let transform: Transform
+
+    @inlinable
+    public init(
+      upstream: Upstream,
+      transform: Transform
+    ) {
+      self.upstream = upstream
+      self.transform = transform
+    }
+
+    @inlinable
+    public func parse(_ input: inout Upstream.Input) -> Transform.Output? {
+      let original = input
+
+      guard var output = self.upstream.parse(&input)
+      else { return nil }
+
+      guard let newOutput = self.transform.parse(&output)
+      else {
+        input = original
+        return nil
+      }
+
+      return newOutput
+    }
+  }
+}
+
+extension Parsers.MapViaParser: Printer
+where
+  Upstream: ParserPrinter,
+  Transform: ParserPrinter
+{
+  @inlinable
+  public func print(_ output: Transform.Output) -> Upstream.Input? {
+    self.transform.print(output).flatMap(self.upstream.print)
+  }
+}
+
+extension Printer {
+  @inlinable
+  public func map<P>(_ transform: P) -> Parsers.MapViaParser<Self, P>
+  where
+    P: Parser, Self.Output == P.Input
+  {
+    .init(upstream: self, transform: transform)
+  }
+}
+

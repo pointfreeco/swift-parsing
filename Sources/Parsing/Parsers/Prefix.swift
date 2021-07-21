@@ -155,3 +155,10 @@ where
 extension Parsers {
   public typealias Prefix = Parsing.Prefix  // NB: Convenience type alias for discovery
 }
+
+extension Prefix: Printer {
+  public func print(_ output: Input) -> Input? {
+    var output = output
+    return self.skip(End()).parse(&output)
+  }
+}

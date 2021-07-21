@@ -16,3 +16,9 @@ public struct End<Input>: Parser where Input: Collection {
 extension Parsers {
   public typealias End = Parsing.End  // NB: Convenience type alias for discovery
 }
+
+extension End: Printer where Input: Appendable {
+  public func print(_ output: ()) -> Input? {
+    Input()
+  }
+}

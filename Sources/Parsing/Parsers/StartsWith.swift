@@ -46,3 +46,13 @@ extension Parsers.StartsWith where Input.Element: Equatable {
 extension Parsers {
   public typealias StartsWith = Parsing.StartsWith  // NB: Convenience type alias for discovery
 }
+
+extension StartsWith: Printer
+where
+  Input: RangeReplaceableCollection
+{
+  public func print(_ output: Void) -> Input? {
+    Input(self.possiblePrefix)
+  }
+}
+

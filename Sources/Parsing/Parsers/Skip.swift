@@ -109,3 +109,40 @@ extension Parsers {
 
   public typealias Skip = Parsing.Skip  // NB: Convenience type alias for discovery
 }
+
+extension Parsers.SkipFirst: Printer
+where
+  A: Printer,
+  A.Output == Void,
+  A.Input: Appendable,
+  B: Printer
+{
+  public func print(_ output: B.Output) -> A.Input? {
+    guard
+      var input1 = self.a.print(()),
+      let input2 = self.b.print(output)
+    else { return nil }
+
+    input1.append(contentsOf: input2)
+    return input1
+  }
+}
+
+extension Parsers.SkipSecond: Printer
+where
+  A: Printer,
+  A.Input: Appendable,
+  B: Printer,
+  B.Output == Void
+{
+  public func print(_ output: A.Output) -> A.Input? {
+    guard
+      var input1 = self.a.print(output),
+      let input2 = self.b.print(())
+    else { return nil }
+
+    input1.append(contentsOf: input2)
+    return input1
+  }
+}
+

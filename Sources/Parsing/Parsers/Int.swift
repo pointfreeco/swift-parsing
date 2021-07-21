@@ -127,6 +127,8 @@ extension Parsers {
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
   /// beginning of a substring using a UTF-8 parser.
   public struct SubstringIntParser<Output>: Parser where Output: FixedWidthInteger {
+    public typealias Input = Substring
+
     public let parser: Parsers.IntParser<Substring.UTF8View, Output>
 
     @inlinable
@@ -138,5 +140,14 @@ extension Parsers {
     public func parse(_ input: inout Substring) -> Output? {
       self.parser.parse(&input.utf8)
     }
+  }
+}
+
+extension Parsers.IntParser: Printer
+where
+  Input: RangeReplaceableCollection
+{
+  public func print(_ output: Output) -> Input? {
+    Input(String(output, radix: self.radix).utf8)
   }
 }

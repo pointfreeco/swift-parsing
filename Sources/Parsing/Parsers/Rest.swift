@@ -18,3 +18,9 @@ where
 extension Parsers {
   public typealias Rest = Parsing.Rest  // NB: Convenience type alias for discovery
 }
+
+extension Rest: Printer {
+  public func print(_ output: Input) -> Input? {
+    output
+  }
+}
