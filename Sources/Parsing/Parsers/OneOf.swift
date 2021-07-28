@@ -61,7 +61,7 @@ extension Parsers {
 
 extension OneOfMany: Printer
 where
-  Upstream: ParserPrinter
+  Upstream: Printer
 {
   public func print(_ output: Upstream.Output) -> Upstream.Input? {
     for parser in self.parsers {

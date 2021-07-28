@@ -76,8 +76,8 @@ extension Parsers {
 
 extension Parsers.MapViaParser: Printer
 where
-  Upstream: ParserPrinter,
-  Transform: ParserPrinter
+  Upstream: Printer,
+  Transform: Printer
 {
   @inlinable
   public func print(_ output: Transform.Output) -> Upstream.Input? {

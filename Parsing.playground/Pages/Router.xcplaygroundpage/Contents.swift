@@ -2,32 +2,6 @@ import Foundation
 import Parsing
 
 public struct Request: Appendable, Equatable, Hashable {
-  public struct QueryItem: Equatable, Hashable {
-    public var name: String
-    public var value: String
-
-    public init(
-      name: String,
-      value: String
-    ) {
-      self.name = name
-      self.value = value
-    }
-  }
-
-  public struct Header: Equatable, Hashable {
-    public var name: String
-    public var value: String
-
-    public init(
-      name: String,
-      value: String
-    ) {
-      self.name = name
-      self.value = value
-    }
-  }
-
   public var method: String? = nil
   public var path: [Substring] = []
   public var query: [QueryItem] = []
@@ -57,6 +31,32 @@ public struct Request: Appendable, Equatable, Hashable {
     self.headers = self.headers + other.headers
     self.body = self.body + other.body
   }
+
+  public struct QueryItem: Equatable, Hashable {
+    public var name: String
+    public var value: String
+
+    public init(
+      name: String,
+      value: String
+    ) {
+      self.name = name
+      self.value = value
+    }
+  }
+
+  public struct Header: Equatable, Hashable {
+    public var name: String
+    public var value: String
+
+    public init(
+      name: String,
+      value: String
+    ) {
+      self.name = name
+      self.value = value
+    }
+  }
 }
 
 public struct Method: Parser {
@@ -80,7 +80,7 @@ public struct Method: Parser {
   }
 }
 
-extension Method: ParserPrinter {
+extension Method: Printer {
   public func print(_ output: ()) -> Request? {
     Request(method: self.name)
   }
@@ -111,7 +111,7 @@ where
   }
 }
 
-extension PathComponent: ParserPrinter where ComponentParser: ParserPrinter {
+extension PathComponent: Printer where ComponentParser: Printer {
   public func print(_ output: ComponentParser.Output) -> Request? {
     guard let component = self.componentParser.print(output)
     else { return nil }
@@ -127,7 +127,7 @@ public struct PathEnd: Parser {
   }
 }
 
-extension PathEnd: ParserPrinter {
+extension PathEnd: Printer {
   public func print(_ output: Void) -> Request? {
     .init(path: [])
   }
@@ -166,7 +166,7 @@ where
   }
 }
 
-extension QueryItem: ParserPrinter where ValueParser: ParserPrinter {
+extension QueryItem: Printer where ValueParser: Printer {
   public func print(_ output: ValueParser.Output) -> Request? {
     guard let input = self.valueParser.print(output)
     else { return nil }
@@ -201,7 +201,7 @@ where
   }
 }
 
-extension HeaderField: ParserPrinter where ValueParser: ParserPrinter {
+extension HeaderField: Printer where ValueParser: Printer {
   public func print(_ output: ValueParser.Output) -> Request? {
     guard let input = self.valueParser.print(output)
     else { return nil }
@@ -229,7 +229,7 @@ where
   }
 }
 
-extension Body: ParserPrinter where BodyParser: ParserPrinter {
+extension Body: Printer where BodyParser: Printer {
   public func print(_ output: BodyParser.Output) -> Request? {
     guard let input = self.bodyParser.print(output)
     else { return nil }
