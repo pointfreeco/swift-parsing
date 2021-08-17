@@ -1,4 +1,3 @@
-import Foundation
 /// A parser that always succeeds by returning the provided value, but does not consume any of its
 /// input.
 ///
