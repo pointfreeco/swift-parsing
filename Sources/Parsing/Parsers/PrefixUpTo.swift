@@ -72,3 +72,32 @@ extension PrefixUpTo where Input == Substring.UTF8View {
     self.init(String(possibleMatch)[...].utf8)
   }
 }
+
+extension Parser {
+  @inlinable
+  public static func prefixUpTo<Input>(
+    _ possibleMatch: Input,
+    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool
+  ) -> Self where Self == PrefixUpTo<Input>, Input: Collection, Input.SubSequence == Input {
+    return .init(possibleMatch, by: areEquivalent)
+  }
+  
+  @inlinable
+  public static func prefixUpTo<Input>(_ possibleMatch: Input)
+  -> Self where Self == PrefixUpTo<Input>, Input: Collection, Input.SubSequence == Input, Input.Element: Equatable {
+    return .init(possibleMatch, by: ==)
+  }
+  
+  @inlinable
+  public static func prefixUpTo(_ possibleMatch: String)
+  -> Self where Self == PrefixUpTo<Substring> {
+    return .init(possibleMatch[...])
+  }
+  
+  @inlinable
+  public static func prefixUpTo(_ possibleMatch: String.UTF8View)
+  -> Self where Self == PrefixUpTo<Substring.UTF8View> {
+    return .init(String(possibleMatch)[...].utf8)
+  }
+}
+

@@ -1,3 +1,4 @@
+import Foundation
 /// A parser that always succeeds by returning the provided value, but does not consume any of its
 /// input.
 ///
@@ -9,17 +10,17 @@
 /// ```
 public struct Always<Input, Output>: Parser {
   public let output: Output
-
+  
   @inlinable
   public init(_ output: Output) {
     self.output = output
   }
-
+  
   @inlinable
   public func parse(_ input: inout Input) -> Output? {
     self.output
   }
-
+  
   @inlinable
   public func map<NewOutput>(
     _ transform: @escaping (Output) -> NewOutput
@@ -30,4 +31,11 @@ public struct Always<Input, Output>: Parser {
 
 extension Parsers {
   public typealias Always = Parsing.Always  // NB: Convenience type alias for discovery
+}
+
+extension Parser {
+  @inlinable
+  public static func always<Input, Output>(_ output: Output) -> Self where Self == Always<Input, Output> {
+    return .init(output)
+  }
 }

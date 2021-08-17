@@ -167,3 +167,46 @@ where
 extension Parsers {
   public typealias Prefix = Parsing.Prefix  // NB: Convenience type alias for discovery
 }
+
+extension Parser {
+  @inlinable
+  public static func prefix<Input>(
+    minLength: Int = 0,
+    maxLength: Int? = nil,
+    while predicate: @escaping (Input.Element) -> Bool
+  ) -> Self where Self == Prefix<Input>, Input: Collection, Input.SubSequence == Input {
+    return .init(minLength: minLength, maxLength: maxLength, while: predicate)
+  }
+  
+  @inlinable
+  public static func prefix<Input>(
+    _ length: ClosedRange<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) -> Self where Self == Prefix<Input>, Input: Collection, Input.SubSequence == Input {
+    return .init(length, while: predicate)
+  }
+  
+  @inlinable
+  public static func prefix<Input>(
+    _ length: Int,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) -> Self where Self == Prefix<Input>, Input: Collection, Input.SubSequence == Input {
+    return .init(length, while: predicate)
+  }
+  
+  @inlinable
+  public static func prefix<Input>(
+    _ length: PartialRangeFrom<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) -> Self where Self == Prefix<Input>, Input: Collection, Input.SubSequence == Input {
+    return .init(length, while: predicate)
+  }
+  
+  @inlinable
+  public static func prefix<Input>(
+    _ length: PartialRangeThrough<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) -> Self where Self == Prefix<Input>, Input: Collection, Input.SubSequence == Input {
+    return .init(length, while: predicate)
+  }
+}

@@ -33,3 +33,10 @@ where
 extension Parsers {
   public typealias First = Parsing.First  // NB: Convenience type alias for discovery
 }
+
+extension Parser {
+  @inlinable
+  public static func first<Input>() -> Self where Self == First<Input> {
+    return .init()
+  }
+}

@@ -7,7 +7,7 @@
 public struct End<Input>: Parser where Input: Collection {
   @inlinable
   public init() {}
-
+  
   @inlinable
   public func parse(_ input: inout Input) -> Void? {
     guard input.isEmpty else { return nil }
@@ -17,4 +17,11 @@ public struct End<Input>: Parser where Input: Collection {
 
 extension Parsers {
   public typealias End = Parsing.End  // NB: Convenience type alias for discovery
+}
+
+extension Parser {
+  @inlinable
+  public static func end<Input>() -> Self where Self == End<Input>, Input: Collection {
+    return .init()
+  }
 }

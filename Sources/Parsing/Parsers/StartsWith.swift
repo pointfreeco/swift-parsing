@@ -78,3 +78,27 @@ extension Parsers.StartsWith where Input.Element: Equatable {
 extension Parsers {
   public typealias StartsWith = Parsing.StartsWith  // NB: Convenience type alias for discovery
 }
+
+extension Parser {
+  @inlinable
+  public static func startsWith<Input, PossiblePrefix>(
+    _ possiblePrefix: PossiblePrefix,
+    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool
+  ) -> Self where Self == StartsWith<Input>,
+       Input: Collection, Input.SubSequence == Input,
+       PossiblePrefix: Collection, PossiblePrefix.Element == Input.Element
+  {
+    return .init(possiblePrefix, by: areEquivalent)
+  }
+  
+  @inlinable
+  public static func startsWith<Input, PossiblePrefix>(
+    _ possiblePrefix: PossiblePrefix,
+    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool
+  ) -> Self where Self == StartsWith<Input>,
+       Input: Collection, Input.SubSequence == Input, Input.Element: Equatable,
+       PossiblePrefix: Collection, PossiblePrefix.Element == Input.Element
+  {
+    return .init(possiblePrefix, by: ==)
+  }
+}

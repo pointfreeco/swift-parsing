@@ -24,3 +24,11 @@ where
 extension Parsers {
   public typealias Whitespace = Parsing.Whitespace  // NB: Convenience type alias for discovery
 }
+
+extension Parser {
+  @inlinable
+  public static func whiteSpace<Input>()
+  -> Self where Self == Whitespace<Input>, Input: Collection, Input.SubSequence == Input, Input.Element == UTF8.CodeUnit {
+    return .init()
+  }
+}

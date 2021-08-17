@@ -26,3 +26,11 @@ where
 extension Parsers {
   public typealias Newline = Parsing.Newline  // NB: Convenience type alias for discovery
 }
+
+extension Parser {
+  @inlinable
+  public static func newLine<Input>()
+  -> Self where Self == Newline<Input>, Input: Collection, Input.SubSequence == Input, Input.Element == UTF8.CodeUnit {
+    return .init()
+  }
+}

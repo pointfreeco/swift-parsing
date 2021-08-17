@@ -21,3 +21,11 @@ where
 extension Parsers {
   public typealias FirstWhere = Parsing.FirstWhere  // NB: Convenience type alias for discovery
 }
+
+extension Parser {
+  @inlinable
+  public static func firstWhere<Input>(_ predicate: @escaping (Input.Element) -> Bool)
+  -> Self where Self == FirstWhere<Input>, Input: Collection, Input.SubSequence == Input {
+    return .init(predicate)
+  }
+}

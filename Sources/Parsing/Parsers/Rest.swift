@@ -18,3 +18,10 @@ where
 extension Parsers {
   public typealias Rest = Parsing.Rest  // NB: Convenience type alias for discovery
 }
+
+extension Parser {
+  @inlinable
+  public static func rest<Input>() -> Self where Self == Rest<Input>, Input: Collection, Input.SubSequence == Input {
+    return .init()
+  }
+}
