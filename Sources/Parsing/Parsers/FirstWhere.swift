@@ -1,3 +1,4 @@
+@availability(*, deprecated, message: "Use 'First().filter(predicate) instead")
 public struct FirstWhere<Input>: Parser
 where
   Input: Collection,
