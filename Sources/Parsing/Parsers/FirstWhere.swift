@@ -1,4 +1,4 @@
-@availability(*, deprecated, message: "Use 'First().filter(predicate) instead")
+@available(*, deprecated, message: "Use 'First().filter(predicate) instead")
 public struct FirstWhere<Input>: Parser
 where
   Input: Collection,
@@ -19,7 +19,7 @@ where
   }
 }
 
-@availability(*, deprecated, message: "Use 'First().filter(predicate) instead")
+@available(*, deprecated, message: "Use 'First().filter(predicate) instead")
 extension Parsers {
   public typealias FirstWhere = Parsing.FirstWhere  // NB: Convenience type alias for discovery
 }
