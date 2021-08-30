@@ -11,10 +11,11 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout Input) -> Input.Element? {
-    guard let first = input.first, self.predicate(first) else { return nil }
+  public func parse(_ input: inout Input) -> Input? {
+      let firstOfCollection = input.prefix(1)
+      guard let firstElement = input.first, self.predicate(firstElement) else { return nil }
     input.removeFirst()
-    return first
+      return firstOfCollection
   }
 }
 
