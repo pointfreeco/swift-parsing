@@ -150,10 +150,10 @@ where
   public func parse(_ input: inout Input) -> Input? {
     if let predicate = self.predicate {
       let prefix = input.prefix(while: predicate)
-      let count = prefix.count
-      guard count >= self.minLength, self.maxLength.map({ count <= $0 }) ?? true else { return nil }
+      let count = maxLength.map { min($0, prefix.count) } ?? prefix.count
+      guard count >= self.minLength else { return nil }
       input.removeFirst(count)
-      return prefix
+      return prefix.prefix(count)
     } else {
       let prefix = self.maxLength.map(input.prefix) ?? input
       let count = prefix.count
