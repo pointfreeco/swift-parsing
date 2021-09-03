@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
     branches:
-      - '*'
+      - "*"
 
 jobs:
   macos_tests:
@@ -27,6 +27,20 @@ jobs:
         run: system_profiler SPHardwareDataType
       - name: Run ${{ matrix.command }}
         run: make ${{ matrix.command }}
+
+  ubuntu_tests:
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: swift build
+      - name: Run tests
+        run: swift test
 
   windows_tests:
     runs-on: windows-2019
