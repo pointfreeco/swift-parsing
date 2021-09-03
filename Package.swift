@@ -8,10 +8,10 @@ let package = Package(
     .library(
       name: "Parsing",
       targets: ["Parsing"]
-    )
+    ),
   ],
   dependencies: [
-    .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark", from: "0.1.0")
+    .package(name: "Benchmark", url: "https://github.com/MaxDesiatov/swift-benchmark", .branch("swift-5.4-windows")),
   ],
   targets: [
     .target(
