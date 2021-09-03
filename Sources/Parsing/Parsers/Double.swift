@@ -290,11 +290,3 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
     return original[..<self.startIndex]
   }
 }
-
-#if os(Windows)
-  @usableFromInline
-  let cLocale: locale_t? = _create_locale(LC_ALL, "C")
-#else
-  @usableFromInline
-  let cLocale: locale_t? = nil
-#endif
