@@ -54,6 +54,6 @@ jobs:
           Copy-Item "$env:SDKROOT\usr\share\winsdk.modulemap" -destination "$env:UniversalCRTSdkDir\Include\$env:UCRTVersion\um\module.modulemap"
 
       - name: Build
-        run: swift build
+        run: swift build --target Parsing
       - name: Run tests
         run: swift test
