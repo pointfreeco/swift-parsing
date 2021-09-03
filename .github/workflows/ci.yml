@@ -9,7 +9,7 @@ on:
       - '*'
 
 jobs:
-  tests:
+  macos_tests:
     runs-on: macOS-latest
     strategy:
       matrix:
@@ -28,7 +28,7 @@ jobs:
       - name: Run ${{ matrix.command }}
         run: make ${{ matrix.command }}
 
-  windows_build:
+  windows_tests:
     runs-on: windows-2019
 
     steps:
