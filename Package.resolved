@@ -6,16 +6,16 @@
         "repositoryURL": "https://github.com/apple/swift-argument-parser",
         "state": {
           "branch": null,
-          "revision": "83b23d940471b313427da226196661856f6ba3e0",
-          "version": "0.4.4"
+          "revision": "6b2aa2748a7881eebb9f84fb10c01293e15b52ca",
+          "version": "0.5.0"
         }
       },
       {
         "package": "Benchmark",
-        "repositoryURL": "https://github.com/MaxDesiatov/swift-benchmark",
+        "repositoryURL": "https://github.com/google/swift-benchmark",
         "state": {
-          "branch": "swift-5.4-windows",
-          "revision": "eb8039c621fbcee725105d045db7aa11d832edd3",
+          "branch": "main",
+          "revision": "a0564bf88df5f94eec81348a2f089494c6b28d80",
           "version": null
         }
       }

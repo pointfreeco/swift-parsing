@@ -11,7 +11,7 @@ let package = Package(
     ),
   ],
   dependencies: [
-    .package(name: "Benchmark", url: "https://github.com/MaxDesiatov/swift-benchmark", .branch("swift-5.4-windows")),
+    .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark", .branch("main")),
   ],
   targets: [
     .target(
