@@ -11,7 +11,7 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark",  from: "0.1.1")
+    .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark", from: "0.1.1")
   ],
   targets: [
     .target(
