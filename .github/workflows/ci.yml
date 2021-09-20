@@ -9,13 +9,15 @@ on:
       - '*'
 
 jobs:
-  tests:
-    runs-on: macOS-latest
+  macos_tests:
+    runs-on: macos-11
     strategy:
       matrix:
         xcode:
-          - 11.7
-          - 12.3
+          - "11.7" # Latest Xcode with Swift 5.2
+          - "12.4" # Swift 5.3
+          - "12.5" # Swift 5.4
+          - "13.0" # Swift 5.5
         command:
           - test
           - benchmarks
@@ -27,3 +29,24 @@ jobs:
         run: system_profiler SPHardwareDataType
       - name: Run ${{ matrix.command }}
         run: make ${{ matrix.command }}
+
+  ubuntu_tests:
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        run: swift build
+      - name: Run tests
+        run: swift test
+
+  windows_tests:
+    runs-on: windows-2019
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: MaxDesiatov/swift-windows-action@v1
