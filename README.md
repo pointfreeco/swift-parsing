@@ -25,7 +25,7 @@ A library for turning nebulous data into well-structured data, with a focus on c
 This library was designed over the course of many [episodes](https://www.pointfree.co/collections/parsing) on [Point-Free](https://www.pointfree.co), a video series exploring functional programming and the Swift language, hosted by [Brandon Williams](https://twitter.com/mbrandonw) and [Stephen Celis](https://twitter.com/stephencelis). You can watch all of the episodes [here](https://www.pointfree.co/collections/parsing).
 
 <a href="https://www.pointfree.co/collections/parsing">
-  <img alt="video poster image" src="https://i.vimeocdn.com/video/1000228065.jpg" width="600">
+  <img alt="video poster image" src="https://d3rccdn33rt8ze.cloudfront.net/episodes/0126.jpeg" width="600">
 </a>
 
 ## Motivation
