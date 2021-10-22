@@ -3,7 +3,7 @@ import Foundation
 import Parsing
 
 /*
- This benchmark demonstrates how the numeric parsers in the libary compare to Apple's tools, such
+ This benchmark demonstrates how the numeric parsers in the library compare to Apple's tools, such
  as initializers and `Scanner`.
 
      Numerics.Int.init                                   37.000 ns ± 713.10 %    1000000

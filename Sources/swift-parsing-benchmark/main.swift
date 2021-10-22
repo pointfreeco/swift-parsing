@@ -18,6 +18,7 @@ Benchmark.main(
     readmeExampleSuite,
     routingSuite,
     stringAbstractionsSuite,
+    uuidSuite,
     xcodeLogsSuite,
   ]
 )
