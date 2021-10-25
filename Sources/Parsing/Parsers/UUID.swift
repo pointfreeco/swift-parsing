@@ -119,12 +119,6 @@ extension Parsers {
           _10, _11, _12, _13, _14, _15
         )
       )
-
-//      let prefix = input.prefix(36)
-//      guard let uuid = UUID(uuidString: String(decoding: prefix, as: UTF8.self))
-//      else { return nil }
-//      input.removeFirst(36)
-//      return uuid
     }
   }
 
