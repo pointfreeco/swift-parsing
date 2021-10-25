@@ -351,6 +351,8 @@ README Example.Adhoc                              7952.000 ns ±  60.09 %     16
 Routing.Parser                                    5362.000 ns ±  65.88 %     241853
 String Abstractions.Substring                  1102496.000 ns ±  11.32 %       1227
 String Abstractions.UTF8                        144420.000 ns ±  22.45 %       8905
+UUID.UUID.init                                     392.000 ns ± 256.71 %    1000000
+UUID.UUIDParser                                    154.000 ns ± 412.07 %    1000000
 Xcode Logs.Parser                              7369318.000 ns ±   5.83 %        190
 ```
 
