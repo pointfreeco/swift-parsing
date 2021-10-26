@@ -5,17 +5,24 @@ private struct Color: Equatable {
   let red, green, blue: UInt8
 }
 
-private typealias Input = Slice<UnsafeBufferPointer<UInt8>>
+private typealias Input = Substring
 private typealias Output = Color
 
-private let hexPrimary = Prefix<Input>(2)
-  .pipe(UInt8.parser(isSigned: false, radix: 16).skip(End()))
 
-private let hexColor = StartsWith("#".utf8)
-  .take(hexPrimary)
-  .take(hexPrimary)
-  .take(hexPrimary)
-  .map(Color.init)
+
+private let hexPrimary = Prefix<Input>(2)
+  .pipe {
+    UInt8.parser(isSigned: false, radix: 16)
+    End<Input>()
+  }
+
+private let hexColor = build {
+  "#"
+  hexPrimary
+  hexPrimary
+  hexPrimary
+}
+.map(Color.init)
 
 let colorSuite = BenchmarkSuite(name: "Color") { suite in
   let input = "#FF0000"

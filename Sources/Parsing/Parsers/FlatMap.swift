@@ -13,6 +13,13 @@ extension Parser {
   ) -> Parsers.FlatMap<NewParser, Self> {
     .init(upstream: self, transform: transform)
   }
+
+  @inlinable
+  public func flatMap<NewParser>(
+    @ParserBuilder build: @escaping (Output) -> NewParser
+  ) -> Parsers.FlatMap<NewParser, Self> {
+    .init(upstream: self, transform: build)
+  }
 }
 
 extension Parsers {

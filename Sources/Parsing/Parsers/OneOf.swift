@@ -48,6 +48,8 @@ public struct OneOfMany<Upstream>: Parser where Upstream: Parser {
   }
 }
 
+public typealias OneOf = Parsers.OneOf
+
 extension Parsers {
   /// A parser that runs the first parser and, if it fails, runs the second parser.
   ///
@@ -79,4 +81,46 @@ extension Parsers {
   }
 
   public typealias OneOfMany = Parsing.OneOfMany  // NB: Convenience type alias for discovery
+}
+
+public struct _OneOf<P>: Parser where P: Parser {
+  public let parser: P
+
+  public init(_ parser: P) {
+    self.parser = parser
+  }
+
+  public init<A, B>(@ParserBuilder build: () -> OneOf<A, B>) where P == OneOf<A, B> {
+    self.parser = build()
+  }
+
+  public init<A, B, C>(@ParserBuilder build: () -> OneOf3<A, B, C>) where P == OneOf3<A, B, C> {
+    self.parser = build()
+  }
+
+  public func parse(_ input: inout P.Input) -> P.Output? {
+    self.parser.parse(&input)
+  }
+}
+
+public struct OneOf3<P1, P2, P3>: Parser
+where P1: Parser, P2: Parser, P3: Parser,
+        P1.Input == P2.Input, P2.Input == P3.Input,
+      P1.Output == P2.Output, P2.Output == P3.Output{
+  public let p1: P1
+  public let p2: P2
+  public let p3: P3
+
+  public init(_ p1: P1, _ p2: P2, _ p3: P3) {
+    self.p1 = p1
+    self.p2 = p2
+    self.p3 = p3
+  }
+
+  public func parse(_ input: inout P1.Input) -> P1.Output? {
+    if let output = self.p1.parse(&input) { return output }
+    if let output = self.p2.parse(&input) { return output }
+    if let output = self.p3.parse(&input) { return output }
+    return nil
+  }
 }

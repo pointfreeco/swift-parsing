@@ -18,21 +18,25 @@ public enum Conditional<First, Second>: Parser
 where
   First: Parser,
   Second: Parser,
-  First.Input == Second.Input,
-  First.Output == Second.Output
+  First.Input == Second.Input
 {
   case first(First)
   case second(Second)
 
   @inlinable
-  public func parse(_ input: inout First.Input) -> First.Output? {
+  public func parse(_ input: inout First.Input) -> Either<First.Output, Second.Output>? {
     switch self {
     case let .first(first):
-      return first.parse(&input)
+      return first.parse(&input).map(Either.first)
     case let .second(second):
-      return second.parse(&input)
+      return second.parse(&input).map(Either.second)
     }
   }
+}
+
+public enum Either<First, Second> {
+  case first(First)
+  case second(Second)
 }
 
 extension Parsers {

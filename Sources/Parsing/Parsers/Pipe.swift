@@ -8,6 +8,11 @@ extension Parser {
   public func pipe<Downstream>(_ downstream: Downstream) -> Parsers.Pipe<Self, Downstream> {
     .init(upstream: self, downstream: downstream)
   }
+
+  @inlinable
+  public func pipe<Downstream>(@ParserBuilder _ downstream: () -> Downstream) -> Parsers.Pipe<Self, Downstream> {
+    .init(upstream: self, downstream: downstream())
+  }
 }
 
 extension Parsers {

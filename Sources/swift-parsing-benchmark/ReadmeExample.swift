@@ -102,7 +102,7 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
           else { break }
 
           output.append(User(id: id, name: name, isAdmin: isAdmin))
-          _ = scanner.scanString("\n")
+          guard let _ = scanner.scanString("\n") else { break }
         }
       },
       tearDown: {
