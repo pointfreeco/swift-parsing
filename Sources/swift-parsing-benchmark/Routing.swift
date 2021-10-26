@@ -3,6 +3,76 @@ import Foundation
 import Parsing
 
 /*
+
+ let home = Method.get
+   .skip(PathEnd())
+   .map(/Route.home)
+
+ {
+   Method.get()
+   PathEnd()
+ }
+ .map(/Route.home)
+
+ Routing(/Route.home) {
+   Method.get()
+   PathEnd()
+ }
+
+ Sequence {
+
+ }
+ Take {
+
+ }
+ Parse {
+
+ }
+ 
+
+ let episodes = Method.get
+   .skip(PathComponent("episodes"))
+   .skip(PathEnd())
+   .take(Optional.parser(of: QueryItem("limit", Int.parser(isSigned: false))))
+   .take(Optional.parser(of: QueryItem("offset", Int.parser(isSigned: false))))
+   .map(/Route.episodes)
+
+ let episode = Method.get
+   .skip(PathComponent("episodes"))
+   .take(PathComponent(Int.parser(isSigned: false)))
+   .skip(PathEnd())
+   .map(/Route.episode)
+
+ let search = Method.get
+   .skip(PathComponent("search"))
+   .skip(PathEnd())
+   .take(QueryItem("q"))
+   .map(/Route.search)
+
+ let signUp = Method.post
+   .skip(PathComponent("sign-up"))
+   .skip(PathEnd())
+   .take(Body(User.fromJSON))
+   .map(/Route.signUp)
+
+ let router = OneOf {
+   home
+   episodes
+   search
+   signUp
+ }
+
+ let router = home
+   .orElse(episodes)
+   .orElse(episode)
+   .orElse(search)
+   .orElse(signUp)
+
+
+ */
+
+
+/*
  This benchmark demonstrates how you can build a URL request router that can transform an input
  request into a more well-structured data type, such as an enum. We build a router that can
  recognize one of 5 routes for a website.

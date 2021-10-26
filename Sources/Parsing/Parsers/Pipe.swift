@@ -37,6 +37,15 @@ extension Parsers {
     }
 
     @inlinable
+    public init(
+      @ParserBuilder upstream: () -> Upstream,
+      @ParserBuilder into downstream: () -> Downstream
+    ) {
+      self.upstream = upstream()
+      self.downstream = downstream()
+    }
+
+    @inlinable
     public func parse(_ input: inout Upstream.Input) -> Downstream.Output? {
       let original = input
 

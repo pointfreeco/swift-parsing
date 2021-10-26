@@ -73,6 +73,31 @@ private let race = locationName.map { String(decoding: $0, as: UTF8.self) }
   .take(Many(coord, separator: StartsWith("\n".utf8)))
   .map(Race.init(location:entranceFee:path:))
 
+/*
+
+ Map(
+   Race.init(location:entranceFee:path:),
+ ) over {
+   locationName
+   ","
+   zeroOrMoreSpaces
+   money
+   "\n"
+   Many(coord, separator: { "\n" })
+ }
+
+ Group {
+   locationName
+   ","
+   zeroOrMoreSpaces
+   money
+   "\n"
+   Many(coord, separator: { "\n" })
+ }
+ .map(Race.init(location:entranceFee:path:))
+
+ */
+
 private let races = Many(race, separator: StartsWith("\n---\n".utf8))
 
 // MARK: - Benchmarks

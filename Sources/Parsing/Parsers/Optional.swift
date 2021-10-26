@@ -26,8 +26,15 @@ extension Parsers {
     }
 
     @inlinable
+    public init(@ParserBuilder build: () -> Upstream) {
+      self.upstream = build()
+    }
+
+    @inlinable
     public func parse(_ input: inout Upstream.Input) -> Upstream.Output?? {
       .some(self.upstream.parse(&input))
     }
   }
 }
+
+public typealias Optionally = Parsers.OptionalParser

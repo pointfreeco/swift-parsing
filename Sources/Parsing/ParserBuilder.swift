@@ -39,8 +39,22 @@ public enum ParserBuilder {
   }
 }
 
-public func build<P: Parser>(@ParserBuilder build: () -> P) -> P {
-  build()
+extension Parser {
+  init(@ParserBuilder build: () -> Self) {
+    self = build()
+  }
+}
+
+public struct Parse<Upstream: Parser>: Parser {
+  public let upstream: Upstream
+
+  init(@ParserBuilder build: () -> Upstream) {
+    self.upstream = build()
+  }
+
+  public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
+    self.upstream.parse(&input)
+  }
 }
 
 func f() {
@@ -62,11 +76,41 @@ func f() {
     "world"
     "or not"
   }
-  let x = build {
-    _OneOf {
-      Int.parser(of: Substring.self)
-      Int.parser()
+
+  let m = Parse {
+    Optionally {
+      "hello"
+    } // -> Match(matched(Value)|missed)
+    .ignoreOutput()
+    "world"
+
+    Parsers.Pipe {
+      Prefix<Substring>(2)
+    } into: {
+      UInt8.parser(isSigned: false, radix: 16)
+      End<Substring>()
     }
-    Bool.parser()
   }
+
+//  let x = build {
+//    _OneOf {
+//      Int.parser(of: Substring.self)
+//      Int.parser()
+//    }
+//    Bool.parser()
+//  }
+
+//  let hexPrimary = Prefix<Input>(2)
+//    .pipe {
+//      UInt8.parser(isSigned: false, radix: 16)
+//      End<Input>()
+//    }
+//
+//  let hexColor = build {
+//    "#"
+//    hexPrimary
+//    hexPrimary
+//    hexPrimary
+//  }
+
 }
