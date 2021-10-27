@@ -8,32 +8,6 @@ import Parsing
  recognize one of 5 routes for a website.
  */
 
-private struct Routing<P, R>: Parser
-where
-P: Parser,
-P.Input == RequestData
-{
-  let parser: Parsers.SkipSecond<Parsers.Map<P, R>, End>
-
-  init(
-    _ transform: @escaping (P.Output) -> R,
-    @ParserBuilder build: () -> P
-  )  {
-    self.parser = build().map(transform).skip(End())
-  }
-
-  init(
-    _ constant: R,
-    @ParserBuilder build: () -> P
-  ) where P.Output == Void {
-    self.parser = build().map { _ in constant }.skip(End())
-  }
-
-  func parse(_ input: inout P.Input) -> R? {
-    self.parser.parse(&input)
-  }
-}
-
 let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   enum Route: Equatable {
     case home
@@ -122,6 +96,32 @@ private struct RequestData {
   var method: String?
   var pathComponents: ArraySlice<Substring.UTF8View> = []
   var queryItems: [(String, Substring.UTF8View)] = []
+}
+
+private struct Routing<RouteParser, Route>: Parser
+where
+  RouteParser: Parser,
+  RouteParser.Input == RequestData
+{
+  let parser: Parsers.SkipSecond<Parsers.Map<RouteParser, Route>, End>
+
+  init(
+    _ transform: @escaping (RouteParser.Output) -> Route,
+    @ParserBuilder build: () -> RouteParser
+  )  {
+    self.parser = build().map(transform).skip(End())
+  }
+
+  init(
+    _ route: Route,
+    @ParserBuilder build: () -> RouteParser
+  ) where RouteParser.Output == Void {
+    self.parser = build().map { route }.skip(End())
+  }
+
+  func parse(_ input: inout RouteParser.Input) -> Route? {
+    self.parser.parse(&input)
+  }
 }
 
 private struct Method: Parser {
