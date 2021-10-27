@@ -32,7 +32,7 @@ private func isToken(_ c: UTF8.CodeUnit) -> Bool {
     .init(ascii: #","#),
     .init(ascii: #";"#),
     .init(ascii: #":"#),
-    .init(ascii: #"\"#),
+    .init(ascii: "\\"),
     .init(ascii: #"'"#),
     .init(ascii: #"/"#),
     .init(ascii: #"["#),
@@ -66,8 +66,10 @@ private func isVersion(_ c: UTF8.CodeUnit) -> Bool {
     || c == .init(ascii: ".")
 }
 
-private typealias Input = Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
+private typealias Input = Substring.UTF8View
 private typealias Output = (Request, [Header])
+
+// MARK: - Parsers
 
 private let method = Prefix<Input>(while: isToken)
   .map { String(decoding: $0, as: UTF8.self) }
@@ -75,34 +77,47 @@ private let method = Prefix<Input>(while: isToken)
 private let uri = Prefix<Input>(while: isNotSpace)
   .map { String(decoding: $0, as: UTF8.self) }
 
-private let httpVersion = StartsWith<Input>("HTTP/".utf8)
-  .take(Prefix(while: isVersion))
-  .map { String(decoding: $0, as: UTF8.self) }
+private let httpVersion = Parse {
+  "HTTP/".utf8
+  Prefix<Input>(while: isVersion)
+}
+.map { String(decoding: $0, as: UTF8.self) }
 
-private let requestLine =
+private let requestLine = Parse {
   method
-  .skip(StartsWith(" ".utf8))
-  .take(uri)
-  .skip(StartsWith(" ".utf8))
-  .take(httpVersion)
-  .skip(Newline())
-  .map(Request.init)
+  " ".utf8
+  uri
+  " ".utf8
+  httpVersion
+  Newline()
+}
+.map(Request.init(method:uri:version:))
 
-private let headerValue = StartsWith<Input>(" ".utf8).orElse(StartsWith("\t".utf8))
-  .skip(Prefix(while: isHorizontalSpace))
-  .take(
-    Prefix(while: notLineEnding)
-      .map { String(decoding: $0, as: UTF8.self) }
-  )
-  .skip(Newline())
+private let headerValue = Parse {
+  OneOf {
+    " ".utf8
+    "\t".utf8
+  }
+  Prefix<Input>(while: isHorizontalSpace).ignoreOutput()
+  Prefix<Input>(while: notLineEnding).map { String(decoding: $0, as: UTF8.self) }
+  Newline().ignoreOutput()
+}
 
-private let header = Prefix(while: isToken)
-  .map { String(decoding: $0, as: UTF8.self) }
-  .skip(StartsWith(":".utf8))
-  .take(Many(headerValue))
-  .map(Header.init)
+private let header = Parse {
+  Prefix<Input>(while: isToken).map { String(decoding: $0, as: UTF8.self) }
+  ":".utf8
+  Many {
+    headerValue
+  }
+}
+.map(Header.init)
 
-private let request = requestLine.take(Many(header))
+private let request = Parse {
+  requestLine
+  Many {
+    header
+  }
+}
 
 let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
   let input = """

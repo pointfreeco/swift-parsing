@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.5
 
 import PackageDescription
 
@@ -11,7 +11,8 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark", from: "0.1.1")
+    .package(url: "https://github.com/apple/swift-argument-parser", from: "0.5.0"),
+    .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark", from: "0.1.1"),
   ],
   targets: [
     .target(
@@ -21,11 +22,17 @@ let package = Package(
       name: "ParsingTests",
       dependencies: ["Parsing"]
     ),
-    .target(
+    .executableTarget(
       name: "swift-parsing-benchmark",
       dependencies: [
         "Parsing",
         .product(name: "Benchmark", package: "Benchmark"),
+      ]
+    ),
+    .executableTarget(
+      name: "variadics-generator",
+      dependencies: [
+        .product(name: "ArgumentParser", package: "swift-argument-parser"),
       ]
     ),
   ]

@@ -9,6 +9,12 @@ public struct End<Input>: Parser where Input: Collection {
   public init() {}
 
   @inlinable
+  public init() where Input == Substring {}
+
+  @inlinable
+  public init() where Input == Substring.UTF8View {}
+
+  @inlinable
   public func parse(_ input: inout Input) -> Void? {
     guard input.isEmpty else { return nil }
     return ()

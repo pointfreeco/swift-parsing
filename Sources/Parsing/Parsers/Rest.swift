@@ -8,6 +8,12 @@ where
   public init() {}
 
   @inlinable
+  public init() where Input == Substring {}
+
+  @inlinable
+  public init() where Input == Substring.UTF8View {}
+
+  @inlinable
   public func parse(_ input: inout Input) -> Input? {
     let output = input
     input.removeFirst(input.count)

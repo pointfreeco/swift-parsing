@@ -22,4 +22,7 @@ format:
 	swift format --in-place --recursive \
 		./Package.swift ./Sources ./Tests
 
-.PHONY: format test-all test-swift test-workspace
+generate-variadics:
+	swift run variadics-generator > Sources/Parsing/ParserBuilder/Variadics.swift
+
+.PHONY: format generate-variadics test-all test-swift test-workspace

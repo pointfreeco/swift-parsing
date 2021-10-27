@@ -25,6 +25,14 @@ extension FixedWidthInteger {
     .init(isSigned: isSigned, radix: radix)
   }
 
+  @inlinable
+  public static func parser(
+    isSigned: Bool = true,
+    radix: Self = 10
+  ) -> Parsers.IntParser<Substring.UTF8View, Self> {
+    .init(isSigned: isSigned, radix: radix)
+  }
+
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
   /// beginning of a substring.
   ///
