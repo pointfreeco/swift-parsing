@@ -13,4 +13,24 @@ final class FilterTests: XCTestCase {
     XCTAssertEqual(nil, Int.parser().filter { $0.isMultiple(of: 2) }.parse(&input))
     XCTAssertEqual("43 Hello, world!", Substring(input))
   }
+
+  func testOverloadArray() {
+    let array = [1].filter { _ in true }
+    XCTAssert(type(of: array) == Array<Int>.self)
+  }
+
+  func testOverloadString() {
+    let array = "abc".filter { _ in true }
+    XCTAssert(type(of: array) == String.self)
+  }
+
+  func testOverloadUnicodeScalars() {
+    let array = "abc".unicodeScalars.filter { _ in true }
+    XCTAssert(type(of: array) == String.UnicodeScalarView.self)
+  }
+
+  func testOverloadUTF8View() {
+    let array = "abc".utf8.filter { _ in true }
+    XCTAssert(type(of: array) == [String.UTF8View.Element].self)
+  }
 }
