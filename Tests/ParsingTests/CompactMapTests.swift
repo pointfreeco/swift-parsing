@@ -19,4 +19,24 @@ final class CompactMapTests: XCTestCase {
     )
     XCTAssertEqual("ERRORS", Substring(input))
   }
+
+  func testOverloadArray() {
+    let array = [1].compactMap { "\($0)" }
+    XCTAssert(type(of: array) == Array<String>.self)
+  }
+
+  func testOverloadString() {
+    let array = "abc".compactMap { "\($0)" }
+    XCTAssert(type(of: array) == Array<String>.self)
+  }
+
+  func testOverloadUnicodeScalars() {
+    let array = "abc".unicodeScalars.compactMap { "\($0)" }
+    XCTAssert(type(of: array) == Array<String>.self)
+  }
+
+  func testOverloadUTF8View() {
+    let array = "abc".utf8.compactMap { "\($0)" }
+    XCTAssert(type(of: array) == Array<String>.self)
+  }
 }

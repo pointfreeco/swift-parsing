@@ -7,6 +7,7 @@ extension Parser {
   /// - Parameter transform: A closure that transforms values of this parser's output and returns a
   ///   new parser.
   /// - Returns: A parser that transforms output from an upstream parser into a new parser.
+//  @_disfavoredOverload
   @inlinable
   public func flatMap<NewParser>(
     _ transform: @escaping (Output) -> NewParser
