@@ -97,7 +97,7 @@ We can start by describing what it means to parse a single row, first by parsing
 
 ```swift
 let user = Int.parser()
-  .skip(StartsWith(","))
+  .skip(",")
 ```
 
 Already this can consume the beginning of the input:
@@ -111,9 +111,9 @@ Next we want to take everything up until the next comma for the user's name, and
 
 ```swift
 let user = Int.parser()
-  .skip(StartsWith(","))
+  .skip(",")
   .take(Prefix { $0 != "," })
-  .skip(StartsWith(","))
+  .skip(",")
 ```
 
 Here the `.take` operator has combined parsed values together into a tuple, `(Int, Substring)`.
@@ -122,9 +122,9 @@ And then we want to take the boolean at the end of the row for the user's admin 
 
 ```swift
 let user = Int.parser()
-  .skip(StartsWith(","))
+  .skip(",")
   .take(Prefix { $0 != "," })
-  .skip(StartsWith(","))
+  .skip(",")
   .take(Bool.parser())
 ```
 
@@ -132,9 +132,9 @@ Currently this will parse a tuple `(Int, Substring, Bool)` from the input, and w
 
 ```swift
 let user = Int.parser()
-  .skip(StartsWith(","))
+  .skip(",")
   .take(Prefix { $0 != "," })
-  .skip(StartsWith(","))
+  .skip(",")
   .take(Bool.parser())
   .map { User(id: $0, name: String($1), isAdmin: $2) }
 ```
@@ -149,7 +149,7 @@ input // => "\n2,Blob Jr.,false\n3,Blob Sr.,true"
 To parse multiple users from the input we can use the `Many` parser:
 
 ```swift
-let users = Many(user, separator: StartsWith("\n"))
+let users = Many(user, separator: "\n")
 
 users.parse(&input) // => [User(id: 1, name: "Blob", isAdmin: true), ...]
 input // => ""

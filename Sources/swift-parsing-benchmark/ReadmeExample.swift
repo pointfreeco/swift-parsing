@@ -23,12 +23,12 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
 
   do {
     let user = Int.parser()
-      .skip(StartsWith(","))
+      .skip(",")
       .take(Prefix { $0 != "," })
-      .skip(StartsWith(","))
+      .skip(",")
       .take(Bool.parser())
       .map { User(id: $0, name: String($1), isAdmin: $2) }
-    let users = Many(user, separator: StartsWith("\n"))
+    let users = Many(user, separator: "\n")
 
     suite.benchmark(
       name: "Parser: Substring",
@@ -44,12 +44,12 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
 
   do {
     let user = Int.parser(of: Substring.UTF8View.self)
-      .skip(StartsWith(","[...].utf8))
+      .skip(",".utf8)
       .take(Prefix { $0 != .init(ascii: ",") })
-      .skip(StartsWith(","[...].utf8))
+      .skip(",".utf8)
       .take(Bool.parser())
       .map { User(id: $0, name: String(Substring($1)), isAdmin: $2) }
-    let users = Many(user, separator: StartsWith("\n"[...].utf8))
+    let users = Many(user, separator: "\n".utf8)
 
     suite.benchmark(
       name: "Parser: UTF8",
