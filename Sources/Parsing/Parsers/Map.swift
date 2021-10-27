@@ -6,6 +6,7 @@ extension Parser {
   ///
   /// - Parameter transform: A closure that transforms values of this parser's output.
   /// - Returns: A parser of transformed outputs.
+  @_disfavoredOverload
   @inlinable
   public func map<NewOutput>(
     _ transform: @escaping (Output) -> NewOutput
