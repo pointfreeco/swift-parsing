@@ -38,6 +38,12 @@ public struct AnyParser<Input, Output>: Parser {
     self.init(parser.parse)
   }
 
+  @inlinable
+  public init<P>(@ParserBuilder build: () -> P)
+  where P: Parser, P.Input == Input, P.Output == Output {
+    self.init(build().parse)
+  }
+
   /// Creates a parser that wraps the given closure in its ``parse(_:)`` method.
   ///
   /// - Parameter parse: A closure that attempts to parse an output from an input. `parse` is

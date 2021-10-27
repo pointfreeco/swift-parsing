@@ -9,6 +9,9 @@ where
   public init() {}
 
   @inlinable
+  public init() where Input == Substring.UTF8View {}
+
+  @inlinable
   public func parse(_ input: inout Input) -> Input? {
     let output = input.prefix(while: { (byte: UTF8.CodeUnit) in
       byte == .init(ascii: " ")

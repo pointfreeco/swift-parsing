@@ -41,6 +41,11 @@ public struct Skip<Upstream>: Parser where Upstream: Parser {
   }
 
   @inlinable
+  public init(@ParserBuilder build: () -> Upstream) {
+    self.upstream = build()
+  }
+
+  @inlinable
   public func parse(_ input: inout Upstream.Input) -> Void? {
     guard self.upstream.parse(&input) != nil else { return nil }
     return ()

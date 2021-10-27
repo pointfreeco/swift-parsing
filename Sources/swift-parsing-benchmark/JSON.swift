@@ -23,53 +23,72 @@ private enum JSON: Equatable {
   case string(String)
 }
 
-private typealias Input = Slice<UnsafeBufferPointer<UInt8>>
+private typealias Input = Substring.UTF8View
 
 private var json: AnyParser<Input, JSON> {
-  Skip(Whitespace())
-    .take(
+  AnyParser {
+    Skip {
+      Whitespace()
+    }
+
+    OneOf {
       object
-        .orElse(array)
-        .orElse(string)
-        .orElse(number)
-        .orElse(boolean)
-        .orElse(null)
-    )
-    .skip(Whitespace())
-    .eraseToAnyParser()
+      array
+      string
+      number
+      boolean
+      null
+    }
+
+    Skip {
+      Whitespace()
+    }
+  }
 }
 
 // MARK: Object
 
-private let object = Skip(StartsWith("{".utf8))
-  .take(
-    Many(
-      Skip(Whitespace())
-        .take(stringLiteral)
-        .skip(Whitespace())
-        .skip(StartsWith(":".utf8))
-        .take(Lazy { json }),
-      into: [:],
-      separator: StartsWith(",".utf8).skip(Whitespace())
-    ) { object, pair in
-      let (name, value) = pair
-      object[name] = value
+private let object = Parse {
+  "{".utf8
+  Many(into: [String: JSON]()) {
+    Skip {
+      Whitespace()
     }
-  )
-  .skip(StartsWith("}".utf8))
-  .map(JSON.object)
+    stringLiteral
+    Skip {
+      Whitespace()
+    }
+    ":".utf8
+    Lazy {
+      json
+    }
+  } separatedBy: {
+    ",".utf8
+    Skip {
+      Whitespace()
+    }
+  } do: { object, pair in
+    let (name, value) = pair
+    object[name] = value
+  }
+  "}".utf8
+}
+.map(JSON.object)
 
 // MARK: Array
 
-private let array = StartsWith("[".utf8)
-  .take(
-    Many(
-      Lazy { json },
-      separator: StartsWith(",".utf8)
-    )
-  )
-  .skip(StartsWith("]".utf8))
-  .map(JSON.array)
+private let array = Parse {
+  "[".utf8
+  Many {
+    Lazy {
+      json
+    }
+  } separatedBy: {
+    ",".utf8
+  }
+  "]".utf8
+}
+.map(JSON.array)
 
 // MARK: String
 
@@ -84,21 +103,24 @@ private let unicode = Prefix<Input>(4) {
     .map(Character.init)
 }
 
-private let escape = StartsWith<Input>(#"\"#.utf8)
-  .take(
-    StartsWith("\"".utf8).map { "\"" }
-      .orElse(StartsWith(#"\"#.utf8).map { #"\"# })
-      .orElse(StartsWith("/".utf8).map { "/" })
-      .orElse(StartsWith("b".utf8).map { "\u{8}" })
-      .orElse(StartsWith("f".utf8).map { "\u{c}" })
-      .orElse(StartsWith("n".utf8).map { "\n" })
-      .orElse(StartsWith("r".utf8).map { "\r" })
-      .orElse(StartsWith("t".utf8).map { "\t" })
-      .orElse(unicode)
-  )
+private let escape = Parse {
+  "\\".utf8
+
+  OneOf {
+    "\"".utf8.map { "\"" as Character }
+    "\\".utf8.map { "\\" as Character }
+    "/".utf8.map { "/" as Character }
+    "b".utf8.map { "\u{8}" as Character }
+    "f".utf8.map { "\u{c}" as Character }
+    "n".utf8.map { "\n" as Character }
+    "r".utf8.map { "\r" as Character }
+    "t".utf8.map { "\t" as Character }
+    unicode
+  }
+}
 
 private let literal = Prefix<Input>(1...) {
-  $0 != .init(ascii: "\"") && $0 != .init(ascii: #"\"#)
+  $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\")
 }
 .map { String(decoding: $0, as: UTF8.self) }
 
@@ -107,21 +129,25 @@ private enum StringFragment {
   case literal(String)
 }
 
-private let fragment = literal.map(StringFragment.literal)
-  .orElse(escape.map(StringFragment.escape))
+private let fragment = OneOf {
+  literal.map(StringFragment.literal)
+  escape.map(StringFragment.escape)
+}
 
-private let stringLiteral = StartsWith("\"".utf8)
-  .take(
-    Many(fragment, into: "") {
-      switch $1 {
-      case let .escape(character):
-        $0.append(character)
-      case let .literal(string):
-        $0.append(contentsOf: string)
-      }
+private let stringLiteral = Parse {
+  "\"".utf8
+  Many(into: "") {
+    fragment
+  } do: { string, fragment in
+    switch fragment {
+    case let .escape(character):
+      string.append(character)
+    case let .literal(other):
+      string.append(contentsOf: other)
     }
-  )
-  .skip(StartsWith("\"".utf8))
+  }
+  "\"".utf8
+}
 
 private let string =
   stringLiteral
@@ -140,7 +166,7 @@ private let boolean = Bool.parser(of: Input.self)
 // MARK: Null
 
 private let null = StartsWith<Input>("null".utf8)
-  .map { _ in JSON.null }
+  .map { JSON.null }
 
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   let input = #"""

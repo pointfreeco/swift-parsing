@@ -20,6 +20,11 @@ extension Double {
     .init()
   }
 
+  @inlinable
+  public static func parser() -> Parsers.DoubleParser<Substring.UTF8View> {
+    .init()
+  }
+
   /// A parser that consumes a double from the beginning of a substring.
   ///
   /// ```swift
@@ -38,15 +43,6 @@ extension Double {
   ) -> Parsers.SubstringDoubleParser {
     .init()
   }
-
-
-
-  @inlinable
-  public static func parser(
-  ) -> Parsers.DoubleParser<Substring.UTF8View> {
-    .init()
-  }
-
 }
 
 extension Float {
@@ -66,6 +62,11 @@ extension Float {
   public static func parser<Input>(
     of inputType: Input.Type = Input.self
   ) -> Parsers.FloatParser<Input> {
+    .init()
+  }
+
+  @inlinable
+  public static func parser() -> Parsers.FloatParser<Substring.UTF8View> {
     .init()
   }
 
@@ -108,6 +109,11 @@ extension Float {
     public static func parser<Input>(
       of inputType: Input.Type = Input.self
     ) -> Parsers.Float80Parser<Input> {
+      .init()
+    }
+
+    @inlinable
+    public static func parser() -> Parsers.Float80Parser<Substring.UTF8View> {
       .init()
     }
 

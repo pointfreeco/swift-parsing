@@ -69,6 +69,23 @@ where
   }
 
   @inlinable
+  public init(
+    into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    @ParserBuilder build: () -> Upstream,
+    @ParserBuilder separatedBy separator: () -> Separator,
+    do updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
+  ) {
+    self.initialResult = initialResult
+    self.maximum = maximum
+    self.minimum = minimum
+    self.separator = separator()
+    self.updateAccumulatingResult = updateAccumulatingResult
+    self.upstream = build()
+  }
+
+  @inlinable
   public func parse(_ input: inout Upstream.Input) -> Result? {
     let original = input
     var rest = input
@@ -163,7 +180,6 @@ extension Many where Result == [Upstream.Output] {
 }
 
 extension Many where Separator == Always<Input, Void> {
-
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs into a result with a given closure.
   ///
@@ -188,6 +204,22 @@ extension Many where Separator == Always<Input, Void> {
     self.separator = nil
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
+  }
+
+  @inlinable
+  public init(
+    into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    @ParserBuilder build: () -> Upstream,
+    do updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
+  ) {
+    self.initialResult = initialResult
+    self.maximum = maximum
+    self.minimum = minimum
+    self.separator = nil
+    self.updateAccumulatingResult = updateAccumulatingResult
+    self.upstream = build()
   }
 }
 

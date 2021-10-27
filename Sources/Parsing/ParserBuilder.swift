@@ -1,17 +1,21 @@
 @resultBuilder
 public enum ParserBuilder {
+  @inlinable
   static public func buildBlock<P>(_ parser: P) -> P where P: Parser {
     parser
   }
 
+  @inlinable
   public static func buildEither<P>(first parser: P) -> P where P: Parser {
     parser
   }
 
+  @inlinable
   public static func buildEither<P>(second parser: P) -> P where P: Parser {
     parser
   }
 
+  @inlinable
   public static func buildLimitedAvailability<P>(_ component: P) -> Parsers.OptionalParser<P>
   where P: Parser {
     .init(component)
@@ -34,18 +38,22 @@ public struct Parse<Upstream>: Parser where Upstream: Parser {
 
 @resultBuilder
 public enum OneOfBuilder {
+  @inlinable
   static public func buildBlock<P>(_ parser: P) -> P where P: Parser {
     parser
   }
 
+  @inlinable
   public static func buildEither<P>(first parser: P) -> P where P: Parser {
     parser
   }
 
+  @inlinable
   public static func buildEither<P>(second parser: P) -> P where P: Parser {
     parser
   }
 
+  @inlinable
   public static func buildLimitedAvailability<P>(_ component: P) -> Parsers.OptionalParser<P>
   where P: Parser {
     .init(component)

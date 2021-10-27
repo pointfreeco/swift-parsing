@@ -7,7 +7,7 @@ public final class Lazy<LazyParser>: Parser where LazyParser: Parser {
   public let createParser: () -> LazyParser
 
   @inlinable
-  public init(createParser: @escaping () -> LazyParser) {
+  public init(@ParserBuilder createParser: @escaping () -> LazyParser) {
     self.createParser = createParser
   }
 
