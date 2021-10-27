@@ -9,12 +9,7 @@ final class MapTests: XCTestCase {
   }
 
   func testOverload() {
-    struct Identifier: Equatable {}
-    struct Type {}
-
-    func fresh() -> Type { Type() }
-
-    let parameters = [Identifier]().map { _ in fresh() }
-    XCTAssert(type(of: parameters) == Array<Type>.self)
+    let array = [1].map { "\($0)" }
+    XCTAssert(type(of: array) == Array<String>.self)
   }
 }
