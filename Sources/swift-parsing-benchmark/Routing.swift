@@ -8,6 +8,28 @@ import Parsing
  recognize one of 5 routes for a website.
  */
 
+struct Routing<P: Parser, R>: Parser {
+  let parser: Parsers.Map<P, R>
+
+  init(
+    _ transform: @escaping (P.Output) -> R,
+    @ParserBuilder build: () -> P
+  ) {
+    self.parser = build().map(transform)
+  }
+
+  init(
+    _ constant: R,
+    @ParserBuilder build: () -> P
+  ) where P.Output == Void {
+    self.parser = build().map { _ in constant}
+  }
+
+  func parse(_ input: inout P.Input) -> R? {
+    self.parser.parse(&input)
+  }
+}
+
 let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   enum Route: Equatable {
     case home
@@ -17,36 +39,39 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
     case episodeComments(id: Int)
   }
 
-  let router = Method("GET")
-    .skip(End())
-    .map { Route.home }
-    .orElse(
+  let router = OneOf {
+    Routing(Route.home) {
       Method("GET")
-        .skip(Path(StartsWith("contact-us".utf8)))
-        .skip(End())
-        .map { Route.contactUs }
-    )
-    .orElse(
+      End()
+    }
+
+    Routing(Route.contactUs) {
       Method("GET")
-        .skip(Path(StartsWith("episodes".utf8)))
-        .skip(End())
-        .map { Route.episodes }
-    )
-    .orElse(
+      Path("contact-us".utf8)
+      End()
+    }
+
+    Routing(Route.episodes) {
       Method("GET")
-        .skip(Path(StartsWith("episodes".utf8)))
-        .take(Path(Int.parser()))
-        .skip(End())
-        .map(Route.episode(id:))
-    )
-    .orElse(
+      Path("episodes".utf8)
+      End()
+    }
+
+    Routing(Route.episode(id:)) {
       Method("GET")
-        .skip(Path(StartsWith("episodes".utf8)))
-        .take(Path(Int.parser()))
-        .skip(Path(StartsWith("comments".utf8)))
-        .skip(End())
-        .map(Route.episodeComments(id:))
-    )
+      Path("episodes".utf8)
+      Path(Int.parser())
+      End()
+    }
+
+    Routing(Route.episodeComments(id:)) {
+      Method("GET")
+      Path("episodes".utf8)
+      Path(Int.parser())
+      Path("comments".utf8)
+      End()
+    }
+  }
 
   let requests = [
     RequestData(

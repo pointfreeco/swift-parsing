@@ -148,6 +148,18 @@ extension Many where Result == [Upstream.Output] {
       $0.append($1)
     }
   }
+
+  @inlinable
+  public init(
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    @ParserBuilder build: () -> Upstream,
+    @ParserBuilder separatedBy separator: () -> Separator
+  ) {
+    self.init(build(), into: [], atLeast: minimum, atMost: maximum, separator: separator()) {
+      $0.append($1)
+    }
+  }
 }
 
 extension Many where Separator == Always<Input, Void> {

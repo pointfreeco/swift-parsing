@@ -38,6 +38,15 @@ extension Double {
   ) -> Parsers.SubstringDoubleParser {
     .init()
   }
+
+
+
+  @inlinable
+  public static func parser(
+  ) -> Parsers.DoubleParser<Substring.UTF8View> {
+    .init()
+  }
+
 }
 
 extension Float {
