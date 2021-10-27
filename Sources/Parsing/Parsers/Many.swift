@@ -6,7 +6,7 @@
 ///
 /// ```swift
 /// var input = "1,2,3"[...]
-/// let output = Many(Int.parser(), separator: StartsWith(",")).parse(&input)
+/// let output = Many(Int.parser(), separator: ",").parse(&input)
 /// precondition(input == "")
 /// precondition(output == [1, 2, 3])
 /// ```
@@ -23,7 +23,7 @@
 ///   +=
 /// )
 /// var input = "1,2,3"[...]
-/// let output = Many(Int.parser(), into: 0, separator: StartsWith(",")).parse(&input)
+/// let output = Many(Int.parser(), into: 0, separator: ",").parse(&input)
 /// precondition(input == "")
 /// precondition(output == 6)
 /// ```
