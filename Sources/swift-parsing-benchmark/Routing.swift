@@ -8,21 +8,25 @@ import Parsing
  recognize one of 5 routes for a website.
  */
 
-struct Routing<P: Parser, R>: Parser {
-  let parser: Parsers.Map<P, R>
+private struct Routing<P, R>: Parser
+where
+P: Parser,
+P.Input == RequestData
+{
+  let parser: Parsers.SkipSecond<Parsers.Map<P, R>, End>
 
   init(
     _ transform: @escaping (P.Output) -> R,
     @ParserBuilder build: () -> P
-  ) {
-    self.parser = build().map(transform)
+  )  {
+    self.parser = build().map(transform).skip(End())
   }
 
   init(
     _ constant: R,
     @ParserBuilder build: () -> P
   ) where P.Output == Void {
-    self.parser = build().map { _ in constant}
+    self.parser = build().map { _ in constant }.skip(End())
   }
 
   func parse(_ input: inout P.Input) -> R? {
@@ -42,26 +46,22 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   let router = OneOf {
     Routing(Route.home) {
       Method("GET")
-      End()
     }
 
     Routing(Route.contactUs) {
       Method("GET")
       Path("contact-us".utf8)
-      End()
     }
 
     Routing(Route.episodes) {
       Method("GET")
       Path("episodes".utf8)
-      End()
     }
 
     Routing(Route.episode(id:)) {
       Method("GET")
       Path("episodes".utf8)
       Path(Int.parser())
-      End()
     }
 
     Routing(Route.episodeComments(id:)) {
@@ -69,7 +69,6 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       Path("episodes".utf8)
       Path(Int.parser())
       Path("comments".utf8)
-      End()
     }
   }
 
