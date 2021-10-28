@@ -105,6 +105,26 @@ where
     self.predicate = predicate
   }
 
+  @inlinable
+  public init(
+    _ length: ClosedRange<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) where Input == Substring {
+    self.minLength = length.lowerBound
+    self.maxLength = length.upperBound
+    self.predicate = predicate
+  }
+
+  @inlinable
+  public init(
+    _ length: ClosedRange<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) where Input == Substring.UTF8View {
+    self.minLength = length.lowerBound
+    self.maxLength = length.upperBound
+    self.predicate = predicate
+  }
+
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
   ///     Prefix(4, while: { $0.isNumber }).parse("123456") // "1234"
@@ -120,6 +140,26 @@ where
     _ length: Int,
     while predicate: ((Input.Element) -> Bool)? = nil
   ) {
+    self.minLength = length
+    self.maxLength = length
+    self.predicate = predicate
+  }
+
+  @inlinable
+  public init(
+    _ length: Int,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) where Input == Substring {
+    self.minLength = length
+    self.maxLength = length
+    self.predicate = predicate
+  }
+
+  @inlinable
+  public init(
+    _ length: Int,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) where Input == Substring.UTF8View {
     self.minLength = length
     self.maxLength = length
     self.predicate = predicate
@@ -146,6 +186,26 @@ where
     self.predicate = predicate
   }
 
+  @inlinable
+  public init(
+    _ length: PartialRangeFrom<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) where Input == Substring {
+    self.minLength = length.lowerBound
+    self.maxLength = nil
+    self.predicate = predicate
+  }
+
+  @inlinable
+  public init(
+    _ length: PartialRangeFrom<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) where Input == Substring.UTF8View {
+    self.minLength = length.lowerBound
+    self.maxLength = nil
+    self.predicate = predicate
+  }
+
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
   /// ```swift
@@ -163,6 +223,26 @@ where
     _ length: PartialRangeThrough<Int>,
     while predicate: ((Input.Element) -> Bool)? = nil
   ) {
+    self.minLength = 0
+    self.maxLength = length.upperBound
+    self.predicate = predicate
+  }
+
+  @inlinable
+  public init(
+    _ length: PartialRangeThrough<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) where Input == Substring {
+    self.minLength = 0
+    self.maxLength = length.upperBound
+    self.predicate = predicate
+  }
+
+  @inlinable
+  public init(
+    _ length: PartialRangeThrough<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) where Input == Substring.UTF8View {
     self.minLength = 0
     self.maxLength = length.upperBound
     self.predicate = predicate
