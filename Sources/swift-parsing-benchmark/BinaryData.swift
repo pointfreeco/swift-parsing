@@ -54,19 +54,22 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
       )
     }
 
-  let counts = Word16Parser()
-    .take(Word16Parser())
-    .take(Word16Parser())
-    .take(Word16Parser())
+  let counts = Parse {
+    Word16Parser()
+    Word16Parser()
+    Word16Parser()
+    Word16Parser()
+  }
     .map {
       (qd: $0, an: $1, ns: $2, ar: $3)
     }
-
-  let header =
+  
+  let header = Parse {
     id
-    .take(fields1)
-    .take(fields2)
-    .take(counts)
+    fields1
+    fields2
+    counts
+  }
     .map { id, fields1, fields2, counts in
       DnsHeader(
         id: id,
