@@ -21,7 +21,9 @@ extension Double {
   }
 
   @inlinable
-  public static func parser() -> Parsers.DoubleParser<Substring.UTF8View> {
+  public static func parser(
+    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
+  ) -> Parsers.DoubleParser<Substring.UTF8View> {
     .init()
   }
 
@@ -66,7 +68,9 @@ extension Float {
   }
 
   @inlinable
-  public static func parser() -> Parsers.FloatParser<Substring.UTF8View> {
+  public static func parser(
+    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
+  ) -> Parsers.FloatParser<Substring.UTF8View> {
     .init()
   }
 
@@ -113,7 +117,9 @@ extension Float {
     }
 
     @inlinable
-    public static func parser() -> Parsers.Float80Parser<Substring.UTF8View> {
+    public static func parser(
+      of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
+    ) -> Parsers.Float80Parser<Substring.UTF8View> {
       .init()
     }
 

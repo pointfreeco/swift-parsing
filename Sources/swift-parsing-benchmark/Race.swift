@@ -26,14 +26,14 @@ private let latitude = Parse {
   "° ".utf8
   northSouth
 }
-  .map(*)
+.map(*)
 
 private let longitude = Parse {
   Double.parser()
   "° ".utf8
   eastWest
 }
-  .map(*)
+.map(*)
 
 private struct Coordinate {
   let latitude: Double
@@ -48,7 +48,7 @@ private let coord = Parse {
   zeroOrMoreSpaces
   longitude
 }
-  .map(Coordinate.init)
+.map(Coordinate.init)
 
 private enum Currency { case eur, gbp, usd }
 
@@ -67,7 +67,7 @@ private let money = Parse {
   currency
   Double.parser()
 }
-  .map(Money.init(currency:value:))
+.map(Money.init(currency:value:))
 
 private struct Race {
   let location: String
@@ -89,7 +89,7 @@ private let race = Parse {
     "\n".utf8
   }
 }
-  .map(Race.init(location:entranceFee:path:))
+.map(Race.init(location:entranceFee:path:))
 
 private let races = Many {
   race

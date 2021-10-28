@@ -38,22 +38,35 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
 
 // MARK: - Parser
 
-private typealias Input = Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
+private typealias Input = Substring.UTF8View
 
 private let plainField = Prefix<Input> {
   $0 != .init(ascii: ",") && $0 != .init(ascii: "\n")
 }
 
-private let quotedField = Skip(StartsWith<Input>("\"".utf8))
-  .take(Prefix { $0 != .init(ascii: "\"") })
-  .skip(StartsWith("\"".utf8))
+private let quotedField = Parse {
+  "\"".utf8
+  Prefix { $0 != .init(ascii: "\"") }
+  "\"".utf8
+}
 
-private let field = quotedField.orElse(plainField)
-  .map { String(decoding: $0, as: UTF8.self) }
+private let field = OneOf {
+  quotedField
+  plainField
+}
+.map { String(decoding: $0, as: UTF8.self) }
 
-private let line = Many(field, separator: StartsWith(",".utf8))
+private let line = Many {
+  field
+} separatedBy: {
+  ",".utf8
+}
 
-private let csv = Many(line, separator: StartsWith("\n".utf8))
+private let csv = Many {
+  line
+} separatedBy: {
+  "\n".utf8
+}
 
 // MARK: - Ad hoc mutating methods
 

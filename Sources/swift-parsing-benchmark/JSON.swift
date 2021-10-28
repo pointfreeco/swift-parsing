@@ -26,7 +26,7 @@ private enum JSON: Equatable {
 private typealias Input = Substring.UTF8View
 
 private var json: AnyParser<Input, JSON> {
-  AnyParser {
+  Parse {
     Skip {
       Whitespace()
     }
@@ -44,6 +44,7 @@ private var json: AnyParser<Input, JSON> {
       Whitespace()
     }
   }
+  .eraseToAnyParser()
 }
 
 // MARK: Object

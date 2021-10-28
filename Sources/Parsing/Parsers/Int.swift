@@ -27,6 +27,7 @@ extension FixedWidthInteger {
 
   @inlinable
   public static func parser(
+    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self,
     isSigned: Bool = true,
     radix: Self = 10
   ) -> Parsers.IntParser<Substring.UTF8View, Self> {

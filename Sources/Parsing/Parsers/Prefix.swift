@@ -59,6 +59,28 @@ where
     self.predicate = predicate
   }
 
+  @inlinable
+  public init(
+    minLength: Int = 0,
+    maxLength: Int? = nil,
+    while predicate: @escaping (Input.Element) -> Bool
+  ) where Input == Substring {
+    self.minLength = minLength
+    self.maxLength = maxLength
+    self.predicate = predicate
+  }
+
+  @inlinable
+  public init(
+    minLength: Int = 0,
+    maxLength: Int? = nil,
+    while predicate: @escaping (Input.Element) -> Bool
+  ) where Input == Substring.UTF8View {
+    self.minLength = minLength
+    self.maxLength = maxLength
+    self.predicate = predicate
+  }
+
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
   /// ```swift

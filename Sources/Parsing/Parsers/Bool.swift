@@ -19,6 +19,13 @@ extension Bool {
     .init()
   }
 
+  @inlinable
+  public static func parser(
+    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
+  ) -> Parsers.BoolParser<Substring.UTF8View> {
+    .init()
+  }
+
   /// A parser that consumes a Boolean value from the beginning of a substring.
   ///
   /// This parser only recognizes the literal "true" and "false" characters:
