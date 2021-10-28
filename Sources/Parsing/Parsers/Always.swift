@@ -16,16 +16,6 @@ public struct Always<Input, Output>: Parser {
   }
 
   @inlinable
-  public init(_ output: Output) where Input == Substring {
-    self.output = output
-  }
-
-  @inlinable
-  public init(_ output: Output) where Input == Substring.UTF8View {
-    self.output = output
-  }
-
-  @inlinable
   public func parse(_ input: inout Input) -> Output? {
     self.output
   }
