@@ -39,6 +39,11 @@ public struct Parse<Upstream>: Parser where Upstream: Parser {
 @resultBuilder
 public enum OneOfBuilder {
   @inlinable
+  public static func buildArray<P>(_ parsers: [P]) -> OneOfMany<P> where P: Parser {
+    OneOfMany(parsers)
+  }
+
+  @inlinable
   static public func buildBlock<P>(_ parser: P) -> P where P: Parser {
     parser
   }
