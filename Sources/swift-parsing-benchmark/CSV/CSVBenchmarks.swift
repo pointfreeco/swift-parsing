@@ -40,7 +40,7 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
 
 private typealias Input = Substring.UTF8View
 
-private let plainField = Prefix<Input> {
+private let plainField = Prefix {
   $0 != .init(ascii: ",") && $0 != .init(ascii: "\n")
 }
 

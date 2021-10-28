@@ -21,6 +21,13 @@ import Parsing
 
 private typealias Input = Substring.UTF8View
 
+private let digits = { (n: Int) in
+  Prefix<Input>(n).pipe {
+    Int.parser(isSigned: false)
+    End()
+  }
+}
+
 private let dateTime = OneOf {
   offsetDateTime
   localDateTime
@@ -28,20 +35,9 @@ private let dateTime = OneOf {
   localTime
 }
 
-private let dateFullyear = Prefix<Input>(4).pipe {
-  Int.parser()
-  End()
-}
-
-private let dateMonth = Prefix<Input>(2).pipe {
-  Int.parser()
-  End()
-}
-
-private let dateMday = Prefix<Input>(2).pipe {
-  Int.parser()
-  End()
-}
+private let dateFullyear = digits(4)
+private let dateMonth = digits(2)
+private let dateMday = digits(2)
 
 private let timeDelim = OneOf {
   "T".utf8
@@ -49,23 +45,11 @@ private let timeDelim = OneOf {
   " ".utf8
 }
 
-private let timeHour = Prefix<Input>(2).pipe {
-  Int.parser()
-  End()
-}
+private let timeHour = digits(2)
+private let timeMinute = digits(2)
+private let timeSecond = digits(2)
 
-private let timeMinute = Prefix<Input>(2).pipe {
-  Int.parser()
-  End()
-}
-
-private let timeSecond = Prefix<Input>(2).pipe {
-  Int.parser()
-  End()
-}
-
-private let nanoSecfrac = Prefix<Input>
-  .init(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
+private let nanoSecfrac = Prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
   .map { $0.prefix(9) }
 
 private let timeSecfrac = Parse {
@@ -99,7 +83,9 @@ private let partialTime = Parse {
   timeMinute
   ":".utf8
   timeSecond
-  Optional.parser(of: timeSecfrac)
+  Optionally {
+    timeSecfrac
+  }
 }
 
 private let fullDate = Parse {

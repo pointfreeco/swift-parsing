@@ -1,3 +1,17 @@
+public struct Optionally<Upstream>: Parser where Upstream: Parser {
+  public let upstream: Upstream
+
+  @inlinable
+  public init(@ParserBuilder _ build: () -> Upstream) {
+    self.upstream = build()
+  }
+
+  @inlinable
+  public func parse(_ input: inout Upstream.Input) -> Upstream.Output?? {
+    .some(self.upstream.parse(&input))
+  }
+}
+
 extension Optional {
   /// A parser that parses `nil` when this parser fails.
   ///
