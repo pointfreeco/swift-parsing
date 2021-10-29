@@ -19,7 +19,6 @@ private func exponent(`associativity`: Associativity) -> AnyParser<Substring, Do
   .eraseToAnyParser()
 }
 
-
 final class InfixOperatorTests: XCTestCase {
   func testLeftAssociativity() {
     var input = "2^3^2"[...]
