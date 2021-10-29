@@ -93,11 +93,13 @@ Not only is this code a little messy, but it is also inefficient since we are al
 
 It would be more straightforward and efficient to instead describe how to consume bits from the beginning of the input and convert that into users. This is what this parser library excels at 😄.
 
-We can start by describing what it means to parse a single row, first by parsing an integer off the front of the string, and then parsing a comma that we discard using the `.skip` operator:
+We can start by describing what it means to parse a single row, first by parsing an integer off the front of the string, and then parsing a comma:
 
 ```swift
-let user = Int.parser()
-  .skip(",")
+let user = Parse {
+  Int.parser()
+  ","
+}
 ```
 
 Already this can consume the beginning of the input:
@@ -107,36 +109,40 @@ user.parse(&input) // => 1
 input // => "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
-Next we want to take everything up until the next comma for the user's name, and then skip the comma:
+Next we want to take everything up until the next comma for the user's name, and then consume the comma:
 
 ```swift
-let user = Int.parser()
-  .skip(",")
-  .take(Prefix { $0 != "," })
-  .skip(",")
+let user = Parse { 
+  Int.parser()
+  ","
+  Prefix { $0 != "," }
+  ","
+}
 ```
-
-Here the `.take` operator has combined parsed values together into a tuple, `(Int, Substring)`.
 
 And then we want to take the boolean at the end of the row for the user's admin status:
 
 ```swift
-let user = Int.parser()
-  .skip(",")
-  .take(Prefix { $0 != "," })
-  .skip(",")
-  .take(Bool.parser())
+let user = Parse {
+  Int.parser()
+  ","
+  Prefix { $0 != "," }
+  ","
+  Bool.parser()
+}
 ```
 
 Currently this will parse a tuple `(Int, Substring, Bool)` from the input, and we can `.map` on that to turn it into a `User`:
 
 ```swift
-let user = Int.parser()
-  .skip(",")
-  .take(Prefix { $0 != "," })
-  .skip(",")
-  .take(Bool.parser())
-  .map { User(id: $0, name: String($1), isAdmin: $2) }
+let user = Parse {
+  Int.parser()
+  ","
+  Prefix { $0 != "," }
+  ","
+  Bool.parser()
+}
+.map { User(id: $0, name: String($1), isAdmin: $2) }
 ```
 
 That is enough to parse a single user from the input string:
@@ -146,10 +152,14 @@ user.parse(&input) // => User(id: 1, name: "Blob", isAdmin: true)
 input // => "\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
-To parse multiple users from the input we can use the `Many` parser:
+To parse multiple users from the input we can use the `Many` parser to run the user parser many times:
 
 ```swift
-let users = Many(user, separator: "\n")
+let users = Many {
+  user
+} separatedBy: { 
+  "\n"
+}
 
 users.parse(&input) // => [User(id: 1, name: "Blob", isAdmin: true), ...]
 input // => ""
@@ -249,6 +259,46 @@ Parsers.Map<Prefix<Substring>, Substring>
 
 Notice how the type of the parser encodes the operations that we performed. This adds a bit of complexity when using these types, but comes with some performance benefits because Swift can usually optimize the creation of those nested types.
 
+### Result builder
+
+The library takes advantage of Swift's `@resultBuilder` feature to make constructing complex parsers as fluent as possible, and should be reminescent of how views are constructed in SwiftUI. The main entry point into building a parser is the `Parse` builder:
+
+```swift
+Parse {
+
+}
+```
+
+In this builder block you can specify parsers that will be run one after another. For example, if you wanted to parse an integer, then a comma, and then a boolean from a string, you can simply do:
+
+```swift
+Parse {
+  Int.parser()
+  ","
+  Bool.parser()
+}
+```
+
+Note that the `String` type conforms to the `Parser` protocol, and represents a parser that consumes that exact string from the beginning of an input if it matches, and otherwise fails.
+
+Many of the parsers and operators that come with the library are configured with parser builds to maximize readability of the parsers. For example, to parse accounting syntax of numbers, where parenthesized numbers are negative, we can use the `OneOf` parser builder:
+
+```swift
+let accountingNumber = OneOf {
+  Int.parser()
+  
+  Parse {
+    "("
+    Int.parser()
+    ")"
+  }
+  .map { -$0 }
+}
+
+accountingNumber.parse("100")   // 100
+accountingNumber.parse("(100)") // -100
+```
+
 ### Low-level versus high-level
 
 The library makes it easy to choose which abstraction level you want to work on. Both low-level and high-level have their pros and cons.
@@ -272,9 +322,11 @@ enum City {
 Because "San José" has an accented character, the safest way to parse it is to parse on the `Substring` abstraction level:
 
 ```swift
-let city = StartsWith<Substring>("London").map { City.london }
-  .orElse(StartsWith("New York").map { .newYork })
-  .orElse(StartsWith("San José").map { .sanJose })
+let city = Parse {
+  "London".map { City.london }
+  "New York".map { City.newYork }
+  "San José".map { City.sanJose }
+}
 
 var input = "San José,123"
 city.parse(&input) // => City.sanJose
@@ -284,12 +336,28 @@ input // => ",123"
 However, we are incurring the cost of parsing `Substring` for this entire parser, even though only the "San José" case needs that power. We can refactor this parser so that "London" and "New York" are parsed on the `UTF8View` level, since they consist of only ASCII characters, and then parse "San José" as `Substring`:
 
 ```swift
-let city = StartsWith("London".utf8).map { City.london }
-  .orElse(StartsWith("New York".utf8).map { .newYork })
-  .orElse(StartsWith("San José").utf8.map { .sanJose })
+let city = Parse {
+  "London".utf8.map { City.london }
+  "New York".utf8.map { City.newYork }
+  FromSubstring { "San José" }.map { City.sanJose }
+}
 ```
 
-It's subtle, but `StartsWith("London".utf8)` is a parser that parses the code units for "London" from the beginning of a `UTF8View`, whereas `StartsWith("San José").utf8` parses "San José" as a `Substring`, and then converts that into a `UTF8View` parser.
+The `FromSubstring` parser allows us to temporarily leave the world of parsing UTF8 and instead work on the higher level `Substring` abstraction, which takes care of normalization of the "é" character.
+
+If we wanted to be _really_ pedantic we could even parse "San Jos" as UTF8 and then parse only the "é" character as a Substring:
+
+```swift
+let city = Parse {
+  "London".utf8.map { City.london }
+  "New York".utf8.map { City.newYork }
+  Parse {
+    "San Jos".utf8
+    FromSubstring { "é" }
+  }
+  .map { City.sanJose }
+}
+```
 
 This allows you to parse as much as possible on the more performant, low-level `UTF8View`, while still allowing you to parse on the more correct, high-level `Substring` when necessary.
 

@@ -1,7 +1,7 @@
 @resultBuilder
 public enum ParserBuilder {
   @inlinable
-  static public func buildBlock<P>(_ parser: P) -> P where P: Parser {
+  public static func buildBlock<P>(_ parser: P) -> P where P: Parser {
     parser
   }
 

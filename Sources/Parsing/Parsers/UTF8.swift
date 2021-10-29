@@ -33,6 +33,11 @@ extension Parsers {
     }
 
     @inlinable
+    public init(@ParserBuilder build: () -> Upstream) {
+      self.upstream = build()
+    }
+
+    @inlinable
     public func parse(_ input: inout Substring.UTF8View) -> Upstream.Output? {
       var substring = Substring(input)
       defer { input = substring.utf8 }

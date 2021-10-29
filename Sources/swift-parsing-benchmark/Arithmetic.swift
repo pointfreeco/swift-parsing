@@ -42,10 +42,10 @@ private let factor = OneOf {
     expr
     Skip { ")".utf8 }
   }
-  natural
+  integer
 }
 
-private let natural = Parse {
+private let integer = Parse {
   Skip { Whitespace() }
   Double.parser()
   Skip { Whitespace() }

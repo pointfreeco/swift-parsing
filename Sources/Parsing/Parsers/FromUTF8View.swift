@@ -1,4 +1,4 @@
-public struct UTF8View<UTF8Parser>: Parser
+public struct FromUTF8View<UTF8Parser>: Parser
 where
   UTF8Parser: Parser,
   UTF8Parser.Input == Substring.UTF8View
