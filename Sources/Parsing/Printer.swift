@@ -1,8 +1,6 @@
-//
-//  File.swift
-//  
-//
-//  Created by Brandon Williams on 10/29/21.
-//
+public protocol Printer {
+  associatedtype Input
+  associatedtype Output
 
-import Foundation
+  func print(_ output: Output) -> Input?
+}

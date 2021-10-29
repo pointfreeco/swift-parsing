@@ -24,3 +24,9 @@ where
 extension Parsers {
   public typealias Whitespace = Parsing.Whitespace  // NB: Convenience type alias for discovery
 }
+
+extension Whitespace: Printer {
+  public func print(_ output: Input) -> Input? {
+    return output
+  }
+}

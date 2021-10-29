@@ -38,3 +38,18 @@ where
 extension Parsers {
   public typealias Conditional = Parsing.Conditional  // NB: Convenience type alias for discovery
 }
+
+extension Conditional: Printer
+where
+  First: Printer,
+  Second: Printer
+{
+  public func print(_ output: First.Output) -> First.Input? {
+    switch self {
+    case let .first(first):
+      return first.print(output)
+    case let .second(second):
+      return second.print(output)
+    }
+  }
+}

@@ -64,9 +64,6 @@ final class DoubleTests: XCTestCase {
     } else {
       XCTAssertEqual(Float.infinity, parsed)
       XCTAssertEqual(" Hello", String(input))
-    } else {
-      XCTAssertEqual(nil, parser.parse(&input))
-      XCTAssertEqual("1234567890123456789012345678901234567890 Hello", String(input))
     }
 
     input = "-123 Hello"[...].utf8

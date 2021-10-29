@@ -42,7 +42,5 @@ where
     else { return .init() }
 
     return self.upstream.print(output)
-
-    // SEGFAULT: output.flatMap(self.upstream.print) ?? .init()
   }
 }

@@ -140,3 +140,9 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.SubstringUUIDParser: Printer {
+  public func print(_ output: UUID) -> Substring? {
+    output.uuidString[...]
+  }
+}

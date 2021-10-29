@@ -80,3 +80,30 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.BoolParser: Printer
+where
+  Input: RangeReplaceableCollection
+{
+  public func print(_ output: Bool) -> Input? {
+    switch output {
+    case true:
+      return Input([116, 114, 117, 101])
+    case false:
+      return Input([102, 97, 108, 115, 101])
+    }
+  }
+}
+
+extension Parsers.SubstringBoolParser: Printer {
+  public func print(_ output: Bool) -> Substring? {
+    switch output {
+    case true:
+      // TODO: should bool parser be customizable with what kind of booleans we recognize, e.g.
+      //       true/false, 0/1, ...
+      return "true"
+    case false:
+      return "false"
+    }
+  }
+}
