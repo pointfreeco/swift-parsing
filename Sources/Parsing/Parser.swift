@@ -1,23 +1,3 @@
-enum City {
-  case london
-  case newYork
-  case sanJose
-}
-func foo() {
-  let city = Parse {
-    "London".utf8.map { City.london }
-    "New York".utf8.map { City.newYork }
-    Parse {
-      "San Jos".utf8
-      FromSubstring { "é" }
-    }
-    .map { City.sanJose }
-  }
-}
-
-typealias FromSubstring = Parsers.SubstringToUTF8View
-
-
 /// Declares a type that can parse an `Input` value into an `Output` value.
 ///
 /// A parser attempts to parse a nebulous piece of data, represented by the `Input` associated type,
