@@ -6,13 +6,13 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
 
   suite.benchmark("Parser") {
     var a = arithmetic[...].utf8
-    precondition(expr.parse(&a) == -3)
+    precondition(expr.parse(&a) == -2.5)
   }
 }
 
-private var expr: AnyParser<Substring.UTF8View, Int> {
+private var expr: AnyParser<Substring.UTF8View, Double> {
   AnyParser(
-    InfixLeft {
+    InfixOperator(associativity: .left) {
       Skip { Whitespace() }
       OneOf {
         "+".utf8.map { (+) }
@@ -25,7 +25,7 @@ private var expr: AnyParser<Substring.UTF8View, Int> {
   )
 }
 
-private let term = InfixLeft {
+private let term = InfixOperator(associativity: .left) {
   Skip { Whitespace() }
   OneOf {
     "*".utf8.map { (*) }
@@ -47,50 +47,6 @@ private let factor = OneOf {
 
 private let natural = Parse {
   Skip { Whitespace() }
-  Int.parser()
+  Double.parser()
   Skip { Whitespace() }
-}
-
-/*
- TODO: Should this be:
-
- InfixOperator(associativity: .left) {
-   OneOf {
-     "+".map(+)
-     "-".map(-)
-   }
- } expression {
-   Lazy { term }
- }
- */
-private struct InfixLeft<Operator, Expression>: Parser
-where
-  Operator: Parser,
-  Expression: Parser,
-  Operator.Input == Expression.Input,
-  Operator.Output == (Expression.Output, Expression.Output) -> Expression.Output
-{
-  let expression: Expression
-  let `operator`: Operator
-
-  @inlinable
-  init(
-    @ParserBuilder _ operator: () -> Operator,
-    @ParserBuilder expression: () -> Expression
-  ) {
-    self.expression = expression()
-    self.operator = `operator`()
-  }
-
-  @inlinable
-  func parse(_ input: inout Expression.Input) -> Expression.Output? {
-    guard var lhs = self.expression.parse(&input) else { return nil }
-    while
-      let operation = self.operator.parse(&input),
-      let rhs = self.expression.parse(&input)
-    {
-      lhs = operation(lhs, rhs)
-    }
-    return lhs
-  }
 }
