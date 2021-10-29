@@ -199,6 +199,13 @@ where
   }
 
   @inlinable
+  public init(
+    _ route: Route
+  ) where RouteParser == Always<URLRequestData, Void> {
+    self.init({ route }, to: { Always<URLRequestData, Void>(()) })
+  }
+
+  @inlinable
   public func parse(_ input: inout URLRequestData) -> Route? {
     self.parser.parse(&input)
   }
