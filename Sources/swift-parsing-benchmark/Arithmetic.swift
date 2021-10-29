@@ -2,7 +2,7 @@ import Benchmark
 import Parsing
 
 let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
-  let arithmetic = "1 + 2 * 3 / 4 - 5"
+  let arithmetic = "1+2*3/4-5"
 
   suite.benchmark("Parser") {
     var a = arithmetic[...].utf8
@@ -13,12 +13,10 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
 private var expr: AnyParser<Substring.UTF8View, Double> {
   AnyParser(
     InfixOperator(associativity: .left) {
-      Skip { Whitespace() }
       OneOf {
         "+".utf8.map { (+) }
         "-".utf8.map { (-) }
       }
-      Skip { Whitespace() }
     } expression: {
       Lazy { term }
     }
@@ -26,12 +24,10 @@ private var expr: AnyParser<Substring.UTF8View, Double> {
 }
 
 private let term = InfixOperator(associativity: .left) {
-  Skip { Whitespace() }
   OneOf {
     "*".utf8.map { (*) }
     "/".utf8.map { (/) }
   }
-  Skip { Whitespace() }
 } expression: {
   factor
 }
@@ -42,11 +38,5 @@ private let factor = OneOf {
     expr
     Skip { ")".utf8 }
   }
-  integer
-}
-
-private let integer = Parse {
-  Skip { Whitespace() }
   Double.parser()
-  Skip { Whitespace() }
 }
