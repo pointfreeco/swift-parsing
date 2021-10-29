@@ -1,12 +1,13 @@
 import Benchmark
 import Parsing
+import Darwin
 
 let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
-  let arithmetic = "1+2*3/4-5"
+  let arithmetic = "1+2*3/4-5^2"
 
   suite.benchmark("Parser") {
     var a = arithmetic[...].utf8
-    precondition(expr.parse(&a) == -2.5)
+    precondition(expr.parse(&a) == -22.5)
   }
 }
 
@@ -28,6 +29,12 @@ private let term = InfixOperator(associativity: .left) {
     "*".utf8.map { (*) }
     "/".utf8.map { (/) }
   }
+} expression: {
+  exponent
+}
+
+private let exponent = InfixOperator(associativity: .left) {
+  "^".utf8.map { { pow($0, $1) } }
 } expression: {
   factor
 }
