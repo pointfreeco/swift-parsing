@@ -71,15 +71,15 @@ private typealias Output = (Request, [Header])
 
 // MARK: - Parsers
 
-private let method = Prefix<Input>(while: isToken)
+private let method = Prefix(while: isToken)
   .map { String(decoding: $0, as: UTF8.self) }
 
-private let uri = Prefix<Input>(while: isNotSpace)
+private let uri = Prefix(while: isNotSpace)
   .map { String(decoding: $0, as: UTF8.self) }
 
 private let httpVersion = Parse {
   "HTTP/".utf8
-  Prefix<Input>(while: isVersion)
+  Prefix(while: isVersion)
 }
 .map { String(decoding: $0, as: UTF8.self) }
 
@@ -94,17 +94,21 @@ private let requestLine = Parse {
 .map(Request.init(method:uri:version:))
 
 private let headerValue = Parse {
-  OneOf {
-    " ".utf8
-    "\t".utf8
+  Skip {
+    OneOf {
+      " ".utf8
+      "\t".utf8
+    }
+    Prefix(while: isHorizontalSpace)
   }
-  Prefix<Input>(while: isHorizontalSpace).ignoreOutput()
-  Prefix<Input>(while: notLineEnding).map { String(decoding: $0, as: UTF8.self) }
-  Newline().ignoreOutput()
+  Prefix(while: notLineEnding).map { String(decoding: $0, as: UTF8.self) }
+  Skip {
+    Newline()
+  }
 }
 
 private let header = Parse {
-  Prefix<Input>(while: isToken).map { String(decoding: $0, as: UTF8.self) }
+  Prefix(while: isToken).map { String(decoding: $0, as: UTF8.self) }
   ":".utf8
   Many {
     headerValue

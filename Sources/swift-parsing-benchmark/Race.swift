@@ -40,7 +40,9 @@ private struct Coordinate {
   let longitude: Double
 }
 
-private let zeroOrMoreSpaces = Prefix<Input> { $0 == .init(ascii: " ") }.ignoreOutput()
+private let zeroOrMoreSpaces = Skip {
+  Prefix { $0 == .init(ascii: " ") }
+}
 
 private let coord = Parse {
   latitude
@@ -75,7 +77,7 @@ private struct Race {
   let path: [Coordinate]
 }
 
-private let locationName = Prefix<Input> { $0 != .init(ascii: ",") }
+private let locationName = Prefix { $0 != .init(ascii: ",") }
 
 private let race = Parse {
   locationName.map { String(decoding: $0, as: UTF8.self) }

@@ -93,7 +93,7 @@ private let array = Parse {
 
 // MARK: String
 
-private let unicode = Prefix<Input>(4) {
+private let unicode = Prefix(4) {
   (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
     || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
     || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
@@ -120,7 +120,7 @@ private let escape = Parse {
   }
 }
 
-private let literal = Prefix<Input>(1...) {
+private let literal = Prefix(1...) {
   $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\")
 }
 .map { String(decoding: $0, as: UTF8.self) }
