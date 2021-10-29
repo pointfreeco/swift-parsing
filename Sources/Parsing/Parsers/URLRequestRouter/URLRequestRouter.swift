@@ -53,6 +53,7 @@ where
   public let name: String
   public let valueParser: ValueParser
 
+  @inlinable
   public init(
     _ name: String,
     _ value: ValueParser
