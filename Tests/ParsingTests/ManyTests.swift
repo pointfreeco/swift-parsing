@@ -3,14 +3,16 @@ import XCTest
 
 class ManyTests: XCTestCase {
   func testNoSeparator() {
-    var input = "         Hello world"[...].utf8
+    var input = "         Hello world"[...]
+    let parser = Many(StartsWith<Substring>(" "))
 
-    XCTAssertNotNil(
-      Many(StartsWith(" ".utf8))
-        .orElse(Fail())
-        .parse(&input)
-    )
+    XCTAssertNotNil(parser.parse(&input))
     XCTAssertEqual(Substring(input), "Hello world")
+
+    XCTAssertEqual(
+      parser.print([(), (), ()]),
+      "   "
+    )
   }
 
   func testSeparator() {

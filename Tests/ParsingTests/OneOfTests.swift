@@ -4,8 +4,11 @@ import XCTest
 final class OneOfTests: XCTestCase {
   func testOneOfFirstSuccess() {
     var input = "New York, Hello!"[...]
-    XCTAssertNotNil(StartsWith("New York").orElse(StartsWith("Berlin")).parse(&input))
+    let parser = StartsWith<Substring>("New York").orElse(StartsWith("Berlin"))
+
+    XCTAssertNotNil(parser.parse(&input))
     XCTAssertEqual(", Hello!", Substring(input))
+    XCTAssertEqual(parser.print(()), "New York")
   }
 
   func testOneOfSecondSuccess() {
