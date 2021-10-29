@@ -11,18 +11,16 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   }
 }
 
-private var expr: AnyParser<Substring.UTF8View, Double> {
-  AnyParser(
-    InfixOperator(associativity: .left) {
-      OneOf {
-        "+".utf8.map { (+) }
-        "-".utf8.map { (-) }
-      }
-    } expression: {
-      Lazy { term }
+private let expr: AnyParser<Substring.UTF8View, Double> = AnyParser(
+  InfixOperator(associativity: .left) {
+    OneOf {
+      "+".utf8.map { (+) }
+      "-".utf8.map { (-) }
     }
-  )
-}
+  } expression: {
+    Lazy { term }
+  }
+)
 
 private let term = InfixOperator(associativity: .left) {
   OneOf {
@@ -34,7 +32,7 @@ private let term = InfixOperator(associativity: .left) {
 }
 
 private let exponent = InfixOperator(associativity: .left) {
-  "^".utf8.map { { pow($0, $1) } }
+  "^".utf8.map { pow }
 } expression: {
   factor
 }
