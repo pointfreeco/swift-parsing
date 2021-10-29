@@ -14,6 +14,19 @@
 ///     : Conditional.second(LegacyParser())
 /// }
 /// ```
+///
+/// You won't typically construct this parser directly, but instead will use standard
+/// `if`/`else if`/`else` statements in a parser builder to automatically build conditional parsers:
+///
+/// ```swift
+/// versionParser.flatMap { version in
+///   if version == "2.0" {
+///     Conditional.first(V2Parser())
+///   } else {
+///     Conditional.second(LegacyParser())
+///   }
+/// }
+/// ```
 public enum Conditional<First, Second>: Parser
 where
   First: Parser,
