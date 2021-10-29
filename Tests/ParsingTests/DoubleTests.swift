@@ -32,6 +32,14 @@ final class DoubleTests: XCTestCase {
     input = "Hello"[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
     XCTAssertEqual("Hello", String(input))
+
+    input = "- Hello"[...].utf8
+    XCTAssertEqual(nil, parser.parse(&input))
+    XCTAssertEqual("- Hello", String(input))
+
+    input = "+ Hello"[...].utf8
+    XCTAssertEqual(nil, parser.parse(&input))
+    XCTAssertEqual("+ Hello", String(input))
   }
 
   func testFloat() {
@@ -50,8 +58,11 @@ final class DoubleTests: XCTestCase {
     XCTAssertEqual(" Hello", String(input))
 
     input = "1234567890123456789012345678901234567890 Hello"[...].utf8
-    if let n = Float("1234567890123456789012345678901234567890") {
-      XCTAssertEqual(n, parser.parse(&input))
+    let parsed = parser.parse(&input)
+    if parsed == nil {
+      XCTAssertEqual("1234567890123456789012345678901234567890 Hello", String(input))
+    } else {
+      XCTAssertEqual(Float.infinity, parsed)
       XCTAssertEqual(" Hello", String(input))
     } else {
       XCTAssertEqual(nil, parser.parse(&input))
@@ -69,6 +80,14 @@ final class DoubleTests: XCTestCase {
     input = "Hello"[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
     XCTAssertEqual("Hello", String(input))
+
+    input = "- Hello"[...].utf8
+    XCTAssertEqual(nil, parser.parse(&input))
+    XCTAssertEqual("- Hello", String(input))
+
+    input = "+ Hello"[...].utf8
+    XCTAssertEqual(nil, parser.parse(&input))
+    XCTAssertEqual("+ Hello", String(input))
   }
 
   #if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
@@ -102,6 +121,14 @@ final class DoubleTests: XCTestCase {
       input = "Hello"[...].utf8
       XCTAssertEqual(nil, parser.parse(&input))
       XCTAssertEqual("Hello", String(input))
+
+      input = "- Hello"[...].utf8
+      XCTAssertEqual(nil, parser.parse(&input))
+      XCTAssertEqual("- Hello", String(input))
+
+      input = "+ Hello"[...].utf8
+      XCTAssertEqual(nil, parser.parse(&input))
+      XCTAssertEqual("+ Hello", String(input))
     }
   #endif
 }

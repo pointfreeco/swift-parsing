@@ -3,10 +3,12 @@ import Foundation
 extension Double {
   /// A parser that consumes a double from the beginning of a collection of UTF-8 code units.
   ///
-  ///     var input = "123.45 Hello world"[...].utf8
-  ///     let output = Double.parser().parse(&input)
-  ///     precondition(output == 123.45)
-  ///     precondition(Substring(input) == " Hello world")
+  /// ```swift
+  /// var input = "123.45 Hello world"[...].utf8
+  /// let output = Double.parser().parse(&input)
+  /// precondition(output == 123.45)
+  /// precondition(Substring(input) == " Hello world")
+  /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
   /// - Returns: A parser that consumes a double from the beginning of a collection of UTF-8 code
@@ -20,10 +22,12 @@ extension Double {
 
   /// A parser that consumes a double from the beginning of a substring.
   ///
-  ///     var input = "123.45 Hello world"[...]
-  ///     let output = Double.parser().parse(&input)
-  ///     precondition(output == 123.45)
-  ///     precondition(input == " Hello world")
+  /// ```swift
+  /// var input = "123.45 Hello world"[...]
+  /// let output = Double.parser().parse(&input)
+  /// precondition(output == 123.45)
+  /// precondition(input == " Hello world")
+  /// ```
   ///
   /// - Parameter inputType: The substring type. This parameter is included to mirror the interface
   ///   that parses UTF-8 code units.
@@ -39,10 +43,12 @@ extension Double {
 extension Float {
   /// A parser that consumes a float from the beginning of a collection of UTF-8 code units.
   ///
-  ///     var input = "123.45 Hello world"[...].utf8
-  ///     let output = Float.parser().parse(&input)
-  ///     precondition(output == 123.45)
-  ///     precondition(Substring(input) == " Hello world")
+  /// ```swift
+  /// var input = "123.45 Hello world"[...].utf8
+  /// let output = Float.parser().parse(&input)
+  /// precondition(output == 123.45)
+  /// precondition(Substring(input) == " Hello world")
+  /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
   /// - Returns: A parser that consumes a float from the beginning of a collection of UTF-8 code
@@ -56,10 +62,12 @@ extension Float {
 
   /// A parser that consumes a float from the beginning of a substring.
   ///
-  ///     var input = "123.45 Hello world"[...]
-  ///     let output = Float.parser().parse(&input)
-  ///     precondition(output == 123.45)
-  ///     precondition(input == " Hello world")
+  /// ```swift
+  /// var input = "123.45 Hello world"[...]
+  /// let output = Float.parser().parse(&input)
+  /// precondition(output == 123.45)
+  /// precondition(input == " Hello world")
+  /// ```
   ///
   /// - Parameter inputType: The substring type. This parameter is included to mirror the interface
   ///   that parses UTF-8 code units.
@@ -77,10 +85,12 @@ extension Float {
     /// A parser that consumes an extended-precision, floating-point value from the beginning of a
     /// collection of UTF-8 code units.
     ///
-    ///     var input = "123.45 Hello world"[...].utf8
-    ///     let output = Float80.parser().parse(&input)
-    ///     precondition(output == 123.45)
-    ///     precondition(Substring(input) == " Hello world")
+    /// ```swift
+    /// var input = "123.45 Hello world"[...].utf8
+    /// let output = Float80.parser().parse(&input)
+    /// precondition(output == 123.45)
+    /// precondition(Substring(input) == " Hello world")
+    /// ```
     ///
     /// - Parameter inputType: The collection type of UTF-8 code units to parse.
     /// - Returns: A parser that consumes an extended-precision, floating-point value from the
@@ -95,10 +105,12 @@ extension Float {
     /// A parser that consumes an extended-precision, floating-point value from the beginning of a
     /// substring.
     ///
-    ///     var input = "123.45 Hello world"[...]
-    ///     let output = Float80.parser().parse(&input)
-    ///     precondition(output == 123.45)
-    ///     precondition(input == " Hello world")
+    /// ```swift
+    /// var input = "123.45 Hello world"[...]
+    /// let output = Float80.parser().parse(&input)
+    /// precondition(output == 123.45)
+    /// precondition(input == " Hello world")
+    /// ```
     ///
     /// - Parameter inputType: The substring type. This parameter is included to mirror the interface
     ///   that parses UTF-8 code units.
@@ -114,6 +126,10 @@ extension Float {
 #endif
 
 extension Parsers {
+  /// A parser that consumes a double from the beginning of a collection of UTF-8 code units.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// `Double.parser()`, which constructs this type.
   public struct DoubleParser<Input>: Parser
   where
     Input: Collection,
@@ -137,6 +153,10 @@ extension Parsers {
     }
   }
 
+  /// A parser that consumes a double from the beginning of a substring.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// `Double.parser()`, which constructs this type.
   public struct SubstringDoubleParser: Parser {
     public typealias Input = Substring
     public typealias Output = Double
@@ -152,6 +172,10 @@ extension Parsers {
     }
   }
 
+  /// A parser that consumes a float from the beginning of a collection of UTF-8 code units.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// `Float.parser()`, which constructs this type.
   public struct FloatParser<Input>: Parser
   where
     Input: Collection,
@@ -175,6 +199,10 @@ extension Parsers {
     }
   }
 
+  /// A parser that consumes a float from the beginning of a substring.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// `Float.parser()`, which constructs this type.
   public struct SubstringFloatParser: Parser {
     public let parser = Float.parser(of: Substring.UTF8View.self)
 
@@ -188,6 +216,10 @@ extension Parsers {
   }
 
   #if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
+    /// A parser that consumes a float from the beginning of a collection of UTF-8 code units.
+    ///
+    /// You will not typically need to interact with this type directly. Instead you will usually
+    /// use `Float80.parser()`, which constructs this type.
     public struct Float80Parser<Input>: Parser
     where
       Input: Collection,
@@ -211,6 +243,10 @@ extension Parsers {
       }
     }
 
+    /// A parser that consumes a float from the beginning of a substring.
+    ///
+    /// You will not typically need to interact with this type directly. Instead you will usually
+    /// use `Float80.parser()`, which constructs this type.
     public struct SubstringFloat80Parser: Parser {
       public let parser = Float80.parser(of: Substring.UTF8View.self)
 

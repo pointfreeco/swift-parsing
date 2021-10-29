@@ -3,9 +3,11 @@ extension Bool {
   ///
   /// This parser only recognizes the literal "true" and "false" characters:
   ///
-  ///     Bool.parser().parse("true Hello"[...].utf8)  // (output: true, rest: " Hello")
-  ///     Bool.parser().parse("false Hello"[...].utf8) // (output: false, rest: " Hello")
-  ///     Bool.parser().parse("1 Hello"[...].utf8)     // (output: nil, rest: "1 Hello")
+  /// ```swift
+  /// Bool.parser().parse("true Hello"[...].utf8)  // (output: true, rest: " Hello")
+  /// Bool.parser().parse("false Hello"[...].utf8) // (output: false, rest: " Hello")
+  /// Bool.parser().parse("1 Hello"[...].utf8)     // (output: nil, rest: "1 Hello")
+  /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
   /// - Returns: A parser that consumes a Boolean value from the beginning of a collection of UTF-8
@@ -21,9 +23,11 @@ extension Bool {
   ///
   /// This parser only recognizes the literal "true" and "false" characters:
   ///
-  ///     Bool.parser().parse("true Hello"[...])  // (output: true, rest: " Hello")
-  ///     Bool.parser().parse("false Hello"[...]) // (output: false, rest: " Hello")
-  ///     Bool.parser().parse("1 Hello"[...])     // (output: nil, rest: "1 Hello")
+  /// ```swift
+  /// Bool.parser().parse("true Hello"[...])  // (output: true, rest: " Hello")
+  /// Bool.parser().parse("false Hello"[...]) // (output: false, rest: " Hello")
+  /// Bool.parser().parse("1 Hello"[...])     // (output: nil, rest: "1 Hello")
+  /// ```
   ///
   /// - Parameter inputType: The substring type. This parameter is included to mirror the interface
   ///   that parses UTF-8 code units.
@@ -38,6 +42,9 @@ extension Bool {
 
 extension Parsers {
   /// A parser that consumes a Boolean value from the beginning of a collection of UTF-8 code units.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// `Bool.parser()`, which constructs this type.
   public struct BoolParser<Input>: Parser
   where
     Input: Collection,

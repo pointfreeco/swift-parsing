@@ -16,13 +16,13 @@ let boolSuite = BenchmarkSuite(name: "Bool") { suite in
   suite.benchmark(
     name: "Bool.init",
     run: { output = Bool(input) },
-    tearDown: { precondition(output == true) }
+    tearDown: { precondition(output == expected) }
   )
 
   suite.benchmark(
     name: "BoolParser",
     run: { output = Bool.parser(of: Slice<UnsafeBufferPointer<UTF8.CodeUnit>>.self).parse(input) },
-    tearDown: { precondition(output == true) }
+    tearDown: { precondition(output == expected) }
   )
 
   if #available(macOS 10.15, *) {
@@ -35,7 +35,7 @@ let boolSuite = BenchmarkSuite(name: "Bool") { suite in
           scanner.scanString("true").map { _ in true }
           ?? scanner.scanString("false").map { _ in false }
       },
-      tearDown: { precondition(output == true) }
+      tearDown: { precondition(output == expected) }
     )
   }
 }

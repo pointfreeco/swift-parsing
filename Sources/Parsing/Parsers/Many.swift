@@ -4,25 +4,29 @@
 /// For example, given a comma-separated string of numbers, one could parse out an array of
 /// integers:
 ///
-///     var input = "1,2,3"[...]
-///     let output = Many(Int.parser(), separator: StartsWith(",")).parse(&input)
-///     precondition(input == "")
-///     precondition(output == [1, 2, 3])
+/// ```swift
+/// var input = "1,2,3"[...]
+/// let output = Many(Int.parser(), separator: ",").parse(&input)
+/// precondition(input == "")
+/// precondition(output == [1, 2, 3])
+/// ```
 ///
 /// The most general version of `Many` takes a closure that can customize how outputs accumulate,
 /// much like `Sequence.reduce(into:_)`. We could, for example, sum the numbers as we parse them
 /// instead of accumulating each value in an array:
 ///
-///     let sumParser = Many(
-///       Int.parser(of: Substring.self),
-///       into: 0,
-///       separator: StartsWith(","),
-///       +=
-///     )
-///     var input = "1,2,3"[...]
-///     let output = Many(Int.parser(), into: 0, separator: StartsWith(",")).parse(&input)
-///     precondition(input == "")
-///     precondition(output == 6)
+/// ```
+/// let sumParser = Many(
+///   Int.parser(of: Substring.self),
+///   into: 0,
+///   separator: StartsWith(","),
+///   +=
+/// )
+/// var input = "1,2,3"[...]
+/// let output = Many(Int.parser(), into: 0, separator: ",").parse(&input)
+/// precondition(input == "")
+/// precondition(output == 6)
+/// ```
 public struct Many<Upstream, Result, Separator>: Parser
 where
   Upstream: Parser,

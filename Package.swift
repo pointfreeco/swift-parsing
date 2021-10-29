@@ -1,4 +1,4 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.2
 
 import PackageDescription
 
@@ -8,11 +8,7 @@ let package = Package(
     .library(
       name: "Parsing",
       targets: ["Parsing"]
-    ),
-    .executable(
-      name: "swift-parsing-benchmark",
-      targets: ["swift-parsing-benchmark"]
-    ),
+    )
   ],
   dependencies: [
     .package(url: "https://github.com/google/swift-benchmark", from: "0.1.0"),
@@ -20,7 +16,7 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "Parsing",
+      name: "Parsing"
       dependencies: ["CasePaths"]
     ),
     .testTarget(
@@ -31,7 +27,7 @@ let package = Package(
       name: "swift-parsing-benchmark",
       dependencies: [
         "Parsing",
-        "Benchmark",
+        .product(name: "Benchmark", package: "Benchmark"),
       ]
     ),
   ]

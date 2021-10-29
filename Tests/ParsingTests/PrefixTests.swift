@@ -61,4 +61,10 @@ final class PrefixTests: XCTestCase {
     XCTAssertEqual("42", Prefix(...10, while: { $0.isNumber }).parse(&input))
     XCTAssertEqual(" Hello, world!", input)
   }
+
+  func testPrefixLengthFromWhileSuccess() {
+    var input = "42 Hello, world!"[...]
+    XCTAssertEqual("4", Prefix(1, while: { $0.isNumber }).parse(&input))
+    XCTAssertEqual("2 Hello, world!", input)
+  }
 }

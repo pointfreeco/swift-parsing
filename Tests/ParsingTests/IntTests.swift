@@ -28,6 +28,14 @@ final class IntTests: XCTestCase {
     input = "Hello"[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
     XCTAssertEqual("Hello", String(input))
+
+    input = "- Hello"[...].utf8
+    XCTAssertEqual(nil, parser.parse(&input))
+    XCTAssertEqual("- Hello", String(input))
+
+    input = "+ Hello"[...].utf8
+    XCTAssertEqual(nil, parser.parse(&input))
+    XCTAssertEqual("+ Hello", String(input))
   }
 
   func testOverflow() {

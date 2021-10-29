@@ -11,6 +11,11 @@ extension Parser {
 }
 
 extension Parsers {
+  /// A parser that runs this parser, pipes its output into the given parser, and returns the output
+  /// of the given parser.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/pipe(_:)`` operation, which constructs this type.
   public struct Pipe<Upstream, Downstream>: Parser
   where
     Upstream: Parser,

@@ -1,4 +1,24 @@
 /// A parser that parses a sequence of elements from its input.
+///
+/// This parser is named after `Sequence.starts(with:)`, and tests that the input it is parsing
+/// starts with a given subsequence by calling this method under the hood.
+///
+/// If `true`, it consumes this prefix and returns `Void`:
+///
+/// ```swift
+/// StartsWith("Hello, ").parse("Hello, Blob!"[...]) // (output: (), rest: "Blob!")
+/// ```
+///
+/// If `false`, it fails and leaves input intact:
+///
+/// ```swift
+/// StartsWith("Hello, ").parse("Goodnight, Blob!"[...]) // (output: nil, rest: "Goodnight, Blob!")
+/// ```
+///
+/// This parser returns `Void` and _not_ the sequence of elements it consumes because the sequence
+/// is already known at the time the parser is created (it is the value quite literally passed to
+/// ``StartsWith/init(_:)``). This means `StartsWith` plays nicely when chained into the
+/// ``Parser/take(_:)-1fw8y`` operation, which will discard the `Void` output.
 public struct StartsWith<Input>: Parser
 where
   Input: Collection,
@@ -8,6 +28,14 @@ where
   public let possiblePrefix: AnyCollection<Input.Element>
   public let startsWith: (Input) -> Bool
 
+  /// Initializes a parser that successfully returns `Void` when the initial elements of its input
+  /// are equivalent to the elements in another sequence, using the given predicate as the
+  /// equivalence test.
+  ///
+  /// - Parameters:
+  ///   - possiblePrefix: A sequence to compare to the start of an input sequence.
+  ///   - areEquivalent: A predicate that returns `true` if its two arguments are equivalent;
+  ///     otherwise, `false`.
   @inlinable
   public init<PossiblePrefix>(
     _ possiblePrefix: PossiblePrefix,
@@ -33,6 +61,10 @@ where
 }
 
 extension Parsers.StartsWith where Input.Element: Equatable {
+  /// Initializes a parser that successfully returns `Void` when the initial elements of its input
+  /// are equivalent to the elements in another sequence.
+  ///
+  /// - Parameter possiblePrefix: A sequence to compare to the start of an input sequence.
   @inlinable
   public init<PossiblePrefix>(_ possiblePrefix: PossiblePrefix)
   where

@@ -34,29 +34,29 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
     .map { Route.home }
     .orElse(
       Method("GET")
-        .skip(Path(StartsWith("contact-us".utf8)))
-        .skip(PathEnd())
+        .skip(Path("contact-us".utf8))
+        .skip(End())
         .map { Route.contactUs }
     )
     .orElse(
       Method("GET")
-        .skip(Path(StartsWith("episodes".utf8)))
-        .skip(PathEnd())
+        .skip(Path("episodes".utf8))
+        .skip(End())
         .map { Route.episodes }
     )
     .orElse(
       Method("GET")
-        .skip(Path(StartsWith("episodes".utf8)))
+        .skip(Path("episodes".utf8))
         .take(Path(Int.parser()))
         .skip(PathEnd())
         .map(Route.episode(id:))
     )
     .orElse(
       Method("GET")
-        .skip(Path(StartsWith("episodes".utf8)))
+        .skip(Path("episodes".utf8))
         .take(Path(Int.parser()))
-        .skip(Path(StartsWith("comments".utf8)))
-        .skip(PathEnd())
+        .skip(Path("comments".utf8))
+        .skip(End())
         .map(Route.episodeComments(id:))
     )
 

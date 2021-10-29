@@ -25,7 +25,7 @@ A library for turning nebulous data into well-structured data, with a focus on c
 This library was designed over the course of many [episodes](https://www.pointfree.co/collections/parsing) on [Point-Free](https://www.pointfree.co), a video series exploring functional programming and the Swift language, hosted by [Brandon Williams](https://twitter.com/mbrandonw) and [Stephen Celis](https://twitter.com/stephencelis). You can watch all of the episodes [here](https://www.pointfree.co/collections/parsing).
 
 <a href="https://www.pointfree.co/collections/parsing">
-  <img alt="video poster image" src="https://i.vimeocdn.com/video/1000228065.jpg" width="600">
+  <img alt="video poster image" src="https://d3rccdn33rt8ze.cloudfront.net/episodes/0126.jpeg" width="600">
 </a>
 
 ## Motivation
@@ -97,7 +97,7 @@ We can start by describing what it means to parse a single row, first by parsing
 
 ```swift
 let user = Int.parser()
-  .skip(StartsWith(","))
+  .skip(",")
 ```
 
 Already this can consume the beginning of the input:
@@ -111,9 +111,9 @@ Next we want to take everything up until the next comma for the user's name, and
 
 ```swift
 let user = Int.parser()
-  .skip(StartsWith(","))
+  .skip(",")
   .take(Prefix { $0 != "," })
-  .skip(StartsWith(","))
+  .skip(",")
 ```
 
 Here the `.take` operator has combined parsed values together into a tuple, `(Int, Substring)`.
@@ -122,9 +122,9 @@ And then we want to take the boolean at the end of the row for the user's admin 
 
 ```swift
 let user = Int.parser()
-  .skip(StartsWith(","))
+  .skip(",")
   .take(Prefix { $0 != "," })
-  .skip(StartsWith(","))
+  .skip(",")
   .take(Bool.parser())
 ```
 
@@ -132,9 +132,9 @@ Currently this will parse a tuple `(Int, Substring, Bool)` from the input, and w
 
 ```swift
 let user = Int.parser()
-  .skip(StartsWith(","))
+  .skip(",")
   .take(Prefix { $0 != "," })
-  .skip(StartsWith(","))
+  .skip(",")
   .take(Bool.parser())
   .map { User(id: $0, name: String($1), isAdmin: $2) }
 ```
@@ -149,7 +149,7 @@ input // => "\n2,Blob Jr.,false\n3,Blob Sr.,true"
 To parse multiple users from the input we can use the `Many` parser:
 
 ```swift
-let users = Many(user, separator: StartsWith("\n"))
+let users = Many(user, separator: "\n")
 
 users.parse(&input) // => [User(id: 1, name: "Blob", isAdmin: true), ...]
 input // => ""
@@ -351,6 +351,8 @@ README Example.Adhoc                              7952.000 ns ±  60.09 %     16
 Routing.Parser                                    5362.000 ns ±  65.88 %     241853
 String Abstractions.Substring                  1102496.000 ns ±  11.32 %       1227
 String Abstractions.UTF8                        144420.000 ns ±  22.45 %       8905
+UUID.UUID.init                                     392.000 ns ± 256.71 %    1000000
+UUID.UUIDParser                                    154.000 ns ± 412.07 %    1000000
 Xcode Logs.Parser                              7369318.000 ns ±   5.83 %        190
 ```
 

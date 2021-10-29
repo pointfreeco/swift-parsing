@@ -1,6 +1,8 @@
 /// A parser that always fails, no matter the input.
 ///
-///     Fail<Substring, Int>().parse("123 Hello") // (output: nil, rest: "123 Hello")
+/// ```swift
+/// Fail<Substring, Int>().parse("123 Hello") // (output: nil, rest: "123 Hello")
+/// ```
 public struct Fail<Input, Output>: Parser {
   @inlinable
   public init() {}
