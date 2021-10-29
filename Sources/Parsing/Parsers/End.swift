@@ -9,9 +9,11 @@ public struct End<Input>: Parser where Input: Collection {
   public init() {}
 
   @inlinable
+  @_disfavoredOverload
   public init() where Input == Substring {}
 
   @inlinable
+  @_disfavoredOverload
   public init() where Input == Substring.UTF8View {}
 
   @inlinable

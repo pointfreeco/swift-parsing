@@ -11,6 +11,7 @@ where
   public init() {}
 
   @inlinable
+  @_disfavoredOverload
   public init() where Input == Substring.UTF8View {}
 
   @inlinable

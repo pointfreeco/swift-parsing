@@ -60,6 +60,7 @@ where
   }
 
   @inlinable
+  @_disfavoredOverload
   public init(
     minLength: Int = 0,
     maxLength: Int? = nil,
@@ -71,6 +72,7 @@ where
   }
 
   @inlinable
+  @_disfavoredOverload
   public init(
     minLength: Int = 0,
     maxLength: Int? = nil,
@@ -106,6 +108,7 @@ where
   }
 
   @inlinable
+  @_disfavoredOverload
   public init(
     _ length: ClosedRange<Int>,
     while predicate: ((Input.Element) -> Bool)? = nil
@@ -116,6 +119,7 @@ where
   }
 
   @inlinable
+  @_disfavoredOverload
   public init(
     _ length: ClosedRange<Int>,
     while predicate: ((Input.Element) -> Bool)? = nil
@@ -146,6 +150,7 @@ where
   }
 
   @inlinable
+  @_disfavoredOverload
   public init(
     _ length: Int,
     while predicate: ((Input.Element) -> Bool)? = nil
@@ -156,6 +161,7 @@ where
   }
 
   @inlinable
+  @_disfavoredOverload
   public init(
     _ length: Int,
     while predicate: ((Input.Element) -> Bool)? = nil
@@ -187,6 +193,7 @@ where
   }
 
   @inlinable
+  @_disfavoredOverload
   public init(
     _ length: PartialRangeFrom<Int>,
     while predicate: ((Input.Element) -> Bool)? = nil
@@ -197,6 +204,7 @@ where
   }
 
   @inlinable
+  @_disfavoredOverload
   public init(
     _ length: PartialRangeFrom<Int>,
     while predicate: ((Input.Element) -> Bool)? = nil
@@ -229,6 +237,7 @@ where
   }
 
   @inlinable
+  @_disfavoredOverload
   public init(
     _ length: PartialRangeThrough<Int>,
     while predicate: ((Input.Element) -> Bool)? = nil
@@ -239,6 +248,7 @@ where
   }
 
   @inlinable
+  @_disfavoredOverload
   public init(
     _ length: PartialRangeThrough<Int>,
     while predicate: ((Input.Element) -> Bool)? = nil
@@ -249,6 +259,7 @@ where
   }
 
   @inlinable
+  @_disfavoredOverload
   public func parse(_ input: inout Input) -> Input? {
     var prefix = maxLength.map(input.prefix) ?? input
     prefix = predicate.map { prefix.prefix(while: $0) } ?? prefix
