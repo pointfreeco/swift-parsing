@@ -21,7 +21,17 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 
     enum Episode: Equatable {
       case show
-      case comments
+      case comments(Comments)
+
+      enum Comments: Equatable {
+        case post(Comment)
+        case show(count: Int?)
+
+        struct Comment: Decodable, Equatable {
+          let commenter: String
+          let message: String
+        }
+      }
     }
   }
 
@@ -52,8 +62,19 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
             }
 
             Routing(Route.Episode.comments) {
-              Method.get
               Path(FromUTF8View { "comments".utf8 })
+
+              OneOf {
+                Routing(Route.Episode.Comments.post) {
+                  Method.post
+                  DecodableBody(Route.Episode.Comments.Comment.self)
+                }
+
+                Routing(Route.Episode.Comments.show) {
+                  Method.get
+                  Query("count", Int.parser(), default: 10)
+                }
+              }
             }
           }
         }
@@ -61,14 +82,21 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
     }
   }
 
+  var postRequest = URLRequest(url: URL(string: "/episodes/1/comments")!)
+  postRequest.httpMethod = "POST"
+  postRequest.httpBody = Data("""
+    {"commenter": "Blob", "message": "Hi!"}
+    """.utf8)
   let requests = [
-    URL(string: "/")!,
-    URL(string: "/contact-us")!,
-    URL(string: "/episodes")!,
-    URL(string: "/episodes/1")!,
-    URL(string: "/episodes/1/comments")!,
+    URLRequest(url: URL(string: "/")!),
+    URLRequest(url: URL(string: "/contact-us")!),
+    URLRequest(url: URL(string: "/episodes")!),
+    URLRequest(url: URL(string: "/episodes/1")!),
+    URLRequest(url: URL(string: "/episodes/1/comments")!),
+    URLRequest(url: URL(string: "/episodes/1/comments?count=20")!),
+    postRequest,
   ]
-  .map { URLRequestData(url: $0)! }
+  .map { URLRequestData(request: $0)! }
 
   var output: [Route]!
   var expectedOutput: [Route] = [
@@ -76,7 +104,9 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
     .contactUs,
     .episodes(.index),
     .episodes(.episode(id: 1, route: .show)),
-    .episodes(.episode(id: 1, route: .comments)),
+    .episodes(.episode(id: 1, route: .comments(.show(count: 10)))),
+    .episodes(.episode(id: 1, route: .comments(.show(count: 20)))),
+    .episodes(.episode(id: 1, route: .comments(.post(.init(commenter: "Blob", message: "Hi!"))))),
   ]
   suite.benchmark(
     name: "Parser",

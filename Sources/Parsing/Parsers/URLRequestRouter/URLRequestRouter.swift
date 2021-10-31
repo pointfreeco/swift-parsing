@@ -1,3 +1,5 @@
+import Foundation
+
 public struct URLRequestData {
   public var body: ArraySlice<UInt8>?
   public var headers: [String: Substring]
@@ -40,6 +42,28 @@ where
       body.isEmpty
     else { return nil }
 
+    input.body = nil
+    return output
+  }
+}
+
+public struct DecodableBody<Body: Decodable>: Parser {
+  public let decoder: JSONDecoder
+
+  @inlinable
+  public init(
+    _ type: Body.Type = Body.self,
+    decoder: JSONDecoder = .init()
+  ) {
+    self.decoder = decoder
+  }
+
+  @inlinable
+  public func parse(_ input: inout URLRequestData) -> Body? {
+    guard
+      let body = input.body,
+      let output = try? decoder.decode(Body.self, from: Data(body))
+    else { return nil }
     input.body = nil
     return output
   }
@@ -144,21 +168,31 @@ where
   ValueParser: Parser,
   ValueParser.Input == Substring
 {
+  public let defaultValue: ValueParser.Output?
   public let name: String
   public let valueParser: ValueParser
 
   @inlinable
   public init(
     _ name: String,
-    _ value: ValueParser
+    _ value: ValueParser,
+    default defaultValue: ValueParser.Output? = nil
   ) {
+    self.defaultValue = defaultValue
     self.name = name
     self.valueParser = value
   }
 
   @inlinable
-  public init(_ name: String) where ValueParser == Rest<Substring> {
-    self.init(name, Rest())
+  public init(
+    _ name: String,
+    default defaultValue: ValueParser.Output? = nil
+  ) where ValueParser == Rest<Substring> {
+    self.init(
+      name,
+      Rest(),
+      default: defaultValue
+    )
   }
 
   @inlinable
@@ -168,9 +202,12 @@ where
       var value = wrapped,
       let output = self.valueParser.parse(&value),
       value.isEmpty
-    else { return nil }
+    else { return defaultValue }
 
-    input.headers[self.name]?.removeFirst()
+    input.query[self.name]?.removeFirst()
+    if input.query[self.name]?.isEmpty ?? true {
+      input.query[self.name] = nil
+    }
     return output
   }
 }

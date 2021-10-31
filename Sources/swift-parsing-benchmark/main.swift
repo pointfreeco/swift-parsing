@@ -4,7 +4,7 @@ import Parsing
 Benchmark.main(
   [
 //    defaultBenchmarkSuite,
-    arithmeticSuite,
+//    arithmeticSuite,
 //    binaryDataSuite,
 //    boolSuite,
 //    colorSuite,
@@ -16,7 +16,7 @@ Benchmark.main(
 //    prefixUpToSuite,
 //    raceSuite,
 //    readmeExampleSuite,
-//    routingSuite,
+    routingSuite,
 //    stringAbstractionsSuite,
 //    uuidSuite,
 //    xcodeLogsSuite,
