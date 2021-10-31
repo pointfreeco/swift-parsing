@@ -25,4 +25,10 @@ extension URLRequestData {
   public init?(url: URL) {
     self.init(request: URLRequest(url: url))
   }
+
+  public init?(string: String) {
+    guard let url = URL(string: string)
+    else { return nil }
+    self.init(url: url)
+  }
 }
