@@ -47,24 +47,23 @@ where
   }
 }
 
-public struct DecodableBody<Body: Decodable>: Parser {
+public struct JSON<Value: Decodable>: Parser {
   public let decoder: JSONDecoder
 
   @inlinable
   public init(
-    _ type: Body.Type = Body.self,
+    _ type: Value.Type,
     decoder: JSONDecoder = .init()
   ) {
     self.decoder = decoder
   }
 
   @inlinable
-  public func parse(_ input: inout URLRequestData) -> Body? {
+  public func parse(_ input: inout ArraySlice<UInt8>) -> Value? {
     guard
-      let body = input.body,
-      let output = try? decoder.decode(Body.self, from: Data(body))
+      let output = try? decoder.decode(Value.self, from: Data(input))
     else { return nil }
-    input.body = nil
+    input = [] 
     return output
   }
 }

@@ -67,7 +67,9 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
               OneOf {
                 Routing(Route.Episode.Comments.post) {
                   Method.post
-                  DecodableBody(Route.Episode.Comments.Comment.self)
+                  Body {
+                    JSON(Route.Episode.Comments.Comment.self)
+                  }
                 }
 
                 Routing(Route.Episode.Comments.show) {
