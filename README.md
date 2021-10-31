@@ -261,7 +261,7 @@ Notice how the type of the parser encodes the operations that we performed. This
 
 ### Result builder
 
-The library takes advantage of Swift's `@resultBuilder` feature to make constructing complex parsers as fluent as possible, and should be reminescent of how views are constructed in SwiftUI. The main entry point into building a parser is the `Parse` builder:
+The library takes advantage of Swift's `@resultBuilder` feature to make constructing complex parsers as fluent as possible, and should be reminiscent of how views are constructed in SwiftUI. The main entry point into building a parser is the `Parse` builder:
 
 ```swift
 Parse {
@@ -343,9 +343,9 @@ let city = Parse {
 }
 ```
 
-The `FromSubstring` parser allows us to temporarily leave the world of parsing UTF8 and instead work on the higher level `Substring` abstraction, which takes care of normalization of the "é" character.
+The `FromSubstring` parser allows us to temporarily leave the world of parsing UTF-8 and instead work on the higher level `Substring` abstraction, which takes care of normalization of the "é" character.
 
-If we wanted to be _really_ pedantic we could even parse "San Jos" as UTF8 and then parse only the "é" character as a Substring:
+If we wanted to be _really_ pedantic we could even parse "San Jos" as UTF-8 and then parse only the "é" character as a substring:
 
 ```swift
 let city = Parse {
@@ -367,7 +367,7 @@ This library comes with a benchmark executable that not only demonstrates the pe
 
 * [URL router](Sources/swift-parsing-benchmark/Routing.swift)
 * [Xcode test logs](Sources/swift-parsing-benchmark/XcodeLogs)
-* [Simplfied CSV](Sources/swift-parsing-benchmark/CSV)
+* [Simplified CSV](Sources/swift-parsing-benchmark/CSV)
 * [Hex color](Sources/swift-parsing-benchmark/Color.swift)
 * [ISO8601 date](Sources/swift-parsing-benchmark/Date.swift)
 * [HTTP request](Sources/swift-parsing-benchmark/HTTP.swift)
