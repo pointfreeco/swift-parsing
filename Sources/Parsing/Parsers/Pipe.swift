@@ -11,7 +11,7 @@ extension Parser {
 
   @inlinable
   public func pipe<Downstream>(
-    @ParserBuilder build: () -> Downstream
+    @ParserBuilder _ build: () -> Downstream
   ) -> Parsers.Pipe<Self, Downstream> {
     .init(upstream: self, downstream: build())
   }

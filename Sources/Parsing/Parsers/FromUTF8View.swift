@@ -6,9 +6,7 @@ where
   public let utf8Parser: UTF8Parser
 
   @inlinable
-  public init(
-    @ParserBuilder _ utf8Parser: () -> UTF8Parser
-  ) {
+  public init(@ParserBuilder _ utf8Parser: () -> UTF8Parser) {
     self.utf8Parser = utf8Parser()
   }
 

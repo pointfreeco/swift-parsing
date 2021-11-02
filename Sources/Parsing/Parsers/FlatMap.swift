@@ -9,7 +9,7 @@ extension Parser {
   /// - Returns: A parser that transforms output from an upstream parser into a new parser.
   @inlinable
   public func flatMap<NewParser>(
-    _ transform: @escaping (Output) -> NewParser
+    @ParserBuilder _ transform: @escaping (Output) -> NewParser
   ) -> Parsers.FlatMap<NewParser, Self> {
     .init(upstream: self, transform: transform)
   }

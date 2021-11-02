@@ -73,7 +73,7 @@ where
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder build: () -> Upstream,
+    @ParserBuilder forEach: () -> Upstream,
     @ParserBuilder separatedBy separator: () -> Separator,
     do updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
   ) {
@@ -82,7 +82,7 @@ where
     self.minimum = minimum
     self.separator = separator()
     self.updateAccumulatingResult = updateAccumulatingResult
-    self.upstream = build()
+    self.upstream = forEach()
   }
 
   @inlinable
@@ -136,9 +136,9 @@ extension Many where Result == [Upstream.Output], Separator == Always<Input, Voi
   public init(
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder build: () -> Upstream
+    @ParserBuilder forEach: () -> Upstream
   ) {
-    self.init(build(), into: [], atLeast: minimum, atMost: maximum) {
+    self.init(forEach(), into: [], atLeast: minimum, atMost: maximum) {
       $0.append($1)
     }
   }
@@ -170,10 +170,10 @@ extension Many where Result == [Upstream.Output] {
   public init(
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder build: () -> Upstream,
+    @ParserBuilder forEach: () -> Upstream,
     @ParserBuilder separatedBy separator: () -> Separator
   ) {
-    self.init(build(), into: [], atLeast: minimum, atMost: maximum, separator: separator()) {
+    self.init(forEach(), into: [], atLeast: minimum, atMost: maximum, separator: separator()) {
       $0.append($1)
     }
   }
@@ -211,7 +211,7 @@ extension Many where Separator == Always<Input, Void> {
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder build: () -> Upstream,
+    @ParserBuilder forEach: () -> Upstream,
     do updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
   ) {
     self.initialResult = initialResult
@@ -219,7 +219,7 @@ extension Many where Separator == Always<Input, Void> {
     self.minimum = minimum
     self.separator = nil
     self.updateAccumulatingResult = updateAccumulatingResult
-    self.upstream = build()
+    self.upstream = forEach()
   }
 }
 

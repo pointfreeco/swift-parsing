@@ -41,7 +41,7 @@ public struct Skip<Upstream>: Parser where Upstream: Parser {
   }
 
   @inlinable
-  public init(@ParserBuilder build: () -> Upstream) {
+  public init(@ParserBuilder _ build: () -> Upstream) {
     self.upstream = build()
   }
 
