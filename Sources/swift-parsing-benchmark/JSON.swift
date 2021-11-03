@@ -137,15 +137,15 @@ private let fragment = OneOf {
 
 private let stringLiteral = Parse {
   "\"".utf8
-  Many(into: "") {
-    fragment
-  } do: { string, fragment in
+  Many(into: "") { string, fragment in
     switch fragment {
     case let .escape(character):
       string.append(character)
     case let .literal(other):
       string.append(contentsOf: other)
     }
+  } forEach: {
+    fragment
   }
   "\"".utf8
 }

@@ -208,11 +208,11 @@ extension Many where Separator == Always<Input, Void> {
 
   @inlinable
   public init(
-    into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder forEach: () -> Upstream,
-    do updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void,
+    @ParserBuilder forEach: () -> Upstream
   ) {
     self.initialResult = initialResult
     self.maximum = maximum
