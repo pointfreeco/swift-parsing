@@ -6,9 +6,10 @@ class ManyTests: XCTestCase {
     var input = "         Hello world"[...].utf8
 
     XCTAssertNotNil(
-      Many(StartsWith(" ".utf8))
-        .orElse(Fail())
-        .parse(&input)
+      Many {
+        " ".utf8
+      }
+      .parse(&input)
     )
     XCTAssertEqual(Substring(input), "Hello world")
   }
@@ -17,7 +18,12 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      Many(Int.parser(), separator: StartsWith(",".utf8)).parse(&input),
+      Many {
+        Int.parser()
+      } separatedBy: {
+        ",".utf8
+      }
+      .parse(&input),
       [1, 2, 3, 4, 5]
     )
     XCTAssertEqual(Substring(input), "")
@@ -27,7 +33,12 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5,"[...].utf8
 
     XCTAssertEqual(
-      Many(Int.parser(), separator: StartsWith(",".utf8)).parse(&input),
+      Many {
+        Int.parser()
+      } separatedBy: {
+        ",".utf8
+      }
+      .parse(&input),
       [1, 2, 3, 4, 5]
     )
     XCTAssertEqual(Substring(input), ",")
@@ -37,22 +48,22 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      Many(
-        Int.parser(),
-        atLeast: 6,
-        separator: StartsWith(",".utf8)
-      )
+      Many(atLeast: 6) {
+        Int.parser()
+      } separatedBy: {
+        ",".utf8
+      }
       .parse(&input),
       nil
     )
     XCTAssertEqual(Substring(input), "1,2,3,4,5")
 
     XCTAssertEqual(
-      Many(
-        Int.parser(),
-        atLeast: 5,
-        separator: StartsWith(",".utf8)
-      )
+      Many(atLeast: 5) {
+        Int.parser()
+      } separatedBy: {
+        ",".utf8
+      }
       .parse(&input),
       [1, 2, 3, 4, 5]
     )
@@ -63,11 +74,11 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      Many(
-        Int.parser(),
-        atMost: 3,
-        separator: StartsWith(",".utf8)
-      )
+      Many(atMost: 3) {
+        Int.parser()
+      } separatedBy: {
+        ",".utf8
+      }
       .parse(&input),
       [1, 2, 3]
     )
@@ -78,12 +89,11 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      Many(
-        Int.parser(),
-        into: 0,
-        separator: StartsWith(",".utf8),
-        +=
-      )
+      Many(into: 0, +=) {
+        Int.parser()
+      } separatedBy: {
+        ",".utf8
+      }
       .parse(&input),
       15
     )

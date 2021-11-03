@@ -40,13 +40,13 @@ final class SkipTests: XCTestCase {
 
   func testSkipSuccess() {
     var input = "42 Hello, world!"[...].utf8
-    XCTAssert(try () == XCTUnwrap(Skip(Int.parser()).parse(&input)))
+    XCTAssert(try () == XCTUnwrap(Skip { Int.parser() }.parse(&input)))
     XCTAssertEqual(" Hello, world!", Substring(input))
   }
 
   func testSkipFailure() {
     var input = "Hello, world!"[...].utf8
-    XCTAssertNil(Skip(Int.parser()).parse(&input))
+    XCTAssertNil(Skip { Int.parser() }.parse(&input))
     XCTAssertEqual("Hello, world!", Substring(input))
   }
 

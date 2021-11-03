@@ -71,11 +71,11 @@ where
   @inlinable
   public init(
     into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     @ParserBuilder forEach: () -> Upstream,
-    @ParserBuilder separatedBy separator: () -> Separator,
-    do updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
+    @ParserBuilder separatedBy separator: () -> Separator
   ) {
     self.initialResult = initialResult
     self.maximum = maximum

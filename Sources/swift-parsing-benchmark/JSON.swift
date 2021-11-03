@@ -51,7 +51,10 @@ private var json: AnyParser<Input, JSON> {
 
 private let object = Parse {
   "{".utf8
-  Many(into: [String: JSON]()) {
+  Many(into: [String: JSON]()) { object, pair in
+    let (name, value) = pair
+    object[name] = value
+  } forEach: {
     Skip {
       Whitespace()
     }
@@ -68,9 +71,6 @@ private let object = Parse {
     Skip {
       Whitespace()
     }
-  } do: { object, pair in
-    let (name, value) = pair
-    object[name] = value
   }
   "}".utf8
 }

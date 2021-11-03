@@ -3,11 +3,12 @@ import XCTest
 
 final class ConditionalTests: XCTestCase {
   let parser = Int.parser()
-    .pullback(\Substring.utf8)
-    .flatMap {
-      $0.isMultiple(of: 2)
-        ? Conditional.first(Always(true))
-        : Conditional.second(Fail())
+    .flatMap { n in
+      if n.isMultiple(of: 2) {
+        Always(true)
+      } else {
+        Fail<Substring, Bool>()
+      }
     }
 
   func testFirst() {

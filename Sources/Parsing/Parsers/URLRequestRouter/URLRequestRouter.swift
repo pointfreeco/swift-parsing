@@ -47,27 +47,6 @@ where
   }
 }
 
-public struct JSON<Value: Decodable>: Parser {
-  public let decoder: JSONDecoder
-
-  @inlinable
-  public init(
-    _ type: Value.Type,
-    decoder: JSONDecoder = .init()
-  ) {
-    self.decoder = decoder
-  }
-
-  @inlinable
-  public func parse(_ input: inout ArraySlice<UInt8>) -> Value? {
-    guard
-      let output = try? decoder.decode(Value.self, from: Data(input))
-    else { return nil }
-    input = [] 
-    return output
-  }
-}
-
 public struct Header<ValueParser>: Parser
 where
   ValueParser: Parser,
@@ -99,6 +78,27 @@ where
     else { return nil }
 
     input.headers[self.name]?.removeFirst()
+    return output
+  }
+}
+
+public struct JSON<Value: Decodable>: Parser {
+  public let decoder: JSONDecoder
+
+  @inlinable
+  public init(
+    _ type: Value.Type,
+    decoder: JSONDecoder = .init()
+  ) {
+    self.decoder = decoder
+  }
+
+  @inlinable
+  public func parse(_ input: inout ArraySlice<UInt8>) -> Value? {
+    guard
+      let output = try? decoder.decode(Value.self, from: Data(input))
+    else { return nil }
+    input = []
     return output
   }
 }
