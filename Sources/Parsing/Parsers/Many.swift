@@ -6,7 +6,11 @@
 ///
 /// ```swift
 /// var input = "1,2,3"[...]
-/// let output = Many(Int.parser(), separator: ",").parse(&input)
+/// let output = Many {
+///   Int.parser()
+/// } separatedBy: {
+///   ","
+/// }.parse(&input)
 /// precondition(input == "")
 /// precondition(output == [1, 2, 3])
 /// ```
@@ -16,12 +20,11 @@
 /// instead of accumulating each value in an array:
 ///
 /// ```
-/// let sumParser = Many(
-///   Int.parser(of: Substring.self),
-///   into: 0,
-///   separator: StartsWith(","),
-///   +=
-/// )
+/// let sumParser = Many(into: 0, +=) {
+///   Int.parser()
+/// } separatedBy: {
+///   ","
+/// }
 /// var input = "1,2,3"[...]
 /// let output = Many(Int.parser(), into: 0, separator: ",").parse(&input)
 /// precondition(input == "")

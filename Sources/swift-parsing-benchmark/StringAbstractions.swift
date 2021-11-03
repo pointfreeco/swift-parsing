@@ -23,16 +23,26 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
 
   suite.benchmark("Substring") {
     var input = input[...].utf8
-    let output = Many(Int.parser(), separator: StartsWith("é".utf8)).parse(&input)
+    let output = Many {
+      Int.parser()
+    } separatedBy: {
+      FromSubstring { "é" }
+    }
+    .parse(&input)
     precondition(output?.count == count)
   }
 
   suite.benchmark("UTF8") {
     var input = input[...].utf8
-    let output = Many(
-      Int.parser(),
-      separator: StartsWith("é".utf8).orElse(StartsWith("é".utf8))
-    ).parse(&input)
+    let output = Many {
+      Int.parser()
+    } separatedBy: {
+      OneOf {
+        "é".utf8
+        "é".utf8
+      }
+    }
+    .parse(&input)
     precondition(output?.count == count)
   }
 }

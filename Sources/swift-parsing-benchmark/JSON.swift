@@ -166,7 +166,7 @@ private let boolean = Bool.parser(of: Input.self)
 
 // MARK: Null
 
-private let null = StartsWith<Input>("null".utf8)
+private let null = Parse { "null".utf8 }
   .map { JSON.null }
 
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in

@@ -1,3 +1,11 @@
+// TODO: Should this be a builder?
+// ```
+// Stream {
+//   Int.parser()
+//   "\n".utf8
+// }
+// ```
+
 extension Parser where Input: RangeReplaceableCollection {
   /// Transforms the receiver parser into one that can parse streams of input.
   ///
@@ -5,16 +13,20 @@ extension Parser where Input: RangeReplaceableCollection {
   /// of UTF8 bytes:
   ///
   /// ```swift
-  /// Parsers.Integer<ArraySlice<UInt8>, Int>()
-  ///   .skip(StartsWith("\n".utf8))
+  /// Parse {
+  ///   Int.parser(of: ArraySlice<UInt8>.self)
+  ///   StartsWith("\n".utf8)
+  /// }
   /// ```
   ///
   /// This parser can be transformed into one that processes an incoming stream of UTF8 bytes:
   ///
   /// ```swift
-  /// let newlineSeparatedIntegers = Parsers.Integer<ArraySlice<UInt8>, Int>()
-  ///   .skip(StartsWith("\n".utf8))
-  ///   .stream
+  /// Parse {
+  ///   Int.parser(of: ArraySlice<UInt8>.self)
+  ///   StartsWith("\n".utf8)
+  /// }
+  /// .stream
   /// ```
   ///
   /// And then it can be used on a stream, such as values coming from standard in:
