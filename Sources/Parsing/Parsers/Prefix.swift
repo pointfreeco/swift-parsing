@@ -59,26 +59,6 @@ where
     self.predicate = predicate
   }
 
-  @_disfavoredOverload
-  @inlinable
-  public init(
-    minLength: Int = 0,
-    maxLength: Int? = nil,
-    while predicate: @escaping (Input.Element) -> Bool
-  ) where Input == Substring {
-    self.init(minLength: minLength, maxLength: maxLength, while: predicate)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(
-    minLength: Int = 0,
-    maxLength: Int? = nil,
-    while predicate: @escaping (Input.Element) -> Bool
-  ) where Input == Substring.UTF8View {
-    self.init(minLength: minLength, maxLength: maxLength, while: predicate)
-  }
-
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
   /// ```swift
@@ -103,24 +83,6 @@ where
     self.predicate = predicate
   }
 
-  @_disfavoredOverload
-  @inlinable
-  public init(
-    _ length: ClosedRange<Int>,
-    while predicate: ((Input.Element) -> Bool)? = nil
-  ) where Input == Substring {
-    self.init(length, while: predicate)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(
-    _ length: ClosedRange<Int>,
-    while predicate: ((Input.Element) -> Bool)? = nil
-  ) where Input == Substring.UTF8View {
-    self.init(length, while: predicate)
-  }
-
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
   ///     Prefix(4, while: { $0.isNumber }).parse("123456") // "1234"
@@ -139,24 +101,6 @@ where
     self.minLength = length
     self.maxLength = length
     self.predicate = predicate
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(
-    _ length: Int,
-    while predicate: ((Input.Element) -> Bool)? = nil
-  ) where Input == Substring {
-    self.init(length, while: predicate)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(
-    _ length: Int,
-    while predicate: ((Input.Element) -> Bool)? = nil
-  ) where Input == Substring.UTF8View {
-    self.init(length, while: predicate)
   }
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
@@ -178,24 +122,6 @@ where
     self.minLength = length.lowerBound
     self.maxLength = nil
     self.predicate = predicate
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(
-    _ length: PartialRangeFrom<Int>,
-    while predicate: ((Input.Element) -> Bool)? = nil
-  ) where Input == Substring {
-    self.init(length, while: predicate)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(
-    _ length: PartialRangeFrom<Int>,
-    while predicate: ((Input.Element) -> Bool)? = nil
-  ) where Input == Substring.UTF8View {
-    self.init(length, while: predicate)
   }
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
@@ -220,24 +146,6 @@ where
     self.predicate = predicate
   }
 
-  @_disfavoredOverload
-  @inlinable
-  public init(
-    _ length: PartialRangeThrough<Int>,
-    while predicate: ((Input.Element) -> Bool)? = nil
-  ) where Input == Substring {
-    self.init(length, while: predicate)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(
-    _ length: PartialRangeThrough<Int>,
-    while predicate: ((Input.Element) -> Bool)? = nil
-  ) where Input == Substring.UTF8View {
-    self.init(length, while: predicate)
-  }
-
   @inlinable
   public func parse(_ input: inout Input) -> Input? {
     var prefix = maxLength.map(input.prefix) ?? input
@@ -246,6 +154,102 @@ where
     guard count >= self.minLength else { return nil }
     input.removeFirst(count)
     return prefix
+  }
+}
+
+extension Prefix where Input == Substring {
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    minLength: Int = 0,
+    maxLength: Int? = nil,
+    while predicate: @escaping (Input.Element) -> Bool
+  ) {
+    self.init(minLength: minLength, maxLength: maxLength, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: ClosedRange<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: Int,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: PartialRangeFrom<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: PartialRangeThrough<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+}
+
+extension Prefix where Input == Substring.UTF8View {
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    minLength: Int = 0,
+    maxLength: Int? = nil,
+    while predicate: @escaping (Input.Element) -> Bool
+  ) {
+    self.init(minLength: minLength, maxLength: maxLength, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: ClosedRange<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: Int,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: PartialRangeFrom<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: PartialRangeThrough<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
   }
 }
 

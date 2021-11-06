@@ -8,19 +8,23 @@ public struct End<Input>: Parser where Input: Collection {
   @inlinable
   public init() {}
 
-  @_disfavoredOverload
-  @inlinable
-  public init() where Input == Substring {}
-
-  @_disfavoredOverload
-  @inlinable
-  public init() where Input == Substring.UTF8View {}
-
   @inlinable
   public func parse(_ input: inout Input) -> Void? {
     guard input.isEmpty else { return nil }
     return ()
   }
+}
+
+extension End where Input == Substring {
+  @_disfavoredOverload
+  @inlinable
+  public init() {}
+}
+
+extension End where Input == Substring.UTF8View {
+  @_disfavoredOverload
+  @inlinable
+  public init() {}
 }
 
 extension Parsers {

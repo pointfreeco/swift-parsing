@@ -10,10 +10,6 @@ where
   @inlinable
   public init() {}
 
-  @_disfavoredOverload
-  @inlinable
-  public init() where Input == Substring.UTF8View {}
-
   @inlinable
   public func parse(_ input: inout Input) -> Void? {
     if input.first == .init(ascii: "\n") {
@@ -25,6 +21,12 @@ where
     }
     return nil
   }
+}
+
+extension Newline where Input == Substring.UTF8View {
+  @_disfavoredOverload
+  @inlinable
+  public init() {}
 }
 
 extension Parsers {
