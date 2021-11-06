@@ -21,23 +21,36 @@ extension UUID {
     .init()
   }
 
+  /// A parser that consumes a hexadecimal UUID from the beginning of a substring's UTF-8 view.
+  ///
+  /// This overload is provided to allow the `Input` generic to be inferred when it is
+  /// `Substring.UTF8View`.
+  ///
+  /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
+  ///   interface that parses any collection of UTF-8 code units.
+  /// - Returns: A parser that consumes a hexadecimal UUID from the beginning of a substring's UTF-8
+  ///   view.
+  @_disfavoredOverload
+  @inlinable
+  public static func parser(
+    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
+  ) -> Parsers.UUIDParser<Substring.UTF8View> {
+    .init()
+  }
+
   /// A parser that consumes a hexadecimal UUID from the beginning of a substring.
   ///
-  /// ```swift
-  /// var input = "deadbeef-dead-beef-dead-beefdeadbeef,"[...]
-  /// let output = Int.parser().parse(&input)
-  /// precondition(output == UUID(uuidString: "deadbeef-dead-beef-dead-beefdeadbeef")!)
-  /// precondition(input == ",")
-  /// ```
+  /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
   ///
-  /// - Parameter inputType: The substring type. This parameter is included to mirror the interface
-  ///   that parses UTF-8 code units.
+  /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
+  ///   interface that parses any collection of UTF-8 code units.
   /// - Returns: A parser that consumes a hexadecimal UUID from the beginning of a substring.
+  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
-  ) -> Parsers.SubstringUUIDParser {
-    .init()
+  ) -> FromUTF8View<Parsers.UUIDParser<Substring.UTF8View>> {
+    .init(.init())
   }
 }
 
@@ -119,24 +132,6 @@ extension Parsers {
           _10, _11, _12, _13, _14, _15
         )
       )
-    }
-  }
-
-  /// A parser that consumes a UUID from the beginning of a substring using a UTF-8 parser.
-  ///
-  /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// `UUID.parser()`, which constructs this type.
-  public struct SubstringUUIDParser: Parser {
-    public let parser: UUIDParser<Substring.UTF8View>
-
-    @inlinable
-    public init() {
-      self.parser = Parsers.UUIDParser()
-    }
-
-    @inlinable
-    public func parse(_ input: inout Substring) -> UUID? {
-      self.parser.parse(&input.utf8)
     }
   }
 }

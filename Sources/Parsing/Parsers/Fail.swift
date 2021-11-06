@@ -7,6 +7,14 @@ public struct Fail<Input, Output>: Parser {
   @inlinable
   public init() {}
 
+  @_disfavoredOverload
+  @inlinable
+  public init() where Input == Substring {}
+
+  @_disfavoredOverload
+  @inlinable
+  public init() where Input == Substring.UTF8View {}
+
   @inlinable
   public func parse(_ input: inout Input) -> Output? {
     nil

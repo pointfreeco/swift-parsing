@@ -28,6 +28,18 @@ where
     self.areEquivalent = areEquivalent
   }
 
+  @_disfavoredOverload
+  @inlinable
+  public init(_ possibleMatch: String) where Input == Substring {
+    self.init(possibleMatch[...])
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(_ possibleMatch: String.UTF8View) where Input == Substring.UTF8View {
+    self.init(String(possibleMatch)[...].utf8)
+  }
+
   @inlinable
   @inline(__always)
   public func parse(_ input: inout Input) -> Input? {
@@ -59,18 +71,4 @@ extension PrefixThrough where Input.Element: Equatable {
 
 extension Parsers {
   public typealias PrefixThrough = Parsing.PrefixThrough  // NB: Convenience type alias for discovery
-}
-
-extension PrefixThrough where Input == Substring {
-  @inlinable
-  public init(_ possibleMatch: String) {
-    self.init(possibleMatch[...])
-  }
-}
-
-extension PrefixThrough where Input == Substring.UTF8View {
-  @inlinable
-  public init(_ possibleMatch: String.UTF8View) {
-    self.init(String(possibleMatch)[...].utf8)
-  }
 }
