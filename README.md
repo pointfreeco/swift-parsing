@@ -217,7 +217,7 @@ The design of the library is largely inspired by the Swift standard library and 
 For example, to parse all the characters from the beginning of a substring until you encounter a comma you can use the `Prefix` parser:
 
 ```swift
-let parser = Prefix<Substring> { $0 != "," }
+let parser = Prefix { $0 != "," }
 
 var input = "Hello,World"[...]
 parser.parse(&input) // => "Hello"
@@ -233,7 +233,7 @@ Prefix<Substring>
 We can `.map` on this parser in order to transform its output, which in this case is the string "Hello":
 
 ```swift
-let parser = Prefix<Substring> { $0 != "," }
+let parser = Prefix { $0 != "," }
   .map { $0 + "!!!" }
 
 var input = "Hello,World"[...]
