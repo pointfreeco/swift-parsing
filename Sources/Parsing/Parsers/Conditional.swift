@@ -21,9 +21,9 @@
 /// ```swift
 /// versionParser.flatMap { version in
 ///   if version == "2.0" {
-///     Conditional.first(V2Parser())
+///     V2Parser()
 ///   } else {
-///     Conditional.second(LegacyParser())
+///     LegacyParser()
 ///   }
 /// }
 /// ```
