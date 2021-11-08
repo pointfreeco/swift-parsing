@@ -259,7 +259,7 @@ where
   }
 
   @inlinable
-  @_disfavoredOverload
+  @inline(__always)
   public func parse(_ input: inout Input) -> Input? {
     var prefix = maxLength.map(input.prefix) ?? input
     prefix = predicate.map { prefix.prefix(while: $0) } ?? prefix

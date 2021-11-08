@@ -12,6 +12,7 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
   let columnCount = 5
   var output: [[String]] = []
 
+  let csv = CSV()
   suite.benchmark(
     name: "Parser",
     run: {
@@ -39,33 +40,62 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
 // MARK: - Parser
 
 private typealias Input = Substring.UTF8View
+private protocol UTF8Parser: Parser where Input == Substring.UTF8View {}
 
-private let plainField = Prefix {
-  $0 != .init(ascii: ",") && $0 != .init(ascii: "\n")
+private protocol _Parser: Parser {
+  associatedtype Body: Parser
+  @ParserBuilder var body: Body { get }
 }
 
-private let quotedField = Parse {
-  "\"".utf8
-  Prefix { $0 != .init(ascii: "\"") }
-  "\"".utf8
+extension _Parser {
+  @inlinable @inline(__always)
+  func parse(_ input: inout Body.Input) -> Body.Output? {
+    self.body.parse(&input)
+  }
 }
 
-private let field = OneOf {
-  quotedField
-  plainField
-}
-.map { String(decoding: $0, as: UTF8.self) }
-
-private let line = Many {
-  field
-} separatedBy: {
-  ",".utf8
+private struct PlainField: _Parser {
+  var body: Prefix<Input> {
+    Prefix { $0 != .init(ascii: ",") && $0 != .init(ascii: "\n") }
+  }
 }
 
-private let csv = Many {
-  line
-} separatedBy: {
-  "\n".utf8
+private struct QuotedField: _Parser {
+  var body: Zip3_VOV<String.UTF8View, Prefix<Input>, String.UTF8View> {
+    "\"".utf8
+    Prefix { $0 != .init(ascii: "\"") }
+    "\"".utf8
+  }
+}
+
+private struct Field: _Parser {
+  var body: Parsers.Map<OneOf<OneOf2<QuotedField, PlainField>>, String> {
+    OneOf {
+      QuotedField()
+      PlainField()
+    }
+    .map { String(Substring($0)) }
+  }
+}
+
+private struct Line: _Parser {
+  var body: Many<Field, [Field.Output], String.UTF8View> {
+    Many {
+      Field()
+    } separatedBy: {
+      ",".utf8
+    }
+  }
+}
+
+private struct CSV: _Parser {
+  var body: Many<Line, [Line.Output], String.UTF8View> {
+    Many {
+      Line()
+    } separatedBy: {
+      "\n".utf8
+    }
+  }
 }
 
 // MARK: - Ad hoc mutating methods
