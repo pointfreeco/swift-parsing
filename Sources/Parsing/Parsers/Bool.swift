@@ -45,7 +45,7 @@ extension Bool {
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
-  ) -> FromUTF8View<Parsers.BoolParser<Substring.UTF8View>> {
+  ) -> Parsers.UTF8ViewToSubstring<Parsers.BoolParser<Substring.UTF8View>> {
     .init(.init())
   }
 }

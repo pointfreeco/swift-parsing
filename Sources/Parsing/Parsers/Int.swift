@@ -66,7 +66,7 @@ extension FixedWidthInteger {
     of inputType: Substring.Type = Substring.self,
     isSigned: Bool = true,
     radix: Self = 10
-  ) -> FromUTF8View<Parsers.IntParser<Substring.UTF8View, Self>> {
+  ) -> Parsers.UTF8ViewToSubstring<Parsers.IntParser<Substring.UTF8View, Self>> {
     .init(.init(isSigned: isSigned, radix: radix))
   }
 }

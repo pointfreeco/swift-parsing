@@ -1,25 +1,25 @@
 // NB: Deprecated after 0.3.1:
 
 extension Parsers {
-  @available(*, deprecated, message: "'Bool.parser(of: Substring.self)' now returns 'FromUTF8View<BoolParser<Substring.UTF8View>>'")
-  public typealias SubstringBoolParser = FromUTF8View<BoolParser<Substring.UTF8View>>
+  @available(*, deprecated, message: "'Bool.parser(of: Substring.self)' now returns 'Parsers.UTF8ViewToSubstring<Parsers.BoolParser<Substring.UTF8View>>'")
+  public typealias SubstringBoolParser = UTF8ViewToSubstring<BoolParser<Substring.UTF8View>>
 
-  @available(*, deprecated, message: "'Double.parser(of: Substring.self)' now returns 'FromUTF8View<DoubleParser<Substring.UTF8View>>'")
-  public typealias SubstringDoubleParser = FromUTF8View<DoubleParser<Substring.UTF8View>>
+  @available(*, deprecated, message: "'Double.parser(of: Substring.self)' now returns 'Parsers.UTF8ViewToSubstring<Parsers.DoubleParser<Substring.UTF8View>>'")
+  public typealias SubstringDoubleParser = UTF8ViewToSubstring<DoubleParser<Substring.UTF8View>>
 
   #if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
-    @available(*, deprecated, message: "'Float80.parser(of: Substring.self)' now returns 'FromUTF8View<Float80Parser<Substring.UTF8View>>'")
-    public typealias SubstringFloat80Parser = FromUTF8View<Float80Parser<Substring.UTF8View>>
+    @available(*, deprecated, message: "'Float80.parser(of: Substring.self)' now returns 'Parsers.UTF8ViewToSubstring<Parsers.Float80Parser<Substring.UTF8View>>'")
+    public typealias SubstringFloat80Parser = UTF8ViewToSubstring<Float80Parser<Substring.UTF8View>>
   #endif
 
-  @available(*, deprecated, message: "'Float.parser(of: Substring.self)' now returns 'FromUTF8View<FloatParser<Substring.UTF8View>>'")
-  public typealias SubstringFloatParser = FromUTF8View<FloatParser<Substring.UTF8View>>
+  @available(*, deprecated, message: "'Float.parser(of: Substring.self)' now returns 'Parsers.UTF8ViewToSubstring<Parsers.FloatParser<Substring.UTF8View>>'")
+  public typealias SubstringFloatParser = UTF8ViewToSubstring<FloatParser<Substring.UTF8View>>
 
-  @available(*, deprecated, message: "'FixedWidthInteger.parser(of: Substring.self)' now returns 'FromUTF8View<IntParser<Substring.UTF8View, FixedWidthInteger>>'")
-  public typealias SubstringIntParser<Output> = FromUTF8View<IntParser<Substring.UTF8View, Output>> where Output: FixedWidthInteger
+  @available(*, deprecated, message: "'FixedWidthInteger.parser(of: Substring.self)' now returns 'Parsers.UTF8ViewToSubstring<Parsers.IntParser<Substring.UTF8View, FixedWidthInteger>>'")
+  public typealias SubstringIntParser<Output> = UTF8ViewToSubstring<IntParser<Substring.UTF8View, Output>> where Output: FixedWidthInteger
 
-  @available(*, deprecated, message: "'UUID.parser(of: Substring.self)' now returns 'FromUTF8View<UUID<Substring.UTF8View>>'")
-  public typealias SubstringUUIDParser<Output> = FromUTF8View<UUIDParser<Substring.UTF8View>>
+  @available(*, deprecated, message: "'UUID.parser(of: Substring.self)' now returns 'Parsers.UTF8ViewToSubstring<Parsers.UUIDParser<Substring.UTF8View>>'")
+  public typealias SubstringUUIDParser<Output> = UTF8ViewToSubstring<UUIDParser<Substring.UTF8View>>
 }
 
 // NB: Deprecated after 0.1.2:
