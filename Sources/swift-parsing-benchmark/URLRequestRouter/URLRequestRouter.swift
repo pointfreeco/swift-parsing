@@ -1,13 +1,14 @@
 import Foundation
+import Parsing
 
-public struct URLRequestData {
-  public var body: ArraySlice<UInt8>?
-  public var headers: [String: Substring]
-  public var method: String?
-  public var path: ArraySlice<Substring>
-  public var query: [String: ArraySlice<Substring?>]
+struct URLRequestData {
+  var body: ArraySlice<UInt8>?
+  var headers: [String: Substring]
+  var method: String?
+  var path: ArraySlice<Substring>
+  var query: [String: ArraySlice<Substring?>]
 
-  public init(
+  init(
     method: String? = nil,
     path: ArraySlice<Substring> = [],
     query: [String: ArraySlice<Substring?>] = [:],
@@ -22,20 +23,20 @@ public struct URLRequestData {
   }
 }
 
-public struct Body<BodyParser>: Parser
+struct Body<BodyParser>: Parser
 where
   BodyParser: Parser,
   BodyParser.Input == ArraySlice<UInt8>
 {
-  public let bodyParser: BodyParser
+  let bodyParser: BodyParser
 
   @inlinable
-  public init(@ParserBuilder _ bodyParser: () -> BodyParser) {
+  init(@ParserBuilder _ bodyParser: () -> BodyParser) {
     self.bodyParser = bodyParser()
   }
 
   @inlinable
-  public func parse(_ input: inout URLRequestData) -> BodyParser.Output? {
+  func parse(_ input: inout URLRequestData) -> BodyParser.Output? {
     guard
       var body = input.body,
       let output = self.bodyParser.parse(&body),
@@ -47,46 +48,46 @@ where
   }
 }
 
-public struct Header<ValueParser>: Parser
-where
-  ValueParser: Parser,
-  ValueParser.Input == Substring
-{
-  public let name: String
-  public let valueParser: ValueParser
+//struct Header<ValueParser>: Parser
+//where
+//  ValueParser: Parser,
+//  ValueParser.Input == Substring
+//{
+//  let name: String
+//  let valueParser: ValueParser
+//
+//  @inlinable
+//  init(
+//    _ name: String,
+//    _ value: ValueParser
+//  ) {
+//    self.name = name
+//    self.valueParser = value
+//  }
+//
+//  @inlinable
+//  init(_ name: String) where ValueParser == Rest<Substring> {
+//    self.init(name, Rest())
+//  }
+//
+//  @inlinable
+//  func parse(_ input: inout URLRequestData) -> ValueParser.Output? {
+//    guard
+//      var value = input.headers[self.name],
+//      let output = self.valueParser.parse(&value),
+//      value.isEmpty
+//    else { return nil }
+//
+//    input.headers[self.name]?.removeFirst()
+//    return output
+//  }
+//}
+
+struct JSON<Value: Decodable>: Parser {
+  let decoder: JSONDecoder
 
   @inlinable
-  public init(
-    _ name: String,
-    _ value: ValueParser
-  ) {
-    self.name = name
-    self.valueParser = value
-  }
-
-  @inlinable
-  public init(_ name: String) where ValueParser == Rest<Substring> {
-    self.init(name, Rest())
-  }
-
-  @inlinable
-  public func parse(_ input: inout URLRequestData) -> ValueParser.Output? {
-    guard
-      var value = input.headers[self.name],
-      let output = self.valueParser.parse(&value),
-      value.isEmpty
-    else { return nil }
-
-    input.headers[self.name]?.removeFirst()
-    return output
-  }
-}
-
-public struct JSON<Value: Decodable>: Parser {
-  public let decoder: JSONDecoder
-
-  @inlinable
-  public init(
+  init(
     _ type: Value.Type,
     decoder: JSONDecoder = .init()
   ) {
@@ -94,7 +95,7 @@ public struct JSON<Value: Decodable>: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout ArraySlice<UInt8>) -> Value? {
+  func parse(_ input: inout ArraySlice<UInt8>) -> Value? {
     guard
       let output = try? decoder.decode(Value.self, from: Data(input))
     else { return nil }
@@ -103,42 +104,42 @@ public struct JSON<Value: Decodable>: Parser {
   }
 }
 
-public struct Method: Parser {
-  public let name: String
+struct Method: Parser {
+  let name: String
 
-  public static let get = Self("GET")
-  public static let post = Self("POST")
-  public static let put = Self("PUT")
-  public static let patch = Self("PATCH")
-  public static let delete = Self("DELETE")
+  static let get = Self("GET")
+  static let post = Self("POST")
+  static let put = Self("PUT")
+  static let patch = Self("PATCH")
+  static let delete = Self("DELETE")
 
   @inlinable
-  public init(_ name: String) {
+  init(_ name: String) {
     self.name = name.uppercased()
   }
 
   @inlinable
-  public func parse(_ input: inout URLRequestData) -> Void? {
+  func parse(_ input: inout URLRequestData) -> Void? {
     guard input.method?.uppercased() == self.name else { return nil }
     input.method = nil
     return ()
   }
 }
 
-public struct Path<ComponentParser>: Parser
+struct Path<ComponentParser>: Parser
 where
   ComponentParser: Parser,
   ComponentParser.Input == Substring
 {
-  public let componentParser: ComponentParser
+  let componentParser: ComponentParser
 
   @inlinable
-  public init(_ component: ComponentParser) {
+  init(_ component: ComponentParser) {
     self.componentParser = component
   }
 
   @inlinable
-  public func parse(_ input: inout URLRequestData) -> ComponentParser.Output? {
+  func parse(_ input: inout URLRequestData) -> ComponentParser.Output? {
     guard
       var component = input.path.first,
       let output = self.componentParser.parse(&component),
@@ -150,29 +151,29 @@ where
   }
 }
 
-public struct PathEnd: Parser {
+struct PathEnd: Parser {
   @inlinable
-  public init() {}
+  init() {}
 
   @inlinable
-  public func parse(_ input: inout URLRequestData) -> Void? {
+  func parse(_ input: inout URLRequestData) -> Void? {
     guard input.path.isEmpty
     else { return nil }
     return ()
   }
 }
 
-public struct Query<ValueParser>: Parser
+struct Query<ValueParser>: Parser
 where
   ValueParser: Parser,
   ValueParser.Input == Substring
 {
-  public let defaultValue: ValueParser.Output?
-  public let name: String
-  public let valueParser: ValueParser
+  let defaultValue: ValueParser.Output?
+  let name: String
+  let valueParser: ValueParser
 
   @inlinable
-  public init(
+  init(
     _ name: String,
     _ value: ValueParser,
     default defaultValue: ValueParser.Output? = nil
@@ -183,7 +184,7 @@ where
   }
 
   @inlinable
-  public init(
+  init(
     _ name: String,
     default defaultValue: ValueParser.Output? = nil
   ) where ValueParser == Rest<Substring> {
@@ -195,7 +196,7 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout URLRequestData) -> ValueParser.Output? {
+  func parse(_ input: inout URLRequestData) -> ValueParser.Output? {
     guard
       let wrapped = input.query[self.name]?.first,
       var value = wrapped,
@@ -211,23 +212,26 @@ where
   }
 }
 
-public struct Routing<RouteParser, Route>: Parser
+struct Routing<RouteParser, Route>: Parser
 where
   RouteParser: Parser,
   RouteParser.Input == URLRequestData
 {
-  public let parser: Zip2_OV<Parsers.Map<RouteParser, Route>, PathEnd>
+  let parser: Parse<Zip2_OV<Parsers.Map<RouteParser, Route>, PathEnd>>
 
   @inlinable
-  public init(
+  init(
     _ route: @escaping (RouteParser.Output) -> Route,
     @ParserBuilder to parser: () -> RouteParser
   ) {
-    self.parser = Zip2_OV(parser().map(route), PathEnd())
+    self.parser = Parse {
+      parser().map(route)
+      PathEnd()
+    }
   }
 
   @inlinable
-  public init(
+  init(
     _ route: Route,
     @ParserBuilder to parser: () -> RouteParser
   ) where RouteParser.Output == Void {
@@ -235,14 +239,14 @@ where
   }
 
   @inlinable
-  public init(
+  init(
     _ route: Route
   ) where RouteParser == Always<URLRequestData, Void> {
     self.init({ route }, to: { Always<URLRequestData, Void>(()) })
   }
 
   @inlinable
-  public func parse(_ input: inout URLRequestData) -> Route? {
+  func parse(_ input: inout URLRequestData) -> Route? {
     self.parser.parse(&input)
   }
 }

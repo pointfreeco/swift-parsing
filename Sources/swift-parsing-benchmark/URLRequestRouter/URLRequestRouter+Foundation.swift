@@ -5,7 +5,7 @@ import Foundation
 #endif
 
 extension URLRequestData {
-  public init?(request: URLRequest) {
+  init?(request: URLRequest) {
     guard
       let url = request.url,
       let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
@@ -22,11 +22,11 @@ extension URLRequestData {
     )
   }
 
-  public init?(url: URL) {
+  init?(url: URL) {
     self.init(request: URLRequest(url: url))
   }
 
-  public init?(string: String) {
+  init?(string: String) {
     guard let url = URL(string: string)
     else { return nil }
     self.init(url: url)

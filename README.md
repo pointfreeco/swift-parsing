@@ -281,7 +281,7 @@ Parse {
 
 Note that the `String` type conforms to the `Parser` protocol, and represents a parser that consumes that exact string from the beginning of an input if it matches, and otherwise fails.
 
-Many of the parsers and operators that come with the library are configured with parser builds to maximize readability of the parsers. For example, to parse accounting syntax of numbers, where parenthesized numbers are negative, we can use the `OneOf` parser builder:
+Many of the parsers and operators that come with the library are configured with parser builders to maximize readability of the parsers. For example, to parse accounting syntax of numbers, where parenthesized numbers are negative, we can use the `OneOf` parser builder:
 
 ```swift
 let accountingNumber = OneOf {

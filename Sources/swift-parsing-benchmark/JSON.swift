@@ -14,18 +14,18 @@ import Parsing
  shortcut and use `Double.parser()`, which behaves accordingly).
  */
 
-private enum JSON: Equatable {
-  indirect case array([JSON])
+private enum JSONValue: Equatable {
+  indirect case array([JSONValue])
   case boolean(Bool)
   case null
   case number(Double)
-  indirect case object([String: JSON])
+  indirect case object([String: JSONValue])
   case string(String)
 }
 
 private typealias Input = Substring.UTF8View
 
-private var json: AnyParser<Input, JSON> {
+private var json: AnyParser<Input, JSONValue> {
   Parse {
     Skip {
       Whitespace()
@@ -51,7 +51,7 @@ private var json: AnyParser<Input, JSON> {
 
 private let object = Parse {
   "{".utf8
-  Many(into: [String: JSON]()) { object, pair in
+  Many(into: [String: JSONValue]()) { object, pair in
     let (name, value) = pair
     object[name] = value
   } forEach: {
@@ -74,7 +74,7 @@ private let object = Parse {
   }
   "}".utf8
 }
-.map(JSON.object)
+.map(JSONValue.object)
 
 // MARK: Array
 
@@ -89,7 +89,7 @@ private let array = Parse {
   }
   "]".utf8
 }
-.map(JSON.array)
+.map(JSONValue.array)
 
 // MARK: String
 
@@ -152,22 +152,22 @@ private let stringLiteral = Parse {
 
 private let string =
   stringLiteral
-  .map(JSON.string)
+  .map(JSONValue.string)
 
 // MARK: Number
 
 private let number = Double.parser(of: Input.self)
-  .map(JSON.number)
+  .map(JSONValue.number)
 
 // MARK: Boolean
 
 private let boolean = Bool.parser(of: Input.self)
-  .map(JSON.boolean)
+  .map(JSONValue.boolean)
 
 // MARK: Null
 
 private let null = Parse { "null".utf8 }
-  .map { JSON.null }
+  .map { JSONValue.null }
 
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   let input = #"""
@@ -182,7 +182,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       }
     }
     """#
-  var jsonOutput: JSON!
+  var jsonOutput: JSONValue!
   suite.benchmark(
     name: "Parser",
     run: { jsonOutput = json.parse(input) },

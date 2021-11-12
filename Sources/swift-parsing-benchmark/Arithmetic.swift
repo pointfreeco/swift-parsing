@@ -11,7 +11,7 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   }
 }
 
-private let expr: AnyParser<Substring.UTF8View, Double> = AnyParser(
+private let expr: AnyParser<Substring.UTF8View, Double> =
   InfixOperator(associativity: .left) {
     OneOf {
       "+".utf8.map { (+) }
@@ -20,7 +20,7 @@ private let expr: AnyParser<Substring.UTF8View, Double> = AnyParser(
   } expression: {
     Lazy { term }
   }
-)
+  .eraseToAnyParser()
 
 private let term = InfixOperator(associativity: .left) {
   OneOf {
