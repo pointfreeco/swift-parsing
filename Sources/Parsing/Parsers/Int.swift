@@ -20,7 +20,7 @@ extension FixedWidthInteger {
   public static func parser<Input>(
     of inputType: Input.Type = Input.self,
     isSigned: Bool = true,
-    radix: Self = 10
+    radix: Int = 10
   ) -> Parsers.IntParser<Input, Self> {
     .init(isSigned: isSigned, radix: radix)
   }
@@ -29,7 +29,7 @@ extension FixedWidthInteger {
   public static func parser(
     of inputType: Substring.UTF8View.Type = Substring.UTF8View.self,
     isSigned: Bool = true,
-    radix: Self = 10
+    radix: Int = 10
   ) -> Parsers.IntParser<Substring.UTF8View, Self> {
     .init(isSigned: isSigned, radix: radix)
   }
@@ -52,7 +52,7 @@ extension FixedWidthInteger {
   public static func parser<Input>(
     of inputType: Substring.UTF8View.Type = Substring.UTF8View.self,
     isSigned: Bool = true,
-    radix: Self = 10
+    radix: Int = 10
   ) -> Parsers.IntParser<Input, Self> {
     .init(isSigned: isSigned, radix: radix)
   }
@@ -73,7 +73,7 @@ extension FixedWidthInteger {
   public static func parser(
     of inputType: Substring.Type = Substring.self,
     isSigned: Bool = true,
-    radix: Self = 10
+    radix: Int = 10
   ) -> Parsers.UTF8ViewToSubstring<Parsers.IntParser<Substring.UTF8View, Self>> {
     .init(.init(isSigned: isSigned, radix: radix))
   }
@@ -96,10 +96,10 @@ extension Parsers {
     public let isSigned: Bool
 
     /// The radix, or base, to use for converting text to an integer value.
-    public let radix: Output
+    public let radix: Int
 
     @inlinable
-    public init(isSigned: Bool = true, radix: Output = 10) {
+    public init(isSigned: Bool = true, radix: Int = 10) {
       precondition((2...36).contains(radix), "Radix not in range 2...36")
       self.isSigned = isSigned
       self.radix = radix
@@ -146,7 +146,7 @@ extension Parsers {
       }
       length += 1
       while let next = iterator.next(), let n = digit(for: next) {
-        (output, overflow) = output.multipliedReportingOverflow(by: self.radix)
+        (output, overflow) = output.multipliedReportingOverflow(by: Output(self.radix))
         guard !overflow else { return nil }
         (output, overflow) =
           isPositive
