@@ -8,9 +8,6 @@ import Parsing
 
 // MARK: - Parser
 
-private typealias Input = Substring.UTF8View
-private typealias Output = [Race]
-
 private let northSouth = OneOf {
   "N".utf8.map { 1.0 }
   "S".utf8.map { -1.0 }
@@ -175,7 +172,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     51.50273° N, 0.13850° W
     51.50095° N, 0.12411° W
     """
-  var output: Output!
+  var output: [Race]!
 
   suite.benchmark(
     name: "Parser",
