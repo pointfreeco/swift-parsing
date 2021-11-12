@@ -48,41 +48,6 @@ where
   }
 }
 
-//struct Header<ValueParser>: Parser
-//where
-//  ValueParser: Parser,
-//  ValueParser.Input == Substring
-//{
-//  let name: String
-//  let valueParser: ValueParser
-//
-//  @inlinable
-//  init(
-//    _ name: String,
-//    _ value: ValueParser
-//  ) {
-//    self.name = name
-//    self.valueParser = value
-//  }
-//
-//  @inlinable
-//  init(_ name: String) where ValueParser == Rest<Substring> {
-//    self.init(name, Rest())
-//  }
-//
-//  @inlinable
-//  func parse(_ input: inout URLRequestData) -> ValueParser.Output? {
-//    guard
-//      var value = input.headers[self.name],
-//      let output = self.valueParser.parse(&value),
-//      value.isEmpty
-//    else { return nil }
-//
-//    input.headers[self.name]?.removeFirst()
-//    return output
-//  }
-//}
-
 struct JSON<Value: Decodable>: Parser {
   let decoder: JSONDecoder
 
