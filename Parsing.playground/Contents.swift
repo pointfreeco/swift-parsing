@@ -4,7 +4,7 @@ struct Color {
   let red, green, blue: UInt8
 }
 
-let hexPrimary = Prefix<Substring>(2)
+let hexPrimary = Prefix(2)
   .compactMap { UInt8($0, radix: 16) }
 
 let hexColor = "#"

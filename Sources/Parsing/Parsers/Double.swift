@@ -20,23 +20,35 @@ extension Double {
     .init()
   }
 
+  /// A parser that consumes a double from the beginning of a substring's UTF-8 view.
+  ///
+  /// This overload is provided to allow the `Input` generic to be inferred when it is
+  /// `Substring.UTF8View`.
+  ///
+  /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
+  ///   interface that parses any collection of UTF-8 code units.
+  /// - Returns: A parser that consumes a double from the beginning of a substring's UTF-8 view.
+  @_disfavoredOverload
+  @inlinable
+  public static func parser(
+    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
+  ) -> Parsers.DoubleParser<Substring.UTF8View> {
+    .init()
+  }
+
   /// A parser that consumes a double from the beginning of a substring.
   ///
-  /// ```swift
-  /// var input = "123.45 Hello world"[...]
-  /// let output = Double.parser().parse(&input)
-  /// precondition(output == 123.45)
-  /// precondition(input == " Hello world")
-  /// ```
+  /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
   ///
-  /// - Parameter inputType: The substring type. This parameter is included to mirror the interface
-  ///   that parses UTF-8 code units.
+  /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
+  ///   interface that parses any collection of UTF-8 code units.
   /// - Returns: A parser that consumes a double from the beginning of a substring.
+  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
-  ) -> Parsers.SubstringDoubleParser {
-    .init()
+  ) -> Parsers.UTF8ViewToSubstring<Parsers.DoubleParser<Substring.UTF8View>> {
+    .init(.init())
   }
 }
 
@@ -60,23 +72,35 @@ extension Float {
     .init()
   }
 
+  /// A parser that consumes a float from the beginning of a substring's UTF-8 view.
+  ///
+  /// This overload is provided to allow the `Input` generic to be inferred when it is
+  /// `Substring.UTF8View`.
+  ///
+  /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
+  ///   interface that parses any collection of UTF-8 code units.
+  /// - Returns: A parser that consumes a float from the beginning of a substring's UTF-8 view.
+  @_disfavoredOverload
+  @inlinable
+  public static func parser(
+    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
+  ) -> Parsers.FloatParser<Substring.UTF8View> {
+    .init()
+  }
+
   /// A parser that consumes a float from the beginning of a substring.
   ///
-  /// ```swift
-  /// var input = "123.45 Hello world"[...]
-  /// let output = Float.parser().parse(&input)
-  /// precondition(output == 123.45)
-  /// precondition(input == " Hello world")
-  /// ```
+  /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
   ///
-  /// - Parameter inputType: The substring type. This parameter is included to mirror the interface
-  ///   that parses UTF-8 code units.
+  /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
+  ///   interface that parses any collection of UTF-8 code units.
   /// - Returns: A parser that consumes a float from the beginning of a substring.
+  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
-  ) -> Parsers.SubstringFloatParser {
-    .init()
+  ) -> Parsers.UTF8ViewToSubstring<Parsers.FloatParser<Substring.UTF8View>> {
+    .init(.init())
   }
 }
 
@@ -103,24 +127,39 @@ extension Float {
     }
 
     /// A parser that consumes an extended-precision, floating-point value from the beginning of a
+    /// substring's UTF-8 view.
+    ///
+    /// This overload is provided to allow the `Input` generic to be inferred when it is
+    /// `Substring.UTF8View`.
+    ///
+    /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror
+    ///   the interface that parses any collection of UTF-8 code units.
+    /// - Returns: A parser that consumes an extended-precision, floating-point value from the
+    ///   beginning of a substring's UTF-8 view.
+    @_disfavoredOverload
+    @inlinable
+    public static func parser(
+      of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
+    ) -> Parsers.Float80Parser<Substring.UTF8View> {
+      .init()
+    }
+
+    /// A parser that consumes an extended-precision, floating-point value from the beginning of a
     /// substring.
     ///
-    /// ```swift
-    /// var input = "123.45 Hello world"[...]
-    /// let output = Float80.parser().parse(&input)
-    /// precondition(output == 123.45)
-    /// precondition(input == " Hello world")
-    /// ```
+    /// This overload is provided to allow the `Input` generic to be inferred when it is
+    /// `Substring`.
     ///
-    /// - Parameter inputType: The substring type. This parameter is included to mirror the interface
-    ///   that parses UTF-8 code units.
+    /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
+    ///   interface that parses any collection of UTF-8 code units.
     /// - Returns: A parser that consumes an extended-precision, floating-point value from the
     ///   beginning of a substring.
+    @_disfavoredOverload
     @inlinable
     public static func parser(
       of inputType: Substring.Type = Substring.self
-    ) -> Parsers.SubstringFloat80Parser {
-      .init()
+    ) -> Parsers.UTF8ViewToSubstring<Parsers.Float80Parser<Substring.UTF8View>> {
+      .init(.init())
     }
   }
 #endif
@@ -153,22 +192,6 @@ extension Parsers {
     }
   }
 
-  /// A parser that consumes a double from the beginning of a substring.
-  ///
-  /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// `Double.parser()`, which constructs this type.
-  public struct SubstringDoubleParser: Parser {
-    public let parser = Double.parser(of: Substring.UTF8View.self)
-
-    @inlinable
-    public init() {}
-
-    @inlinable
-    public func parse(_ input: inout Substring) -> Double? {
-      self.parser.parse(&input.utf8)
-    }
-  }
-
   /// A parser that consumes a float from the beginning of a collection of UTF-8 code units.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
@@ -193,22 +216,6 @@ extension Parsers {
         return nil
       }
       return n
-    }
-  }
-
-  /// A parser that consumes a float from the beginning of a substring.
-  ///
-  /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// `Float.parser()`, which constructs this type.
-  public struct SubstringFloatParser: Parser {
-    public let parser = Float.parser(of: Substring.UTF8View.self)
-
-    @inlinable
-    public init() {}
-
-    @inlinable
-    public func parse(_ input: inout Substring) -> Float? {
-      self.parser.parse(&input.utf8)
     }
   }
 
@@ -237,22 +244,6 @@ extension Parsers {
           return nil
         }
         return n
-      }
-    }
-
-    /// A parser that consumes a float from the beginning of a substring.
-    ///
-    /// You will not typically need to interact with this type directly. Instead you will usually
-    /// use `Float80.parser()`, which constructs this type.
-    public struct SubstringFloat80Parser: Parser {
-      public let parser = Float80.parser(of: Substring.UTF8View.self)
-
-      @inlinable
-      public init() {}
-
-      @inlinable
-      public func parse(_ input: inout Substring) -> Float80? {
-        self.parser.parse(&input.utf8)
       }
     }
   #endif

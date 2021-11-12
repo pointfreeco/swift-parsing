@@ -43,7 +43,7 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
   }
 
   do {
-    let user = Int.parser(of: Substring.UTF8View.self)
+    let user = Int.parser()
       .skip(",".utf8)
       .take(Prefix { $0 != .init(ascii: ",") })
       .skip(",".utf8)

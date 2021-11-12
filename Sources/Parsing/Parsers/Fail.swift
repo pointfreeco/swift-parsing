@@ -13,6 +13,18 @@ public struct Fail<Input, Output>: Parser {
   }
 }
 
+extension Fail where Input == Substring {
+  @_disfavoredOverload
+  @inlinable
+  public init() {}
+}
+
+extension Fail where Input == Substring.UTF8View {
+  @_disfavoredOverload
+  @inlinable
+  public init() {}
+}
+
 extension Parsers {
   public typealias Fail = Parsing.Fail  // NB: Convenience type alias for discovery
 }

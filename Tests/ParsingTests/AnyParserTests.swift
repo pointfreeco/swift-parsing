@@ -18,7 +18,7 @@ final class AnyParserTests: XCTestCase {
   }
 
   func testParserInitializer() {
-    let parser = AnyParser(StartsWith<Substring>("Hello"))
+    let parser = AnyParser("Hello")
 
     var input = "Hello, world!"[...]
     XCTAssertNotNil(parser.parse(&input))
@@ -29,7 +29,7 @@ final class AnyParserTests: XCTestCase {
   }
 
   func testParserEraseToAnyParser() {
-    let parser = StartsWith<Substring>("Hello").eraseToAnyParser()
+    let parser = "Hello".eraseToAnyParser()
 
     var input = "Hello, world!"[...]
     XCTAssertNotNil(parser.parse(&input))
@@ -40,7 +40,7 @@ final class AnyParserTests: XCTestCase {
   }
 
   func testAnyParserEraseToAnyParser() {
-    let parser = StartsWith<Substring>("Hello").eraseToAnyParser().eraseToAnyParser()
+    let parser = "Hello".eraseToAnyParser().eraseToAnyParser()
 
     var input = "Hello, world!"[...]
     XCTAssertNotNil(parser.parse(&input))

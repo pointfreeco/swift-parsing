@@ -21,6 +21,12 @@ where
   }
 }
 
+extension Whitespace where Input == Substring.UTF8View {
+  @_disfavoredOverload
+  @inlinable
+  public init() {}
+}
+
 extension Parsers {
   public typealias Whitespace = Parsing.Whitespace  // NB: Convenience type alias for discovery
 }
