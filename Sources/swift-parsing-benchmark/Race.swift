@@ -8,6 +8,24 @@ import Parsing
 
 // MARK: - Parser
 
+private struct Coordinate {
+  let latitude: Double
+  let longitude: Double
+}
+
+private enum Currency { case eur, gbp, usd }
+
+private struct Money {
+  let currency: Currency
+  let value: Int
+}
+
+private struct Race {
+  let location: String
+  let entranceFee: Money
+  let path: [Coordinate]
+}
+
 private let northSouth = OneOf {
   "N".utf8.map { 1.0 }
   "S".utf8.map { -1.0 }
@@ -32,11 +50,6 @@ private let longitude = Parse {
 }
 .map(*)
 
-private struct Coordinate {
-  let latitude: Double
-  let longitude: Double
-}
-
 private let zeroOrMoreSpaces = Skip {
   Prefix { $0 == .init(ascii: " ") }
 }
@@ -49,30 +62,17 @@ private let coord = Parse {
 }
 .map(Coordinate.init)
 
-private enum Currency { case eur, gbp, usd }
-
 private let currency = OneOf {
   "€".utf8.map { Currency.eur }
   "£".utf8.map { Currency.gbp }
   "$".utf8.map { Currency.usd }
 }
 
-private struct Money {
-  let currency: Currency
-  let value: Double
-}
-
 private let money = Parse {
   currency
-  Double.parser()
+  Int.parser()
 }
 .map(Money.init(currency:value:))
-
-private struct Race {
-  let location: String
-  let entranceFee: Money
-  let path: [Coordinate]
-}
 
 private let locationName = Prefix { $0 != .init(ascii: ",") }
 
@@ -96,6 +96,55 @@ private let races = Many {
   "\n---\n".utf8
 }
 
+
+
+private func printCardinalDirection(latitude: Double) -> String {
+  latitude < 0 ? "S" : "N"
+}
+private func printCardinalDirection(longitude: Double) -> String {
+  longitude < 0 ? "W" : "E"
+}
+
+private func print(latitude: Double) -> String {
+  "\(abs(latitude))° \(printCardinalDirection(latitude: latitude))"
+}
+private func print(longitude: Double) -> String {
+  "\(abs(longitude))° \(printCardinalDirection(longitude: longitude))"
+}
+
+private func print(coordinate: Coordinate) -> String {
+  "\(print(latitude: coordinate.latitude)), \(print(longitude: coordinate.longitude))"
+}
+
+private func print(currency: Currency) -> String {
+  switch currency {
+  case .eur:
+    return "€"
+  case .gbp:
+    return "￡"
+  case .usd:
+    return "$"
+  }
+}
+
+private func print(money: Money) -> String {
+  "\(print(currency: money.currency))\(money.value)"
+}
+
+private func print(race: Race) -> String {
+  """
+  \(race.location), \(print(money: race.entranceFee))
+  \(race.path.map(print(coordinate:)).joined(separator: "\n"))
+  """
+}
+
+private func print(races: [Race]) -> String {
+  races.map(print(race:)).joined(separator: "\n---\n")
+}
+
+
+
+
 // MARK: - Benchmarks
 
 let raceSuite = BenchmarkSuite(name: "Race") { suite in
@@ -108,10 +157,10 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     40.69894° N, 73.95701° W
     40.72791° N, 73.95314° W
     40.74882° N, 73.94221° W
-    40.75740° N, 73.95309° W
+    40.75741° N, 73.95309° W
     40.76149° N, 73.96142° W
     40.77111° N, 73.95362° W
-    40.80260° N, 73.93061° W
+    40.80261° N, 73.93061° W
     40.80409° N, 73.92893° W
     40.81432° N, 73.93292° W
     40.80325° N, 73.94472° W
@@ -135,9 +184,9 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     13.32851° N, 52.47122° E
     13.30852° N, 52.46797° E
     13.28742° N, 52.47214° E
-    13.29091° N, 52.48270° E
+    13.29091° N, 52.48271° E
     13.31084° N, 52.49275° E
-    13.32052° N, 52.50190° E
+    13.32052° N, 52.50191° E
     13.34577° N, 52.50134° E
     13.36903° N, 52.50701° E
     13.39155° N, 52.51046° E
@@ -145,7 +194,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     ---
     London, £500
     51.48205° N, 0.04283° E
-    51.47439° N, 0.02170° E
+    51.47439° N, 0.02171° E
     51.47618° N, 0.02199° E
     51.49295° N, 0.05658° E
     51.47542° N, 0.03019° E
@@ -154,22 +203,22 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     51.47954° N, 0.04866° E
     51.48604° N, 0.06293° E
     51.49314° N, 0.06104° E
-    51.49248° N, 0.04740° E
+    51.49248° N, 0.04741° E
     51.48888° N, 0.03564° E
-    51.48655° N, 0.01830° E
+    51.48655° N, 0.01831° E
     51.48085° N, 0.02223° W
-    51.49210° N, 0.04510° W
+    51.49211° N, 0.04511° W
     51.49324° N, 0.04699° W
     51.50959° N, 0.05491° W
-    51.50961° N, 0.05390° W
-    51.49950° N, 0.01356° W
+    51.50961° N, 0.05391° W
+    51.49951° N, 0.01356° W
     51.50898° N, 0.02341° W
     51.51069° N, 0.04225° W
     51.51056° N, 0.04353° W
-    51.50946° N, 0.07810° W
+    51.50946° N, 0.07811° W
     51.51121° N, 0.09786° W
-    51.50964° N, 0.11870° W
-    51.50273° N, 0.13850° W
+    51.50964° N, 0.11871° W
+    51.50273° N, 0.13851° W
     51.50095° N, 0.12411° W
     """
   var output: [Race]!
@@ -177,6 +226,9 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   suite.benchmark(
     name: "Parser",
     run: { output = races.parse(input) },
-    tearDown: { precondition(output.count == 3) }
+    tearDown: {
+      precondition(output.count == 3)
+      precondition(print(races: output) == input)
+    }
   )
 }
