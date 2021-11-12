@@ -23,7 +23,7 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
 
   do {
     let user = Parse {
-      Int.parser(of: Substring.self)
+      Int.parser()
       ","
       Prefix { $0 != "," }
       ","

@@ -69,7 +69,6 @@ extension FixedWidthInteger {
   ///   - radix: The radix, or base, to use for converting text to an integer value. `radix` must be
   ///     in the range `2...36`.
   /// - Returns: A parser that consumes an integer from the beginning of a substring.
-  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self,
