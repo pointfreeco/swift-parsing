@@ -55,11 +55,8 @@ extension PrefixUpTo where Input.Element: Equatable {
   }
 }
 
-extension Parsers {
-  public typealias PrefixUpTo = Parsing.PrefixUpTo  // NB: Convenience type alias for discovery
-}
-
 extension PrefixUpTo where Input == Substring {
+  @_disfavoredOverload
   @inlinable
   public init(_ possiblePrefix: String) {
     self.init(possiblePrefix[...])
@@ -67,8 +64,13 @@ extension PrefixUpTo where Input == Substring {
 }
 
 extension PrefixUpTo where Input == Substring.UTF8View {
+  @_disfavoredOverload
   @inlinable
   public init(_ possibleMatch: String.UTF8View) {
     self.init(String(possibleMatch)[...].utf8)
   }
+}
+
+extension Parsers {
+  public typealias PrefixUpTo = Parsing.PrefixUpTo  // NB: Convenience type alias for discovery
 }

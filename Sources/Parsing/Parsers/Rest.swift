@@ -8,19 +8,23 @@ where
   public init() {}
 
   @inlinable
-  @_disfavoredOverload
-  public init() where Input == Substring {}
-
-  @inlinable
-  @_disfavoredOverload
-  public init() where Input == Substring.UTF8View {}
-
-  @inlinable
   public func parse(_ input: inout Input) -> Input? {
     let output = input
     input.removeFirst(input.count)
     return output
   }
+}
+
+extension Rest where Input == Substring {
+  @_disfavoredOverload
+  @inlinable
+  public init() {}
+}
+
+extension Rest where Input == Substring.UTF8View {
+  @_disfavoredOverload
+  @inlinable
+  public init() {}
 }
 
 extension Parsers {

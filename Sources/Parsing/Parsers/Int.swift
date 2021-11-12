@@ -35,29 +35,48 @@ extension FixedWidthInteger {
   }
 
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
-  /// beginning of a substring.
+  /// beginning of a substring's UTF-8 view.
   ///
-  /// ```swift
-  /// var input = "123 Hello world"[...]
-  /// let output = Int.parser().parse(&input)
-  /// precondition(output == 123)
-  /// precondition(input == " Hello world")
-  /// ```
+  /// This overload is provided to allow the `Input` generic to be inferred when it is
+  /// `Substring.UTF8View`.
   ///
   /// - Parameters:
-  ///   - inputType: The substring type. This parameter is included to mirror the interface that
-  ///     parses UTF-8 code units.
+  ///   - inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
+  ///     interface that parses any collection of UTF-8 code units.
+  ///   - isSigned: If the parser will attempt to parse a leading `+` or `-` sign.
+  ///   - radix: The radix, or base, to use for converting text to an integer value. `radix` must be
+  ///     in the range `2...36`.
+  /// - Returns: A parser that consumes an integer from the beginning of a substring's UTF-8 view.
+  @_disfavoredOverload
+  @inlinable
+  public static func parser<Input>(
+    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self,
+    isSigned: Bool = true,
+    radix: Self = 10
+  ) -> Parsers.IntParser<Input, Self> {
+    .init(isSigned: isSigned, radix: radix)
+  }
+
+  /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
+  /// beginning of a substring.
+  ///
+  /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
+  ///
+  /// - Parameters:
+  ///   - inputType: The `Substring` type. This parameter is included to mirror the interface that
+  ///     parses any collection of UTF-8 code units.
   ///   - isSigned: If the parser will attempt to parse a leading `+` or `-` sign.
   ///   - radix: The radix, or base, to use for converting text to an integer value. `radix` must be
   ///     in the range `2...36`.
   /// - Returns: A parser that consumes an integer from the beginning of a substring.
+  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self,
     isSigned: Bool = true,
     radix: Self = 10
-  ) -> Parsers.SubstringIntParser<Self> {
-    .init(isSigned: isSigned, radix: radix)
+  ) -> Parsers.UTF8ViewToSubstring<Parsers.IntParser<Substring.UTF8View, Self>> {
+    .init(.init(isSigned: isSigned, radix: radix))
   }
 }
 
@@ -141,25 +160,6 @@ extension Parsers {
       else { return nil }
       input.removeFirst(length)
       return output
-    }
-  }
-
-  /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
-  /// beginning of a substring using a UTF-8 parser.
-  ///
-  /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// `Int.parser()`, which constructs this type.
-  public struct SubstringIntParser<Output>: Parser where Output: FixedWidthInteger {
-    public let parser: Parsers.IntParser<Substring.UTF8View, Output>
-
-    @inlinable
-    public init(isSigned: Bool = true, radix: Output = 10) {
-      self.parser = Parsers.IntParser(isSigned: isSigned, radix: radix)
-    }
-
-    @inlinable
-    public func parse(_ input: inout Substring) -> Output? {
-      self.parser.parse(&input.utf8)
     }
   }
 }

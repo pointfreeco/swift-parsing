@@ -28,6 +28,24 @@ final class OneOfTests: XCTestCase {
 
   func testOneOfFailure() {
     var input = "London, Hello!"[...]
+    XCTAssertNil("New York".orElse("Berlin").parse(&input))
+    XCTAssertEqual("London, Hello!", Substring(input))
+  }
+
+  func testOneOfManyFirstSuccess() {
+    var input = "New York, Hello!"[...]
+    XCTAssertNotNil(OneOfMany("New York", "Berlin").parse(&input))
+    XCTAssertEqual(", Hello!", Substring(input))
+  }
+
+  func testOneOfManyLastSuccess() {
+    var input = "Berlin, Hello!"[...]
+    XCTAssertNotNil(OneOfMany("New York", "Berlin").parse(&input))
+    XCTAssertEqual(", Hello!", Substring(input))
+  }
+
+  func testOneOfManyFailure() {
+    var input = "London, Hello!"[...]
     XCTAssertNil(
       OneOf {
         "New York"
