@@ -5,6 +5,35 @@ protocol Printer {
 }
 
 
+public protocol Appendable {
+  init()
+  mutating func append(contentsOf other: Self)
+}
+
+import Foundation
+
+extension Array: Appendable {}
+extension ArraySlice: Appendable {}
+extension ContiguousArray: Appendable {}
+extension Data: Appendable {}
+extension Slice: Appendable where Base: RangeReplaceableCollection {}
+extension String: Appendable {}
+extension String.UnicodeScalarView: Appendable {}
+extension Substring: Appendable {}
+extension Substring.UnicodeScalarView: Appendable {}
+
+extension Substring.UTF8View: Appendable {
+  @inlinable
+  public init() {
+    self = ""[...].utf8
+  }
+
+  @inlinable
+  public mutating func append(contentsOf other: Substring.UTF8View) {
+    self = String(decoding: Array(self) + Array(other), as: UTF8.self)[...].utf8
+  }
+}
+
 
 struct User: Equatable {
   var id: Int
@@ -17,16 +46,16 @@ func foo() {
 //  Int.parser().print(123) as Substring?
 
   Int.parser(of: Substring.self).parse("123")
-  Int.parser(of: Substring.self).print(123)
+//  Int.parser(of: Substring.self).print(123)
 
 
   let tmp = Bool.parser(of: Substring.self)
   
   Bool.parser(of: Substring.self).parse("true")
-  Bool.parser(of: Substring.self).print(true)
+  Bool.parser(of: ArraySlice<UInt8>.self).print(true)
 
 
-  let tmp = Bool.parser(of: Substring.self)
+//  let tmp = Bool.parser(of: Substring.self)
 
 
   ",".print(())
