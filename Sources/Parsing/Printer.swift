@@ -30,7 +30,9 @@ extension Substring.UTF8View: Appendable {
 
   @inlinable
   public mutating func append(contentsOf other: Substring.UTF8View) {
-    self = String(decoding: Array(self) + Array(other), as: UTF8.self)[...].utf8
+    var str = Substring(self)
+    str.append(contentsOf: Substring(other))
+    self = str.utf8
   }
 }
 
