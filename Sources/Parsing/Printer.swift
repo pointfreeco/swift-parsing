@@ -1,4 +1,3 @@
-import ArgumentParser
 protocol Printer {
   associatedtype Input
   associatedtype Output
@@ -18,8 +17,11 @@ func foo() {
 //  Int.parser().print(123) as Substring?
 
   Int.parser(of: Substring.self).parse("123")
+  Int.parser(of: Substring.self).print(123)
 
 
+  let tmp = Bool.parser(of: Substring.self)
+  
   Bool.parser(of: Substring.self).parse("true")
   Bool.parser(of: Substring.self).print(true)
 
