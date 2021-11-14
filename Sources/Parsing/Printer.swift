@@ -295,3 +295,9 @@ extension PreferredPrinting: Parser where Upstream: Parser, Upstream.Input == In
     return ()
   }
 }
+
+extension FromUTF8View: Printer where UTF8Parser: Printer {
+  public func print(_ output: UTF8Parser.Output) -> Substring? {
+    self.utf8Parser.print(output).map(Substring.init)
+  }
+}

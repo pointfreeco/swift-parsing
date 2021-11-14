@@ -1,23 +1,15 @@
 import Parsing
 
-
-let user = Parse {
-  Int.parser()
-  OneOf {
-    "\t"
-    ","
-  }
-  Prefix { $0 != "\t" && $0 != "," }
-  OneOf {
-    "\t"
-    ","
-  }
-  Bool.parser()
+struct User {
+  var id: Int
+  var name: String
+  var isAdmin: Bool
 }
 
-let user1 = OneOf {
+let user = OneOf {
   Parse {
     Int.parser()
+    //FromUTF8View { Whitespace() }.preferredPrinting("")
     "\t"
     Prefix { $0 != "\t" }
     "\t"
@@ -26,16 +18,17 @@ let user1 = OneOf {
   Parse {
     Int.parser()
     ","
-//    FromUTF8View { Whitespace().preferredPrinting(" "[...].utf8) }
     Prefix { $0 != "," }
     ","
     Bool.parser()
   }
 }
+  .map { User(id: $0, name: String($1), isAdmin: $2) }
+
 
 user.parse("42,Blob,true")
 user.parse("42\tBlob\ttrue")
-user.print((42, "Blob", true))
+//user.print((42, "Blob", true))
 
 11
 
