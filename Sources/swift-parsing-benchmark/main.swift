@@ -15,7 +15,7 @@ let appendableSuite = BenchmarkSuite(name: "Appendable") { suite in
       setUp: { first = string[...] },
       run: { first.append(contentsOf: second) },
       tearDown: {
-        precondition(first.first == combined.first)
+//        precondition(first.first == combined.first)
       }
     )
   }
@@ -27,7 +27,7 @@ let appendableSuite = BenchmarkSuite(name: "Appendable") { suite in
       setUp: { first = string[...].unicodeScalars },
       run: { first.append(contentsOf: second) },
       tearDown: {
-        precondition(first.first == combined.unicodeScalars.first)
+//        precondition(first.first == combined.unicodeScalars.first)
       }
     )
   }
@@ -39,7 +39,7 @@ let appendableSuite = BenchmarkSuite(name: "Appendable") { suite in
       setUp: { first = string[...].utf8 },
       run: { first.append(contentsOf: second) },
       tearDown: {
-        precondition(first.first == combined.utf8.first)
+//        precondition(first.first == combined.utf8.first)
       }
     )
   }
@@ -51,7 +51,7 @@ let appendableSuite = BenchmarkSuite(name: "Appendable") { suite in
       setUp: { first = Array(string[...].utf8)[...] },
       run: { first.append(contentsOf: second) },
       tearDown: {
-        precondition(first.first == combined.utf8.first)
+//        precondition(first.first == combined.utf8.first)
       }
     )
   }

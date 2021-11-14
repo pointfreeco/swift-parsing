@@ -41,12 +41,12 @@ extension FromUnicodeScalarView {
 }
 
 extension Parsers {
-  @available(
-    *, deprecated,
-    message:
-      "'Bool.parser(of: Substring.self)' now returns 'Parsers.UTF8ViewToSubstring<Parsers.BoolParser<Substring.UTF8View>>'"
-  )
-  public typealias SubstringBoolParser = UTF8ViewToSubstring<BoolParser<Substring.UTF8View>>
+//  @available(
+//    *, deprecated,
+//    message:
+//      "'Bool.parser(of: Substring.self)' now returns 'Parsers.UTF8ViewToSubstring<Parsers.BoolParser<Substring.UTF8View>>'"
+//  )
+//  public typealias SubstringBoolParser = UTF8ViewToSubstring<BoolParser<Substring.UTF8View>>
 
   @available(
     *, deprecated,
@@ -71,14 +71,14 @@ extension Parsers {
   )
   public typealias SubstringFloatParser = UTF8ViewToSubstring<FloatParser<Substring.UTF8View>>
 
-  @available(
-    *, deprecated,
-    message:
-      "'FixedWidthInteger.parser(of: Substring.self)' now returns 'Parsers.UTF8ViewToSubstring<Parsers.IntParser<Substring.UTF8View, FixedWidthInteger>>'"
-  )
-  public typealias SubstringIntParser<Output> = UTF8ViewToSubstring<
-    IntParser<Substring.UTF8View, Output>
-  > where Output: FixedWidthInteger
+//  @available(
+//    *, deprecated,
+//    message:
+//      "'FixedWidthInteger.parser(of: Substring.self)' now returns 'Parsers.UTF8ViewToSubstring<Parsers.IntParser<Substring.UTF8View, FixedWidthInteger>>'"
+//  )
+//  public typealias SubstringIntParser<Output> = UTF8ViewToSubstring<
+//    IntParser<Substring.UTF8View, Output>
+//  > where Output: FixedWidthInteger
 
   @available(
     *, deprecated,

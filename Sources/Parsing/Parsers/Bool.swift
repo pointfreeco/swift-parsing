@@ -45,8 +45,8 @@ extension Bool {
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
-  ) -> Parsers.UTF8ViewToSubstring<Parsers.BoolParser<Substring.UTF8View>> {
-    .init(.init())
+  ) -> Parsers.SubstringBoolParser {
+    .init()
   }
 }
 
@@ -74,6 +74,21 @@ extension Parsers {
         return false
       }
       return nil
+    }
+  }
+}
+
+extension Parsers {
+  /// A parser that consumes a Boolean value from the beginning of a substring.
+  public struct SubstringBoolParser: Parser {
+    public let parser = Bool.parser(of: Substring.UTF8View.self)
+
+    @inlinable
+    public init() {}
+
+    @inlinable
+    public func parse(_ input: inout Substring) -> Bool? {
+      parser.parse(&input.utf8)
     }
   }
 }
