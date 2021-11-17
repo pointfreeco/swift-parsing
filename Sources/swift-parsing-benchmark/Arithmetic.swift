@@ -1,7 +1,12 @@
 import Benchmark
-import Darwin
 import Parsing
 import Foundation
+
+#if canImport(Darwin)
+  import Darwin.C
+#elseif canImport(Glibc)
+  import Glibc
+#endif
 
 let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   let arithmetic = "1+2*3/4-5^2"
