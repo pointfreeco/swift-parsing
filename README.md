@@ -322,8 +322,8 @@ Bool.Bool.init                                     31.000 ns ± 603.17 %    1000
 Bool.BoolParser                                    59.000 ns ± 528.05 %    1000000
 Bool.Scanner.scanBool                             874.000 ns ± 106.43 %    1000000
 Color.Parser                                      342.000 ns ± 168.44 %    1000000
-CSV.Parser                                    2386368.000 ns ±  10.04 %        579
-CSV.Ad hoc mutating methods                   1234026.000 ns ±   9.69 %       1067
+CSV.Parser                                    1884886.500 ns ±  10.04 %        694
+CSV.Ad hoc mutating methods                   1229682.000 ns ±   9.69 %       1069
 Date.Parser                                     12592.000 ns ±  32.78 %     102725
 Date.DateFormatter                              45090.000 ns ±  26.36 %      29852
 Date.ISO8601DateFormatter                       59856.000 ns ±  22.87 %      21828
