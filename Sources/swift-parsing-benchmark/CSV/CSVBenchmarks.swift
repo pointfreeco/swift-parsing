@@ -18,7 +18,8 @@ private let quotedField = "\"".utf8
   .skip("\"".utf8)
 
 private let field = quotedField.orElse(plainField)
-  .map { String(Substring($0)) }
+  .map { String(decoding: $0, as: UTF8.self) }
+//  .map { String(Substring($0)) }
 
 private let line = Many(field, separator: ",".utf8)
 
