@@ -23,12 +23,56 @@ let user = OneOf {
     Bool.parser()
   }
 }
-  .map { User(id: $0, name: String($1), isAdmin: $2) }
+//  .map { User(id: $0, name: String($1), isAdmin: $2) }
+
+let users = Many { user } separatedBy: { "\n" }
 
 
 user.parse("42,Blob,true")
 user.parse("42\tBlob\ttrue")
+users.parse("""
+42,Blob,true
+43,Blob Jr,false
+44,Blob Sr,true
+""")
+// [(42, "Blob", true), (43, "Blob Jr", false), (44, "Blob Sr", true)]
+
 //user.print((42, "Blob", true))
+
+users.print([
+  (42, "Blob", true),
+  (43, "Blob Jr", false),
+  (44, "Blob Sr", true),
+])
+
+//
+//Many<
+//  OneOf<
+//    OneOf2<
+//      Parse<
+//        Zip5_OVOVO<
+//          Parsers.SubstringIntParser<Int>,
+//          String,
+//          Prefix<Substring>,
+//          String,
+//          Parsers.SubstringBoolParser
+//        >
+//      >,
+//      Parse<
+//        Zip5_OVOVO<
+//          Parsers.SubstringIntParser<Int>,
+//          String,
+//          Prefix<Substring>,
+//          String,
+//          Parsers.SubstringBoolParser
+//        >
+//      >
+//    >
+//  >,
+//  [(Int, Substring, Bool)],
+//  String
+//>
+
 
 11
 
