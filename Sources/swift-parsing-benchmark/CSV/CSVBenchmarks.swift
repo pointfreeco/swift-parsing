@@ -9,26 +9,20 @@ import Parsing
 
 // MARK: - Parser
 
-private struct CSV: Parser {
-  func parse(_ input: inout Substring.UTF8View) -> [[String]]? {
-    let plainField = Prefix {
-      $0 != .init(ascii: ",") && $0 != .init(ascii: "\n")
-    }
-
-    let quotedField = "\"".utf8
-      .take(Prefix { $0 != .init(ascii: "\"") })
-      .skip("\"".utf8)
-
-    let field = quotedField.orElse(plainField)
-      .map { String(Substring($0)) }
-
-    let line = Many(field, separator: ",".utf8)
-
-    let csv = Many(line, separator: "\n".utf8)
-
-    return csv.parse(&input)
-  }
+private let plainField = Prefix {
+  $0 != .init(ascii: ",") && $0 != .init(ascii: "\n")
 }
+
+private let quotedField = "\"".utf8
+  .take(Prefix { $0 != .init(ascii: "\"") })
+  .skip("\"".utf8)
+
+private let field = quotedField.orElse(plainField)
+  .map { String(Substring($0)) }
+
+private let line = Many(field, separator: ",".utf8)
+
+private let csv = Many(line, separator: "\n".utf8)
 
 // MARK: - Ad hoc mutating methods
 
@@ -91,7 +85,6 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
   let columnCount = 5
   var output: [[String]] = []
 
-  let csv = CSV()
   suite.benchmark(
     name: "Parser",
     run: {
