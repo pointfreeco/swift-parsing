@@ -24,24 +24,24 @@ private func isToken(_ c: UTF8.CodeUnit) -> Bool {
   switch c {
   case 128...,
     ...31,
-    .init(ascii: #"("#),
-    .init(ascii: #")"#),
-    .init(ascii: #"<"#),
-    .init(ascii: #">"#),
-    .init(ascii: #"@"#),
-    .init(ascii: #","#),
-    .init(ascii: #";"#),
-    .init(ascii: #":"#),
-    .init(ascii: #"\"#),
-    .init(ascii: #"'"#),
-    .init(ascii: #"/"#),
-    .init(ascii: #"["#),
-    .init(ascii: #"]"#),
-    .init(ascii: #"?"#),
-    .init(ascii: #"="#),
-    .init(ascii: #"{"#),
-    .init(ascii: #"}"#),
-    .init(ascii: #" "#):
+    .init(ascii: "("),
+    .init(ascii: ")"),
+    .init(ascii: "<"),
+    .init(ascii: ">"),
+    .init(ascii: "@"),
+    .init(ascii: ","),
+    .init(ascii: ";"),
+    .init(ascii: ":"),
+    .init(ascii: "\\"),
+    .init(ascii: "'"),
+    .init(ascii: "/"),
+    .init(ascii: "["),
+    .init(ascii: "]"),
+    .init(ascii: "?"),
+    .init(ascii: "="),
+    .init(ascii: "{"),
+    .init(ascii: "}"),
+    .init(ascii: " "):
     return false
   default:
     return true
@@ -66,39 +66,36 @@ private func isVersion(_ c: UTF8.CodeUnit) -> Bool {
     || c == .init(ascii: ".")
 }
 
-private typealias Input = Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
-private typealias Output = (Request, [Header])
+private let method = Prefix(while: isToken)
+  .map { String(Substring($0)) }
 
-private let method = Prefix<Input>(while: isToken)
-  .map { String(decoding: $0, as: UTF8.self) }
+private let uri = Prefix(while: isNotSpace)
+  .map { String(Substring($0)) }
 
-private let uri = Prefix<Input>(while: isNotSpace)
-  .map { String(decoding: $0, as: UTF8.self) }
-
-private let httpVersion = StartsWith<Input>("HTTP/".utf8)
+private let httpVersion = "HTTP/".utf8
   .take(Prefix(while: isVersion))
-  .map { String(decoding: $0, as: UTF8.self) }
+  .map { String(Substring($0)) }
 
 private let requestLine =
   method
-  .skip(StartsWith(" ".utf8))
+  .skip(" ".utf8)
   .take(uri)
-  .skip(StartsWith(" ".utf8))
+  .skip(" ".utf8)
   .take(httpVersion)
   .skip(Newline())
   .map(Request.init)
 
-private let headerValue = StartsWith<Input>(" ".utf8).orElse(StartsWith("\t".utf8))
+private let headerValue = " ".utf8.orElse("\t".utf8)
   .skip(Prefix(while: isHorizontalSpace))
   .take(
     Prefix(while: notLineEnding)
-      .map { String(decoding: $0, as: UTF8.self) }
+      .map { String(Substring($0)) }
   )
   .skip(Newline())
 
 private let header = Prefix(while: isToken)
-  .map { String(decoding: $0, as: UTF8.self) }
-  .skip(StartsWith(":".utf8))
+  .map { String(Substring($0)) }
+  .skip(":".utf8)
   .take(Many(headerValue))
   .map(Header.init)
 
@@ -134,7 +131,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
       Header(name: "Connection", value: ["keep-alive"]),
     ]
   )
-  var output: Output!
+  var output: (Request, [Header])!
   suite.benchmark(
     name: "HTTP",
     run: { output = request.parse(input) },
