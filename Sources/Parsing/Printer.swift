@@ -1,16 +1,15 @@
+import Foundation
+
 public protocol Printer {
   associatedtype Input
   associatedtype Output
   func print(_ output: Output) -> Input?
 }
 
-
 public protocol Appendable {
   init()
   mutating func append(contentsOf other: Self)
 }
-
-import Foundation
 
 extension Array: Appendable {}
 extension ArraySlice: Appendable {}
@@ -36,49 +35,7 @@ extension Substring.UTF8View: Appendable {
   }
 }
 
-
-struct User: Equatable {
-  var id: Int
-  var name: String
-  var isAdmin: Bool
-}
-
-func foo() {
-
-//  Int.parser().print(123) as Substring?
-
-  Int.parser(of: Substring.self).parse("123")
-//  Int.parser(of: Substring.self).print(123)
-
-
-  let tmp = Bool.parser(of: Substring.self)
-  
-  Bool.parser(of: Substring.self).parse("true")
-  Bool.parser(of: ArraySlice<UInt8>.self).print(true)
-
-
-//  let tmp = Bool.parser(of: Substring.self)
-
-
-  ",".print(())
-  Prefix { $0 != "," }.print(" ")
-
-  let user = Parse {
-    Int.parser()
-    ","
-    Prefix { $0 != "," }
-    ","
-    Bool.parser()
-  }
-
-
-
-
-//  user.pars
-
-//    .print((1, "", true))
-//    .print((10, "", true))
-}
+// MARK: -
 
 extension Parser where Self: Printer {
   public func eraseToParserPrinter() -> AnyParserPrinter<Input, Output> {
@@ -98,71 +55,11 @@ public struct AnyParserPrinter<Input, Output>: Parser, Printer {
   }
 }
 
-extension Zip2_OV: Printer
-where
-  P0: Printer,
-  P1: Printer,
-  P0.Input: Appendable
-{
-  public func print(_ output: P0.Output) -> P0.Input? {
-    guard
-      var input0 = self.p0.print(output),
-      let input1 = self.p1.print(())
-    else { return nil }
-
-    input0.append(contentsOf: input1)
-    return input0
-  }
-}
-extension Zip3_VOV: Printer
-where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P0.Input: Appendable
-{
-  public func print(_ output: P1.Output) -> P0.Input? {
-    guard
-      var input0 = self.p0.print(()),
-      let input1 = self.p1.print(output),
-      let input2 = self.p2.print(())
-    else { return nil }
-
-    input0.append(contentsOf: input1)
-    input0.append(contentsOf: input2)
-    return input0
-  }
-}
-
-extension Zip5_OVOVO: Printer
-where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P0.Input == Substring
-{
-  public func print(_ output: (P0.Output, P2.Output, P4.Output)) -> P0.Input? {
-    guard
-      let input0 = self.p0.print(output.0),
-      let input1 = self.p1.print(()),
-      let input2 = self.p2.print(output.1),
-      let input3 = self.p3.print(()),
-      let input4 = self.p4.print(output.2)
-    else { return nil }
-
-    return input0 + input1 + input2 + input3 + input4
-  }
-}
-
-
 extension Parse: Printer where Upstream: Printer {
   public func print(_ output: Upstream.Output) -> Upstream.Input? {
     self.upstream.print(output)
   }
 }
-
 
 extension Parsers.BoolParser: Printer
 where
@@ -202,7 +99,6 @@ extension String: Printer {
   }
 }
 
-
 extension Whitespace: Printer {
   public func print(_ output: Input) -> Input? {
     output
@@ -241,30 +137,6 @@ extension Parsers.SubstringIntParser: Printer {
 extension OneOf: Printer where Upstream: Printer {
   public func print(_ output: Upstream.Output) -> Upstream.Input? {
     self.upstream.print(output)
-  }
-}
-
-extension OneOf3: Printer
-where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer
-{
-  public func print(_ output: P0.Output) -> P0.Input? {
-    self.p0.print(output)
-      ?? self.p1.print(output)
-      ?? self.p2.print(output)
-  }
-}
-
-extension OneOf2: Printer
-where
-  P0: Printer,
-  P1: Printer
-{
-  public func print(_ output: P0.Output) -> P0.Input? {
-    self.p0.print(output)
-      ?? self.p1.print(output)
   }
 }
 
@@ -345,3 +217,49 @@ extension Many: Printer {
 //    return range.contains(count) ? input : nil
 //  }
 //}
+
+// MARK: -
+
+struct User: Equatable {
+  var id: Int
+  var name: String
+  var isAdmin: Bool
+}
+
+func foo() {
+
+//
+////  Int.parser().print(123) as Substring?
+//
+//  Int.parser(of: Substring.self).parse("123")
+////  Int.parser(of: Substring.self).print(123)
+//
+//
+//  let tmp = Bool.parser(of: Substring.self)
+//
+//  Bool.parser(of: Substring.self).parse("true")
+//  Bool.parser(of: ArraySlice<UInt8>.self).print(true)
+//
+//
+////  let tmp = Bool.parser(of: Substring.self)
+//
+//
+//  ",".print(())
+//  Prefix { $0 != "," }.print(" ")
+//
+//  let user = Parse {
+//    Int.parser()
+//    ","
+//    Prefix { $0 != "," }
+//    ","
+//    Bool.parser()
+//  }
+//
+//
+//
+//
+////  user.pars
+//
+////    .print((1, "", true))
+////    .print((10, "", true))
+}

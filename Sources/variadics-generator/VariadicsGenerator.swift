@@ -90,12 +90,13 @@ struct VariadicsGenerator: ParsableCommand {
       emitOneOfDeclaration(arity: arity)
     }
 
-    output("// END AUTO-GENERATED CONTENT")
+    output("\n// END AUTO-GENERATED CONTENT")
   }
 
   func emitZipDeclarations(arity: Int) {
     for permutation in Permutations(arity: arity) {
-      // Emit type declarations.
+
+      // Emit type declaration.
       let typeName = "Zip\(arity)_\(permutation.identifier)"
       output("public struct \(typeName)<")
       outputForEach(0..<arity, separator: ", ") { "P\($0)" }
@@ -113,21 +114,85 @@ struct VariadicsGenerator: ParsableCommand {
       }
       output("\n{\n  @usableFromInline let ")
       outputForEach(0..<arity, separator: ", ") { "p\($0): P\($0)" }
-      output("\n\n  @inlinable init(")
+      output("\n  @inlinable init(")
       outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
       output(") {\n    ")
       outputForEach(0..<arity, separator: "\n    ") { "self.p\($0) = p\($0)" }
-      output("\n  }\n\n  @inlinable public func parse(_ input: inout P0.Input) -> (\n    ")
-      outputForEach(permutation.captureIndices, separator: ",\n    ") { "P\($0).Output" }
+      output("\n  }\n  @inlinable public func parse(_ input: inout P0.Input) -> (\n")
+      outputForEach(permutation.captureIndices, separator: ",\n") { "    P\($0).Output" }
       output("\n  )? {\n    let original = input\n    guard\n      ")
       outputForEach(0..<arity, separator: ",\n      ") {
         "let \(permutation.isCaptureless(at: $0) ? "_" : "o\($0)") = p\($0).parse(&input)"
       }
       output("\n    else {\n      input = original\n      return nil\n    }\n    return (")
       outputForEach(permutation.captureIndices, separator: ", ") { "o\($0)" }
-      output(")\n  }\n}\n\n")
+      output(")\n  }\n}\n")
 
-      // Emit builders.
+      // FIXME: Emitting type declaration, parser extension separately make `buildBlock`s ambiguous
+
+//      // Emit type declaration.
+//      let typeName = "Zip\(arity)_\(permutation.identifier)"
+//      output("public struct \(typeName)<")
+//      outputForEach(0..<arity, separator: ", ") { "P\($0)" }
+//      output("> {\n  @usableFromInline let ")
+//      outputForEach(0..<arity, separator: ", ") { "p\($0): P\($0)" }
+//      output("\n  @inlinable init(")
+//      outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
+//      output(") {\n    ")
+//      outputForEach(0..<arity, separator: "\n    ") { "self.p\($0) = p\($0)" }
+//      output("\n  }\n}\n")
+//
+//      // Emit parser extension.
+//      output("extension \(typeName): Parser\nwhere\n  ")
+//      outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Parser" }
+//      output(",\n  ")
+//      outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
+//        "P\($0).Input == P\($1).Input"
+//      }
+//      if permutation.hasCaptureless {
+//        output(",\n  ")
+//        outputForEach(permutation.capturelessIndices, separator: ",\n  ") {
+//          "P\($0).Output == Void"
+//        }
+//      }
+//      output("\n{\n  @inlinable public func parse(_ input: inout P0.Input) -> (\n")
+//      outputForEach(permutation.captureIndices, separator: ",\n") { "    P\($0).Output" }
+//      output("\n  )? {\n    let original = input\n    guard\n      ")
+//      outputForEach(0..<arity, separator: ",\n      ") {
+//        "let \(permutation.isCaptureless(at: $0) ? "_" : "o\($0)") = p\($0).parse(&input)"
+//      }
+//      output("\n    else {\n      input = original\n      return nil\n    }\n    return (")
+//      outputForEach(permutation.captureIndices, separator: ", ") { "o\($0)" }
+//      output(")\n  }\n}\n")
+
+      // Emit printer extension.
+      output("extension \(typeName): Printer\nwhere\n  ")
+      outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Printer" }
+      output(",\n  P0.Input: Appendable,\n  ")
+      outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
+        "P\($0).Input == P\($1).Input"
+      }
+      if permutation.hasCaptureless {
+        output(",\n  ")
+        outputForEach(permutation.capturelessIndices, separator: ",\n  ") {
+          "P\($0).Output == Void"
+        }
+      }
+      output("\n{\n  @inlinable public func print(\n    _ output: (\n")
+      outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
+      output("\n    )\n  ) -> P0.Input? {\n    guard\n      ")
+      outputForEach(0..<arity, separator: ",\n      ") {
+        let binding = $0 == 0 && arity > 1 ? "var" : "let"
+        let output = permutation.isCaptureless(at: $0) ? "()"
+          : permutation.captureIndices.count == 1 ? "output"
+          : "output.\(permutation.captureIndices.firstIndex(of: $0)!)"
+        return "\(binding) i\($0) = p\($0).print(\(output))"
+      }
+      output("\n    else { return nil }\n    ")
+      outputForEach(1..<arity, separator: "\n    ") { "i0.append(contentsOf: i\($0))" }
+      output("\n    return i0\n  }\n}\n")
+
+      // Emit builder.
       output("extension ParserBuilder {\n")
       output("  @inlinable public static func buildBlock<")
       outputForEach(0..<arity, separator: ", ") { "P\($0)" }
@@ -138,7 +203,7 @@ struct VariadicsGenerator: ParsableCommand {
       output("> {\n")
       output("    \(typeName)(")
       outputForEach(0..<arity, separator: ", ") { "p\($0)" }
-      output(")\n  }\n}\n\n")
+      output(")\n  }\n}\n")
     }
   }
 
@@ -146,7 +211,16 @@ struct VariadicsGenerator: ParsableCommand {
     let typeName = "OneOf\(arity)"
     output("public struct \(typeName)<")
     outputForEach(0..<arity, separator: ", ") { "P\($0)" }
-    output(">: Parser\nwhere\n  ")
+    output("> {\n  @usableFromInline let ")
+    outputForEach(0..<arity, separator: ", ") { "p\($0): P\($0)" }
+    output("\n  @inlinable init(")
+    outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
+    output(") {\n    ")
+    outputForEach(0..<arity, separator: "\n    ") { "self.p\($0) = p\($0)" }
+    output("\n  }\n}\n")
+
+    // Emit parser extension.
+    output("extension \(typeName): Parser\nwhere\n  ")
     outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Parser" }
     output(",\n  ")
     outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
@@ -156,18 +230,28 @@ struct VariadicsGenerator: ParsableCommand {
     outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
       "P\($0).Output == P\($1).Output"
     }
-    output("\n{\n  @usableFromInline let ")
-    outputForEach(0..<arity, separator: ", ") { "p\($0): P\($0)" }
-    output("\n\n  @inlinable init(")
-    outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
-    output(") {\n    ")
-    outputForEach(0..<arity, separator: "\n    ") { "self.p\($0) = p\($0)" }
-    output("\n  }\n\n  @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {\n    ")
+    output("\n{\n  @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {\n    ")
     outputForEach(0..<arity, separator: "\n    ") {
       "if let output = self.p\($0).parse(&input) { return output }"
     }
-    output("\n    return nil\n  }\n}\n\n")
+    output("\n    return nil\n  }\n}\n")
 
+    // Emit printer extension.
+    output("extension \(typeName): Printer\nwhere\n  ")
+    outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Printer" }
+    output(",\n  ")
+    outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
+      "P\($0).Input == P\($1).Input"
+    }
+    output(",\n  ")
+    outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
+      "P\($0).Output == P\($1).Output"
+    }
+    output("\n{\n  @inlinable public func print(_ output: P0.Output) -> P0.Input? {\n    ")
+    outputForEach(0..<arity, separator: "\n    ") {
+      "if let input = self.p\($0).print(output) { return input }"
+    }
+    output("\n    return nil\n  }\n}\n")
     // Emit builders.
     output("extension OneOfBuilder {\n")
     output("  @inlinable public static func buildBlock<")
@@ -179,6 +263,6 @@ struct VariadicsGenerator: ParsableCommand {
     output("> {\n")
     output("    \(typeName)(")
     outputForEach(0..<arity, separator: ", ") { "p\($0)" }
-    output(")\n  }\n}\n\n")
+    output(")\n  }\n}\n")
   }
 }
