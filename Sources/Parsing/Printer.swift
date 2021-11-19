@@ -27,46 +27,6 @@ where
 }
 
 
-extension Parsers.BoolParser: Printer
-where
-  Input: RangeReplaceableCollection
-{
-  public func print(_ output: Bool) -> Input? {
-    switch output {
-    case true:
-      return Input([116, 114, 117, 101])
-    case false:
-      return Input([102, 97, 108, 115, 101])
-    }
-  }
-}
-
-extension Parsers.SubstringBoolParser: Printer {
-  public func print(_ output: Bool) -> Substring? {
-    switch output {
-    case true:
-      return "true"
-    case false:
-      return "false"
-    }
-  }
-}
-
-extension Parsers.IntParser: Printer
-where
-  Input: RangeReplaceableCollection
-{
-  public func print(_ output: Output) -> Input? {
-    Input(String(output, radix: self.radix).utf8)
-  }
-}
-
-extension Parsers.SubstringIntParser: Printer {
-  public func print(_ output: Output) -> Substring? {
-    "\(output)"
-  }
-}
-
 public struct PreferredPrinting<Upstream, Input> {
   public let upstream: Upstream
   public let preferredInput: Input

@@ -163,6 +163,14 @@ extension Parsers {
   }
 }
 
+extension Parsers.IntParser: Printer where Input: AppendableCollection {
+  public func print(_ output: Output) -> Input? {
+    var input = Input()
+    input.append(contentsOf: String(output, radix: self.radix).utf8)
+    return input
+  }
+}
+
 extension Parsers {
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
   /// beginning of a substring using a UTF-8 parser.
@@ -181,5 +189,11 @@ extension Parsers {
     public func parse(_ input: inout Substring) -> Output? {
       self.parser.parse(&input.utf8)
     }
+  }
+}
+
+extension Parsers.SubstringIntParser: Printer {
+  public func print(_ output: Output) -> Substring? {
+    String(output, radix: self.parser.radix)[...]
   }
 }
