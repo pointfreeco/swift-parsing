@@ -257,10 +257,9 @@ extension Prefix where Input == Substring.UTF8View {
 extension Prefix: Printer {
   @inlinable
   public func print(_ output: Input) -> Input? {
-    let count = output.count
+    let output = self.maxLength.map(output.prefix) ?? output
     guard
-      count >= self.minLength,
-      count <= self.maxLength ?? .max,
+      output.count >= self.minLength,
       self.predicate.map({ output.allSatisfy($0) }) ?? true
     else { return nil }
     return output

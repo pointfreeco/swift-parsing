@@ -50,3 +50,21 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.SubstringToUnicodeScalars: Printer
+where
+  Upstream: Printer
+{
+  public func print(_ output: Upstream.Output) -> Substring.UnicodeScalarView? {
+    self.upstream.print(output).map(Substring.init)?.unicodeScalars
+  }
+}
+
+extension Parsers.UTF8ViewToSubstring: Printer
+where
+  UTF8ViewParser: Printer
+{
+  public func print(_ output: UTF8ViewParser.Output) -> Substring? {
+    self.utf8ViewParser.print(output).map(Substring.init)
+  }
+}

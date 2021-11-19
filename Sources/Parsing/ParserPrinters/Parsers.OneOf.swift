@@ -80,3 +80,24 @@ extension Parsers {
 
   public typealias OneOfMany = Parsing.OneOfMany  // NB: Convenience type alias for discovery
 }
+
+extension OneOfMany: Printer where Upstream: Printer {
+  public func print(_ output: Upstream.Output) -> Upstream.Input? {
+    for parser in self.parsers {
+      if let input = parser.print(output) {
+        return input
+      }
+    }
+    return nil
+  }
+}
+
+extension Parsers.OneOf: Printer
+where
+  A: Printer,
+  B: Printer
+{
+  public func print(_ output: A.Output) -> A.Input? {
+    self.a.print(output) ?? self.b.print(output)
+  }
+}

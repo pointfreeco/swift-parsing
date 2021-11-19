@@ -525,3 +525,190 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.Take2: Printer
+where
+  A: Printer,
+  B: Printer,
+  Input: Appendable
+{
+  public func print(_ output: (A.Output, B.Output)) -> A.Input? {
+    guard
+      var a = self.a.print(output.0),
+      let b = self.b.print(output.1)
+    else { return nil }
+
+    a.append(contentsOf: b)
+    return a
+  }
+}
+
+extension Parsers.Take3: Printer
+where
+  AB: Printer,
+  C: Printer,
+  Input: Appendable
+{
+  public func print(_ output: (A, B, C.Output)) -> AB.Input? {
+    guard
+      var ab = self.ab.print((output.0, output.1)),
+      let c = self.c.print(output.2)
+    else { return nil }
+
+    ab.append(contentsOf: c)
+    return ab
+  }
+}
+
+extension Parsers.Take4: Printer
+where
+  ABC: Printer,
+  D: Printer,
+  Input: Appendable
+{
+  public func print(_ output: (A, B, C, D.Output)) -> ABC.Input? {
+    guard
+      var abc = self.abc.print((output.0, output.1, output.2)),
+      let d = self.d.print(output.3)
+    else { return nil }
+
+    abc.append(contentsOf: d)
+    return abc
+  }
+}
+
+extension Parsers.Take5: Printer
+where
+  ABCD: Printer,
+  E: Printer,
+  Input: Appendable
+{
+  public func print(_ output: (A, B, C, D, E.Output)) -> ABCD.Input? {
+    guard
+      var abcd = self.abcd.print((output.0, output.1, output.2, output.3)),
+      let e = self.e.print(output.4)
+    else { return nil }
+
+    abcd.append(contentsOf: e)
+    return abcd
+  }
+}
+
+extension Parsers.Take6: Printer
+where
+  ABCDE: Printer,
+  F: Printer,
+  Input: Appendable
+{
+  public func print(_ output: (A, B, C, D, E, F.Output)) -> ABCDE.Input? {
+    guard
+      var abcde = self.abcde.print((output.0, output.1, output.2, output.3, output.4)),
+      let f = self.f.print(output.5)
+    else { return nil }
+
+    abcde.append(contentsOf: f)
+    return abcde
+  }
+}
+
+extension Parsers.Take7: Printer
+where
+  ABCDEF: Printer,
+  G: Printer,
+  Input: Appendable
+{
+  public func print(_ output: (A, B, C, D, E, F, G.Output)) -> ABCDEF.Input? {
+    guard
+      var abcdef = self.abcdef.print((output.0, output.1, output.2, output.3, output.4, output.5)),
+      let g = self.g.print(output.6)
+    else { return nil }
+
+    abcdef.append(contentsOf: g)
+    return abcdef
+  }
+}
+
+extension Parsers.Take8: Printer
+where
+  ABCDEFG: Printer,
+  H: Printer,
+  Input: Appendable
+{
+  public func print(_ output: (A, B, C, D, E, F, G, H.Output)) -> ABCDEFG.Input? {
+    guard
+      var abcdefg = self.abcdefg.print(
+        (output.0, output.1, output.2, output.3, output.4, output.5, output.6)
+      ),
+      let h = self.h.print(output.7)
+    else { return nil }
+
+    abcdefg.append(contentsOf: h)
+    return abcdefg
+  }
+}
+
+extension Parsers.Take9: Printer
+where
+  ABCDEFGH: Printer,
+  I: Printer,
+  Input: Appendable
+{
+  public func print(_ output: (A, B, C, D, E, F, G, H, I.Output)) -> ABCDEFGH.Input? {
+    guard
+      var abcdefgh = self.abcdefgh.print(
+        (output.0, output.1, output.2, output.3, output.4, output.5, output.6, output.7)
+      ),
+      let i = self.i.print(output.8)
+    else { return nil }
+
+    abcdefgh.append(contentsOf: i)
+    return abcdefgh
+  }
+}
+
+extension Parsers.Take10: Printer
+where
+  ABCDEFGHI: Printer,
+  J: Printer,
+  Input: Appendable
+{
+  public func print(_ output: (A, B, C, D, E, F, G, H, I, J.Output)) -> ABCDEFGHI.Input? {
+    guard
+      var abcdefghi = self.abcdefghi.print(
+        (output.0, output.1, output.2, output.3, output.4, output.5, output.6, output.7, output.8)
+      ),
+      let j = self.j.print(output.9)
+    else { return nil }
+
+    abcdefghi.append(contentsOf: j)
+    return abcdefghi
+  }
+}
+
+extension Parsers.Take11: Printer
+where
+  ABCDEFGHIJ: Printer,
+  K: Printer,
+  Input: Appendable
+{
+  public func print(_ output: (A, B, C, D, E, F, G, H, I, J, K.Output)) -> ABCDEFGHIJ.Input? {
+    guard
+      var abcdefghij = self.abcdefghij.print((
+        output.0,
+        output.1,
+        output.2,
+        output.3,
+        output.4,
+        output.5,
+        output.6,
+        output.7,
+        output.8,
+        output.9
+      )),
+      let k = self.k.print(output.10)
+    else { return nil }
+
+    abcdefghij.append(contentsOf: k)
+    return abcdefghij
+  }
+}

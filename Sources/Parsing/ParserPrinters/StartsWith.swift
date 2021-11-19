@@ -60,7 +60,15 @@ where
   }
 }
 
-extension Parsers.StartsWith where Input.Element: Equatable {
+extension StartsWith: Printer where Input: AppendableCollection {
+  public func print(_ output: ()) -> Input? {
+    var input = Input()
+    input.append(contentsOf: self.possiblePrefix)
+    return input
+  }
+}
+
+extension StartsWith where Input.Element: Equatable {
   /// Initializes a parser that successfully returns `Void` when the initial elements of its input
   /// are equivalent to the elements in another sequence.
   ///
