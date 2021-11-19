@@ -249,17 +249,14 @@ where
   RouteParser: Parser,
   RouteParser.Input == URLRequestData
 {
-  let parser: Parse<Zip2_OV<Parsers.Pipe<RouteParser, CasePath<Route, RouteParser.Output>>, PathEnd>>
+  let parser: Zip2_OV<Parsers.Pipe<RouteParser, CasePath<Route, RouteParser.Output>>, PathEnd>
 
   @inlinable
   init(
     _ route: CasePath<Route, RouteParser.Output>,
     @ParserBuilder to parser: () -> RouteParser
   ) {
-    self.parser = Parse {
-      parser().pipe(route)
-      PathEnd()
-    }
+    self.parser = ParserBuilder.buildBlock(parser().pipe(route), PathEnd())
   }
 
 //  @inlinable
