@@ -1,7 +1,7 @@
 import Foundation
 import Parsing
 
-struct URLRequestData {
+struct URLRequestData: Equatable {
   var body: ArraySlice<UInt8>?
   var headers: [String: Substring]
   var method: String?
@@ -20,6 +20,26 @@ struct URLRequestData {
     self.query = query
     self.headers = headers
     self.body = body
+  }
+}
+
+extension URLRequestData: Appendable {
+  init() {
+    self.init(method: nil, path: [], query: [:], headers: [:], body: nil)
+  }
+
+  mutating func append(contentsOf other: URLRequestData) {
+    if let body = other.body {
+      if self.body != nil {
+        self.body?.append(contentsOf: other.body ?? [])
+      } else {
+        self.body = body
+      }
+    }
+    self.headers.merge(other.headers, uniquingKeysWith: { lhs, rhs in lhs })
+    self.method = self.method ?? other.method
+    self.path.append(contentsOf: other.path)
+    self.query.merge(other.query, uniquingKeysWith: +)
   }
 }
 
@@ -48,24 +68,43 @@ where
   }
 }
 
+extension Body: Printer where BodyParser: Printer {
+  func print(_ output: BodyParser.Output) -> URLRequestData? {
+    self.bodyParser.print(output).map { .init(body: $0) }
+  }
+}
+
 struct JSON<Value: Decodable>: Parser {
   let decoder: JSONDecoder
+  let encoder: JSONEncoder
 
   @inlinable
   init(
     _ type: Value.Type,
-    decoder: JSONDecoder = .init()
+    decoder: JSONDecoder = .init(),
+    encoder: JSONEncoder = .init()
   ) {
     self.decoder = decoder
+    self.encoder = encoder
   }
 
   @inlinable
   func parse(_ input: inout ArraySlice<UInt8>) -> Value? {
     guard
-      let output = try? decoder.decode(Value.self, from: Data(input))
+      let output = try? self.decoder.decode(Value.self, from: Data(input))
     else { return nil }
     input = []
     return output
+  }
+}
+
+extension JSON: Printer where Value: Encodable {
+  @inlinable
+  func print(_ output: Value) -> ArraySlice<UInt8>? {
+    guard
+      let input = try? self.encoder.encode(output)
+    else { return nil }
+    return .init(input)
   }
 }
 
@@ -88,6 +127,13 @@ struct Method: Parser {
     guard input.method?.uppercased() == self.name else { return nil }
     input.method = nil
     return ()
+  }
+}
+
+extension Method: Printer {
+  @inlinable
+  func print(_ output: Void) -> URLRequestData? {
+    .init(method: self.name)
   }
 }
 
@@ -116,6 +162,12 @@ where
   }
 }
 
+extension Path: Printer where ComponentParser: Printer {
+  func print(_ output: ComponentParser.Output) -> URLRequestData? {
+    self.componentParser.print(output).map { .init(path: [$0]) }
+  }
+}
+
 struct PathEnd: Parser {
   @inlinable
   init() {}
@@ -125,6 +177,12 @@ struct PathEnd: Parser {
     guard input.path.isEmpty
     else { return nil }
     return ()
+  }
+}
+
+extension PathEnd: Printer {
+  func print(_ output: Void) -> URLRequestData? {
+    .init()
   }
 }
 
@@ -177,41 +235,47 @@ where
   }
 }
 
-struct Routing<RouteParser, Route>: Parser
+// TODO: Use `AnyEquatable` box to avoid forcing conformance.
+extension Query: Printer where ValueParser: Printer, ValueParser.Output: Equatable {
+  @inlinable
+  func print(_ output: ValueParser.Output) -> URLRequestData? {
+    guard output != self.defaultValue else { return .init() }
+    return self.valueParser.print(output).map { .init(query: [self.name: [$0]]) }
+  }
+}
+
+struct Routing<RouteParser, Route>: ParserPrinter
 where
-  RouteParser: Parser,
+  RouteParser: ParserPrinter,
   RouteParser.Input == URLRequestData
 {
-  let parser: Parse<Zip2_OV<Parsers.Map<RouteParser, Route>, PathEnd>>
+  let parser: Parse<Zip2_OV<Parsers.Pipe<RouteParser, CasePath<Route, RouteParser.Output>>, PathEnd>>
 
   @inlinable
   init(
-    _ route: @escaping (RouteParser.Output) -> Route,
+    _ route: CasePath<Route, RouteParser.Output>,
     @ParserBuilder to parser: () -> RouteParser
   ) {
     self.parser = Parse {
-      parser().map(route)
+      parser().pipe(route)
       PathEnd()
     }
   }
 
   @inlinable
   init(
-    _ route: Route,
-    @ParserBuilder to parser: () -> RouteParser
-  ) where RouteParser.Output == Void {
-    self.init({ route }, to: parser)
-  }
-
-  @inlinable
-  init(
-    _ route: Route
+    _ route: CasePath<Route, RouteParser.Output>
   ) where RouteParser == Always<URLRequestData, Void> {
-    self.init({ route }, to: { Always<URLRequestData, Void>(()) })
+    self.init(route, to: { Always<URLRequestData, Void>(()) })
   }
 
   @inlinable
   func parse(_ input: inout URLRequestData) -> Route? {
     self.parser.parse(&input)
+  }
+
+  @inlinable
+  func print(_ output: Route) -> URLRequestData? {
+    self.parser.print(output)
   }
 }

@@ -67,12 +67,6 @@ extension Parsers.SubstringIntParser: Printer {
   }
 }
 
-extension Whitespace: Printer {
-  public func print(_ output: Input) -> Input? {
-    output
-  }
-}
-
 public struct PreferredPrinting<Upstream, Input> {
   public let upstream: Upstream
   public let preferredInput: Input
@@ -100,45 +94,6 @@ extension PreferredPrinting: Parser where Upstream: Parser, Upstream.Input == In
     return ()
   }
 }
-
-//extension Many: Printer
-//where
-//  Upstream: Printer,
-//  Upstream.Input: Appendable,
-//  Separator: Printer,
-//  Separator.Output == Void,
-//  Result: Collection,
-//  Result.Element == Upstream.Output
-//{
-//  public func print(_ output: Result) -> Upstream.Input? {
-//    let range = self.minimum...self.maximum
-//    var input = Upstream.Input()
-//
-//    var count = 0
-//    guard let firstInput = output.first.flatMap(self.upstream.print)
-//    else { return range.contains(count) ? input : nil }
-//
-//    input.append(contentsOf: firstInput)
-//    count += 1
-//
-//    for element in output.dropFirst() {
-//      guard let elementInput = self.upstream.print(element)
-//      else { return input }
-//
-//      if count > self.maximum {
-//        return nil
-//      }
-//
-//      if let separatorInput = self.separator?.print(()) {
-//        input.append(contentsOf: separatorInput)
-//      }
-//      input.append(contentsOf: elementInput)
-//      count += 1
-//    }
-//
-//    return range.contains(count) ? input : nil
-//  }
-//}
 
 // MARK: -
 

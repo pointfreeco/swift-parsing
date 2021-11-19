@@ -270,4 +270,3 @@ extension Prefix: Printer {
 extension Parsers {
   public typealias Prefix = Parsing.Prefix  // NB: Convenience type alias for discovery
 }
-

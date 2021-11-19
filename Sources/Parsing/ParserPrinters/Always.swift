@@ -38,6 +38,12 @@ public struct Always<Input, Output>: Parser {
   }
 }
 
+extension Always: Printer where Input: Appendable {
+  public func print(_ output: Output) -> Input? {
+    .init()
+  }
+}
+
 extension Parsers {
   public typealias Always = Parsing.Always  // NB: Convenience type alias for discovery
 }

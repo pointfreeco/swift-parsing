@@ -83,7 +83,7 @@ let appendableSuite = BenchmarkSuite(name: "Appendable") { suite in
 Benchmark.main(
   [
     defaultBenchmarkSuite,
-    appendableSuite,
+//    appendableSuite,
 //    arithmeticSuite,
 //    binaryDataSuite,
 //    boolSuite,
@@ -96,7 +96,7 @@ Benchmark.main(
 //    prefixUpToSuite,
 //    raceSuite,
 //    readmeExampleSuite,
-//    routingSuite,
+    routingSuite,
 //    stringAbstractionsSuite,
 //    uuidSuite,
 //    xcodeLogsSuite,

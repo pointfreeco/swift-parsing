@@ -30,6 +30,15 @@ where
   }
 }
 
+extension First: Printer where Input: RangeReplaceableCollection {
+  @inlinable
+  public func print(_ output: Input.Element) -> Input? {
+    var input = Input()
+    input.append(output)
+    return input
+  }
+}
+
 extension First where Input == Substring {
   @_disfavoredOverload
   @inlinable
