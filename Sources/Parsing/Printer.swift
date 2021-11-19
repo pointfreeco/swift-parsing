@@ -27,10 +27,28 @@ func foo() {
   let user = Parse {
     Int.parser()
     ","
-    Prefix { $0 != "," }
+    Prefix { $0 != "," }.pipe { UnsafeBitCast(String.init) }
     ","
     Bool.parser()
   }
+  .pipe { UnsafeBitCast(User.init) }
+
   _ = user.parse("1,Blob,true")
-  _ = user.print((1, "Blob", true))
+  _ = user.print(User(id: 1, name: "Blob", isAdmin: true))
+}
+
+public struct UnsafeBitCast<Values, Root>: ParserPrinter {
+  let initializer: (Values) -> Root
+
+  init(_ initializer: @escaping (Values) -> Root) {
+    self.initializer = initializer
+  }
+
+  public func parse(_ input: inout Values) -> Root? {
+    self.initializer(input)
+  }
+
+  public func print(_ output: Root) -> Values? {
+    Swift.unsafeBitCast(output, to: Values.self)
+  }
 }
