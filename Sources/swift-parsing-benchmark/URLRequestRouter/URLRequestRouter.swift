@@ -244,9 +244,9 @@ extension Query: Printer where ValueParser: Printer, ValueParser.Output: Equatab
   }
 }
 
-struct Routing<RouteParser, Route>: ParserPrinter
+struct Routing<RouteParser, Route>: Parser
 where
-  RouteParser: ParserPrinter,
+  RouteParser: Parser,
   RouteParser.Input == URLRequestData
 {
   let parser: Parse<Zip2_OV<Parsers.Pipe<RouteParser, CasePath<Route, RouteParser.Output>>, PathEnd>>
@@ -262,18 +262,20 @@ where
     }
   }
 
-  @inlinable
-  init(
-    _ route: CasePath<Route, RouteParser.Output>
-  ) where RouteParser == Always<URLRequestData, Void> {
-    self.init(route, to: { Always<URLRequestData, Void>(()) })
-  }
+//  @inlinable
+//  init(
+//    _ route: CasePath<Route, RouteParser.Output>
+//  ) where RouteParser == Always<URLRequestData, Void> {
+//    self.init(route, to: { Always<URLRequestData, Void>(()) })
+//  }
 
   @inlinable
   func parse(_ input: inout URLRequestData) -> Route? {
     self.parser.parse(&input)
   }
+}
 
+extension Routing: Printer where RouteParser: Printer {
   @inlinable
   func print(_ output: Route) -> URLRequestData? {
     self.parser.print(output)
