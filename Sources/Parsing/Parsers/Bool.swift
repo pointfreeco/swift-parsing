@@ -88,7 +88,7 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout Substring) -> Bool? {
-      parser.parse(&input.utf8)
+      self.parser.parse(&input.utf8)
     }
   }
 }

@@ -6,60 +6,26 @@ public protocol Printer {
   func print(_ output: Output) -> Input?
 }
 
-public protocol Appendable {
-  init()
-  mutating func append(contentsOf other: Self)
-}
+public typealias ParserPrinter = Parser & Printer
 
-extension Array: Appendable {}
-extension ArraySlice: Appendable {}
-extension ContiguousArray: Appendable {}
-extension Data: Appendable {}
-extension Slice: Appendable where Base: RangeReplaceableCollection {}
-extension String: Appendable {}
-extension String.UnicodeScalarView: Appendable {}
-extension Substring: Appendable {}
-extension Substring.UnicodeScalarView: Appendable {}
-
-extension Substring.UTF8View: Appendable {
+extension Printer where Output == Void {
   @inlinable
-  public init() {
-    self = ""[...].utf8
-  }
-
-  @inlinable
-  public mutating func append(contentsOf other: Substring.UTF8View) {
-    var str = Substring(self)
-    str.append(contentsOf: Substring(other))
-    self = str.utf8
+  public func print() -> Input? {
+    self.print(())
   }
 }
 
 // MARK: -
 
-extension Parser where Self: Printer {
-  public func eraseToParserPrinter() -> AnyParserPrinter<Input, Output> {
-    AnyParserPrinter(_parse: self.parse(_:), _print: self.print(_:))
+extension Parsers.UTF8ViewToSubstring: Printer
+where
+  UTF8ViewParser: Printer
+{
+  public func print(_ output: UTF8ViewParser.Output) -> Substring? {
+    self.utf8ViewParser.print(output).map(Substring.init)
   }
 }
 
-public struct AnyParserPrinter<Input, Output>: Parser, Printer {
-  let _parse: (inout Input) -> Output?
-  let _print: (Output) -> Input?
-
-  public func parse(_ input: inout Input) -> Output? {
-    self._parse(&input)
-  }
-  public func print(_ output: Output) -> Input? {
-    self._print(output)
-  }
-}
-
-extension Parse: Printer where Upstream: Printer {
-  public func print(_ output: Upstream.Output) -> Upstream.Input? {
-    self.upstream.print(output)
-  }
-}
 
 extension Parsers.BoolParser: Printer
 where
@@ -75,12 +41,14 @@ where
   }
 }
 
-extension Parsers.UTF8ViewToSubstring: Printer
-where
-  UTF8ViewParser: Printer
-{
-  public func print(_ output: UTF8ViewParser.Output) -> Substring? {
-    self.utf8ViewParser.print(output).map(Substring.init)
+extension Parsers.SubstringBoolParser: Printer {
+  public func print(_ output: Bool) -> Substring? {
+    switch output {
+    case true:
+      return "true"
+    case false:
+      return "false"
+    }
   }
 }
 
@@ -93,50 +61,15 @@ where
   }
 }
 
-extension String: Printer {
-  public func print(_ output: ()) -> Substring? {
-    self[...]
-  }
-}
-
-extension Whitespace: Printer {
-  public func print(_ output: Input) -> Input? {
-    output
-  }
-}
-
-extension Prefix: Printer {
-  public func print(_ output: Input) -> Input? {
-    let count = output.count
-    guard
-      count >= self.minLength,
-      count <= self.maxLength ?? .max,
-      self.predicate.map({ output.allSatisfy($0) }) ?? true
-    else { return nil }
-    return output
-  }
-}
-
-extension Parsers.SubstringBoolParser: Printer {
-  public func print(_ output: Bool) -> Substring? {
-    switch output {
-    case true:
-      return "true"
-    case false:
-      return "false"
-    }
-  }
-}
-
 extension Parsers.SubstringIntParser: Printer {
   public func print(_ output: Output) -> Substring? {
     "\(output)"
   }
 }
 
-extension OneOf: Printer where Upstream: Printer {
-  public func print(_ output: Upstream.Output) -> Upstream.Input? {
-    self.upstream.print(output)
+extension Whitespace: Printer {
+  public func print(_ output: Input) -> Input? {
+    output
   }
 }
 
@@ -165,17 +98,6 @@ extension PreferredPrinting: Parser where Upstream: Parser, Upstream.Input == In
   public func parse(_ input: inout Input) -> ()? {
     _ = self.upstream.parse(&input)
     return ()
-  }
-}
-
-extension FromUTF8View: Printer where UTF8Parser: Printer {
-  public func print(_ output: UTF8Parser.Output) -> Substring? {
-    self.utf8Parser.print(output).map(Substring.init)
-  }
-}
-
-extension Many: Printer {
-  public func print(_ output: Result) -> Upstream.Input? {
   }
 }
 

@@ -18,3 +18,10 @@ where
     return self.substringParser.parse(&substring)
   }
 }
+
+extension FromSubstring: Printer where SubstringParser: Printer {
+  @inlinable
+  public func print(_ output: SubstringParser.Output) -> Substring.UTF8View? {
+    self.substringParser.print(output)?.utf8
+  }
+}

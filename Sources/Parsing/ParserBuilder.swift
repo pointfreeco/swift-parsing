@@ -40,23 +40,9 @@ public enum ParserBuilder {
   }
 
   @inlinable
-  public static func buildLimitedAvailability<P>(_ component: P) -> Parsers.OptionalParser<P>
+  public static func buildLimitedAvailability<P>(_ component: P) -> Optionally<P>
   where P: Parser {
-    .init(component)
-  }
-}
-
-public struct Parse<Upstream>: Parser where Upstream: Parser {
-  public let upstream: Upstream
-
-  @inlinable
-  public init(@ParserBuilder _ build: () -> Upstream) {
-    self.upstream = build()
-  }
-
-  @inlinable
-  public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
-    self.upstream.parse(&input)
+    .init { component }
   }
 }
 
@@ -107,22 +93,8 @@ public enum OneOfBuilder {
   }
 
   @inlinable
-  public static func buildLimitedAvailability<P>(_ component: P) -> Parsers.OptionalParser<P>
+  public static func buildLimitedAvailability<P>(_ component: P) -> Optionally<P>
   where P: Parser {
-    .init(component)
-  }
-}
-
-public struct OneOf<Upstream>: Parser where Upstream: Parser {
-  public let upstream: Upstream
-
-  @inlinable
-  public init(@OneOfBuilder _ build: () -> Upstream) {
-    self.upstream = build()
-  }
-
-  @inlinable
-  public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
-    self.upstream.parse(&input)
+    .init { component }
   }
 }

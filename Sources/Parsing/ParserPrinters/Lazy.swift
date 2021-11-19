@@ -22,6 +22,18 @@ public final class Lazy<LazyParser>: Parser where LazyParser: Parser {
   }
 }
 
+extension Lazy: Printer where LazyParser: Printer {
+  @inlinable
+  public func print(_ output: LazyParser.Output) -> LazyParser.Input? {
+    guard let parser = self.lazyParser else {
+      let parser = self.createParser()
+      self.lazyParser = parser
+      return parser.print(output)
+    }
+    return parser.print(output)
+  }
+}
+
 extension Parsers {
   public typealias Lazy = Parsing.Lazy  // NB: Convenience type alias for discovery
 }

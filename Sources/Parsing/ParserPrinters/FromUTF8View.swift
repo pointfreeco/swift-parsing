@@ -15,3 +15,10 @@ where
     self.utf8Parser.parse(&input.utf8)
   }
 }
+
+extension FromUTF8View: Printer where UTF8Parser: Printer {
+  @inlinable
+  public func print(_ output: UTF8Parser.Output) -> Substring? {
+    self.utf8Parser.print(output).map(Substring.init)
+  }
+}

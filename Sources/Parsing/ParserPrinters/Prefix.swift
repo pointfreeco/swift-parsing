@@ -254,6 +254,20 @@ extension Prefix where Input == Substring.UTF8View {
   }
 }
 
+extension Prefix: Printer {
+  @inlinable
+  public func print(_ output: Input) -> Input? {
+    let count = output.count
+    guard
+      count >= self.minLength,
+      count <= self.maxLength ?? .max,
+      self.predicate.map({ output.allSatisfy($0) }) ?? true
+    else { return nil }
+    return output
+  }
+}
+
 extension Parsers {
   public typealias Prefix = Parsing.Prefix  // NB: Convenience type alias for discovery
 }
+

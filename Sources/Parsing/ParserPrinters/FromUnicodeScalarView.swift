@@ -19,3 +19,10 @@ where
     return self.unicodeScalarParser.parse(&unicodeScalars)
   }
 }
+
+extension FromUnicodeScalarView: Printer where UnicodeScalarParser: Printer {
+  @inlinable
+  public func print(_ output: UnicodeScalarParser.Output) -> Substring.UTF8View? {
+    self.unicodeScalarParser.print(output).map(Substring.init)?.utf8
+  }
+}
