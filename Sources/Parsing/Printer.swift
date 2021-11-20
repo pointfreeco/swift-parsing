@@ -27,7 +27,7 @@ func foo() {
   let user = Parse {
     Int.parser()
     ","
-    Prefix { $0 != "," }.pipe { UnsafeBitCast(String.init) }
+    Prefix { $0 != "," }.pipe { String.parser() }
     ","
     Bool.parser()
   }
@@ -37,17 +37,36 @@ func foo() {
   _ = user.print(User(id: 1, name: "Blob", isAdmin: true))
 }
 
+public struct SubstringToString: ParserPrinter {
+  @inlinable
+  public init() {}
+
+  @inlinable
+  public func parse(_ input: inout Substring) -> String? {
+    String(input)
+  }
+
+  @inlinable
+  public func print(_ output: String) -> Substring? {
+    output[...]
+  }
+}
+
 public struct UnsafeBitCast<Values, Root>: ParserPrinter {
+  @usableFromInline
   let initializer: (Values) -> Root
 
-  init(_ initializer: @escaping (Values) -> Root) {
+  @inlinable
+  public init(_ initializer: @escaping (Values) -> Root) {
     self.initializer = initializer
   }
 
+  @inlinable
   public func parse(_ input: inout Values) -> Root? {
     self.initializer(input)
   }
 
+  @inlinable
   public func print(_ output: Root) -> Values? {
     Swift.unsafeBitCast(output, to: Values.self)
   }

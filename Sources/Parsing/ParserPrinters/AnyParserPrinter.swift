@@ -1,4 +1,5 @@
 extension Parser where Self: ParserPrinter {
+  @inlinable
   public func eraseToParserPrinter() -> AnyParserPrinter<Input, Output> {
     AnyParserPrinter(self)
   }

@@ -39,6 +39,7 @@ public struct Always<Input, Output>: Parser {
 }
 
 extension Always: Printer where Input: Appendable {
+  @inlinable
   public func print(_ output: Output) -> Input? {
     .init()
   }

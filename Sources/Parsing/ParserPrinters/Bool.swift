@@ -45,8 +45,8 @@ extension Bool {
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
-  ) -> Parsers.SubstringBoolParser {
-    .init()
+  ) -> Parsers.UTF8ViewToSubstring<Parsers.BoolParser<Substring.UTF8View>> {
+    .init(.init())
   }
 }
 
@@ -79,40 +79,15 @@ extension Parsers {
 }
 
 extension Parsers.BoolParser: Printer where Input: AppendableCollection {
+  @inlinable
   public func print(_ output: Bool) -> Input? {
     var input = Input()
     switch output {
     case true:
-      input.append(contentsOf: [116, 114, 117, 101])
+      input.append(contentsOf: [116, 114, 117, 101] /*"true".utf8*/)
     case false:
-      input.append(contentsOf: [102, 97, 108, 115, 101])
+      input.append(contentsOf: [102, 97, 108, 115, 101] /*"false".utf8*/)
     }
     return input
-  }
-}
-
-extension Parsers {
-  /// A parser that consumes a Boolean value from the beginning of a substring.
-  public struct SubstringBoolParser: Parser {
-    public let parser = Bool.parser(of: Substring.UTF8View.self)
-
-    @inlinable
-    public init() {}
-
-    @inlinable
-    public func parse(_ input: inout Substring) -> Bool? {
-      self.parser.parse(&input.utf8)
-    }
-  }
-}
-
-extension Parsers.SubstringBoolParser: Printer {
-  public func print(_ output: Bool) -> Substring? {
-    switch output {
-    case true:
-      return "true"
-    case false:
-      return "false"
-    }
   }
 }

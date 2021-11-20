@@ -25,15 +25,6 @@ extension FixedWidthInteger {
     .init(isSigned: isSigned, radix: radix)
   }
 
-  @inlinable
-  public static func parser(
-    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self,
-    isSigned: Bool = true,
-    radix: Int = 10
-  ) -> Parsers.IntParser<Substring.UTF8View, Self> {
-    .init(isSigned: isSigned, radix: radix)
-  }
-
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
   /// beginning of a substring's UTF-8 view.
   ///
@@ -74,8 +65,8 @@ extension FixedWidthInteger {
     of inputType: Substring.Type = Substring.self,
     isSigned: Bool = true,
     radix: Int = 10
-  ) -> Parsers.SubstringIntParser<Self> {
-    .init()
+  ) -> Parsers.UTF8ViewToSubstring<Parsers.IntParser<Substring.UTF8View, Self>> {
+    .init(.init())
   }
 }
 
@@ -168,32 +159,5 @@ extension Parsers.IntParser: Printer where Input: AppendableCollection {
     var input = Input()
     input.append(contentsOf: String(output, radix: self.radix).utf8)
     return input
-  }
-}
-
-extension Parsers {
-  /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
-  /// beginning of a substring using a UTF-8 parser.
-  ///
-  /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// `Int.parser()`, which constructs this type.
-  public struct SubstringIntParser<Output>: Parser where Output: FixedWidthInteger {
-    public let parser: Parsers.IntParser<Substring.UTF8View, Output>
-
-    @inlinable
-    public init(isSigned: Bool = true, radix: Output = 10) {
-      self.parser = Parsers.IntParser(isSigned: isSigned, radix: Int(radix))
-    }
-
-    @inlinable
-    public func parse(_ input: inout Substring) -> Output? {
-      self.parser.parse(&input.utf8)
-    }
-  }
-}
-
-extension Parsers.SubstringIntParser: Printer {
-  public func print(_ output: Output) -> Substring? {
-    String(output, radix: self.parser.radix)[...]
   }
 }
