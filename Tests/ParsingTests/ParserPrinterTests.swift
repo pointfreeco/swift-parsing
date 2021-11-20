@@ -47,4 +47,23 @@ class ParserPrinterTests: XCTestCase {
      "DEADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF"
     )
   }
+
+  func testRawRepresentable() {
+    enum Ok: String, Equatable {
+      case foo
+      case bar
+    }
+
+    let p = String.parser(of: Substring.self).pipe { Ok.parser() }
+
+    XCTAssertEqual(
+      p.parse("foo"),
+      .foo
+    )
+
+    XCTAssertEqual(
+      p.print(.bar),
+      "bar"
+    )
+  }
 }

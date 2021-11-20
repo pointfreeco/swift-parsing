@@ -16,10 +16,14 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 
     enum Episodes: Equatable {
       case index
-      case episode(id: Int, route: Episode)
+      case episode(id: Episode.ID, route: Episode)
     }
 
     enum Episode: Equatable {
+      struct ID: Equatable, RawRepresentable {
+        var rawValue: Int
+      }
+
       case show
       case comments(Comments)
 
@@ -54,7 +58,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
         }
 
         Routing(/Route.Episodes.episode) {
-          Path(Int.parser())
+          Path(Int.parser().pipe { Route.Episode.ID.parser() })
 
           OneOf {
             Routing(/Route.Episode.show) {
@@ -105,10 +109,10 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
     .home,
     .contactUs,
     .episodes(.index),
-    .episodes(.episode(id: 1, route: .show)),
-    .episodes(.episode(id: 1, route: .comments(.show(count: 10)))),
-    .episodes(.episode(id: 1, route: .comments(.show(count: 20)))),
-    .episodes(.episode(id: 1, route: .comments(.post(.init(commenter: "Blob", message: "Hi!"))))),
+    .episodes(.episode(id: .init(rawValue: 1), route: .show)),
+    .episodes(.episode(id: .init(rawValue: 1), route: .comments(.show(count: 10)))),
+    .episodes(.episode(id: .init(rawValue: 1), route: .comments(.show(count: 20)))),
+    .episodes(.episode(id: .init(rawValue: 1), route: .comments(.post(.init(commenter: "Blob", message: "Hi!"))))),
   ]
   suite.benchmark(
     name: "Parser",

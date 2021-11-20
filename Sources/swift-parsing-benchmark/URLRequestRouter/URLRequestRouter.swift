@@ -111,7 +111,10 @@ extension JSON: Printer where Value: Encodable {
 struct Method: Parser {
   let name: String
 
-  static let get = Self("GET")
+  static let get = OneOf {
+    Self("GET")
+    Self("HEAD")
+  }
   static let post = Self("POST")
   static let put = Self("PUT")
   static let patch = Self("PATCH")
@@ -236,11 +239,10 @@ where
   }
 }
 
-// TODO: Use `AnyEquatable` box to avoid forcing conformance.
-extension Query: Printer where ValueParser: Printer, ValueParser.Output: Equatable {
+extension Query: Printer where ValueParser: Printer {
   @inlinable
   func print(_ output: ValueParser.Output) -> URLRequestData? {
-    guard output != self.defaultValue else { return .init() }
+    if let defaultValue = self.defaultValue, isEqual(output, defaultValue) { return .init() }
     return self.valueParser.print(output).map { .init(query: [self.name: [$0]]) }
   }
 }
@@ -278,4 +280,25 @@ extension Routing: Printer where RouteParser: Printer {
   func print(_ output: Route) -> URLRequestData? {
     self.parser.print(output)
   }
+}
+
+// MARK: -
+
+private enum Box<T> {}
+
+private protocol AnyEquatable {
+  static func isEqual(_ lhs: Any, _ rhs: Any) -> Bool
+}
+
+extension Box: AnyEquatable where T: Equatable {
+  fileprivate static func isEqual(_ lhs: Any, _ rhs: Any) -> Bool {
+    lhs as? T == rhs as? T
+  }
+}
+
+private func isEqual(_ lhs: Any, _ rhs: Any) -> Bool {
+  func open<LHS>(_: LHS.Type) -> Bool? {
+    (Box<LHS>.self as? AnyEquatable.Type)?.isEqual(lhs, rhs)
+  }
+  return _openExistential(type(of: lhs), do: open) ?? false
 }
