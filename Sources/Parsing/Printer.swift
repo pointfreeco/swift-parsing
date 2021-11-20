@@ -37,21 +37,6 @@ func foo() {
   _ = user.print(User(id: 1, name: "Blob", isAdmin: true))
 }
 
-public struct SubstringToString: ParserPrinter {
-  @inlinable
-  public init() {}
-
-  @inlinable
-  public func parse(_ input: inout Substring) -> String? {
-    String(input)
-  }
-
-  @inlinable
-  public func print(_ output: String) -> Substring? {
-    output[...]
-  }
-}
-
 public struct UnsafeBitCast<Values, Root>: ParserPrinter {
   @usableFromInline
   let initializer: (Values) -> Root
