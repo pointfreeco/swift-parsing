@@ -181,6 +181,7 @@ struct PathEnd: Parser {
 }
 
 extension PathEnd: Printer {
+  @inlinable
   func print(_ output: Void) -> URLRequestData? {
     .init()
   }
