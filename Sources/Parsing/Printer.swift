@@ -31,7 +31,7 @@ func foo() {
     ","
     Bool.parser()
   }
-  .pipe { UnsafeBitCast(User.init) }
+  .pipe { UnsafeBitCast(User.init(id:name:isAdmin:)) }
 
   _ = user.parse("1,Blob,true")
   _ = user.print(User(id: 1, name: "Blob", isAdmin: true))
