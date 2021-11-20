@@ -26,23 +26,12 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/utf8-6e25a`` operation, which constructs this type.
-  public struct SubstringToUTF8View<Upstream>: Parser
-  where
-    Upstream: Parser,
-    Upstream.Input == Substring
-  {
+  public struct SubstringToUTF8View<Upstream> {
     public let upstream: Upstream
 
     @inlinable
     public init(upstream: Upstream) {
       self.upstream = upstream
-    }
-
-    @inlinable
-    public func parse(_ input: inout Substring.UTF8View) -> Upstream.Output? {
-      var substring = Substring(input)
-      defer { input = substring.utf8 }
-      return self.upstream.parse(&substring)
     }
   }
 
@@ -51,23 +40,12 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/utf8-1tosc`` operation, which constructs this type.
-  public struct UnicodeScalarViewToUTF8View<Upstream>: Parser
-  where
-    Upstream: Parser,
-    Upstream.Input == Substring.UnicodeScalarView
-  {
+  public struct UnicodeScalarViewToUTF8View<Upstream> {
     public let upstream: Upstream
 
     @inlinable
     public init(upstream: Upstream) {
       self.upstream = upstream
-    }
-
-    @inlinable
-    public func parse(_ input: inout Substring.UTF8View) -> Upstream.Output? {
-      var unicodeScalars = Substring(input).unicodeScalars
-      defer { input = Substring(unicodeScalars).utf8 }
-      return self.upstream.parse(&unicodeScalars)
     }
   }
 
@@ -76,41 +54,71 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/unicodeScalars`` operation, which constructs this type.
-  public struct SubstringToUnicodeScalars<Upstream>: Parser
-  where
-    Upstream: Parser,
-    Upstream.Input == Substring
-  {
+  public struct SubstringToUnicodeScalars<Upstream> {
     public let upstream: Upstream
 
     @inlinable
     public init(upstream: Upstream) {
       self.upstream = upstream
     }
-
-    @inlinable
-    public func parse(_ input: inout Substring.UnicodeScalarView) -> Upstream.Output? {
-      var substring = Substring(input)
-      defer { input = substring.unicodeScalars }
-      return self.upstream.parse(&substring)
-    }
   }
 
-  public struct UTF8ViewToSubstring<UTF8ViewParser>: Parser
-  where
-    UTF8ViewParser: Parser,
-    UTF8ViewParser.Input == Substring.UTF8View
-  {
+  public struct UTF8ViewToSubstring<UTF8ViewParser> {
     public let utf8ViewParser: UTF8ViewParser
 
     @inlinable
     public init(_ utf8ViewParser: UTF8ViewParser) {
       self.utf8ViewParser = utf8ViewParser
     }
+  }
+}
 
-    @inlinable
-    public func parse(_ input: inout Substring) -> UTF8ViewParser.Output? {
-      self.utf8ViewParser.parse(&input.utf8)
-    }
+extension Parsers.SubstringToUTF8View: Parser
+where
+  Upstream: Parser,
+  Upstream.Input == Substring
+{
+  @inlinable
+  public func parse(_ input: inout Substring.UTF8View) -> Upstream.Output? {
+    var substring = Substring(input)
+    defer { input = substring.utf8 }
+    return self.upstream.parse(&substring)
+  }
+}
+
+extension Parsers.UnicodeScalarViewToUTF8View: Parser
+where
+  Upstream: Parser,
+  Upstream.Input == Substring.UnicodeScalarView
+{
+  @inlinable
+  public func parse(_ input: inout Substring.UTF8View) -> Upstream.Output? {
+    var unicodeScalars = Substring(input).unicodeScalars
+    defer { input = Substring(unicodeScalars).utf8 }
+    return self.upstream.parse(&unicodeScalars)
+  }
+}
+
+extension Parsers.SubstringToUnicodeScalars: Parser
+where
+  Upstream: Parser,
+  Upstream.Input == Substring
+{
+  @inlinable
+  public func parse(_ input: inout Substring.UnicodeScalarView) -> Upstream.Output? {
+    var substring = Substring(input)
+    defer { input = substring.unicodeScalars }
+    return self.upstream.parse(&substring)
+  }
+}
+
+extension Parsers.UTF8ViewToSubstring: Parser
+where
+  UTF8ViewParser: Parser,
+  UTF8ViewParser.Input == Substring.UTF8View
+{
+  @inlinable
+  public func parse(_ input: inout Substring) -> UTF8ViewParser.Output? {
+    self.utf8ViewParser.parse(&input.utf8)
   }
 }

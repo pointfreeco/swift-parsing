@@ -23,7 +23,7 @@ extension Parser {
 ///   StartsWith("$").map { .usd }
 /// )
 /// ```
-public struct OneOfMany<Upstream>: Parser where Upstream: Parser {
+public struct OneOfMany<Upstream> {
   public let parsers: [Upstream]
 
   @inlinable
@@ -35,7 +35,9 @@ public struct OneOfMany<Upstream>: Parser where Upstream: Parser {
   public init(_ parsers: Upstream...) {
     self.init(parsers)
   }
+}
 
+extension OneOfMany: Parser where Upstream: Parser {
   @inlinable
   @inline(__always)
   public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
@@ -53,12 +55,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/orElse(_:)`` operation, which constructs this type.
-  public struct OneOf<A, B>: Parser
-  where
-    A: Parser,
-    B: Parser,
-    A.Input == B.Input,
-    A.Output == B.Output
+  public struct OneOf<A, B>
   {
     public let a: A
     public let b: B
@@ -68,15 +65,23 @@ extension Parsers {
       self.a = a
       self.b = b
     }
-
-    @inlinable
-    @inline(__always)
-    public func parse(_ input: inout A.Input) -> A.Output? {
-      if let output = self.a.parse(&input) { return output }
-      if let output = self.b.parse(&input) { return output }
-      return nil
-    }
   }
 
   public typealias OneOfMany = Parsing.OneOfMany  // NB: Convenience type alias for discovery
+}
+
+extension Parsers.OneOf: Parser
+where
+  A: Parser,
+  B: Parser,
+  A.Input == B.Input,
+  A.Output == B.Output
+{
+  @inlinable
+  @inline(__always)
+  public func parse(_ input: inout A.Input) -> A.Output? {
+    if let output = self.a.parse(&input) { return output }
+    if let output = self.b.parse(&input) { return output }
+    return nil
+  }
 }

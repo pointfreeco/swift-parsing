@@ -38,29 +38,31 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/stream`` operation, which constructs this type.
-  public struct Stream<Upstream>: Parser
-  where
-    Upstream: Parser,
-    Upstream.Input: RangeReplaceableCollection
-  {
+  public struct Stream<Upstream> {
     public let upstream: Upstream
 
     @inlinable
     public init(upstream: Upstream) {
       self.upstream = upstream
     }
+  }
+}
 
-    @inlinable
-    public func parse(_ input: inout AnyIterator<Upstream.Input>) -> [Upstream.Output]? {
-      var buffer = Upstream.Input()
-      var outputs: Output = []
-      while let chunk = input.next() {
-        buffer.append(contentsOf: chunk)
-        while let output = self.upstream.parse(&buffer) {
-          outputs.append(output)
-        }
+extension Parsers.Stream: Parser
+where
+  Upstream: Parser,
+  Upstream.Input: RangeReplaceableCollection
+{
+  @inlinable
+  public func parse(_ input: inout AnyIterator<Upstream.Input>) -> [Upstream.Output]? {
+    var buffer = Upstream.Input()
+    var outputs: Output = []
+    while let chunk = input.next() {
+      buffer.append(contentsOf: chunk)
+      while let output = self.upstream.parse(&buffer) {
+        outputs.append(output)
       }
-      return outputs
     }
+    return outputs
   }
 }

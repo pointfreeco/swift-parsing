@@ -11,7 +11,7 @@
 /// line.parse(&input) // "Hello"
 /// input // "\nworld\n"
 /// ```
-public struct PrefixUpTo<Input>: Parser
+public struct PrefixUpTo<Input>
 where
   Input: Collection,
   Input.SubSequence == Input
@@ -27,7 +27,9 @@ where
     self.possibleMatch = possibleMatch
     self.areEquivalent = areEquivalent
   }
+}
 
+extension PrefixUpTo: Parser {
   @inlinable
   @inline(__always)
   public func parse(_ input: inout Input) -> Input? {

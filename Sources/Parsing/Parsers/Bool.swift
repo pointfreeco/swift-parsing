@@ -55,25 +55,28 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Bool.parser()`, which constructs this type.
-  public struct BoolParser<Input>: Parser
-  where
-    Input: Collection,
-    Input.SubSequence == Input,
-    Input.Element == UTF8.CodeUnit
+  public struct BoolParser<Input>
   {
     @inlinable
     public init() {}
+  }
+}
 
-    @inlinable
-    public func parse(_ input: inout Input) -> Bool? {
-      if input.starts(with: [116, 114, 117, 101] /*"true".utf8*/) {
-        input.removeFirst(4)
-        return true
-      } else if input.starts(with: [102, 97, 108, 115, 101] /*"false".utf8*/) {
-        input.removeFirst(5)
-        return false
-      }
-      return nil
+extension Parsers.BoolParser: Parser
+where
+  Input: Collection,
+  Input.SubSequence == Input,
+  Input.Element == UTF8.CodeUnit
+{
+  @inlinable
+  public func parse(_ input: inout Input) -> Bool? {
+    if input.starts(with: [116, 114, 117, 101] /*"true".utf8*/) {
+      input.removeFirst(4)
+      return true
+    } else if input.starts(with: [102, 97, 108, 115, 101] /*"false".utf8*/) {
+      input.removeFirst(5)
+      return false
     }
+    return nil
   }
 }

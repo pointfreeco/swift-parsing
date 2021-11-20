@@ -7,14 +7,16 @@
 /// precondition(output == 1)
 /// precondition(input == "Hello")
 /// ```
-public struct Always<Input, Output>: Parser {
+public struct Always<Input, Output> {
   public let output: Output
 
   @inlinable
   public init(_ output: Output) {
     self.output = output
   }
+}
 
+extension Always: Parser {
   @inlinable
   public func parse(_ input: inout Input) -> Output? {
     self.output

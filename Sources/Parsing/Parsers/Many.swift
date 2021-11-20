@@ -27,17 +27,12 @@
 /// precondition(input == "")
 /// precondition(output == 6)
 /// ```
-public struct Many<Upstream, Result, Separator>: Parser
-where
-  Upstream: Parser,
-  Separator: Parser,
-  Upstream.Input == Separator.Input
-{
+public struct Many<Upstream, UpstreamOutput, Result, Separator> {
   public let initialResult: Result
   public let maximum: Int
   public let minimum: Int
   public let separator: Separator?
-  public let updateAccumulatingResult: (inout Result, Upstream.Output) -> Void
+  public let updateAccumulatingResult: (inout Result, UpstreamOutput) -> Void
   public let upstream: Upstream
 
   /// Initializes a parser that attempts to run the given parser at least and at most the given
@@ -58,7 +53,7 @@ where
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     separator: Separator,
-    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
+    _ updateAccumulatingResult: @escaping (inout Result, UpstreamOutput) -> Void
   ) {
     self.initialResult = initialResult
     self.maximum = maximum
@@ -67,35 +62,9 @@ where
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
   }
-
-  @inlinable
-  public func parse(_ input: inout Upstream.Input) -> Result? {
-    let original = input
-    var rest = input
-    var result = self.initialResult
-    var count = 0
-    while count < self.maximum, let output = self.upstream.parse(&input) {
-      count += 1
-      rest = input
-      self.updateAccumulatingResult(&result, output)
-      if self.separator != nil, self.separator?.parse(&input) == nil {
-        guard count >= self.minimum else {
-          input = original
-          return nil
-        }
-        return result
-      }
-    }
-    input = rest
-    guard count >= self.minimum else {
-      input = original
-      return nil
-    }
-    return result
-  }
 }
 
-extension Many where Result == [Upstream.Output], Separator == Always<Input, Void> {
+extension Many where Result == [UpstreamOutput], Separator == Always<Input, Void> {
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs in an array.
   ///
@@ -104,19 +73,23 @@ extension Many where Result == [Upstream.Output], Separator == Always<Input, Voi
   ///   - minimum: The minimum number of times to run this parser and consider parsing to be
   ///     successful.
   ///   - maximum: The maximum number of times to run this parser before returning the output.
-  @inlinable
-  public init(
-    _ upstream: Upstream,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max
-  ) {
-    self.init(upstream, into: [], atLeast: minimum, atMost: maximum) {
-      $0.append($1)
-    }
-  }
+  ///
+
+  // TODO
+
+//  @inlinable
+//  public init(
+//    _ upstream: Upstream,
+//    atLeast minimum: Int = 0,
+//    atMost maximum: Int = .max
+//  ) {
+//    self.init(upstream, into: [], atLeast: minimum, atMost: maximum) {
+//      $0.append($1)
+//    }
+//  }
 }
 
-extension Many where Result == [Upstream.Output] {
+extension Many where Result == [UpstreamOutput] {
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs in an array.
   ///
@@ -157,7 +130,7 @@ extension Many where Separator == Always<Input, Void> {
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
+    _ updateAccumulatingResult: @escaping (inout Result, UpstreamOutput) -> Void
   ) {
     self.initialResult = initialResult
     self.maximum = maximum
@@ -168,6 +141,41 @@ extension Many where Separator == Always<Input, Void> {
   }
 }
 
+extension Many: Parser
+where
+  Upstream: Parser,
+  Separator: Parser,
+  Upstream.Input == Separator.Input,
+  Upstream.Output == UpstreamOutput
+{
+  @inlinable
+  public func parse(_ input: inout Upstream.Input) -> Result? {
+    let original = input
+    var rest = input
+    var result = self.initialResult
+    var count = 0
+    while count < self.maximum, let output = self.upstream.parse(&input) {
+      count += 1
+      rest = input
+      self.updateAccumulatingResult(&result, output)
+      if self.separator != nil, self.separator?.parse(&input) == nil {
+        guard count >= self.minimum else {
+          input = original
+          return nil
+        }
+        return result
+      }
+    }
+    input = rest
+    guard count >= self.minimum else {
+      input = original
+      return nil
+    }
+    return result
+  }
+}
+
 extension Parsers {
   public typealias Many = Parsing.Many  // NB: Convenience type alias for discovery
 }
+

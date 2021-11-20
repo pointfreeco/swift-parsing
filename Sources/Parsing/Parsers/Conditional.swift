@@ -14,16 +14,19 @@
 ///     : Conditional.second(LegacyParser())
 /// }
 /// ```
-public enum Conditional<First, Second>: Parser
+public enum Conditional<First, Second>
+{
+  case first(First)
+  case second(Second)
+}
+
+extension Conditional: Parser
 where
   First: Parser,
   Second: Parser,
   First.Input == Second.Input,
   First.Output == Second.Output
 {
-  case first(First)
-  case second(Second)
-
   @inlinable
   public func parse(_ input: inout First.Input) -> First.Output? {
     switch self {

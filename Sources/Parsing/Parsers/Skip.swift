@@ -31,7 +31,7 @@ extension Parser {
 }
 
 /// A parser that discards the output of another parser.
-public struct Skip<Upstream>: Parser where Upstream: Parser {
+public struct Skip<Upstream> {
   /// The parser from which this parser receives output.
   public let upstream: Upstream
 
@@ -39,7 +39,9 @@ public struct Skip<Upstream>: Parser where Upstream: Parser {
   public init(_ upstream: Upstream) {
     self.upstream = upstream
   }
+}
 
+extension Skip: Parser where Upstream: Parser {
   @inlinable
   public func parse(_ input: inout Upstream.Input) -> Void? {
     guard self.upstream.parse(&input) != nil else { return nil }
@@ -53,7 +55,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/take(_:)-1fw8y`` operation, which constructs this type.
-  public struct SkipFirst<A, B>: Parser where A: Parser, B: Parser, A.Input == B.Input {
+  public struct SkipFirst<A, B> {
     public let a: A
     public let b: B
 
@@ -61,22 +63,6 @@ extension Parsers {
     public init(_ a: A, _ b: B) {
       self.a = a
       self.b = b
-    }
-
-    @inlinable
-    public func parse(_ input: inout A.Input) -> B.Output? {
-      let original = input
-
-      guard self.a.parse(&input) != nil
-      else { return nil }
-
-      guard let b = self.b.parse(&input)
-      else {
-        input = original
-        return nil
-      }
-
-      return b
     }
   }
 
@@ -85,7 +71,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/skip(_:)`` operation, which constructs this type.
-  public struct SkipSecond<A, B>: Parser where A: Parser, B: Parser, A.Input == B.Input {
+  public struct SkipSecond<A, B> {
     public let a: A
     public let b: B
 
@@ -94,24 +80,44 @@ extension Parsers {
       self.a = a
       self.b = b
     }
-
-    @inlinable
-    @inline(__always)
-    public func parse(_ input: inout A.Input) -> A.Output? {
-      let original = input
-
-      guard let a = self.a.parse(&input)
-      else { return nil }
-
-      guard self.b.parse(&input) != nil
-      else {
-        input = original
-        return nil
-      }
-
-      return a
-    }
   }
 
   public typealias Skip = Parsing.Skip  // NB: Convenience type alias for discovery
+}
+
+extension Parsers.SkipFirst: Parser where A: Parser, B: Parser, A.Input == B.Input {
+  @inlinable
+  public func parse(_ input: inout A.Input) -> B.Output? {
+    let original = input
+
+    guard self.a.parse(&input) != nil
+    else { return nil }
+
+    guard let b = self.b.parse(&input)
+    else {
+      input = original
+      return nil
+    }
+
+    return b
+  }
+}
+
+extension Parsers.SkipSecond: Parser where A: Parser, B: Parser, A.Input == B.Input {
+  @inlinable
+  @inline(__always)
+  public func parse(_ input: inout A.Input) -> A.Output? {
+    let original = input
+
+    guard let a = self.a.parse(&input)
+    else { return nil }
+
+    guard self.b.parse(&input) != nil
+    else {
+      input = original
+      return nil
+    }
+
+    return a
+  }
 }

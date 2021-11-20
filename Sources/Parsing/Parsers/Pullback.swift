@@ -25,7 +25,7 @@ extension Parser {
   @inlinable
   public func pullback<NewInput>(
     _ keyPath: WritableKeyPath<NewInput, Input>
-  ) -> Parsers.Pullback<Self, NewInput> {
+  ) -> Parsers.Pullback<Self, Input, NewInput> {
     .init(downstream: self, keyPath: keyPath)
   }
 }
@@ -35,26 +35,32 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/pullback(_:)`` operator, which constructs this type.
-  public struct Pullback<Downstream, Input>: Parser where Downstream: Parser {
+  public struct Pullback<Downstream, DownstreamInput, Input> {
     public let downstream: Downstream
-    public let keyPath: WritableKeyPath<Input, Downstream.Input>
+    public let keyPath: WritableKeyPath<Input, DownstreamInput>
 
     @inlinable
-    public init(downstream: Downstream, keyPath: WritableKeyPath<Input, Downstream.Input>) {
+    public init(downstream: Downstream, keyPath: WritableKeyPath<Input, DownstreamInput>) {
       self.downstream = downstream
       self.keyPath = keyPath
     }
 
     @inlinable
-    public func parse(_ input: inout Input) -> Downstream.Output? {
-      self.downstream.parse(&input[keyPath: self.keyPath])
-    }
-
-    @inlinable
     public func pullback<NewInput>(
       _ keyPath: WritableKeyPath<NewInput, Input>
-    ) -> Pullback<Downstream, NewInput> {
+    ) -> Pullback<Downstream, DownstreamInput, NewInput> {
       .init(downstream: self.downstream, keyPath: keyPath.appending(path: self.keyPath))
     }
+  }
+}
+
+extension Parsers.Pullback: Parser
+where
+  Downstream: Parser,
+  Downstream.Input == DownstreamInput
+{
+  @inlinable
+  public func parse(_ input: inout Input) -> Downstream.Output? {
+    self.downstream.parse(&input[keyPath: self.keyPath])
   }
 }

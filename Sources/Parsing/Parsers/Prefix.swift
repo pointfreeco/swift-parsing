@@ -29,7 +29,7 @@
 /// Prefix(2).parse(&input) // "Lo"
 /// input // "rem ipsum dolor"
 /// ```
-public struct Prefix<Input>: Parser
+public struct Prefix<Input>
 where
   Input: Collection,
   Input.SubSequence == Input
@@ -145,7 +145,9 @@ where
     self.maxLength = length.upperBound
     self.predicate = predicate
   }
+}
 
+extension Prefix: Parser {
   @inlinable
   public func parse(_ input: inout Input) -> Input? {
     var prefix = maxLength.map(input.prefix) ?? input

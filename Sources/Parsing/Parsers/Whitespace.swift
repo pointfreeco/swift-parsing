@@ -1,13 +1,15 @@
 /// A parser that consumes all ASCII whitespace from the beginning of the input.
-public struct Whitespace<Input>: Parser
+public struct Whitespace<Input> {
+  @inlinable
+  public init() {}
+}
+
+extension Whitespace: Parser
 where
   Input: Collection,
   Input.SubSequence == Input,
   Input.Element == UTF8.CodeUnit
 {
-  @inlinable
-  public init() {}
-
   @inlinable
   public func parse(_ input: inout Input) -> Input? {
     let output = input.prefix(while: { (byte: UTF8.CodeUnit) in

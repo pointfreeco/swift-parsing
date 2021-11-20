@@ -10,7 +10,7 @@ extension Parser {
   @inlinable
   public func flatMap<NewParser>(
     _ transform: @escaping (Output) -> NewParser
-  ) -> Parsers.FlatMap<NewParser, Self> {
+  ) -> Parsers.FlatMap<NewParser, Self, Output> {
     .init(upstream: self, transform: transform)
   }
 }
@@ -20,32 +20,35 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/flatMap(_:)`` operation, which constructs this type.
-  public struct FlatMap<NewParser, Upstream>: Parser
-  where
-    NewParser: Parser,
-    Upstream: Parser,
-    NewParser.Input == Upstream.Input
-  {
+  public struct FlatMap<NewParser, Upstream, UpstreamOutput> {
     public let upstream: Upstream
-    public let transform: (Upstream.Output) -> NewParser
+    public let transform: (UpstreamOutput) -> NewParser
 
     @inlinable
-    public init(upstream: Upstream, transform: @escaping (Upstream.Output) -> NewParser) {
+    public init(upstream: Upstream, transform: @escaping (UpstreamOutput) -> NewParser) {
       self.upstream = upstream
       self.transform = transform
     }
+  }
+}
 
-    @inlinable
-    public func parse(_ input: inout Upstream.Input) -> NewParser.Output? {
-      let original = input
-      guard let newParser = self.upstream.parse(&input).map(self.transform)
-      else { return nil }
-      guard let output = newParser.parse(&input)
-      else {
-        input = original
-        return nil
-      }
-      return output
+extension Parsers.FlatMap: Parser
+where
+  NewParser: Parser,
+  Upstream: Parser,
+  NewParser.Input == Upstream.Input,
+  Upstream.Output == UpstreamOutput
+{
+  @inlinable
+  public func parse(_ input: inout Upstream.Input) -> NewParser.Output? {
+    let original = input
+    guard let newParser = self.upstream.parse(&input).map(self.transform)
+    else { return nil }
+    guard let output = newParser.parse(&input)
+    else {
+      input = original
+      return nil
     }
+    return output
   }
 }

@@ -10,7 +10,7 @@ extension Parser {
   @inlinable
   public func map<NewOutput>(
     _ transform: @escaping (Output) -> NewOutput
-  ) -> Parsers.Map<Self, NewOutput> {
+  ) -> Parsers.Map<Self, Output, NewOutput> {
     .init(upstream: self, transform: transform)
   }
 }
@@ -20,23 +20,29 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/map(_:)`` operation, which constructs this type.
-  public struct Map<Upstream, Output>: Parser where Upstream: Parser {
+  public struct Map<Upstream, UpstreamOutput, Output> {
     /// The parser from which this parser receives output.
     public let upstream: Upstream
 
     /// The closure that transforms output from the upstream parser.
-    public let transform: (Upstream.Output) -> Output
+    public let transform: (UpstreamOutput) -> Output
 
     @inlinable
-    public init(upstream: Upstream, transform: @escaping (Upstream.Output) -> Output) {
+    public init(upstream: Upstream, transform: @escaping (UpstreamOutput) -> Output) {
       self.upstream = upstream
       self.transform = transform
     }
+  }
+}
 
-    @inlinable
-    @inline(__always)
-    public func parse(_ input: inout Upstream.Input) -> Output? {
-      self.upstream.parse(&input).map(self.transform)
-    }
+extension Parsers.Map: Parser
+where
+  Upstream: Parser,
+  Upstream.Output == UpstreamOutput
+{
+  @inlinable
+  @inline(__always)
+  public func parse(_ input: inout Upstream.Input) -> Output? {
+    self.upstream.parse(&input).map(self.transform)
   }
 }

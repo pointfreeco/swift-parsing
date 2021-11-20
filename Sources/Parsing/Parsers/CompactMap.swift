@@ -20,7 +20,7 @@ extension Parser {
   @inlinable
   public func compactMap<NewOutput>(
     _ transform: @escaping (Output) -> NewOutput?
-  ) -> Parsers.CompactMap<Self, NewOutput> {
+  ) -> Parsers.CompactMap<Self, Output, NewOutput> {
     .init(upstream: self, transform: transform)
   }
 }
@@ -31,28 +31,34 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/compactMap(_:)`` operation, which constructs this type.
-  public struct CompactMap<Upstream, Output>: Parser where Upstream: Parser {
+  public struct CompactMap<Upstream, UpstreamOutput, Output> {
     public let upstream: Upstream
-    public let transform: (Upstream.Output) -> Output?
+    public let transform: (UpstreamOutput) -> Output?
 
     @inlinable
     public init(
       upstream: Upstream,
-      transform: @escaping (Upstream.Output) -> Output?
+      transform: @escaping (UpstreamOutput) -> Output?
     ) {
       self.upstream = upstream
       self.transform = transform
     }
+  }
+}
 
-    @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Output? {
-      let original = input
-      guard let newOutput = self.upstream.parse(&input).flatMap(self.transform)
-      else {
-        input = original
-        return nil
-      }
-      return newOutput
+extension Parsers.CompactMap: Parser
+where
+  Upstream: Parser,
+  Upstream.Output == UpstreamOutput
+{
+  @inlinable
+  public func parse(_ input: inout Upstream.Input) -> Output? {
+    let original = input
+    guard let newOutput = self.upstream.parse(&input).flatMap(self.transform)
+    else {
+      input = original
+      return nil
     }
+    return newOutput
   }
 }

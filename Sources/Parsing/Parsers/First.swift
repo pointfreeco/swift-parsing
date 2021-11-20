@@ -14,14 +14,16 @@
 /// ```swift
 /// First().parse(""[...]) // (output: nil, rest: "")
 /// ```
-public struct First<Input>: Parser
+public struct First<Input> {
+  @inlinable
+  public init() {}
+}
+
+extension First: Parser
 where
   Input: Collection,
   Input.SubSequence == Input
 {
-  @inlinable
-  public init() {}
-
   @inlinable
   public func parse(_ input: inout Input) -> Input.Element? {
     guard let first = input.first else { return nil }

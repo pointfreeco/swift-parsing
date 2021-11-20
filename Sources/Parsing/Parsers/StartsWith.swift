@@ -19,7 +19,7 @@
 /// is already known at the time the parser is created (it is the value quite literally passed to
 /// ``StartsWith/init(_:)``). This means `StartsWith` plays nicely when chained into the
 /// ``Parser/take(_:)-1fw8y`` operation, which will discard the `Void` output.
-public struct StartsWith<Input>: Parser
+public struct StartsWith<Input>
 where
   Input: Collection,
   Input.SubSequence == Input
@@ -49,7 +49,9 @@ where
     self.possiblePrefix = AnyCollection(possiblePrefix)
     self.startsWith = { input in input.starts(with: possiblePrefix, by: areEquivalent) }
   }
+}
 
+extension StartsWith: Parser {
   @inlinable
   public func parse(_ input: inout Input) -> Void? {
     guard self.startsWith(input)

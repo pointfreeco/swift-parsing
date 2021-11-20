@@ -3,10 +3,12 @@
 /// ```swift
 /// Fail<Substring, Int>().parse("123 Hello") // (output: nil, rest: "123 Hello")
 /// ```
-public struct Fail<Input, Output>: Parser {
+public struct Fail<Input, Output> {
   @inlinable
   public init() {}
+}
 
+extension Fail: Parser {
   @inlinable
   public func parse(_ input: inout Input) -> Output? {
     nil

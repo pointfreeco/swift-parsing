@@ -77,13 +77,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Int.parser()`, which constructs this type.
-  public struct IntParser<Input, Output>: Parser
-  where
-    Input: Collection,
-    Input.SubSequence == Input,
-    Input.Element == UTF8.CodeUnit,
-    Output: FixedWidthInteger
-  {
+  public struct IntParser<Input, Output> where Output: FixedWidthInteger {
     /// If the parser will attempt to parse a leading `+` or `-` sign.
     public let isSigned: Bool
 
@@ -96,61 +90,68 @@ extension Parsers {
       self.isSigned = isSigned
       self.radix = radix
     }
+  }
+}
 
-    @inlinable
-    public func parse(_ input: inout Input) -> Output? {
-      @inline(__always)
-      func digit(for n: UTF8.CodeUnit) -> Output? {
-        let output: Output
-        switch n {
-        case .init(ascii: "0") ... .init(ascii: "9"):
-          output = Output(n - .init(ascii: "0"))
-        case .init(ascii: "A") ... .init(ascii: "Z"):
-          output = Output(n - .init(ascii: "A") + 10)
-        case .init(ascii: "a") ... .init(ascii: "z"):
-          output = Output(n - .init(ascii: "a") + 10)
-        default:
-          return nil
-        }
-        return output < self.radix ? output : nil
+extension Parsers.IntParser: Parser
+where
+  Input: Collection,
+  Input.SubSequence == Input,
+  Input.Element == UTF8.CodeUnit
+{
+  @inlinable
+  public func parse(_ input: inout Input) -> Output? {
+    @inline(__always)
+    func digit(for n: UTF8.CodeUnit) -> Output? {
+      let output: Output
+      switch n {
+      case .init(ascii: "0") ... .init(ascii: "9"):
+        output = Output(n - .init(ascii: "0"))
+      case .init(ascii: "A") ... .init(ascii: "Z"):
+        output = Output(n - .init(ascii: "A") + 10)
+      case .init(ascii: "a") ... .init(ascii: "z"):
+        output = Output(n - .init(ascii: "a") + 10)
+      default:
+        return nil
       }
-      var length = 0
-      var iterator = input.makeIterator()
-      guard let first = iterator.next() else { return nil }
-      let isPositive: Bool
-      let parsedSign: Bool
-      var overflow = false
-      var output: Output
-      switch (self.isSigned, first) {
-      case (true, .init(ascii: "-")):
-        parsedSign = true
-        isPositive = false
-        output = 0
-      case (true, .init(ascii: "+")):
-        parsedSign = true
-        isPositive = true
-        output = 0
-      case let (_, n):
-        guard let n = digit(for: n) else { return nil }
-        parsedSign = false
-        isPositive = true
-        output = n
-      }
-      length += 1
-      while let next = iterator.next(), let n = digit(for: next) {
-        (output, overflow) = output.multipliedReportingOverflow(by: self.radix)
-        guard !overflow else { return nil }
-        (output, overflow) =
-          isPositive
-          ? output.addingReportingOverflow(n)
-          : output.subtractingReportingOverflow(n)
-        guard !overflow else { return nil }
-        length += 1
-      }
-      guard length > (parsedSign ? 1 : 0)
-      else { return nil }
-      input.removeFirst(length)
-      return output
+      return output < self.radix ? output : nil
     }
+    var length = 0
+    var iterator = input.makeIterator()
+    guard let first = iterator.next() else { return nil }
+    let isPositive: Bool
+    let parsedSign: Bool
+    var overflow = false
+    var output: Output
+    switch (self.isSigned, first) {
+    case (true, .init(ascii: "-")):
+      parsedSign = true
+      isPositive = false
+      output = 0
+    case (true, .init(ascii: "+")):
+      parsedSign = true
+      isPositive = true
+      output = 0
+    case let (_, n):
+      guard let n = digit(for: n) else { return nil }
+      parsedSign = false
+      isPositive = true
+      output = n
+    }
+    length += 1
+    while let next = iterator.next(), let n = digit(for: next) {
+      (output, overflow) = output.multipliedReportingOverflow(by: self.radix)
+      guard !overflow else { return nil }
+      (output, overflow) =
+        isPositive
+        ? output.addingReportingOverflow(n)
+        : output.subtractingReportingOverflow(n)
+      guard !overflow else { return nil }
+      length += 1
+    }
+    guard length > (parsedSign ? 1 : 0)
+    else { return nil }
+    input.removeFirst(length)
+    return output
   }
 }

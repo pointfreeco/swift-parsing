@@ -17,17 +17,19 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Optional.parser(of:)`, which constructs this type.
-  public struct OptionalParser<Upstream>: Parser where Upstream: Parser {
+  public struct OptionalParser<Upstream> {
     public let upstream: Upstream
 
     @inlinable
     public init(_ upstream: Upstream) {
       self.upstream = upstream
     }
+  }
+}
 
-    @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Upstream.Output?? {
-      .some(self.upstream.parse(&input))
-    }
+extension Parsers.OptionalParser: Parser where Upstream: Parser {
+  @inlinable
+  public func parse(_ input: inout Upstream.Input) -> Upstream.Output?? {
+    .some(self.upstream.parse(&input))
   }
 }

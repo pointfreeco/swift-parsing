@@ -59,79 +59,82 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `UUID.parser()`, which constructs this type.
-  public struct UUIDParser<Input>: Parser
-  where
-    Input: Collection,
-    Input.SubSequence == Input,
-    Input.Element == UTF8.CodeUnit
+  public struct UUIDParser<Input>
   {
     @inlinable
     public init() {}
+  }
+}
 
-    @inlinable
-    public func parse(_ input: inout Input) -> UUID? {
-      var prefix = input.prefix(36)
-      guard prefix.count == 36
-      else { return nil }
+extension Parsers.UUIDParser: Parser
+where
+  Input: Collection,
+  Input.SubSequence == Input,
+  Input.Element == UTF8.CodeUnit
+{
+  @inlinable
+  public func parse(_ input: inout Input) -> UUID? {
+    var prefix = input.prefix(36)
+    guard prefix.count == 36
+    else { return nil }
 
-      @inline(__always)
-      func digit(for n: UTF8.CodeUnit) -> UTF8.CodeUnit? {
-        let output: UTF8.CodeUnit
-        switch n {
-        case .init(ascii: "0") ... .init(ascii: "9"):
-          output = UTF8.CodeUnit(n - .init(ascii: "0"))
-        case .init(ascii: "A") ... .init(ascii: "F"):
-          output = UTF8.CodeUnit(n - .init(ascii: "A") + 10)
-        case .init(ascii: "a") ... .init(ascii: "f"):
-          output = UTF8.CodeUnit(n - .init(ascii: "a") + 10)
-        default:
-          return nil
-        }
-        return output
+    @inline(__always)
+    func digit(for n: UTF8.CodeUnit) -> UTF8.CodeUnit? {
+      let output: UTF8.CodeUnit
+      switch n {
+      case .init(ascii: "0") ... .init(ascii: "9"):
+        output = UTF8.CodeUnit(n - .init(ascii: "0"))
+      case .init(ascii: "A") ... .init(ascii: "F"):
+        output = UTF8.CodeUnit(n - .init(ascii: "A") + 10)
+      case .init(ascii: "a") ... .init(ascii: "f"):
+        output = UTF8.CodeUnit(n - .init(ascii: "a") + 10)
+      default:
+        return nil
       }
-
-      @inline(__always)
-      func nextByte() -> UInt8? {
-        guard
-          let n = digit(for: prefix.removeFirst()),
-          let m = digit(for: prefix.removeFirst())
-        else { return nil }
-        return n * 16 + m
-      }
-
-      guard
-        let _00 = nextByte(),
-        let _01 = nextByte(),
-        let _02 = nextByte(),
-        let _03 = nextByte(),
-        prefix.removeFirst() == .init(ascii: "-"),
-        let _04 = nextByte(),
-        let _05 = nextByte(),
-        prefix.removeFirst() == .init(ascii: "-"),
-        let _06 = nextByte(),
-        let _07 = nextByte(),
-        prefix.removeFirst() == .init(ascii: "-"),
-        let _08 = nextByte(),
-        let _09 = nextByte(),
-        prefix.removeFirst() == .init(ascii: "-"),
-        let _10 = nextByte(),
-        let _11 = nextByte(),
-        let _12 = nextByte(),
-        let _13 = nextByte(),
-        let _14 = nextByte(),
-        let _15 = nextByte()
-      else { return nil }
-
-      input.removeFirst(36)
-      return UUID(
-        uuid: (
-          _00, _01, _02, _03,
-          _04, _05,
-          _06, _07,
-          _08, _09,
-          _10, _11, _12, _13, _14, _15
-        )
-      )
+      return output
     }
+
+    @inline(__always)
+    func nextByte() -> UInt8? {
+      guard
+        let n = digit(for: prefix.removeFirst()),
+        let m = digit(for: prefix.removeFirst())
+      else { return nil }
+      return n * 16 + m
+    }
+
+    guard
+      let _00 = nextByte(),
+      let _01 = nextByte(),
+      let _02 = nextByte(),
+      let _03 = nextByte(),
+      prefix.removeFirst() == .init(ascii: "-"),
+      let _04 = nextByte(),
+      let _05 = nextByte(),
+      prefix.removeFirst() == .init(ascii: "-"),
+      let _06 = nextByte(),
+      let _07 = nextByte(),
+      prefix.removeFirst() == .init(ascii: "-"),
+      let _08 = nextByte(),
+      let _09 = nextByte(),
+      prefix.removeFirst() == .init(ascii: "-"),
+      let _10 = nextByte(),
+      let _11 = nextByte(),
+      let _12 = nextByte(),
+      let _13 = nextByte(),
+      let _14 = nextByte(),
+      let _15 = nextByte()
+    else { return nil }
+
+    input.removeFirst(36)
+    return UUID(
+      uuid: (
+        _00, _01, _02, _03,
+        _04, _05,
+        _06, _07,
+        _08, _09,
+        _10, _11, _12, _13, _14, _15
+      )
+    )
   }
 }
