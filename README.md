@@ -272,7 +272,7 @@ enum City {
 Because "San José" has an accented character, the safest way to parse it is to parse on the `Substring` abstraction level:
 
 ```swift
-let city = StartsWith<Substring>("London").map { City.london }
+let city = StartsWith("London").map { City.london }
   .orElse(StartsWith("New York").map { .newYork })
   .orElse(StartsWith("San José").map { .sanJose })
 
@@ -316,7 +316,7 @@ MacBook Pro (16-inch, 2019)
 
 name                                         time             std        iterations
 -----------------------------------------------------------------------------------
-Arithmetic.Parser                                13291.000 ns ±  47.42 %      92380
+Arithmetic.Parser                                 1508.000 ns ±  96.71 %     774867
 BinaryData.Parser                                  541.000 ns ± 201.34 %    1000000
 Bool.Bool.init                                      29.000 ns ± 618.75 %    1000000
 Bool.BoolParser                                     45.000 ns ± 697.67 %    1000000
