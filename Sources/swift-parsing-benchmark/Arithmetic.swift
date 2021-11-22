@@ -1,6 +1,6 @@
 import Benchmark
-import Parsing
 import Foundation
+import Parsing
 
 #if canImport(Darwin)
   import Darwin.C
@@ -57,7 +57,7 @@ where
   public init(
     _ operator: Operator,
     associativity: Associativity,
-    lowerThan operand: Operand // Should this be called `precedes operand:`?
+    lowerThan operand: Operand  // Should this be called `precedes operand:`?
   ) {
     self.associativity = `associativity`
     self.operand = operand
@@ -70,8 +70,7 @@ where
     case .left:
       guard var lhs = self.operand.parse(&input) else { return nil }
       var rest = input
-      while
-        let operation = self.operator.parse(&input),
+      while let operation = self.operator.parse(&input),
         let rhs = self.operand.parse(&input)
       {
         rest = input
