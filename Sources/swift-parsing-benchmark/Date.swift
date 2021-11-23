@@ -49,11 +49,13 @@ private let timeOffset = "Z".utf8.map { (sign: 1, minute: 0, second: 0) }
   .orElse(timeNumoffset)
   .compactMap { TimeZone(secondsFromGMT: $0 * ($1 * 60 + $2)) }
 
-private let partialTime = timeHour
+private let partialTime =
+  timeHour
   .skip(":".utf8).take(timeMinute)
   .skip(":".utf8).take(timeSecond)
   .take(Optional.parser(of: timeSecfrac))
-private let fullDate = dateFullyear
+private let fullDate =
+  dateFullyear
   .skip("-".utf8).take(dateMonth)
   .skip("-".utf8).take(dateMday)
 private let fullTime = partialTime.take(timeOffset)
