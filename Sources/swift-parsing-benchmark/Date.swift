@@ -19,45 +19,43 @@ import Parsing
 
 // MARK: - Parser
 
-private typealias Input = Slice<UnsafeBufferPointer<UInt8>>
-
 private let dateTime =
   offsetDateTime
   .orElse(localDateTime)
   .orElse(localDate)
   .orElse(localTime)
 
-private let dateFullyear = Prefix<Input>(4).pipe(Int.parser().skip(End()))
-private let dateMonth = Prefix<Input>(2).pipe(Int.parser().skip(End()))
-private let dateMday = Prefix<Input>(2).pipe(Int.parser().skip(End()))
-private let timeDelim = OneOfMany<StartsWith<Input>>(
-  StartsWith("T".utf8), StartsWith("t".utf8), StartsWith(" ".utf8)
-)
-private let timeHour = Prefix<Input>(2).pipe(Int.parser().skip(End()))
-private let timeMinute = Prefix<Input>(2).pipe(Int.parser().skip(End()))
-private let timeSecond = Prefix<Input>(2).pipe(Int.parser().skip(End()))
-private let nanoSecfrac = Prefix<Input>
-  .init(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
+private let digits = { (n: Int) in Prefix<Substring.UTF8View>(n).pipe(Int.parser().skip(End())) }
+
+private let dateFullyear = digits(4)
+private let dateMonth = digits(2)
+private let dateMday = digits(2)
+private let timeDelim = OneOfMany("T".utf8, "t".utf8, " ".utf8)
+
+private let timeHour = digits(2)
+private let timeMinute = digits(2)
+private let timeSecond = digits(2)
+private let nanoSecfrac = Prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
   .map { $0.prefix(9) }
-private let timeSecfrac = StartsWith(".".utf8).take(nanoSecfrac)
+private let timeSecfrac = ".".utf8.take(nanoSecfrac)
   .compactMap { n in
     Int(String(decoding: n, as: UTF8.self))
       .map { $0 * Int(pow(10, 9 - Double(n.count))) }
   }
-private let timeNumoffset = StartsWith("+".utf8).map { 1 }.orElse(StartsWith("-".utf8).map { -1 })
-  .take(timeHour).skip(StartsWith(":".utf8))
+private let timeNumoffset = "+".utf8.map { 1 }.orElse("-".utf8.map { -1 })
+  .take(timeHour).skip(":".utf8)
   .take(timeMinute)
-private let timeOffset = StartsWith("Z".utf8).map { (sign: 1, minute: 0, second: 0) }
+private let timeOffset = "Z".utf8.map { (sign: 1, minute: 0, second: 0) }
   .orElse(timeNumoffset)
   .compactMap { TimeZone(secondsFromGMT: $0 * ($1 * 60 + $2)) }
 
-private let partialTime = timeHour.skip(StartsWith(":".utf8))
-  .take(timeMinute).skip(StartsWith(":".utf8))
-  .take(timeSecond)
+private let partialTime = timeHour
+  .skip(":".utf8).take(timeMinute)
+  .skip(":".utf8).take(timeSecond)
   .take(Optional.parser(of: timeSecfrac))
-private let fullDate = dateFullyear.skip(StartsWith("-".utf8))
-  .take(dateMonth).skip(StartsWith("-".utf8))
-  .take(dateMday)
+private let fullDate = dateFullyear
+  .skip("-".utf8).take(dateMonth)
+  .skip("-".utf8).take(dateMday)
 private let fullTime = partialTime.take(timeOffset)
 
 private let offsetDateTime = fullDate.skip(timeDelim).take(fullTime)

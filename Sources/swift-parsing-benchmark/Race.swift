@@ -8,22 +8,19 @@ import Parsing
 
 // MARK: - Parser
 
-private typealias Input = Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
-private typealias Output = [Race]
+private let northSouth = "N".utf8.map { 1.0 }
+  .orElse("S".utf8.map { -1 })
 
-private let northSouth = StartsWith<Input>("N".utf8).map { 1.0 }
-  .orElse(StartsWith("S".utf8).map { -1 })
-
-private let eastWest = StartsWith<Input>("E".utf8).map { 1.0 }
-  .orElse(StartsWith("W".utf8).map { -1 })
+private let eastWest = "E".utf8.map { 1.0 }
+  .orElse("W".utf8.map { -1 })
 
 private let latitude = Double.parser()
-  .skip(StartsWith("° ".utf8))
+  .skip("° ".utf8)
   .take(northSouth)
   .map(*)
 
 private let longitude = Double.parser()
-  .skip(StartsWith("° ".utf8))
+  .skip("° ".utf8)
   .take(eastWest)
   .map(*)
 
@@ -32,7 +29,7 @@ private struct Coordinate {
   let longitude: Double
 }
 
-private let zeroOrMoreSpaces = Prefix<Input> { $0 == .init(ascii: " ") }
+private let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }
 
 private let coord =
   latitude
@@ -43,11 +40,9 @@ private let coord =
 
 private enum Currency { case eur, gbp, usd }
 
-private let currency = OneOfMany(
-  StartsWith<Input>("€".utf8).map { Currency.eur },
-  StartsWith("£".utf8).map { .gbp },
-  StartsWith("$".utf8).map { .usd }
-)
+private let currency = "€".utf8.map { Currency.eur }
+  .orElse("£".utf8.map { .gbp })
+  .orElse("$".utf8.map { .usd })
 
 private struct Money {
   let currency: Currency
@@ -63,17 +58,17 @@ private struct Race {
   let path: [Coordinate]
 }
 
-private let locationName = Prefix<Input> { $0 != .init(ascii: ",") }
+private let locationName = Prefix { $0 != .init(ascii: ",") }
 
-private let race = locationName.map { String(decoding: $0, as: UTF8.self) }
-  .skip(StartsWith(",".utf8))
+private let race = locationName.map { String(Substring($0)) }
+  .skip(",".utf8)
   .skip(zeroOrMoreSpaces)
   .take(money)
-  .skip(StartsWith("\n".utf8))
-  .take(Many(coord, separator: StartsWith("\n".utf8)))
+  .skip("\n".utf8)
+  .take(Many(coord, separator: "\n".utf8))
   .map(Race.init(location:entranceFee:path:))
 
-private let races = Many(race, separator: StartsWith("\n---\n".utf8))
+private let races = Many(race, separator: "\n---\n".utf8)
 
 // MARK: - Benchmarks
 
@@ -151,7 +146,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     51.50273° N, 0.13850° W
     51.50095° N, 0.12411° W
     """
-  var output: Output!
+  var output: [Race]!
 
   suite.benchmark(
     name: "Parser",
