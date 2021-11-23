@@ -5,7 +5,7 @@ extension Parser where Self: ParserPrinter {
   }
 }
 
-public struct AnyParserPrinter<Input, Output>: Parser, Printer {
+public struct AnyParserPrinter<Input, Output>: ParserPrinter {
   @usableFromInline let parser: (inout Input) -> Output?
   @usableFromInline let printer: (Output) -> Input?
 
