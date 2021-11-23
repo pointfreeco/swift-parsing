@@ -57,8 +57,6 @@ extension Parsers {
 extension Parsers.StringParser: Printer where Input: AppendableCollection {
   @inlinable
   public func print(_ output: String) -> Input? {
-    var input = Input()
-    input.append(contentsOf: output.utf8)
-    return input
+    .init(output.utf8)
   }
 }

@@ -30,12 +30,10 @@ where
   }
 }
 
-extension First: Printer where Input: RangeReplaceableCollection {
+extension First: Printer where Input: AppendableCollection {
   @inlinable
   public func print(_ output: Input.Element) -> Input? {
-    var input = Input()
-    input.append(output)
-    return input
+    .init(CollectionOfOne(output))
   }
 }
 

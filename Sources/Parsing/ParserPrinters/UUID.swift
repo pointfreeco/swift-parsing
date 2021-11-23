@@ -138,8 +138,6 @@ extension Parsers {
 
 extension Parsers.UUIDParser: Printer where Input: AppendableCollection {
   public func print(_ output: UUID) -> Input? {
-    var input = Input()
-    input.append(contentsOf: output.uuidString.utf8)
-    return input
+    .init(output.uuidString.utf8)
   }
 }

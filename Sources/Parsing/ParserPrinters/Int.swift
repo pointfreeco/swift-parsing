@@ -155,8 +155,6 @@ extension Parsers {
 
 extension Parsers.IntParser: Printer where Input: AppendableCollection {
   public func print(_ output: Output) -> Input? {
-    var input = Input()
-    input.append(contentsOf: String(output, radix: self.radix).utf8)
-    return input
+    .init(String(output, radix: self.radix).utf8)
   }
 }

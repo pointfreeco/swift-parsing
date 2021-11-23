@@ -10,6 +10,15 @@ public protocol AppendableCollection: Appendable {
   mutating func append<S: Sequence>(contentsOf elements: S) where S.Element == Element
 }
 
+extension AppendableCollection {
+  @inlinable
+  init<S>(_ elements: S) where S: Sequence, Self.Element == S.Element {
+    var collection = Self()
+    collection.append(contentsOf: elements)
+    self = collection
+  }
+}
+
 extension Array: AppendableCollection {}
 extension ArraySlice: AppendableCollection {}
 extension ContiguousArray: AppendableCollection {}

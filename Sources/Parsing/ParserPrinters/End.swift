@@ -17,7 +17,7 @@ public struct End<Input>: Parser where Input: Collection {
 
 extension End: Printer where Input: Appendable {
   public func print(_ output: Void) -> Input? {
-    Input()
+    .init()
   }
 }
 

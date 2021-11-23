@@ -62,9 +62,7 @@ where
 
 extension StartsWith: Printer where Input: AppendableCollection {
   public func print(_ output: ()) -> Input? {
-    var input = Input()
-    input.append(contentsOf: self.possiblePrefix)
-    return input
+    .init(self.possiblePrefix)
   }
 }
 
