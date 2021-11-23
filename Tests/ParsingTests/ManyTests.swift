@@ -2,45 +2,34 @@ import Parsing
 import XCTest
 
 class ManyTests: XCTestCase {
-  func testNoSeparator() {
-    var input = "         Hello world"[...].utf8
+  func testNoSeparator() throws {
+    let parser = Many { " ".utf8 }
 
-    XCTAssertNotNil(
-      Many {
-        " ".utf8
-      }
-      .parse(&input)
-    )
+    var input = "     Hello world"[...].utf8
+    let output: [()] = try XCTUnwrap(parser.parse(&input))
+    XCTAssertEqual(output.count, 5)
     XCTAssertEqual(Substring(input), "Hello world")
+
+    XCTAssertEqual(parser.print(output).map(Substring.init), "     ")
   }
 
-  func testSeparator() {
-    var input = "1,2,3,4,5"[...].utf8
+  func testSeparator() throws {
+    let parser = Many { Int.parser() } separatedBy: { ",".utf8 }
 
-    XCTAssertEqual(
-      Many {
-        Int.parser()
-      } separatedBy: {
-        ",".utf8
-      }
-      .parse(&input),
-      [1, 2, 3, 4, 5]
-    )
-    XCTAssertEqual(Substring(input), "")
+    var input = "1,2,3,4,5 Hello world"[...].utf8
+    let output = try XCTUnwrap(parser.parse(&input))
+    XCTAssertEqual(output, [1, 2, 3, 4, 5])
+    XCTAssertEqual(Substring(input), " Hello world")
+
+    XCTAssertEqual(parser.print(output).map(Substring.init), "1,2,3,4,5")
   }
 
-  func testTrailingSeparator() {
+  func testTrailingSeparator() throws {
+    let parser = Many { Int.parser() } separatedBy: { ",".utf8 }
+
     var input = "1,2,3,4,5,"[...].utf8
-
-    XCTAssertEqual(
-      Many {
-        Int.parser()
-      } separatedBy: {
-        ",".utf8
-      }
-      .parse(&input),
-      [1, 2, 3, 4, 5]
-    )
+    let output = try XCTUnwrap(parser.parse(&input))
+    XCTAssertEqual(output, [1, 2, 3, 4, 5])
     XCTAssertEqual(Substring(input), ",")
   }
 
