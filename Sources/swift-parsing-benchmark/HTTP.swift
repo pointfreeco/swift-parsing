@@ -24,24 +24,24 @@ private func isToken(_ c: UTF8.CodeUnit) -> Bool {
   switch c {
   case 128...,
     ...31,
-    .init(ascii: #"("#),
-    .init(ascii: #")"#),
-    .init(ascii: #"<"#),
-    .init(ascii: #">"#),
-    .init(ascii: #"@"#),
-    .init(ascii: #","#),
-    .init(ascii: #";"#),
-    .init(ascii: #":"#),
+    .init(ascii: "("),
+    .init(ascii: ")"),
+    .init(ascii: "<"),
+    .init(ascii: ">"),
+    .init(ascii: "@"),
+    .init(ascii: ","),
+    .init(ascii: ";"),
+    .init(ascii: ":"),
     .init(ascii: "\\"),
-    .init(ascii: #"'"#),
-    .init(ascii: #"/"#),
-    .init(ascii: #"["#),
-    .init(ascii: #"]"#),
-    .init(ascii: #"?"#),
-    .init(ascii: #"="#),
-    .init(ascii: #"{"#),
-    .init(ascii: #"}"#),
-    .init(ascii: #" "#):
+    .init(ascii: "'"),
+    .init(ascii: "/"),
+    .init(ascii: "["),
+    .init(ascii: "]"),
+    .init(ascii: "?"),
+    .init(ascii: "="),
+    .init(ascii: "{"),
+    .init(ascii: "}"),
+    .init(ascii: " "):
     return false
   default:
     return true
@@ -66,22 +66,17 @@ private func isVersion(_ c: UTF8.CodeUnit) -> Bool {
     || c == .init(ascii: ".")
 }
 
-private typealias Input = Substring.UTF8View
-private typealias Output = (Request, [Header])
-
-// MARK: - Parsers
-
 private let method = Prefix(while: isToken)
-  .map { String(decoding: $0, as: UTF8.self) }
+  .map { String(Substring($0)) }
 
 private let uri = Prefix(while: isNotSpace)
-  .map { String(decoding: $0, as: UTF8.self) }
+  .map { String(Substring($0)) }
 
 private let httpVersion = Parse {
   "HTTP/".utf8
   Prefix(while: isVersion)
 }
-.map { String(decoding: $0, as: UTF8.self) }
+.map { String(Substring($0)) }
 
 private let requestLine = Parse {
   method
@@ -153,7 +148,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
       Header(name: "Connection", value: ["keep-alive"]),
     ]
   )
-  var output: Output!
+  var output: (Request, [Header])!
   suite.benchmark(
     name: "HTTP",
     run: { output = request.parse(input) },

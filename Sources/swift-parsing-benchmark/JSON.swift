@@ -23,9 +23,7 @@ private enum JSONValue: Equatable {
   case string(String)
 }
 
-private typealias Input = Substring.UTF8View
-
-private var json: AnyParser<Input, JSONValue> {
+private var json: AnyParser<Substring.UTF8View, JSONValue> {
   Parse {
     Skip {
       Whitespace()
@@ -99,7 +97,7 @@ private let unicode = Prefix(4) {
     || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
 }
 .compactMap {
-  UInt32(String(decoding: $0, as: UTF8.self), radix: 16)
+  UInt32(Substring($0), radix: 16)
     .flatMap(UnicodeScalar.init)
     .map(Character.init)
 }
@@ -123,7 +121,7 @@ private let escape = Parse {
 private let literal = Prefix(1...) {
   $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\")
 }
-.map { String(decoding: $0, as: UTF8.self) }
+.map { String(Substring($0)) }
 
 private enum StringFragment {
   case escape(Character)
@@ -156,17 +154,17 @@ private let string =
 
 // MARK: Number
 
-private let number = Double.parser(of: Input.self)
+private let number = Double.parser(of: Substring.UTF8View.self)
   .map(JSONValue.number)
 
 // MARK: Boolean
 
-private let boolean = Bool.parser(of: Input.self)
+private let boolean = Bool.parser(of: Substring.UTF8View.self)
   .map(JSONValue.boolean)
 
 // MARK: Null
 
-private let null = Parse { "null".utf8 }
+private let null = "null".utf8
   .map { JSONValue.null }
 
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
