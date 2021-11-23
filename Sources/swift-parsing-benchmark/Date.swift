@@ -47,7 +47,7 @@ private let timeHour = digits(2)
 private let timeMinute = digits(2)
 private let timeSecond = digits(2)
 
-private let nanoSecfrac = Prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
+private let nanoSecfrac = Prefix(1..., while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
   .map { $0.prefix(9) }
 
 private let timeSecfrac = Parse {

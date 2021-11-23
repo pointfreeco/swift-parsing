@@ -3,75 +3,71 @@ import XCTest
 
 class ManyTests: XCTestCase {
   func testNoSeparator() throws {
-    let parser = Many { " ".utf8 }
+    let parser = Many { " " }
 
-    var input = "     Hello world"[...].utf8
+    var input = "     Hello world"[...]
     let output: [()] = try XCTUnwrap(parser.parse(&input))
     XCTAssertEqual(output.count, 5)
-    XCTAssertEqual(Substring(input), "Hello world")
+    XCTAssertEqual(input, "Hello world")
 
-    XCTAssertEqual(parser.print(output).map(Substring.init), "     ")
+    XCTAssertEqual(parser.print(output), "     ")
   }
 
   func testSeparator() throws {
-    let parser = Many { Int.parser() } separatedBy: { ",".utf8 }
+    let parser = Many { Int.parser() } separatedBy: { "," }
 
-    var input = "1,2,3,4,5 Hello world"[...].utf8
+    var input = "1,2,3,4,5 Hello world"[...]
     let output = try XCTUnwrap(parser.parse(&input))
     XCTAssertEqual(output, [1, 2, 3, 4, 5])
-    XCTAssertEqual(Substring(input), " Hello world")
+    XCTAssertEqual(input, " Hello world")
 
-    XCTAssertEqual(parser.print(output).map(Substring.init), "1,2,3,4,5")
+    XCTAssertEqual(parser.print(output), "1,2,3,4,5")
   }
 
   func testTrailingSeparator() throws {
-    let parser = Many { Int.parser() } separatedBy: { ",".utf8 }
+    let parser = Many { Int.parser() } separatedBy: { "," }
 
-    var input = "1,2,3,4,5,"[...].utf8
+    var input = "1,2,3,4,5,"[...]
     let output = try XCTUnwrap(parser.parse(&input))
     XCTAssertEqual(output, [1, 2, 3, 4, 5])
-    XCTAssertEqual(Substring(input), ",")
+    XCTAssertEqual(input, ",")
   }
 
   func testMinimum() {
-    var input = "1,2,3,4,5"[...].utf8
+    var input = "1,2,3,4,5"[...]
 
     XCTAssertEqual(
       Many(atLeast: 6) {
         Int.parser()
       } separatedBy: {
-        ",".utf8
+        ","
       }
       .parse(&input),
       nil
     )
-    XCTAssertEqual(Substring(input), "1,2,3,4,5")
+    XCTAssertEqual(input, "1,2,3,4,5")
 
     XCTAssertEqual(
       Many(atLeast: 5) {
         Int.parser()
       } separatedBy: {
-        ",".utf8
+        ","
       }
       .parse(&input),
       [1, 2, 3, 4, 5]
     )
-    XCTAssertEqual(Substring(input), "")
+    XCTAssertEqual(input, "")
   }
 
-  func testMaximum() {
-    var input = "1,2,3,4,5"[...].utf8
+  func testMaximum() throws {
+    let parser = Many(atMost: 3) { Int.parser() } separatedBy: { "," }
 
-    XCTAssertEqual(
-      Many(atMost: 3) {
-        Int.parser()
-      } separatedBy: {
-        ",".utf8
-      }
-      .parse(&input),
-      [1, 2, 3]
-    )
-    XCTAssertEqual(Substring(input), ",4,5")
+    var input = "1,2,3,4,5"[...]
+    let output = try XCTUnwrap(parser.parse(&input))
+    XCTAssertEqual(output, [1, 2, 3])
+    XCTAssertEqual(input, ",4,5")
+
+    XCTAssertEqual(parser.print([1, 2, 3, 4, 5]), "1,2,3")
   }
 
   func testReduce() {

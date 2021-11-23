@@ -26,7 +26,7 @@
 ///   ","
 /// }
 /// var input = "1,2,3"[...]
-/// let output = Many(Int.parser(), into: 0, separator: ",").parse(&input)
+/// let output = Many(into: 0, +=) { Int.parser() } separatedBy: { "," }.parse(&input)
 /// precondition(input == "")
 /// precondition(output == 6)
 /// ```
@@ -39,6 +39,7 @@ where
   public let initialResult: Result
   public let maximum: Int
   public let minimum: Int
+  public let next: (inout Result) -> Upstream.Output?
   public let separator: Separator?
   public let updateAccumulatingResult: (inout Result, Upstream.Output) -> Void
   public let upstream: Upstream
@@ -61,11 +62,13 @@ where
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     separator: Separator,
-    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
+    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void,
+    next: @escaping (inout Result) -> Upstream.Output? = { _ in nil }
   ) {
     self.initialResult = initialResult
     self.maximum = maximum
     self.minimum = minimum
+    self.next = next
     self.separator = separator
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
@@ -75,6 +78,7 @@ where
   public init(
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void,
+    next: @escaping (inout Result) -> Upstream.Output? = { _ in nil },
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     @ParserBuilder forEach: () -> Upstream,
@@ -83,6 +87,7 @@ where
     self.initialResult = initialResult
     self.maximum = maximum
     self.minimum = minimum
+    self.next = next
     self.separator = separator()
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = forEach()
@@ -132,6 +137,8 @@ extension Many where Result == [Upstream.Output], Separator == Always<Input, Voi
   ) {
     self.init(upstream, into: [], atLeast: minimum, atMost: maximum) {
       $0.append($1)
+    } next: {
+      $0.isEmpty ? nil : $0.removeFirst()
     }
   }
 
@@ -143,6 +150,8 @@ extension Many where Result == [Upstream.Output], Separator == Always<Input, Voi
   ) {
     self.init(forEach(), into: [], atLeast: minimum, atMost: maximum) {
       $0.append($1)
+    } next: {
+      $0.isEmpty ? nil : $0.removeFirst()
     }
   }
 }
@@ -166,6 +175,8 @@ extension Many where Result == [Upstream.Output] {
   ) {
     self.init(upstream, into: [], atLeast: minimum, atMost: maximum, separator: separator) {
       $0.append($1)
+    } next: {
+      $0.isEmpty ? nil : $0.removeFirst()
     }
   }
 
@@ -178,6 +189,8 @@ extension Many where Result == [Upstream.Output] {
   ) {
     self.init(forEach(), into: [], atLeast: minimum, atMost: maximum, separator: separator()) {
       $0.append($1)
+    } next: {
+      $0.isEmpty ? nil : $0.removeFirst()
     }
   }
 }
@@ -199,11 +212,13 @@ extension Many where Separator == Always<Input, Void> {
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
+    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void,
+    next: @escaping (inout Result) -> Upstream.Output? = { _ in nil }
   ) {
     self.initialResult = initialResult
     self.maximum = maximum
     self.minimum = minimum
+    self.next = next
     self.separator = nil
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
@@ -215,11 +230,13 @@ extension Many where Separator == Always<Input, Void> {
     atMost maximum: Int = .max,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void,
+    next: @escaping (inout Result) -> Upstream.Output? = { _ in nil },
     @ParserBuilder forEach: () -> Upstream
   ) {
     self.initialResult = initialResult
     self.maximum = maximum
     self.minimum = minimum
+    self.next = next
     self.separator = nil
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = forEach()
@@ -231,37 +248,34 @@ where
   Upstream: Printer,
   Upstream.Input: Appendable,
   Separator: Printer,
-  Separator.Output == Void,
-  Result: Collection,
-  Result.Element == Upstream.Output
+  Separator.Output == Void
 {
   public func print(_ output: Result) -> Upstream.Input? {
-    let range = self.minimum...self.maximum
+    var output = output
     var input = Upstream.Input()
 
-    var count = 0
-    guard let firstInput = output.first.flatMap(self.upstream.print)
-    else { return range.contains(count) ? input : nil }
+    guard let firstInput = self.next(&output).flatMap(self.upstream.print)
+    else { return self.minimum == 0 ? input : nil }
 
     input.append(contentsOf: firstInput)
-    count += 1
+    var count = 1
 
-    for element in output.dropFirst() {
+    while count < self.maximum, let element = self.next(&output) {
       guard let elementInput = self.upstream.print(element)
-      else { return input }
+      else { break }
 
-      if count > self.maximum {
-        return nil
-      }
+      if let separator = self.separator {
+        guard let separatorInput = separator.print(())
+        else { break }
 
-      if let separatorInput = self.separator?.print(()) {
         input.append(contentsOf: separatorInput)
       }
       input.append(contentsOf: elementInput)
       count += 1
     }
 
-    return range.contains(count) ? input : nil
+    guard count >= self.minimum else { return nil }
+    return input
   }
 }
 
