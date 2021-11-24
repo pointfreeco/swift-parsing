@@ -7,7 +7,7 @@ where
   @inlinable
   public init(
     _ output: Output
-  ) where Output: Equatable {
+  ) {
     self.output = output
   }
 

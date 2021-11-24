@@ -1,12 +1,14 @@
 /// A parser that consumes everything to the end of the collection and returns it as its output.
-public struct Rest<Input>: Parser
+public struct Rest<Input> {
+  @inlinable
+  public init() {}
+}
+
+extension Rest: Parser
 where
   Input: Collection,
   Input.SubSequence == Input
 {
-  @inlinable
-  public init() {}
-
   @inlinable
   public func parse(_ input: inout Input) -> Input? {
     let output = input

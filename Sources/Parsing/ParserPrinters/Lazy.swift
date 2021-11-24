@@ -1,6 +1,6 @@
 /// A parser that waits for a call to its ``parse(_:)`` method before running the given closure to
 /// create a parser for the given input.
-public final class Lazy<LazyParser>: Parser where LazyParser: Parser {
+public final class Lazy<LazyParser> {
   @usableFromInline
   internal var lazyParser: LazyParser?
 
@@ -10,7 +10,9 @@ public final class Lazy<LazyParser>: Parser where LazyParser: Parser {
   public init(@ParserBuilder createParser: @escaping () -> LazyParser) {
     self.createParser = createParser
   }
+}
 
+extension Lazy: Parser where LazyParser: Parser {
   @inlinable
   public func parse(_ input: inout LazyParser.Input) -> LazyParser.Output? {
     guard let parser = self.lazyParser else {

@@ -1,11 +1,13 @@
-public struct OneOf<Upstream>: Parser where Upstream: Parser {
+public struct OneOf<Upstream> {
   public let upstream: Upstream
 
   @inlinable
   public init(@OneOfBuilder _ build: () -> Upstream) {
     self.upstream = build()
   }
+}
 
+extension OneOf: Parser where Upstream: Parser {
   @inlinable
   public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
     self.upstream.parse(&input)

@@ -1,5 +1,5 @@
 /// A parser that consumes all ASCII whitespace from the beginning of the input.
-public struct Whitespace<Input>: Parser
+public struct Whitespace<Input>: ParserPrinter
 where
   Input: Collection,
   Input.SubSequence == Input,
@@ -19,9 +19,7 @@ where
     input.removeFirst(output.count)
     return output
   }
-}
 
-extension Whitespace: Printer {
   @inlinable
   public func print(_ output: Input) -> Input? {
     output.prefix(while: { (byte: UTF8.CodeUnit) in

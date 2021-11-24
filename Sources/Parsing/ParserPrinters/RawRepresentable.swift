@@ -6,7 +6,7 @@ extension RawRepresentable {
 }
 
 extension Parsers {
-  public struct RawRepresentableParser<Output>: Parser
+  public struct RawRepresentableParser<Output>: ParserPrinter
   where
     Output: RawRepresentable
   {
@@ -17,12 +17,10 @@ extension Parsers {
     public func parse(_ input: inout Output.RawValue) -> Output? {
       .init(rawValue: input)
     }
-  }
-}
 
-extension Parsers.RawRepresentableParser: Printer {
-  @inlinable
-  public func print(_ output: Output) -> Output.RawValue? {
-    output.rawValue
+    @inlinable
+    public func print(_ output: Output) -> Output.RawValue? {
+      output.rawValue
+    }
   }
 }

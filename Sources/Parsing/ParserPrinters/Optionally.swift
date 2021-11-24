@@ -4,14 +4,16 @@
 ///
 /// If you are optionally parsing input that should coalesce into some default, you can skip the
 /// optionality and instead use ``Parser/orElse(_:)`` with an ``Always`` parser, given a default.
-public struct Optionally<Upstream>: Parser where Upstream: Parser {
+public struct Optionally<Upstream> {
   public let upstream: Upstream
 
   @inlinable
   public init(@ParserBuilder _ build: () -> Upstream) {
     self.upstream = build()
   }
+}
 
+extension Optionally: Parser where Upstream: Parser {
   @inlinable
   public func parse(_ input: inout Upstream.Input) -> Upstream.Output?? {
     .some(self.upstream.parse(&input))

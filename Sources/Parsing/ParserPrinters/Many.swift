@@ -30,18 +30,13 @@
 /// precondition(input == "")
 /// precondition(output == 6)
 /// ```
-public struct Many<Upstream, Result, Separator>: Parser
-where
-  Upstream: Parser,
-  Separator: Parser,
-  Upstream.Input == Separator.Input
-{
+public struct Many<Upstream, UpstreamOutput, Result, Separator> {
   public let initialResult: Result
   public let maximum: Int
   public let minimum: Int
-  public let next: (inout Result) -> Upstream.Output?
+  public let next: (inout Result) -> UpstreamOutput?
   public let separator: Separator?
-  public let updateAccumulatingResult: (inout Result, Upstream.Output) -> Void
+  public let updateAccumulatingResult: (inout Result, UpstreamOutput) -> Void
   public let upstream: Upstream
 
   /// Initializes a parser that attempts to run the given parser at least and at most the given
@@ -62,8 +57,8 @@ where
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     separator: Separator,
-    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void,
-    next: @escaping (inout Result) -> Upstream.Output? = { _ in nil }
+    _ updateAccumulatingResult: @escaping (inout Result, UpstreamOutput) -> Void,
+    next: @escaping (inout Result) -> UpstreamOutput? = { _ in nil }
   ) {
     self.initialResult = initialResult
     self.maximum = maximum
@@ -77,8 +72,8 @@ where
   @inlinable
   public init(
     into initialResult: Result,
-    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void,
-    next: @escaping (inout Result) -> Upstream.Output? = { _ in nil },
+    _ updateAccumulatingResult: @escaping (inout Result, UpstreamOutput) -> Void,
+    next: @escaping (inout Result) -> UpstreamOutput? = { _ in nil },
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     @ParserBuilder forEach: () -> Upstream,
@@ -92,7 +87,15 @@ where
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = forEach()
   }
+}
 
+extension Many: Parser
+where
+  Upstream: Parser,
+  Separator: Parser,
+  Upstream.Input == Separator.Input,
+  Upstream.Output == UpstreamOutput
+{
   @inlinable
   public func parse(_ input: inout Upstream.Input) -> Result? {
     let original = input
@@ -156,7 +159,11 @@ extension Many where Result == [Upstream.Output], Separator == Always<Input, Voi
   }
 }
 
-extension Many where Result == [Upstream.Output] {
+extension Many
+where
+  Upstream: Parser,
+  Result == [UpstreamOutput]
+{
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs in an array.
   ///
@@ -248,6 +255,8 @@ where
   Upstream: Printer,
   Upstream.Input: Appendable,
   Separator: Printer,
+  Upstream.Output == UpstreamOutput,
+  Separator.Input == Upstream.Input,
   Separator.Output == Void
 {
   public func print(_ output: Result) -> Upstream.Input? {

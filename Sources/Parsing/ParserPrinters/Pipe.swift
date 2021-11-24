@@ -23,12 +23,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/pipe(_:)`` operation, which constructs this type.
-  public struct Pipe<Upstream, Downstream>: Parser
-  where
-    Upstream: Parser,
-    Downstream: Parser,
-    Upstream.Output == Downstream.Input
-  {
+  public struct Pipe<Upstream, Downstream> {
     public let upstream: Upstream
     public let downstream: Downstream
 
@@ -37,26 +32,38 @@ extension Parsers {
       self.upstream = upstream
       self.downstream = downstream
     }
-
-    @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Downstream.Output? {
-      let original = input
-
-      guard var downstreamInput = self.upstream.parse(&input)
-      else { return nil }
-
-      guard let output = self.downstream.parse(&downstreamInput)
-      else {
-        input = original
-        return nil
-      }
-
-      return output
-    }
   }
 }
 
-extension Parsers.Pipe: Printer where Upstream: Printer, Downstream: Printer {
+extension Parsers.Pipe: Parser
+where
+  Upstream: Parser,
+  Downstream: Parser,
+  Upstream.Output == Downstream.Input
+{
+  @inlinable
+  public func parse(_ input: inout Upstream.Input) -> Downstream.Output? {
+    let original = input
+
+    guard var downstreamInput = self.upstream.parse(&input)
+    else { return nil }
+
+    guard let output = self.downstream.parse(&downstreamInput)
+    else {
+      input = original
+      return nil
+    }
+
+    return output
+  }
+}
+
+extension Parsers.Pipe: Printer
+where
+  Upstream: Printer,
+  Downstream: Printer,
+  Upstream.Output == Downstream.Input
+{
   @inlinable
   public func print(_ output: Downstream.Output) -> Upstream.Input? {
     self.downstream.print(output).flatMap(self.upstream.print)
