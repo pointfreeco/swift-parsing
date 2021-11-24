@@ -4,10 +4,12 @@
 /// End<Substring>().parse(""[...]) // (output: (), rest: "")
 /// End<Substring>().parse("Hello"[...]) // (output: nil, rest: "Hello")
 /// ```
-public struct End<Input>: Parser where Input: Collection {
+public struct End<Input> {
   @inlinable
   public init() {}
+}
 
+extension End: Parser where Input: Collection {
   @inlinable
   public func parse(_ input: inout Input) -> Void? {
     guard input.isEmpty else { return nil }

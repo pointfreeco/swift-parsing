@@ -27,16 +27,18 @@
 ///   }
 /// }
 /// ```
-public enum Conditional<First, Second>: Parser
+public enum Conditional<First, Second> {
+  case first(First)
+  case second(Second)
+}
+
+extension Conditional: Parser
 where
   First: Parser,
   Second: Parser,
   First.Input == Second.Input,
   First.Output == Second.Output
 {
-  case first(First)
-  case second(Second)
-
   @inlinable
   public func parse(_ input: inout First.Input) -> First.Output? {
     switch self {
@@ -51,7 +53,9 @@ where
 extension Conditional: Printer
 where
   First: Printer,
-  Second: Printer
+  Second: Printer,
+  First.Input == Second.Input,
+  First.Output == Second.Output
 {
   public func print(_ output: First.Output) -> First.Input? {
     switch self {
