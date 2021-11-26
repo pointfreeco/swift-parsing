@@ -17,6 +17,18 @@ final class DoubleTests: XCTestCase {
     XCTAssertEqual(123.123, parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
 
+    input = "123.123E2 Hello"[...].utf8
+    XCTAssertEqual(123.123E2, parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "123.123E-2 Hello"[...].utf8
+    XCTAssertEqual(123.123E-2, parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "123E-2 Hello"[...].utf8
+    XCTAssertEqual(123E-2, parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
     input = "1234567890123456789012345678901234567890 Hello"[...].utf8
     XCTAssertEqual(1_234_567_890_123_456_846_996_462_118_072_609_669_120, parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
@@ -55,6 +67,18 @@ final class DoubleTests: XCTestCase {
 
     input = "123.123 Hello"[...].utf8
     XCTAssertEqual(123.123, parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "123.123E2 Hello"[...].utf8
+    XCTAssertEqual(123.123E2, parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "123.123E-2 Hello"[...].utf8
+    XCTAssertEqual(123.123E-2, parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "123E-2 Hello"[...].utf8
+    XCTAssertEqual(123E-2, parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
 
     input = "1234567890123456789012345678901234567890 Hello"[...].utf8
@@ -101,6 +125,18 @@ final class DoubleTests: XCTestCase {
 
       input = "123.123 Hello"[...].utf8
       XCTAssertEqual(123.123, parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "123.123E2 Hello"[...].utf8
+      XCTAssertEqual(123.123E2, parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "123.123E-2 Hello"[...].utf8
+      XCTAssertEqual(123.123E-2, parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "123E-2 Hello"[...].utf8
+      XCTAssertEqual(123E-2, parser.parse(&input))
       XCTAssertEqual(" Hello", String(input))
 
       input = "1234567890123456789012345678901234567890 Hello"[...].utf8
