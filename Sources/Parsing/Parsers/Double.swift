@@ -271,6 +271,7 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
       return nil
     }
     if self.first == .init(ascii: "e") || self.first == .init(ascii: "E") {
+      self.removeFirst()
       if self.first == .init(ascii: "-") || self.first == .init(ascii: "+") {
         self.removeFirst()
       }
