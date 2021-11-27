@@ -5,8 +5,7 @@ public protocol Appendable {
   mutating func append(contentsOf other: Self)
 }
 
-public protocol AppendableCollection: Appendable {
-  associatedtype Element
+public protocol AppendableCollection: Appendable, Collection {
   mutating func append<S: Sequence>(contentsOf elements: S) where S.Element == Element
 }
 

@@ -40,7 +40,7 @@ extension String {
 extension Parsers {
   public struct StringParser<Input>: Parser
   where
-    Input: Collection,
+    Input: AppendableCollection,
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit
   {
@@ -49,7 +49,9 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout Input) -> String? {
-      String(decoding: input, as: UTF8.self)
+      let output = String(decoding: input, as: UTF8.self)
+      input = .init()
+      return output
     }
   }
 }

@@ -1,6 +1,7 @@
 import Benchmark
 import Foundation
 import Parsing
+import URLRouting
 
 /*
  This benchmark demonstrates how you can build a URL request router that can transform an input
@@ -78,7 +79,9 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 
                 Routing(/Route.Episode.Comments.show) {
                   Method.get
-                  Query("count", Int.parser(), default: 10)
+                  Query {
+                    Field("count", Int.parser(), default: 10)
+                  }
                 }
               }
             }

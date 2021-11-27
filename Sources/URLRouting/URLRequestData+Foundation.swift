@@ -5,7 +5,7 @@ import Foundation
 #endif
 
 extension URLRequestData {
-  init?(request: URLRequest) {
+  public init?(request: URLRequest) {
     guard
       let url = request.url,
       let components = URLComponents(url: url, resolvingAgainstBaseURL: false)
@@ -17,18 +17,25 @@ extension URLRequestData {
       query: components.queryItems?.reduce(into: [:]) { query, item in
         query[item.name, default: []].append(item.value?[...])
       } ?? [:],
-      headers: request.allHTTPHeaderFields?.mapValues { $0[...] } ?? [:],
+      headers: request.allHTTPHeaderFields?
+        .mapValues { $0.split(separator: ",").map(Optional.some)[...] } ?? [:],
       body: request.httpBody.map { ArraySlice($0) }
     )
   }
 
-  init?(url: URL) {
+  public init?(url: URL) {
     self.init(request: URLRequest(url: url))
   }
 
-  init?(string: String) {
+  public init?(string: String) {
     guard let url = URL(string: string)
     else { return nil }
     self.init(url: url)
+  }
+}
+
+extension URLRequest {
+  public init(data: URLRequestData) {
+    fatalError("TODO")
   }
 }

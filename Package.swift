@@ -8,6 +8,10 @@ let package = Package(
     .library(
       name: "Parsing",
       targets: ["Parsing"]
+    ),
+    .library(
+      name: "URLRouting",
+      targets: ["URLRouting"]
     )
   ],
   dependencies: [
@@ -28,10 +32,23 @@ let package = Package(
         "Parsing",
       ]
     ),
+    .target(
+      name: "URLRouting",
+      dependencies: [
+        "Parsing",
+      ]
+    ),
+    .testTarget(
+      name: "URLRoutingTests",
+      dependencies: [
+        "URLRouting",
+      ]
+    ),
     .executableTarget(
       name: "swift-parsing-benchmark",
       dependencies: [
         "Parsing",
+        "URLRouting",
         .product(name: "Benchmark", package: "Benchmark"),
       ]
     ),
