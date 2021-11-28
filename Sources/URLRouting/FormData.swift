@@ -46,6 +46,7 @@ extension ArraySlice where Element == UInt8 {
   init(encoding fields: [String: ArraySlice<Substring?>]) {
     self.init(
       fields
+        .sorted(by: { $0.key < $1.key })
         .flatMap { pair -> [String] in
           let (name, values) = pair
           guard let name = name.addingPercentEncoding(withAllowedCharacters: .urlQueryParamAllowed)
