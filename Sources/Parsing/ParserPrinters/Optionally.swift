@@ -18,10 +18,18 @@ public struct Optionally<Upstream>: Parser where Upstream: Parser {
   }
 }
 
-extension Optionally: Printer where Upstream: Printer {
+extension Optionally: Printer
+where
+  Upstream: Printer,
+  Upstream.Input: Appendable
+{
   @inlinable
   public func print(_ output: Upstream.Output?) -> Upstream.Input? {
-    output.flatMap(self.upstream.print)
+    guard
+      let output = output,
+      let input = self.upstream.print(output)
+    else { return Upstream.Input() }
+    return input
   }
 }
 
