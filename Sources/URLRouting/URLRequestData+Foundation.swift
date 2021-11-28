@@ -35,7 +35,22 @@ extension URLRequestData {
 }
 
 extension URLRequest {
-  public init(data: URLRequestData) {
-    fatalError("TODO")
+  public init?(data: URLRequestData) {
+    var urlComponents = URLComponents()
+    urlComponents.path = "/\(data.path.joined(separator: "/"))"
+    urlComponents.queryItems = data.query.flatMap { name, values in
+      values.map { .init(name: name, value: $0.map(String.init)) }
+    }
+    guard let url = urlComponents.url else { return nil }
+    self.init(url: url)
+    self.httpMethod = data.method
+    for (name, values) in data.headers {
+      for value in values {
+        if let value = value {
+          self.addValue(String(value), forHTTPHeaderField: name)
+        }
+      }
+    }
+    self.httpBody = data.body.map { Data($0) }
   }
 }
