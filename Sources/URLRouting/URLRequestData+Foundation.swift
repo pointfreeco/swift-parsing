@@ -38,8 +38,10 @@ extension URLRequest {
   public init?(data: URLRequestData) {
     var urlComponents = URLComponents()
     urlComponents.path = "/\(data.path.joined(separator: "/"))"
-    urlComponents.queryItems = data.query.flatMap { name, values in
-      values.map { .init(name: name, value: $0.map(String.init)) }
+    if !data.query.isEmpty {
+      urlComponents.queryItems = data.query.flatMap { name, values in
+        values.map { .init(name: name, value: $0.map(String.init)) }
+      }
     }
     guard let url = urlComponents.url else { return nil }
     self.init(url: url)
