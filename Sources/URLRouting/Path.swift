@@ -40,7 +40,7 @@ where
   public func parse(_ input: inout URLRequestData) -> ComponentParser.Output? {
     guard
       input.path.count >= 1,
-      case var componentInput = input.path[0],
+      case var componentInput = input.path[input.path.startIndex],
       let output = self.componentParser.parse(&componentInput),
       componentInput.isEmpty
     else { return nil }

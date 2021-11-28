@@ -285,30 +285,6 @@ struct VariadicsGenerator: ParsableCommand {
     output(")\n  }\n}\n")
   }
 
-  /*
-   struct PathZip2_OO<P0, P1>: Parser
-   where
-     P0: Parser,
-     P1: Parser,
-     P0.Input == Substring,
-     P1.Input == Substring
-   {
-     let p0: P0, p1: P1
-
-     func parse(_ input: inout URLRequestData) -> (
-       P0.Output,
-       P1.Output
-     )? {
-       guard
-         input.path.count >= 2,
-         case var c0 = input.path[0], let o0 = self.p0.parse(&c0), c0.isEmpty,
-         case var c1 = input.path[1], let o1 = self.p1.parse(&c1), c1.isEmpty
-       else { return nil }
-       input.path.removeFirst(2)
-       return (o0, o1)
-     }
-   }
-   */
   func emitPathZipDeclarations(arity: Int) {
     for permutation in Permutations(arity: arity) {
 
@@ -337,7 +313,7 @@ struct VariadicsGenerator: ParsableCommand {
       output("\n  )? {\n    guard\n      input.path.count >= \(arity),\n      ")
       outputForEach(0..<arity, separator: ",\n      ") {
         """
-        case var c\($0) = input.path[\($0)], \
+        case var c\($0) = input.path[input.path.startIndex\($0 == 0 ? "" : " + \($0)")], \
         let \(permutation.isCaptureless(at: $0) ? "_" : "o\($0)") = p\($0).parse(&c\($0)), \
         c\($0).isEmpty
         """

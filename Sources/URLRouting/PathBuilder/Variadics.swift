@@ -18,8 +18,8 @@ where
   )? {
     guard
       input.path.count >= 2,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty
     else { return nil }
     input.path.removeFirst(2)
     return (o0, o1)
@@ -68,8 +68,8 @@ where
   )? {
     guard
       input.path.count >= 2,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty
     else { return nil }
     input.path.removeFirst(2)
     return (o0)
@@ -118,8 +118,8 @@ where
   )? {
     guard
       input.path.count >= 2,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty
     else { return nil }
     input.path.removeFirst(2)
     return (o1)
@@ -169,8 +169,8 @@ where
   )? {
     guard
       input.path.count >= 2,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty
     else { return nil }
     input.path.removeFirst(2)
     return ()
@@ -224,9 +224,9 @@ where
   )? {
     guard
       input.path.count >= 3,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty
     else { return nil }
     input.path.removeFirst(3)
     return (o0, o1, o2)
@@ -282,9 +282,9 @@ where
   )? {
     guard
       input.path.count >= 3,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty
     else { return nil }
     input.path.removeFirst(3)
     return (o0, o1)
@@ -340,9 +340,9 @@ where
   )? {
     guard
       input.path.count >= 3,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty
     else { return nil }
     input.path.removeFirst(3)
     return (o0, o2)
@@ -398,9 +398,9 @@ where
   )? {
     guard
       input.path.count >= 3,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty
     else { return nil }
     input.path.removeFirst(3)
     return (o0)
@@ -456,9 +456,9 @@ where
   )? {
     guard
       input.path.count >= 3,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty
     else { return nil }
     input.path.removeFirst(3)
     return (o1, o2)
@@ -514,9 +514,9 @@ where
   )? {
     guard
       input.path.count >= 3,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty
     else { return nil }
     input.path.removeFirst(3)
     return (o1)
@@ -572,9 +572,9 @@ where
   )? {
     guard
       input.path.count >= 3,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty
     else { return nil }
     input.path.removeFirst(3)
     return (o2)
@@ -631,9 +631,9 @@ where
   )? {
     guard
       input.path.count >= 3,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty
     else { return nil }
     input.path.removeFirst(3)
     return ()
@@ -694,10 +694,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o0, o1, o2, o3)
@@ -760,10 +760,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o0, o1, o2)
@@ -826,10 +826,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o0, o1, o3)
@@ -892,10 +892,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o0, o1)
@@ -958,10 +958,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o0, o2, o3)
@@ -1024,10 +1024,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o0, o2)
@@ -1090,10 +1090,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o0, o3)
@@ -1156,10 +1156,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o0)
@@ -1222,10 +1222,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o1, o2, o3)
@@ -1288,10 +1288,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o1, o2)
@@ -1354,10 +1354,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o1, o3)
@@ -1420,10 +1420,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o1)
@@ -1486,10 +1486,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o2, o3)
@@ -1552,10 +1552,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o2)
@@ -1618,10 +1618,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return (o3)
@@ -1685,10 +1685,10 @@ where
   )? {
     guard
       input.path.count >= 4,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty
     else { return nil }
     input.path.removeFirst(4)
     return ()
@@ -1756,11 +1756,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o1, o2, o3, o4)
@@ -1830,11 +1830,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o1, o2, o3)
@@ -1904,11 +1904,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o1, o2, o4)
@@ -1978,11 +1978,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o1, o2)
@@ -2052,11 +2052,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o1, o3, o4)
@@ -2126,11 +2126,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o1, o3)
@@ -2200,11 +2200,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o1, o4)
@@ -2274,11 +2274,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o1)
@@ -2348,11 +2348,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o2, o3, o4)
@@ -2422,11 +2422,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o2, o3)
@@ -2496,11 +2496,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o2, o4)
@@ -2570,11 +2570,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o2)
@@ -2644,11 +2644,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o3, o4)
@@ -2718,11 +2718,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o3)
@@ -2792,11 +2792,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0, o4)
@@ -2866,11 +2866,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o0)
@@ -2940,11 +2940,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o1, o2, o3, o4)
@@ -3014,11 +3014,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o1, o2, o3)
@@ -3088,11 +3088,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o1, o2, o4)
@@ -3162,11 +3162,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o1, o2)
@@ -3236,11 +3236,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o1, o3, o4)
@@ -3310,11 +3310,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o1, o3)
@@ -3384,11 +3384,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o1, o4)
@@ -3458,11 +3458,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o1)
@@ -3532,11 +3532,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o2, o3, o4)
@@ -3606,11 +3606,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o2, o3)
@@ -3680,11 +3680,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o2, o4)
@@ -3754,11 +3754,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o2)
@@ -3828,11 +3828,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o3, o4)
@@ -3902,11 +3902,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o3)
@@ -3976,11 +3976,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return (o4)
@@ -4051,11 +4051,11 @@ where
   )? {
     guard
       input.path.count >= 5,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty
     else { return nil }
     input.path.removeFirst(5)
     return ()
@@ -4130,12 +4130,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o2, o3, o4, o5)
@@ -4212,12 +4212,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o2, o3, o4)
@@ -4294,12 +4294,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o2, o3, o5)
@@ -4376,12 +4376,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o2, o3)
@@ -4458,12 +4458,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o2, o4, o5)
@@ -4540,12 +4540,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o2, o4)
@@ -4622,12 +4622,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o2, o5)
@@ -4704,12 +4704,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o2)
@@ -4786,12 +4786,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o3, o4, o5)
@@ -4868,12 +4868,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o3, o4)
@@ -4950,12 +4950,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o3, o5)
@@ -5032,12 +5032,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o3)
@@ -5114,12 +5114,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o4, o5)
@@ -5196,12 +5196,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o4)
@@ -5278,12 +5278,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1, o5)
@@ -5360,12 +5360,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o1)
@@ -5442,12 +5442,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o2, o3, o4, o5)
@@ -5524,12 +5524,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o2, o3, o4)
@@ -5606,12 +5606,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o2, o3, o5)
@@ -5688,12 +5688,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o2, o3)
@@ -5770,12 +5770,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o2, o4, o5)
@@ -5852,12 +5852,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o2, o4)
@@ -5934,12 +5934,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o2, o5)
@@ -6016,12 +6016,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o2)
@@ -6098,12 +6098,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o3, o4, o5)
@@ -6180,12 +6180,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o3, o4)
@@ -6262,12 +6262,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o3, o5)
@@ -6344,12 +6344,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o3)
@@ -6426,12 +6426,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o4, o5)
@@ -6508,12 +6508,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o4)
@@ -6590,12 +6590,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0, o5)
@@ -6672,12 +6672,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let o0 = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let o0 = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o0)
@@ -6754,12 +6754,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o2, o3, o4, o5)
@@ -6836,12 +6836,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o2, o3, o4)
@@ -6918,12 +6918,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o2, o3, o5)
@@ -7000,12 +7000,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o2, o3)
@@ -7082,12 +7082,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o2, o4, o5)
@@ -7164,12 +7164,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o2, o4)
@@ -7246,12 +7246,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o2, o5)
@@ -7328,12 +7328,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o2)
@@ -7410,12 +7410,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o3, o4, o5)
@@ -7492,12 +7492,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o3, o4)
@@ -7574,12 +7574,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o3, o5)
@@ -7656,12 +7656,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o3)
@@ -7738,12 +7738,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o4, o5)
@@ -7820,12 +7820,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o4)
@@ -7902,12 +7902,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1, o5)
@@ -7984,12 +7984,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let o1 = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let o1 = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o1)
@@ -8066,12 +8066,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o2, o3, o4, o5)
@@ -8148,12 +8148,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o2, o3, o4)
@@ -8230,12 +8230,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o2, o3, o5)
@@ -8312,12 +8312,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o2, o3)
@@ -8394,12 +8394,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o2, o4, o5)
@@ -8476,12 +8476,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o2, o4)
@@ -8558,12 +8558,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o2, o5)
@@ -8640,12 +8640,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let o2 = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let o2 = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o2)
@@ -8722,12 +8722,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o3, o4, o5)
@@ -8804,12 +8804,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o3, o4)
@@ -8886,12 +8886,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o3, o5)
@@ -8968,12 +8968,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let o3 = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let o3 = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o3)
@@ -9050,12 +9050,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o4, o5)
@@ -9132,12 +9132,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let o4 = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let o4 = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o4)
@@ -9214,12 +9214,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let o5 = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let o5 = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return (o5)
@@ -9297,12 +9297,12 @@ where
   )? {
     guard
       input.path.count >= 6,
-      case var c0 = input.path[0], let _ = p0.parse(&c0), c0.isEmpty,
-      case var c1 = input.path[1], let _ = p1.parse(&c1), c1.isEmpty,
-      case var c2 = input.path[2], let _ = p2.parse(&c2), c2.isEmpty,
-      case var c3 = input.path[3], let _ = p3.parse(&c3), c3.isEmpty,
-      case var c4 = input.path[4], let _ = p4.parse(&c4), c4.isEmpty,
-      case var c5 = input.path[5], let _ = p5.parse(&c5), c5.isEmpty
+      case var c0 = input.path[input.path.startIndex], let _ = p0.parse(&c0), c0.isEmpty,
+      case var c1 = input.path[input.path.startIndex + 1], let _ = p1.parse(&c1), c1.isEmpty,
+      case var c2 = input.path[input.path.startIndex + 2], let _ = p2.parse(&c2), c2.isEmpty,
+      case var c3 = input.path[input.path.startIndex + 3], let _ = p3.parse(&c3), c3.isEmpty,
+      case var c4 = input.path[input.path.startIndex + 4], let _ = p4.parse(&c4), c4.isEmpty,
+      case var c5 = input.path[input.path.startIndex + 5], let _ = p5.parse(&c5), c5.isEmpty
     else { return nil }
     input.path.removeFirst(6)
     return ()
