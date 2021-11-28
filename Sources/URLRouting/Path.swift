@@ -1,4 +1,30 @@
-public struct Path<ComponentParser>: Parser
+public struct Path<ComponentParsers>: Parser
+where
+  ComponentParsers: Parser,
+  ComponentParsers.Input == URLRequestData
+{
+  @usableFromInline
+  let componentParsers: ComponentParsers
+
+  @inlinable
+  public init(@PathBuilder build: () -> ComponentParsers) {
+    self.componentParsers = build()
+  }
+
+  @inlinable
+  public func parse(_ input: inout URLRequestData) -> ComponentParsers.Output? {
+    self.componentParsers.parse(&input)
+  }
+}
+
+extension Path: Printer where ComponentParsers: Printer {
+  @inlinable
+  public func print(_ output: ComponentParsers.Output) -> URLRequestData? {
+    self.componentParsers.print(output)
+  }
+}
+
+public struct PathComponent<ComponentParser>: Parser
 where
   ComponentParser: Parser,
   ComponentParser.Input == Substring
@@ -6,26 +32,24 @@ where
   @usableFromInline
   let componentParser: ComponentParser
 
-  @inlinable
-  public init(_ component: ComponentParser) {
-    self.componentParser = component
+  @usableFromInline
+  init(_ componentParser: ComponentParser) {
+    self.componentParser = componentParser
   }
 
-  @inlinable
   public func parse(_ input: inout URLRequestData) -> ComponentParser.Output? {
     guard
-      var component = input.path.first,
-      let output = self.componentParser.parse(&component),
-      component.isEmpty
+      input.path.count >= 1,
+      case var componentInput = input.path[0],
+      let output = self.componentParser.parse(&componentInput),
+      componentInput.isEmpty
     else { return nil }
-
     input.path.removeFirst()
     return output
   }
 }
 
-extension Path: Printer where ComponentParser: Printer {
-  @inlinable
+extension PathComponent: Printer where ComponentParser: Printer {
   public func print(_ output: ComponentParser.Output) -> URLRequestData? {
     self.componentParser.print(output).map { .init(path: [$0]) }
   }

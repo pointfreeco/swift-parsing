@@ -23,6 +23,12 @@ format:
 		./Package.swift ./Sources ./Tests
 
 generate-variadics:
-	swift run variadics-generator > Sources/Parsing/ParserBuilder/Variadics.swift
+	swift run variadics-generator \
+		--generate-zips \
+		--generate-one-ofs \
+		> Sources/Parsing/ParserBuilder/Variadics.swift
+	swift run variadics-generator \
+		--generate-path-zips \
+		> Sources/URLRouting/PathBuilder/Variadics.swift
 
 .PHONY: format generate-variadics test-all test-swift test-workspace
