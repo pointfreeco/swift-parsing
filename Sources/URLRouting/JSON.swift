@@ -22,7 +22,6 @@ public struct JSON<Value: Decodable>: Parser {
     guard
       let output = try? self.decoder.decode(Value.self, from: Data(input))
     else { return nil }
-    input = []
     return output
   }
 }

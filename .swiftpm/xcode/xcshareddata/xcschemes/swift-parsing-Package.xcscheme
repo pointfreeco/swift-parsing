@@ -56,9 +56,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "variadics-generator"
-               BuildableName = "variadics-generator"
-               BlueprintName = "variadics-generator"
+               BlueprintIdentifier = "URLRouting"
+               BuildableName = "URLRouting"
+               BlueprintName = "URLRouting"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -70,9 +70,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "URLRouting"
-               BuildableName = "URLRouting"
-               BlueprintName = "URLRouting"
+               BlueprintIdentifier = "variadics-generator"
+               BuildableName = "variadics-generator"
+               BlueprintName = "variadics-generator"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
