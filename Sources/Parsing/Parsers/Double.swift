@@ -261,7 +261,8 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
     guard !integer.isEmpty else { return nil }
     self.removeFirst(integer.count)
     if self.first == .init(ascii: ".") {
-      let fractional = self
+      let fractional =
+        self
         .dropFirst()
         .prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
       guard !fractional.isEmpty else { return original[..<self.startIndex] }
@@ -272,7 +273,8 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
       if self.dropFirst().first == .init(ascii: "-") || self.first == .init(ascii: "+") {
         n += 1
       }
-      let exponent = self
+      let exponent =
+        self
         .dropFirst(n)
         .prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
       guard !exponent.isEmpty else { return original[..<self.startIndex] }
