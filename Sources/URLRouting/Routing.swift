@@ -4,7 +4,7 @@ where
   RouteParser.Input == URLRequestData
 {
   @usableFromInline
-  let parser: Zip2_OV<Parsers.Pipe<RouteParser, CasePath<Route, RouteParser.Output>>, PathEnd>
+  let parser: Zip2_OV<Parsers.Pipe<RouteParser, CasePath<Route, RouteParser.Output>>, PathEnd, Void>
 
   @inlinable
   public init(

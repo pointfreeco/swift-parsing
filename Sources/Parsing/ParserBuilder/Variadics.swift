@@ -54,18 +54,21 @@ extension ParserBuilder {
     Zip2_OO(p0, p1)
   }
 }
-public struct Zip2_OV<P0, P1>: Parser
+public struct Zip2_OV<P0, P1, P1Output> {
+  @usableFromInline let p0: P0, p1: P1
+  @inlinable init(_ p0: P0, _ p1: P1) where P1Output == Void {
+    self.p0 = p0
+    self.p1 = p1
+  }
+}
+extension Zip2_OV: Parser
 where
   P0: Parser,
   P1: Parser,
   P0.Input == P1.Input,
+  P1.Output == P1Output,
   P1.Output == Void
 {
-  @usableFromInline let p0: P0, p1: P1
-  @inlinable init(_ p0: P0, _ p1: P1) {
-    self.p0 = p0
-    self.p1 = p1
-  }
   @inlinable public func parse(_ input: inout P0.Input) -> (
     P0.Output
   )? {
@@ -86,6 +89,7 @@ where
   P1: Printer,
   P0.Input: Appendable,
   P0.Input == P1.Input,
+  P1.Output == P1Output,
   P1.Output == Void
 {
   @inlinable public func print(
@@ -104,7 +108,7 @@ where
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1>(
     _ p0: P0, _ p1: P1
-  ) -> Zip2_OV<P0, P1> {
+  ) -> Zip2_OV<P0, P1, Void> {
     Zip2_OV(p0, p1)
   }
 }

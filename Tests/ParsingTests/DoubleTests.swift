@@ -1,7 +1,25 @@
 import Parsing
 import XCTest
 
+struct FooPrinter: Printer {
+  func print(_ output: Int) -> Substring? {
+    "\(output)"
+  }
+}
+
 final class DoubleTests: XCTestCase {
+  func testOk() {
+
+
+
+    let p = Parse {
+      FooPrinter()
+      "hello"
+    }
+    XCTAssertEqual("42hello", p.print(42))
+
+  }
+
   func testDouble() {
     let parser = Double.parser(of: Substring.UTF8View.self)
 
