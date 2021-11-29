@@ -75,6 +75,15 @@ struct VariadicsGenerator: ParsableCommand {
   @Option(help: "The maximum arity of declarations to generate.")
   var maxArity: Int = 6
 
+  @Flag(help: "Generate `Zip's")
+  var generateZips = false
+
+  @Flag(help: "Generate `OneOf's")
+  var generateOneOfs = false
+
+  @Flag(help: "Generate `PathZip's")
+  var generatePathZips = false
+
   func run() throws {
     precondition(minArity > 0)
     precondition(maxArity > 1)
@@ -82,12 +91,22 @@ struct VariadicsGenerator: ParsableCommand {
 
     output("// BEGIN AUTO-GENERATED CONTENT\n\n")
 
-    for arity in minArity...maxArity {
-      emitZipDeclarations(arity: arity)
+    if generateZips {
+      for arity in minArity...maxArity {
+        emitZipDeclarations(arity: arity)
+      }
     }
 
-    for arity in minArity...(maxArity + 3) {
-      emitOneOfDeclaration(arity: arity)
+    if generateOneOfs {
+      for arity in minArity...(maxArity + 3) {
+        emitOneOfDeclaration(arity: arity)
+      }
+    }
+
+    if generatePathZips {
+      for arity in minArity...maxArity {
+        emitPathZipDeclarations(arity: arity)
+      }
     }
 
     output("\n// END AUTO-GENERATED CONTENT")
@@ -264,5 +283,79 @@ struct VariadicsGenerator: ParsableCommand {
     output("    \(typeName)(")
     outputForEach(0..<arity, separator: ", ") { "p\($0)" }
     output(")\n  }\n}\n")
+  }
+
+  func emitPathZipDeclarations(arity: Int) {
+    for permutation in Permutations(arity: arity) {
+
+      // Emit type declaration.
+      let typeName = "PathZip\(arity)_\(permutation.identifier)"
+      output("public struct \(typeName)<")
+      outputForEach(0..<arity, separator: ", ") { "P\($0)" }
+      output(">: Parser\nwhere\n  ")
+      outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Parser" }
+      output(",\n  ")
+      outputForEach(0..<arity, separator: ",\n  ") { "P\($0).Input == Substring" }
+      if permutation.hasCaptureless {
+        output(",\n  ")
+        outputForEach(permutation.capturelessIndices, separator: ",\n  ") {
+          "P\($0).Output == Void"
+        }
+      }
+      output("\n{\n  @usableFromInline let ")
+      outputForEach(0..<arity, separator: ", ") { "p\($0): P\($0)" }
+      output("\n  @inlinable init(")
+      outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
+      output(") {\n    ")
+      outputForEach(0..<arity, separator: "\n    ") { "self.p\($0) = p\($0)" }
+      output("\n  }\n  @inlinable public func parse(_ input: inout URLRequestData) -> (\n")
+      outputForEach(permutation.captureIndices, separator: ",\n") { "    P\($0).Output" }
+      output("\n  )? {\n    guard\n      input.path.count >= \(arity),\n      ")
+      outputForEach(0..<arity, separator: ",\n      ") {
+        """
+        case var c\($0) = input.path[input.path.startIndex\($0 == 0 ? "" : " + \($0)")], \
+        let \(permutation.isCaptureless(at: $0) ? "_" : "o\($0)") = p\($0).parse(&c\($0)), \
+        c\($0).isEmpty
+        """
+      }
+      output("\n    else { return nil }\n    input.path.removeFirst(\(arity))\n    return (")
+      outputForEach(permutation.captureIndices, separator: ", ") { "o\($0)" }
+      output(")\n  }\n}\n")
+
+      // Emit printer extension.
+      output("extension \(typeName): Printer\nwhere\n  ")
+      outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Printer" }
+      if permutation.hasCaptureless {
+        output(",\n  ")
+        outputForEach(permutation.capturelessIndices, separator: ",\n  ") {
+          "P\($0).Output == Void"
+        }
+      }
+      output("\n{\n  @inlinable public func print(\n    _ output: (\n")
+      outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
+      output("\n    )\n  ) -> URLRequestData? {\n    guard\n      ")
+      outputForEach(0..<arity, separator: ",\n      ") {
+        let output = permutation.isCaptureless(at: $0) ? "()"
+          : permutation.captureIndices.count == 1 ? "output"
+          : "output.\(permutation.captureIndices.firstIndex(of: $0)!)"
+        return "let i\($0) = p\($0).print(\(output))"
+      }
+      output("\n    else { return nil }\n    return .init(path: [")
+      outputForEach(0..<arity, separator: ", ") { "i\($0)" }
+      output("])\n  }\n}\n")
+
+      // Emit builder.
+      output("extension PathBuilder {\n")
+      output("  @inlinable public static func buildBlock<")
+      outputForEach(0..<arity, separator: ", ") { "P\($0)" }
+      output(">(\n    ")
+      outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
+      output("\n  ) -> \(typeName)<")
+      outputForEach(0..<arity, separator: ", ") { "P\($0)" }
+      output("> {\n")
+      output("    \(typeName)(")
+      outputForEach(0..<arity, separator: ", ") { "p\($0)" }
+      output(")\n  }\n}\n")
+    }
   }
 }

@@ -5,8 +5,7 @@ public protocol Appendable {
   mutating func append(contentsOf other: Self)
 }
 
-public protocol AppendableCollection: Appendable {
-  associatedtype Element
+public protocol AppendableCollection: Appendable, Collection {
   mutating func append<S: Sequence>(contentsOf elements: S) where S.Element == Element
 }
 
@@ -28,6 +27,15 @@ extension String: AppendableCollection {}
 extension String.UnicodeScalarView: AppendableCollection {}
 extension Substring: AppendableCollection {}
 extension Substring.UnicodeScalarView: AppendableCollection {}
+
+extension Dictionary: Appendable where Value: Appendable {
+  @inlinable
+  public mutating func append(contentsOf other: Self) {
+    for (key, value) in other {
+      self[key, default: Value()].append(contentsOf: value)
+    }
+  }
+}
 
 extension Substring.UTF8View: AppendableCollection {
   @inlinable

@@ -66,4 +66,25 @@ class ParserPrinterTests: XCTestCase {
       "bar"
     )
   }
+
+  func testOptionally() {
+    let p = Parse {
+      "Hello"
+      Optionally {
+        ", "
+        Int.parser()
+      }
+      "!"
+    }
+
+    XCTAssertEqual(
+      p.print(nil),
+      "Hello!"
+    )
+
+    XCTAssertEqual(
+      p.print(42),
+      "Hello, 42!"
+    )
+  }
 }
