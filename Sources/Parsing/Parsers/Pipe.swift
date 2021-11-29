@@ -48,3 +48,8 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.Pipe: Decodable where Upstream: Decodable, Downstream: Decodable {}
+extension Parsers.Pipe: Encodable where Upstream: Encodable, Downstream: Encodable {}
+extension Parsers.Pipe: Equatable where Upstream: Equatable, Downstream: Equatable {}
+extension Parsers.Pipe: Hashable where Upstream: Hashable, Downstream: Hashable {}

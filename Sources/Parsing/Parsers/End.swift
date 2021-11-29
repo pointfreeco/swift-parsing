@@ -4,7 +4,7 @@
 /// End<Substring>().parse(""[...]) // (output: (), rest: "")
 /// End<Substring>().parse("Hello"[...]) // (output: nil, rest: "Hello")
 /// ```
-public struct End<Input>: Parser where Input: Collection {
+public struct End<Input>: Parser, Codable, Hashable where Input: Collection {
   @inlinable
   public init() {}
 

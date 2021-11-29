@@ -55,7 +55,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Bool.parser()`, which constructs this type.
-  public struct BoolParser<Input>: Parser
+  public struct BoolParser<Input>: Parser, Codable, Hashable
   where
     Input: Collection,
     Input.SubSequence == Input,

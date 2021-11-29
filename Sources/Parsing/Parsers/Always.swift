@@ -28,6 +28,11 @@ public struct Always<Input, Output>: Parser {
   }
 }
 
+extension Always: Decodable where Output: Decodable {}
+extension Always: Encodable where Output: Encodable {}
+extension Always: Equatable where Output: Equatable {}
+extension Always: Hashable where Output: Hashable {}
+
 extension Parsers {
   public typealias Always = Parsing.Always  // NB: Convenience type alias for discovery
 }

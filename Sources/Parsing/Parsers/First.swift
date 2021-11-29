@@ -14,7 +14,7 @@
 /// ```swift
 /// First().parse(""[...]) // (output: nil, rest: "")
 /// ```
-public struct First<Input>: Parser
+public struct First<Input>: Parser, Codable, Hashable
 where
   Input: Collection,
   Input.SubSequence == Input

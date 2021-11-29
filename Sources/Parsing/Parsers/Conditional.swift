@@ -35,6 +35,11 @@ where
   }
 }
 
+extension Conditional: Decodable where First: Decodable, Second: Decodable {}
+extension Conditional: Encodable where First: Encodable, Second: Encodable {}
+extension Conditional: Equatable where First: Equatable, Second: Equatable {}
+extension Conditional: Hashable where First: Hashable, Second: Hashable {}
+
 extension Parsers {
   public typealias Conditional = Parsing.Conditional  // NB: Convenience type alias for discovery
 }

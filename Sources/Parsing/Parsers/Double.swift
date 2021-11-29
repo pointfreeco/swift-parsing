@@ -169,7 +169,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Double.parser()`, which constructs this type.
-  public struct DoubleParser<Input>: Parser
+  public struct DoubleParser<Input>: Parser, Codable, Hashable
   where
     Input: Collection,
     Input.SubSequence == Input,
@@ -196,7 +196,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Float.parser()`, which constructs this type.
-  public struct FloatParser<Input>: Parser
+  public struct FloatParser<Input>: Parser, Codable, Hashable
   where
     Input: Collection,
     Input.SubSequence == Input,
@@ -224,7 +224,7 @@ extension Parsers {
     ///
     /// You will not typically need to interact with this type directly. Instead you will usually
     /// use `Float80.parser()`, which constructs this type.
-    public struct Float80Parser<Input>: Parser
+    public struct Float80Parser<Input>: Parser, Codable, Hashable
     where
       Input: Collection,
       Input.SubSequence == Input,

@@ -31,3 +31,8 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.OptionalParser: Decodable where Upstream: Decodable {}
+extension Parsers.OptionalParser: Encodable where Upstream: Encodable {}
+extension Parsers.OptionalParser: Equatable where Upstream: Equatable {}
+extension Parsers.OptionalParser: Hashable where Upstream: Hashable {}

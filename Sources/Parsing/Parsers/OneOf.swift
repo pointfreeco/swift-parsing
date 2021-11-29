@@ -80,3 +80,8 @@ extension Parsers {
 
   public typealias OneOfMany = Parsing.OneOfMany  // NB: Convenience type alias for discovery
 }
+
+extension Parsers.OneOf: Decodable where A: Decodable, B: Decodable {}
+extension Parsers.OneOf: Encodable where A: Encodable, B: Encodable {}
+extension Parsers.OneOf: Equatable where A: Equatable, B: Equatable {}
+extension Parsers.OneOf: Hashable where A: Hashable, B: Hashable {}

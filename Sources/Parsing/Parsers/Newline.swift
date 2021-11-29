@@ -1,7 +1,7 @@
 /// A parser that consumes a single newline from the beginning of the input.
 ///
 /// It will consume both line feeds (`"\n"`) and carriage returns with line feeds (`"\r\n"`).
-public struct Newline<Input>: Parser
+public struct Newline<Input>: Parser, Codable, Hashable
 where
   Input: Collection,
   Input.SubSequence == Input,

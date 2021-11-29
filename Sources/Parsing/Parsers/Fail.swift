@@ -3,7 +3,7 @@
 /// ```swift
 /// Fail<Substring, Int>().parse("123 Hello") // (output: nil, rest: "123 Hello")
 /// ```
-public struct Fail<Input, Output>: Parser {
+public struct Fail<Input, Output>: Parser, Codable, Hashable {
   @inlinable
   public init() {}
 

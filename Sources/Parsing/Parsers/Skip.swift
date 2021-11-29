@@ -47,6 +47,11 @@ public struct Skip<Upstream>: Parser where Upstream: Parser {
   }
 }
 
+extension Skip: Decodable where Upstream: Decodable {}
+extension Skip: Encodable where Upstream: Encodable {}
+extension Skip: Equatable where Upstream: Equatable {}
+extension Skip: Hashable where Upstream: Hashable {}
+
 extension Parsers {
   /// A parser that runs two parsers, one after the other, taking only the output of the second
   /// parser.
@@ -115,3 +120,13 @@ extension Parsers {
 
   public typealias Skip = Parsing.Skip  // NB: Convenience type alias for discovery
 }
+
+extension Parsers.SkipFirst: Decodable where A: Decodable, B: Decodable {}
+extension Parsers.SkipFirst: Encodable where A: Encodable, B: Encodable {}
+extension Parsers.SkipFirst: Equatable where A: Equatable, B: Equatable {}
+extension Parsers.SkipFirst: Hashable where A: Hashable, B: Hashable {}
+
+extension Parsers.SkipSecond: Decodable where A: Decodable, B: Decodable {}
+extension Parsers.SkipSecond: Encodable where A: Encodable, B: Encodable {}
+extension Parsers.SkipSecond: Equatable where A: Equatable, B: Equatable {}
+extension Parsers.SkipSecond: Hashable where A: Hashable, B: Hashable {}

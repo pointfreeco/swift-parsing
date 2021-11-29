@@ -1,5 +1,5 @@
 /// A parser that consumes all ASCII whitespace from the beginning of the input.
-public struct Whitespace<Input>: Parser
+public struct Whitespace<Input>: Parser, Codable, Hashable
 where
   Input: Collection,
   Input.SubSequence == Input,

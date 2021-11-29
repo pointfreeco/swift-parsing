@@ -1,5 +1,5 @@
 /// A parser that consumes everything to the end of the collection and returns it as its output.
-public struct Rest<Input>: Parser
+public struct Rest<Input>: Parser, Codable, Hashable
 where
   Input: Collection,
   Input.SubSequence == Input

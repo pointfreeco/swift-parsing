@@ -22,6 +22,31 @@ extension Parser where Input == Substring.UnicodeScalarView {
 }
 
 extension Parsers {
+  /// A parser that transforms a parser on `Substring` into a parser on
+  /// `Substring.UnicodeScalarView`.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/unicodeScalars`` operation, which constructs this type.
+  public struct SubstringToUnicodeScalars<Upstream>: Parser
+  where
+    Upstream: Parser,
+    Upstream.Input == Substring
+  {
+    public let upstream: Upstream
+
+    @inlinable
+    public init(upstream: Upstream) {
+      self.upstream = upstream
+    }
+
+    @inlinable
+    public func parse(_ input: inout Substring.UnicodeScalarView) -> Upstream.Output? {
+      var substring = Substring(input)
+      defer { input = substring.unicodeScalars }
+      return self.upstream.parse(&substring)
+    }
+  }
+
   /// A parser that transforms a parser on `Substring` into a parser on `Substring.UTF8View`.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
@@ -71,31 +96,6 @@ extension Parsers {
     }
   }
 
-  /// A parser that transforms a parser on `Substring` into a parser on
-  /// `Substring.UnicodeScalarView`.
-  ///
-  /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``Parser/unicodeScalars`` operation, which constructs this type.
-  public struct SubstringToUnicodeScalars<Upstream>: Parser
-  where
-    Upstream: Parser,
-    Upstream.Input == Substring
-  {
-    public let upstream: Upstream
-
-    @inlinable
-    public init(upstream: Upstream) {
-      self.upstream = upstream
-    }
-
-    @inlinable
-    public func parse(_ input: inout Substring.UnicodeScalarView) -> Upstream.Output? {
-      var substring = Substring(input)
-      defer { input = substring.unicodeScalars }
-      return self.upstream.parse(&substring)
-    }
-  }
-
   public struct UTF8ViewToSubstring<UTF8ViewParser>: Parser
   where
     UTF8ViewParser: Parser,
@@ -114,3 +114,23 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.SubstringToUTF8View: Decodable where Upstream: Decodable {}
+extension Parsers.SubstringToUTF8View: Encodable where Upstream: Encodable {}
+extension Parsers.SubstringToUTF8View: Equatable where Upstream: Equatable {}
+extension Parsers.SubstringToUTF8View: Hashable where Upstream: Hashable {}
+
+extension Parsers.SubstringToUnicodeScalars: Decodable where Upstream: Decodable {}
+extension Parsers.SubstringToUnicodeScalars: Encodable where Upstream: Encodable {}
+extension Parsers.SubstringToUnicodeScalars: Equatable where Upstream: Equatable {}
+extension Parsers.SubstringToUnicodeScalars: Hashable where Upstream: Hashable {}
+
+extension Parsers.UnicodeScalarViewToUTF8View: Decodable where Upstream: Decodable {}
+extension Parsers.UnicodeScalarViewToUTF8View: Encodable where Upstream: Encodable {}
+extension Parsers.UnicodeScalarViewToUTF8View: Equatable where Upstream: Equatable {}
+extension Parsers.UnicodeScalarViewToUTF8View: Hashable where Upstream: Hashable {}
+
+extension Parsers.UTF8ViewToSubstring: Decodable where UTF8ViewParser: Decodable {}
+extension Parsers.UTF8ViewToSubstring: Encodable where UTF8ViewParser: Encodable {}
+extension Parsers.UTF8ViewToSubstring: Equatable where UTF8ViewParser: Equatable {}
+extension Parsers.UTF8ViewToSubstring: Hashable where UTF8ViewParser: Hashable {}

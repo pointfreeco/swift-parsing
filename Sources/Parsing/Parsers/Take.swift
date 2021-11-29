@@ -525,3 +525,54 @@ extension Parsers {
     }
   }
 }
+
+
+extension Parsers.Take2: Decodable where A: Decodable, B: Decodable {}
+extension Parsers.Take2: Encodable where A: Encodable, B: Encodable {}
+extension Parsers.Take2: Equatable where A: Equatable, B: Equatable {}
+extension Parsers.Take2: Hashable where A: Hashable, B: Hashable {}
+
+extension Parsers.Take3: Decodable where AB: Decodable, C: Decodable {}
+extension Parsers.Take3: Encodable where AB: Encodable, C: Encodable {}
+extension Parsers.Take3: Equatable where AB: Equatable, C: Equatable {}
+extension Parsers.Take3: Hashable where AB: Hashable, C: Hashable {}
+
+extension Parsers.Take4: Decodable where ABC: Decodable, D: Decodable {}
+extension Parsers.Take4: Encodable where ABC: Encodable, D: Encodable {}
+extension Parsers.Take4: Equatable where ABC: Equatable, D: Equatable {}
+extension Parsers.Take4: Hashable where ABC: Hashable, D: Hashable {}
+
+extension Parsers.Take5: Decodable where ABCD: Decodable, E: Decodable {}
+extension Parsers.Take5: Encodable where ABCD: Encodable, E: Encodable {}
+extension Parsers.Take5: Equatable where ABCD: Equatable, E: Equatable {}
+extension Parsers.Take5: Hashable where ABCD: Hashable, E: Hashable {}
+
+extension Parsers.Take6: Decodable where ABCDE: Decodable, F: Decodable {}
+extension Parsers.Take6: Encodable where ABCDE: Encodable, F: Encodable {}
+extension Parsers.Take6: Equatable where ABCDE: Equatable, F: Equatable {}
+extension Parsers.Take6: Hashable where ABCDE: Hashable, F: Hashable {}
+
+extension Parsers.Take7: Decodable where ABCDEF: Decodable, G: Decodable {}
+extension Parsers.Take7: Encodable where ABCDEF: Encodable, G: Encodable {}
+extension Parsers.Take7: Equatable where ABCDEF: Equatable, G: Equatable {}
+extension Parsers.Take7: Hashable where ABCDEF: Hashable, G: Hashable {}
+
+extension Parsers.Take8: Decodable where ABCDEFG: Decodable, H: Decodable {}
+extension Parsers.Take8: Encodable where ABCDEFG: Encodable, H: Encodable {}
+extension Parsers.Take8: Equatable where ABCDEFG: Equatable, H: Equatable {}
+extension Parsers.Take8: Hashable where ABCDEFG: Hashable, H: Hashable {}
+
+extension Parsers.Take9: Decodable where ABCDEFGH: Decodable, I: Decodable {}
+extension Parsers.Take9: Encodable where ABCDEFGH: Encodable, I: Encodable {}
+extension Parsers.Take9: Equatable where ABCDEFGH: Equatable, I: Equatable {}
+extension Parsers.Take9: Hashable where ABCDEFGH: Hashable, I: Hashable {}
+
+extension Parsers.Take10: Decodable where ABCDEFGHI: Decodable, J: Decodable {}
+extension Parsers.Take10: Encodable where ABCDEFGHI: Encodable, J: Encodable {}
+extension Parsers.Take10: Equatable where ABCDEFGHI: Equatable, J: Equatable {}
+extension Parsers.Take10: Hashable where ABCDEFGHI: Hashable, J: Hashable {}
+
+extension Parsers.Take11: Decodable where ABCDEFGHIJ: Decodable, K: Decodable {}
+extension Parsers.Take11: Encodable where ABCDEFGHIJ: Encodable, K: Encodable {}
+extension Parsers.Take11: Equatable where ABCDEFGHIJ: Equatable, K: Equatable {}
+extension Parsers.Take11: Hashable where ABCDEFGHIJ: Hashable, K: Hashable {}
