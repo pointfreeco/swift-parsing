@@ -39,7 +39,7 @@ where
   public let initialResult: Accumulator.Result
   public let maximum: Int
   public let minimum: Int
-  public let separator: Separator?
+  public let separator: Separator
   public let upstream: Upstream
 
   @inlinable
@@ -99,7 +99,7 @@ where
       count += 1
       rest = input
       self.accumulator.update(accumulating: &result, output)
-      if self.separator != nil, self.separator?.parse(&input) == nil {
+      if self.separator.parse(&input) == nil {
         guard count >= self.minimum else {
           input = original
           return nil
@@ -135,12 +135,14 @@ where
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max
   ) {
-    self.accumulator = .init()
-    self.initialResult = []
-    self.maximum = maximum
-    self.minimum = minimum
-    self.separator = nil
-    self.upstream = upstream
+    self.init(
+      upstream,
+      into: [],
+      accumulator: .init(),
+      atLeast: minimum,
+      atMost: maximum,
+      separator: .init()
+    )
   }
 }
 
@@ -194,12 +196,14 @@ extension Many where Separator == AlwaysVoid<Input> {
     atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Accumulator.Result, Upstream.Output) -> Void
   ) where Accumulator == AnyAccumulator<Result, Upstream.Output> {
-    self.accumulator = .init(updateAccumulatingResult)
-    self.initialResult = initialResult
-    self.maximum = maximum
-    self.minimum = minimum
-    self.separator = nil
-    self.upstream = upstream
+    self.init(
+      upstream,
+      into: initialResult,
+      accumulator: .init(updateAccumulatingResult),
+      atLeast: minimum,
+      atMost: maximum,
+      separator: .init()
+    )
   }
 }
 

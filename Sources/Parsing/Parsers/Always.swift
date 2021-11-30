@@ -40,6 +40,7 @@ public struct AlwaysVoid<Input>: Parser, Codable, Hashable {
   public init() {}
 
   @inlinable
+  @inline(__always)
   public func parse(_ input: inout Input) -> Void? {
     return ()
   }
