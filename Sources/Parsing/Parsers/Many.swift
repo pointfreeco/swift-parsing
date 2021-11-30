@@ -119,7 +119,7 @@ where
 extension Many
 where
   Accumulator == CollectionAccumulator<[Upstream.Output]>,
-  Separator == Always<Input, Void>
+  Separator == AlwaysVoid<Input>
 {
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs in an array.
@@ -175,8 +175,7 @@ where
   }
 }
 
-extension Many where Separator == Always<Input, Void> {
-
+extension Many where Separator == AlwaysVoid<Input> {
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs into a result with a given closure.
   ///
