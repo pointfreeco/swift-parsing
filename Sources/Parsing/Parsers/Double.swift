@@ -270,7 +270,8 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
     }
     if self.first == .init(ascii: "e") || self.first == .init(ascii: "E") {
       var n = 1
-      if self.dropFirst().first == .init(ascii: "-") || self.dropFirst().first == .init(ascii: "+") {
+      if self.dropFirst().first == .init(ascii: "-") || self.dropFirst().first == .init(ascii: "+")
+      {
         n += 1
       }
       let exponent =
