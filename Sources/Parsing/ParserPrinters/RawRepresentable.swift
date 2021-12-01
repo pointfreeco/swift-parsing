@@ -1,7 +1,104 @@
+import Foundation
+
 extension RawRepresentable {
   @inlinable
-  public static func parser() -> Parsers.RawRepresentableParser<Self> {
+  public static func parser(
+    of inputType: RawValue.Type = RawValue.self
+  ) -> Parsers.RawRepresentableParser<Self> {
     .init()
+  }
+}
+
+extension RawRepresentable where RawValue == Bool {
+  @_disfavoredOverload
+  @inlinable
+  public static func parser(
+    of inputType: Substring.Type = Substring.self
+  ) -> Parsers.Pipe<
+    Parsers.UTF8ViewToSubstring<Parsers.BoolParser<Substring.UTF8View>>,
+    Parsers.RawRepresentableParser<Self>
+  > {
+    RawValue.parser(of: Substring.self).pipe(Self.parser())
+  }
+}
+
+extension RawRepresentable where RawValue == Double {
+  @_disfavoredOverload
+  @inlinable
+  public static func parser(
+    of inputType: Substring.Type = Substring.self
+  ) -> Parsers.Pipe<
+    Parsers.UTF8ViewToSubstring<Parsers.DoubleParser<Substring.UTF8View>>,
+    Parsers.RawRepresentableParser<Self>
+  > {
+    RawValue.parser(of: Substring.self).pipe(Self.parser())
+  }
+}
+
+extension RawRepresentable where RawValue == Float {
+  @_disfavoredOverload
+  @inlinable
+  public static func parser(
+    of inputType: Substring.Type = Substring.self
+  ) -> Parsers.Pipe<
+    Parsers.UTF8ViewToSubstring<Parsers.FloatParser<Substring.UTF8View>>,
+    Parsers.RawRepresentableParser<Self>
+  > {
+    RawValue.parser(of: Substring.self).pipe(Self.parser())
+  }
+}
+
+#if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
+  extension RawRepresentable where RawValue == Float80 {
+    @_disfavoredOverload
+    @inlinable
+    public static func parser(
+      of inputType: Substring.Type = Substring.self
+    ) -> Parsers.Pipe<
+      Parsers.UTF8ViewToSubstring<Parsers.Float80Parser<Substring.UTF8View>>,
+      Parsers.RawRepresentableParser<Self>
+    > {
+      RawValue.parser(of: Substring.self).pipe(Self.parser())
+    }
+  }
+#endif
+
+extension RawRepresentable where RawValue: FixedWidthInteger {
+  @_disfavoredOverload
+  @inlinable
+  public static func parser(
+    of inputType: Substring.Type = Substring.self
+  ) -> Parsers.Pipe<
+    Parsers.UTF8ViewToSubstring<Parsers.IntParser<Substring.UTF8View, RawValue>>,
+    Parsers.RawRepresentableParser<Self>
+  > {
+    RawValue.parser(of: Substring.self).pipe(Self.parser())
+  }
+}
+
+extension RawRepresentable where RawValue == String {
+  @_disfavoredOverload
+  @inlinable
+  public static func parser(
+    of inputType: Substring.Type = Substring.self
+  ) -> Parsers.Pipe<
+    Parsers.UTF8ViewToSubstring<Parsers.StringParser<Substring.UTF8View>>,
+    Parsers.RawRepresentableParser<Self>
+  > {
+    RawValue.parser(of: Substring.self).pipe(Self.parser())
+  }
+}
+
+extension RawRepresentable where RawValue == UUID {
+  @_disfavoredOverload
+  @inlinable
+  public static func parser(
+    of inputType: Substring.Type = Substring.self
+  ) -> Parsers.Pipe<
+    Parsers.UTF8ViewToSubstring<Parsers.UUIDParser<Substring.UTF8View>>,
+    Parsers.RawRepresentableParser<Self>
+  > {
+    RawValue.parser(of: Substring.self).pipe(Self.parser())
   }
 }
 
