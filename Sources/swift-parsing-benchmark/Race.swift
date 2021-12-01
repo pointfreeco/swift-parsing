@@ -33,7 +33,7 @@ private let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }
 
 private let coord =
   latitude
-  .skip(StartsWith(",".utf8))
+  .skip(",".utf8)
   .skip(zeroOrMoreSpaces)
   .take(longitude)
   .map(Coordinate.init)
