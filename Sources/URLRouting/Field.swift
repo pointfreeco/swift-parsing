@@ -36,7 +36,7 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout [String: ArraySlice<Substring?>]) -> ValueParser.Output? {
+  public func parse(_ input: inout URLRequestData.Fields) -> ValueParser.Output? {
     guard
       let wrapped = input[self.name]?.first,
       var value = wrapped,
@@ -54,7 +54,7 @@ where
 
 extension Field: Printer where ValueParser: Printer {
   @inlinable
-  public func print(_ output: ValueParser.Output) -> [String: ArraySlice<Substring?>]? {
+  public func print(_ output: ValueParser.Output) -> URLRequestData.Fields? {
     if let defaultValue = self.defaultValue, isEqual(output, defaultValue) { return .init() }
     return self.valueParser.print(output).map { [self.name: [$0]] }
   }
