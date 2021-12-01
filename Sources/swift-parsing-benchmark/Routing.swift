@@ -59,7 +59,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
         }
 
         Routing(/Route.Episodes.episode) {
-          Path { Int.parser().pipe { Route.Episode.ID.parser() } }
+          Path { Route.Episode.ID.parser() }
 
           OneOf {
             Routing(/Route.Episode.show) {

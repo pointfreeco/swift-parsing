@@ -54,7 +54,7 @@ class ParserPrinterTests: XCTestCase {
       case bar
     }
 
-    let p = String.parser(of: Substring.self).pipe { Ok.parser() }
+    let p = Ok.parser()
 
     XCTAssertEqual(
       p.parse("foo"),

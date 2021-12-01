@@ -10,7 +10,6 @@ extension RawRepresentable {
 }
 
 extension RawRepresentable where RawValue == Bool {
-  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
@@ -23,7 +22,6 @@ extension RawRepresentable where RawValue == Bool {
 }
 
 extension RawRepresentable where RawValue == Double {
-  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
@@ -36,7 +34,6 @@ extension RawRepresentable where RawValue == Double {
 }
 
 extension RawRepresentable where RawValue == Float {
-  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
@@ -50,7 +47,6 @@ extension RawRepresentable where RawValue == Float {
 
 #if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
   extension RawRepresentable where RawValue == Float80 {
-    @_disfavoredOverload
     @inlinable
     public static func parser(
       of inputType: Substring.Type = Substring.self
@@ -64,7 +60,6 @@ extension RawRepresentable where RawValue == Float {
 #endif
 
 extension RawRepresentable where RawValue: FixedWidthInteger {
-  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
@@ -77,7 +72,6 @@ extension RawRepresentable where RawValue: FixedWidthInteger {
 }
 
 extension RawRepresentable where RawValue == String {
-  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
@@ -90,7 +84,6 @@ extension RawRepresentable where RawValue == String {
 }
 
 extension RawRepresentable where RawValue == UUID {
-  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
