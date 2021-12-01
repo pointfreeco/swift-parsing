@@ -28,15 +28,6 @@ extension String.UnicodeScalarView: AppendableCollection {}
 extension Substring: AppendableCollection {}
 extension Substring.UnicodeScalarView: AppendableCollection {}
 
-extension Dictionary: Appendable where Value: Appendable {
-  @inlinable
-  public mutating func append(contentsOf other: Self) {
-    for (key, value) in other {
-      self[key, default: Value()].append(contentsOf: value)
-    }
-  }
-}
-
 extension Substring.UTF8View: AppendableCollection {
   @inlinable
   public init() {

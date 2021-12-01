@@ -3,7 +3,7 @@ import Foundation
 public struct FormData<FieldParsers>: Parser
 where
   FieldParsers: Parser,
-  FieldParsers.Input == [String: ArraySlice<Substring?>]
+  FieldParsers.Input == URLRequestData.Fields
 {
   @usableFromInline
   let fieldParsers: FieldParsers
@@ -43,7 +43,7 @@ extension FormData: Printer where FieldParsers: Printer {
 
 extension ArraySlice where Element == UInt8 {
   @usableFromInline
-  init(encoding fields: [String: ArraySlice<Substring?>]) {
+  init(encoding fields: URLRequestData.Fields) {
     self.init(
       fields
         .sorted(by: { $0.key < $1.key })

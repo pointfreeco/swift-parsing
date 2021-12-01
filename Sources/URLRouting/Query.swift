@@ -1,7 +1,7 @@
 public struct Query<FieldParsers>: Parser
 where
   FieldParsers: Parser,
-  FieldParsers.Input == [String: ArraySlice<Substring?>]
+  FieldParsers.Input == URLRequestData.Fields
 {
   @usableFromInline
   let fieldParsers: FieldParsers
