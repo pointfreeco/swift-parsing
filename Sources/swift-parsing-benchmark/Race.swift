@@ -8,20 +8,44 @@ import Parsing
 
 // MARK: - Parser
 
-private let northSouth = "N".utf8.map { 1.0 }
-  .orElse("S".utf8.map { -1 })
+private let northSouth = "N".map { 1.0 }
+  .orElse("S".map { -1 })
 
-private let eastWest = "E".utf8.map { 1.0 }
-  .orElse("W".utf8.map { -1 })
+//private let northSouth = OneOf {
+//  "N".utf8.map { 1.0 }
+//  "S".utf8.map { -1.0 }
+//}
 
-private let latitude = Double.parser()
-  .skip("° ".utf8)
-  .take(northSouth)
+private let eastWest = "E".map { 1.0 }
+  .orElse("W".map { -1 })
+
+//private let eastWest = OneOf {
+//  "E".utf8.map { 1.0 }
+//  "W".utf8.map { -1.0 }
+//}
+
+//private let latitude = Double.parser()
+//  .skip("° ".utf8)
+//  .take(northSouth)
+//  .map(*)
+//
+//private let longitude = Double.parser()
+//  .skip("° ".utf8)
+//  .take(eastWest)
+//  .map(*)
+
+private let latitude = Parse {
+  Double.parser()
+  "° "
+  northSouth
+}
   .map(*)
 
-private let longitude = Double.parser()
-  .skip("° ".utf8)
-  .take(eastWest)
+private let longitude = Parse {
+  Double.parser()
+  "° "
+  eastWest
+}
   .map(*)
 
 private struct Coordinate {
@@ -29,20 +53,28 @@ private struct Coordinate {
   let longitude: Double
 }
 
-private let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }
+private let zeroOrMoreSpaces = Prefix { $0 == " " }
 
-private let coord =
+//private let coord =
+//  latitude
+//  .skip(",".utf8)
+//  .skip(zeroOrMoreSpaces)
+//  .take(longitude)
+//  .map(Coordinate.init)
+
+private let coord = Parse {
   latitude
-  .skip(StartsWith(",".utf8))
-  .skip(zeroOrMoreSpaces)
-  .take(longitude)
+  ","
+  Skip(zeroOrMoreSpaces)
+  longitude
+}
   .map(Coordinate.init)
 
 private enum Currency { case eur, gbp, usd }
 
-private let currency = "€".utf8.map { Currency.eur }
-  .orElse("£".utf8.map { .gbp })
-  .orElse("$".utf8.map { .usd })
+private let currency = "€".map { Currency.eur }
+  .orElse("£".map { .gbp })
+  .orElse("$".map { .usd })
 
 private struct Money {
   let currency: Currency
@@ -58,17 +90,33 @@ private struct Race {
   let path: [Coordinate]
 }
 
-private let locationName = Prefix { $0 != .init(ascii: ",") }
+private let locationName = Prefix { $0 != "," }
 
-private let race = locationName.map { String(Substring($0)) }
-  .skip(",".utf8)
+private let race = locationName.map(String.init)
+  .skip(",")
   .skip(zeroOrMoreSpaces)
   .take(money)
-  .skip("\n".utf8)
-  .take(Many(coord, separator: "\n".utf8))
+  .skip("\n")
+  .take(Many(coord, separator: "\n"))
   .map(Race.init(location:entranceFee:path:))
 
-private let races = Many(race, separator: "\n---\n".utf8)
+//private let race = Parse {
+//  locationName.map { String(decoding: $0, as: UTF8.self) }
+//  ",".utf8
+//  zeroOrMoreSpaces
+//  money
+//  "\n".utf8
+//  Many { coord } separatedBy: { "\n".utf8 }
+//}
+//  .map(Race.init(location:entranceFee:path:))
+
+private let races = Many(race, separator: "\n---\n")
+
+//private let races = Many {
+//  race
+//} separatedBy: {
+//  "\n---\n".utf8
+//}
 
 // MARK: - Benchmarks
 
