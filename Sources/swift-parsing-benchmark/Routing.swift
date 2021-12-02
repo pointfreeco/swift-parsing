@@ -17,6 +17,21 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
     case episodeComments(id: Int)
   }
 
+//  Parsers.OneOf {
+//    Parse {
+//      Method("GET")
+//      End()
+//    }
+//    .map { Route.home }
+//
+//    Parse {
+//      Method("GET")
+//      Path("contact-us".utf8)
+//      End()
+//    }
+//    .map { Route.contactUs }
+//  }
+
   let router = Method("GET")
     .skip(End())
     .map { Route.home }

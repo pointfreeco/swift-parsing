@@ -62,13 +62,13 @@ private let zeroOrMoreSpaces = Prefix { $0 == " " }
 //  .take(longitude)
 //  .map(Coordinate.init)
 
-private let coord = Parse {
+private let coord = Parse(Coordinate.init) {
   latitude
   ","
   Skip(zeroOrMoreSpaces)
   longitude
 }
-  .map(Coordinate.init)
+//  .map(Coordinate.init)
 
 private enum Currency { case eur, gbp, usd }
 
@@ -81,8 +81,11 @@ private struct Money {
   let value: Double
 }
 
-private let money = currency.take(Double.parser())
-  .map(Money.init(currency:value:))
+private let money = Parse(Money.init) {
+  currency
+  Double.parser()
+}
+//  .map(Money.init(currency:value:))
 
 private struct Race {
   let location: String
