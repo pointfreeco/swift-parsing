@@ -10,13 +10,12 @@ private let hexPrimary = Prefix<Substring.UTF8View>(2).pipe {
   End()
 }
 
-private let hexColor = Parse {
+private let hexColor = Parse(Color.init(red:green:blue:)) {
   "#".utf8
   hexPrimary
   hexPrimary
   hexPrimary
 }
-.map(Color.init(red:green:blue:))
 
 let colorSuite = BenchmarkSuite(name: "Color") { suite in
   let input = "#FF0000"

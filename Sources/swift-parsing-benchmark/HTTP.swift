@@ -78,7 +78,7 @@ private let httpVersion = Parse {
 }
 .map { String(Substring($0)) }
 
-private let requestLine = Parse {
+private let requestLine = Parse(Request.init(method:uri:version:)) {
   method
   " ".utf8
   uri
@@ -86,7 +86,6 @@ private let requestLine = Parse {
   httpVersion
   Newline()
 }
-.map(Request.init(method:uri:version:))
 
 private let headerValue = Parse {
   Skip {

@@ -1,20 +1,44 @@
-public struct Parse<Upstream>: Parser where Upstream: Parser {
-  public let upstream: Upstream
+public struct Parse<Group>: Parser where Group: Parser {
+  public let parser: Group
 
   @inlinable
-  public init(@ParserBuilder _ build: () -> Upstream) {
-    self.upstream = build()
+  public init(@ParserBuilder _ build: () -> Group) {
+    self.parser = build()
   }
 
   @inlinable
-  public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
-    self.upstream.parse(&input)
+  public init<Upstream, Downstream>(
+    _ downstream: Downstream,
+    @ParserBuilder from build: () -> Upstream
+  ) where Group == Parsers.Pipe<Upstream, Downstream> {
+    self.parser = build().pipe(downstream)
+  }
+
+  @inlinable
+  public init<Upstream, Output>(
+    _ transform: @escaping (Upstream.Output) -> Output,
+    @ParserBuilder from build: () -> Upstream
+  ) where Group == Parsers.Map<Upstream, Output> {
+    self.parser = build().map(transform)
+  }
+
+  @inlinable
+  public init<Upstream, Output>(
+    _ output: Output,
+    @ParserBuilder from build: () -> Upstream
+  ) where Group == Parsers.Pipe<Upstream, Always<Upstream.Input, Output>>, Upstream.Output == Void {
+    self.parser = build().pipe(Always(output))
+  }
+
+  @inlinable
+  public func parse(_ input: inout Group.Input) -> Group.Output? {
+    self.parser.parse(&input)
   }
 }
 
-extension Parse: Printer where Upstream: Printer {
+extension Parse: Printer where Group: Printer {
   @inlinable
-  public func print(_ output: Upstream.Output) -> Upstream.Input? {
-    self.upstream.print(output)
+  public func print(_ output: Group.Output) -> Group.Input? {
+    self.parser.print(output)
   }
 }
