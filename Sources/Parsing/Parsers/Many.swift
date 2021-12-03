@@ -1,3 +1,9 @@
+#if canImport(Darwin)
+  import Darwin.C
+#elseif canImport(Glibc)
+  import Glibc
+#endif
+
 /// A parser that attempts to run another parser as many times as specified, accumulating the result
 /// of the outputs.
 ///
@@ -74,7 +80,11 @@ where
     var rest = input
     var result = self.initialResult
     var count = 0
-    while count < self.maximum, let output = self.upstream.parse(&input) {
+    while
+      count < self.maximum,
+      let output = self.upstream.parse(&input),
+      memcmp(&input, &rest, MemoryLayout<Upstream.Input>.size) != 0
+    {
       count += 1
       rest = input
       self.updateAccumulatingResult(&result, output)
