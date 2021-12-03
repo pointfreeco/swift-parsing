@@ -85,3 +85,13 @@ extension Parse where Output == Upstream.Output {
     self.init({ $0 }, build: build)
   }
 }
+
+import Foundation
+
+extension CharacterSet: Parser {
+  public func parse(_ input: inout Substring) -> Substring? {
+    let output = input.unicodeScalars.prefix(while: self.contains)
+    input.unicodeScalars.removeFirst(output.count)
+    return Substring(output)
+  }
+}
