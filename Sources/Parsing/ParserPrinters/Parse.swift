@@ -26,8 +26,8 @@ public struct Parse<Group>: Parser where Group: Parser {
   public init<Upstream, Output>(
     _ output: Output,
     @ParserBuilder from build: () -> Upstream
-  ) where Group == Parsers.Pipe<Upstream, Always<Upstream.Input, Output>>, Upstream.Output == Void {
-    self.parser = build().pipe(Always(output))
+  ) where Group == Parsers.Map<Upstream, Output>, Upstream.Output == Void {
+    self.parser = build().map { output }
   }
 
   @inlinable

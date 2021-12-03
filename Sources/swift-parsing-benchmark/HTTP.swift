@@ -74,9 +74,8 @@ private let uri = Prefix(while: isNotSpace)
 
 private let httpVersion = Parse {
   "HTTP/".utf8
-  Prefix(while: isVersion)
+  Prefix(while: isVersion).map { String(Substring($0)) }
 }
-.map { String(Substring($0)) }
 
 private let requestLine = Parse(Request.init(method:uri:version:)) {
   method

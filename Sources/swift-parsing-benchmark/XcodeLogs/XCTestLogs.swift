@@ -120,11 +120,11 @@ private let testFailed = Parse {
 }
 .filter { !$0.isEmpty }
 
-private let testPassed = Parse {
+private let testPassed = Parse(TestResult.passed(testName:time:)) {
   testCaseStartedLine.map(Substring.init)
   testCaseFinishedLine
 }
-.map { [TestResult.passed(testName: $0, time: $1)] }
+  .map { [$0] }
 
 private let testResult = OneOf {
   testFailed

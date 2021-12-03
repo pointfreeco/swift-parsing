@@ -322,7 +322,7 @@ enum City {
 Because "San José" has an accented character, the safest way to parse it is to parse on the `Substring` abstraction level:
 
 ```swift
-let city = Parse {
+let city = OneOf {
   "London".map { City.london }
   "New York".map { City.newYork }
   "San José".map { City.sanJose }
@@ -336,7 +336,7 @@ input // => ",123"
 However, we are incurring the cost of parsing `Substring` for this entire parser, even though only the "San José" case needs that power. We can refactor this parser so that "London" and "New York" are parsed on the `UTF8View` level, since they consist of only ASCII characters, and then parse "San José" as `Substring`:
 
 ```swift
-let city = Parse {
+let city = OneOf {
   "London".utf8.map { City.london }
   "New York".utf8.map { City.newYork }
   FromSubstring { "San José" }.map { City.sanJose }
@@ -348,7 +348,7 @@ The `FromSubstring` parser allows us to temporarily leave the world of parsing U
 If we wanted to be _really_ pedantic we could even parse "San Jos" as UTF-8 and then parse only the "é" character as a substring:
 
 ```swift
-let city = Parse {
+let city = OneOf {
   "London".utf8.map { City.london }
   "New York".utf8.map { City.newYork }
   Parse {
