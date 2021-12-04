@@ -159,6 +159,7 @@ extension Parsers {
     B: Parser,
     A.Input == B.Input
   {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let a: A
     public let b: B
 
@@ -171,8 +172,10 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout A.Input) -> (A.Output, B.Output)? {
       let original = input
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let a = self.a.parse(&input)
       else { return nil }
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let b = self.b.parse(&input)
       else {
         input = original
@@ -194,6 +197,7 @@ extension Parsers {
     C: Parser,
     AB.Input == C.Input
   {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let ab: AB
     public let c: C
 
@@ -209,8 +213,10 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout AB.Input) -> (A, B, C.Output)? {
       let original = input
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let (a, b) = self.ab.parse(&input)
       else { return nil }
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let c = self.c.parse(&input)
       else {
         input = original
@@ -232,6 +238,7 @@ extension Parsers {
     D: Parser,
     ABC.Input == D.Input
   {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let abc: ABC
     public let d: D
 
@@ -247,8 +254,10 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout ABC.Input) -> (A, B, C, D.Output)? {
       let original = input
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let (a, b, c) = self.abc.parse(&input)
       else { return nil }
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let d = self.d.parse(&input)
       else {
         input = original
@@ -270,6 +279,7 @@ extension Parsers {
     E: Parser,
     ABCD.Input == E.Input
   {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let abcd: ABCD
     public let e: E
 
@@ -285,8 +295,10 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout ABCD.Input) -> (A, B, C, D, E.Output)? {
       let original = input
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let (a, b, c, d) = self.abcd.parse(&input)
       else { return nil }
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let e = self.e.parse(&input)
       else {
         input = original
@@ -308,6 +320,7 @@ extension Parsers {
     F: Parser,
     ABCDE.Input == F.Input
   {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let abcde: ABCDE
     public let f: F
 
@@ -323,8 +336,10 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout ABCDE.Input) -> (A, B, C, D, E, F.Output)? {
       let original = input
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let (a, b, c, d, e) = self.abcde.parse(&input)
       else { return nil }
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let f = self.f.parse(&input)
       else {
         input = original
@@ -346,6 +361,7 @@ extension Parsers {
     G: Parser,
     ABCDEF.Input == G.Input
   {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let abcdef: ABCDEF
     public let g: G
 
@@ -361,8 +377,10 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout ABCDEF.Input) -> (A, B, C, D, E, F, G.Output)? {
       let original = input
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let (a, b, c, d, e, f) = self.abcdef.parse(&input)
       else { return nil }
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let g = self.g.parse(&input)
       else {
         input = original
@@ -384,6 +402,7 @@ extension Parsers {
     H: Parser,
     ABCDEFG.Input == H.Input
   {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let abcdefg: ABCDEFG
     public let h: H
 
@@ -399,8 +418,10 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout ABCDEFG.Input) -> (A, B, C, D, E, F, G, H.Output)? {
       let original = input
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let (a, b, c, d, e, f, g) = self.abcdefg.parse(&input)
       else { return nil }
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let h = self.h.parse(&input)
       else {
         input = original
@@ -422,6 +443,7 @@ extension Parsers {
     I: Parser,
     ABCDEFGH.Input == I.Input
   {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let abcdefgh: ABCDEFGH
     public let i: I
 
@@ -437,8 +459,10 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout ABCDEFGH.Input) -> (A, B, C, D, E, F, G, H, I.Output)? {
       let original = input
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let (a, b, c, d, e, f, g, h) = self.abcdefgh.parse(&input)
       else { return nil }
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let i = self.i.parse(&input)
       else {
         input = original
@@ -460,6 +484,7 @@ extension Parsers {
     J: Parser,
     ABCDEFGHI.Input == J.Input
   {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let abcdefghi: ABCDEFGHI
     public let j: J
 
@@ -475,8 +500,10 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout ABCDEFGHI.Input) -> (A, B, C, D, E, F, G, H, I, J.Output)? {
       let original = input
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let (a, b, c, d, e, f, g, h, i) = self.abcdefghi.parse(&input)
       else { return nil }
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let j = self.j.parse(&input)
       else {
         input = original
@@ -498,6 +525,7 @@ extension Parsers {
     K: Parser,
     ABCDEFGHIJ.Input == K.Input
   {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let abcdefghij: ABCDEFGHIJ
     public let k: K
 
@@ -514,8 +542,10 @@ extension Parsers {
     public func parse(_ input: inout ABCDEFGHIJ.Input) -> (A, B, C, D, E, F, G, H, I, J, K.Output)?
     {
       let original = input
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let (a, b, c, d, e, f, g, h, i, j) = self.abcdefghij.parse(&input)
       else { return nil }
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let k = self.k.parse(&input)
       else {
         input = original

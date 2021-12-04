@@ -29,12 +29,9 @@ private struct Coordinate {
   let longitude: Double
 }
 
-private let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }
-
 private let coord =
   latitude
   .skip(",".utf8)
-  .skip(zeroOrMoreSpaces)
   .take(longitude)
   .map(Coordinate.init)
 
@@ -62,13 +59,13 @@ private let locationName = Prefix { $0 != .init(ascii: ",") }
 
 private let race = locationName.map { String(Substring($0)) }
   .skip(",".utf8)
-  .skip(zeroOrMoreSpaces)
   .take(money)
   .skip("\n".utf8)
   .take(Many(coord, separator: "\n".utf8))
   .map(Race.init(location:entranceFee:path:))
 
 private let races = Many(race, separator: "\n---\n".utf8)
+  .environment(\.skipWhitespace, true)
 
 // MARK: - Benchmarks
 

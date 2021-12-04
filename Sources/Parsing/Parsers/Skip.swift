@@ -32,6 +32,7 @@ extension Parser {
 
 /// A parser that discards the output of another parser.
 public struct Skip<Upstream>: Parser where Upstream: Parser {
+  @Environment(\.skipWhitespace) public var skipWhitespace
   /// The parser from which this parser receives output.
   public let upstream: Upstream
 
@@ -42,6 +43,7 @@ public struct Skip<Upstream>: Parser where Upstream: Parser {
 
   @inlinable
   public func parse(_ input: inout Upstream.Input) -> Void? {
+    if self.skipWhitespace { _trimSpacePrefix(&input) }
     guard self.upstream.parse(&input) != nil else { return nil }
     return ()
   }
@@ -54,6 +56,7 @@ extension Parsers {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/take(_:)-1fw8y`` operation, which constructs this type.
   public struct SkipFirst<A, B>: Parser where A: Parser, B: Parser, A.Input == B.Input {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let a: A
     public let b: B
 
@@ -67,9 +70,11 @@ extension Parsers {
     public func parse(_ input: inout A.Input) -> B.Output? {
       let original = input
 
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard self.a.parse(&input) != nil
       else { return nil }
 
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let b = self.b.parse(&input)
       else {
         input = original
@@ -86,6 +91,7 @@ extension Parsers {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/skip(_:)`` operation, which constructs this type.
   public struct SkipSecond<A, B>: Parser where A: Parser, B: Parser, A.Input == B.Input {
+    @Environment(\.skipWhitespace) public var skipWhitespace
     public let a: A
     public let b: B
 
@@ -100,9 +106,11 @@ extension Parsers {
     public func parse(_ input: inout A.Input) -> A.Output? {
       let original = input
 
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard let a = self.a.parse(&input)
       else { return nil }
 
+      if self.skipWhitespace { _trimSpacePrefix(&input) }
       guard self.b.parse(&input) != nil
       else {
         input = original
