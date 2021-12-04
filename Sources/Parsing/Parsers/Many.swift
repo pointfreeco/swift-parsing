@@ -40,7 +40,7 @@ where
   public let updateAccumulatingResult: (inout Result, Upstream.Output) -> Void
   public let upstream: Upstream
   @usableFromInline
-  internal let upstreamDidConsumeInput: ((_ input: Upstream.Input, _ rest: Upstream.Input) -> Bool)?
+  internal let inputWasConsumed: ((_ input: Upstream.Input, _ rest: Upstream.Input) -> Bool)?
   
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs into a result with a given closure.
@@ -68,7 +68,7 @@ where
     self.separator = separator
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
-    self.upstreamDidConsumeInput = nil
+    self.inputWasConsumed = nil
   }
   
   /// Initializes a parser that attempts to run the given parser at least and at most the given
@@ -97,7 +97,7 @@ where
     self.separator = separator
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
-    self.upstreamDidConsumeInput = { $0.startIndex != $1.startIndex }
+    self.inputWasConsumed = { $0.startIndex != $1.startIndex }
   }
 
   @inlinable
@@ -106,24 +106,37 @@ where
     var rest = input
     var result = self.initialResult
     var count = 0
+    var separatorDidProgressDuringPreviousIteration: Bool = true
     while count < self.maximum, let output = self.upstream.parse(&input) {
-      guard upstreamDidConsumeInput?(input, rest) != false else {
-        if count == 0 {
-          input = original
-          return nil
-        } else {
-          break
-        }
+      let upstreamDidProgress: Bool = inputWasConsumed?(input, rest) ?? true
+      
+      if !upstreamDidProgress, !separatorDidProgressDuringPreviousIteration {
+        // We are going to send to `separator` the same input it received and did not consume
+        // during the previous iteration. It will produce the same result, and `upstream` will
+        // then receive the same input it received this iteration on the next pass, producing the
+        // same result. This iteration is thus the first of an infinite loop. We cancel it and
+        // return what was already parsed.
+        input = rest
+        return result
       }
+      
       count += 1
       rest = input
       self.updateAccumulatingResult(&result, output)
+      
       if self.separator != nil, self.separator?.parse(&input) == nil {
         guard count >= self.minimum else {
           input = original
           return nil
         }
         return result
+      }
+      
+      let separatorDidProgress: Bool = separator != nil && inputWasConsumed?(input, rest) ?? true
+      separatorDidProgressDuringPreviousIteration = separatorDidProgress
+
+      if !upstreamDidProgress, !separatorDidProgress {
+        break
       }
     }
     input = rest
@@ -244,7 +257,7 @@ extension Many where Separator == Always<Input, Void> {
     self.separator = nil
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
-    self.upstreamDidConsumeInput = nil
+    self.inputWasConsumed = nil
   }
   
   /// Initializes a parser that attempts to run the given parser at least and at most the given
@@ -271,7 +284,7 @@ extension Many where Separator == Always<Input, Void> {
     self.separator = nil
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
-    self.upstreamDidConsumeInput = { $0.startIndex != $1.startIndex }
+    self.inputWasConsumed = { $0.startIndex != $1.startIndex }
   }
 }
 

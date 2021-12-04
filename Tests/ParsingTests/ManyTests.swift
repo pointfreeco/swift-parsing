@@ -92,8 +92,9 @@ class ManyTests: XCTestCase {
   
   func testFailureIfNoProgress() {
     var input = " Hello, World!"[...]
-    XCTAssertNil(
-      Many(CharacterSet.alphanumerics).parse(&input)
+    XCTAssertEqual(
+      Many(CharacterSet.alphanumerics).parse(&input),
+      [""]
     )
   }
   
@@ -104,5 +105,14 @@ class ManyTests: XCTestCase {
       ["Hello"]
     )
     XCTAssertEqual(Substring(input), ", World!")
+  }
+  
+  func testSuccessesIntertwinedWithNoProgress() {
+    var input = "2001:db8:::2:1"[...]
+    XCTAssertEqual(
+      Many(CharacterSet.alphanumerics, separator: ":").parse(&input),
+      ["2001", "db8", "", "", "2", "1"]
+    )
+    XCTAssertEqual(Substring(input), "")
   }
 }
