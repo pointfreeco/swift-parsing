@@ -1,10 +1,4 @@
-#if canImport(Darwin)
-  import Darwin.C
-#elseif canImport(Glibc)
-  import Glibc
-#elseif canImport(WinSDK)
-  import WinSDK
-#endif
+import Foundation
 
 /// A parser that attempts to run another parser as many times as specified, accumulating the result
 /// of the outputs.
