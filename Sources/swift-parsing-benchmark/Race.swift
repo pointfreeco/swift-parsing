@@ -63,7 +63,7 @@ private let race = locationName.map { String(Substring($0)) }
   .skip("\n".utf8)
   .take(Many(coord, separator: "\n".utf8))
   .map(Race.init(location:entranceFee:path:))
-  .environment(\.skipWhitespace, true)
+  .skipSpaces()
 
 private let races = Many(race, separator: "\n---\n".utf8)
 

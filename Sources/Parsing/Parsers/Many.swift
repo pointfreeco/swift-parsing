@@ -33,6 +33,7 @@ where
   Separator: Parser,
   Upstream.Input == Separator.Input
 {
+  @Environment(\.skipSpaces) public var skipSpaces
   public let initialResult: Result
   public let maximum: Int
   public let minimum: Int
@@ -74,11 +75,28 @@ where
     var rest = input
     var result = self.initialResult
     var count = 0
-    while count < self.maximum, let output = self.upstream.parse(&input) {
+    if self.skipSpaces {
+      _trimSpacePrefix(&input)
+    }
+
+    let upstreamParse = { (input: inout Upstream.Input) -> Upstream.Output? in
+      if self.skipSpaces {
+        _trimSpacePrefix(&input)
+      }
+      return self.upstream.parse(&input)
+    }
+    let separatorParse = { (input: inout Separator.Input) -> Separator.Output? in
+      if self.skipSpaces {
+        _trimSpacePrefix(&input)
+      }
+      return self.separator?.parse(&input)
+    }
+
+    while count < self.maximum, let output = upstreamParse(&input) {
       count += 1
       rest = input
       self.updateAccumulatingResult(&result, output)
-      if self.separator != nil, self.separator?.parse(&input) == nil {
+      if self.separator != nil, separatorParse(&input) == nil {
         guard count >= self.minimum else {
           input = original
           return nil

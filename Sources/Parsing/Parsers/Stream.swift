@@ -43,6 +43,7 @@ extension Parsers {
     Upstream: Parser,
     Upstream.Input: RangeReplaceableCollection
   {
+    @Environment(\.skipSpaces) public var skipSpaces
     public let upstream: Upstream
 
     @inlinable
@@ -56,6 +57,7 @@ extension Parsers {
       var outputs: Output = []
       while let chunk = input.next() {
         buffer.append(contentsOf: chunk)
+        if self.skipSpaces { _trimSpacePrefix(&input) }
         while let output = self.upstream.parse(&buffer) {
           outputs.append(output)
         }

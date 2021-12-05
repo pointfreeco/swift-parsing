@@ -71,14 +71,43 @@ extension Parsers {
   }
 }
 
-private enum SkipWhitespaceKey: EnvironmentKey {
+private enum SkipSpacesKey: EnvironmentKey {
   static var value = false
 }
 
 extension EnvironmentValues {
-  public var skipWhitespace: Bool {
-    get { self[SkipWhitespaceKey.self] }
-    set { self[SkipWhitespaceKey.self] = newValue }
+  public var skipSpaces: Bool {
+    get { self[SkipSpacesKey.self] }
+    set { self[SkipSpacesKey.self] = newValue }
+  }
+}
+
+extension Parser {
+  public func skipSpaces() -> Parsers.SkipSpaces<Self> {
+    .init(upstream: self)
+  }
+}
+
+extension Parsers {
+  public struct SkipSpaces<Upstream>: Parser
+  where Upstream: Parser
+  {
+    let upstream: Parsers.EnvironmentKeyWritingParser<Upstream, Bool>
+
+    public init(upstream: Upstream) {
+      self.upstream = upstream.environment(\.skipSpaces, true)
+    }
+
+    public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
+      let original = input
+      _trimSpacePrefix(&input)
+      guard let output = self.upstream.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return output
+    }
   }
 }
 

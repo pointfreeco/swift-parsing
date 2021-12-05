@@ -6,7 +6,7 @@ final class StreamTests: XCTestCase {
     var stream = AnyIterator(
       sequence(state: 0) { state -> ArraySlice<UInt8>? in
         state += 1
-        return state <= 20 ? ArraySlice("\(state)\n".utf8) : nil
+        return state <= 20 ? ArraySlice("  \(state)  \n".utf8) : nil
       }
     )
 
@@ -14,6 +14,8 @@ final class StreamTests: XCTestCase {
       Int.parser(of: ArraySlice<UInt8>.self)
         .skip(StartsWith("\n".utf8))
         .stream
+      // TODO: why does this crash
+//        .skipSpaces()
         .parse(&stream)
     )
 

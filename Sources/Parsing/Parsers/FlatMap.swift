@@ -26,6 +26,7 @@ extension Parsers {
     Upstream: Parser,
     NewParser.Input == Upstream.Input
   {
+    @Environment(\.skipSpaces) public var skipSpaces
     public let upstream: Upstream
     public let transform: (Upstream.Output) -> NewParser
 
@@ -38,8 +39,10 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout Upstream.Input) -> NewParser.Output? {
       let original = input
+//      if self.skipSpaces { _trimSpacePrefix(&input) }
       guard let newParser = self.upstream.parse(&input).map(self.transform)
       else { return nil }
+//      if self.skipSpaces { _trimSpacePrefix(&input) }
       guard let output = newParser.parse(&input)
       else {
         input = original
