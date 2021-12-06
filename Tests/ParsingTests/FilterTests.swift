@@ -33,4 +33,16 @@ final class FilterTests: XCTestCase {
     let array = "abc".utf8.filter { _ in true }
     XCTAssert(type(of: array) == [String.UTF8View.Element].self)
   }
+  
+  func testNonEmptySuccess() {
+    var input = "Hello, world!"[...]
+    XCTAssertEqual("Hello", CharacterSet.alphanumerics.nonEmpty.parse(&input))
+    XCTAssertEqual(", world!", input)
+  }
+
+  func testNonEmptyFailure() {
+    var input = " Hello, world!"[...]
+    XCTAssertEqual(nil, CharacterSet.alphanumerics.nonEmpty.parse(&input))
+    XCTAssertEqual(" Hello, world!", input)
+  }
 }

@@ -43,3 +43,11 @@ extension Parsers {
     }
   }
 }
+
+extension Parser where Output: Collection {
+  /// Transforms the receiver parser of a `Collection` into one that fails when the output is empty.
+  @inlinable
+  public var nonEmpty: Parsers.Filter<Self> {
+    filter{ !$0.isEmpty }
+  }
+}
