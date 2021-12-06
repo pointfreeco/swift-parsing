@@ -89,12 +89,22 @@ where
         break
       }
       if memcmp(&input, &previous, MemoryLayout<Upstream.Input>.size) == 0 {
+        var description = ""
+        debugPrint(output, terminator: "", to: &description)
         breakpoint(
           """
-          Many succeeded in parsing an \(Upstream.Output), but no input was consumed.
+          ---
+          A "Many" parser succeeded in parsing a value of "\(Upstream.Output.self)" \
+          (\(description)), but no input was consumed.
 
-          This is considered a logic error that would lead to an infinite loop, which should never \
-          happen.
+          This is considered a logic error that leads to an infinite loop, and is typically \
+          introduced by parsers that always succeed, even though they don't consume any input. \
+          This includes "Prefix" and "CharacterSet" parsers, which return an empty string when \
+          their predicate immediately fails.
+
+          To work around the problem, require that some input is consumed (for example, use \
+          "Prefix(minLength: 1)"), or introduce a "separator" parser to "Many".
+          ---
           """
         )
         break
