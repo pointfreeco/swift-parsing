@@ -54,13 +54,13 @@ class URLRoutingTests: XCTestCase {
     XCTAssertEqual(["debug": ["1"]], request.query)
   }
 
-  func testJSONCookies() {
+  func testCookies() {
     struct Session: Equatable {
       var userId: Int
       var isAdmin: Bool
     }
 
-    let p = Cookies {
+    let p = Cookies/*(UnsafeBitCast(Session.init(userId:isAdmin:)))*/ {
       Field("userId", Int.parser())
       Field("isAdmin", Bool.parser())
     }
@@ -77,25 +77,25 @@ class URLRoutingTests: XCTestCase {
     )
   }
 
-//  func testJSONCookies() {
-//    struct Session: Codable, Equatable {
-//      var userId: Int
-//    }
-//
-//    let p = Cookies {
-//      Field("pf_session", JSON(Session.self))
-//    }
-//
-//    var request = URLRequestData(headers: ["cookie": [#"pf_session={"userId":42};"#]])
-//    XCTAssertEqual(
-//      Session(userId: 42),
-//      p.parse(&request)
-//    )
-//    XCTAssertEqual(
-//      URLRequestData(headers: ["cookie": [#"pf_session={"userId":42}"#]]),
-//      p.print(Session(userId: 42))
-//    )
-//  }
+  func testJSONCookies() {
+    struct Session: Codable, Equatable {
+      var userId: Int
+    }
+
+    let p = Cookies {
+      Field("pf_session", FromUTF8View { JSON(Session.self, from: Substring.UTF8View.self) })
+    }
+
+    var request = URLRequestData(headers: ["cookie": [#"pf_session={"userId":42}; foo=bar"#]])
+    XCTAssertNoDifference(
+      Session(userId: 42),
+      p.parse(&request)
+    )
+    XCTAssertNoDifference(
+      URLRequestData(headers: ["cookie": [#"pf_session={"userId":42}"#]]),
+      p.print(Session(userId: 42))
+    )
+  }
 
   func testHost() {
     let host = Host(PFHost.parser())

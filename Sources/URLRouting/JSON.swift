@@ -1,6 +1,11 @@
 import Foundation
 
-public struct JSON<Value: Decodable>: Parser {
+public struct JSON<Input, Value>: Parser
+where
+  Input: AppendableCollection,
+  Input.Element == UTF8.CodeUnit,
+  Value: Decodable
+{
   @usableFromInline
   let decoder: JSONDecoder
 
@@ -10,6 +15,7 @@ public struct JSON<Value: Decodable>: Parser {
   @inlinable
   public init(
     _ type: Value.Type,
+    from inputType: Input.Type = Input.self,
     decoder: JSONDecoder = .init(),
     encoder: JSONEncoder = .init()
   ) {
@@ -18,17 +24,18 @@ public struct JSON<Value: Decodable>: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout ArraySlice<UInt8>) -> Value? {
+  public func parse(_ input: inout Input) -> Value? {
     guard
       let output = try? self.decoder.decode(Value.self, from: Data(input))
     else { return nil }
+    input = Input()
     return output
   }
 }
 
 extension JSON: Printer where Value: Encodable {
   @inlinable
-  public func print(_ output: Value) -> ArraySlice<UInt8>? {
+  public func print(_ output: Value) -> Input? {
     guard
       let input = try? self.encoder.encode(output)
     else { return nil }

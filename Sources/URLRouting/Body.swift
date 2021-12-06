@@ -13,7 +13,6 @@ where
 
   @inlinable
   public func parse(_ input: inout URLRequestData) -> BodyParser.Output? {
-    // TODO: Should this consume the body (check if it's empty after parsing) and `nil` out `body`?
     guard
       var body = input.body,
       let output = self.bodyParser.parse(&body)

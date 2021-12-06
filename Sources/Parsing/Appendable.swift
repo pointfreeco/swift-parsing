@@ -11,7 +11,7 @@ public protocol AppendableCollection: Appendable, Collection {
 
 extension AppendableCollection {
   @inlinable
-  init<S>(_ elements: S) where S: Sequence, Self.Element == S.Element {
+  public init<S>(_ elements: S) where S: Sequence, Self.Element == S.Element {
     var collection = Self()
     collection.append(contentsOf: elements)
     self = collection
