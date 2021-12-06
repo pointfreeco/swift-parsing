@@ -57,7 +57,9 @@ extension Parsers {
       var outputs: Output = []
       while let chunk = input.next() {
         buffer.append(contentsOf: chunk)
-        if self.skipSpaces { _trimSpacePrefix(&input) }
+        if self.skipSpaces {
+          _trimSpacePrefix(&buffer)
+        }
         while let output = self.upstream.parse(&buffer) {
           outputs.append(output)
         }

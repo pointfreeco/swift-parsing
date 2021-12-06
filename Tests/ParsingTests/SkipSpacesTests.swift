@@ -13,7 +13,8 @@ class SkipSpacesTests: XCTestCase {
   func testMany1() {
     var input = " 1 2 3 4 5"[...]
 
-    let output = Many(Int.parser()).skipSpaces()
+    let output = Many(Int.parser())
+      .skipSpaces()
       .parse(&input)
 
     XCTAssertEqual(input, "")
@@ -22,7 +23,10 @@ class SkipSpacesTests: XCTestCase {
 
   func testMany2() {
     var input = " 1 2 3 4 5"[...]
-    let output = Many(Int.parser().skipSpaces())
+    let output = Many(
+      Int.parser()
+        .skipSpaces()
+    )
       .parse(&input)
 
     XCTAssertEqual(input, "")
@@ -63,19 +67,18 @@ class SkipSpacesTests: XCTestCase {
   }
 
   func testFlatMap() {
-    var input = "  123   true"[...]
+    var input = "  124   true"[...]
     let output = Int.parser()
       .flatMap { version in
         version.isMultiple(of: 2)
-      ? Conditional.first(Always("odd"))
-      : Conditional.second(Fail())
-    }
-    // TODO: why does this crash??
-//      .skipSpaces()
+        ? Conditional.first(Bool.parser())
+        : Conditional.second(Fail())
+      }
+      .skipSpaces()
       .parse(&input)
 
     XCTAssertEqual(input, "")
-    XCTAssertEqual(output, "odd")
+    XCTAssertEqual(output, true)
   }
 
   func testPipe() {

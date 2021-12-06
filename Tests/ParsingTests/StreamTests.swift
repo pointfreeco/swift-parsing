@@ -14,8 +14,7 @@ final class StreamTests: XCTestCase {
       Int.parser(of: ArraySlice<UInt8>.self)
         .skip(StartsWith("\n".utf8))
         .stream
-      // TODO: why does this crash
-//        .skipSpaces()
+        .skipSpaces()
         .parse(&stream)
     )
 
