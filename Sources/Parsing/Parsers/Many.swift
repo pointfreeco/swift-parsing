@@ -89,6 +89,14 @@ where
         break
       }
       if memcmp(&input, &previous, MemoryLayout<Upstream.Input>.size) == 0 {
+        breakpoint(
+          """
+          Many succeeded in parsing an \(Upstream.Output), but no input was consumed.
+
+          This is considered a logic error that would lead to an infinite loop, which should never \
+          happen.
+          """
+        )
         break
       }
     }
