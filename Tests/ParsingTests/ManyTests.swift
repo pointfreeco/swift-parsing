@@ -105,5 +105,18 @@ class ManyTests: XCTestCase {
        ["Hello"]
      )
      XCTAssertEqual(Substring(input), ", World!")
+
+     var xs = [1,2]
+     var ys = [1]
+     ys.append(contentsOf: [2])
+     XCTAssertEqual(memcmp(&xs, &ys, MemoryLayout<[Int]>.size), 0)
    }
+
+  func testEmptyComponents() {
+    var input = "2001:db8::2:1"[...]
+    XCTAssertEqual(
+      Many(Prefix(while: \.isHexDigit), separator: ":").parse(&input),
+      ["2001", "db8", "", "2", "1"]
+    )
+  }
 }
