@@ -74,40 +74,46 @@ where
   public func parse(_ input: inout Upstream.Input) -> Result? {
     let original = input
     var rest = input
-    var previous = input
+    #if DEBUG
+      var previous = input
+    #endif
     var result = self.initialResult
     var count = 0
     while
       count < self.maximum,
       let output = self.upstream.parse(&input)
     {
-      defer { previous = input }
+      #if DEBUG
+        defer { previous = input }
+      #endif
       count += 1
       self.updateAccumulatingResult(&result, output)
       rest = input
       if self.separator != nil, self.separator?.parse(&input) == nil {
         break
       }
-      if memcmp(&input, &previous, MemoryLayout<Upstream.Input>.size) == 0 {
-        var description = ""
-        debugPrint(output, terminator: "", to: &description)
-        breakpoint(
-          """
-          ---
-          A "Many" parser succeeded in parsing a value of "\(Upstream.Output.self)" \
-          (\(description)), but no input was consumed.
+      #if DEBUG
+        if memcmp(&input, &previous, MemoryLayout<Upstream.Input>.size) == 0 {
+          var description = ""
+          debugPrint(output, terminator: "", to: &description)
+          breakpoint(
+            """
+            ---
+            A "Many" parser succeeded in parsing a value of "\(Upstream.Output.self)" \
+            (\(description)), but no input was consumed.
 
-          This is considered a logic error that leads to an infinite loop, and is typically \
-          introduced by parsers that always succeed, even though they don't consume any input. \
-          This includes "Prefix" and "CharacterSet" parsers, which return an empty string when \
-          their predicate immediately fails.
+            This is considered a logic error that leads to an infinite loop, and is typically \
+            introduced by parsers that always succeed, even though they don't consume any input. \
+            This includes "Prefix" and "CharacterSet" parsers, which return an empty string when \
+            their predicate immediately fails.
 
-          To work around the problem, require that some input is consumed (for example, use \
-          "Prefix(minLength: 1)"), or introduce a "separator" parser to "Many".
-          ---
-          """
-        )
-      }
+            To work around the problem, require that some input is consumed (for example, use \
+            "Prefix(minLength: 1)"), or introduce a "separator" parser to "Many".
+            ---
+            """
+          )
+        }
+      #endif
     }
     guard count >= self.minimum else {
       input = original
