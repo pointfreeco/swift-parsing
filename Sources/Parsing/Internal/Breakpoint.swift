@@ -33,6 +33,6 @@ func breakpoint(_ message: @autoclosure () -> String = "") {
       raise(SIGTRAP)
     }
   #else
-    assertionFailure(message)
+    assertionFailure(message())
   #endif
 }
