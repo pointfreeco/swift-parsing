@@ -4,10 +4,8 @@ import XCTest
 class ManyTests: XCTestCase {
   func testNoSeparator() {
     var input = "         Hello world"[...].utf8
-
     XCTAssertNotNil(
       Many(" ".utf8)
-        .orElse(Fail())
         .parse(&input)
     )
     XCTAssertEqual(Substring(input), "Hello world")
@@ -94,23 +92,25 @@ class ManyTests: XCTestCase {
      var input = " Hello, World!"[...]
      XCTAssertEqual(
        Many(CharacterSet.alphanumerics).parse(&input),
-       []
+       [""]
      )
    }
 
-   func testSuccessThenNoProgress() {
-     var input = "Hello, World!"[...]
-     XCTAssertEqual(
-       Many(CharacterSet.alphanumerics).parse(&input),
-       ["Hello"]
-     )
-     XCTAssertEqual(Substring(input), ", World!")
+  func testSuccessThenNoProgress() {
+    var input = "Hello, World!"[...]
+    XCTAssertEqual(
+      Many(CharacterSet.alphanumerics).parse(&input),
+      ["Hello", ""]
+    )
+    XCTAssertEqual(Substring(input), ", World!")
+  }
 
-     var xs = [1,2]
-     var ys = [1]
-     ys.append(contentsOf: [2])
-     XCTAssertEqual(memcmp(&xs, &ys, MemoryLayout<[Int]>.size), 0)
-   }
+  func testArray() {
+    var input = [1, 2, 3, 4][...]
+    let output = Many(AnyParser { $0.first == 3 ? -3 : $0.removeFirst() }).parse(&input)
+    XCTAssertEqual([1, 2, -3], output)
+    XCTAssertEqual([3, 4], input)
+  }
 
   func testEmptyComponents() {
     var input = "2001:db8::2:1"[...]

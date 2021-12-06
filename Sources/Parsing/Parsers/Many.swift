@@ -74,29 +74,29 @@ where
   public func parse(_ input: inout Upstream.Input) -> Result? {
     let original = input
     var rest = input
+    var previous = input
     var result = self.initialResult
     var count = 0
     while
       count < self.maximum,
-      let output = self.upstream.parse(&input),
-      memcmp(&input, &rest, MemoryLayout<Upstream.Input>.size) != 0
+      let output = self.upstream.parse(&input)
     {
+      defer { previous = input }
       count += 1
-      rest = input
       self.updateAccumulatingResult(&result, output)
+      rest = input
       if self.separator != nil, self.separator?.parse(&input) == nil {
-        guard count >= self.minimum else {
-          input = original
-          return nil
-        }
-        return result
+        break
+      }
+      if memcmp(&input, &previous, MemoryLayout<Upstream.Input>.size) == 0 {
+        break
       }
     }
-    input = rest
     guard count >= self.minimum else {
       input = original
       return nil
     }
+    input = rest
     return result
   }
 }
