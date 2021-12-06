@@ -45,4 +45,16 @@ final class FilterTests: XCTestCase {
     XCTAssertEqual(nil, CharacterSet.alphanumerics.nonEmpty.parse(&input))
     XCTAssertEqual(" Hello, world!", input)
   }
+  
+  func testAtLeastSuccess() {
+    var input = "Hello, world!"[...]
+    XCTAssertEqual("Hello", CharacterSet.alphanumerics.atLeast(1).parse(&input))
+    XCTAssertEqual(", world!", input)
+  }
+
+  func testAtLeastFailure() {
+    var input = " Hello, world!"[...]
+    XCTAssertEqual(nil, CharacterSet.alphanumerics.atLeast(6).parse(&input))
+    XCTAssertEqual(" Hello, world!", input)
+  }
 }

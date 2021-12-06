@@ -51,3 +51,31 @@ extension Parser where Output: Collection {
     filter{ !$0.isEmpty }
   }
 }
+
+extension Parser where Output: RandomAccessCollection {
+  /// Transforms the receiver parser of a `Collection` into one that require a minimum number of
+  /// elements to be parsed.
+  /// - Parameter n: The minimum number of elements to be parsed in order to succeed.
+  /// - Returns: A parser of a `Collection` that succeeds only if a minimum number of
+  /// elements are parsed, and fails otherwise.
+  ///
+  /// - Complexity: O(1)
+  @inlinable
+  public func atLeast(_ n: Int) -> Parsers.Filter<Self> {
+    filter { $0.count >= n }
+  }
+}
+
+extension Parser where Output: Collection {
+  /// Transforms the receiver parser of a `Collection` into one that require a minimum number of
+  /// elements to be parsed.
+  /// - Parameter n: The minimum number of elements to be parsed in order to succeed.
+  /// - Returns: A parser of a `Collection` that succeeds only if a minimum number of
+  /// elements are parsed, and fails otherwise.
+  ///
+  /// - Complexity: O(n)
+  @inlinable
+  public func atLeast(_ n: Int) -> Parsers.Filter<Self> {
+    filter { $0.count >= n }
+  }
+}
