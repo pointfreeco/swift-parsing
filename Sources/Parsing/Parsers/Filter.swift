@@ -58,7 +58,6 @@ extension Parser where Output: RandomAccessCollection {
   /// - Parameter n: The minimum number of elements to be parsed in order to succeed.
   /// - Returns: A parser of a `Collection` that succeeds only if a minimum number of
   /// elements are parsed, and fails otherwise.
-  ///
   /// - Complexity: O(1)
   @inlinable
   public func atLeast(_ n: Int) -> Parsers.Filter<Self> {
@@ -72,10 +71,12 @@ extension Parser where Output: Collection {
   /// - Parameter n: The minimum number of elements to be parsed in order to succeed.
   /// - Returns: A parser of a `Collection` that succeeds only if a minimum number of
   /// elements are parsed, and fails otherwise.
-  ///
-  /// - Complexity: O(n)
+  /// - Complexity: O(m), with m the size of the parsed collection.
   @inlinable
   public func atLeast(_ n: Int) -> Parsers.Filter<Self> {
-    filter { $0.count >= n }
+    filter {
+      if n == 1 { return !$0.isEmpty }
+      return $0.count >= n
+    }
   }
 }
