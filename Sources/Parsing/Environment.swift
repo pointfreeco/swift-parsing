@@ -6,6 +6,8 @@ public protocol EnvironmentKey {
 import Foundation
 
 public class EnvironmentValues {
+  // TODO: rename to `.current`, `.threadCurrent`, etc...
+  @usableFromInline
   static var shared = EnvironmentValues()
 
   fileprivate var storage: [[ObjectIdentifier: Any]] {
@@ -68,6 +70,7 @@ extension Parsers {
   where Upstream: Parser
   {
     public let upstream: Upstream
+    // TODO: AnyKeyPath to erase the Value?
     public let keyPath: ReferenceWritableKeyPath<EnvironmentValues, Value>
     public let value: Value
 

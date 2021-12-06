@@ -82,7 +82,8 @@ class SkipSpacesTests: XCTestCase {
 
   func testPipe() {
     var input = "   12 34"[...]
-    let output = Prefix(5)
+    let output = Prefix()
+      .count(5)
       .pipe(
         Int.parser()
           .take(Int.parser())
@@ -105,7 +106,8 @@ class SkipSpacesTests: XCTestCase {
 
   func testEnvironmentCapture() {
 
-    @ParserOutput var output = Prefix(5)
+    @ParserOutput var output = Prefix()
+      .count(5)
       .environment(\.userAgent)
       .parse("Hello world")
 

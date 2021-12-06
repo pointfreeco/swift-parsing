@@ -39,9 +39,9 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(
       Many(
         Int.parser(),
-        atLeast: 6,
         separator: ",".utf8
       )
+        .minimum(6)
       .parse(&input),
       nil
     )
@@ -50,9 +50,9 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(
       Many(
         Int.parser(),
-        atLeast: 5,
         separator: ",".utf8
       )
+        .minimum(5)
       .parse(&input),
       [1, 2, 3, 4, 5]
     )
@@ -65,9 +65,9 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(
       Many(
         Int.parser(),
-        atMost: 3,
         separator: ",".utf8
       )
+        .maximum(3)
       .parse(&input),
       [1, 2, 3]
     )
@@ -84,9 +84,26 @@ class ManyTests: XCTestCase {
         separator: ",".utf8,
         +=
       )
-      .parse(&input),
+        .parse(&input),
       15
     )
     XCTAssertEqual(Substring(input), "")
+  }
+
+  func testManyEnvironmentReset() {
+    var input = "10,20"[...]
+
+    XCTAssertEqual(
+      Many(
+        Prefix { $0 != "," }.pipe(Int.parser()),
+        into: 0,
+        separator: ",",
+        +=
+      )
+        .maximum(1)
+        .parse(&input),
+      10
+    )
+    XCTAssertEqual(input, ",20")
   }
 }

@@ -33,10 +33,10 @@ where
   Separator: Parser,
   Upstream.Input == Separator.Input
 {
+  @Environment(\.maximum) public var maximum
+  @Environment(\.minimum) public var minimum
   @Environment(\.skipSpaces) public var skipSpaces
   public let initialResult: Result
-  public let maximum: Int
-  public let minimum: Int
   public let separator: Separator?
   public let updateAccumulatingResult: (inout Result, Upstream.Output) -> Void
   public let upstream: Upstream
@@ -56,14 +56,10 @@ where
   public init(
     _ upstream: Upstream,
     into initialResult: Result,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
     separator: Separator,
     _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
   ) {
     self.initialResult = initialResult
-    self.maximum = maximum
-    self.minimum = minimum
     self.separator = separator
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
@@ -83,7 +79,10 @@ where
       if self.skipSpaces {
         _trimSpacePrefix(&input)
       }
-      return self.upstream.parse(&input)
+      return self.upstream
+        .environment(\.maximum, .max)
+        .environment(\.minimum, 0)
+        .parse(&input)
     }
     let separatorParse = { (input: inout Separator.Input) -> Separator.Output? in
       if self.skipSpaces {
@@ -124,11 +123,9 @@ extension Many where Result == [Upstream.Output], Separator == Always<Input, Voi
   ///   - maximum: The maximum number of times to run this parser before returning the output.
   @inlinable
   public init(
-    _ upstream: Upstream,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max
+    _ upstream: Upstream
   ) {
-    self.init(upstream, into: [], atLeast: minimum, atMost: maximum) {
+    self.init(upstream, into: []) {
       $0.append($1)
     }
   }
@@ -147,11 +144,9 @@ extension Many where Result == [Upstream.Output] {
   @inlinable
   public init(
     _ upstream: Upstream,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
     separator: Separator
   ) {
-    self.init(upstream, into: [], atLeast: minimum, atMost: maximum, separator: separator) {
+    self.init(upstream, into: [], separator: separator) {
       $0.append($1)
     }
   }
@@ -173,13 +168,9 @@ extension Many where Separator == Always<Input, Void> {
   public init(
     _ upstream: Upstream,
     into initialResult: Result,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
   ) {
     self.initialResult = initialResult
-    self.maximum = maximum
-    self.minimum = minimum
     self.separator = nil
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
