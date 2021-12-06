@@ -107,7 +107,6 @@ where
           ---
           """
         )
-        break
       }
     }
     guard count >= self.minimum else {

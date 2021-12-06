@@ -88,30 +88,6 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(Substring(input), "")
   }
 
-  func testFailureIfNoProgress() {
-     var input = " Hello, World!"[...]
-     XCTAssertEqual(
-       Many(CharacterSet.alphanumerics).parse(&input),
-       [""]
-     )
-   }
-
-  func testSuccessThenNoProgress() {
-    var input = "Hello, World!"[...]
-    XCTAssertEqual(
-      Many(CharacterSet.alphanumerics).parse(&input),
-      ["Hello", ""]
-    )
-    XCTAssertEqual(Substring(input), ", World!")
-  }
-
-  func testArray() {
-    var input = [1, 2, 3, 4][...]
-    let output = Many(AnyParser { $0.first == 3 ? -3 : $0.removeFirst() }).parse(&input)
-    XCTAssertEqual([1, 2, -3], output)
-    XCTAssertEqual([3, 4], input)
-  }
-
   func testEmptyComponents() {
     var input = "2001:db8::2:1"[...]
     XCTAssertEqual(
