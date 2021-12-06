@@ -79,8 +79,7 @@ where
     #endif
     var result = self.initialResult
     var count = 0
-    while
-      count < self.maximum,
+    while count < self.maximum,
       let output = self.upstream.parse(&input)
     {
       #if DEBUG
