@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import URLRouting
 import XCTest
@@ -51,5 +52,38 @@ class URLRoutingTests: XCTestCase {
     XCTAssertEqual("Blob", name)
     XCTAssertEqual(42, age)
     XCTAssertEqual(["debug": ["1"]], request.query)
+  }
+
+  func testHost() {
+    let host = Host(PFHost.parser())
+      .captureEnvironment(\.pfHost)
+
+    let staging = host
+      .environment(\.host, "staging.pointfree.co")
+
+    var input = URLRequestData(string: "http://staging.pointfree.co/foo")!
+    @ParserOutput var output = staging.parse(&input)
+
+    XCTAssertNoDifference(
+      staging.print(),
+      .init(host: "staging.pointfree.co", path: [])
+    )
+    XCTAssertEqual(_output.host, "staging.pointfree.co")
+  }
+}
+
+enum PFHost: String {
+  case prod = "pointfree.co"
+  case staging = "staging.pointfree.co"
+  case localhost = "localhost:8080"
+}
+
+enum PFHostKey: EnvironmentKey {
+  static var value = PFHost.localhost
+}
+extension EnvironmentValues {
+  var pfHost: PFHost {
+    get { self[PFHostKey.self] }
+    set { self[PFHostKey.self] = newValue }
   }
 }

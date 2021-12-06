@@ -1,7 +1,7 @@
 public struct URLRequestData: Equatable {
   public var body: ArraySlice<UInt8>?
   public var headers: Fields
-  public var host: String?
+  public var host: Substring?
   public var method: String?
   public var password: String?
   public var path: ArraySlice<Substring>
@@ -15,7 +15,7 @@ public struct URLRequestData: Equatable {
     scheme: String? = nil,
     user: String? = nil,
     password: String? = nil,
-    host: String? = nil,
+    host: Substring? = nil,
     port: Int? = nil,
     path: ArraySlice<Substring> = [],
     query: Fields = [:],
@@ -67,7 +67,7 @@ extension URLRequestData: Codable {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.body = try container.decodeIfPresent([UInt8].self, forKey: .body)?[...]
     self.headers = try container.decodeIfPresent(Fields.self, forKey: .headers) ?? [:]
-    self.host = try container.decodeIfPresent(String.self, forKey: .host)
+    self.host = try container.decodeIfPresent(String.self, forKey: .host)?[...]
     self.method = try container.decodeIfPresent(String.self, forKey: .method)
     self.password = try container.decodeIfPresent(String.self, forKey: .password)
     self.path = try container.decodeIfPresent([String].self, forKey: .path)?.map { $0[...] }[...]
@@ -82,7 +82,7 @@ extension URLRequestData: Codable {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encodeIfPresent(self.body.map(Array.init), forKey: .body)
     if !self.headers.isEmpty { try container.encode(self.headers, forKey: .headers) }
-    try container.encodeIfPresent(self.host, forKey: .host)
+    try container.encodeIfPresent(self.host.map(String.init), forKey: .host)
     try container.encodeIfPresent(self.method, forKey: .method)
     try container.encodeIfPresent(self.password, forKey: .password)
     if !self.path.isEmpty { try container.encode(self.path.map(String.init), forKey: .path) }

@@ -27,6 +27,24 @@
           "revision": "d226d167bd4a68b51e352af5655c92bce8ee0463",
           "version": "0.7.0"
         }
+      },
+      {
+        "package": "swift-custom-dump",
+        "repositoryURL": "https://github.com/pointfreeco/swift-custom-dump",
+        "state": {
+          "branch": null,
+          "revision": "21f8fdbb3226e5e28a1a2fffac3e0f3deec34bf0",
+          "version": "0.2.1"
+        }
+      },
+      {
+        "package": "xctest-dynamic-overlay",
+        "repositoryURL": "https://github.com/pointfreeco/xctest-dynamic-overlay",
+        "state": {
+          "branch": null,
+          "revision": "50a70a9d3583fe228ce672e8923010c8df2deddd",
+          "version": "0.2.1"
+        }
       }
     ]
   },
