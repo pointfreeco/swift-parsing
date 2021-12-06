@@ -43,7 +43,6 @@ class SkipSpacesTests: XCTestCase {
   }
 
   func testOrElse() {
-    // TODO: how does this work?
     var input = "   123"[...]
     let output = Int.parser()
       .orElse(Int.parser())
@@ -82,9 +81,7 @@ class SkipSpacesTests: XCTestCase {
   }
 
   func testPipe() {
-    // TODO: get a failing pipe test
-
-    var input = "12 34"[...]
+    var input = "   12 34"[...]
     let output = Prefix(5)
       .pipe(
         Int.parser()
@@ -99,9 +96,10 @@ class SkipSpacesTests: XCTestCase {
   }
 
   func testScanner() {
-    let scanner = Scanner(string: " 123 ")
-    _ = scanner.scanCharacters(from: .whitespaces)
+    let scanner = Scanner(string: " 123 true 123 ")
+    scanner.charactersToBeSkipped = .whitespaces
     let int = scanner.scanInt()
+
     XCTAssertEqual(int, 123)
   }
 

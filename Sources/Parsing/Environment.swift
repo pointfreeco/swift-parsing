@@ -3,10 +3,19 @@ public protocol EnvironmentKey {
   static var value: Value { get }
 }
 
+import Foundation
+
 public class EnvironmentValues {
   static var shared = EnvironmentValues()
 
-  fileprivate var storage: [[ObjectIdentifier: Any]] = [[:]]
+  fileprivate var storage: [[ObjectIdentifier: Any]] {
+    get {
+      (Thread.current.threadDictionary["storage"] ?? [[:]]) as! [[ObjectIdentifier: Any]]
+    }
+    set {
+      Thread.current.threadDictionary["storage"] = newValue
+    }
+  }
 
   func withDependencies<Result>(_ transform: (EnvironmentValues) -> Result) -> Result {
     self.storage.append(self.storage.last!)
@@ -82,17 +91,6 @@ extension EnvironmentValues {
   }
 }
 
-private enum UserAgentKey: EnvironmentKey {
-  static var value = ""[...]
-}
-
-extension EnvironmentValues {
-  public var userAgent: Substring {
-    get { self[UserAgentKey.self] }
-    set { self[UserAgentKey.self] = newValue }
-  }
-}
-
 extension Parser {
   public func skipSpaces() -> Parsers.SkipSpaces<Self> {
     .init(upstream: self)
@@ -122,6 +120,7 @@ extension Parsers {
   }
 }
 
+
 @usableFromInline
 @inline(__always)
 func _trimSpacePrefix<Input>(_ input: inout Input) {
@@ -140,6 +139,19 @@ func _trimSpacePrefix<Input>(_ input: inout Input) {
       stringInput.prefix { $0 == .init(ascii: " ") }.count
     )
     input = unsafeBitCast(stringInput, to: Input.self)
+  }
+}
+
+
+
+private enum UserAgentKey: EnvironmentKey {
+  static var value = ""[...]
+}
+
+extension EnvironmentValues {
+  public var userAgent: Substring {
+    get { self[UserAgentKey.self] }
+    set { self[UserAgentKey.self] = newValue }
   }
 }
 

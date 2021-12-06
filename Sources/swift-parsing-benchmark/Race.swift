@@ -63,24 +63,24 @@ private let race = locationName.map { String(Substring($0)) }
   .skip("\n".utf8)
   .take(Many(coord, separator: "\n".utf8))
   .map(Race.init(location:entranceFee:path:))
-  .skipSpaces()
 
 private let races = Many(race, separator: "\n---\n".utf8)
+  .skipSpaces()
 
 // MARK: - Benchmarks
 
 let raceSuite = BenchmarkSuite(name: "Race") { suite in
   let input = """
     New York City, $300
-    40.60248° N, 74.06433° W
+    40.60248° N,    74.06433° W
     40.61807° N, 74.02966° W
     40.64953° N, 74.00929° W
     40.67884° N, 73.98198° W
-    40.69894° N, 73.95701° W
+    40.69894°         N, 73.95701° W
     40.72791° N, 73.95314° W
     40.74882° N, 73.94221° W
     40.75740° N, 73.95309° W
-    40.76149° N, 73.96142° W
+        40.76149° N, 73.96142° W
     40.77111° N, 73.95362° W
     40.80260° N, 73.93061° W
     40.80409° N, 73.92893° W
