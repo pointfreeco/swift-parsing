@@ -54,6 +54,49 @@ class URLRoutingTests: XCTestCase {
     XCTAssertEqual(["debug": ["1"]], request.query)
   }
 
+  func testJSONCookies() {
+    struct Session: Equatable {
+      var userId: Int
+      var isAdmin: Bool
+    }
+
+    let p = Cookies {
+      Field("userId", Int.parser())
+      Field("isAdmin", Bool.parser())
+    }
+    .pipe(UnsafeBitCast(Session.init(userId:isAdmin:)))
+
+    var request = URLRequestData(headers: ["cookie": ["userId=42; isAdmin=true"]])
+    XCTAssertNoDifference(
+      Session(userId: 42, isAdmin: true),
+      p.parse(&request)
+    )
+    XCTAssertNoDifference(
+      URLRequestData(headers: ["cookie": ["isAdmin=true; userId=42"]]),
+      p.print(Session(userId: 42, isAdmin: true))
+    )
+  }
+
+//  func testJSONCookies() {
+//    struct Session: Codable, Equatable {
+//      var userId: Int
+//    }
+//
+//    let p = Cookies {
+//      Field("pf_session", JSON(Session.self))
+//    }
+//
+//    var request = URLRequestData(headers: ["cookie": [#"pf_session={"userId":42};"#]])
+//    XCTAssertEqual(
+//      Session(userId: 42),
+//      p.parse(&request)
+//    )
+//    XCTAssertEqual(
+//      URLRequestData(headers: ["cookie": [#"pf_session={"userId":42}"#]]),
+//      p.print(Session(userId: 42))
+//    )
+//  }
+
   func testHost() {
     let host = Host(PFHost.parser())
       .captureEnvironment(\.pfHost)
