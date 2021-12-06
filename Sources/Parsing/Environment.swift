@@ -6,7 +6,7 @@ public protocol EnvironmentKey {
 public class EnvironmentValues {
   static var shared = EnvironmentValues()
 
-  private var storage: [[ObjectIdentifier: Any]] = [[:]]
+  fileprivate var storage: [[ObjectIdentifier: Any]] = [[:]]
 
   func withDependencies<Result>(_ transform: (EnvironmentValues) -> Result) -> Result {
     self.storage.append(self.storage.last!)
@@ -82,6 +82,17 @@ extension EnvironmentValues {
   }
 }
 
+private enum UserAgentKey: EnvironmentKey {
+  static var value = ""[...]
+}
+
+extension EnvironmentValues {
+  public var userAgent: Substring {
+    get { self[UserAgentKey.self] }
+    set { self[UserAgentKey.self] = newValue }
+  }
+}
+
 extension Parser {
   public func skipSpaces() -> Parsers.SkipSpaces<Self> {
     .init(upstream: self)
@@ -129,5 +140,49 @@ func _trimSpacePrefix<Input>(_ input: inout Input) {
       stringInput.prefix { $0 == .init(ascii: " ") }.count
     )
     input = unsafeBitCast(stringInput, to: Input.self)
+  }
+}
+
+extension Parser {
+  public func environment(
+    _ keyPath: WritableKeyPath<EnvironmentValues, Output>
+  )
+  -> Parsers.EnvironmentCaptureParser<Self>
+  {
+    .init(keyPath: keyPath, upstream: self)
+  }
+}
+
+extension Parsers {
+  public struct EnvironmentCaptureParser<Upstream>: Parser
+  where
+    Upstream: Parser
+  {
+    let keyPath: WritableKeyPath<EnvironmentValues, Upstream.Output>
+    let upstream: Upstream
+
+    public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
+      let output = self.upstream.parse(&input)
+      let id = ObjectIdentifier(self.keyPath)
+      for index in EnvironmentValues.shared.storage.indices {
+        EnvironmentValues.shared.storage[index][id] = output
+      }
+      return output
+    }
+  }
+}
+
+@propertyWrapper
+@dynamicMemberLookup
+public struct ParserOutput<Output> {
+  public let wrappedValue: Output?
+
+  public init(wrappedValue: Output?) {
+    self.wrappedValue = wrappedValue
+  }
+
+  public subscript<Value>(dynamicMember keyPath: KeyPath<EnvironmentValues, Value>) -> Value {
+    let id = ObjectIdentifier(keyPath)
+    return EnvironmentValues.shared.storage[EnvironmentValues.shared.storage.count - 1][id] as! Value
   }
 }

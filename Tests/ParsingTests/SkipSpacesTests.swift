@@ -104,4 +104,14 @@ class SkipSpacesTests: XCTestCase {
     let int = scanner.scanInt()
     XCTAssertEqual(int, 123)
   }
+
+  func testEnvironmentCapture() {
+
+    @ParserOutput var output = Prefix(5)
+      .environment(\.userAgent)
+      .parse("Hello world")
+
+    XCTAssertEqual(output, "Hello")
+    XCTAssertEqual(_output.userAgent, "Hello")
+  }
 }
