@@ -98,7 +98,7 @@ class URLRoutingTests: XCTestCase {
   }
 
   func testHost() {
-    let host = Host(PFHost.parser())
+    let host = Host(PFHost.parser(rawValue: String.parser()))
       .captureEnvironment(\.pfHost)
 
     let staging = host
