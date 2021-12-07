@@ -40,7 +40,8 @@ extension JSON where Input == ArraySlice<UTF8.CodeUnit> {
     decoder: JSONDecoder = .init(),
     encoder: JSONEncoder = .init()
   ) {
-    self.init(type, decoder: decoder, encoder: encoder)
+    self.decoder = decoder
+    self.encoder = encoder
   }
 }
 
@@ -51,7 +52,8 @@ extension JSON where Input == Substring.UTF8View {
     decoder: JSONDecoder = .init(),
     encoder: JSONEncoder = .init()
   ) {
-    self.init(type, decoder: decoder, encoder: encoder)
+    self.decoder = decoder
+    self.encoder = encoder
   }
 }
 
