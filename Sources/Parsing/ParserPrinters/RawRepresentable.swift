@@ -1,118 +1,36 @@
 import Foundation
 
 extension RawRepresentable {
-  @inlinable
-  public static func parser(
-    of inputType: RawValue.Type = RawValue.self
-  ) -> Parsers.RawRepresentableParser<Self> {
-    .init()
-  }
-}
-
-extension RawRepresentable where RawValue == Bool {
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self
-  ) -> Parsers.Pipe<
-    Parsers.UTF8ViewToSubstring<Parsers.BoolParser<Substring.UTF8View>>,
-    Parsers.RawRepresentableParser<Self>
-  > {
-    RawValue.parser(of: Substring.self).pipe(Self.parser())
-  }
-}
-
-extension RawRepresentable where RawValue == Double {
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self
-  ) -> Parsers.Pipe<
-    Parsers.UTF8ViewToSubstring<Parsers.DoubleParser<Substring.UTF8View>>,
-    Parsers.RawRepresentableParser<Self>
-  > {
-    RawValue.parser(of: Substring.self).pipe(Self.parser())
-  }
-}
-
-extension RawRepresentable where RawValue == Float {
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self
-  ) -> Parsers.Pipe<
-    Parsers.UTF8ViewToSubstring<Parsers.FloatParser<Substring.UTF8View>>,
-    Parsers.RawRepresentableParser<Self>
-  > {
-    RawValue.parser(of: Substring.self).pipe(Self.parser())
-  }
-}
-
-#if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
-  extension RawRepresentable where RawValue == Float80 {
-    @inlinable
-    public static func parser(
-      of inputType: Substring.Type = Substring.self
-    ) -> Parsers.Pipe<
-      Parsers.UTF8ViewToSubstring<Parsers.Float80Parser<Substring.UTF8View>>,
-      Parsers.RawRepresentableParser<Self>
-    > {
-      RawValue.parser(of: Substring.self).pipe(Self.parser())
-    }
-  }
-#endif
-
-extension RawRepresentable where RawValue: FixedWidthInteger {
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self
-  ) -> Parsers.Pipe<
-    Parsers.UTF8ViewToSubstring<Parsers.IntParser<Substring.UTF8View, RawValue>>,
-    Parsers.RawRepresentableParser<Self>
-  > {
-    RawValue.parser(of: Substring.self).pipe(Self.parser())
-  }
-}
-
-extension RawRepresentable where RawValue == String {
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self
-  ) -> Parsers.Pipe<
-    Parsers.UTF8ViewToSubstring<Parsers.StringParser<Substring.UTF8View>>,
-    Parsers.RawRepresentableParser<Self>
-  > {
-    RawValue.parser(of: Substring.self).pipe(Self.parser())
-  }
-}
-
-extension RawRepresentable where RawValue == UUID {
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self
-  ) -> Parsers.Pipe<
-    Parsers.UTF8ViewToSubstring<Parsers.UUIDParser<Substring.UTF8View>>,
-    Parsers.RawRepresentableParser<Self>
-  > {
-    RawValue.parser(of: Substring.self).pipe(Self.parser())
+  static func parser<P>(rawValue rawValueParser: P) -> Parsers.RawRepresentableParser<Self, P> {
+    .init(rawValueParser: rawValueParser)
   }
 }
 
 extension Parsers {
-  public struct RawRepresentableParser<Output>: Parser
+  public struct RawRepresentableParser<Output, RawValueParser>: Parser
   where
-    Output: RawRepresentable
+    Output: RawRepresentable,
+    RawValueParser: Parser,
+    RawValueParser.Output == Output.RawValue
   {
-    @inlinable
-    public init() {}
+    @usableFromInline
+    let rawValueParser: RawValueParser
 
     @inlinable
-    public func parse(_ input: inout Output.RawValue) -> Output? {
-      .init(rawValue: input)
+    public init(rawValueParser: RawValueParser) {
+      self.rawValueParser = rawValueParser
+    }
+
+    @inlinable
+    public func parse(_ input: inout RawValueParser.Input) -> Output? {
+      self.rawValueParser.parse(&input).flatMap(Output.init(rawValue:))
     }
   }
 }
 
-extension Parsers.RawRepresentableParser: Printer {
+extension Parsers.RawRepresentableParser: Printer where RawValueParser: Printer {
   @inlinable
-  public func print(_ output: Output) -> Output.RawValue? {
-    output.rawValue
+  public func print(_ output: Output) -> RawValueParser.Input? {
+    self.rawValueParser.print(output.rawValue)
   }
 }
