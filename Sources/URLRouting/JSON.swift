@@ -33,6 +33,28 @@ where
   }
 }
 
+extension JSON where Input == ArraySlice<UTF8.CodeUnit> {
+  @inlinable
+  public init(
+    _ type: Value.Type,
+    decoder: JSONDecoder = .init(),
+    encoder: JSONEncoder = .init()
+  ) {
+    self.init(type, decoder: decoder, encoder: encoder)
+  }
+}
+
+extension JSON where Input == Substring.UTF8View {
+  @inlinable
+  public init(
+    _ type: Value.Type,
+    decoder: JSONDecoder = .init(),
+    encoder: JSONEncoder = .init()
+  ) {
+    self.init(type, decoder: decoder, encoder: encoder)
+  }
+}
+
 extension JSON: Printer where Value: Encodable {
   @inlinable
   public func print(_ output: Value) -> Input? {

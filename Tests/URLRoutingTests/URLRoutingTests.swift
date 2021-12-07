@@ -83,7 +83,7 @@ class URLRoutingTests: XCTestCase {
     }
 
     let p = Cookies {
-      Field("pf_session", FromUTF8View { JSON(Session.self, from: Substring.UTF8View.self) })
+      Field("pf_session", FromUTF8View { JSON(Session.self) })
     }
 
     var request = URLRequestData(headers: ["cookie": [#"pf_session={"userId":42}; foo=bar"#]])
