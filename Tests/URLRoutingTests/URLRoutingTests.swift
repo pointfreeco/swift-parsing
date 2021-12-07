@@ -97,22 +97,22 @@ class URLRoutingTests: XCTestCase {
     )
   }
 
-  func testHost() {
-    let host = Host(PFHost.parser(rawValue: String.parser()))
-      .captureEnvironment(\.pfHost)
-
-    let staging = host
-      .environment(\.host, "staging.pointfree.co")
-
-    var input = URLRequestData(string: "http://staging.pointfree.co/foo")!
-    @ParserOutput var output = staging.parse(&input)
-
-    XCTAssertNoDifference(
-      staging.print(),
-      .init(host: "staging.pointfree.co", path: [])
-    )
-    XCTAssertEqual(_output.host, "staging.pointfree.co")
-  }
+//  func testHost() {
+//    let host = Host(PFHost.parser(rawValue: String.parser()))
+//      .captureEnvironment(\.pfHost)
+//
+//    let staging = host
+//      .environment(\.host, "staging.pointfree.co")
+//
+//    var input = URLRequestData(string: "http://staging.pointfree.co/foo")!
+//    @ParserOutput var output = staging.parse(&input)
+//
+//    XCTAssertNoDifference(
+//      staging.print(),
+//      .init(host: "staging.pointfree.co", path: [])
+//    )
+//    XCTAssertEqual(_output.host, "staging.pointfree.co")
+//  }
 }
 
 enum PFHost: String {
