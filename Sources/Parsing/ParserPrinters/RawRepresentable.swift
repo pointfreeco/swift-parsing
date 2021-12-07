@@ -1,7 +1,8 @@
 import Foundation
 
 extension RawRepresentable {
-  static func parser<P>(rawValue rawValueParser: P) -> Parsers.RawRepresentableParser<Self, P> {
+  @inlinable
+  public static func parser<P>(rawValue rawValueParser: P) -> Parsers.RawRepresentableParser<Self, P> {
     .init(rawValueParser: rawValueParser)
   }
 }
