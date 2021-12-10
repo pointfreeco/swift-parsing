@@ -57,7 +57,7 @@ where
 
   @inlinable
   public func parse(_ input: inout Input) -> Input? {
-    var prefix = input.prefix(self.maxLength)
+    var prefix = input//.prefix(self.maxLength)
     prefix = predicate.map { prefix.prefix(while: $0) } ?? prefix
     let count = prefix.count
     guard count >= self.minLength else { return nil }
