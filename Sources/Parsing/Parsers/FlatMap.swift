@@ -26,7 +26,7 @@ extension Parsers {
     Upstream: Parser,
     NewParser.Input == Upstream.Input
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let upstream: Upstream
     public let transform: (Upstream.Output) -> NewParser
 

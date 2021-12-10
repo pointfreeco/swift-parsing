@@ -22,4 +22,14 @@ final class CharacterSetTests: XCTestCase {
     XCTAssertEqual(input, "!")
     XCTAssertEqual(output, "abc123")
   }
+
+  func testMaximum() {
+    var input = "abc123!"[...]
+    let output = CharacterSet.alphanumerics
+      .maximum(3)
+      .parse(&input)
+
+    XCTAssertEqual(input, "123!")
+    XCTAssertEqual(output, "abc")
+  }
 }

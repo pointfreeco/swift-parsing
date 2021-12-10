@@ -159,7 +159,7 @@ extension Parsers {
     B: Parser,
     A.Input == B.Input
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let a: A
     public let b: B
 
@@ -197,7 +197,7 @@ extension Parsers {
     C: Parser,
     AB.Input == C.Input
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let ab: AB
     public let c: C
 
@@ -238,7 +238,7 @@ extension Parsers {
     D: Parser,
     ABC.Input == D.Input
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let abc: ABC
     public let d: D
 
@@ -279,7 +279,7 @@ extension Parsers {
     E: Parser,
     ABCD.Input == E.Input
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let abcd: ABCD
     public let e: E
 
@@ -320,7 +320,7 @@ extension Parsers {
     F: Parser,
     ABCDE.Input == F.Input
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let abcde: ABCDE
     public let f: F
 
@@ -361,7 +361,7 @@ extension Parsers {
     G: Parser,
     ABCDEF.Input == G.Input
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let abcdef: ABCDEF
     public let g: G
 
@@ -402,7 +402,7 @@ extension Parsers {
     H: Parser,
     ABCDEFG.Input == H.Input
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let abcdefg: ABCDEFG
     public let h: H
 
@@ -443,7 +443,7 @@ extension Parsers {
     I: Parser,
     ABCDEFGH.Input == I.Input
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let abcdefgh: ABCDEFGH
     public let i: I
 
@@ -484,7 +484,7 @@ extension Parsers {
     J: Parser,
     ABCDEFGHI.Input == J.Input
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let abcdefghi: ABCDEFGHI
     public let j: J
 
@@ -525,7 +525,7 @@ extension Parsers {
     K: Parser,
     ABCDEFGHIJ.Input == K.Input
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let abcdefghij: ABCDEFGHIJ
     public let k: K
 

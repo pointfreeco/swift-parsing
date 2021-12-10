@@ -10,29 +10,6 @@ class SkipSpacesTests: XCTestCase {
     XCTAssertEqual(output, 123)
   }
 
-  func testMany1() {
-    var input = " 1 2 3 4 5"[...]
-
-    let output = Many(Int.parser())
-      .skipSpaces()
-      .parse(&input)
-
-    XCTAssertEqual(input, "")
-    XCTAssertEqual(output, [1, 2, 3, 4, 5])
-  }
-
-  func testMany2() {
-    var input = " 1 2 3 4 5"[...]
-    let output = Many(
-      Int.parser()
-        .skipSpaces()
-    )
-      .parse(&input)
-
-    XCTAssertEqual(input, "")
-    XCTAssertEqual(output, [1, 2, 3, 4, 5])
-  }
-
   func testLazy() {
     var input = "   123"[...]
     let output = Lazy { Int.parser() }.skipSpaces()
@@ -63,21 +40,6 @@ class SkipSpacesTests: XCTestCase {
     XCTAssertEqual(input, "")
     XCTAssertEqual(output?.0, 123)
     XCTAssertEqual(output?.1, true)
-  }
-
-  func testFlatMap() {
-    var input = "  124   true"[...]
-    let output = Int.parser()
-      .flatMap { version in
-        version.isMultiple(of: 2)
-        ? Conditional.first(Bool.parser())
-        : Conditional.second(Fail())
-      }
-      .skipSpaces()
-      .parse(&input)
-
-    XCTAssertEqual(input, "")
-    XCTAssertEqual(output, true)
   }
 
   func testPipe() {

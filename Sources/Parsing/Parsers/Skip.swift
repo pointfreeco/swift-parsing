@@ -32,7 +32,7 @@ extension Parser {
 
 /// A parser that discards the output of another parser.
 public struct Skip<Upstream>: Parser where Upstream: Parser {
-  @Environment(\.skipSpaces) public var skipSpaces
+  @ParserEnvironment(\.skipSpaces) public var skipSpaces
   /// The parser from which this parser receives output.
   public let upstream: Upstream
 
@@ -56,7 +56,7 @@ extension Parsers {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/take(_:)-1fw8y`` operation, which constructs this type.
   public struct SkipFirst<A, B>: Parser where A: Parser, B: Parser, A.Input == B.Input {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let a: A
     public let b: B
 
@@ -91,7 +91,7 @@ extension Parsers {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/skip(_:)`` operation, which constructs this type.
   public struct SkipSecond<A, B>: Parser where A: Parser, B: Parser, A.Input == B.Input {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let a: A
     public let b: B
 

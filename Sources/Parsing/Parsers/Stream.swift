@@ -43,7 +43,7 @@ extension Parsers {
     Upstream: Parser,
     Upstream.Input: RangeReplaceableCollection
   {
-    @Environment(\.skipSpaces) public var skipSpaces
+    @ParserEnvironment(\.skipSpaces) public var skipSpaces
     public let upstream: Upstream
 
     @inlinable

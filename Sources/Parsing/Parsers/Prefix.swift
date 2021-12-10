@@ -34,8 +34,8 @@ where
   Input: Collection,
   Input.SubSequence == Input
 {
-  @Environment(\.maximum) public var maxLength
-  @Environment(\.minimum) public var minLength
+  @ParserEnvironment(\.maximum) public var maxLength
+  @ParserEnvironment(\.minimum) public var minLength
   public let predicate: ((Input.Element) -> Bool)?
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
@@ -90,20 +90,20 @@ extension Parsers {
   public typealias Prefix = Parsing.Prefix  // NB: Convenience type alias for discovery
 }
 
-private enum MinimumKey: EnvironmentKey {
+private enum MinimumKey: ParserEnvironmentKey {
   static var value = 0
 }
-extension EnvironmentValues {
+extension ParserEnvironmentValues {
   public var minimum: Int {
     get { self[MinimumKey.self] }
     set { self[MinimumKey.self] = newValue }
   }
 }
 
-private enum MaximumKey: EnvironmentKey {
+private enum MaximumKey: ParserEnvironmentKey {
   static var value = Int.max
 }
-extension EnvironmentValues {
+extension ParserEnvironmentValues {
   public var maximum: Int {
     get { self[MaximumKey.self] }
     set { self[MaximumKey.self] = newValue }

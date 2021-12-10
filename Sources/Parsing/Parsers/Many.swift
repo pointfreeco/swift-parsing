@@ -35,9 +35,9 @@ where
   Separator: Parser,
   Upstream.Input == Separator.Input
 {
-  @Environment(\.maximum) public var maximum
-  @Environment(\.minimum) public var minimum
-  @Environment(\.skipSpaces) public var skipSpaces
+  @ParserEnvironment(\.maximum) public var maximum
+  @ParserEnvironment(\.minimum) public var minimum
+  @ParserEnvironment(\.skipSpaces) public var skipSpaces
   public let initialResult: Result
   public let separator: Separator?
   public let updateAccumulatingResult: (inout Result, Upstream.Output) -> Void
@@ -98,7 +98,7 @@ where
     }
 
     while count < self.maximum,
-      let output = self.upstream.parse(&input)
+      let output = upstreamParse(&input)
     {
       #if DEBUG
         defer { previous = input }
@@ -106,7 +106,7 @@ where
       count += 1
       self.updateAccumulatingResult(&result, output)
       rest = input
-      if self.separator != nil, self.separator?.parse(&input) == nil {
+      if self.separator != nil, separatorParse(&input) == nil {
         break
       }
       #if DEBUG

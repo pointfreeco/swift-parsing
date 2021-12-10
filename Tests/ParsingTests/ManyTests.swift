@@ -96,6 +96,17 @@ class ManyTests: XCTestCase {
     )
   }
 
+  func testSkipSpaces() {
+    var input = " 1 2 3 4 5"[...]
+
+    let output = Many(Int.parser())
+      .skipSpaces()
+      .parse(&input)
+
+    XCTAssertEqual(input, "")
+    XCTAssertEqual(output, [1, 2, 3, 4, 5])
+  }
+
   func testManyEnvironmentReset() {
     var input = "10,20"[...]
 

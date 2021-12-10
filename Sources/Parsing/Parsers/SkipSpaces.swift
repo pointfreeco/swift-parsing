@@ -1,8 +1,8 @@
-private enum SkipSpacesKey: EnvironmentKey {
+private enum SkipSpacesKey: ParserEnvironmentKey {
   static var value = false
 }
 
-extension EnvironmentValues {
+extension ParserEnvironmentValues {
   public var skipSpaces: Bool {
     get { self[SkipSpacesKey.self] }
     set { self[SkipSpacesKey.self] = newValue }
