@@ -4,7 +4,7 @@ import Parsing
 
 let intParser = Int.parser()
 struct IntParserWithEnvironment: Parser {
-  @ParserEnvironment(\.skipSpaces) var skipSpaces
+  @ParserEnvironment(\.maximum) var maximum
   func parse(_ input: inout Substring) -> Int? {
     intParser.parse(&input)
   }
@@ -20,7 +20,7 @@ let parserEnvironmentSuite = BenchmarkSuite(name: "Parser Environment") { suite 
     var input = "123"[...]
     precondition(
       IntParserWithEnvironment()
-        .skipSpaces()
+        .maximum(100)
         .parse(&input)
       == 123
     )
@@ -35,7 +35,7 @@ let parserEnvironmentSuite = BenchmarkSuite(name: "Parser Environment") { suite 
     var input = "123"[...]
     precondition(
       Int.parser()
-        .skipSpaces()
+        .maximum(100)
         .parse(&input)
       == 123
     )
