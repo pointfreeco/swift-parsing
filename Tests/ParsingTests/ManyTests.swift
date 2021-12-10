@@ -4,10 +4,8 @@ import XCTest
 class ManyTests: XCTestCase {
   func testNoSeparator() {
     var input = "         Hello world"[...].utf8
-
     XCTAssertNotNil(
       Many(" ".utf8)
-        .orElse(Fail())
         .parse(&input)
     )
     XCTAssertEqual(Substring(input), "Hello world")
@@ -88,6 +86,14 @@ class ManyTests: XCTestCase {
       15
     )
     XCTAssertEqual(Substring(input), "")
+  }
+
+  func testEmptyComponents() {
+    var input = "2001:db8::2:1"[...]
+    XCTAssertEqual(
+      Many(Prefix(while: \.isHexDigit), separator: ":").parse(&input),
+      ["2001", "db8", "", "2", "1"]
+    )
   }
 
   func testManyEnvironmentReset() {

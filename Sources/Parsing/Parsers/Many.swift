@@ -1,3 +1,5 @@
+import Foundation
+
 /// A parser that attempts to run another parser as many times as specified, accumulating the result
 /// of the outputs.
 ///
@@ -33,10 +35,9 @@ where
   Separator: Parser,
   Upstream.Input == Separator.Input
 {
-  @Environment(\.maximum) public var maximum
-  @Environment(\.minimum) public var minimum
-  @Environment(\.skipSpaces) public var skipSpaces
   public let initialResult: Result
+  public let maximum: Int
+  public let minimum: Int
   public let separator: Separator?
   public let updateAccumulatingResult: (inout Result, Upstream.Output) -> Void
   public let upstream: Upstream
@@ -56,10 +57,14 @@ where
   public init(
     _ upstream: Upstream,
     into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
     separator: Separator,
     _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
   ) {
     self.initialResult = initialResult
+    self.maximum = maximum
+    self.minimum = minimum
     self.separator = separator
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
@@ -69,45 +74,51 @@ where
   public func parse(_ input: inout Upstream.Input) -> Result? {
     let original = input
     var rest = input
+    #if DEBUG
+      var previous = input
+    #endif
     var result = self.initialResult
     var count = 0
-    if self.skipSpaces {
-      _trimSpacePrefix(&input)
-    }
-
-    let upstreamParse = { (input: inout Upstream.Input) -> Upstream.Output? in
-      if self.skipSpaces {
-        _trimSpacePrefix(&input)
-      }
-      return self.upstream
-        .environment(\.maximum, .max)
-        .environment(\.minimum, 0)
-        .parse(&input)
-    }
-    let separatorParse = { (input: inout Separator.Input) -> Separator.Output? in
-      if self.skipSpaces {
-        _trimSpacePrefix(&input)
-      }
-      return self.separator?.parse(&input)
-    }
-
-    while count < self.maximum, let output = upstreamParse(&input) {
+    while count < self.maximum,
+      let output = self.upstream.parse(&input)
+    {
+      #if DEBUG
+        defer { previous = input }
+      #endif
       count += 1
-      rest = input
       self.updateAccumulatingResult(&result, output)
-      if self.separator != nil, separatorParse(&input) == nil {
-        guard count >= self.minimum else {
-          input = original
-          return nil
-        }
-        return result
+      rest = input
+      if self.separator != nil, self.separator?.parse(&input) == nil {
+        break
       }
+      #if DEBUG
+        if memcmp(&input, &previous, MemoryLayout<Upstream.Input>.size) == 0 {
+          var description = ""
+          debugPrint(output, terminator: "", to: &description)
+          breakpoint(
+            """
+            ---
+            A "Many" parser succeeded in parsing a value of "\(Upstream.Output.self)" \
+            (\(description)), but no input was consumed.
+
+            This is considered a logic error that leads to an infinite loop, and is typically \
+            introduced by parsers that always succeed, even though they don't consume any input. \
+            This includes "Prefix" and "CharacterSet" parsers, which return an empty string when \
+            their predicate immediately fails.
+
+            To work around the problem, require that some input is consumed (for example, use \
+            "Prefix(minLength: 1)"), or introduce a "separator" parser to "Many".
+            ---
+            """
+          )
+        }
+      #endif
     }
-    input = rest
     guard count >= self.minimum else {
       input = original
       return nil
     }
+    input = rest
     return result
   }
 }
@@ -123,9 +134,11 @@ extension Many where Result == [Upstream.Output], Separator == Always<Input, Voi
   ///   - maximum: The maximum number of times to run this parser before returning the output.
   @inlinable
   public init(
-    _ upstream: Upstream
+    _ upstream: Upstream,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max
   ) {
-    self.init(upstream, into: []) {
+    self.init(upstream, into: [], atLeast: minimum, atMost: maximum) {
       $0.append($1)
     }
   }
@@ -144,9 +157,11 @@ extension Many where Result == [Upstream.Output] {
   @inlinable
   public init(
     _ upstream: Upstream,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
     separator: Separator
   ) {
-    self.init(upstream, into: [], separator: separator) {
+    self.init(upstream, into: [], atLeast: minimum, atMost: maximum, separator: separator) {
       $0.append($1)
     }
   }
@@ -168,9 +183,13 @@ extension Many where Separator == Always<Input, Void> {
   public init(
     _ upstream: Upstream,
     into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
   ) {
     self.initialResult = initialResult
+    self.maximum = maximum
+    self.minimum = minimum
     self.separator = nil
     self.updateAccumulatingResult = updateAccumulatingResult
     self.upstream = upstream
