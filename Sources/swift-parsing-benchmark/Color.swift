@@ -5,7 +5,8 @@ private struct Color: Equatable {
   let red, green, blue: UInt8
 }
 
-private let hexPrimary = Prefix(2)
+private let hexPrimary = Prefix()
+  .count(2)
   .pipe(UInt8.parser(of: Substring.UTF8View.self, isSigned: false, radix: 16).skip(End()))
 
 private let hexColor = "#".utf8

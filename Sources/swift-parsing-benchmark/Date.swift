@@ -25,7 +25,7 @@ private let dateTime =
   .orElse(localDate)
   .orElse(localTime)
 
-private let digits = { (n: Int) in Prefix<Substring.UTF8View>(n).pipe(Int.parser().skip(End())) }
+private let digits = { (n: Int) in Prefix<Substring.UTF8View>().count(n).pipe(Int.parser().skip(End())) }
 
 private let dateFullyear = digits(4)
 private let dateMonth = digits(2)

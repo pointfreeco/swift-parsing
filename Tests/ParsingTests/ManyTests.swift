@@ -91,7 +91,7 @@ class ManyTests: XCTestCase {
   func testEmptyComponents() {
     var input = "2001:db8::2:1"[...]
     XCTAssertEqual(
-      Many(Prefix(while: \.isHexDigit), separator: ":").parse(&input),
+      Many(Prefix { $0.isHexDigit }, separator: ":").parse(&input),
       ["2001", "db8", "", "2", "1"]
     )
   }

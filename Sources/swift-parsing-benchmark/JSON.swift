@@ -71,16 +71,17 @@ private let array = "[".utf8
 
 // MARK: String
 
-private let unicode = Prefix(4) {
+private let unicode = Prefix {
   (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
-    || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
-    || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
+  || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
+  || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
 }
-.compactMap {
-  UInt32(Substring($0), radix: 16)
-    .flatMap(UnicodeScalar.init)
-    .map(Character.init)
-}
+  .count(4)
+  .compactMap {
+    UInt32(Substring($0), radix: 16)
+      .flatMap(UnicodeScalar.init)
+      .map(Character.init)
+  }
 
 private let escape = "\\".utf8
   .take(
@@ -95,10 +96,11 @@ private let escape = "\\".utf8
       .orElse(unicode)
   )
 
-private let literal = Prefix(1...) {
+private let literal = Prefix {
   $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\")
 }
-.map { String(Substring($0)) }
+  .count(1...)
+  .map { String(Substring($0)) }
 
 private enum StringFragment {
   case escape(Character)
