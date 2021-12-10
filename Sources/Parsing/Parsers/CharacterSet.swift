@@ -4,9 +4,9 @@ extension CharacterSet: Parser {
   @inlinable
   public func parse(_ input: inout Substring) -> Substring? {
     let output = input.unicodeScalars
-      .prefix(EnvironmentValues.shared.maximum)
+      .prefix(EnvironmentValues.current.maximum)
       .prefix(while: self.contains)
-    guard output.count >= EnvironmentValues.shared.minimum
+    guard output.count >= EnvironmentValues.current.minimum
     else {
       return nil
     }
