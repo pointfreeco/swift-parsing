@@ -57,7 +57,7 @@ where
 
   @inlinable
   public func parse(_ input: inout Input) -> Input? {
-    var prefix = input//.prefix(self.maxLength)
+    var prefix = input.prefix(self.maxLength)
     prefix = predicate.map { prefix.prefix(while: $0) } ?? prefix
     let count = prefix.count
     guard count >= self.minLength else { return nil }
@@ -111,30 +111,37 @@ extension ParserEnvironmentValues {
 }
 
 extension Parser {
+  @inlinable
   public func minimum(_ minLength: Int) -> Parsers.EnvironmentKeyWritingParser<Self, Int> {
     self.environment(\.minimum, minLength)
   }
+  @inlinable
   public func maximum(_ maxLength: Int) -> Parsers.EnvironmentKeyWritingParser<Self, Int> {
     self.environment(\.maximum, maxLength)
   }
+  @inlinable
   public func count(_ length: Int) -> Parsers.EnvironmentKeyWritingParser<Parsers.EnvironmentKeyWritingParser<Self, Int>, Int> {
     self
       .environment(\.minimum, length)
       .environment(\.maximum, length)
   }
+  @inlinable
   public func count(_ length: ClosedRange<Int>) -> Parsers.EnvironmentKeyWritingParser<Parsers.EnvironmentKeyWritingParser<Self, Int>, Int> {
     self
       .environment(\.minimum, length.lowerBound)
       .environment(\.maximum, length.upperBound)
   }
+  @inlinable
   public func count(_ length: PartialRangeFrom<Int>) -> Parsers.EnvironmentKeyWritingParser<Self, Int> {
     self
       .environment(\.minimum, length.lowerBound)
   }
+  @inlinable
   public func count(_ length: PartialRangeUpTo<Int>) -> Parsers.EnvironmentKeyWritingParser<Self, Int> {
     self
       .environment(\.maximum, length.upperBound)
   }
+  @inlinable
   public func count(_ length: PartialRangeThrough<Int>) -> Parsers.EnvironmentKeyWritingParser<Self, Int> {
     self
       .environment(\.maximum, length.upperBound)

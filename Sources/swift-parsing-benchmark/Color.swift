@@ -23,6 +23,10 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
   suite.benchmark(
     name: "Parser",
     run: { output = hexColor.parse(input) },
-    tearDown: { precondition(output == expected) }
+    tearDown: {
+      if output != expected {
+        fatalError("\(output) == \(expected)")
+      }
+    }
   )
 }

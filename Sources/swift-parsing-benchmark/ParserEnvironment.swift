@@ -34,11 +34,11 @@ let parserEnvironmentSuite = BenchmarkSuite(name: "Parser Environment") { suite 
   suite.benchmark("Without Environment and modifier") {
     var input = "123"[...]
     precondition(
-      Int.parser()
-        .maximum(100)
+      Many(Int.parser())
+        .minimum(1)
+        .maximum(10)
         .parse(&input)
-      == 123
+      == [123]
     )
   }
-
 }
