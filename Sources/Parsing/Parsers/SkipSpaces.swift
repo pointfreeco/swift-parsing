@@ -12,7 +12,7 @@ extension ParserEnvironmentValues {
 extension Parsers {
   public struct SkipSpaces<Upstream>: Parser where Upstream: Parser {
     @usableFromInline
-    let upstream: Parsers.EnvironmentKeyWritingParser<Upstream, Bool>
+    let upstream: Parsers.EnvironmentKeyWritingParser<Upstream>
 
     @inlinable
     public init(upstream: Upstream) {

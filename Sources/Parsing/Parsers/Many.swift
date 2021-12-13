@@ -86,7 +86,7 @@ where
         _trimSpacePrefix(&input)
       }
       return self.upstream
-        .environment(\.maximum, .max)
+        .environment(\.maximum, nil)
         .environment(\.minimum, 0)
         .parse(&input)
     }
@@ -97,7 +97,7 @@ where
       return self.separator?.parse(&input)
     }
 
-    while count < self.maximum,
+    while (self.maximum.map { count < $0 } ?? true),
       let output = upstreamParse(&input)
     {
       #if DEBUG
