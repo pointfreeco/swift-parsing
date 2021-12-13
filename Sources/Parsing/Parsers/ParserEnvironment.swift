@@ -72,13 +72,6 @@ extension Parser {
   }
 }
 
-func foo() {
-  let tmp: Parsers.EnvironmentKeyWritingParser<Prefix<Substring>> = Prefix { $0 != " " }
-    .environment(\.skipSpaces, true)
-    .environment(\.maximum, 10)
-    .environment(\.storage, [:])
-}
-
 extension Parsers {
   public struct EnvironmentKeyWritingParser<Upstream> {
     public let upstream: Upstream
