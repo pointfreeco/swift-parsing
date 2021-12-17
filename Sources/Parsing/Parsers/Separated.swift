@@ -1,336 +1,13 @@
-import Foundation
-struct Separated<Separator, Downstream>: Parser where Separator: Parser, Downstream: Parser, Separator.Input == Downstream.Input {
-  public let downstream: Downstream
-
-  @inlinable
-  func parse(_ input: inout Separator.Input) -> Downstream.Output? {
-    downstream.parse(&input)
-  }
-}
-
-extension Separated {
-  @inlinable
-  public init<A, B>(
-    by separator: Separator,
-    @SeparatedParsersBuilder<Separator.Input> parsers: () -> (A, B)
-  )
-    where Downstream == Separated2<A, B, Separator>
-  {
-    let parsers = parsers()
-    downstream = Separated2(parsers.0, parsers.1, separator: separator)
-  }
-
-  @inlinable
-  public init<A, B, C>(
-    by separator: Separator,
-    @SeparatedParsersBuilder<Separator.Input> parsers: () -> (A, B, C)
-  )
-    where Downstream == Separated3<A, B, C, Separator>
-  {
-    let parsers = parsers()
-    downstream = Separated3(parsers.0, parsers.1, parsers.2, separator: separator)
-  }
-
-  @inlinable
-  public init<A, B, C, D>(
-    by separator: Separator,
-    @SeparatedParsersBuilder<Separator.Input> parsers: () -> (A, B, C, D)
-  )
-    where Downstream == Separated4<A, B, C, D, Separator>
-  {
-    let parsers = parsers()
-    downstream = Separated4(parsers.0, parsers.1, parsers.2, parsers.3, separator: separator)
-  }
-
-  @inlinable
-  public init<A, B, C, D, E>(
-    by separator: Separator,
-    @SeparatedParsersBuilder<Separator.Input> parsers: () -> (A, B, C, D, E)
-  )
-    where Downstream == Separated5<A, B, C, D, E, Separator>
-  {
-    let parsers = parsers()
-    downstream = Separated5(parsers.0, parsers.1, parsers.2, parsers.3, parsers.4, separator: separator)
-  }
-
-  @inlinable
-  public init<A, B, C, D, E, F>(
-    by separator: Separator,
-    @SeparatedParsersBuilder<Separator.Input> parsers: () -> (A, B, C, D, E, F)
-  )
-    where Downstream == Separated6<A, B, C, D, E, F, Separator>
-  {
-    let parsers = parsers()
-    downstream = Separated6(parsers.0, parsers.1, parsers.2, parsers.3, parsers.4, parsers.5, separator: separator)
-  }
-
-  @inlinable
-  public init<A, B, C, D, E, F, G>(
-    by separator: Separator,
-    @SeparatedParsersBuilder<Separator.Input> parsers: () -> (A, B, C, D, E, F, G)
-  )
-    where Downstream == Separated7<A, B, C, D, E, F, G, Separator>
-  {
-    let parsers = parsers()
-    downstream = Separated7(parsers.0, parsers.1, parsers.2, parsers.3, parsers.4, parsers.5, parsers.6, separator: separator)
-  }
-
-  @inlinable
-  public init<A, B, C, D, E, F, G, H>(
-    by separator: Separator,
-    @SeparatedParsersBuilder<Separator.Input> parsers: () -> (A, B, C, D, E, F, G, H)
-  )
-    where Downstream == Separated8<A, B, C, D, E, F, G, H, Separator>
-  {
-    let parsers = parsers()
-    downstream = Separated8(parsers.0, parsers.1, parsers.2, parsers.3, parsers.4, parsers.5, parsers.6, parsers.7, separator: separator)
-  }
-
-  @inlinable
-  public init<A, B, C, D, E, F, G, H, I>(
-    by separator: Separator,
-    @SeparatedParsersBuilder<Separator.Input> parsers: () -> (A, B, C, D, E, F, G, H, I)
-  )
-    where Downstream == Separated9<A, B, C, D, E, F, G, H, I, Separator>
-  {
-    let parsers = parsers()
-    downstream = Separated9(parsers.0, parsers.1, parsers.2, parsers.3, parsers.4, parsers.5, parsers.6, parsers.7, parsers.8, separator: separator)
-  }
-
-  @inlinable
-  public init<A, B, C, D, E, F, G, H, I, J>(
-    by separator: Separator,
-    @SeparatedParsersBuilder<Separator.Input> parsers: () -> (A, B, C, D, E, F, G, H, I, J)
-  )
-    where Downstream == Separated10<A, B, C, D, E, F, G, H, I, J, Separator>
-  {
-    let parsers = parsers()
-    downstream = Separated10(parsers.0, parsers.1, parsers.2, parsers.3, parsers.4, parsers.5, parsers.6, parsers.7, parsers.8, parsers.9, separator: separator)
-  }
-
-  @inlinable
-  public init<A, B, C, D, E, F, G, H, I, J, K>(
-    by separator: Separator,
-    @SeparatedParsersBuilder<Separator.Input> parsers: () -> (A, B, C, D, E, F, G, H, I, J, K)
-  )
-    where Downstream == Separated11<A, B, C, D, E, F, G, H, I, J, K, Separator>
-  {
-    let parsers = parsers()
-    downstream = Separated11(parsers.0, parsers.1, parsers.2, parsers.3, parsers.4, parsers.5, parsers.6, parsers.7, parsers.8, parsers.9, parsers.10, separator: separator)
-  }
-}
-
-@resultBuilder
-public enum SeparatedParsersBuilder<Input> {
-  public static func buildBlock<A, B>(_ a: A, _ b: B)
-    -> (A, B)
-    where
-    A: Parser,
-    B: Parser,
-    A.Input == Input,
-    A.Input == B.Input
-  {
-    (a, b)
-  }
-
-  public static func buildBlock<A, B, C>(_ a: A, _ b: B, _ c: C)
-    -> (A, B, C)
-    where
-    A: Parser,
-    B: Parser,
-    C: Parser,
-    A.Input == Input,
-    A.Input == B.Input,
-    A.Input == C.Input
-  {
-    (a, b, c)
-  }
-
-  public static func buildBlock<A, B, C, D>(_ a: A, _ b: B, _ c: C, _ d: D)
-    -> (A, B, C, D)
-    where
-    A: Parser,
-    B: Parser,
-    C: Parser,
-    D: Parser,
-    A.Input == Input,
-    A.Input == B.Input,
-    A.Input == C.Input,
-    A.Input == D.Input
-  {
-    (a, b, c, d)
-  }
-
-  public static func buildBlock<A, B, C, D, E>(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E)
-    -> (A, B, C, D, E)
-    where
-    A: Parser,
-    B: Parser,
-    C: Parser,
-    D: Parser,
-    E: Parser,
-    A.Input == Input,
-    A.Input == B.Input,
-    A.Input == C.Input,
-    A.Input == D.Input,
-    A.Input == E.Input
-  {
-    (a, b, c, d, e)
-  }
-
-  public static func buildBlock<A, B, C, D, E, F>(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F)
-    -> (A, B, C, D, E, F)
-    where
-    A: Parser,
-    B: Parser,
-    C: Parser,
-    D: Parser,
-    E: Parser,
-    F: Parser,
-    A.Input == Input,
-    A.Input == B.Input,
-    A.Input == C.Input,
-    A.Input == D.Input,
-    A.Input == E.Input,
-    A.Input == F.Input
-  {
-    (a, b, c, d, e, f)
-  }
-
-  public static func buildBlock<A, B, C, D, E, F, G>(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G)
-    -> (A, B, C, D, E, F, G)
-    where
-    A: Parser,
-    B: Parser,
-    C: Parser,
-    D: Parser,
-    E: Parser,
-    F: Parser,
-    G: Parser,
-    A.Input == Input,
-    A.Input == B.Input,
-    A.Input == C.Input,
-    A.Input == D.Input,
-    A.Input == E.Input,
-    A.Input == F.Input,
-    A.Input == G.Input
-  {
-    (a, b, c, d, e, f, g)
-  }
-
-  public static func buildBlock<A, B, C, D, E, F, G, H>(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H)
-    -> (A, B, C, D, E, F, G, H)
-    where
-    A: Parser,
-    B: Parser,
-    C: Parser,
-    D: Parser,
-    E: Parser,
-    F: Parser,
-    G: Parser,
-    H: Parser,
-    A.Input == Input,
-    A.Input == B.Input,
-    A.Input == C.Input,
-    A.Input == D.Input,
-    A.Input == E.Input,
-    A.Input == F.Input,
-    A.Input == G.Input,
-    A.Input == H.Input
-  {
-    (a, b, c, d, e, f, g, h)
-  }
-
-  public static func buildBlock<A, B, C, D, E, F, G, H, I>(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H, _ i: I)
-    -> (A, B, C, D, E, F, G, H, I)
-    where
-    A: Parser,
-    B: Parser,
-    C: Parser,
-    D: Parser,
-    E: Parser,
-    F: Parser,
-    G: Parser,
-    H: Parser,
-    I: Parser,
-    A.Input == Input,
-    A.Input == B.Input,
-    A.Input == C.Input,
-    A.Input == D.Input,
-    A.Input == E.Input,
-    A.Input == F.Input,
-    A.Input == G.Input,
-    A.Input == H.Input,
-    A.Input == I.Input
-  {
-    (a, b, c, d, e, f, g, h, i)
-  }
-
-  public static func buildBlock<A, B, C, D, E, F, G, H, I, J>(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H, _ i: I, _ j: J)
-    -> (A, B, C, D, E, F, G, H, I, J)
-    where
-    A: Parser,
-    B: Parser,
-    C: Parser,
-    D: Parser,
-    E: Parser,
-    F: Parser,
-    G: Parser,
-    H: Parser,
-    I: Parser,
-    J: Parser,
-    A.Input == Input,
-    A.Input == B.Input,
-    A.Input == C.Input,
-    A.Input == D.Input,
-    A.Input == E.Input,
-    A.Input == F.Input,
-    A.Input == G.Input,
-    A.Input == H.Input,
-    A.Input == I.Input,
-    A.Input == J.Input
-  {
-    (a, b, c, d, e, f, g, h, i, j)
-  }
-
-  public static func buildBlock<A, B, C, D, E, F, G, H, I, J, K>(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H, _ i: I, _ j: J, _ k: K)
-    -> (A, B, C, D, E, F, G, H, I, J, K)
-    where
-    A: Parser,
-    B: Parser,
-    C: Parser,
-    D: Parser,
-    E: Parser,
-    F: Parser,
-    G: Parser,
-    H: Parser,
-    I: Parser,
-    J: Parser,
-    K: Parser,
-    A.Input == Input,
-    A.Input == B.Input,
-    A.Input == C.Input,
-    A.Input == D.Input,
-    A.Input == E.Input,
-    A.Input == F.Input,
-    A.Input == G.Input,
-    A.Input == H.Input,
-    A.Input == I.Input,
-    A.Input == J.Input,
-    A.Input == K.Input
-  {
-    (a, b, c, d, e, f, g, h, i, j, k)
-  }
-}
-
-func test() {
-  let x = Separated(by: CharacterSet.decimalDigits) {
-    CharacterSet.symbols
-    CharacterSet.symbols
-    CharacterSet.symbols
-  }
-}
-
+/// A parser that runs a sequence of 2 parsers separated from each other by another `Separator`
+/// parser, and returns a flattened tuple of outputs of the 2 parsers when all 2 parsers did
+/// succeed to parse the input.
+///
+/// This parser produces the same result as:
+/// ```
+/// parser1
+///   .skip(separator)
+///   .take(parser2)
+/// ```
 public struct Separated2<A, B, Separator>: Parser
   where
   A: Parser,
@@ -344,9 +21,8 @@ public struct Separated2<A, B, Separator>: Parser
   public let separator: Separator
 
   @inlinable
-  init(_ a: A, _ b: B,
-       separator: Separator)
-  {
+  public init(_ a: A, _ b: B,
+       separator: Separator) {
     self.a = a
     self.b = b
     self.separator = separator
@@ -354,8 +30,7 @@ public struct Separated2<A, B, Separator>: Parser
 
   @inlinable
   public func parse(_ input: inout Separator.Input)
-    -> (A.Output, B.Output)?
-  {
+    -> (A.Output, B.Output)? {
     a
       .skip(separator)
       .take(b)
@@ -363,6 +38,18 @@ public struct Separated2<A, B, Separator>: Parser
   }
 }
 
+/// A parser that runs a sequence of 3 parsers separated from each other by another `Separator`
+/// parser, and returns a flattened tuple of outputs of the 3 parsers when all 3 parsers did
+/// succeed to parse the input.
+///
+/// This parser produces the same result as:
+/// ```
+/// parser1
+///   .skip(separator)
+///   .take(parser2)
+///   .skip(separator)
+///   .take(parser3)
+/// ```
 public struct Separated3<A, B, C, Separator>: Parser
   where
   A: Parser,
@@ -379,9 +66,8 @@ public struct Separated3<A, B, C, Separator>: Parser
   public let separator: Separator
 
   @inlinable
-  init(_ a: A, _ b: B, _ c: C,
-       separator: Separator)
-  {
+  public init(_ a: A, _ b: B, _ c: C,
+       separator: Separator) {
     self.a = a
     self.b = b
     self.c = c
@@ -390,8 +76,7 @@ public struct Separated3<A, B, C, Separator>: Parser
 
   @inlinable
   public func parse(_ input: inout Separator.Input)
-    -> (A.Output, B.Output, C.Output)?
-  {
+    -> (A.Output, B.Output, C.Output)? {
     a
       .skip(separator)
       .take(b)
@@ -401,6 +86,19 @@ public struct Separated3<A, B, C, Separator>: Parser
   }
 }
 
+/// A parser that runs a sequence of 4 parsers separated from each other by another `Separator`
+/// parser, and returns a flattened tuple of outputs of the 4 parsers when all 4 parsers did
+/// succeed to parse the input.
+///
+/// This parser produces the same result as:
+/// ```
+/// parser1
+///   .skip(separator)
+///   .take(parser2)
+///   .skip(separator)
+///   .take(parser3)
+///   …
+/// ```
 public struct Separated4<A, B, C, D, Separator>: Parser
   where
   A: Parser,
@@ -420,9 +118,8 @@ public struct Separated4<A, B, C, D, Separator>: Parser
   public let separator: Separator
 
   @inlinable
-  init(_ a: A, _ b: B, _ c: C, _ d: D,
-       separator: Separator)
-  {
+  public init(_ a: A, _ b: B, _ c: C, _ d: D,
+       separator: Separator) {
     self.a = a
     self.b = b
     self.c = c
@@ -432,8 +129,7 @@ public struct Separated4<A, B, C, D, Separator>: Parser
 
   @inlinable
   public func parse(_ input: inout Separator.Input)
-    -> (A.Output, B.Output, C.Output, D.Output)?
-  {
+    -> (A.Output, B.Output, C.Output, D.Output)? {
     a
       .skip(separator)
       .take(b)
@@ -445,6 +141,19 @@ public struct Separated4<A, B, C, D, Separator>: Parser
   }
 }
 
+/// A parser that runs a sequence of 5 parsers separated from each other by another `Separator`
+/// parser, and returns a flattened tuple of outputs of the 5 parsers when all 5 parsers did
+/// succeed to parse the input.
+///
+/// This parser produces the same result as:
+/// ```
+/// parser1
+///   .skip(separator)
+///   .take(parser2)
+///   .skip(separator)
+///   .take(parser3)
+///   …
+/// ```
 public struct Separated5<A, B, C, D, E, Separator>: Parser
   where
   A: Parser,
@@ -467,9 +176,8 @@ public struct Separated5<A, B, C, D, E, Separator>: Parser
   public let separator: Separator
 
   @inlinable
-  init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E,
-       separator: Separator)
-  {
+  public init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E,
+       separator: Separator) {
     self.a = a
     self.b = b
     self.c = c
@@ -480,8 +188,7 @@ public struct Separated5<A, B, C, D, E, Separator>: Parser
 
   @inlinable
   public func parse(_ input: inout Separator.Input)
-    -> (A.Output, B.Output, C.Output, D.Output, E.Output)?
-  {
+    -> (A.Output, B.Output, C.Output, D.Output, E.Output)? {
     a
       .skip(separator)
       .take(b)
@@ -495,6 +202,19 @@ public struct Separated5<A, B, C, D, E, Separator>: Parser
   }
 }
 
+/// A parser that runs a sequence of 6 parsers separated from each other by another `Separator`
+/// parser, and returns a flattened tuple of outputs of the 6 parsers when all 6 parsers did
+/// succeed to parse the input.
+///
+/// This parser produces the same result as:
+/// ```
+/// parser1
+///   .skip(separator)
+///   .take(parser2)
+///   .skip(separator)
+///   .take(parser3)
+///   …
+/// ```
 public struct Separated6<A, B, C, D, E, F, Separator>: Parser
   where
   A: Parser,
@@ -520,9 +240,8 @@ public struct Separated6<A, B, C, D, E, F, Separator>: Parser
   public let separator: Separator
 
   @inlinable
-  init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F,
-       separator: Separator)
-  {
+  public init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F,
+       separator: Separator) {
     self.a = a
     self.b = b
     self.c = c
@@ -534,8 +253,7 @@ public struct Separated6<A, B, C, D, E, F, Separator>: Parser
 
   @inlinable
   public func parse(_ input: inout Separator.Input)
-    -> (A.Output, B.Output, C.Output, D.Output, E.Output, F.Output)?
-  {
+    -> (A.Output, B.Output, C.Output, D.Output, E.Output, F.Output)? {
     a
       .skip(separator)
       .take(b)
@@ -551,6 +269,19 @@ public struct Separated6<A, B, C, D, E, F, Separator>: Parser
   }
 }
 
+/// A parser that runs a sequence of 7 parsers separated from each other by another `Separator`
+/// parser, and returns a flattened tuple of outputs of the 7 parsers when all 7 parsers did
+/// succeed to parse the input.
+///
+/// This parser produces the same result as:
+/// ```
+/// parser1
+///   .skip(separator)
+///   .take(parser2)
+///   .skip(separator)
+///   .take(parser3)
+///   …
+/// ```
 public struct Separated7<A, B, C, D, E, F, G, Separator>: Parser
   where
   A: Parser,
@@ -579,9 +310,8 @@ public struct Separated7<A, B, C, D, E, F, G, Separator>: Parser
   public let separator: Separator
 
   @inlinable
-  init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G,
-       separator: Separator)
-  {
+  public init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G,
+       separator: Separator) {
     self.a = a
     self.b = b
     self.c = c
@@ -594,8 +324,7 @@ public struct Separated7<A, B, C, D, E, F, G, Separator>: Parser
 
   @inlinable
   public func parse(_ input: inout Separator.Input)
-    -> (A.Output, B.Output, C.Output, D.Output, E.Output, F.Output, G.Output)?
-  {
+    -> (A.Output, B.Output, C.Output, D.Output, E.Output, F.Output, G.Output)? {
     a
       .skip(separator)
       .take(b)
@@ -613,6 +342,19 @@ public struct Separated7<A, B, C, D, E, F, G, Separator>: Parser
   }
 }
 
+/// A parser that runs a sequence of 8 parsers separated from each other by another `Separator`
+/// parser, and returns a flattened tuple of outputs of the 8 parsers when all 8 parsers did
+/// succeed to parse the input.
+///
+/// This parser produces the same result as:
+/// ```
+/// parser1
+///   .skip(separator)
+///   .take(parser2)
+///   .skip(separator)
+///   .take(parser3)
+///   …
+/// ```
 public struct Separated8<A, B, C, D, E, F, G, H, Separator>: Parser
   where
   A: Parser,
@@ -644,9 +386,8 @@ public struct Separated8<A, B, C, D, E, F, G, H, Separator>: Parser
   public let separator: Separator
 
   @inlinable
-  init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H,
-       separator: Separator)
-  {
+  public init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H,
+       separator: Separator) {
     self.a = a
     self.b = b
     self.c = c
@@ -660,8 +401,7 @@ public struct Separated8<A, B, C, D, E, F, G, H, Separator>: Parser
 
   @inlinable
   public func parse(_ input: inout Separator.Input)
-    -> (A.Output, B.Output, C.Output, D.Output, E.Output, F.Output, G.Output, H.Output)?
-  {
+    -> (A.Output, B.Output, C.Output, D.Output, E.Output, F.Output, G.Output, H.Output)? {
     a
       .skip(separator)
       .take(b)
@@ -681,6 +421,19 @@ public struct Separated8<A, B, C, D, E, F, G, H, Separator>: Parser
   }
 }
 
+/// A parser that runs a sequence of 9 parsers separated from each other by another `Separator`
+/// parser, and returns a flattened tuple of outputs of the 9 parsers when all 9 parsers did
+/// succeed to parse the input.
+///
+/// This parser produces the same result as:
+/// ```
+/// parser1
+///   .skip(separator)
+///   .take(parser2)
+///   .skip(separator)
+///   .take(parser3)
+///   …
+/// ```
 public struct Separated9<A, B, C, D, E, F, G, H, I, Separator>: Parser
   where
   A: Parser,
@@ -715,9 +468,8 @@ public struct Separated9<A, B, C, D, E, F, G, H, I, Separator>: Parser
   public let separator: Separator
 
   @inlinable
-  init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H, _ i: I,
-       separator: Separator)
-  {
+  public init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H, _ i: I,
+       separator: Separator) {
     self.a = a
     self.b = b
     self.c = c
@@ -732,8 +484,7 @@ public struct Separated9<A, B, C, D, E, F, G, H, I, Separator>: Parser
 
   @inlinable
   public func parse(_ input: inout Separator.Input)
-    -> (A.Output, B.Output, C.Output, D.Output, E.Output, F.Output, G.Output, H.Output, I.Output)?
-  {
+    -> (A.Output, B.Output, C.Output, D.Output, E.Output, F.Output, G.Output, H.Output, I.Output)? {
     a
       .skip(separator)
       .take(b)
@@ -755,6 +506,19 @@ public struct Separated9<A, B, C, D, E, F, G, H, I, Separator>: Parser
   }
 }
 
+/// A parser that runs a sequence of 10 parsers separated from each other by another `Separator`
+/// parser, and returns a flattened tuple of outputs of the 10 parsers when all 10 parsers did
+/// succeed to parse the input.
+///
+/// This parser produces the same result as:
+/// ```
+/// parser1
+///   .skip(separator)
+///   .take(parser2)
+///   .skip(separator)
+///   .take(parser3)
+///   …
+/// ```
 public struct Separated10<A, B, C, D, E, F, G, H, I, J, Separator>: Parser
   where
   A: Parser,
@@ -792,9 +556,8 @@ public struct Separated10<A, B, C, D, E, F, G, H, I, J, Separator>: Parser
   public let separator: Separator
 
   @inlinable
-  init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H, _ i: I, _ j: J,
-       separator: Separator)
-  {
+  public init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H, _ i: I, _ j: J,
+       separator: Separator) {
     self.a = a
     self.b = b
     self.c = c
@@ -835,6 +598,19 @@ public struct Separated10<A, B, C, D, E, F, G, H, I, J, Separator>: Parser
   }
 }
 
+/// A parser that runs a sequence of 11 parsers separated from each other by another `Separator`
+/// parser, and returns a flattened tuple of outputs of the 11 parsers when all 11 parsers did
+/// succeed to parse the input.
+///
+/// This parser produces the same result as:
+/// ```
+/// parser1
+///   .skip(separator)
+///   .take(parser2)
+///   .skip(separator)
+///   .take(parser3)
+///   …
+/// ```
 public struct Separated11<A, B, C, D, E, F, G, H, I, J, K, Separator>: Parser
   where
   A: Parser,
@@ -875,9 +651,8 @@ public struct Separated11<A, B, C, D, E, F, G, H, I, J, K, Separator>: Parser
   public let separator: Separator
 
   @inlinable
-  init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H, _ i: I, _ j: J, _ k: K,
-       separator: Separator)
-  {
+  public init(_ a: A, _ b: B, _ c: C, _ d: D, _ e: E, _ f: F, _ g: G, _ h: H, _ i: I, _ j: J, _ k: K,
+       separator: Separator) {
     self.a = a
     self.b = b
     self.c = c
