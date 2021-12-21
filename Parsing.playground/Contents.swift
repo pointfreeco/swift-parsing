@@ -1,24 +1,54 @@
 import Parsing
 
-struct Color {
-  let red, green, blue: UInt8
+
+1
+
+
+var input = """
+1,Blob,admin
+2,Blob Jr,guest
+3,Blob Sr,member
+"""[...]
+
+struct User {
+  var id: Int
+  var name: String
+  var role: Role
 }
 
-let hexPrimary = Prefix(2)
-  .compactMap { UInt8($0, radix: 16) }
-
-let hexColor = "#"
-  .take(hexPrimary)
-  .take(hexPrimary)
-  .take(hexPrimary)
-  .map(Color.init)
-
-do {
-  var hex = "#000000"[...]
-  print(hexColor.parse(&hex)!)
+enum Role {
+  case admin, guest, member
 }
 
-do {
-  var hex = "#FF0000"[...]
-  print(hexColor.parse(&hex)!)
+let role = Parsers.OneOf {
+  "admin".map { Role.admin }
+  "guest".map { Role.guest }
+  "member".map { Role.member }
 }
+
+let user = Parse(User.init(id:name:role:)) {
+  Int.parser()
+  ","
+  Prefix { $0 != "," }.map(String.init)
+  ","
+  role
+}
+
+let users = Many {
+  Parse(User.init(id:name:role:)) {
+    Int.parser()
+    ","
+    Prefix { $0 != "," }.map(String.init)
+    ","
+    Parsers.OneOf {
+      "admin".map { Role.admin }
+      "guest".map { Role.guest }
+      "member".map { Role.member }
+    }
+  }
+} separatedBy: {
+  "\n"
+}
+
+users.parse(&input)
+input
