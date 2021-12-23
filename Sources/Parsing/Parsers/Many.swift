@@ -21,7 +21,7 @@ import Foundation
 /// let sumParser = Many(
 ///   Int.parser(of: Substring.self),
 ///   into: 0,
-///   separator: StartsWith(","),
+///   separator: ",",
 ///   +=
 /// )
 /// var input = "1,2,3"[...]
