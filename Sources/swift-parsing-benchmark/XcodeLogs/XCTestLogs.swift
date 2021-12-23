@@ -27,7 +27,7 @@ let xcodeLogsSuite = BenchmarkSuite(name: "Xcode Logs") { suite in
 
 private let testCaseFinishedLine = Skip(PrefixThrough(" (".utf8))
   .take(Double.parser())
-  .skip(StartsWith(" seconds).\n".utf8))
+  .skip(" seconds).\n".utf8)
 
 private let testCaseStartedLine = Skip(PrefixUpTo("Test Case '-[".utf8))
   .take(PrefixThrough("\n".utf8))
@@ -35,13 +35,13 @@ private let testCaseStartedLine = Skip(PrefixUpTo("Test Case '-[".utf8))
     line.split(separator: .init(ascii: " "))[3].dropLast(2)
   }
 
-private let fileName = Skip(StartsWith("/".utf8))
+private let fileName = Skip("/".utf8)
   .take(PrefixThrough(".swift".utf8))
   .compactMap { $0.split(separator: .init(ascii: "/")).last }
 
 private let testCaseBody =
   fileName
-  .skip(StartsWith(":".utf8))
+  .skip(":".utf8)
   .take(Int.parser())
   .skip(PrefixThrough("] : ".utf8))
   .take(Rest())
