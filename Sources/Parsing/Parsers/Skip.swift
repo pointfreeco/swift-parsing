@@ -30,6 +30,12 @@ extension Parser {
   }
 }
 
+extension Skip {
+  public init(@ParserBuilder upstream: () -> Upstream) {
+    self.upstream = upstream()
+  }
+}
+
 /// A parser that discards the output of another parser.
 public struct Skip<Upstream>: Parser where Upstream: Parser {
   /// The parser from which this parser receives output.

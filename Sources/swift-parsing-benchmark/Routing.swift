@@ -8,6 +8,36 @@ import Parsing
  recognize one of 5 routes for a website.
  */
 
+fileprivate struct Routing<Upstream>: Parser
+where
+  Upstream: Parser,
+  Upstream.Input == RequestData
+{
+  let upstream: Upstream
+
+  init<Other, Output>(
+    _ transform: @escaping (Other.Output) -> Output,
+    @ParserBuilder upstream: () -> Other
+  ) where Upstream == Parsers.Map<Parsers.SkipSecond<Other, End>, Output> {
+    self.upstream = upstream().skip(End()).map(transform)
+  }
+
+  init<Other, Output>(
+    _ output: Output,
+    @ParserBuilder upstream: () -> Other
+  )
+  where
+    Upstream == Parsers.Map<Parsers.SkipSecond<Other, End>, Output>,
+    Other.Output == Void
+  {
+    self.upstream = upstream().skip(End()).map { _ in output }
+  }
+
+  func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
+    self.upstream.parse(&input)
+  }
+}
+
 let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   enum Route: Equatable {
     case home
@@ -17,36 +47,50 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
     case episodeComments(id: Int)
   }
 
-  let router = Method("GET")
-    .skip(End())
-    .map { Route.home }
-    .orElse(
+  enum _Route: Equatable {
+    case home
+    case contactUs
+    case episodes(Episodes)
+  }
+  enum Episodes: Equatable {
+    case root
+    case episode(id: Int, Episode)
+  }
+  enum Episode: Equatable {
+    case root
+    case comments
+  }
+
+  let router = OneOf {
+    Routing(Route.home) {
       Method("GET")
-        .skip(Path("contact-us".utf8))
-        .skip(End())
-        .map { Route.contactUs }
-    )
-    .orElse(
+    }
+
+    Routing(Route.contactUs) {
       Method("GET")
-        .skip(Path("episodes".utf8))
-        .skip(End())
-        .map { Route.episodes }
-    )
-    .orElse(
+      Path("contact-us".utf8)
+    }
+
+    Routing(Route.episodes) {
       Method("GET")
-        .skip(Path("episodes".utf8))
-        .take(Path(Int.parser()))
-        .skip(End())
-        .map(Route.episode(id:))
-    )
-    .orElse(
+      Path("episodes".utf8)
+    }
+
+    Routing(Route.episode(id:)) {
       Method("GET")
-        .skip(Path("episodes".utf8))
-        .take(Path(Int.parser()))
-        .skip(Path("comments".utf8))
-        .skip(End())
-        .map(Route.episodeComments(id:))
-    )
+      Path("episodes".utf8)
+      Path(Int.parser())
+    }
+
+    Routing(Route.episodeComments(id:)) {
+      Method("GET")
+      Path("episodes".utf8)
+      Path(Int.parser())
+      Path("comments".utf8)
+    }
+  }
+
+
 
   let requests = [
     RequestData(
