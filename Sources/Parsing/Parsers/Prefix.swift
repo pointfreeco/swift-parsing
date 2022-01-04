@@ -157,6 +157,102 @@ where
   }
 }
 
+extension Prefix where Input == Substring {
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    minLength: Int = 0,
+    maxLength: Int? = nil,
+    while predicate: @escaping (Input.Element) -> Bool
+  ) {
+    self.init(minLength: minLength, maxLength: maxLength, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: ClosedRange<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: Int,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: PartialRangeFrom<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: PartialRangeThrough<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+}
+
+extension Prefix where Input == Substring.UTF8View {
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    minLength: Int = 0,
+    maxLength: Int? = nil,
+    while predicate: @escaping (Input.Element) -> Bool
+  ) {
+    self.init(minLength: minLength, maxLength: maxLength, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: ClosedRange<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: Int,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: PartialRangeFrom<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    _ length: PartialRangeThrough<Int>,
+    while predicate: ((Input.Element) -> Bool)? = nil
+  ) {
+    self.init(length, while: predicate)
+  }
+}
+
 extension Parsers {
   public typealias Prefix = Parsing.Prefix  // NB: Convenience type alias for discovery
 }

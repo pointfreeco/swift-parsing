@@ -31,7 +31,7 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
     var input = input[...].utf8
     let output = Many(
       Int.parser(),
-      separator: StartsWith("é".utf8).orElse(StartsWith("é".utf8))
+      separator: "é".utf8.orElse("é".utf8)
     ).parse(&input)
     precondition(output?.count == count)
   }

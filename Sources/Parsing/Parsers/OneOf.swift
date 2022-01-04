@@ -18,9 +18,9 @@ extension Parser {
 /// enum Currency { case eur, gbp, usd }
 ///
 /// let currency = OneOfMany(
-///   StartsWith("€").map { Currency.eur },
-///   StartsWith("£").map { .gbp },
-///   StartsWith("$").map { .usd }
+///   "€".map { Currency.eur },
+///   "£".map { .gbp },
+///   "$".map { .usd }
 /// )
 /// ```
 public struct OneOfMany<Upstream>: Parser where Upstream: Parser {

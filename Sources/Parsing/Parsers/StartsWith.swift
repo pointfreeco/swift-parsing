@@ -19,6 +19,13 @@
 /// is already known at the time the parser is created (it is the value quite literally passed to
 /// ``StartsWith/init(_:)``). This means `StartsWith` plays nicely when chained into the
 /// ``Parser/take(_:)-1fw8y`` operation, which will discard the `Void` output.
+///
+/// In many circumstances you can elide the `StartsWith` parser entirely and just use the collection as the
+/// parser. For example:
+///
+/// ```swift
+/// "Hello, ".parse("Hello, Blob!"[...]) // (output: (), rest: "Blob!")
+/// ```
 public struct StartsWith<Input>: Parser
 where
   Input: Collection,

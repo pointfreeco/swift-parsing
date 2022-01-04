@@ -4,10 +4,8 @@ import XCTest
 class ManyTests: XCTestCase {
   func testNoSeparator() {
     var input = "         Hello world"[...].utf8
-
     XCTAssertNotNil(
-      Many(StartsWith(" ".utf8))
-        .orElse(Fail())
+      Many(" ".utf8)
         .parse(&input)
     )
     XCTAssertEqual(Substring(input), "Hello world")
@@ -17,7 +15,7 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      Many(Int.parser(), separator: StartsWith(",".utf8)).parse(&input),
+      Many(Int.parser(), separator: ",".utf8).parse(&input),
       [1, 2, 3, 4, 5]
     )
     XCTAssertEqual(Substring(input), "")
@@ -27,7 +25,7 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5,"[...].utf8
 
     XCTAssertEqual(
-      Many(Int.parser(), separator: StartsWith(",".utf8)).parse(&input),
+      Many(Int.parser(), separator: ",".utf8).parse(&input),
       [1, 2, 3, 4, 5]
     )
     XCTAssertEqual(Substring(input), ",")
@@ -40,7 +38,7 @@ class ManyTests: XCTestCase {
       Many(
         Int.parser(),
         atLeast: 6,
-        separator: StartsWith(",".utf8)
+        separator: ",".utf8
       )
       .parse(&input),
       nil
@@ -51,7 +49,7 @@ class ManyTests: XCTestCase {
       Many(
         Int.parser(),
         atLeast: 5,
-        separator: StartsWith(",".utf8)
+        separator: ",".utf8
       )
       .parse(&input),
       [1, 2, 3, 4, 5]
@@ -66,7 +64,7 @@ class ManyTests: XCTestCase {
       Many(
         Int.parser(),
         atMost: 3,
-        separator: StartsWith(",".utf8)
+        separator: ",".utf8
       )
       .parse(&input),
       [1, 2, 3]
@@ -81,12 +79,20 @@ class ManyTests: XCTestCase {
       Many(
         Int.parser(),
         into: 0,
-        separator: StartsWith(",".utf8),
+        separator: ",".utf8,
         +=
       )
       .parse(&input),
       15
     )
     XCTAssertEqual(Substring(input), "")
+  }
+
+  func testEmptyComponents() {
+    var input = "2001:db8::2:1"[...]
+    XCTAssertEqual(
+      Many(Prefix(while: \.isHexDigit), separator: ":").parse(&input),
+      ["2001", "db8", "", "2", "1"]
+    )
   }
 }

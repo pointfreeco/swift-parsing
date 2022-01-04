@@ -57,11 +57,8 @@ extension PrefixThrough where Input.Element: Equatable {
   }
 }
 
-extension Parsers {
-  public typealias PrefixThrough = Parsing.PrefixThrough  // NB: Convenience type alias for discovery
-}
-
 extension PrefixThrough where Input == Substring {
+  @_disfavoredOverload
   @inlinable
   public init(_ possibleMatch: String) {
     self.init(possibleMatch[...])
@@ -69,8 +66,13 @@ extension PrefixThrough where Input == Substring {
 }
 
 extension PrefixThrough where Input == Substring.UTF8View {
+  @_disfavoredOverload
   @inlinable
   public init(_ possibleMatch: String.UTF8View) {
     self.init(String(possibleMatch)[...].utf8)
   }
+}
+
+extension Parsers {
+  public typealias PrefixThrough = Parsing.PrefixThrough  // NB: Convenience type alias for discovery
 }

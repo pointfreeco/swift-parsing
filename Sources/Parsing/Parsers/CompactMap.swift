@@ -16,6 +16,7 @@ extension Parser {
   ///   returns an optional value.
   /// - Returns: A parser that outputs the non-`nil` result of calling the given transformation
   ///   with the output of this parser.
+  @_disfavoredOverload
   @inlinable
   public func compactMap<NewOutput>(
     _ transform: @escaping (Output) -> NewOutput?

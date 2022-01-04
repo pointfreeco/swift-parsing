@@ -8,9 +8,7 @@ private struct Color: Equatable {
 private typealias Input = Substring
 private typealias Output = Color
 
-
-
-private let hexPrimary = Prefix<Input>(2)
+private let hexColor = "#".utf8
   .pipe {
     UInt8.parser(isSigned: false, radix: 16)
     End<Input>()
@@ -27,7 +25,7 @@ private let hexColor = build {
 let colorSuite = BenchmarkSuite(name: "Color") { suite in
   let input = "#FF0000"
   let expected = Color(red: 0xFF, green: 0x00, blue: 0x00)
-  var output: Output!
+  var output: Color!
 
   suite.benchmark(
     name: "Parser",

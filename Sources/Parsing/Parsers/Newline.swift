@@ -23,6 +23,12 @@ where
   }
 }
 
+extension Newline where Input == Substring.UTF8View {
+  @_disfavoredOverload
+  @inlinable
+  public init() {}
+}
+
 extension Parsers {
   public typealias Newline = Parsing.Newline  // NB: Convenience type alias for discovery
 }

@@ -15,7 +15,7 @@ let uuidSuite = BenchmarkSuite(name: "UUID") { suite in
 
   suite.benchmark(
     name: "UUIDParser",
-    run: { output = UUID.parser(of: Slice<UnsafeBufferPointer<UTF8.CodeUnit>>.self).parse(input) },
+    run: { output = UUID.parser(of: Substring.UTF8View.self).parse(input) },
     tearDown: { precondition(output == expected) }
   )
 }

@@ -79,7 +79,7 @@ import Parsing
  */
 
 let routingSuite = BenchmarkSuite(name: "Routing") { suite in
-  enum Route: Equatable {
+  enum AppRoute: Equatable {
     case home
     case contactUs
     case episodes
@@ -88,34 +88,34 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   }
 
   let router = Method("GET")
-    .skip(End())
-    .map { Route.home }
+    .skip(PathEnd())
+    .map { AppRoute.home }
     .orElse(
       Method("GET")
-        .skip(Path(StartsWith("contact-us".utf8)))
-        .skip(End())
-        .map { Route.contactUs }
+        .skip(Path("contact-us".utf8))
+        .skip(PathEnd())
+        .map { AppRoute.contactUs }
     )
     .orElse(
       Method("GET")
-        .skip(Path(StartsWith("episodes".utf8)))
-        .skip(End())
-        .map { Route.episodes }
+        .skip(Path("episodes".utf8))
+        .skip(PathEnd())
+        .map { AppRoute.episodes }
     )
     .orElse(
       Method("GET")
-        .skip(Path(StartsWith("episodes".utf8)))
+        .skip(Path("episodes".utf8))
         .take(Path(Int.parser()))
-        .skip(End())
-        .map(Route.episode(id:))
+        .skip(PathEnd())
+        .map(AppRoute.episode(id:))
     )
     .orElse(
       Method("GET")
-        .skip(Path(StartsWith("episodes".utf8)))
+        .skip(Path("episodes".utf8))
         .take(Path(Int.parser()))
-        .skip(Path(StartsWith("comments".utf8)))
-        .skip(End())
-        .map(Route.episodeComments(id:))
+        .skip(Path("comments".utf8))
+        .skip(PathEnd())
+        .map(AppRoute.episodeComments(id:))
     )
 
   let requests = [
@@ -140,9 +140,9 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
     ),
   ]
 
-  var output: [Route]!
-  var expectedOutput = [
-    Route.home,
+  var output: [AppRoute]!
+  var expectedOutput: [AppRoute] = [
+    .home,
     .contactUs,
     .episodes,
     .episode(id: 1),
@@ -219,7 +219,7 @@ where
   }
 }
 
-private struct End: Parser {
+private struct PathEnd: Parser {
   typealias Input = RequestData
   typealias Output = Void
 

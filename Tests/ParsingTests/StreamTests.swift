@@ -12,7 +12,7 @@ final class StreamTests: XCTestCase {
 
     let output = try XCTUnwrap(
       Int.parser(of: ArraySlice<UInt8>.self)
-        .skip(StartsWith("\n".utf8))
+        .skip(Array("\n".utf8))
         .stream
         .parse(&stream)
     )

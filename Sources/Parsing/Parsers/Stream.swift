@@ -6,14 +6,14 @@ extension Parser where Input: RangeReplaceableCollection {
   ///
   /// ```swift
   /// Parsers.Integer<ArraySlice<UInt8>, Int>()
-  ///   .skip(StartsWith("\n".utf8))
+  ///   .skip("\n".utf8)
   /// ```
   ///
   /// This parser can be transformed into one that processes an incoming stream of UTF8 bytes:
   ///
   /// ```swift
   /// let newlineSeparatedIntegers = Parsers.Integer<ArraySlice<UInt8>, Int>()
-  ///   .skip(StartsWith("\n".utf8))
+  ///   .skip("\n".utf8)
   ///   .stream
   /// ```
   ///
