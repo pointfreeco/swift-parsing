@@ -82,7 +82,7 @@ private struct Line: _Parser {
   var body: Many<Field, [Field.Output], String.UTF8View> {
     Many {
       Field()
-    } separatedBy: {
+    } separator: {
       ",".utf8
     }
   }
@@ -92,7 +92,7 @@ private struct CSV: _Parser {
   var body: Many<Line, [Line.Output], String.UTF8View> {
     Many {
       Line()
-    } separatedBy: {
+    } separator: {
       "\n".utf8
     }
   }

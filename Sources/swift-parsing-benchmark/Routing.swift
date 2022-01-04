@@ -9,7 +9,7 @@ import Parsing
  */
 
 let routingSuite = BenchmarkSuite(name: "Routing") { suite in
-  enum Route: Equatable {
+  enum AppRoute: Equatable {
     case home
     case contactUs
     case episodes(Episodes)
@@ -36,43 +36,43 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   }
 
   let router = OneOf {
-    Routing(Route.home) {
+    Route(AppRoute.home) {
       Method.get
     }
 
-    Routing(Route.contactUs) {
+    Route(AppRoute.contactUs) {
       Method.get
       Path(FromUTF8View { "contact-us".utf8 })
     }
 
-    Routing(Route.episodes) {
+    Route(AppRoute.episodes) {
       Path(FromUTF8View { "episodes".utf8 })
 
       OneOf {
-        Routing(Route.Episodes.index) {
+        Route(AppRoute.Episodes.index) {
           Method.get
         }
 
-        Routing(Route.Episodes.episode) {
-          Path(FromUTF8View { Int.parser() })
+        Route(AppRoute.Episodes.episode) {
+          Path(Int.parser())
 
           OneOf {
-            Routing(Route.Episode.show) {
+            Route(AppRoute.Episode.show) {
               Method.get
             }
 
-            Routing(Route.Episode.comments) {
+            Route(AppRoute.Episode.comments) {
               Path(FromUTF8View { "comments".utf8 })
 
               OneOf {
-                Routing(Route.Episode.Comments.post) {
+                Route(AppRoute.Episode.Comments.post) {
                   Method.post
                   Body {
-                    JSON(Route.Episode.Comments.Comment.self)
+                    JSON(AppRoute.Episode.Comments.Comment.self)
                   }
                 }
 
-                Routing(Route.Episode.Comments.show) {
+                Route(AppRoute.Episode.Comments.show) {
                   Method.get
                   Query("count", Int.parser(), default: 10)
                 }
@@ -100,8 +100,8 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   ]
   .map { URLRequestData(request: $0)! }
 
-  var output: [Route]!
-  var expectedOutput: [Route] = [
+  var output: [AppRoute]!
+  var expectedOutput: [AppRoute] = [
     .home,
     .contactUs,
     .episodes(.index),

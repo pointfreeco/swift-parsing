@@ -32,7 +32,7 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
     .map { User(id: $0, name: String($1), isAdmin: $2) }
     let users = Many {
       user
-    } separatedBy: {
+    } separator: {
       "\n"
     }
 
@@ -59,7 +59,7 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
     .map { User(id: $0, name: String(Substring($1)), isAdmin: $2) }
     let users = Many {
       user
-    } separatedBy: {
+    } separator: {
       "\n".utf8
     }
 

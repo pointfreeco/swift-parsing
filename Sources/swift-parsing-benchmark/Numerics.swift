@@ -34,7 +34,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
 
     suite.benchmark(
       name: "Int.parser",
-      run: { output = Int.parser(of: Slice<UnsafeBufferPointer<UTF8.CodeUnit>>.self).parse(input) },
+      run: { output = Int.parser(of: Substring.UTF8View.self).parse(input) },
       tearDown: { precondition(output == expected) }
     )
 
@@ -54,11 +54,10 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     let expected = Array(1...100_000)
     var output: [Int]!
 
-    typealias Input = Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
     let parser = Many {
-      Int.parser(of: Input.self)
-    } separatedBy: {
-      StartsWith<Input>(",".utf8)
+      Int.parser()
+    } separator: {
+      ",".utf8
     }
     suite.benchmark(
       name: "Comma separated: Int.parser",
@@ -107,7 +106,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     suite.benchmark(
       name: "Double.parser",
       run: {
-        output = Double.parser(of: Slice<UnsafeBufferPointer<UTF8.CodeUnit>>.self).parse(input)
+        output = Double.parser(of: Substring.UTF8View.self).parse(input)
       },
       tearDown: { precondition(output == expected) }
     )
@@ -128,11 +127,10 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     let expected = (1...100_000).map(Double.init)
     var output: [Double]!
 
-    typealias Input = Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
     let parser = Many {
-      Double.parser(of: Input.self)
-    } separatedBy: {
-      StartsWith<Input>(",".utf8)
+      Double.parser()
+    } separator: {
+      ",".utf8
     }
     suite.benchmark(
       name: "Comma separated: Double.parser",

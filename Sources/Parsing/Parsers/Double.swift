@@ -257,26 +257,29 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
     if self.first == .init(ascii: "-") || self.first == .init(ascii: "+") {
       self.removeFirst()
     }
-    while let c = self.first, (.init(ascii: "0") ... .init(ascii: "9")).contains(c) {
-      self.removeFirst()
-    }
+    let integer = self.prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
+    guard !integer.isEmpty else { return nil }
+    self.removeFirst(integer.count)
     if self.first == .init(ascii: ".") {
-      self.removeFirst()
-      while let c = self.first, (.init(ascii: "0") ... .init(ascii: "9")).contains(c) {
-        self.removeFirst()
-      }
-    }
-    guard self.startIndex != original.startIndex else {
-      self = original
-      return nil
+      let fractional =
+        self
+        .dropFirst()
+        .prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
+      guard !fractional.isEmpty else { return original[..<self.startIndex] }
+      self.removeFirst(1 + fractional.count)
     }
     if self.first == .init(ascii: "e") || self.first == .init(ascii: "E") {
-      if self.first == .init(ascii: "-") || self.first == .init(ascii: "+") {
-        self.removeFirst()
+      var n = 1
+      if self.dropFirst().first == .init(ascii: "-") || self.dropFirst().first == .init(ascii: "+")
+      {
+        n += 1
       }
-      while let c = self.first, (.init(ascii: "0") ... .init(ascii: "9")).contains(c) {
-        self.removeFirst()
-      }
+      let exponent =
+        self
+        .dropFirst(n)
+        .prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
+      guard !exponent.isEmpty else { return original[..<self.startIndex] }
+      self.removeFirst(n + exponent.count)
     }
     return original[..<self.startIndex]
   }

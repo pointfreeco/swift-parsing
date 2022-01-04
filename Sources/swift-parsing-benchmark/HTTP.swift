@@ -24,24 +24,24 @@ private func isToken(_ c: UTF8.CodeUnit) -> Bool {
   switch c {
   case 128...,
     ...31,
-    .init(ascii: #"("#),
-    .init(ascii: #")"#),
-    .init(ascii: #"<"#),
-    .init(ascii: #">"#),
-    .init(ascii: #"@"#),
-    .init(ascii: #","#),
-    .init(ascii: #";"#),
-    .init(ascii: #":"#),
+    .init(ascii: "("),
+    .init(ascii: ")"),
+    .init(ascii: "<"),
+    .init(ascii: ">"),
+    .init(ascii: "@"),
+    .init(ascii: ","),
+    .init(ascii: ";"),
+    .init(ascii: ":"),
     .init(ascii: "\\"),
-    .init(ascii: #"'"#),
-    .init(ascii: #"/"#),
-    .init(ascii: #"["#),
-    .init(ascii: #"]"#),
-    .init(ascii: #"?"#),
-    .init(ascii: #"="#),
-    .init(ascii: #"{"#),
-    .init(ascii: #"}"#),
-    .init(ascii: #" "#):
+    .init(ascii: "'"),
+    .init(ascii: "/"),
+    .init(ascii: "["),
+    .init(ascii: "]"),
+    .init(ascii: "?"),
+    .init(ascii: "="),
+    .init(ascii: "{"),
+    .init(ascii: "}"),
+    .init(ascii: " "):
     return false
   default:
     return true
@@ -153,7 +153,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
       Header(name: "Connection", value: ["keep-alive"]),
     ]
   )
-  var output: Output!
+  var output: (Request, [Header])!
   suite.benchmark(
     name: "HTTP",
     run: { output = request.parse(input) },

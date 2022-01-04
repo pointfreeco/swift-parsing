@@ -177,7 +177,7 @@ where
   }
 }
 
-struct Routing<RouteParser, Route>: Parser
+struct Route<RouteParser, Route>: Parser
 where
   RouteParser: Parser,
   RouteParser.Input == URLRequestData

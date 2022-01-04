@@ -4,7 +4,6 @@ import XCTest
 class ManyTests: XCTestCase {
   func testNoSeparator() {
     var input = "         Hello world"[...].utf8
-
     XCTAssertNotNil(
       Many {
         " ".utf8
@@ -20,7 +19,7 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(
       Many {
         Int.parser()
-      } separatedBy: {
+      } separator: {
         ",".utf8
       }
       .parse(&input),
@@ -35,7 +34,7 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(
       Many {
         Int.parser()
-      } separatedBy: {
+      } separator: {
         ",".utf8
       }
       .parse(&input),
@@ -50,7 +49,7 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(
       Many(atLeast: 6) {
         Int.parser()
-      } separatedBy: {
+      } separator: {
         ",".utf8
       }
       .parse(&input),
@@ -61,7 +60,7 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(
       Many(atLeast: 5) {
         Int.parser()
-      } separatedBy: {
+      } separator: {
         ",".utf8
       }
       .parse(&input),
@@ -76,7 +75,7 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(
       Many(atMost: 3) {
         Int.parser()
-      } separatedBy: {
+      } separator: {
         ",".utf8
       }
       .parse(&input),
@@ -91,12 +90,20 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(
       Many(into: 0, +=) {
         Int.parser()
-      } separatedBy: {
+      } separator: {
         ",".utf8
       }
       .parse(&input),
       15
     )
     XCTAssertEqual(Substring(input), "")
+  }
+
+  func testEmptyComponents() {
+    var input = "2001:db8::2:1"[...]
+    XCTAssertEqual(
+      Many(Prefix(while: \.isHexDigit), separator: ":").parse(&input),
+      ["2001", "db8", "", "2", "1"]
+    )
   }
 }

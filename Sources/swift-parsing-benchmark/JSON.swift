@@ -66,7 +66,7 @@ private let object = Parse {
     Lazy {
       json
     }
-  } separatedBy: {
+  } separator: {
     ",".utf8
     Skip {
       Whitespace()
@@ -84,7 +84,7 @@ private let array = Parse {
     Lazy {
       json
     }
-  } separatedBy: {
+  } separator: {
     ",".utf8
   }
   "]".utf8
@@ -99,7 +99,7 @@ private let unicode = Prefix(4) {
     || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
 }
 .compactMap {
-  UInt32(String(decoding: $0, as: UTF8.self), radix: 16)
+  UInt32(Substring($0), radix: 16)
     .flatMap(UnicodeScalar.init)
     .map(Character.init)
 }
@@ -123,7 +123,7 @@ private let escape = Parse {
 private let literal = Prefix(1...) {
   $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\")
 }
-.map { String(decoding: $0, as: UTF8.self) }
+.map { String(Substring($0)) }
 
 private enum StringFragment {
   case escape(Character)

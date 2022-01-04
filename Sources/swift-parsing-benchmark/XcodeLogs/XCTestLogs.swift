@@ -38,9 +38,7 @@ private let testCaseStartedLine = Parse {
     PrefixUpTo("Test Case '-[".utf8)
   }
   PrefixThrough("\n".utf8)
-    .map { line in
-      line.split(separator: .init(ascii: " "))[3].dropLast(2)
-    }
+    .map { line in line.split(separator: .init(ascii: " "))[3].dropLast(2) }
 }
 
 private let fileName = Parse {

@@ -84,7 +84,7 @@ private let race = Parse {
   "\n".utf8
   Many {
     coord
-  } separatedBy: {
+  } separator: {
     "\n".utf8
   }
 }
@@ -92,7 +92,7 @@ private let race = Parse {
 
 private let races = Many {
   race
-} separatedBy: {
+} separator: {
   "\n---\n".utf8
 }
 

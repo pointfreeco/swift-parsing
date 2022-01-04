@@ -25,7 +25,7 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
     var input = input[...].utf8
     let output = Many {
       Int.parser()
-    } separatedBy: {
+    } separator: {
       FromSubstring { "é" }
     }
     .parse(&input)
@@ -36,7 +36,7 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
     var input = input[...].utf8
     let output = Many {
       Int.parser()
-    } separatedBy: {
+    } separator: {
       OneOf {
         "é".utf8
         "é".utf8
