@@ -174,6 +174,18 @@ P3: Parser,
 
 @resultBuilder
 public enum OneOfBuilder {
+  public static func buildArray<P>(_ parsers: [P]) -> OneOfMany<P> where P: Parser {
+    OneOfMany(parsers)
+  }
+
+  public static func buildBlock<P0>(
+    _ p0: P0
+  )
+  -> P0
+  {
+    p0
+  }
+
   public static func buildBlock<P0, P1, P2>(
     _ p0: P0,
     _ p1: P1,
@@ -249,10 +261,16 @@ extension Many where Result == [Upstream.Output] {
   }
 }
 
-extension Parsers.OneOf {
-  public init(@OneOfBuilder build: () -> Self) {
-    self = build()
+public struct OneOf<Upstream>: Parser where Upstream: Parser {
+  public let upstream: Upstream
+
+  @inlinable
+  public init(@OneOfBuilder _ build: () -> Upstream) {
+    self.upstream = build()
+  }
+
+  @inlinable
+  public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
+    self.upstream.parse(&input)
   }
 }
-
-public typealias OneOf = Parsers.OneOf
