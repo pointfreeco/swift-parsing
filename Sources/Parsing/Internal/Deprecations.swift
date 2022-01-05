@@ -1,3 +1,21 @@
+// NB: Deprecated after 0.4.0:
+
+extension Many {
+  @available(*, deprecated, renamed: "Element")
+  public typealias Upstream = Element
+
+  @available(*, deprecated, renamed: "element")
+  public var upstream: Upstream { self.element }
+}
+
+extension Parsers.OptionalParser {
+  @available(*, deprecated, renamed: "Wrapped")
+  public typealias Upstream = Wrapped
+
+  @available(*, deprecated, renamed: "element")
+  public var upstream: Upstream { self.wrapped }
+}
+
 // NB: Deprecated after 0.3.1:
 
 extension Parsers {
