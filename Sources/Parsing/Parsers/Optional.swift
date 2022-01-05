@@ -13,21 +13,21 @@ extension Optional {
 }
 
 extension Parsers {
-  /// A parser that parses `nil` when its upstream parser fails.
+  /// A parser that parses `nil` when its wrapped parser fails.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Optional.parser(of:)`, which constructs this type.
-  public struct OptionalParser<Upstream>: Parser where Upstream: Parser {
-    public let upstream: Upstream
+  public struct OptionalParser<Wrapped>: Parser where Wrapped: Parser {
+    public let wrapped: Wrapped
 
     @inlinable
-    public init(_ upstream: Upstream) {
-      self.upstream = upstream
+    public init(_ wrapped: Wrapped) {
+      self.wrapped = wrapped
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Upstream.Output?? {
-      .some(self.upstream.parse(&input))
+    public func parse(_ input: inout Wrapped.Input) -> Wrapped.Output?? {
+      .some(self.wrapped.parse(&input))
     }
   }
 }
