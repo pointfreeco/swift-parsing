@@ -63,7 +63,7 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
     .map {
       (qd: $0, an: $1, ns: $2, ar: $3)
     }
-  
+
   let header = Parse {
     id
     fields1

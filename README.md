@@ -282,7 +282,7 @@ Many of the parsers and operators that come with the library are configured with
 ```swift
 let accountingNumber = OneOf {
   Int.parser()
-  
+
   Parse {
     "("
     Int.parser()
