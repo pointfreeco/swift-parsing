@@ -154,13 +154,7 @@ private struct PathEnd: Parser {
   typealias Output = Void
 
   func parse(_ input: inout Input) -> Output? {
-    guard
-      input.method == nil,
-      input.pathComponents.isEmpty
-    else { return nil }
-
-    input = .init()
-
+    guard input.pathComponents.isEmpty else { return nil }
     return ()
   }
 }
