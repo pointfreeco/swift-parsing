@@ -26,9 +26,9 @@ Int.parser()
 input
 
 input = """
-1,Blob,member
-2,Blob Jr,guest
-3,Blob Sr,admin
+1,   Blob   ,member
+2,Blob Jr   ,guest
+  3,   Blob Sr,admin
 """[...]
 
 enum Role {
@@ -38,6 +38,17 @@ enum Role {
 let role = "admin".map { Role.admin }
   .orElse("guest".map { Role.guest })
   .orElse("member".map { Role.member })
+//  .orElse(...)
+//  .orElse(...)
+//  .orElse(...)
+//  .orElse(...)
+//  .orElse(...)
+
+//let role = OneOf {
+//  "admin".map { Role.admin }
+//  "guest".map { Role.guest }
+//  "member".map { Role.member }
+//}
 
 struct User {
   var id: Int
@@ -45,14 +56,47 @@ struct User {
   var role: Role
 }
 
-let user = Int.parser()
+let zeroOrMoreSpaces = Prefix { $0 == " " }
+
+let user = Skip(zeroOrMoreSpaces)
+  .take(Int.parser())
+  .skip(zeroOrMoreSpaces)
   .skip(",")
+  .skip(zeroOrMoreSpaces)
   .take(Prefix { $0 != "," }.map(String.init))
+  .skip(zeroOrMoreSpaces)
   .skip(",")
+  .skip(zeroOrMoreSpaces)
   .take(role)
+  .skip(zeroOrMoreSpaces)
   .map(User.init(id:name:role:))
 
+//let user = Parse(User.init(id:name:role:)) {
+//  zeroOrMoreSpaces
+//  Int.parser()
+//  zeroOrMoreSpaces
+//  ","
+//  zeroOrMoreSpaces
+//  Prefix { $0 != "," }.map(String.init)
+//  zeroOrMoreSpaces
+//  ","
+//  zeroOrMoreSpaces
+//  role
+//  zeroOrMoreSpaces
+//}
+//  .map(User.init(id:name:role:))
+
+pow(2, 11)
+//pow(2, n) + pow(2, n-1) + pow(2, n-2) + ... + pow(2, 0)
+// = pow(2, n+1) - 1
+pow(2, 6+1) - 1
+
 let users = Many(user, separator: "\n")
+//let users = Many {
+//  user
+//} separator: {
+//  "\n"
+//}
 users.parse(&input)
 
 input
@@ -89,3 +133,21 @@ let view = Group {
 /*
  SwiftUI.ForEach<ClosedRange<Int>, Int, SwiftUI.Button<SwiftUI.HStack<SwiftUI.TupleView<(SwiftUI.Text, SwiftUI.Text)>>>>
  */
+
+VStack { Text(""); Text(""); Text(""); Text(""); Text(""); Text(""); Text(""); Text(""); Text(""); Text(""); }
+
+Section {
+  Text("Content")
+} header: {
+  Text("Header")
+} footer: {
+  Text("Footer")
+}
+
+NavigationLink {
+  Text("Destination")
+} label: {
+  Text("Label")
+}
+
+
