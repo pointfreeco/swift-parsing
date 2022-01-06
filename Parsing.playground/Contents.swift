@@ -26,9 +26,9 @@ Int.parser()
 input
 
 input = """
-1,   Blob   ,member
-2,Blob Jr   ,guest
-  3,   Blob Sr,admin
+1,Blob,member
+2,Blob Jr,guest
+3,Blob Sr,admin
 """[...]
 
 enum Role {
@@ -58,32 +58,85 @@ struct User {
 
 let zeroOrMoreSpaces = Prefix { $0 == " " }
 
-let user = Skip(zeroOrMoreSpaces)
-  .take(Int.parser())
-  .skip(zeroOrMoreSpaces)
-  .skip(",")
-  .skip(zeroOrMoreSpaces)
-  .take(Prefix { $0 != "," }.map(String.init))
-  .skip(zeroOrMoreSpaces)
-  .skip(",")
-  .skip(zeroOrMoreSpaces)
-  .take(role)
-  .skip(zeroOrMoreSpaces)
-  .map(User.init(id:name:role:))
+//let user = Skip(zeroOrMoreSpaces)
+//  .take(Int.parser())
+//  .skip(zeroOrMoreSpaces)
+//  .skip(",")
+//  .skip(zeroOrMoreSpaces)
+//  .take(Prefix { $0 != "," }.map(String.init))
+//  .skip(zeroOrMoreSpaces)
+//  .skip(",")
+//  .skip(zeroOrMoreSpaces)
+//  .take(role)
+//  .skip(zeroOrMoreSpaces)
+//  .map(User.init(id:name:role:))
 
-//let user = Parse(User.init(id:name:role:)) {
-//  zeroOrMoreSpaces
-//  Int.parser()
-//  zeroOrMoreSpaces
-//  ","
-//  zeroOrMoreSpaces
-//  Prefix { $0 != "," }.map(String.init)
-//  zeroOrMoreSpaces
-//  ","
-//  zeroOrMoreSpaces
-//  role
-//  zeroOrMoreSpaces
-//}
+@resultBuilder
+enum ParserBuilder {
+  static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0,
+    _ p1: P1,
+    _ p2: P2,
+    _ p3: P3,
+    _ p4: P4
+  )
+  -> Parsers.Take3<Parsers.SkipSecond<Parsers.Take2<Parsers.SkipSecond<P0, P1>, P2>, P3>, P0.Output, P2.Output, P4>
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P1.Output == Void,
+    P3.Output == Void
+  {
+    p0.skip(p1).take(p2).skip(p3).take(p4)
+  }
+}
+
+Group {
+  Text("Hi")
+  Button("Bye") {}
+}
+struct _Group<Content>: View where Content: View {
+  let content: Content
+  init(@ViewBuilder content: () -> Content) {
+    self.content = content()
+  }
+  var body: some View {
+    self.content
+  }
+}
+struct Parse<Parsers, NewOutput>: Parser where Parsers: Parser {
+  let transform: (Parsers.Output) -> NewOutput
+  let parsers: Parsers
+  init(
+    _ transform: @escaping (Parsers.Output) -> NewOutput,
+    @ParserBuilder parsers: () -> Parsers
+  ) {
+    self.transform = transform
+    self.parsers = parsers()
+  }
+  init(
+    @ParserBuilder parsers: () -> Parsers
+  )
+  where Parsers.Output == NewOutput
+  {
+    self.transform = { $0 }
+    self.parsers = parsers()
+  }
+  func parse(_ input: inout Parsers.Input) -> NewOutput? {
+    self.parsers.parse(&input).map(transform)
+  }
+}
+
+let user = Parse(User.init(id:name:role:)) {
+  Int.parser()
+  ","
+  Prefix { $0 != "," }.map(String.init)
+  ","
+  role
+}
 //  .map(User.init(id:name:role:))
 
 pow(2, 11)
