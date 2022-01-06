@@ -15,6 +15,15 @@ where
   }
 
   @inlinable
+  public init(
+    _ route: CasePath<Route, RouteParser.Output>
+  ) where RouteParser == Always<URLRequestData, Void> {
+    self.init(route) {
+      Always<URLRequestData, Void>(())
+    }
+  }
+
+  @inlinable
   public func parse(_ input: inout URLRequestData) -> Route? {
     let original = input
     guard
