@@ -12,7 +12,7 @@ extension Parsers.OptionalParser {
   @available(*, deprecated, renamed: "Wrapped")
   public typealias Upstream = Wrapped
 
-  @available(*, deprecated, renamed: "element")
+  @available(*, deprecated, renamed: "wrapped")
   public var upstream: Upstream { self.wrapped }
 }
 
