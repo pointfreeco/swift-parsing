@@ -35,20 +35,41 @@ enum Role {
   case admin, guest, member
 }
 
-let role = "admin".map { Role.admin }
-  .orElse("guest".map { Role.guest })
-  .orElse("member".map { Role.member })
+//let role = "admin".map { Role.admin }
+//  .orElse("guest".map { Role.guest })
+//  .orElse("member".map { Role.member })
 //  .orElse(...)
 //  .orElse(...)
 //  .orElse(...)
 //  .orElse(...)
 //  .orElse(...)
 
-//let role = OneOf {
-//  "admin".map { Role.admin }
-//  "guest".map { Role.guest }
-//  "member".map { Role.member }
-//}
+@resultBuilder
+enum OneOfBuilder {
+  static func buildBlock<P0, P1, P2>(
+    _ p0: P0,
+    _ p1: P1,
+    _ p2: P2
+  )
+  -> Parsers.OneOf<Parsers.OneOf<P0, P1>, P2>
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser
+  {
+    p0.orElse(p1).orElse(p2)
+  }
+}
+
+extension Parsers.OneOf {
+  init(@OneOfBuilder build: () -> Self) {
+    self = build()
+  }
+}
+
+typealias OneOf = Parsers.OneOf
+
+// Parser<Substring, (Role, Role, Role)>
 
 struct User {
   var id: Int
@@ -92,6 +113,20 @@ enum ParserBuilder {
   {
     p0.skip(p1).take(p2).skip(p3).take(p4)
   }
+
+  static func buildBlock<P0, P1, P2>(
+    _ p0: P0,
+    _ p1: P1,
+    _ p2: P2
+  )
+  -> Parsers.Take3<Parsers.Take2<P0, P1>, P0.Output, P1.Output, P2>
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser
+  {
+    p0.take(p1).take(p2)
+  }
 }
 
 Group {
@@ -128,6 +163,12 @@ struct Parse<Parsers, NewOutput>: Parser where Parsers: Parser {
   func parse(_ input: inout Parsers.Input) -> NewOutput? {
     self.parsers.parse(&input).map(transform)
   }
+}
+
+let role = OneOf {
+  "admin".map { Role.admin }
+  "guest".map { Role.guest }
+  "member".map { Role.member }
 }
 
 let user = Parse(User.init(id:name:role:)) {
