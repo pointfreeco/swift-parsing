@@ -127,6 +127,16 @@ enum ParserBuilder {
   {
     p0.take(p1).take(p2)
   }
+
+  static func buildBlock<P0>(
+    _ p0: P0
+  )
+  -> P0
+  where
+    P0: Parser
+  {
+    p0
+  }
 }
 
 Group {
@@ -178,19 +188,37 @@ let user = Parse(User.init(id:name:role:)) {
   ","
   role
 }
-//  .map(User.init(id:name:role:))
 
 pow(2, 11)
 //pow(2, n) + pow(2, n-1) + pow(2, n-2) + ... + pow(2, 0)
 // = pow(2, n+1) - 1
 pow(2, 6+1) - 1
 
-let users = Many(user, separator: "\n")
-//let users = Many {
-//  user
-//} separator: {
-//  "\n"
-//}
+extension Many where Result == [Element.Output] {
+  init(
+    @ParserBuilder _ element: () -> Element,
+    @ParserBuilder separator: () -> Separator
+  ) {
+    self.init(element(), separator: separator())
+  }
+}
+
+//let users = Many(user, separator: "\n")
+let users = Many {
+  Parse(User.init(id:name:role:)) {
+    Int.parser()
+    ","
+    Prefix { $0 != "," }.map(String.init)
+    ","
+    OneOf {
+      "admin".map { Role.admin }
+      "guest".map { Role.guest }
+      "member".map { Role.member }
+    }
+  }
+} separator: {
+  "\n"
+}
 users.parse(&input)
 
 input
