@@ -8,45 +8,125 @@ import Parsing
  recognize one of 5 routes for a website.
  */
 
+private struct Route<Parsers, NewOutput>: Parser
+where
+  Parsers: Parser,
+  Parsers.Input == RequestData
+{
+  let transform: (Parsers.Output) -> NewOutput
+  let parsers: Parsers
+  init(
+    _ transform: @escaping (Parsers.Output) -> NewOutput,
+    @ParserBuilder parsers: () -> Parsers
+  ) {
+    self.transform = transform
+    self.parsers = parsers()
+  }
+  init(
+    _ newOutput: NewOutput,
+    @ParserBuilder parsers: () -> Parsers
+  )
+  where Parsers.Output == Void
+  {
+    self.init({ newOutput }, parsers: parsers)
+  }
+  init(
+    @ParserBuilder parsers: () -> Parsers
+  )
+  where Parsers.Output == NewOutput
+  {
+    self.transform = { $0 }
+    self.parsers = parsers()
+  }
+  init(_ newOutput: NewOutput) where Parsers == Always<Input, Void> {
+    self.init({ newOutput }, parsers: { Always<Input, Void>(()) })
+  }
+  func parse(_ input: inout Parsers.Input) -> NewOutput? {
+    let original = input
+    guard
+      let output = self.parsers.parse(&input).map(transform),
+      input.pathComponents.isEmpty,
+      input.method == nil || input.method == "GET"
+    else {
+      input = original
+      return nil
+    }
+    return output
+  }
+}
+
+
 let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   enum AppRoute: Equatable {
     case home
     case contactUs
-    case episodes
-    case episode(id: Int)
-    case episodeComments(id: Int)
+    case episodes(Episodes)
+  }
+  enum Episodes: Equatable {
+    case root
+    case episode(id: Int, Episode)
+  }
+  enum Episode: Equatable {
+    case root
+    case comments
   }
 
-  let router = Method("GET")
-    .skip(PathEnd())
-    .map { AppRoute.home }
-    .orElse(
-      Method("GET")
-        .skip(Path("contact-us".utf8))
-        .skip(PathEnd())
-        .map { AppRoute.contactUs }
-    )
-    .orElse(
-      Method("GET")
-        .skip(Path("episodes".utf8))
-        .skip(PathEnd())
-        .map { AppRoute.episodes }
-    )
-    .orElse(
-      Method("GET")
-        .skip(Path("episodes".utf8))
-        .take(Path(Int.parser()))
-        .skip(PathEnd())
-        .map(AppRoute.episode(id:))
-    )
-    .orElse(
-      Method("GET")
-        .skip(Path("episodes".utf8))
-        .take(Path(Int.parser()))
-        .skip(Path("comments".utf8))
-        .skip(PathEnd())
-        .map(AppRoute.episodeComments(id:))
-    )
+  AppRoute.episodes(.episode(id: 42, .comments))
+
+  let episodeRouter = OneOf {
+    Route(Episode.root)
+
+    Route(Episode.comments) {
+      Path("comments".utf8)
+    }
+  }
+
+  let episodesRouter = OneOf {
+    Route(Episodes.root)
+
+    Route(Episodes.episode) {
+      Path(Int.parser())
+
+      episodeRouter
+    }
+  }
+
+  let router = OneOf {
+    Route(AppRoute.home)
+
+    Route(AppRoute.contactUs) {
+      Path("contact-us".utf8)
+    }
+
+    Route(AppRoute.episodes) {
+      Path("episodes".utf8)
+
+      episodesRouter
+    }
+
+//    Route(AppRoute.episode(id:)) {
+//      Path("episodes".utf8)
+//      Path(Int.parser())
+//    }
+//
+//    Route(AppRoute.episodeComments(id:)) {
+//      Path("episodes".utf8)
+//      Path(Int.parser())
+//      Path("comments".utf8)
+//
+////      Path {
+////        "episodes".utf8
+////        Int.parser()
+////        "comments".utf8
+////      }
+////      Query {
+////        Field("page", Int.parser())
+////        Field("count", Int.parser())
+////      }
+//    }
+  }
+
+  // /episodes/42
 
   let requests = [
     RequestData(
@@ -74,9 +154,9 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   var expectedOutput: [AppRoute] = [
     .home,
     .contactUs,
-    .episodes,
-    .episode(id: 1),
-    .episodeComments(id: 1),
+    .episodes(.root),
+    .episodes(.episode(id: 1, .root)),
+    .episodes(.episode(id: 1, .comments))
   ]
   suite.benchmark(
     name: "Parser",
