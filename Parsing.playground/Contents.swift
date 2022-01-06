@@ -134,6 +134,39 @@ let view = Group {
  SwiftUI.ForEach<ClosedRange<Int>, Int, SwiftUI.Button<SwiftUI.HStack<SwiftUI.TupleView<(SwiftUI.Text, SwiftUI.Text)>>>>
  */
 
+struct Template<Title: View, Content: View>: View {
+  let title: Title
+  let content: Content
+
+  init(
+    @ViewBuilder title: () -> Title,
+    @ViewBuilder content: () -> Content
+  ) {
+    self.title = title()
+    self.content = content()
+  }
+
+  var body: some View {
+    VStack {
+      self.title
+      self.content
+    }
+  }
+}
+
+//Template(title: Text("Hi"), content: Text("Welcome!"))
+Template {
+  if true {
+    Text("Hi")
+  } else {
+    Text("Bye")
+  }
+  Spacer()
+} content: {
+  Text("Welcome")
+}
+
+
 VStack { Text(""); Text(""); Text(""); Text(""); Text(""); Text(""); Text(""); Text(""); Text(""); Text(""); }
 
 Section {
@@ -150,4 +183,41 @@ NavigationLink {
   Text("Label")
 }
 
+@resultBuilder
+enum StringBuilder {
+  static func buildArray(_ components: [String]) -> String {
+    components.joined()
+  }
+  static func buildEither(first component: String) -> String {
+    component
+  }
 
+  static func buildEither(second component: String) -> String {
+    component
+  }
+  static func buildOptional(_ component: String?) -> String {
+    component ?? ""
+  }
+  static func buildBlock(_ components: String...) -> String {
+    components.joined()
+  }
+}
+
+extension String {
+  init(@StringBuilder build: () -> String) {
+    self = build()
+  }
+}
+
+let useSpace = false
+String(build: {
+  "Hello"
+  switch useSpace {
+  case true: " "
+  case false: "-"
+  }
+  "World"
+  for _ in 1...10 {
+    "!"
+  }
+})
