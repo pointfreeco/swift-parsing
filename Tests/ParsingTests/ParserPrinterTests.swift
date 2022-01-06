@@ -36,7 +36,7 @@ class ParserPrinterTests: XCTestCase {
 
   func testUUID() {
     let p = UUID.parser(of: Substring.self)
-    
+
     XCTAssertEqual(
       p.parse("deadbeef-dead-beef-dead-beefdeadbeef"),
       UUID(uuidString: "deadbeef-dead-beef-dead-beefdeadbeef")!
@@ -54,7 +54,7 @@ class ParserPrinterTests: XCTestCase {
       case bar
     }
 
-    let p = Ok.parser()
+    let p = Ok.parser(rawValue: String.parser(of: Substring.self))
 
     XCTAssertEqual(
       p.parse("foo"),
