@@ -6,10 +6,6 @@ import Parsing
  This benchmark demonstrates how to parse raw data, which is just a collection of UInt8 values
  (bytes).
 
-     name                   time        std        iterations
-     --------------------------------------------------------
-     BinaryData.Parser       466.000 ns ± 180.71 %    1000000
-
  The data format we parse is the header for DNS packets, as specified
  (here)[https://tools.ietf.org/html/rfc1035#page-26]. It consists of 12 bytes, and contains
  information for 13 fields:

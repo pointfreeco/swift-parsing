@@ -2,11 +2,6 @@ import Benchmark
 import Foundation
 import Parsing
 
-//name                        time           std        iterations
-//----------------------------------------------------------------
-//CSV.Parser                  1884886.500 ns ±  13.14 %        694
-//CSV.Ad hoc mutating methods 1229682.000 ns ±  12.79 %       1069
-
 // MARK: - Parser
 
 private let plainField = Prefix {

@@ -5,19 +5,6 @@ import Parsing
 /*
  This benchmark demonstrates how the numeric parsers in the library compare to Apple's tools, such
  as initializers and `Scanner`.
-
-     Numerics.Int.init                                   37.000 ns ± 713.10 %    1000000
-     Numerics.Int.parser                                 41.000 ns ± 504.93 %    1000000
-     Numerics.Scanner.scanInt                           140.000 ns ± 313.27 %    1000000
-     Numerics.Comma separated: Int.parser           5043398.000 ns ±   8.88 %        270
-     Numerics.Comma separated: Scanner.scanInt     82647491.000 ns ±   1.99 %         17
-     Numerics.Comma separated: String.split       117548323.500 ns ±   2.37 %         12
-     Numerics.Double.init                                61.000 ns ± 626.24 %    1000000
-     Numerics.Double.parser                              92.000 ns ± 249.73 %    1000000
-     Numerics.Scanner.scanDouble                        194.000 ns ± 246.77 %    1000000
-     Numerics.Comma separated: Double.parser        8743220.000 ns ±   6.54 %        138
-     Numerics.Comma separated: Scanner.scanDouble  86630892.500 ns ±   2.81 %         16
-     Numerics.Comma separated: String.split        33427195.500 ns ±   6.68 %         42
  */
 
 let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
