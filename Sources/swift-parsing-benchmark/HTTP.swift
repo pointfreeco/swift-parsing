@@ -83,7 +83,7 @@ private let httpVersion = Parse {
 }
 .map { String(decoding: $0, as: UTF8.self) }
 
-private let requestLine = Parse {
+private let requestLine = Parse(Request.init(method:uri:version:)) {
   method
   " ".utf8
   uri
@@ -91,7 +91,6 @@ private let requestLine = Parse {
   httpVersion
   Newline()
 }
-.map(Request.init(method:uri:version:))
 
 private let headerValue = Parse {
   Skip {
@@ -107,14 +106,13 @@ private let headerValue = Parse {
   }
 }
 
-private let header = Parse {
+private let header = Parse(Header.init(name:value:)) {
   Prefix(while: isToken).map { String(decoding: $0, as: UTF8.self) }
   ":".utf8
   Many {
     headerValue
   }
 }
-.map(Header.init)
 
 private let request = Parse {
   requestLine

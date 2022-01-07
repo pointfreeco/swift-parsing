@@ -18,19 +18,17 @@ private let eastWest = OneOf {
   "W".utf8.map { -1.0 }
 }
 
-private let latitude = Parse {
+private let latitude = Parse(*) {
   Double.parser()
   "° ".utf8
   northSouth
 }
-.map(*)
 
-private let longitude = Parse {
+private let longitude = Parse(*) {
   Double.parser()
   "° ".utf8
   eastWest
 }
-.map(*)
 
 private struct Coordinate {
   let latitude: Double
@@ -41,13 +39,12 @@ private let zeroOrMoreSpaces = Skip {
   Prefix { $0 == .init(ascii: " ") }
 }
 
-private let coord = Parse {
+private let coord = Parse(Coordinate.init(latitude:longitude:)) {
   latitude
   ",".utf8
   zeroOrMoreSpaces
   longitude
 }
-.map(Coordinate.init)
 
 private enum Currency { case eur, gbp, usd }
 
@@ -62,11 +59,10 @@ private struct Money {
   let value: Double
 }
 
-private let money = Parse {
+private let money = Parse(Money.init(currency:value:)) {
   currency
   Double.parser()
 }
-.map(Money.init(currency:value:))
 
 private struct Race {
   let location: String
@@ -76,7 +72,7 @@ private struct Race {
 
 private let locationName = Prefix { $0 != .init(ascii: ",") }
 
-private let race = Parse {
+private let race = Parse(Race.init(location:entranceFee:path:)) {
   locationName.map { String(decoding: $0, as: UTF8.self) }
   ",".utf8
   zeroOrMoreSpaces
@@ -88,7 +84,6 @@ private let race = Parse {
     "\n".utf8
   }
 }
-.map(Race.init(location:entranceFee:path:))
 
 private let races = Many {
   race

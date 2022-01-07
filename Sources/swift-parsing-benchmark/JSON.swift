@@ -23,9 +23,7 @@ private enum JSONValue: Equatable {
   case string(String)
 }
 
-private typealias Input = Substring.UTF8View
-
-private var json: AnyParser<Input, JSONValue> {
+private var json: AnyParser<Substring.UTF8View, JSONValue> {
   Parse {
     Skip {
       Whitespace()
@@ -49,7 +47,7 @@ private var json: AnyParser<Input, JSONValue> {
 
 // MARK: Object
 
-private let object = Parse {
+private let object = Parse(JSONValue.object) {
   "{".utf8
   Many(into: [String: JSONValue]()) { object, pair in
     let (name, value) = pair
@@ -74,11 +72,10 @@ private let object = Parse {
   }
   "}".utf8
 }
-.map(JSONValue.object)
 
 // MARK: Array
 
-private let array = Parse {
+private let array = Parse(JSONValue.array) {
   "[".utf8
   Many {
     Lazy {
@@ -89,7 +86,6 @@ private let array = Parse {
   }
   "]".utf8
 }
-.map(JSONValue.array)
 
 // MARK: String
 
@@ -150,24 +146,27 @@ private let stringLiteral = Parse {
   "\"".utf8
 }
 
-private let string =
+private let string = Parse(JSONValue.string) {
   stringLiteral
-  .map(JSONValue.string)
+}
 
 // MARK: Number
 
-private let number = Double.parser(of: Input.self)
-  .map(JSONValue.number)
+private let number = Parse(JSONValue.number) {
+  Double.parser(of: Substring.UTF8View.self)
+}
 
 // MARK: Boolean
 
-private let boolean = Bool.parser(of: Input.self)
-  .map(JSONValue.boolean)
+private let boolean = Parse(JSONValue.boolean) {
+  Bool.parser(of: Substring.UTF8View.self)
+}
 
 // MARK: Null
 
-private let null = Parse { "null".utf8 }
-  .map { JSONValue.null }
+private let null = Parse(JSONValue.null) {
+  "null".utf8
+}
 
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   let input = #"""

@@ -182,36 +182,46 @@ where
   RouteParser: Parser,
   RouteParser.Input == URLRequestData
 {
-  let parser: Parse<Zip2_OV<Parsers.Map<RouteParser, Route>, PathEnd>>
+  let parser: RouteParser
+  let transform: (RouteParser.Output) -> Route
 
   @inlinable
   init(
-    _ route: @escaping (RouteParser.Output) -> Route,
-    @ParserBuilder to parser: () -> RouteParser
+    _ transform: @escaping (RouteParser.Output) -> Route,
+    @ParserBuilder with body: () -> RouteParser
   ) {
-    self.parser = Parse {
-      parser().map(route)
-      PathEnd()
-    }
-  }
-
-  @inlinable
-  init(
-    _ route: Route,
-    @ParserBuilder to parser: () -> RouteParser
-  ) where RouteParser.Output == Void {
-    self.init({ route }, to: parser)
-  }
-
-  @inlinable
-  init(
-    _ route: Route
-  ) where RouteParser == Always<URLRequestData, Void> {
-    self.init({ route }, to: { Always<URLRequestData, Void>(()) })
+    self.parser = body()
+    self.transform = transform
   }
 
   @inlinable
   func parse(_ input: inout URLRequestData) -> Route? {
-    self.parser.parse(&input)
+    let original = input
+    guard
+      let output = self.parser.parse(&input).map(self.transform),
+      input.path.isEmpty,
+      input.method == nil || input.method?.uppercased() == "GET"
+    else {
+      input = original
+      return nil
+    }
+    return output
+  }
+}
+
+extension Route where RouteParser.Output == Void {
+  @inlinable
+  init(
+    _ route: Route,
+    @ParserBuilder with body: () -> RouteParser
+  ) {
+    self.init({ route }, with: body)
+  }
+}
+
+extension Route where RouteParser == Always<URLRequestData, Void> {
+  @inlinable
+  init(_ route: Route) {
+    self.init({ route }, with: { Always<URLRequestData, Void>(()) })
   }
 }

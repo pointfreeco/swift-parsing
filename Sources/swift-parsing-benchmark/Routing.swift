@@ -25,7 +25,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 
       enum Comments: Equatable {
         case post(Comment)
-        case show(count: Int?)
+        case show(count: Int)
 
         struct Comment: Decodable, Equatable {
           let commenter: String
@@ -36,12 +36,9 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   }
 
   let router = OneOf {
-    Route(AppRoute.home) {
-      Method.get
-    }
+    Route(AppRoute.home)
 
     Route(AppRoute.contactUs) {
-      Method.get
       Path(FromUTF8View { "contact-us".utf8 })
     }
 
@@ -49,17 +46,13 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       Path(FromUTF8View { "episodes".utf8 })
 
       OneOf {
-        Route(AppRoute.Episodes.index) {
-          Method.get
-        }
+        Route(AppRoute.Episodes.index)
 
         Route(AppRoute.Episodes.episode) {
           Path(Int.parser())
 
           OneOf {
-            Route(AppRoute.Episode.show) {
-              Method.get
-            }
+            Route(AppRoute.Episode.show)
 
             Route(AppRoute.Episode.comments) {
               Path(FromUTF8View { "comments".utf8 })
@@ -73,7 +66,6 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
                 }
 
                 Route(AppRoute.Episode.Comments.show) {
-                  Method.get
                   Query("count", Int.parser(), default: 10)
                 }
               }
