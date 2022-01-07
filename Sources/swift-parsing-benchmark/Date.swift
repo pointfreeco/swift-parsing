@@ -6,12 +6,6 @@ import Parsing
  This benchmarks implements an [RFC-3339-compliant](https://www.ietf.org/rfc/rfc3339.txt) date
  parser in a relatively naive way and pits it against `DateFormatter` and `ISO8601DateFormatter`.
 
-     name                      time         std        iterations
-     ------------------------------------------------------------
-     Date.Parser               12776.000 ns ±  55.45 %      99633
-     Date.DateFormatter        41406.000 ns ±  31.12 %      31546
-     Date.ISO8601DateFormatter 56481.000 ns ±  30.28 %      23268
-
  Not only is the parser faster than both formatters, it is also more flexible. It will parse
  fractional seconds and time zone offsets automatically, whereas each formatter must be more
  explicit in the format it will parse.
