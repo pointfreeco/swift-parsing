@@ -101,9 +101,6 @@ private struct RequestData {
 }
 
 private struct Method: Parser {
-  typealias Input = RequestData
-  typealias Output = Void
-
   let method: String
 
   init(_ method: String) {
@@ -124,16 +121,13 @@ where
   Component: Parser,
   Component.Input == Substring.UTF8View
 {
-  typealias Input = RequestData
-  typealias Output = Component.Output
-
   let component: Component
 
   init(_ component: Component) {
     self.component = component
   }
 
-  func parse(_ input: inout Input) -> Output? {
+  func parse(_ input: inout RequestData) -> Component.Output? {
     guard !input.pathComponents.isEmpty
     else { return nil }
 
@@ -150,10 +144,7 @@ where
 }
 
 private struct PathEnd: Parser {
-  typealias Input = RequestData
-  typealias Output = Void
-
-  func parse(_ input: inout Input) -> Output? {
+  func parse(_ input: inout RequestData) -> Void? {
     guard input.pathComponents.isEmpty else { return nil }
     return ()
   }

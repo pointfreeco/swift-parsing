@@ -131,9 +131,6 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
 }
 
 struct Word16Parser: Parser {
-  typealias Input = Data
-  typealias Output = UInt16
-
   func parse(_ input: inout Data) -> UInt16? {
     guard input.count >= 2
     else { return nil }
