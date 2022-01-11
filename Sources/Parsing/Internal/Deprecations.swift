@@ -338,6 +338,62 @@ extension Stream {
 
 extension Parser where Input == Substring {
   @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
+  @available(macOS, deprecated: 100000, message: "Use 'FromSubstring' instead.")
+  @available(iOS, deprecated: 100000, message: "Use 'FromSubstring' instead.")
+  @available(watchOS, deprecated: 100000, message: "Use 'FromSubstring' instead.")
+  @available(tvOS, deprecated: 100000, message: "Use 'FromSubstring' instead.")
+  @inlinable
+  public var utf8: FromSubstring<Substring.UTF8View, Self> {
+    .init(upstream: self)
+  }
+}
+
+extension Parser where Input == Substring.UnicodeScalarView {
+  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
+  @available(macOS, deprecated: 100000, message: "Use 'FromUnicodeScalarView' instead.")
+  @available(iOS, deprecated: 100000, message: "Use 'FromUnicodeScalarView' instead.")
+  @available(watchOS, deprecated: 100000, message: "Use 'FromUnicodeScalarView' instead.")
+  @available(tvOS, deprecated: 100000, message: "Use 'FromUnicodeScalarView' instead.")
+  @inlinable
+  public var utf8: FromUnicodeScalarView<Substring.UTF8View, Self> {
+    .init(upstream: self)
+  }
+}
+
+extension Parsers {
+  @available(*, deprecated, renamed: "FromUnicodeScalarView")
+  public typealias UnicodeScalarViewToUTF8View = FromUnicodeScalarView
+
+  @available(*, deprecated, renamed: "FromUTF8View")
+  public typealias SubstringToUTF8View = FromUTF8View
+}
+
+extension FromSubstring where Input == Substring.UTF8View {
+  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
+  @available(macOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @available(iOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @available(watchOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @available(tvOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @inlinable
+  public init(upstream: SubstringParser) {
+    self.init { upstream }
+  }
+}
+
+extension FromUnicodeScalarView where Input == Substring.UTF8View {
+  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
+  @available(macOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @available(iOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @available(watchOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @available(tvOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @inlinable
+  public init(upstream: UnicodeScalarsParser) {
+    self.init { upstream }
+  }
+}
+
+extension Parser where Input == Substring {
+  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
   @available(macOS, deprecated: 100000, message: "Use 'FromUnicodeScalars' instead.")
   @available(iOS, deprecated: 100000, message: "Use 'FromUnicodeScalars' instead.")
   @available(watchOS, deprecated: 100000, message: "Use 'FromUnicodeScalars' instead.")
@@ -928,46 +984,6 @@ extension Parsers.OptionalParser {
 }
 
 // NB: Deprecated after 0.3.1:
-
-extension Parser where Input == Substring {
-  @available(*, deprecated, message: "Use the 'FromSubstring' builder with this parser instead")
-  @inlinable
-  public var utf8: FromSubstring<Substring.UTF8View, Self> {
-    .init(upstream: self)
-  }
-}
-
-extension Parser where Input == Substring.UnicodeScalarView {
-  @available(*, deprecated, message: "Use the 'FromUnicodeScalarView' builder with this parser instead")
-  @inlinable
-  public var utf8: FromUnicodeScalarView<Substring.UTF8View, Self> {
-    .init(upstream: self)
-  }
-}
-
-extension Parsers {
-  @available(*, deprecated, renamed: "FromUnicodeScalarView")
-  public typealias UnicodeScalarViewToUTF8View = FromUnicodeScalarView
-
-  @available(*, deprecated, renamed: "FromUTF8View")
-  public typealias SubstringToUTF8View = FromUTF8View
-}
-
-extension FromSubstring where Input == Substring.UTF8View {
-  @available(*, deprecated)
-  @inlinable
-  public init(upstream: SubstringParser) {
-    self.init { upstream }
-  }
-}
-
-extension FromUnicodeScalarView where Input == Substring.UTF8View {
-  @available(*, deprecated)
-  @inlinable
-  public init(upstream: UnicodeScalarsParser) {
-    self.init { upstream }
-  }
-}
 
 extension Parsers {
   @available(

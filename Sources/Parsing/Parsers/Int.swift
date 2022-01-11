@@ -25,15 +25,6 @@ extension FixedWidthInteger {
     .init(isSigned: isSigned, radix: radix)
   }
 
-  @inlinable
-  public static func parser(
-    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self,
-    isSigned: Bool = true,
-    radix: Self = 10
-  ) -> Parsers.IntParser<Substring.UTF8View, Self> {
-    .init(isSigned: isSigned, radix: radix)
-  }
-
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
   /// beginning of a substring's UTF-8 view.
   ///
@@ -49,11 +40,11 @@ extension FixedWidthInteger {
   /// - Returns: A parser that consumes an integer from the beginning of a substring's UTF-8 view.
   @_disfavoredOverload
   @inlinable
-  public static func parser<Input>(
+  public static func parser(
     of inputType: Substring.UTF8View.Type = Substring.UTF8View.self,
     isSigned: Bool = true,
     radix: Self = 10
-  ) -> Parsers.IntParser<Input, Self> {
+  ) -> Parsers.IntParser<Substring.UTF8View, Self> {
     .init(isSigned: isSigned, radix: radix)
   }
 
@@ -69,6 +60,7 @@ extension FixedWidthInteger {
   ///   - radix: The radix, or base, to use for converting text to an integer value. `radix` must be
   ///     in the range `2...36`.
   /// - Returns: A parser that consumes an integer from the beginning of a substring.
+  @_disfavoredOverload
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self,
