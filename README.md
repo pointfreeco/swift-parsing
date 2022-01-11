@@ -344,7 +344,7 @@ enum City {
 Because "San José" has an accented character, the safest way to parse it is to parse on the `Substring` abstraction level:
 
 ```swift
-let city = Parse {
+let city = OneOf {
   "London".map { City.london }
   "New York".map { City.newYork }
   "San José".map { City.sanJose }
