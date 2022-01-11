@@ -200,7 +200,7 @@ where
     guard
       let output = self.parser.parse(&input).map(self.transform),
       input.path.isEmpty,
-      input.method == nil || input.method?.uppercased() == "GET"
+      input.method == nil || Method.get.parse(&input) != nil
     else {
       input = original
       return nil

@@ -145,6 +145,32 @@ let user = Parse {
 .map { User(id: $0, name: String($1), isAdmin: $2) }
 ```
 
+To make the data we are parsing to more prominent, we can instead pass the transform function as the first argument to `Parse`:
+
+```swift
+let user = Parse {
+  User(id: $0, name: String($1), isAdmin: $2)
+} with: {
+  Int.parser()
+  ","
+  Prefix { $0 != "," }
+  ","
+  Bool.parser()
+}
+```
+
+We can even pass the initializer directly if we map the name parser to a `String` in the builder block:
+
+```swift
+let user = Parse(User.init(id:name:isAdmin:)) {
+  Int.parser()
+  ","
+  Prefix { $0 != "," }.map(String.init)
+  ","
+  Bool.parser()
+}
+```
+
 That is enough to parse a single user from the input string:
 
 ```swift
