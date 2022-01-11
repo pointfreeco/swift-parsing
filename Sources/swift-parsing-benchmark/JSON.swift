@@ -5,11 +5,6 @@ import Parsing
 /*
  This benchmark shows how to create a naive JSON parser with combinators.
 
-     name                   time        std        iterations
-     --------------------------------------------------------
-     JSON.Parser            7453.000 ns ±  57.46 %     169185
-     JSON.JSONSerialization 2700.000 ns ±  94.15 %     471544
-
  It is mostly implemented according to the [spec](https://www.json.org/json-en.html) (we take a
  shortcut and use `Double.parser()`, which behaves accordingly).
  */

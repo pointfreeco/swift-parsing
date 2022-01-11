@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 /// A parser that attempts to run another parser as many times as specified, accumulating the result
 /// of the outputs.
@@ -32,66 +33,66 @@ import Foundation
 /// precondition(input == "")
 /// precondition(output == 6)
 /// ```
-public struct Many<Upstream, Result, Separator>: Parser
+public struct Many<Element, Result, Separator>: Parser
 where
-  Upstream: Parser,
+  Element: Parser,
   Separator: Parser,
-  Upstream.Input == Separator.Input
+  Element.Input == Separator.Input
 {
+  public let element: Element
   public let initialResult: Result
   public let maximum: Int
   public let minimum: Int
   public let separator: Separator?
-  public let updateAccumulatingResult: (inout Result, Upstream.Output) -> Void
-  public let upstream: Upstream
+  public let updateAccumulatingResult: (inout Result, Element.Output) -> Void
 
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs into a result with a given closure.
   ///
   /// - Parameters:
-  ///   - upstream: Another parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - minimum: The minimum number of times to run this parser and consider parsing to be
   ///     successful.
   ///   - maximum: The maximum number of times to run this parser before returning the output.
   ///   - separator: A parser that consumes input between each parsed output.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
-  ///     of the upstream parser.
+  ///     of the element parser.
   @inlinable
   public init(
-    _ upstream: Upstream,
+    _ element: Element,
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     separator: Separator,
-    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void
   ) {
+    self.element = element
     self.initialResult = initialResult
     self.maximum = maximum
     self.minimum = minimum
     self.separator = separator
     self.updateAccumulatingResult = updateAccumulatingResult
-    self.upstream = upstream
   }
 
   @inlinable
   public init(
     into initialResult: Result,
-    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder forEach: () -> Upstream, // TODO: Rename? `elements:`?
+    @ParserBuilder forEach element: () -> Element, // TODO: Rename? `elements:`?
     @ParserBuilder separator: () -> Separator
   ) {
+    self.element = element()
     self.initialResult = initialResult
     self.maximum = maximum
     self.minimum = minimum
     self.separator = separator()
     self.updateAccumulatingResult = updateAccumulatingResult
-    self.upstream = forEach()
   }
 
   @inlinable
-  public func parse(_ input: inout Upstream.Input) -> Result? {
+  public func parse(_ input: inout Element.Input) -> Result? {
     let original = input
     var rest = input
     #if DEBUG
@@ -100,7 +101,7 @@ where
     var result = self.initialResult
     var count = 0
     while count < self.maximum,
-      let output = self.upstream.parse(&input)
+      let output = self.element.parse(&input)
     {
       #if DEBUG
         defer { previous = input }
@@ -112,13 +113,13 @@ where
         break
       }
       #if DEBUG
-        if memcmp(&input, &previous, MemoryLayout<Upstream.Input>.size) == 0 {
+        if memcmp(&input, &previous, MemoryLayout<Element.Input>.size) == 0 {
           var description = ""
           debugPrint(output, terminator: "", to: &description)
           breakpoint(
             """
             ---
-            A "Many" parser succeeded in parsing a value of "\(Upstream.Output.self)" \
+            A "Many" parser succeeded in parsing a value of "\(Element.Output.self)" \
             (\(description)), but no input was consumed.
 
             This is considered a logic error that leads to an infinite loop, and is typically \
@@ -143,22 +144,22 @@ where
   }
 }
 
-extension Many where Result == [Upstream.Output], Separator == Always<Input, Void> {
+extension Many where Result == [Element.Output], Separator == Always<Input, Void> {
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs in an array.
   ///
   /// - Parameters:
-  ///   - upstream: Another parser.
+  ///   - element: A parser to run multiple times to accumulate into an array.
   ///   - minimum: The minimum number of times to run this parser and consider parsing to be
   ///     successful.
   ///   - maximum: The maximum number of times to run this parser before returning the output.
   @inlinable
   public init(
-    _ upstream: Upstream,
+    _ element: Element,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max
   ) {
-    self.init(upstream, into: [], atLeast: minimum, atMost: maximum) {
+    self.init(element, into: [], atLeast: minimum, atMost: maximum) {
       $0.append($1)
     }
   }
@@ -167,32 +168,32 @@ extension Many where Result == [Upstream.Output], Separator == Always<Input, Voi
   public init(
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder forEach: () -> Upstream
+    @ParserBuilder forEach element: () -> Element
   ) {
-    self.init(forEach(), into: [], atLeast: minimum, atMost: maximum) {
+    self.init(element(), into: [], atLeast: minimum, atMost: maximum) {
       $0.append($1)
     }
   }
 }
 
-extension Many where Result == [Upstream.Output] {
+extension Many where Result == [Element.Output] {
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs in an array.
   ///
   /// - Parameters:
-  ///   - upstream: Another parser.
+  ///   - element: A parser to run multiple times to accumulate into an array.
   ///   - minimum: The minimum number of times to run this parser and consider parsing to be
   ///     successful.
   ///   - maximum: The maximum number of times to run this parser before returning the output.
   ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
   public init(
-    _ upstream: Upstream,
+    _ element: Element,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     separator: Separator
   ) {
-    self.init(upstream, into: [], atLeast: minimum, atMost: maximum, separator: separator) {
+    self.init(element, into: [], atLeast: minimum, atMost: maximum, separator: separator) {
       $0.append($1)
     }
   }
@@ -201,10 +202,10 @@ extension Many where Result == [Upstream.Output] {
   public init(
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder forEach: () -> Upstream, // TODO: Rename? `elements`?
+    @ParserBuilder forEach element: () -> Element, // TODO: Rename? `elements`?
     @ParserBuilder separator: () -> Separator
   ) {
-    self.init(forEach(), into: [], atLeast: minimum, atMost: maximum, separator: separator()) {
+    self.init(element(), into: [], atLeast: minimum, atMost: maximum, separator: separator()) {
       $0.append($1)
     }
   }
@@ -215,26 +216,26 @@ extension Many where Separator == Always<Input, Void> {
   /// number of times, accumulating the outputs into a result with a given closure.
   ///
   /// - Parameters:
-  ///   - upstream: Another parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - minimum: The minimum number of times to run this parser and consider parsing to be
   ///     successful.
   ///   - maximum: The maximum number of times to run this parser before returning the output.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
-  ///     of the upstream parser.
+  ///     of the element parser.
   @inlinable
   public init(
-    _ upstream: Upstream,
+    _ element: Element,
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void
   ) {
+    self.element = element
     self.initialResult = initialResult
     self.maximum = maximum
     self.minimum = minimum
     self.separator = nil
     self.updateAccumulatingResult = updateAccumulatingResult
-    self.upstream = upstream
   }
 
   @inlinable
@@ -242,15 +243,15 @@ extension Many where Separator == Always<Input, Void> {
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     into initialResult: Result,
-    _ updateAccumulatingResult: @escaping (inout Result, Upstream.Output) -> Void,
-    @ParserBuilder forEach: () -> Upstream
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    @ParserBuilder forEach element: () -> Element
   ) {
+    self.element = element()
     self.initialResult = initialResult
     self.maximum = maximum
     self.minimum = minimum
     self.separator = nil
     self.updateAccumulatingResult = updateAccumulatingResult
-    self.upstream = forEach()
   }
 }
 

@@ -3,11 +3,7 @@ import Parsing
 
 /*
  This benchmark demonstrates how to build process a dump of Xcode test logs to transform them
- in an array of test failures and passes. It can process roughly 80 mb/s.
-
-     name              time           std        iterations
-     ------------------------------------------------------
-     Xcode Logs.Parser 7367774.000 ns ±   6.57 %        189
+ in an array of test failures and passes.
  */
 
 let xcodeLogsSuite = BenchmarkSuite(name: "Xcode Logs") { suite in
