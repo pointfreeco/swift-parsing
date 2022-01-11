@@ -23,6 +23,6 @@ format:
 		./Package.swift ./Sources ./Tests
 
 generate-variadics:
-	swift run variadics-generator > Sources/Parsing/ParserBuilder/Variadics.swift
+	swift run variadics-generator > Sources/Parsing/Builders/Variadics.swift
 
 .PHONY: benchmarks format generate-variadics test
