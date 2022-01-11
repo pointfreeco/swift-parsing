@@ -1,21 +1,49 @@
-/// A parser that transforms a parser on `Substring.UnicodeScalarView` into a parser on
-/// `Substring.UTF8View`.
-public struct FromUnicodeScalarView<UnicodeScalarParser>: Parser
+/// A parser that transforms a parser on `Substring.UnicodeScalarView` into a parser on another
+/// view.
+public struct FromUnicodeScalarView<Input, UnicodeScalarsParser>: Parser
 where
-  UnicodeScalarParser: Parser,
-  UnicodeScalarParser.Input == Substring.UnicodeScalarView
+  UnicodeScalarsParser: Parser,
+  UnicodeScalarsParser.Input == Substring.UnicodeScalarView
 {
-  public let unicodeScalarParser: UnicodeScalarParser
+  public let unicodeScalarsParser: UnicodeScalarsParser
+
+  @usableFromInline
+  let toUnicodeScalars: (Input) -> Substring.UnicodeScalarView
+
+  @usableFromInline
+  let fromUnicodeScalars: (Substring.UnicodeScalarView) -> Input
 
   @inlinable
-  public init(@ParserBuilder _ unicodeScalarParser: () -> UnicodeScalarParser) {
-    self.unicodeScalarParser = unicodeScalarParser()
+  public func parse(_ input: inout Input) -> UnicodeScalarsParser.Output? {
+    var unicodeScalars = self.toUnicodeScalars(input)
+    defer { input = self.fromUnicodeScalars(unicodeScalars) }
+    return self.unicodeScalarsParser.parse(&unicodeScalars)
   }
+}
 
+extension FromUnicodeScalarView where Input == ArraySlice<UInt8> {
   @inlinable
-  public func parse(_ input: inout Substring.UTF8View) -> UnicodeScalarParser.Output? {
-    var unicodeScalars = Substring(input).unicodeScalars
-    defer { input = Substring(unicodeScalars).utf8 }
-    return self.unicodeScalarParser.parse(&unicodeScalars)
+  public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+    self.unicodeScalarsParser = build()
+    self.toUnicodeScalars = { Substring(decoding: $0, as: UTF8.self).unicodeScalars }
+    self.fromUnicodeScalars = { ArraySlice(Substring($0).utf8) }
+  }
+}
+
+extension FromUnicodeScalarView where Input == Substring {
+  @inlinable
+  public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+    self.unicodeScalarsParser = build()
+    self.toUnicodeScalars = \.unicodeScalars
+    self.fromUnicodeScalars = Substring.init
+  }
+}
+
+extension FromUnicodeScalarView where Input == Substring.UTF8View {
+  @inlinable
+  public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+    self.unicodeScalarsParser = build()
+    self.toUnicodeScalars = { Substring($0).unicodeScalars }
+    self.fromUnicodeScalars = { Substring($0).utf8 }
   }
 }

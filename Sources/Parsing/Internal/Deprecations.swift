@@ -336,6 +336,68 @@ extension Stream {
   }
 }
 
+extension Parser where Input == Substring {
+  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
+  @available(macOS, deprecated: 100000, message: "Use 'FromUnicodeScalars' instead.")
+  @available(iOS, deprecated: 100000, message: "Use 'FromUnicodeScalars' instead.")
+  @available(watchOS, deprecated: 100000, message: "Use 'FromUnicodeScalars' instead.")
+  @available(tvOS, deprecated: 100000, message: "Use 'FromUnicodeScalars' instead.")
+  @inlinable
+  public var unicodeScalars: Parsers.SubstringToUnicodeScalars<Self> {
+    .init(upstream: self)
+  }
+}
+
+extension Parsers {
+  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
+  @available(macOS, deprecated: 100000, message: "Use 'FromUnicodeScalars' instead.")
+  @available(iOS, deprecated: 100000, message: "Use 'FromUnicodeScalars' instead.")
+  @available(watchOS, deprecated: 100000, message: "Use 'FromUnicodeScalars' instead.")
+  @available(tvOS, deprecated: 100000, message: "Use 'FromUnicodeScalars' instead.")
+  public struct SubstringToUnicodeScalars<Upstream>: Parser
+  where
+    Upstream: Parser,
+    Upstream.Input == Substring
+  {
+    public let upstream: Upstream
+
+    @inlinable
+    public init(upstream: Upstream) {
+      self.upstream = upstream
+    }
+
+    @inlinable
+    public func parse(_ input: inout Substring.UnicodeScalarView) -> Upstream.Output? {
+      var substring = Substring(input)
+      defer { input = substring.unicodeScalars }
+      return self.upstream.parse(&substring)
+    }
+  }
+
+  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
+  @available(macOS, deprecated: 100000, message: "Use 'FromUTF8View' instead.")
+  @available(iOS, deprecated: 100000, message: "Use 'FromUTF8View' instead.")
+  @available(watchOS, deprecated: 100000, message: "Use 'FromUTF8View' instead.")
+  @available(tvOS, deprecated: 100000, message: "Use 'FromUTF8View' instead.")
+  public struct UTF8ViewToSubstring<UTF8ViewParser>: Parser
+  where
+    UTF8ViewParser: Parser,
+    UTF8ViewParser.Input == Substring.UTF8View
+  {
+    public let utf8ViewParser: UTF8ViewParser
+
+    @inlinable
+    public init(_ utf8ViewParser: UTF8ViewParser) {
+      self.utf8ViewParser = utf8ViewParser
+    }
+
+    @inlinable
+    public func parse(_ input: inout Substring) -> UTF8ViewParser.Output? {
+      self.utf8ViewParser.parse(&input.utf8)
+    }
+  }
+}
+
 extension Parser {
   @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
   @available(macOS, deprecated: 100000, message: "Use 'Parse' (and 'Skip') instead.")
@@ -870,7 +932,7 @@ extension Parsers.OptionalParser {
 extension Parser where Input == Substring {
   @available(*, deprecated, message: "Use the 'FromSubstring' builder with this parser instead")
   @inlinable
-  public var utf8: FromSubstring<Self> {
+  public var utf8: FromSubstring<Substring.UTF8View, Self> {
     .init(upstream: self)
   }
 }
@@ -878,7 +940,7 @@ extension Parser where Input == Substring {
 extension Parser where Input == Substring.UnicodeScalarView {
   @available(*, deprecated, message: "Use the 'FromUnicodeScalarView' builder with this parser instead")
   @inlinable
-  public var utf8: FromUnicodeScalarView<Self> {
+  public var utf8: FromUnicodeScalarView<Substring.UTF8View, Self> {
     .init(upstream: self)
   }
 }
@@ -891,19 +953,19 @@ extension Parsers {
   public typealias SubstringToUTF8View = FromUTF8View
 }
 
-extension FromSubstring {
+extension FromSubstring where Input == Substring.UTF8View {
   @available(*, deprecated)
   @inlinable
   public init(upstream: SubstringParser) {
-    self.substringParser = upstream
+    self.init { upstream }
   }
 }
 
-extension FromUnicodeScalarView {
+extension FromUnicodeScalarView where Input == Substring.UTF8View {
   @available(*, deprecated)
   @inlinable
-  public init(upstream: UnicodeScalarParser) {
-    self.unicodeScalarParser = upstream
+  public init(upstream: UnicodeScalarsParser) {
+    self.init { upstream }
   }
 }
 
