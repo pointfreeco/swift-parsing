@@ -312,6 +312,30 @@ extension Parsers {
   }
 }
 
+extension Parser where Input: RangeReplaceableCollection {
+  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
+  @available(macOS, deprecated: 100000, message: "Use 'Stream' instead.")
+  @available(iOS, deprecated: 100000, message: "Use 'Stream' instead.")
+  @available(watchOS, deprecated: 100000, message: "Use 'Stream' instead.")
+  @available(tvOS, deprecated: 100000, message: "Use 'Stream' instead.")
+  @inlinable
+  public var stream: Parsers.Stream<Self> {
+    .init(upstream: self)
+  }
+}
+
+extension Stream {
+  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
+  @available(macOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @available(iOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @available(watchOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @available(tvOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
+  @inlinable
+  public init(upstream: Upstream) {
+    self.upstream = upstream
+  }
+}
+
 extension Parser {
   @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
   @available(macOS, deprecated: 100000, message: "Use 'Parse' (and 'Skip') instead.")
