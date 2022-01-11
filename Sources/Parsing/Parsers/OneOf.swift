@@ -5,8 +5,8 @@
 ///
 /// let currency = OneOf {
 ///   "€".map { Currency.eur }
-///   "£".map { .gbp }
-///   "$".map { .usd }
+///   "£".map { Currency.gbp }
+///   "$".map { Currency.usd }
 /// }
 /// ```
 ///

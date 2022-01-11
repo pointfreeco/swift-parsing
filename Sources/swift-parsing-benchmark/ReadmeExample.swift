@@ -22,14 +22,13 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
   }
 
   do {
-    let user = Parse {
+    let user = Parse(User.init(id:name:isAdmin:)) {
       Int.parser()
       ","
-      Prefix { $0 != "," }
+      Prefix { $0 != "," }.map(String.init)
       ","
       Bool.parser()
     }
-    .map { User(id: $0, name: String($1), isAdmin: $2) }
     let users = Many {
       user
     } separator: {
@@ -49,14 +48,13 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
   }
 
   do {
-    let user = Parse {
+    let user = Parse(User.init(id:name:isAdmin:)) {
       Int.parser()
       ",".utf8
-      Prefix { $0 != .init(ascii: ",") }
+      Prefix { $0 != .init(ascii: ",") }.map { String(Substring($0)) }
       ",".utf8
       Bool.parser()
     }
-    .map { User(id: $0, name: String(Substring($1)), isAdmin: $2) }
     let users = Many {
       user
     } separator: {
