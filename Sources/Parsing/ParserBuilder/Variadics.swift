@@ -1,6927 +1,7262 @@
 // BEGIN AUTO-GENERATED CONTENT
 
-public struct Zip2_OO<P0, P1>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P0.Input == P1.Input
-{
-  @usableFromInline let p0: P0, p1: P1
+extension Parsers {
+  public struct ZipOO<P0, P1>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P0.Input == P1.Input
+  {
+    @usableFromInline let p0: P0, p1: P1
 
-  @inlinable init(_ p0: P0, _ p1: P1) {
-    self.p0 = p0
-    self.p1 = p1
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1) {
+      self.p0 = p0
+      self.p1 = p1
     }
-    return (o0, o1)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1>(
-    _ p0: P0, _ p1: P1
-  ) -> Zip2_OO<P0, P1> {
-    Zip2_OO(p0, p1)
-  }
-}
-
-public struct Zip2_OV<P0, P1>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P0.Input == P1.Input,
-  P1.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1
-
-  @inlinable init(_ p0: P0, _ p1: P1) {
-    self.p0 = p0
-    self.p1 = p1
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1)
     }
-    return (o0)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1>(
     _ p0: P0, _ p1: P1
-  ) -> Zip2_OV<P0, P1> {
-    Zip2_OV(p0, p1)
+  ) -> Parsers.ZipOO<P0, P1> {
+    Parsers.ZipOO(p0, p1)
   }
 }
 
-public struct Zip2_VO<P0, P1>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P0.Input == P1.Input,
-  P0.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1
+extension Parsers {
+  public struct ZipOV<P0, P1>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P0.Input == P1.Input,
+    P1.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1
 
-  @inlinable init(_ p0: P0, _ p1: P1) {
-    self.p0 = p0
-    self.p1 = p1
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1) {
+      self.p0 = p0
+      self.p1 = p1
     }
-    return (o1)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1>(
-    _ p0: P0, _ p1: P1
-  ) -> Zip2_VO<P0, P1> {
-    Zip2_VO(p0, p1)
-  }
-}
-
-public struct Zip2_VV<P0, P1>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P0.Input == P1.Input,
-  P0.Output == Void,
-  P1.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1
-
-  @inlinable init(_ p0: P0, _ p1: P1) {
-    self.p0 = p0
-    self.p1 = p1
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0)
     }
-    return ()
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1>(
     _ p0: P0, _ p1: P1
-  ) -> Zip2_VV<P0, P1> {
-    Zip2_VV(p0, p1)
+  ) -> Parsers.ZipOV<P0, P1> {
+    Parsers.ZipOV(p0, p1)
   }
 }
 
-public struct Zip3_OOO<P0, P1, P2>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2
+extension Parsers {
+  public struct ZipVO<P0, P1>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P0.Input == P1.Input,
+    P0.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1) {
+      self.p0 = p0
+      self.p1 = p1
     }
-    return (o0, o1, o2)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2>(
-    _ p0: P0, _ p1: P1, _ p2: P2
-  ) -> Zip3_OOO<P0, P1, P2> {
-    Zip3_OOO(p0, p1, p2)
+  @inlinable public static func buildBlock<P0, P1>(
+    _ p0: P0, _ p1: P1
+  ) -> Parsers.ZipVO<P0, P1> {
+    Parsers.ZipVO(p0, p1)
   }
 }
 
-public struct Zip3_OOV<P0, P1, P2>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2
+extension Parsers {
+  public struct ZipVV<P0, P1>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P0.Input == P1.Input,
+    P0.Output == Void,
+    P1.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1) {
+      self.p0 = p0
+      self.p1 = p1
     }
-    return (o0, o1)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return ()
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2>(
-    _ p0: P0, _ p1: P1, _ p2: P2
-  ) -> Zip3_OOV<P0, P1, P2> {
-    Zip3_OOV(p0, p1, p2)
+  @inlinable public static func buildBlock<P0, P1>(
+    _ p0: P0, _ p1: P1
+  ) -> Parsers.ZipVV<P0, P1> {
+    Parsers.ZipVV(p0, p1)
   }
 }
 
-public struct Zip3_OVO<P0, P1, P2>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P1.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2
+extension Parsers {
+  public struct ZipOOO<P0, P1, P2>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
     }
-    return (o0, o2)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2>(
-    _ p0: P0, _ p1: P1, _ p2: P2
-  ) -> Zip3_OVO<P0, P1, P2> {
-    Zip3_OVO(p0, p1, p2)
-  }
-}
-
-public struct Zip3_OVV<P0, P1, P2>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P1.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2)
     }
-    return (o0)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2>(
     _ p0: P0, _ p1: P1, _ p2: P2
-  ) -> Zip3_OVV<P0, P1, P2> {
-    Zip3_OVV(p0, p1, p2)
+  ) -> Parsers.ZipOOO<P0, P1, P2> {
+    Parsers.ZipOOO(p0, p1, p2)
   }
 }
 
-public struct Zip3_VOO<P0, P1, P2>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P0.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2
+extension Parsers {
+  public struct ZipOOV<P0, P1, P2>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
     }
-    return (o1, o2)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2>(
-    _ p0: P0, _ p1: P1, _ p2: P2
-  ) -> Zip3_VOO<P0, P1, P2> {
-    Zip3_VOO(p0, p1, p2)
-  }
-}
-
-public struct Zip3_VOV<P0, P1, P2>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P0.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1)
     }
-    return (o1)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2>(
     _ p0: P0, _ p1: P1, _ p2: P2
-  ) -> Zip3_VOV<P0, P1, P2> {
-    Zip3_VOV(p0, p1, p2)
+  ) -> Parsers.ZipOOV<P0, P1, P2> {
+    Parsers.ZipOOV(p0, p1, p2)
   }
 }
 
-public struct Zip3_VVO<P0, P1, P2>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P0.Output == Void,
-  P1.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2
+extension Parsers {
+  public struct ZipOVO<P0, P1, P2>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P1.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
     }
-    return (o2)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2>(
-    _ p0: P0, _ p1: P1, _ p2: P2
-  ) -> Zip3_VVO<P0, P1, P2> {
-    Zip3_VVO(p0, p1, p2)
-  }
-}
-
-public struct Zip3_VVV<P0, P1, P2>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2)
     }
-    return ()
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2>(
     _ p0: P0, _ p1: P1, _ p2: P2
-  ) -> Zip3_VVV<P0, P1, P2> {
-    Zip3_VVV(p0, p1, p2)
+  ) -> Parsers.ZipOVO<P0, P1, P2> {
+    Parsers.ZipOVO(p0, p1, p2)
   }
 }
 
-public struct Zip4_OOOO<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct ZipOVV<P0, P1, P2>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P1.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
     }
-    return (o0, o1, o2, o3)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_OOOO<P0, P1, P2, P3> {
-    Zip4_OOOO(p0, p1, p2, p3)
+  @inlinable public static func buildBlock<P0, P1, P2>(
+    _ p0: P0, _ p1: P1, _ p2: P2
+  ) -> Parsers.ZipOVV<P0, P1, P2> {
+    Parsers.ZipOVV(p0, p1, p2)
   }
 }
 
-public struct Zip4_OOOV<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct ZipVOO<P0, P1, P2>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P0.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
     }
-    return (o0, o1, o2)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_OOOV<P0, P1, P2, P3> {
-    Zip4_OOOV(p0, p1, p2, p3)
+  @inlinable public static func buildBlock<P0, P1, P2>(
+    _ p0: P0, _ p1: P1, _ p2: P2
+  ) -> Parsers.ZipVOO<P0, P1, P2> {
+    Parsers.ZipVOO(p0, p1, p2)
   }
 }
 
-public struct Zip4_OOVO<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct ZipVOV<P0, P1, P2>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P0.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
     }
-    return (o0, o1, o3)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_OOVO<P0, P1, P2, P3> {
-    Zip4_OOVO(p0, p1, p2, p3)
+  @inlinable public static func buildBlock<P0, P1, P2>(
+    _ p0: P0, _ p1: P1, _ p2: P2
+  ) -> Parsers.ZipVOV<P0, P1, P2> {
+    Parsers.ZipVOV(p0, p1, p2)
   }
 }
 
-public struct Zip4_OOVV<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct ZipVVO<P0, P1, P2>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P0.Output == Void,
+    P1.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
     }
-    return (o0, o1)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_OOVV<P0, P1, P2, P3> {
-    Zip4_OOVV(p0, p1, p2, p3)
+  @inlinable public static func buildBlock<P0, P1, P2>(
+    _ p0: P0, _ p1: P1, _ p2: P2
+  ) -> Parsers.ZipVVO<P0, P1, P2> {
+    Parsers.ZipVVO(p0, p1, p2)
   }
 }
 
-public struct Zip4_OVOO<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P1.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct ZipVVV<P0, P1, P2>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
     }
-    return (o0, o2, o3)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return ()
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_OVOO<P0, P1, P2, P3> {
-    Zip4_OVOO(p0, p1, p2, p3)
+  @inlinable public static func buildBlock<P0, P1, P2>(
+    _ p0: P0, _ p1: P1, _ p2: P2
+  ) -> Parsers.ZipVVV<P0, P1, P2> {
+    Parsers.ZipVVV(p0, p1, p2)
   }
 }
 
-public struct Zip4_OVOV<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P1.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct ZipOOOO<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o2)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2, o3)
+    }
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_OVOV<P0, P1, P2, P3> {
-    Zip4_OVOV(p0, p1, p2, p3)
+  ) -> Parsers.ZipOOOO<P0, P1, P2, P3> {
+    Parsers.ZipOOOO(p0, p1, p2, p3)
   }
 }
 
-public struct Zip4_OVVO<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P1.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct ZipOOOV<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o3)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_OVVO<P0, P1, P2, P3> {
-    Zip4_OVVO(p0, p1, p2, p3)
-  }
-}
-
-public struct Zip4_OVVV<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2)
     }
-    return (o0)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_OVVV<P0, P1, P2, P3> {
-    Zip4_OVVV(p0, p1, p2, p3)
+  ) -> Parsers.ZipOOOV<P0, P1, P2, P3> {
+    Parsers.ZipOOOV(p0, p1, p2, p3)
   }
 }
 
-public struct Zip4_VOOO<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P0.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct ZipOOVO<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o1, o2, o3)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_VOOO<P0, P1, P2, P3> {
-    Zip4_VOOO(p0, p1, p2, p3)
-  }
-}
-
-public struct Zip4_VOOV<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P0.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o3)
     }
-    return (o1, o2)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_VOOV<P0, P1, P2, P3> {
-    Zip4_VOOV(p0, p1, p2, p3)
+  ) -> Parsers.ZipOOVO<P0, P1, P2, P3> {
+    Parsers.ZipOOVO(p0, p1, p2, p3)
   }
 }
 
-public struct Zip4_VOVO<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P0.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct ZipOOVV<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o1, o3)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_VOVO<P0, P1, P2, P3> {
-    Zip4_VOVO(p0, p1, p2, p3)
-  }
-}
-
-public struct Zip4_VOVV<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P0.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1)
     }
-    return (o1)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_VOVV<P0, P1, P2, P3> {
-    Zip4_VOVV(p0, p1, p2, p3)
+  ) -> Parsers.ZipOOVV<P0, P1, P2, P3> {
+    Parsers.ZipOOVV(p0, p1, p2, p3)
   }
 }
 
-public struct Zip4_VVOO<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P0.Output == Void,
-  P1.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct ZipOVOO<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P1.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o2, o3)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_VVOO<P0, P1, P2, P3> {
-    Zip4_VVOO(p0, p1, p2, p3)
-  }
-}
-
-public struct Zip4_VVOV<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2, o3)
     }
-    return (o2)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_VVOV<P0, P1, P2, P3> {
-    Zip4_VVOV(p0, p1, p2, p3)
+  ) -> Parsers.ZipOVOO<P0, P1, P2, P3> {
+    Parsers.ZipOVOO(p0, p1, p2, p3)
   }
 }
 
-public struct Zip4_VVVO<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct ZipOVOV<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P1.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o3)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_VVVO<P0, P1, P2, P3> {
-    Zip4_VVVO(p0, p1, p2, p3)
-  }
-}
-
-public struct Zip4_VVVV<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2)
     }
-    return ()
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> Zip4_VVVV<P0, P1, P2, P3> {
-    Zip4_VVVV(p0, p1, p2, p3)
+  ) -> Parsers.ZipOVOV<P0, P1, P2, P3> {
+    Parsers.ZipOVOV(p0, p1, p2, p3)
   }
 }
 
-public struct Zip5_OOOOO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOVVO<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P1.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o1, o2, o3, o4)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o3)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OOOOO<P0, P1, P2, P3, P4> {
-    Zip5_OOOOO(p0, p1, p2, p3, p4)
+  @inlinable public static func buildBlock<P0, P1, P2, P3>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
+  ) -> Parsers.ZipOVVO<P0, P1, P2, P3> {
+    Parsers.ZipOVVO(p0, p1, p2, p3)
   }
 }
 
-public struct Zip5_OOOOV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOVVV<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o1, o2, o3)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OOOOV<P0, P1, P2, P3, P4> {
-    Zip5_OOOOV(p0, p1, p2, p3, p4)
+  @inlinable public static func buildBlock<P0, P1, P2, P3>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
+  ) -> Parsers.ZipOVVV<P0, P1, P2, P3> {
+    Parsers.ZipOVVV(p0, p1, p2, p3)
   }
 }
 
-public struct Zip5_OOOVO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipVOOO<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P0.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o1, o2, o4)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2, o3)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OOOVO<P0, P1, P2, P3, P4> {
-    Zip5_OOOVO(p0, p1, p2, p3, p4)
+  @inlinable public static func buildBlock<P0, P1, P2, P3>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
+  ) -> Parsers.ZipVOOO<P0, P1, P2, P3> {
+    Parsers.ZipVOOO(p0, p1, p2, p3)
   }
 }
 
-public struct Zip5_OOOVV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipVOOV<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P0.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o1, o2)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OOOVV<P0, P1, P2, P3, P4> {
-    Zip5_OOOVV(p0, p1, p2, p3, p4)
+  @inlinable public static func buildBlock<P0, P1, P2, P3>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
+  ) -> Parsers.ZipVOOV<P0, P1, P2, P3> {
+    Parsers.ZipVOOV(p0, p1, p2, p3)
   }
 }
 
-public struct Zip5_OOVOO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipVOVO<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P0.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o1, o3, o4)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o3)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OOVOO<P0, P1, P2, P3, P4> {
-    Zip5_OOVOO(p0, p1, p2, p3, p4)
+  @inlinable public static func buildBlock<P0, P1, P2, P3>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
+  ) -> Parsers.ZipVOVO<P0, P1, P2, P3> {
+    Parsers.ZipVOVO(p0, p1, p2, p3)
   }
 }
 
-public struct Zip5_OOVOV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P2.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipVOVV<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P0.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o1, o3)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OOVOV<P0, P1, P2, P3, P4> {
-    Zip5_OOVOV(p0, p1, p2, p3, p4)
+  @inlinable public static func buildBlock<P0, P1, P2, P3>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
+  ) -> Parsers.ZipVOVV<P0, P1, P2, P3> {
+    Parsers.ZipVOVV(p0, p1, p2, p3)
   }
 }
 
-public struct Zip5_OOVVO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipVVOO<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P0.Output == Void,
+    P1.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o1, o4)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2, o3)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OOVVO<P0, P1, P2, P3, P4> {
-    Zip5_OOVVO(p0, p1, p2, p3, p4)
+  @inlinable public static func buildBlock<P0, P1, P2, P3>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
+  ) -> Parsers.ZipVVOO<P0, P1, P2, P3> {
+    Parsers.ZipVVOO(p0, p1, p2, p3)
   }
 }
 
-public struct Zip5_OOVVV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipVVOV<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o1)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OOVVV<P0, P1, P2, P3, P4> {
-    Zip5_OOVVV(p0, p1, p2, p3, p4)
+  @inlinable public static func buildBlock<P0, P1, P2, P3>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
+  ) -> Parsers.ZipVVOV<P0, P1, P2, P3> {
+    Parsers.ZipVVOV(p0, p1, p2, p3)
   }
 }
 
-public struct Zip5_OVOOO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P1.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipVVVO<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o2, o3, o4)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o3)
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OVOOO<P0, P1, P2, P3, P4> {
-    Zip5_OVOOO(p0, p1, p2, p3, p4)
+  @inlinable public static func buildBlock<P0, P1, P2, P3>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
+  ) -> Parsers.ZipVVVO<P0, P1, P2, P3> {
+    Parsers.ZipVVVO(p0, p1, p2, p3)
   }
 }
 
-public struct Zip5_OVOOV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P1.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipVVVV<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
     }
-    return (o0, o2, o3)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return ()
+    }
   }
 }
 
 extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OVOOV<P0, P1, P2, P3, P4> {
-    Zip5_OVOOV(p0, p1, p2, p3, p4)
+  @inlinable public static func buildBlock<P0, P1, P2, P3>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
+  ) -> Parsers.ZipVVVV<P0, P1, P2, P3> {
+    Parsers.ZipVVVV(p0, p1, p2, p3)
   }
 }
 
-public struct Zip5_OVOVO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P1.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOOOOO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return (o0, o2, o4)
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2, o3, o4)
+    }
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OVOVO<P0, P1, P2, P3, P4> {
-    Zip5_OVOVO(p0, p1, p2, p3, p4)
+  ) -> Parsers.ZipOOOOO<P0, P1, P2, P3, P4> {
+    Parsers.ZipOOOOO(p0, p1, p2, p3, p4)
   }
 }
 
-public struct Zip5_OVOVV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P1.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOOOOV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return (o0, o2)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OVOVV<P0, P1, P2, P3, P4> {
-    Zip5_OVOVV(p0, p1, p2, p3, p4)
-  }
-}
-
-public struct Zip5_OVVOO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P1.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2, o3)
     }
-    return (o0, o3, o4)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OVVOO<P0, P1, P2, P3, P4> {
-    Zip5_OVVOO(p0, p1, p2, p3, p4)
+  ) -> Parsers.ZipOOOOV<P0, P1, P2, P3, P4> {
+    Parsers.ZipOOOOV(p0, p1, p2, p3, p4)
   }
 }
 
-public struct Zip5_OVVOV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P1.Output == Void,
-  P2.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOOOVO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return (o0, o3)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OVVOV<P0, P1, P2, P3, P4> {
-    Zip5_OVVOV(p0, p1, p2, p3, p4)
-  }
-}
-
-public struct Zip5_OVVVO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2, o4)
     }
-    return (o0, o4)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OVVVO<P0, P1, P2, P3, P4> {
-    Zip5_OVVVO(p0, p1, p2, p3, p4)
+  ) -> Parsers.ZipOOOVO<P0, P1, P2, P3, P4> {
+    Parsers.ZipOOOVO(p0, p1, p2, p3, p4)
   }
 }
 
-public struct Zip5_OVVVV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOOOVV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return (o0)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_OVVVV<P0, P1, P2, P3, P4> {
-    Zip5_OVVVV(p0, p1, p2, p3, p4)
-  }
-}
-
-public struct Zip5_VOOOO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2)
     }
-    return (o1, o2, o3, o4)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VOOOO<P0, P1, P2, P3, P4> {
-    Zip5_VOOOO(p0, p1, p2, p3, p4)
+  ) -> Parsers.ZipOOOVV<P0, P1, P2, P3, P4> {
+    Parsers.ZipOOOVV(p0, p1, p2, p3, p4)
   }
 }
 
-public struct Zip5_VOOOV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOOVOO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return (o1, o2, o3)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VOOOV<P0, P1, P2, P3, P4> {
-    Zip5_VOOOV(p0, p1, p2, p3, p4)
-  }
-}
-
-public struct Zip5_VOOVO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o3, o4)
     }
-    return (o1, o2, o4)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VOOVO<P0, P1, P2, P3, P4> {
-    Zip5_VOOVO(p0, p1, p2, p3, p4)
+  ) -> Parsers.ZipOOVOO<P0, P1, P2, P3, P4> {
+    Parsers.ZipOOVOO(p0, p1, p2, p3, p4)
   }
 }
 
-public struct Zip5_VOOVV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOOVOV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P2.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return (o1, o2)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VOOVV<P0, P1, P2, P3, P4> {
-    Zip5_VOOVV(p0, p1, p2, p3, p4)
-  }
-}
-
-public struct Zip5_VOVOO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o3)
     }
-    return (o1, o3, o4)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VOVOO<P0, P1, P2, P3, P4> {
-    Zip5_VOVOO(p0, p1, p2, p3, p4)
+  ) -> Parsers.ZipOOVOV<P0, P1, P2, P3, P4> {
+    Parsers.ZipOOVOV(p0, p1, p2, p3, p4)
   }
 }
 
-public struct Zip5_VOVOV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P2.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOOVVO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return (o1, o3)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VOVOV<P0, P1, P2, P3, P4> {
-    Zip5_VOVOV(p0, p1, p2, p3, p4)
-  }
-}
-
-public struct Zip5_VOVVO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o4)
     }
-    return (o1, o4)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VOVVO<P0, P1, P2, P3, P4> {
-    Zip5_VOVVO(p0, p1, p2, p3, p4)
+  ) -> Parsers.ZipOOVVO<P0, P1, P2, P3, P4> {
+    Parsers.ZipOOVVO(p0, p1, p2, p3, p4)
   }
 }
 
-public struct Zip5_VOVVV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOOVVV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return (o1)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VOVVV<P0, P1, P2, P3, P4> {
-    Zip5_VOVVV(p0, p1, p2, p3, p4)
-  }
-}
-
-public struct Zip5_VVOOO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P1.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1)
     }
-    return (o2, o3, o4)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VVOOO<P0, P1, P2, P3, P4> {
-    Zip5_VVOOO(p0, p1, p2, p3, p4)
+  ) -> Parsers.ZipOOVVV<P0, P1, P2, P3, P4> {
+    Parsers.ZipOOVVV(p0, p1, p2, p3, p4)
   }
 }
 
-public struct Zip5_VVOOV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOVOOO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P1.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return (o2, o3)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VVOOV<P0, P1, P2, P3, P4> {
-    Zip5_VVOOV(p0, p1, p2, p3, p4)
-  }
-}
-
-public struct Zip5_VVOVO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2, o3, o4)
     }
-    return (o2, o4)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VVOVO<P0, P1, P2, P3, P4> {
-    Zip5_VVOVO(p0, p1, p2, p3, p4)
+  ) -> Parsers.ZipOVOOO<P0, P1, P2, P3, P4> {
+    Parsers.ZipOVOOO(p0, p1, p2, p3, p4)
   }
 }
 
-public struct Zip5_VVOVV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOVOOV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P1.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return (o2)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VVOVV<P0, P1, P2, P3, P4> {
-    Zip5_VVOVV(p0, p1, p2, p3, p4)
-  }
-}
-
-public struct Zip5_VVVOO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2, o3)
     }
-    return (o3, o4)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VVVOO<P0, P1, P2, P3, P4> {
-    Zip5_VVVOO(p0, p1, p2, p3, p4)
+  ) -> Parsers.ZipOVOOV<P0, P1, P2, P3, P4> {
+    Parsers.ZipOVOOV(p0, p1, p2, p3, p4)
   }
 }
 
-public struct Zip5_VVVOV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOVOVO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P1.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return (o3)
-  }
-}
 
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VVVOV<P0, P1, P2, P3, P4> {
-    Zip5_VVVOV(p0, p1, p2, p3, p4)
-  }
-}
-
-public struct Zip5_VVVVO<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2, o4)
     }
-    return (o4)
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VVVVO<P0, P1, P2, P3, P4> {
-    Zip5_VVVVO(p0, p1, p2, p3, p4)
+  ) -> Parsers.ZipOVOVO<P0, P1, P2, P3, P4> {
+    Parsers.ZipOVOVO(p0, p1, p2, p3, p4)
   }
 }
 
-public struct Zip5_VVVVV<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct ZipOVOVV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P1.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input)
-    else {
-      input = original
-      return nil
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
     }
-    return ()
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2)
+    }
   }
 }
 
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> Zip5_VVVVV<P0, P1, P2, P3, P4> {
-    Zip5_VVVVV(p0, p1, p2, p3, p4)
-  }
-}
-
-public struct Zip6_OOOOOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output,
-    P3.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
+  ) -> Parsers.ZipOVOVV<P0, P1, P2, P3, P4> {
+    Parsers.ZipOVOVV(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVOO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P1.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipOVVOO<P0, P1, P2, P3, P4> {
+    Parsers.ZipOVVOO(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVOV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P1.Output == Void,
+    P2.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipOVVOV<P0, P1, P2, P3, P4> {
+    Parsers.ZipOVVOV(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVVO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipOVVVO<P0, P1, P2, P3, P4> {
+    Parsers.ZipOVVVO(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVVV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipOVVVV<P0, P1, P2, P3, P4> {
+    Parsers.ZipOVVVV(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOOO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2, o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVOOOO<P0, P1, P2, P3, P4> {
+    Parsers.ZipVOOOO(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOOV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2, o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVOOOV<P0, P1, P2, P3, P4> {
+    Parsers.ZipVOOOV(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOVO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVOOVO<P0, P1, P2, P3, P4> {
+    Parsers.ZipVOOVO(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOVV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVOOVV<P0, P1, P2, P3, P4> {
+    Parsers.ZipVOOVV(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVOO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVOVOO<P0, P1, P2, P3, P4> {
+    Parsers.ZipVOVOO(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVOV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P2.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVOVOV<P0, P1, P2, P3, P4> {
+    Parsers.ZipVOVOV(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVVO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVOVVO<P0, P1, P2, P3, P4> {
+    Parsers.ZipVOVVO(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVVV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVOVVV<P0, P1, P2, P3, P4> {
+    Parsers.ZipVOVVV(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOOO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P1.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2, o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVVOOO<P0, P1, P2, P3, P4> {
+    Parsers.ZipVVOOO(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOOV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2, o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVVOOV<P0, P1, P2, P3, P4> {
+    Parsers.ZipVVOOV(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOVO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVVOVO<P0, P1, P2, P3, P4> {
+    Parsers.ZipVVOVO(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOVV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVVOVV<P0, P1, P2, P3, P4> {
+    Parsers.ZipVVOVV(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVOO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVVVOO<P0, P1, P2, P3, P4> {
+    Parsers.ZipVVVOO(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVOV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVVVOV<P0, P1, P2, P3, P4> {
+    Parsers.ZipVVVOV(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVVO<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVVVVO<P0, P1, P2, P3, P4> {
+    Parsers.ZipVVVVO(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVVV<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return ()
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
+  ) -> Parsers.ZipVVVVV<P0, P1, P2, P3, P4> {
+    Parsers.ZipVVVVV(p0, p1, p2, p3, p4)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOOOOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2, o3, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOOOOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOOOOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOOOOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2, o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOOOOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOOOOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOOOVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2, o3, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOOOVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOOOVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOOOVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2, o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOOOVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOOOVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOOVOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOOVOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOOVOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOOVOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P3.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOOVOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOOVOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOOVVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOOVVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOOVVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOOVVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P3.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o2)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOOVVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOOVVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOVOOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o3, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOVOOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOVOOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOVOOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P2.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOVOOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOVOOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOVOVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P2.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o3, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOVOVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOVOVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOVOVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P2.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOVOVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOVOVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOVVOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOVVOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOVVOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOVVOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P2.Output == Void,
+    P3.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOVVOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOVVOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOVVVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOVVVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOVVVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOOVVVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P1.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o1)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOOVVVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOOVVVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVOOOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2, o3, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVOOOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVOOOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVOOOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2, o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVOOOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVOOOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVOOVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2, o3, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVOOVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVOOVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVOOVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2, o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVOOVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVOOVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVOVOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVOVOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVOVOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVOVOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P3.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVOVOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVOVOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVOVVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVOVVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVOVVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVOVVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o2)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVOVVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVOVVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVOOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o3, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVVOOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVVOOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVOOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P2.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVVOOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVVOOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVOVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P2.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P3.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o3, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVVOVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVVOVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVOVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P2.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVVOVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVVOVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVVOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVVVOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVVVOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVVOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVVVOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVVVOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVVVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVVVVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVVVVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipOVVVVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P0.Output
+    )? {
+      let original = input
+      guard
+        let o0 = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o0)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipOVVVVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipOVVVVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOOOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2, o3, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOOOOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOOOOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOOOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2, o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOOOOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOOOOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOOVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2, o3, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOOOVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOOOVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOOVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2, o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOOOVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOOOVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOVOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOOVOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOOVOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOVOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P3.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOOVOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOOVOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOVVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOOVVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOOVVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOOVVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o2)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOOVVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOOVVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVOOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o3, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOVOOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOVOOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVOOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P2.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOVOOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOVOOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVOVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P2.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P3.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o3, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOVOVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOVOVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVOVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P2.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOVOVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOVOVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVVOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOVVOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOVVOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVVOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOVVOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOVVOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVVVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOVVVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOVVVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVOVVVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P1.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let o1 = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o1)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVOVVVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVOVVVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOOOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2, o3, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVOOOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVOOOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOOOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2, o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVOOOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVOOOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOOVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output,
+      P3.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2, o3, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVOOVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVOOVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOOVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output,
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2, o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVOOVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVOOVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOVOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVOVOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVOVOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOVOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P3.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVOVOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVOVOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOVVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVOVVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVOVVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVOVVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P2.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let o2 = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o2)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVOVVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVOVVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVOOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o3, o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVVOOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVVOOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVOOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P3.Output,
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o3, o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVVOOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVVOOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVOVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P3.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o3, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVVOVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVVOVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVOVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P3.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let o3 = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o3)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVVOVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVVOVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVVOO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P4.Output,
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o4, o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVVVOO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVVVOO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVVOV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P4.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let o4 = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o4)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVVVOV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVVVOV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVVVO<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+      P5.Output
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let o5 = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return (o5)
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVVVVO<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVVVVO(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct ZipVVVVVV<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == Void,
+    P1.Output == Void,
+    P2.Output == Void,
+    P3.Output == Void,
+    P4.Output == Void,
+    P5.Output == Void
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> (
+
+    )? {
+      let original = input
+      guard
+        let _ = p0.parse(&input),
+        let _ = p1.parse(&input),
+        let _ = p2.parse(&input),
+        let _ = p3.parse(&input),
+        let _ = p4.parse(&input),
+        let _ = p5.parse(&input)
+      else {
+        input = original
+        return nil
+      }
+      return ()
+    }
+  }
+}
+
+extension ParserBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
+  ) -> Parsers.ZipVVVVVV<P0, P1, P2, P3, P4, P5> {
+    Parsers.ZipVVVVVV(p0, p1, p2, p3, p4, p5)
+  }
+}
+
+extension Parsers {
+  public struct OneOf2<P0, P1>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P0.Input == P1.Input,
+    P0.Output == P1.Output
+  {
+    @usableFromInline let p0: P0, p1: P1
+
+    @inlinable init(_ p0: P0, _ p1: P1) {
+      self.p0 = p0
+      self.p1 = p1
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
+      if let output = self.p0.parse(&input) { return output }
+      if let output = self.p1.parse(&input) { return output }
       return nil
     }
-    return (o0, o1, o2, o3, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOOOOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOOOOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOOOOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o2, o3, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOOOOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOOOOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOOOVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output,
-    P3.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o2, o3, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOOOVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOOOVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOOOVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o2, o3)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOOOVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOOOVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOOVOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o2, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOOVOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOOVOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOOVOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P3.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o2, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOOVOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOOVOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOOVVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o2, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOOVVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOOVVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOOVVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P3.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o2)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOOVVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOOVVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOVOOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P3.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o3, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOVOOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOVOOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOVOOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P2.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o3, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOVOOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOVOOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOVOVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P2.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P3.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o3, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOVOVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOVOVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOVOVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P2.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o3)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOVOVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOVOVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOVVOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOVVOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOVVOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOVVOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P2.Output == Void,
-  P3.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOVVOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOVVOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOVVVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOVVVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOVVVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OOVVVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P1.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o1)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OOVVVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OOVVVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVOOOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output,
-    P3.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o2, o3, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVOOOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVOOOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVOOOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o2, o3, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVOOOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVOOOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVOOVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output,
-    P3.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o2, o3, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVOOVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVOOVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVOOVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o2, o3)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVOOVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVOOVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVOVOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o2, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVOVOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVOVOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVOVOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P3.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o2, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVOVOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVOVOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVOVVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o2, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVOVVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVOVVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVOVVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o2)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVOVVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVOVVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVVOOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P3.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o3, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVVOOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVVOOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVVOOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P2.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o3, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVVOOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVVOOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVVOVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P2.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P3.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o3, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVVOVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVVOVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVVOVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P2.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o3)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVVOVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVVOVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVVVOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVVVOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVVVOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVVVOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVVVOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVVVOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVVVVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVVVVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVVVVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_OVVVVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P0.Output
-  )? {
-    let original = input
-    guard
-      let o0 = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o0)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_OVVVVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_OVVVVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOOOOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output,
-    P3.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o2, o3, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOOOOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOOOOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOOOOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o2, o3, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOOOOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOOOOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOOOVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output,
-    P3.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o2, o3, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOOOVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOOOVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOOOVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o2, o3)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOOOVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOOOVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOOVOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o2, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOOVOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOOVOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOOVOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P3.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o2, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOOVOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOOVOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOOVVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o2, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOOVVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOOVVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOOVVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o2)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOOVVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOOVVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOVOOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P3.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o3, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOVOOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOVOOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOVOOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P2.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o3, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOVOOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOVOOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOVOVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P2.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P3.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o3, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOVOVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOVOVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOVOVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P2.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o3)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOVOVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOVOVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOVVOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOVVOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOVVOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOVVOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOVVOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOVVOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOVVVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOVVVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOVVVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VOVVVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P1.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let o1 = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o1)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VOVVVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VOVVVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVOOOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output,
-    P3.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o2, o3, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVOOOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVOOOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVOOOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output,
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o2, o3, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVOOOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVOOOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVOOVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output,
-    P3.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o2, o3, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVOOVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVOOVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVOOVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output,
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o2, o3)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVOOVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVOOVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVOVOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o2, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVOVOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVOVOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVOVOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P3.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o2, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVOVOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVOVOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVOVVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o2, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVOVVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVOVVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVOVVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P2.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let o2 = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o2)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVOVVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVOVVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVVOOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P3.Output,
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o3, o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVVOOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVVOOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVVOOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P3.Output,
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o3, o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVVOOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVVOOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVVOVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P3.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o3, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVVOVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVVOVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVVOVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P3.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let o3 = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o3)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVVOVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVVOVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVVVOO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P4.Output,
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o4, o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVVVOO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVVVOO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVVVOV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P4.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let o4 = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o4)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVVVOV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVVVOV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVVVVO<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    P5.Output
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let o5 = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return (o5)
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVVVVO<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVVVVO(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct Zip6_VVVVVV<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == Void,
-  P1.Output == Void,
-  P2.Output == Void,
-  P3.Output == Void,
-  P4.Output == Void,
-  P5.Output == Void
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
-
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> (
-    
-  )? {
-    let original = input
-    guard
-      let _ = p0.parse(&input),
-      let _ = p1.parse(&input),
-      let _ = p2.parse(&input),
-      let _ = p3.parse(&input),
-      let _ = p4.parse(&input),
-      let _ = p5.parse(&input)
-    else {
-      input = original
-      return nil
-    }
-    return ()
-  }
-}
-
-extension ParserBuilder {
-  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> Zip6_VVVVVV<P0, P1, P2, P3, P4, P5> {
-    Zip6_VVVVVV(p0, p1, p2, p3, p4, p5)
-  }
-}
-
-public struct OneOf2<P0, P1>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P0.Input == P1.Input,
-  P0.Output == P1.Output
-{
-  @usableFromInline let p0: P0, p1: P1
-
-  @inlinable init(_ p0: P0, _ p1: P1) {
-    self.p0 = p0
-    self.p1 = p1
-  }
-
-  @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-    if let output = self.p0.parse(&input) { return output }
-    if let output = self.p1.parse(&input) { return output }
-    return nil
   }
 }
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1>(
     _ p0: P0, _ p1: P1
-  ) -> OneOf2<P0, P1> {
-    OneOf2(p0, p1)
+  ) -> Parsers.OneOf2<P0, P1> {
+    Parsers.OneOf2(p0, p1)
   }
 }
 
-public struct OneOf3<P0, P1, P2>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P0.Output == P1.Output,
-  P1.Output == P2.Output
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2
+extension Parsers {
+  public struct OneOf3<P0, P1, P2>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P0.Output == P1.Output,
+    P1.Output == P2.Output
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-  }
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+    }
 
-  @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-    if let output = self.p0.parse(&input) { return output }
-    if let output = self.p1.parse(&input) { return output }
-    if let output = self.p2.parse(&input) { return output }
-    return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
+      if let output = self.p0.parse(&input) { return output }
+      if let output = self.p1.parse(&input) { return output }
+      if let output = self.p2.parse(&input) { return output }
+      return nil
+    }
   }
 }
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2>(
     _ p0: P0, _ p1: P1, _ p2: P2
-  ) -> OneOf3<P0, P1, P2> {
-    OneOf3(p0, p1, p2)
+  ) -> Parsers.OneOf3<P0, P1, P2> {
+    Parsers.OneOf3(p0, p1, p2)
   }
 }
 
-public struct OneOf4<P0, P1, P2, P3>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P0.Output == P1.Output,
-  P1.Output == P2.Output,
-  P2.Output == P3.Output
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
+extension Parsers {
+  public struct OneOf4<P0, P1, P2, P3>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P0.Output == P1.Output,
+    P1.Output == P2.Output,
+    P2.Output == P3.Output
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-  }
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+    }
 
-  @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-    if let output = self.p0.parse(&input) { return output }
-    if let output = self.p1.parse(&input) { return output }
-    if let output = self.p2.parse(&input) { return output }
-    if let output = self.p3.parse(&input) { return output }
-    return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
+      if let output = self.p0.parse(&input) { return output }
+      if let output = self.p1.parse(&input) { return output }
+      if let output = self.p2.parse(&input) { return output }
+      if let output = self.p3.parse(&input) { return output }
+      return nil
+    }
   }
 }
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
-  ) -> OneOf4<P0, P1, P2, P3> {
-    OneOf4(p0, p1, p2, p3)
+  ) -> Parsers.OneOf4<P0, P1, P2, P3> {
+    Parsers.OneOf4(p0, p1, p2, p3)
   }
 }
 
-public struct OneOf5<P0, P1, P2, P3, P4>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P0.Output == P1.Output,
-  P1.Output == P2.Output,
-  P2.Output == P3.Output,
-  P3.Output == P4.Output
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
+extension Parsers {
+  public struct OneOf5<P0, P1, P2, P3, P4>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P0.Output == P1.Output,
+    P1.Output == P2.Output,
+    P2.Output == P3.Output,
+    P3.Output == P4.Output
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-  }
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+    }
 
-  @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-    if let output = self.p0.parse(&input) { return output }
-    if let output = self.p1.parse(&input) { return output }
-    if let output = self.p2.parse(&input) { return output }
-    if let output = self.p3.parse(&input) { return output }
-    if let output = self.p4.parse(&input) { return output }
-    return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
+      if let output = self.p0.parse(&input) { return output }
+      if let output = self.p1.parse(&input) { return output }
+      if let output = self.p2.parse(&input) { return output }
+      if let output = self.p3.parse(&input) { return output }
+      if let output = self.p4.parse(&input) { return output }
+      return nil
+    }
   }
 }
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
-  ) -> OneOf5<P0, P1, P2, P3, P4> {
-    OneOf5(p0, p1, p2, p3, p4)
+  ) -> Parsers.OneOf5<P0, P1, P2, P3, P4> {
+    Parsers.OneOf5(p0, p1, p2, p3, p4)
   }
 }
 
-public struct OneOf6<P0, P1, P2, P3, P4, P5>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P0.Output == P1.Output,
-  P1.Output == P2.Output,
-  P2.Output == P3.Output,
-  P3.Output == P4.Output,
-  P4.Output == P5.Output
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
+extension Parsers {
+  public struct OneOf6<P0, P1, P2, P3, P4, P5>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P0.Output == P1.Output,
+    P1.Output == P2.Output,
+    P2.Output == P3.Output,
+    P3.Output == P4.Output,
+    P4.Output == P5.Output
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-  }
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+    }
 
-  @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-    if let output = self.p0.parse(&input) { return output }
-    if let output = self.p1.parse(&input) { return output }
-    if let output = self.p2.parse(&input) { return output }
-    if let output = self.p3.parse(&input) { return output }
-    if let output = self.p4.parse(&input) { return output }
-    if let output = self.p5.parse(&input) { return output }
-    return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
+      if let output = self.p0.parse(&input) { return output }
+      if let output = self.p1.parse(&input) { return output }
+      if let output = self.p2.parse(&input) { return output }
+      if let output = self.p3.parse(&input) { return output }
+      if let output = self.p4.parse(&input) { return output }
+      if let output = self.p5.parse(&input) { return output }
+      return nil
+    }
   }
 }
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
-  ) -> OneOf6<P0, P1, P2, P3, P4, P5> {
-    OneOf6(p0, p1, p2, p3, p4, p5)
+  ) -> Parsers.OneOf6<P0, P1, P2, P3, P4, P5> {
+    Parsers.OneOf6(p0, p1, p2, p3, p4, p5)
   }
 }
 
-public struct OneOf7<P0, P1, P2, P3, P4, P5, P6>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P6: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P5.Input == P6.Input,
-  P0.Output == P1.Output,
-  P1.Output == P2.Output,
-  P2.Output == P3.Output,
-  P3.Output == P4.Output,
-  P4.Output == P5.Output,
-  P5.Output == P6.Output
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6
+extension Parsers {
+  public struct OneOf7<P0, P1, P2, P3, P4, P5, P6>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P6: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P5.Input == P6.Input,
+    P0.Output == P1.Output,
+    P1.Output == P2.Output,
+    P2.Output == P3.Output,
+    P3.Output == P4.Output,
+    P4.Output == P5.Output,
+    P5.Output == P6.Output
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-    self.p6 = p6
-  }
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+      self.p6 = p6
+    }
 
-  @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-    if let output = self.p0.parse(&input) { return output }
-    if let output = self.p1.parse(&input) { return output }
-    if let output = self.p2.parse(&input) { return output }
-    if let output = self.p3.parse(&input) { return output }
-    if let output = self.p4.parse(&input) { return output }
-    if let output = self.p5.parse(&input) { return output }
-    if let output = self.p6.parse(&input) { return output }
-    return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
+      if let output = self.p0.parse(&input) { return output }
+      if let output = self.p1.parse(&input) { return output }
+      if let output = self.p2.parse(&input) { return output }
+      if let output = self.p3.parse(&input) { return output }
+      if let output = self.p4.parse(&input) { return output }
+      if let output = self.p5.parse(&input) { return output }
+      if let output = self.p6.parse(&input) { return output }
+      return nil
+    }
   }
 }
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5, P6>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6
-  ) -> OneOf7<P0, P1, P2, P3, P4, P5, P6> {
-    OneOf7(p0, p1, p2, p3, p4, p5, p6)
+  ) -> Parsers.OneOf7<P0, P1, P2, P3, P4, P5, P6> {
+    Parsers.OneOf7(p0, p1, p2, p3, p4, p5, p6)
   }
 }
 
-public struct OneOf8<P0, P1, P2, P3, P4, P5, P6, P7>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P6: Parser,
-  P7: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P5.Input == P6.Input,
-  P6.Input == P7.Input,
-  P0.Output == P1.Output,
-  P1.Output == P2.Output,
-  P2.Output == P3.Output,
-  P3.Output == P4.Output,
-  P4.Output == P5.Output,
-  P5.Output == P6.Output,
-  P6.Output == P7.Output
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7
+extension Parsers {
+  public struct OneOf8<P0, P1, P2, P3, P4, P5, P6, P7>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P6: Parser,
+    P7: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P5.Input == P6.Input,
+    P6.Input == P7.Input,
+    P0.Output == P1.Output,
+    P1.Output == P2.Output,
+    P2.Output == P3.Output,
+    P3.Output == P4.Output,
+    P4.Output == P5.Output,
+    P5.Output == P6.Output,
+    P6.Output == P7.Output
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-    self.p6 = p6
-    self.p7 = p7
-  }
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+      self.p6 = p6
+      self.p7 = p7
+    }
 
-  @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-    if let output = self.p0.parse(&input) { return output }
-    if let output = self.p1.parse(&input) { return output }
-    if let output = self.p2.parse(&input) { return output }
-    if let output = self.p3.parse(&input) { return output }
-    if let output = self.p4.parse(&input) { return output }
-    if let output = self.p5.parse(&input) { return output }
-    if let output = self.p6.parse(&input) { return output }
-    if let output = self.p7.parse(&input) { return output }
-    return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
+      if let output = self.p0.parse(&input) { return output }
+      if let output = self.p1.parse(&input) { return output }
+      if let output = self.p2.parse(&input) { return output }
+      if let output = self.p3.parse(&input) { return output }
+      if let output = self.p4.parse(&input) { return output }
+      if let output = self.p5.parse(&input) { return output }
+      if let output = self.p6.parse(&input) { return output }
+      if let output = self.p7.parse(&input) { return output }
+      return nil
+    }
   }
 }
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5, P6, P7>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7
-  ) -> OneOf8<P0, P1, P2, P3, P4, P5, P6, P7> {
-    OneOf8(p0, p1, p2, p3, p4, p5, p6, p7)
+  ) -> Parsers.OneOf8<P0, P1, P2, P3, P4, P5, P6, P7> {
+    Parsers.OneOf8(p0, p1, p2, p3, p4, p5, p6, p7)
   }
 }
 
-public struct OneOf9<P0, P1, P2, P3, P4, P5, P6, P7, P8>: Parser
-where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
-  P6: Parser,
-  P7: Parser,
-  P8: Parser,
-  P0.Input == P1.Input,
-  P1.Input == P2.Input,
-  P2.Input == P3.Input,
-  P3.Input == P4.Input,
-  P4.Input == P5.Input,
-  P5.Input == P6.Input,
-  P6.Input == P7.Input,
-  P7.Input == P8.Input,
-  P0.Output == P1.Output,
-  P1.Output == P2.Output,
-  P2.Output == P3.Output,
-  P3.Output == P4.Output,
-  P4.Output == P5.Output,
-  P5.Output == P6.Output,
-  P6.Output == P7.Output,
-  P7.Output == P8.Output
-{
-  @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8
+extension Parsers {
+  public struct OneOf9<P0, P1, P2, P3, P4, P5, P6, P7, P8>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P6: Parser,
+    P7: Parser,
+    P8: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P5.Input == P6.Input,
+    P6.Input == P7.Input,
+    P7.Input == P8.Input,
+    P0.Output == P1.Output,
+    P1.Output == P2.Output,
+    P2.Output == P3.Output,
+    P3.Output == P4.Output,
+    P4.Output == P5.Output,
+    P5.Output == P6.Output,
+    P6.Output == P7.Output,
+    P7.Output == P8.Output
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8
 
-  @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8) {
-    self.p0 = p0
-    self.p1 = p1
-    self.p2 = p2
-    self.p3 = p3
-    self.p4 = p4
-    self.p5 = p5
-    self.p6 = p6
-    self.p7 = p7
-    self.p8 = p8
-  }
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+      self.p6 = p6
+      self.p7 = p7
+      self.p8 = p8
+    }
 
-  @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-    if let output = self.p0.parse(&input) { return output }
-    if let output = self.p1.parse(&input) { return output }
-    if let output = self.p2.parse(&input) { return output }
-    if let output = self.p3.parse(&input) { return output }
-    if let output = self.p4.parse(&input) { return output }
-    if let output = self.p5.parse(&input) { return output }
-    if let output = self.p6.parse(&input) { return output }
-    if let output = self.p7.parse(&input) { return output }
-    if let output = self.p8.parse(&input) { return output }
-    return nil
+    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
+      if let output = self.p0.parse(&input) { return output }
+      if let output = self.p1.parse(&input) { return output }
+      if let output = self.p2.parse(&input) { return output }
+      if let output = self.p3.parse(&input) { return output }
+      if let output = self.p4.parse(&input) { return output }
+      if let output = self.p5.parse(&input) { return output }
+      if let output = self.p6.parse(&input) { return output }
+      if let output = self.p7.parse(&input) { return output }
+      if let output = self.p8.parse(&input) { return output }
+      return nil
+    }
   }
 }
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5, P6, P7, P8>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8
-  ) -> OneOf9<P0, P1, P2, P3, P4, P5, P6, P7, P8> {
-    OneOf9(p0, p1, p2, p3, p4, p5, p6, p7, p8)
+  ) -> Parsers.OneOf9<P0, P1, P2, P3, P4, P5, P6, P7, P8> {
+    Parsers.OneOf9(p0, p1, p2, p3, p4, p5, p6, p7, p8)
+  }
+}
+
+extension Parsers {
+  public struct OneOf10<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9>: Parser
+  where
+    P0: Parser,
+    P1: Parser,
+    P2: Parser,
+    P3: Parser,
+    P4: Parser,
+    P5: Parser,
+    P6: Parser,
+    P7: Parser,
+    P8: Parser,
+    P9: Parser,
+    P0.Input == P1.Input,
+    P1.Input == P2.Input,
+    P2.Input == P3.Input,
+    P3.Input == P4.Input,
+    P4.Input == P5.Input,
+    P5.Input == P6.Input,
+    P6.Input == P7.Input,
+    P7.Input == P8.Input,
+    P8.Input == P9.Input,
+    P0.Output == P1.Output,
+    P1.Output == P2.Output,
+    P2.Output == P3.Output,
+    P3.Output == P4.Output,
+    P4.Output == P5.Output,
+    P5.Output == P6.Output,
+    P6.Output == P7.Output,
+    P7.Output == P8.Output,
+    P8.Output == P9.Output
+  {
+    @usableFromInline let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9
+
+    @inlinable init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8, _ p9: P9) {
+      self.p0 = p0
+      self.p1 = p1
+      self.p2 = p2
+      self.p3 = p3
+      self.p4 = p4
+      self.p5 = p5
+      self.p6 = p6
+      self.p7 = p7
+      self.p8 = p8
+      self.p9 = p9
+    }
+
+    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
+      if let output = self.p0.parse(&input) { return output }
+      if let output = self.p1.parse(&input) { return output }
+      if let output = self.p2.parse(&input) { return output }
+      if let output = self.p3.parse(&input) { return output }
+      if let output = self.p4.parse(&input) { return output }
+      if let output = self.p5.parse(&input) { return output }
+      if let output = self.p6.parse(&input) { return output }
+      if let output = self.p7.parse(&input) { return output }
+      if let output = self.p8.parse(&input) { return output }
+      if let output = self.p9.parse(&input) { return output }
+      return nil
+    }
+  }
+}
+
+extension OneOfBuilder {
+  @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9>(
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8, _ p9: P9
+  ) -> Parsers.OneOf10<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> {
+    Parsers.OneOf10(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)
   }
 }
 
