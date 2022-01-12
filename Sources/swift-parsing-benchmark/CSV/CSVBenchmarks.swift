@@ -45,7 +45,7 @@ private let field = OneOf {
   quotedField
   plainField
 }
-.map { String(Substring($0)) }
+.map(String.parser())
 
 private let line = Many {
   field
