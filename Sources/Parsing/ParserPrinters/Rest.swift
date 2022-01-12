@@ -15,6 +15,13 @@ where
   }
 }
 
+extension Rest: Printer {
+  @inlinable
+  public func print(_ output: Input) -> Input? {
+    output
+  }
+}
+
 extension Rest where Input == Substring {
   @_disfavoredOverload
   @inlinable

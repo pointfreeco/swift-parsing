@@ -30,6 +30,13 @@ where
   }
 }
 
+extension First: Printer where Input: AppendableCollection {
+  @inlinable
+  public func print(_ output: Input.Element) -> Input? {
+    .init(CollectionOfOne(output))
+  }
+}
+
 extension First where Input == Substring {
   @_disfavoredOverload
   @inlinable

@@ -17,6 +17,13 @@ where
   }
 }
 
+extension FromUnicodeScalarView: Printer where UnicodeScalarsParser: Printer {
+  @inlinable
+  public func print(_ output: UnicodeScalarsParser.Output) -> Input? {
+    self.unicodeScalarsParser.print(output).map(self.fromUnicodeScalars)
+  }
+}
+
 extension FromUnicodeScalarView where Input == ArraySlice<UInt8> {
   @inlinable
   public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {

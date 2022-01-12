@@ -17,6 +17,7 @@ extension Many {
   ) {
     self.element = element
     self.initialResult = initialResult
+    self.iterator = { _ in AnyIterator { nil } }
     self.maximum = maximum
     self.minimum = minimum
     self.separator = separator
@@ -40,6 +41,7 @@ extension Many where Separator == Always<Input, Void> {
   ) {
     self.element = element
     self.initialResult = initialResult
+    self.iterator = { _ in AnyIterator { nil } }
     self.maximum = maximum
     self.minimum = minimum
     self.separator = nil

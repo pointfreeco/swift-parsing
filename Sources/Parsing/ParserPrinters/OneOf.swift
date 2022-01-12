@@ -27,3 +27,10 @@ public struct OneOf<Parsers>: Parser where Parsers: Parser {
     self.parsers.parse(&input)
   }
 }
+
+extension OneOf: Printer where Parsers: Printer {
+  @inlinable
+  public func print(_ output: Parsers.Output) -> Parsers.Input? {
+    self.parsers.print(output)
+  }
+}

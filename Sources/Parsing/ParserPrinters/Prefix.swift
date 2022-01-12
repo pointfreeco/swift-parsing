@@ -158,6 +158,19 @@ where
   }
 }
 
+extension Prefix: Printer {
+  @inlinable
+  public func print(_ output: Input) -> Input? {
+    let count = output.count
+    guard
+      count >= self.minLength,
+      self.maxLength.map({ count <= $0 }) ?? true,
+      self.predicate.map({ output.allSatisfy($0) }) ?? true
+    else { return nil }
+    return output
+  }
+}
+
 extension Prefix where Input == Substring {
   @_disfavoredOverload
   @inlinable

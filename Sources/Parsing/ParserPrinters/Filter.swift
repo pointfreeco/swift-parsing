@@ -43,3 +43,9 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.Filter: Printer where Upstream: Printer {
+  public func print(_ output: Upstream.Output) -> Upstream.Input? {
+    self.predicate(output) ? self.upstream.print(output) : nil
+  }
+}

@@ -23,6 +23,12 @@ where
   }
 }
 
+extension Newline: Printer where Input: AppendableCollection {
+  public func print(_ output: ()) -> Input? {
+    Input("\n".utf8)
+  }
+}
+
 extension Newline where Input == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable

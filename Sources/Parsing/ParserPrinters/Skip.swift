@@ -15,6 +15,12 @@ public struct Skip<Parsers>: Parser where Parsers: Parser {
   }
 }
 
+extension Skip: Printer where Parsers: Printer, Parsers.Output == Void {
+  public func print(_ output: ()) -> Parsers.Input? {
+    self.parsers.print()
+  }
+}
+
 extension Parsers {
   public typealias Skip = Parsing.Skip  // NB: Convenience type alias for discovery
 }

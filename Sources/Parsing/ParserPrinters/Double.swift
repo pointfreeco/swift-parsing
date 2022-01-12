@@ -249,6 +249,26 @@ extension Parsers {
   #endif
 }
 
+extension Parsers.DoubleParser: Printer where Input: AppendableCollection {
+  public func print(_ output: Output) -> Input? {
+    .init(String(output).utf8)
+  }
+}
+
+extension Parsers.FloatParser: Printer where Input: AppendableCollection {
+  public func print(_ output: Output) -> Input? {
+    .init(String(output).utf8)
+  }
+}
+
+#if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
+  extension Parsers.Float80Parser: Printer where Input: AppendableCollection {
+    public func print(_ output: Output) -> Input? {
+      .init(String(output).utf8)
+    }
+  }
+#endif
+
 extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
   @inlinable
   @inline(__always)

@@ -30,6 +30,13 @@ where
   }
 }
 
+extension FromSubstring: Printer where SubstringParser: Printer {
+  @inlinable
+  public func print(_ output: SubstringParser.Output) -> Input? {
+    self.substringParser.print(output).map(self.fromSubstring)
+  }
+}
+
 extension FromSubstring where Input == ArraySlice<UInt8> {
   @inlinable
   public init(@ParserBuilder _ build: () -> SubstringParser) {

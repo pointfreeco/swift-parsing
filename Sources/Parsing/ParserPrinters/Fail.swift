@@ -13,6 +13,13 @@ public struct Fail<Input, Output>: Parser {
   }
 }
 
+extension Fail: Printer {
+  @inlinable
+  public func print(_ output: Output) -> Input? {
+    nil
+  }
+}
+
 extension Fail where Input == Substring {
   @_disfavoredOverload
   @inlinable

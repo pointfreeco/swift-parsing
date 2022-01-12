@@ -40,6 +40,7 @@ where
 {
   public let element: Element
   public let initialResult: Result
+  public let iterator: (Result) -> AnyIterator<Element.Output>
   public let maximum: Int
   public let minimum: Int
   public let separator: Separator?
@@ -49,29 +50,51 @@ where
   /// number of times, accumulating the outputs into a result with a given closure.
   ///
   /// - Parameters:
-  ///   - initialResult: The value to use as the initial accumulating value.
-  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
-  ///     of the element parser.
   ///   - minimum: The minimum number of times to run this parser and consider parsing to be
   ///     successful.
   ///   - maximum: The maximum number of times to run this parser before returning the output.
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
   ///   - separator: A parser that consumes input between each parsed output.
   ///   - element: A parser to run multiple times to accumulate into a result.
   @inlinable
-  public init(
+  public init<Iterator>(
     into initialResult: Result,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    iterator: @escaping (Result) -> Iterator, // TODO: `iterating:`?
     @ParserBuilder forEach element: () -> Element, // TODO: Rename? `elements:`?
     @ParserBuilder separator: () -> Separator
-  ) {
+  ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
     self.element = element()
     self.initialResult = initialResult
+    self.iterator = { AnyIterator(iterator($0)) }
     self.maximum = maximum
     self.minimum = minimum
     self.separator = separator()
     self.updateAccumulatingResult = updateAccumulatingResult
+  }
+
+  @inlinable
+  public init(
+    into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    @ParserBuilder forEach element: () -> Element, // TODO: Rename? `elements:`?
+    @ParserBuilder separator: () -> Separator
+  ) {
+    self.init(
+      into: initialResult,
+      atLeast: minimum,
+      atMost: maximum,
+      updateAccumulatingResult,
+      iterator: { _ in AnyIterator { nil } },
+      forEach: element,
+      separator: separator
+    )
   }
 
   @inlinable
@@ -127,6 +150,47 @@ where
   }
 }
 
+extension Many: Printer
+where
+  Element: Printer,
+  Element.Input: Appendable,
+  Separator: Printer,
+  Separator.Output == Void
+{
+  public func print(_ output: Result) -> Element.Input? {
+    var input = Element.Input()
+
+    let iterator = self.iterator(output)
+    guard let firstInput = iterator.next().flatMap(self.element.print)
+    else { return self.minimum == 0 ? input : nil }
+
+    input.append(contentsOf: firstInput)
+    var count = 1
+
+    while let element = iterator.next() {
+      guard let elementInput = self.element.print(element)
+      else { return nil }
+
+      if let separator = self.separator {
+        guard let separatorInput = separator.print(())
+        else { return nil }
+
+        input.append(contentsOf: separatorInput)
+      }
+      input.append(contentsOf: elementInput)
+      count += 1
+
+      guard count <= self.maximum
+      else { return nil }
+    }
+
+    guard count >= self.minimum
+    else { return nil }
+
+    return input
+  }
+}
+
 extension Many where Separator == Always<Input, Void> {
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs into a result with a given closure.
@@ -140,19 +204,39 @@ extension Many where Separator == Always<Input, Void> {
   ///     of the element parser.
   ///   - element: A parser to run multiple times to accumulate into a result.
   @inlinable
-  public init(
+  public init<Iterator>(
+    into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    iterator: @escaping (Result) -> Iterator, // TODO: `iterating:`?,
     @ParserBuilder forEach element: () -> Element
-  ) {
+  ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
     self.element = element()
     self.initialResult = initialResult
+    self.iterator = { AnyIterator(iterator($0)) }
     self.maximum = maximum
     self.minimum = minimum
     self.separator = nil
     self.updateAccumulatingResult = updateAccumulatingResult
+  }
+
+  @inlinable
+  public init(
+    into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    @ParserBuilder forEach element: () -> Element
+  ) {
+    self.init(
+      into: initialResult,
+      atLeast: minimum,
+      atMost: maximum,
+      updateAccumulatingResult,
+      iterator: { _ in AnyIterator { nil } },
+      forEach: element
+    )
   }
 }
 
@@ -173,9 +257,15 @@ extension Many where Result == [Element.Output] {
     @ParserBuilder forEach element: () -> Element, // TODO: Rename? `elements`?
     @ParserBuilder separator: () -> Separator
   ) {
-    self.init(element(), into: [], atLeast: minimum, atMost: maximum, separator: separator()) {
-      $0.append($1)
-    }
+    self.init(
+      into: [],
+      atLeast: minimum,
+      atMost: maximum,
+      { $0.append($1) },
+      iterator: { $0.makeIterator() },
+      forEach: element,
+      separator: separator
+    )
   }
 }
 
@@ -194,9 +284,14 @@ extension Many where Result == [Element.Output], Separator == Always<Input, Void
     atMost maximum: Int = .max,
     @ParserBuilder forEach element: () -> Element
   ) {
-    self.init(element(), into: [], atLeast: minimum, atMost: maximum) {
-      $0.append($1)
-    }
+    self.init(
+      into: [],
+      atLeast: minimum,
+      atMost: maximum,
+      { $0.append($1) },
+      iterator: { $0.makeIterator() },
+      forEach: element
+    )
   }
 }
 

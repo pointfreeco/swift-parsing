@@ -96,7 +96,7 @@ struct VariadicsGenerator: ParsableCommand {
 
   func emitZipDeclarations(arity: Int) {
     for permutation in Permutations(arity: arity) {
-      // Emit type declarations.
+      // Emit type declaration.
       let typeName = "Zip\(permutation.identifier)"
       output("extension Parsers {\n  public struct \(typeName)<")
       outputForEach(0..<arity, separator: ", ") { "P\($0)" }
@@ -130,6 +130,33 @@ struct VariadicsGenerator: ParsableCommand {
       outputForEach(permutation.captureIndices, separator: ", ") { "o\($0)" }
       output(")\n    }\n  }\n}\n\n")
 
+      // Emit printer extension.
+      output("extension Parsers.\(typeName): Printer\nwhere\n  ")
+      outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Printer" }
+      output(",\n  P0.Input: Appendable,\n  ")
+      outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
+        "P\($0).Input == P\($1).Input"
+      }
+      if permutation.hasCaptureless {
+        output(",\n  ")
+        outputForEach(permutation.capturelessIndices, separator: ",\n  ") {
+          "P\($0).Output == Void"
+        }
+      }
+      output("\n{\n  @inlinable public func print(\n    _ output: (\n")
+      outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
+      output("\n    )\n  ) -> P0.Input? {\n    guard\n      ")
+      outputForEach(0..<arity, separator: ",\n      ") {
+        let binding = $0 == 0 && arity > 1 ? "var" : "let"
+        let output = permutation.isCaptureless(at: $0) ? "()"
+          : permutation.captureIndices.count == 1 ? "output"
+          : "output.\(permutation.captureIndices.firstIndex(of: $0)!)"
+        return "\(binding) i\($0) = p\($0).print(\(output))"
+      }
+      output("\n    else { return nil }\n    ")
+      outputForEach(1..<arity, separator: "\n    ") { "i0.append(contentsOf: i\($0))" }
+      output("\n    return i0\n  }\n}\n\n")
+
       // Emit builders.
       output("extension ParserBuilder {\n")
       output("  @inlinable public static func buildBlock<")
@@ -146,6 +173,7 @@ struct VariadicsGenerator: ParsableCommand {
   }
 
   func emitOneOfDeclaration(arity: Int) {
+    // Emit type declaration.
     let typeName = "OneOf\(arity)"
     output("extension Parsers {\n  public struct \(typeName)<")
     outputForEach(0..<arity, separator: ", ") { "P\($0)" }
@@ -171,6 +199,23 @@ struct VariadicsGenerator: ParsableCommand {
       "if let output = self.p\($0).parse(&input) { return output }"
     }
     output("\n      return nil\n    }\n  }\n}\n\n")
+
+    // Emit printer extension.
+    output("extension Parsers.\(typeName): Printer\nwhere\n  ")
+    outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Printer" }
+    output(",\n  ")
+    outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
+      "P\($0).Input == P\($1).Input"
+    }
+    output(",\n  ")
+    outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
+      "P\($0).Output == P\($1).Output"
+    }
+    output("\n{\n  @inlinable public func print(_ output: P0.Output) -> P0.Input? {\n    ")
+    outputForEach((0..<arity).reversed(), separator: "\n    ") {
+      "if let input = self.p\($0).print(output) { return input }"
+    }
+    output("\n    return nil\n  }\n}\n\n")
 
     // Emit builders.
     output("extension OneOfBuilder {\n")

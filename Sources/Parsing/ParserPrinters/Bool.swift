@@ -77,3 +77,15 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.BoolParser: Printer where Input: AppendableCollection {
+  @inlinable
+  public func print(_ output: Bool) -> Input? {
+    switch output {
+    case true:
+      return Input("true".utf8)
+    case false:
+      return Input("false".utf8)
+    }
+  }
+}

@@ -21,6 +21,21 @@ where
   }
 }
 
+extension Whitespace: Printer {
+  @inlinable
+  public func print(_ output: Input) -> Input? {
+    guard
+      output.allSatisfy({ (byte: UTF8.CodeUnit) in
+        byte == .init(ascii: " ")
+          || byte == .init(ascii: "\n")
+          || byte == .init(ascii: "\r")
+          || byte == .init(ascii: "\t")
+      })
+    else { return nil }
+    return output
+  }
+}
+
 extension Whitespace where Input == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
