@@ -14,16 +14,16 @@
 ///
 /// If you are optionally parsing input that should coalesce into some default, you can skip the
 /// optionality and instead use ``OneOf`` with an ``Always`` parser, given a default.
-public struct OneOf<Upstream>: Parser where Upstream: Parser {
-  public let upstream: Upstream
+public struct OneOf<Parsers>: Parser where Parsers: Parser {
+  public let parsers: Parsers
 
   @inlinable
-  public init(@OneOfBuilder _ build: () -> Upstream) {
-    self.upstream = build()
+  public init(@OneOfBuilder _ build: () -> Parsers) {
+    self.parsers = build()
   }
 
   @inlinable
-  public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
-    self.upstream.parse(&input)
+  public func parse(_ input: inout Parsers.Input) -> Parsers.Output? {
+    self.parsers.parse(&input)
   }
 }

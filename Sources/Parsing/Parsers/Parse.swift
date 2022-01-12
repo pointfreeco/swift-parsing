@@ -1,36 +1,36 @@
 /// A parser that attempts to run a number of parsers to accumulate their outputs.
-public struct Parse<Body, Output>: Parser where Body: Parser {
-  public let body: Body
-  public let transform: (Body.Output) -> Output
+public struct Parse<Output, Parsers>: Parser where Parsers: Parser {
+  public let transform: (Parsers.Output) -> Output
+  public let parsers: Parsers
 
   @inlinable
   public init(
-    _ transform: @escaping (Body.Output) -> Output,
-    @ParserBuilder with build: () -> Body
+    _ transform: @escaping (Parsers.Output) -> Output,
+    @ParserBuilder with build: () -> Parsers
   ) {
     self.transform = transform
-    self.body = build()
+    self.parsers = build()
   }
 
   @inlinable
-  public func parse(_ input: inout Body.Input) -> Output? {
-    self.body.parse(&input).map(self.transform)
+  public func parse(_ input: inout Parsers.Input) -> Output? {
+    self.parsers.parse(&input).map(self.transform)
   }
 }
 
-extension Parse where Body.Output == Void {
+extension Parse where Parsers.Output == Void {
   @inlinable
   public init(
     _ output: Output,
-    @ParserBuilder with build: () -> Body
+    @ParserBuilder with build: () -> Parsers
   ) {
     self.init({ output }, with: build)
   }
 }
 
-extension Parse where Body.Output == Output {
+extension Parse where Parsers.Output == Output {
   @inlinable
-  public init(@ParserBuilder with build: () -> Body) {
+  public init(@ParserBuilder with build: () -> Parsers) {
     self.init({ $0 }, with: build)
   }
 }

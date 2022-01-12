@@ -23,20 +23,20 @@ struct URLRequestData {
   }
 }
 
-struct Body<BodyParser>: Parser
+struct Body<Parsers>: Parser
 where
-  BodyParser: Parser,
-  BodyParser.Input == ArraySlice<UInt8>
+  Parsers: Parser,
+  Parsers.Input == ArraySlice<UInt8>
 {
-  let bodyParser: BodyParser
+  let bodyParser: Parsers
 
   @inlinable
-  init(@ParserBuilder _ bodyParser: () -> BodyParser) {
+  init(@ParserBuilder _ bodyParser: () -> Parsers) {
     self.bodyParser = bodyParser()
   }
 
   @inlinable
-  func parse(_ input: inout URLRequestData) -> BodyParser.Output? {
+  func parse(_ input: inout URLRequestData) -> Parsers.Output? {
     guard
       var body = input.body,
       let output = self.bodyParser.parse(&body),
@@ -91,20 +91,20 @@ struct Method: Parser {
   }
 }
 
-struct Path<ComponentParser>: Parser
+struct Path<Component>: Parser
 where
-  ComponentParser: Parser,
-  ComponentParser.Input == Substring
+  Component: Parser,
+  Component.Input == Substring
 {
-  let componentParser: ComponentParser
+  let componentParser: Component
 
   @inlinable
-  init(_ component: ComponentParser) {
+  init(_ component: Component) {
     self.componentParser = component
   }
 
   @inlinable
-  func parse(_ input: inout URLRequestData) -> ComponentParser.Output? {
+  func parse(_ input: inout URLRequestData) -> Component.Output? {
     guard
       var component = input.path.first,
       let output = self.componentParser.parse(&component),
@@ -128,20 +128,20 @@ struct PathEnd: Parser {
   }
 }
 
-struct Query<ValueParser>: Parser
+struct Query<Value>: Parser
 where
-  ValueParser: Parser,
-  ValueParser.Input == Substring
+  Value: Parser,
+  Value.Input == Substring
 {
-  let defaultValue: ValueParser.Output?
+  let defaultValue: Value.Output?
   let name: String
-  let valueParser: ValueParser
+  let valueParser: Value
 
   @inlinable
   init(
     _ name: String,
-    _ value: ValueParser,
-    default defaultValue: ValueParser.Output? = nil
+    _ value: Value,
+    default defaultValue: Value.Output? = nil
   ) {
     self.defaultValue = defaultValue
     self.name = name
@@ -151,8 +151,8 @@ where
   @inlinable
   init(
     _ name: String,
-    default defaultValue: ValueParser.Output? = nil
-  ) where ValueParser == Rest<Substring> {
+    default defaultValue: Value.Output? = nil
+  ) where Value == Rest<Substring> {
     self.init(
       name,
       Rest(),
@@ -161,7 +161,7 @@ where
   }
 
   @inlinable
-  func parse(_ input: inout URLRequestData) -> ValueParser.Output? {
+  func parse(_ input: inout URLRequestData) -> Value.Output? {
     guard
       let wrapped = input.query[self.name]?.first,
       var value = wrapped,
@@ -177,20 +177,20 @@ where
   }
 }
 
-struct Route<RouteParser, Route>: Parser
+struct Route<Route, Parsers>: Parser
 where
-  RouteParser: Parser,
-  RouteParser.Input == URLRequestData
+  Parsers: Parser,
+  Parsers.Input == URLRequestData
 {
-  let parser: RouteParser
-  let transform: (RouteParser.Output) -> Route
+  let transform: (Parsers.Output) -> Route
+  let parsers: Parsers
 
   @inlinable
   init(
-    _ transform: @escaping (RouteParser.Output) -> Route,
-    @ParserBuilder with body: () -> RouteParser
+    _ transform: @escaping (Parsers.Output) -> Route,
+    @ParserBuilder with parsers: () -> Parsers
   ) {
-    self.parser = body()
+    self.parsers = parsers()
     self.transform = transform
   }
 
@@ -198,7 +198,7 @@ where
   func parse(_ input: inout URLRequestData) -> Route? {
     let original = input
     guard
-      let output = self.parser.parse(&input).map(self.transform),
+      let output = self.parsers.parse(&input).map(self.transform),
       input.path.isEmpty,
       input.method == nil || Method.get.parse(&input) != nil
     else {
@@ -209,17 +209,17 @@ where
   }
 }
 
-extension Route where RouteParser.Output == Void {
+extension Route where Parsers.Output == Void {
   @inlinable
   init(
     _ route: Route,
-    @ParserBuilder with body: () -> RouteParser
+    @ParserBuilder with parsers: () -> Parsers
   ) {
-    self.init({ route }, with: body)
+    self.init({ route }, with: parsers)
   }
 }
 
-extension Route where RouteParser == Always<URLRequestData, Void> {
+extension Route where Parsers == Always<URLRequestData, Void> {
   @inlinable
   init(_ route: Route) {
     self.init({ route }, with: { Always<URLRequestData, Void>(()) })

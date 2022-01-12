@@ -31,25 +31,25 @@
 /// newlineSeparatedIntegers
 ///   .parse(&stdin)
 /// ```
-public struct Stream<Upstream>: Parser
+public struct Stream<Parsers>: Parser
 where
-  Upstream: Parser,
-  Upstream.Input: RangeReplaceableCollection
+  Parsers: Parser,
+  Parsers.Input: RangeReplaceableCollection
 {
-  public let upstream: Upstream
+  public let parsers: Parsers
 
   @inlinable
-  public init(@ParserBuilder build: () -> Upstream) {
-    self.upstream = build()
+  public init(@ParserBuilder build: () -> Parsers) {
+    self.parsers = build()
   }
 
   @inlinable
-  public func parse(_ input: inout AnyIterator<Upstream.Input>) -> [Upstream.Output]? {
-    var buffer = Upstream.Input()
+  public func parse(_ input: inout AnyIterator<Parsers.Input>) -> [Parsers.Output]? {
+    var buffer = Parsers.Input()
     var outputs: Output = []
     while let chunk = input.next() {
       buffer.append(contentsOf: chunk)
-      while let output = self.upstream.parse(&buffer) {
+      while let output = self.parsers.parse(&buffer) {
         outputs.append(output)
       }
     }

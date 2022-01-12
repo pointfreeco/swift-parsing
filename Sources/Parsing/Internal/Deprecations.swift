@@ -240,8 +240,8 @@ extension Skip {
   @available(watchOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
   @available(tvOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
   @inlinable
-  public init(_ upstream: Upstream) {
-    self.upstream = upstream
+  public init(_ parsers: Parsers) {
+    self.parsers = parsers
   }
 }
 
@@ -331,8 +331,8 @@ extension Stream {
   @available(watchOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
   @available(tvOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
   @inlinable
-  public init(upstream: Upstream) {
-    self.upstream = upstream
+  public init(upstream: Parsers) {
+    self.parsers = upstream
   }
 }
 
