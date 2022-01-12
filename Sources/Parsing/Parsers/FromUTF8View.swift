@@ -4,12 +4,8 @@ where
   UTF8Parser.Input == Substring.UTF8View
 {
   public let utf8Parser: UTF8Parser
-
-  @usableFromInline
-  let toUTF8: (Input) -> Substring.UTF8View
-
-  @usableFromInline
-  let fromUTF8: (Substring.UTF8View) -> Input
+  public let toUTF8: (Input) -> Substring.UTF8View
+  public let fromUTF8: (Substring.UTF8View) -> Input
 
   @inlinable
   public func parse(_ input: inout Input) -> UTF8Parser.Output? {

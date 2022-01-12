@@ -19,12 +19,8 @@ where
   SubstringParser.Input == Substring
 {
   public let substringParser: SubstringParser
-
-  @usableFromInline
-  let toSubstring: (Input) -> Substring
-
-  @usableFromInline
-  let fromSubstring: (Substring) -> Input
+  public let toSubstring: (Input) -> Substring
+  public let fromSubstring: (Substring) -> Input
 
   @inlinable
   public func parse(_ input: inout Input) -> SubstringParser.Output? {

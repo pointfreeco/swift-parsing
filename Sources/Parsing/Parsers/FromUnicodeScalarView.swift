@@ -6,12 +6,8 @@ where
   UnicodeScalarsParser.Input == Substring.UnicodeScalarView
 {
   public let unicodeScalarsParser: UnicodeScalarsParser
-
-  @usableFromInline
-  let toUnicodeScalars: (Input) -> Substring.UnicodeScalarView
-
-  @usableFromInline
-  let fromUnicodeScalars: (Substring.UnicodeScalarView) -> Input
+  public let toUnicodeScalars: (Input) -> Substring.UnicodeScalarView
+  public let fromUnicodeScalars: (Substring.UnicodeScalarView) -> Input
 
   @inlinable
   public func parse(_ input: inout Input) -> UnicodeScalarsParser.Output? {

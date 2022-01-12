@@ -112,9 +112,9 @@ struct VariadicsGenerator: ParsableCommand {
           "P\($0).Output == Void"
         }
       }
-      output("\n  {\n    @usableFromInline let ")
+      output("\n  {\n    public let ")
       outputForEach(0..<arity, separator: ", ") { "p\($0): P\($0)" }
-      output("\n\n    @inlinable init(")
+      output("\n\n    @inlinable public init(")
       outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
       output(") {\n      ")
       outputForEach(0..<arity, separator: "\n      ") { "self.p\($0) = p\($0)" }
@@ -159,9 +159,9 @@ struct VariadicsGenerator: ParsableCommand {
     outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n    ") {
       "P\($0).Output == P\($1).Output"
     }
-    output("\n  {\n    @usableFromInline let ")
+    output("\n  {\n    public let ")
     outputForEach(0..<arity, separator: ", ") { "p\($0): P\($0)" }
-    output("\n\n    @inlinable init(")
+    output("\n\n    @inlinable public init(")
     outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
     output(") {\n      ")
     outputForEach(0..<arity, separator: "\n      ") { "self.p\($0) = p\($0)" }
