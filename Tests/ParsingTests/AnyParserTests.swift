@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -11,10 +12,10 @@ final class AnyParserTests: XCTestCase {
 
     var input = "Hello, world!"[...]
     XCTAssertNotNil(parser.parse(&input))
-    XCTAssertEqual(", world!", input)
+    XCTAssertNoDifference(", world!", input)
 
     XCTAssertNil(parser.parse(&input))
-    XCTAssertEqual(", world!", input)
+    XCTAssertNoDifference(", world!", input)
   }
 
   func testParserInitializer() {
@@ -22,10 +23,10 @@ final class AnyParserTests: XCTestCase {
 
     var input = "Hello, world!"[...]
     XCTAssertNotNil(parser.parse(&input))
-    XCTAssertEqual(", world!", input)
+    XCTAssertNoDifference(", world!", input)
 
     XCTAssertNil(parser.parse(&input))
-    XCTAssertEqual(", world!", input)
+    XCTAssertNoDifference(", world!", input)
   }
 
   func testParserEraseToAnyParser() {
@@ -33,10 +34,10 @@ final class AnyParserTests: XCTestCase {
 
     var input = "Hello, world!"[...]
     XCTAssertNotNil(parser.parse(&input))
-    XCTAssertEqual(", world!", input)
+    XCTAssertNoDifference(", world!", input)
 
     XCTAssertNil(parser.parse(&input))
-    XCTAssertEqual(", world!", input)
+    XCTAssertNoDifference(", world!", input)
   }
 
   func testAnyParserEraseToAnyParser() {
@@ -44,9 +45,9 @@ final class AnyParserTests: XCTestCase {
 
     var input = "Hello, world!"[...]
     XCTAssertNotNil(parser.parse(&input))
-    XCTAssertEqual(", world!", input)
+    XCTAssertNoDifference(", world!", input)
 
     XCTAssertNil(parser.parse(&input))
-    XCTAssertEqual(", world!", input)
+    XCTAssertNoDifference(", world!", input)
   }
 }

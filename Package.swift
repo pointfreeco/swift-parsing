@@ -11,7 +11,8 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark", from: "0.1.1")
+    .package(url: "https://github.com/pointfreeco/swift-custom-dump", from: "0.3.0"),
+    .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark", from: "0.1.1"),
   ],
   targets: [
     .target(
@@ -19,7 +20,10 @@ let package = Package(
     ),
     .testTarget(
       name: "ParsingTests",
-      dependencies: ["Parsing"]
+      dependencies: [
+        "Parsing",
+        .product(name: "CustomDump", package: "swift-custom-dump"),
+      ]
     ),
     .target(
       name: "swift-parsing-benchmark",

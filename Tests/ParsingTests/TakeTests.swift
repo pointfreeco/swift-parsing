@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -5,13 +6,13 @@ final class TakeTests: XCTestCase {
   func testTake2Success() {
     var input = "12345"[...]
     XCTAssert(try ("1", "2") == XCTUnwrap(First().take(First()).parse(&input)))
-    XCTAssertEqual("345", input)
+    XCTAssertNoDifference("345", input)
   }
 
   func testTake3Success() {
     var input = "12345"[...]
     XCTAssert(try ("1", "2", "3") == XCTUnwrap(First().take(First()).take(First()).parse(&input)))
-    XCTAssertEqual("45", input)
+    XCTAssertNoDifference("45", input)
   }
 
   func testTake4Success() {
@@ -19,7 +20,7 @@ final class TakeTests: XCTestCase {
     XCTAssert(
       try ("1", "2", "3", "4")
         == XCTUnwrap(First().take(First()).take(First()).take(First()).parse(&input)))
-    XCTAssertEqual("5", input)
+    XCTAssertNoDifference("5", input)
   }
 
   func testTake5Success() {
@@ -27,7 +28,7 @@ final class TakeTests: XCTestCase {
     XCTAssert(
       try ("1", "2", "3", "4", "5")
         == XCTUnwrap(First().take(First()).take(First()).take(First()).take(First()).parse(&input)))
-    XCTAssertEqual("", input)
+    XCTAssertNoDifference("", input)
   }
 
   func testTake6Success() {
@@ -37,7 +38,7 @@ final class TakeTests: XCTestCase {
     XCTAssert(
       try ("1", "2", "3", "4", "5", "6")
         == XCTUnwrap(parser.parse(&input)))
-    XCTAssertEqual("", input)
+    XCTAssertNoDifference("", input)
   }
 
   func testTake7Success() {
@@ -47,7 +48,7 @@ final class TakeTests: XCTestCase {
     XCTAssert(
       try ("1", "2", "3", "4", "5", "6", "7")
         == XCTUnwrap(parser.parse(&input)))
-    XCTAssertEqual("", input)
+    XCTAssertNoDifference("", input)
   }
 
   func testTake8Success() {
@@ -57,7 +58,7 @@ final class TakeTests: XCTestCase {
     XCTAssert(
       try ("1", "2", "3", "4", "5", "6", "7", "8")
         == XCTUnwrap(parser.parse(&input)))
-    XCTAssertEqual("", input)
+    XCTAssertNoDifference("", input)
   }
 
   func testTake9Success() {
@@ -67,7 +68,7 @@ final class TakeTests: XCTestCase {
     XCTAssert(
       try ("1", "2", "3", "4", "5", "6", "7", "8", "9")
         == XCTUnwrap(parser.parse(&input)))
-    XCTAssertEqual("", input)
+    XCTAssertNoDifference("", input)
   }
 
   func testTake10Success() {
@@ -77,7 +78,7 @@ final class TakeTests: XCTestCase {
     XCTAssert(
       try ("1", "2", "3", "4", "5", "6", "7", "8", "9", "0")
         == XCTUnwrap(parser.parse(&input)))
-    XCTAssertEqual("", input)
+    XCTAssertNoDifference("", input)
   }
 
   func testTake11Success() {
@@ -88,7 +89,7 @@ final class TakeTests: XCTestCase {
     XCTAssert(
       try ("1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "A")
         == XCTUnwrap(parser.parse(&input)))
-    XCTAssertEqual("", input)
+    XCTAssertNoDifference("", input)
   }
 }
 

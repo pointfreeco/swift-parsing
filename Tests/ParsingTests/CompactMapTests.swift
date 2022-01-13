@@ -1,23 +1,24 @@
+import CustomDump
 import Parsing
 import XCTest
 
 final class CompactMapTests: XCTestCase {
   func testSuccess() {
     var input = "FF0000"[...]
-    XCTAssertEqual(
+    XCTAssertNoDifference(
       0xFF,
       Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
     )
-    XCTAssertEqual("0000", Substring(input))
+    XCTAssertNoDifference("0000", Substring(input))
   }
 
   func testFailure() {
     var input = "ERRORS"[...]
-    XCTAssertEqual(
+    XCTAssertNoDifference(
       nil,
       Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
     )
-    XCTAssertEqual("ERRORS", Substring(input))
+    XCTAssertNoDifference("ERRORS", Substring(input))
   }
 
   func testOverloadArray() {

@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -11,10 +12,10 @@ final class LazyTests: XCTestCase {
       return Always(())
     }
 
-    XCTAssertEqual(0, evaluated, "has not evaluated")
+    XCTAssertNoDifference(0, evaluated, "has not evaluated")
     XCTAssertNotNil(parser.parse(&input))
-    XCTAssertEqual(1, evaluated, "evaluated")
+    XCTAssertNoDifference(1, evaluated, "evaluated")
     XCTAssertNotNil(parser.parse(&input))
-    XCTAssertEqual(1, evaluated, "did not re-evaluate")
+    XCTAssertNoDifference(1, evaluated, "did not re-evaluate")
   }
 }
