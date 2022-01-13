@@ -1,36 +1,30 @@
 /// A parser that attempts to run a number of parsers to accumulate their outputs.
-public struct Parse<Output, Parsers>: Parser where Parsers: Parser {
-  public let transform: (Parsers.Output) -> Output
+public struct Parse<Parsers>: Parser where Parsers: Parser {
   public let parsers: Parsers
 
   @inlinable
-  public init(
-    _ transform: @escaping (Parsers.Output) -> Output,
-    @ParserBuilder with build: () -> Parsers
-  ) {
-    self.transform = transform
+  public init(@ParserBuilder _ build: () -> Parsers) {
     self.parsers = build()
   }
 
   @inlinable
-  public func parse(_ input: inout Parsers.Input) -> Output? {
-    self.parsers.parse(&input).map(self.transform)
+  public init<Upstream, NewOutput>(
+    _ transform: @escaping (Upstream.Output) -> NewOutput,
+    @ParserBuilder with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.Map<Upstream, NewOutput> {
+    self.parsers = build().map(transform)
   }
-}
 
-extension Parse where Parsers.Output == Void {
   @inlinable
-  public init(
-    _ output: Output,
-    @ParserBuilder with build: () -> Parsers
-  ) {
-    self.init({ output }, with: build)
+  public init<Upstream, NewOutput>(
+    _ output: NewOutput,
+    @ParserBuilder with build: () -> Upstream
+  ) where Upstream.Output == Void, Parsers == Parsing.Parsers.Map<Upstream, NewOutput> {
+    self.parsers = build().map { output }
   }
-}
 
-extension Parse where Parsers.Output == Output {
   @inlinable
-  public init(@ParserBuilder with build: () -> Parsers) {
-    self.init({ $0 }, with: build)
+  public func parse(_ input: inout Parsers.Input) -> Parsers.Output? {
+    self.parsers.parse(&input)
   }
 }

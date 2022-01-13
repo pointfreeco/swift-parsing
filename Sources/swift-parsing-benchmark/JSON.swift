@@ -47,7 +47,7 @@ private let object = Parse(JSONValue.object) {
   Many(into: [String: JSONValue]()) { object, pair in
     let (name, value) = pair
     object[name] = value
-  } forEach: {
+  } element: {
     Skip {
       Whitespace()
     }
@@ -135,7 +135,7 @@ private let stringLiteral = Parse {
     case let .literal(other):
       string.append(contentsOf: other)
     }
-  } forEach: {
+  } element: {
     fragment
   }
   "\"".utf8
