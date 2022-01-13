@@ -9,22 +9,27 @@ import Parsing
 // MARK: - Parser
 
 private let northSouth = OneOf {
-  "N".utf8.map { 1.0 }
-  "S".utf8.map { -1.0 }
+  "N".utf8.map(Exactly(1.0))
+  "S".utf8.map(Exactly(-1.0))
 }
 
 private let eastWest = OneOf {
-  "E".utf8.map { 1.0 }
-  "W".utf8.map { -1.0 }
+  "E".utf8.map(Exactly(1.0))
+  "W".utf8.map(Exactly(-1.0))
 }
 
-private let latitude = Parse(*) {
+private let multiply = Conversion<(Double, Double), Double>(
+  apply: *,
+  unapply: { $0 < 0 ? (abs($0), -1) : ($0, 1) }
+)
+
+private let latitude = Parse(multiply) {
   Double.parser()
   "° ".utf8
   northSouth
 }
 
-private let longitude = Parse(*) {
+private let longitude = Parse(multiply) {
   Double.parser()
   "° ".utf8
   eastWest
@@ -35,23 +40,23 @@ private struct Coordinate {
   let longitude: Double
 }
 
-private let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }
+private let zeroOrMoreSpaces = Skip {
+  Prefix { $0 == .init(ascii: " ") }.printing(" ".utf8)
+}
 
-private let coord = Parse(Coordinate.init(latitude:longitude:)) {
+private let coord = Parse(UnsafeBitCast(Coordinate.init(latitude:longitude:))) {
   latitude
-  Skip {
-    ",".utf8
-    zeroOrMoreSpaces
-  }
+  ",".utf8
+  zeroOrMoreSpaces
   longitude
 }
 
 private enum Currency { case eur, gbp, usd }
 
 private let currency = OneOf {
-  "€".utf8.map { Currency.eur }
-  "£".utf8.map { Currency.gbp }
-  "$".utf8.map { Currency.usd }
+  "€".utf8.map(Exactly(Currency.eur))
+  "£".utf8.map(Exactly(Currency.gbp))
+  "$".utf8.map(Exactly(Currency.usd))
 }
 
 private struct Money {
@@ -59,7 +64,7 @@ private struct Money {
   let dollars: Int
 }
 
-private let money = Parse(Money.init(currency:dollars:)) {
+private let money = Parse(UnsafeBitCast(Money.init(currency:dollars:))) {
   currency
   Int.parser()
 }
@@ -70,14 +75,12 @@ private struct Race {
   let path: [Coordinate]
 }
 
-private let locationName = Prefix { $0 != .init(ascii: ",") }
+private let locationName = Prefix { $0 != .init(ascii: ",") }.map(String.parser())
 
-private let race = Parse(Race.init(location:entranceFee:path:)) {
-  locationName.map { String(decoding: $0, as: UTF8.self) }
-  Skip {
-    ",".utf8
-    zeroOrMoreSpaces
-  }
+private let race = Parse(UnsafeBitCast(Race.init(location:entranceFee:path:))) {
+  locationName
+  ",".utf8
+  zeroOrMoreSpaces
   money
   "\n".utf8
   Many {
@@ -174,6 +177,9 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   suite.benchmark(
     name: "Parser",
     run: { output = races.parse(input) },
-    tearDown: { precondition(output.count == 3) }
+    tearDown: {
+      precondition(output.count == 3)
+      precondition(races.print(output)?.elementsEqual(input.utf8) == true)
+    }
   )
 }

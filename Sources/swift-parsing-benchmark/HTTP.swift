@@ -72,18 +72,18 @@ private typealias Output = (Request, [Header])
 // MARK: - Parsers
 
 private let method = Prefix(while: isToken)
-  .map { String(decoding: $0, as: UTF8.self) }
+  .map(String.parser())
 
 private let uri = Prefix(while: isNotSpace)
-  .map { String(decoding: $0, as: UTF8.self) }
+  .map(String.parser())
 
 private let httpVersion = Parse {
   "HTTP/".utf8
   Prefix(while: isVersion)
 }
-.map { String(decoding: $0, as: UTF8.self) }
+.map(String.parser())
 
-private let requestLine = Parse(Request.init(method:uri:version:)) {
+private let requestLine = Parse(UnsafeBitCast(Request.init(method:uri:version:))) {
   method
   " ".utf8
   uri
@@ -93,21 +93,13 @@ private let requestLine = Parse(Request.init(method:uri:version:)) {
 }
 
 private let headerValue = Parse {
-  Skip {
-    OneOf {
-      " ".utf8
-      "\t".utf8
-    }
-    Prefix(while: isHorizontalSpace)
-  }
-  Prefix(while: notLineEnding).map { String(decoding: $0, as: UTF8.self) }
-  Skip {
-    Newline()
-  }
+  Prefix(1..., while: isHorizontalSpace).printing(" ".utf8)
+  Prefix(while: notLineEnding).map(String.parser())
+  Newline()
 }
 
-private let header = Parse(Header.init(name:value:)) {
-  Prefix(while: isToken).map { String(decoding: $0, as: UTF8.self) }
+private let header = Parse(UnsafeBitCast(Header.init(name:value:))) {
+  Prefix(while: isToken).map(String.parser())
   ":".utf8
   Many {
     headerValue
@@ -155,6 +147,9 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
   suite.benchmark(
     name: "HTTP",
     run: { output = request.parse(input) },
-    tearDown: { precondition(output == expected) }
+    tearDown: {
+      precondition(output == expected)
+      precondition(request.print(output)?.elementsEqual(input.utf8) == true)
+    }
   )
 }
