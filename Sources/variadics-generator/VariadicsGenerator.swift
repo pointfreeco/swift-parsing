@@ -91,7 +91,7 @@ struct VariadicsGenerator: ParsableCommand {
       emitOneOfDeclaration(arity: arity)
     }
 
-    output("// END AUTO-GENERATED CONTENT")
+    output("// END AUTO-GENERATED CONTENT\n")
   }
 
   func emitZipDeclarations(arity: Int) {

@@ -37,14 +37,14 @@ extension Always: Printer where Input: Appendable {
 
 extension Always where Input == Substring {
   @inlinable
-  public init(_ output: Output)  {
+  public init(_ output: Output) {
     self.output = output
   }
 }
 
 extension Always where Input == Substring.UTF8View {
   @inlinable
-  public init(_ output: Output)  {
+  public init(_ output: Output) {
     self.output = output
   }
 }

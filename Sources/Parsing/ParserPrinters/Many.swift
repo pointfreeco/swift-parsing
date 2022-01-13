@@ -50,22 +50,22 @@ where
   /// number of times, accumulating the outputs into a result with a given closure.
   ///
   /// - Parameters:
+  ///   - initialResult: The value to use as the initial accumulating value.
   ///   - minimum: The minimum number of times to run this parser and consider parsing to be
   ///     successful.
   ///   - maximum: The maximum number of times to run this parser before returning the output.
-  ///   - initialResult: The value to use as the initial accumulating value.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
-  ///   - separator: A parser that consumes input between each parsed output.
   ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
   public init<Iterator>(
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
-    iterator: @escaping (Result) -> Iterator, // TODO: `iterating:`?
-    @ParserBuilder forEach element: () -> Element, // TODO: Rename? `elements:`?
+    iterator: @escaping (Result) -> Iterator,
+    @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
     self.element = element()
@@ -83,7 +83,7 @@ where
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
-    @ParserBuilder forEach element: () -> Element, // TODO: Rename? `elements:`?
+    @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) {
     self.init(
@@ -92,7 +92,7 @@ where
       atMost: maximum,
       updateAccumulatingResult,
       iterator: { _ in AnyIterator { nil } },
-      forEach: element,
+      element: element,
       separator: separator
     )
   }
@@ -196,10 +196,10 @@ extension Many where Separator == Always<Input, Void> {
   /// number of times, accumulating the outputs into a result with a given closure.
   ///
   /// - Parameters:
+  ///   - initialResult: The value to use as the initial accumulating value.
   ///   - minimum: The minimum number of times to run this parser and consider parsing to be
   ///     successful.
   ///   - maximum: The maximum number of times to run this parser before returning the output.
-  ///   - initialResult: The value to use as the initial accumulating value.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
   ///   - element: A parser to run multiple times to accumulate into a result.
@@ -209,8 +209,8 @@ extension Many where Separator == Always<Input, Void> {
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
-    iterator: @escaping (Result) -> Iterator, // TODO: `iterating:`?,
-    @ParserBuilder forEach element: () -> Element
+    iterator: @escaping (Result) -> Iterator,
+    @ParserBuilder element: () -> Element
   ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
     self.element = element()
     self.initialResult = initialResult
@@ -227,7 +227,7 @@ extension Many where Separator == Always<Input, Void> {
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
-    @ParserBuilder forEach element: () -> Element
+    @ParserBuilder element: () -> Element
   ) {
     self.init(
       into: initialResult,
@@ -235,7 +235,7 @@ extension Many where Separator == Always<Input, Void> {
       atMost: maximum,
       updateAccumulatingResult,
       iterator: { _ in AnyIterator { nil } },
-      forEach: element
+      element: element
     )
   }
 }
@@ -254,7 +254,7 @@ extension Many where Result == [Element.Output] {
   public init(
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder forEach element: () -> Element, // TODO: Rename? `elements`?
+    @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) {
     self.init(
@@ -263,7 +263,7 @@ extension Many where Result == [Element.Output] {
       atMost: maximum,
       { $0.append($1) },
       iterator: { $0.makeIterator() },
-      forEach: element,
+      element: element,
       separator: separator
     )
   }
@@ -282,7 +282,7 @@ extension Many where Result == [Element.Output], Separator == Always<Input, Void
   public init(
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder forEach element: () -> Element
+    @ParserBuilder element: () -> Element
   ) {
     self.init(
       into: [],
@@ -290,7 +290,7 @@ extension Many where Result == [Element.Output], Separator == Always<Input, Void
       atMost: maximum,
       { $0.append($1) },
       iterator: { $0.makeIterator() },
-      forEach: element
+      element: element
     )
   }
 }

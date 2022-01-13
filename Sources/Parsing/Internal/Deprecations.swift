@@ -117,6 +117,18 @@ extension Parsers {
 
 extension Parser {
   @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
+  @available(macOS, deprecated: 100000, message: "Use the '@ParserBuilder' method instead.")
+  @available(iOS, deprecated: 100000, message: "Use the '@ParserBuilder' method instead.")
+  @available(watchOS, deprecated: 100000, message: "Use the '@ParserBuilder' method instead.")
+  @available(tvOS, deprecated: 100000, message: "Use the '@ParserBuilder' method instead.")
+  @inlinable
+  public func pipe<Downstream>(_ downstream: Downstream) -> Parsers.Pipe<Self, Downstream> {
+    .init(upstream: self, downstream: downstream)
+  }
+}
+
+extension Parser {
+  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
   @available(macOS, deprecated: 100000, message: "Use 'Skip' instead.")
   @available(iOS, deprecated: 100000, message: "Use 'Skip' instead.")
   @available(watchOS, deprecated: 100000, message: "Use 'Skip' instead.")
