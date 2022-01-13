@@ -5,19 +5,35 @@ private struct Color: Equatable {
   let red, green, blue: UInt8
 }
 
-private typealias Input = Substring.UTF8View
-private typealias Output = Color
-
-private let hexPrimary = Prefix<Input>(2).pipe {
-  UInt8.parser(isSigned: false, radix: 16)
-  End()
+struct HexByte<Input>: Parser
+where Input: Collection, Input.SubSequence == Input, Input.Element == UInt8 {
+  func parse(_ input: inout Input) -> UInt8? {
+    let prefix = input.prefix(2)
+    guard
+      prefix.count == 2,
+      let byte = UInt8(String(decoding: prefix, as: UTF8.self), radix: 16)
+    else { return nil }
+    input.removeFirst(2)
+    return byte
+  }
 }
 
-private let hexColor = Parse(Color.init(red:green:blue:)) {
+extension HexByte: Printer where Input: AppendableCollection {
+  func print(_ output: UInt8) -> Input? {
+    let byte = String(output, radix: 16)
+    return byte.count == 1 ? Input("0\(byte)".utf8) : Input("\(byte)".utf8)
+  }
+}
+
+extension HexByte where Input == Substring.UTF8View {
+  init() {}
+}
+
+private let hexColor = Parse(UnsafeBitCast(Color.init(red:green:blue:))) {
   "#".utf8
-  hexPrimary
-  hexPrimary
-  hexPrimary
+  HexByte()
+  HexByte()
+  HexByte()
 }
 
 let colorSuite = BenchmarkSuite(name: "Color") { suite in
@@ -28,6 +44,9 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
   suite.benchmark(
     name: "Parser",
     run: { output = hexColor.parse(input) },
-    tearDown: { precondition(output == expected) }
+    tearDown: {
+      precondition(output == expected)
+      precondition(hexColor.print(output)?.elementsEqual("#ff0000".utf8) == true)
+    }
   )
 }

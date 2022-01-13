@@ -40,9 +40,7 @@ private struct Coordinate {
   let longitude: Double
 }
 
-private let zeroOrMoreSpaces = Skip {
-  Prefix { $0 == .init(ascii: " ") }.printing(" ".utf8)
-}
+private let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }.printing(" ".utf8)
 
 private let coord = Parse(UnsafeBitCast(Coordinate.init(latitude:longitude:))) {
   latitude
