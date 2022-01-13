@@ -63,7 +63,7 @@ where
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder forEach element: () -> Element, // TODO: Rename? `elements:`?
+    @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) {
     self.element = element()
@@ -145,7 +145,7 @@ extension Many where Separator == Always<Input, Void> {
     atMost maximum: Int = .max,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
-    @ParserBuilder forEach element: () -> Element
+    @ParserBuilder element: () -> Element
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -170,7 +170,7 @@ extension Many where Result == [Element.Output] {
   public init(
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder forEach element: () -> Element, // TODO: Rename? `elements`?
+    @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) {
     self.init(element(), into: [], atLeast: minimum, atMost: maximum, separator: separator()) {
@@ -192,7 +192,7 @@ extension Many where Result == [Element.Output], Separator == Always<Input, Void
   public init(
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    @ParserBuilder forEach element: () -> Element
+    @ParserBuilder element: () -> Element
   ) {
     self.init(element(), into: [], atLeast: minimum, atMost: maximum) {
       $0.append($1)
