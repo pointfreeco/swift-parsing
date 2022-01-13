@@ -177,28 +177,44 @@ where
   }
 }
 
-struct Route<Route, Parsers>: Parser
+struct Route<Parsers>: Parser
 where
   Parsers: Parser,
   Parsers.Input == URLRequestData
 {
-  let transform: (Parsers.Output) -> Route
   let parsers: Parsers
 
   @inlinable
-  init(
-    _ transform: @escaping (Parsers.Output) -> Route,
-    @ParserBuilder with parsers: () -> Parsers
-  ) {
-    self.parsers = parsers()
-    self.transform = transform
+  init<Upstream, Route>(
+    _ transform: @escaping (Upstream.Output) -> Route,
+    @ParserBuilder with parsers: () -> Upstream
+  ) where Upstream.Input == URLRequestData, Parsers == Parsing.Parsers.Map<Upstream, Route> {
+    self.parsers = parsers().map(transform)
   }
 
   @inlinable
-  func parse(_ input: inout URLRequestData) -> Route? {
+  init<Upstream, Route>(
+    _ route: Route,
+    @ParserBuilder with parsers: () -> Upstream
+  )
+  where
+    Upstream.Input == URLRequestData,
+    Upstream.Output == Void,
+    Parsers == Parsing.Parsers.Map<Upstream, Route>
+  {
+    self.parsers = parsers().map { route }
+  }
+
+  @inlinable
+  init<Route>(_ route: Route) where Parsers == Always<URLRequestData, Route> {
+    self.parsers = Always<URLRequestData, Route>(route)
+  }
+
+  @inlinable
+  func parse(_ input: inout URLRequestData) -> Parsers.Output? {
     let original = input
     guard
-      let output = self.parsers.parse(&input).map(self.transform),
+      let output = self.parsers.parse(&input),
       input.path.isEmpty,
       input.method == nil || Method.get.parse(&input) != nil
     else {
@@ -206,22 +222,5 @@ where
       return nil
     }
     return output
-  }
-}
-
-extension Route where Parsers.Output == Void {
-  @inlinable
-  init(
-    _ route: Route,
-    @ParserBuilder with parsers: () -> Parsers
-  ) {
-    self.init({ route }, with: parsers)
-  }
-}
-
-extension Route where Parsers == Always<URLRequestData, Void> {
-  @inlinable
-  init(_ route: Route) {
-    self.init({ route }, with: { Always<URLRequestData, Void>(()) })
   }
 }
