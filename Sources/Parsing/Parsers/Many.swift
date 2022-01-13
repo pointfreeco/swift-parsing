@@ -50,19 +50,19 @@ where
   ///
   /// - Parameters:
   ///   - initialResult: The value to use as the initial accumulating value.
-  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
-  ///     of the element parser.
   ///   - minimum: The minimum number of times to run this parser and consider parsing to be
   ///     successful.
   ///   - maximum: The maximum number of times to run this parser before returning the output.
-  ///   - separator: A parser that consumes input between each parsed output.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
   ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
   public init(
     into initialResult: Result,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) {
@@ -132,18 +132,18 @@ extension Many where Separator == Always<Input, Void> {
   /// number of times, accumulating the outputs into a result with a given closure.
   ///
   /// - Parameters:
+  ///   - initialResult: The value to use as the initial accumulating value.
   ///   - minimum: The minimum number of times to run this parser and consider parsing to be
   ///     successful.
   ///   - maximum: The maximum number of times to run this parser before returning the output.
-  ///   - initialResult: The value to use as the initial accumulating value.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
   ///   - element: A parser to run multiple times to accumulate into a result.
   @inlinable
   public init(
+    into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
     @ParserBuilder element: () -> Element
   ) {
