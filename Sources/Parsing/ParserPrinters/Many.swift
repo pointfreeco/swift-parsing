@@ -172,7 +172,7 @@ where
       else { return nil }
 
       if let separator = self.separator {
-        guard let separatorInput = separator.print(())
+        guard let separatorInput = separator.print()
         else { return nil }
 
         input.append(contentsOf: separatorInput)
