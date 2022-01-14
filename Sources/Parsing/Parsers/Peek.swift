@@ -1,5 +1,4 @@
-/// Parses a `Void` result if the next input matches the provided `Upstream` ``Parser``,
-/// otherwise returns `nil`, in both cases leaving the input unchanged.
+/// Parses the provided `Upstream` ``Parser``, returning the result, but does not consume any of the input.
 ///
 /// For example, identifiers (variables, functions, etc.) in Swift allow the first character to be
 /// a letter or underscore, but not a digit, but subsequent characters can be digits.
@@ -8,7 +7,7 @@
 /// up to the first character that is not a letter, a digit, or an underscore.
 ///
 /// ```swift
-/// let identifier = Peek(Prefix(1) { $0.isLetter || $0 == "_" })
+/// let identifier = Skip(Peek(Prefix(1) { $0.isLetter || $0 == "_" }))
 ///     .take(Prefix { $0.isNumber || $0.isLetter || $0 == "_" })
 /// ```
 ///
