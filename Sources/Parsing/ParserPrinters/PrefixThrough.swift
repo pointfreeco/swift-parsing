@@ -51,6 +51,7 @@ where
 }
 
 extension PrefixThrough: Printer {
+  @inlinable
   public func print(_ output: Input) -> Input? {
     var output = output
     guard

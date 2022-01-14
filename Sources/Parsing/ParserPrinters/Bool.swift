@@ -83,9 +83,9 @@ extension Parsers.BoolParser: Printer where Input: AppendableCollection {
   public func print(_ output: Bool) -> Input? {
     switch output {
     case true:
-      return Input("true".utf8)
+      return Input([116, 114, 117, 101] /*"true".utf8*/)
     case false:
-      return Input("false".utf8)
+      return Input([102, 97, 108, 115, 101] /*"false".utf8*/)
     }
   }
 }

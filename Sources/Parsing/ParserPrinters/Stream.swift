@@ -58,6 +58,7 @@ where
 }
 
 extension Stream: Printer where Parsers: Printer {
+  @inlinable
   public func print(_ output: [Parsers.Output]) -> AnyIterator<Parsers.Input>? {
     var inputs: [Parsers.Input] = []
     inputs.reserveCapacity(output.count)

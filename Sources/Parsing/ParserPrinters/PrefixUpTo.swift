@@ -49,6 +49,7 @@ where
 }
 
 extension PrefixUpTo: Printer {
+  @inlinable
   public func print(_ output: Input) -> Input? {
     guard self.parse(output) == nil
     else { return nil }

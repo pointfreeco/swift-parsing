@@ -1,8 +1,8 @@
 @resultBuilder
 public enum OneOfBuilder {
   @inlinable
-  public static func buildArray<P>(_ parsers: [P]) -> OneOfMany<P> where P: Parser {
-    OneOfMany(parsers)
+  public static func buildArray<P>(_ parsers: [P]) -> Parsers.OneOfMany<P> where P: Parser {
+    .init(parsers)
   }
 
   @inlinable

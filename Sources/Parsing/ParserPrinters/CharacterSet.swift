@@ -8,6 +8,7 @@ extension CharacterSet: ParserPrinter {
     return Substring(output)
   }
 
+  @inlinable
   public func print(_ output: Substring) -> Substring? {
     output.unicodeScalars.allSatisfy(self.contains) ? output : nil
   }

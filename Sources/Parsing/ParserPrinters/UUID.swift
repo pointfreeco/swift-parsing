@@ -137,6 +137,7 @@ extension Parsers {
 }
 
 extension Parsers.UUIDParser: Printer where Input: AppendableCollection {
+  @inlinable
   public func print(_ output: UUID) -> Input? {
     .init(output.uuidString.utf8)
   }

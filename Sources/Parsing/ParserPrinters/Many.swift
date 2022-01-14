@@ -56,6 +56,7 @@ where
   ///   - maximum: The maximum number of times to run this parser before returning the output.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
+  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
@@ -77,6 +78,18 @@ where
     self.updateAccumulatingResult = updateAccumulatingResult
   }
 
+  /// Initializes a parser that attempts to run the given parser at least and at most the given
+  /// number of times, accumulating the outputs into a result with a given closure.
+  ///
+  /// - Parameters:
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
+  ///     successful.
+  ///   - maximum: The maximum number of times to run this parser before returning the output.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
   public init(
     into initialResult: Result,
@@ -157,6 +170,7 @@ where
   Separator: Printer,
   Separator.Output == Void
 {
+  @inlinable
   public func print(_ output: Result) -> Element.Input? {
     var input = Element.Input()
 
@@ -202,6 +216,7 @@ extension Many where Separator == Always<Input, Void> {
   ///   - maximum: The maximum number of times to run this parser before returning the output.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
+  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
   ///   - element: A parser to run multiple times to accumulate into a result.
   @inlinable
   public init<Iterator>(
@@ -221,6 +236,17 @@ extension Many where Separator == Always<Input, Void> {
     self.updateAccumulatingResult = updateAccumulatingResult
   }
 
+  /// Initializes a parser that attempts to run the given parser at least and at most the given
+  /// number of times, accumulating the outputs into a result with a given closure.
+  ///
+  /// - Parameters:
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
+  ///     successful.
+  ///   - maximum: The maximum number of times to run this parser before returning the output.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
   @inlinable
   public init(
     into initialResult: Result,
