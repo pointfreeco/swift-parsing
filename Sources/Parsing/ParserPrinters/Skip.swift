@@ -9,9 +9,8 @@ public struct Skip<Parsers>: Parser where Parsers: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout Parsers.Input) -> Void? {
-    guard self.parsers.parse(&input) != nil else { return nil }
-    return ()
+  public func parse(_ input: inout Parsers.Input) throws {
+    try self.parsers.parse(&input)
   }
 }
 

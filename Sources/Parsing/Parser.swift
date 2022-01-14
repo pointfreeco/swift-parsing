@@ -21,7 +21,7 @@
 /// It is best practice for a parser to _not_ consume any of the input if it fails to produce an
 /// output. This allows for "backtracking", which means if a parser fails then another parser can
 /// try on the original input.
-public protocol Parser {
+@rethrows public protocol Parser {
   /// The kind of values this parser receives.
   associatedtype Input
 
@@ -31,15 +31,15 @@ public protocol Parser {
   /// Attempts to parse a nebulous piece of data into something more well-structured.
   ///
   /// - Parameter input: A nebulous piece of data to be parsed.
-  /// - Returns: A more well-structured value parsed from the given input, or `nil`.
-  func parse(_ input: inout Input) -> Output?
+  /// - Returns: A more well-structured value parsed from the given input.
+  func parse(_ input: inout Input) throws -> Output
 }
 
 extension Parser {
   @inlinable
   public func parse(_ input: Input) -> (output: Output?, rest: Input) {
     var input = input
-    let output = self.parse(&input)
+    let output = try? self.parse(&input)
     return (output, input)
   }
 
@@ -52,7 +52,7 @@ extension Parser {
     SuperSequence.SubSequence == Input
   {
     var input = input[...]
-    return self.parse(&input)
+    return try? self.parse(&input)
   }
 
   @inlinable
@@ -61,7 +61,7 @@ extension Parser {
     Input == S.SubSequence.UTF8View
   {
     var input = input[...].utf8
-    return self.parse(&input)
+    return try? self.parse(&input)
   }
 
   @inlinable
@@ -72,7 +72,7 @@ extension Parser {
     input.utf8
       .withContiguousStorageIfAvailable { input -> Output? in
         var input = input[...]
-        return self.parse(&input)
+        return try? self.parse(&input)
       }?
       .flatMap { $0 }
   }
@@ -86,7 +86,7 @@ extension Parser {
     input
       .withContiguousStorageIfAvailable { input -> Output? in
         var input = input[...]
-        return self.parse(&input)
+        return try? self.parse(&input)
       }?
       .flatMap { $0 }
   }

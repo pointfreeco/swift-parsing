@@ -45,12 +45,13 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Output? {
+    public func parse(_ input: inout Upstream.Input) throws -> Output {
       let original = input
-      guard let newOutput = self.upstream.parse(&input).flatMap(self.transform)
+      let output = try self.upstream.parse(&input)
+      guard let newOutput = self.transform(output)
       else {
         input = original
-        return nil
+        throw ParsingError()
       }
       return newOutput
     }
