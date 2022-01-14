@@ -22,8 +22,8 @@ public struct Peek<Upstream>: Parser where Upstream: Parser {
   ///
   /// - Parameter upstream: The ``Parser`` to check.
   @inlinable
-  public init(_ upstream: Upstream) {
-    self.upstream = upstream
+  public init(@ParserBuilder _ build: () -> Upstream) {
+    self.upstream = build()
   }
 
   @inlinable

@@ -9,9 +9,14 @@ class NotTests: XCTestCase {
       let bar = false
       """[...]
 
-    let uncommentedLine = Not("//")
-      .take(Prefix { $0 != "\n" })
-      .skip("\n".orElse(End()))
+    let uncommentedLine = Parse {
+      Not { "//" }
+      Prefix { $0 != "\n" }
+      OneOf {
+        "\n"
+        End()
+      }
+    }
 
     let result = uncommentedLine.parse(&input)
 
@@ -25,8 +30,10 @@ class NotTests: XCTestCase {
       let foo = true
       """[...]
 
-    let uncommentedLine = Not("//")
-      .take(Prefix { $0 != "\n" })
+    let uncommentedLine = Parse {
+      Not { "//" }
+      Prefix { $0 != "\n" }
+    }
 
     let result = uncommentedLine.parse(&input)
 

@@ -17,8 +17,8 @@ public struct Not<Upstream>: Parser where Upstream: Parser {
   ///
   /// - Parameter upstream: The ``Parser`` to check.
   @inlinable
-  public init(_ upstream: Upstream) {
-    self.upstream = upstream
+  public init(@ParserBuilder _ build: () -> Upstream) {
+    self.upstream = build()
   }
 
   /// A parser that parses a `Void` result if the next input does not match the provided
