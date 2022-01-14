@@ -33,3 +33,9 @@ public struct Not<Upstream>: Parser where Upstream: Parser {
     return ()
   }
 }
+
+extension Not: Printer where Upstream: Printer, Upstream.Output == Void {
+  public func print(_ output: ())  -> Upstream.Input? {
+    self.upstream.print(())
+  }
+}
