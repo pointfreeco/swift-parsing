@@ -36,9 +36,3 @@ public struct Peek<Upstream>: Parser where Upstream: Parser {
     return nil
   }
 }
-
-extension Peek: Printer where Upstream: Printer {
-  public func print(_ output: Upstream.Output) -> Upstream.Input? {
-    self.upstream.print(output)
-  }
-}

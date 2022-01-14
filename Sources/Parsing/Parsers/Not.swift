@@ -33,9 +33,3 @@ public struct Not<Upstream>: Parser where Upstream: Parser {
     return ()
   }
 }
-
-extension Not: Printer where Upstream: Printer, Upstream.Input: Appendable {
-  public func print(_ output: ()) -> Upstream.Input? {
-    .init()
-  }
-}
