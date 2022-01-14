@@ -1,19 +1,17 @@
-// TODO: Printable?
-
-/// A parser that consumes a subsequence from the beginning of its input through a given sequence of
+/// A parser that consumes a subsequence from the beginning of its input up to a given sequence of
 /// elements.
 ///
-/// This parser is named after `Sequence.prefix(through:)`, and uses similar logic under the hood to
-/// consume and return input through a particular subsequence.
+/// This parser is named after `Sequence.prefix(upTo:)`, and uses similar logic under the hood to
+/// consume and return input up to a particular subsequence.
 ///
 /// ```swift
-/// let lineParser = PrefixThrough<Substring>("\n")
+/// let lineParser = PrefixUpTo<Substring>("\n")
 ///
 /// var input = "Hello\nworld\n"[...]
-/// line.parse(&input) // "Hello\n"
-/// input // "world\n"
+/// line.parse(&input) // "Hello"
+/// input // "\nworld\n"
 /// ```
-public struct PrefixThrough<Input>: Parser
+public struct PrefixUpTo<Input>: Parser
 where
   Input: Collection,
   Input.SubSequence == Input
@@ -41,8 +39,6 @@ where
       if input.count >= count,
         zip(input[index...], self.possibleMatch).allSatisfy(self.areEquivalent)
       {
-        let index = input.index(index, offsetBy: count)
-        input = input[index...]
         return original[..<index]
       }
       input.removeFirst()
@@ -52,22 +48,30 @@ where
   }
 }
 
-extension PrefixThrough where Input.Element: Equatable {
+extension PrefixUpTo: Printer {
+  public func print(_ output: Input) -> Input? {
+    guard self.parse(output) == nil
+    else { return nil }
+    return output
+  }
+}
+
+extension PrefixUpTo where Input.Element: Equatable {
   @inlinable
   public init(_ possibleMatch: Input) {
     self.init(possibleMatch, by: ==)
   }
 }
 
-extension PrefixThrough where Input == Substring {
+extension PrefixUpTo where Input == Substring {
   @_disfavoredOverload
   @inlinable
-  public init(_ possibleMatch: String) {
-    self.init(possibleMatch[...])
+  public init(_ possiblePrefix: String) {
+    self.init(possiblePrefix[...])
   }
 }
 
-extension PrefixThrough where Input == Substring.UTF8View {
+extension PrefixUpTo where Input == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
   public init(_ possibleMatch: String.UTF8View) {
@@ -76,5 +80,5 @@ extension PrefixThrough where Input == Substring.UTF8View {
 }
 
 extension Parsers {
-  public typealias PrefixThrough = Parsing.PrefixThrough  // NB: Convenience type alias for discovery
+  public typealias PrefixUpTo = Parsing.PrefixUpTo  // NB: Convenience type alias for discovery
 }
