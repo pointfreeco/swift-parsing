@@ -27,3 +27,25 @@ public struct OneOf<Parsers>: Parser where Parsers: Parser {
     self.parsers.parse(&input)
   }
 }
+
+extension Parsers {
+  public struct OneOfMany<Parsers>: Parser where Parsers: Parser {
+    public let parsers: [Parsers]
+
+    @inlinable
+    public init(_ parsers: [Parsers]) {
+      self.parsers = parsers
+    }
+
+    @inlinable
+    @inline(__always)
+    public func parse(_ input: inout Parsers.Input) -> Parsers.Output? {
+      for parser in self.parsers {
+        if let output = parser.parse(&input) {
+          return output
+        }
+      }
+      return nil
+    }
+  }
+}

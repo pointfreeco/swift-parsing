@@ -101,28 +101,20 @@ extension Parser {
 @available(iOS, deprecated: 100000, message: "Use 'OneOf' instead.")
 @available(watchOS, deprecated: 100000, message: "Use 'OneOf' instead.")
 @available(tvOS, deprecated: 100000, message: "Use 'OneOf' instead.")
-public struct OneOfMany<Upstream>: Parser where Upstream: Parser {
-  public let parsers: [Upstream]
+public typealias OneOfMany = Parsers.OneOfMany
 
-  @inlinable
-  public init(_ parsers: [Upstream]) {
-    self.parsers = parsers
-  }
+extension Parsers.OneOfMany {
+  @available(*, deprecated, renamed: "Parsers")
+  public typealias Upstream = Parsers
 
+  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
+  @available(macOS, deprecated: 100000, message: "Use 'OneOf' instead.")
+  @available(iOS, deprecated: 100000, message: "Use 'OneOf' instead.")
+  @available(watchOS, deprecated: 100000, message: "Use 'OneOf' instead.")
+  @available(tvOS, deprecated: 100000, message: "Use 'OneOf' instead.")
   @inlinable
-  public init(_ parsers: Upstream...) {
+  public init(_ parsers: Parsers...) {
     self.init(parsers)
-  }
-
-  @inlinable
-  @inline(__always)
-  public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
-    for parser in self.parsers {
-      if let output = parser.parse(&input) {
-        return output
-      }
-    }
-    return nil
   }
 }
 
@@ -156,13 +148,6 @@ extension Parsers {
       return nil
     }
   }
-
-  @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
-  @available(macOS, deprecated: 100000, message: "Use 'OneOf' instead.")
-  @available(iOS, deprecated: 100000, message: "Use 'OneOf' instead.")
-  @available(watchOS, deprecated: 100000, message: "Use 'OneOf' instead.")
-  @available(tvOS, deprecated: 100000, message: "Use 'OneOf' instead.")
-  public typealias OneOfMany = Parsing.OneOfMany  // NB: Convenience type alias for discovery
 }
 
 extension Optional {

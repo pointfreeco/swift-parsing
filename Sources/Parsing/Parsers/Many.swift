@@ -173,9 +173,14 @@ extension Many where Result == [Element.Output] {
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) {
-    self.init(element(), into: [], atLeast: minimum, atMost: maximum, separator: separator()) {
-      $0.append($1)
-    }
+    self.init(
+      into: [],
+      atLeast: minimum,
+      atMost: maximum,
+      { $0.append($1) },
+      element: element,
+      separator: separator
+    )
   }
 }
 
@@ -194,9 +199,13 @@ extension Many where Result == [Element.Output], Separator == Always<Input, Void
     atMost maximum: Int = .max,
     @ParserBuilder element: () -> Element
   ) {
-    self.init(element(), into: [], atLeast: minimum, atMost: maximum) {
-      $0.append($1)
-    }
+    self.init(
+      into: [],
+      atLeast: minimum,
+      atMost: maximum,
+      { $0.append($1) },
+      element: element
+    )
   }
 }
 
