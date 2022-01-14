@@ -22,6 +22,9 @@ class NotTests: XCTestCase {
 
     XCTAssertEqual(result, "let foo = true")
     XCTAssertEqual(input, "let bar = false"[...])
+
+    XCTAssertNil(uncommentedLine.print("// Hello"))
+    XCTAssertEqual(uncommentedLine.print("Hello"), "Hello")
   }
 
   func testNotUpstreamParses() throws {
