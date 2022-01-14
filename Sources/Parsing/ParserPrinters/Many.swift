@@ -111,7 +111,7 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout Element.Input) -> Result? {
+  public func parse(_ input: inout Element.Input) throws -> Result {
     let original = input
     var rest = input
     #if DEBUG
@@ -119,17 +119,20 @@ where
     #endif
     var result = self.initialResult
     var count = 0
-    while count < self.maximum,
-      let output = self.element.parse(&input)
-    {
+    while count < self.maximum {
+      let output = try self.element.parse(&input)
       #if DEBUG
         defer { previous = input }
       #endif
       count += 1
       self.updateAccumulatingResult(&result, output)
       rest = input
-      if self.separator != nil, self.separator?.parse(&input) == nil {
-        break
+      if let separator = self.separator {
+        do {
+          _ = try separator.parse(&input)
+        } catch {
+          break
+        }
       }
       #if DEBUG
         if memcmp(&input, &previous, MemoryLayout<Element.Input>.size) == 0 {
@@ -156,7 +159,7 @@ where
     }
     guard count >= self.minimum else {
       input = original
-      return nil
+      throw ParsingError()
     }
     input = rest
     return result

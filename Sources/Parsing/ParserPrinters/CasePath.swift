@@ -2,7 +2,7 @@
 
 extension CasePath: ParserPrinter {
   @inlinable
-  public func parse(_ input: inout Value) -> Root? {
+  public func parse(_ input: inout Value) -> Root {
     self.embed(input)
   }
 

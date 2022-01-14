@@ -32,7 +32,7 @@ extension Parsers {
     public init() {}
 
     @inlinable
-    public func parse(_ input: inout Input) -> String? {
+    public func parse(_ input: inout Input) -> String {
       let output = String(decoding: input, as: UTF8.self)
       input = .init()
       return output

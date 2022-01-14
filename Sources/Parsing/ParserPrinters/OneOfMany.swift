@@ -25,18 +25,18 @@ extension Parsers {
       self.parsers = parsers
     }
 
+    // TODO: Can this be `rethrows`?
     @inlinable
     @inline(__always)
-    public func parse(_ input: inout Parsers.Input) rethrows -> Parsers.Output {
+    public func parse(_ input: inout Parsers.Input) throws -> Parsers.Output {
       for parser in self.parsers {
         do {
-          try return parser.parse(&input)
-        }
-        if let output = parser.parse(&input) {
-          return output
+          return try parser.parse(&input)
+        } catch {
+          // TODO: Accumulate errors
         }
       }
-      return nil
+      throw ParsingError()
     }
   }
 }

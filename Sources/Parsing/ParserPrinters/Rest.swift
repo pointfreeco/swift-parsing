@@ -8,7 +8,7 @@ where
   public init() {}
 
   @inlinable
-  public func parse(_ input: inout Input) -> Input? {
+  public func parse(_ input: inout Input) -> Input {
     let output = input
     input.removeFirst(input.count)
     return output

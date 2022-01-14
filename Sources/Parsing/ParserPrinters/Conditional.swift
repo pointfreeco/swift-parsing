@@ -38,12 +38,12 @@ where
   case second(Second)
 
   @inlinable
-  public func parse(_ input: inout First.Input) -> First.Output? {
+  public func parse(_ input: inout First.Input) rethrows -> First.Output {
     switch self {
     case let .first(first):
-      return first.parse(&input)
+      return try first.parse(&input)
     case let .second(second):
-      return second.parse(&input)
+      return try second.parse(&input)
     }
   }
 }

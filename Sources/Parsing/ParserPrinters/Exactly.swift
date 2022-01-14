@@ -12,7 +12,7 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout Void) -> Output? {
+  public func parse(_ input: inout Void) -> Output {
     self.output
   }
 

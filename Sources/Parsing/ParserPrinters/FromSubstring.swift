@@ -23,10 +23,10 @@ where
   public let fromSubstring: (Substring) -> Input
 
   @inlinable
-  public func parse(_ input: inout Input) -> SubstringParser.Output? {
+  public func parse(_ input: inout Input) rethrows -> SubstringParser.Output {
     var substring = self.toSubstring(input)
     defer { input = self.fromSubstring(substring) }
-    return self.substringParser.parse(&substring)
+    return try self.substringParser.parse(&substring)
   }
 }
 

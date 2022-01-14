@@ -14,19 +14,19 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        return (o0, o1)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1)
     }
   }
 }
@@ -76,18 +76,18 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        return (o0)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0)
     }
   }
 }
@@ -137,18 +137,18 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        return (o1)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1)
     }
   }
 }
@@ -199,18 +199,18 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
 
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        return ()
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return ()
     }
   }
 }
@@ -263,21 +263,21 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        return (o0, o1, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2)
     }
   }
 }
@@ -335,20 +335,20 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        return (o0, o1)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1)
     }
   }
 }
@@ -406,20 +406,20 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        return (o0, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2)
     }
   }
 }
@@ -478,19 +478,19 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        return (o0)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0)
     }
   }
 }
@@ -548,20 +548,20 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        return (o1, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2)
     }
   }
 }
@@ -620,19 +620,19 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        return (o1)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1)
     }
   }
 }
@@ -691,19 +691,19 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        return (o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2)
     }
   }
 }
@@ -763,19 +763,19 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
 
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        return ()
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return ()
     }
   }
 }
@@ -836,23 +836,23 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o0, o1, o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2, o3)
     }
   }
 }
@@ -918,22 +918,22 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        return (o0, o1, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2)
     }
   }
 }
@@ -999,22 +999,22 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o0, o1, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o3)
     }
   }
 }
@@ -1081,21 +1081,21 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        return (o0, o1)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1)
     }
   }
 }
@@ -1161,22 +1161,22 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o0, o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o3)
     }
   }
 }
@@ -1243,21 +1243,21 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        return (o0, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2)
     }
   }
 }
@@ -1324,21 +1324,21 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o0, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o3)
     }
   }
 }
@@ -1406,20 +1406,20 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        return (o0)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0)
     }
   }
 }
@@ -1485,22 +1485,22 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o1, o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2, o3)
     }
   }
 }
@@ -1567,21 +1567,21 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        return (o1, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2)
     }
   }
 }
@@ -1648,21 +1648,21 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o1, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o3)
     }
   }
 }
@@ -1730,20 +1730,20 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        return (o1)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1)
     }
   }
 }
@@ -1810,21 +1810,21 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2, o3)
     }
   }
 }
@@ -1892,20 +1892,20 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        return (o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2)
     }
   }
 }
@@ -1973,20 +1973,20 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o3)
     }
   }
 }
@@ -2055,20 +2055,20 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
 
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        return ()
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return ()
     }
   }
 }
@@ -2137,25 +2137,25 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o1, o2, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2, o3, o4)
     }
   }
 }
@@ -2229,24 +2229,24 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o0, o1, o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2, o3)
     }
   }
 }
@@ -2320,24 +2320,24 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o1, o2, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2, o4)
     }
   }
 }
@@ -2412,23 +2412,23 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o0, o1, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2)
     }
   }
 }
@@ -2502,24 +2502,24 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o1, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o3, o4)
     }
   }
 }
@@ -2594,23 +2594,23 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o0, o1, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o3)
     }
   }
 }
@@ -2685,23 +2685,23 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o1, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o4)
     }
   }
 }
@@ -2777,22 +2777,22 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o0, o1)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1)
     }
   }
 }
@@ -2866,24 +2866,24 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o2, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o3, o4)
     }
   }
 }
@@ -2958,23 +2958,23 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o0, o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o3)
     }
   }
 }
@@ -3049,23 +3049,23 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o2, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o4)
     }
   }
 }
@@ -3141,22 +3141,22 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o0, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2)
     }
   }
 }
@@ -3231,23 +3231,23 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o3, o4)
     }
   }
 }
@@ -3323,22 +3323,22 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o0, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o3)
     }
   }
 }
@@ -3414,22 +3414,22 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o4)
     }
   }
 }
@@ -3506,21 +3506,21 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o0)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0)
     }
   }
 }
@@ -3594,24 +3594,24 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o1, o2, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2, o3, o4)
     }
   }
 }
@@ -3686,23 +3686,23 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o1, o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2, o3)
     }
   }
 }
@@ -3777,23 +3777,23 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o1, o2, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2, o4)
     }
   }
 }
@@ -3869,22 +3869,22 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o1, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2)
     }
   }
 }
@@ -3959,23 +3959,23 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o1, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o3, o4)
     }
   }
 }
@@ -4051,22 +4051,22 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o1, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o3)
     }
   }
 }
@@ -4142,22 +4142,22 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o1, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o4)
     }
   }
 }
@@ -4234,21 +4234,21 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o1)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1)
     }
   }
 }
@@ -4323,23 +4323,23 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o2, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2, o3, o4)
     }
   }
 }
@@ -4415,22 +4415,22 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2, o3)
     }
   }
 }
@@ -4506,22 +4506,22 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o2, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2, o4)
     }
   }
 }
@@ -4598,21 +4598,21 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2)
     }
   }
 }
@@ -4688,22 +4688,22 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o3, o4)
     }
   }
 }
@@ -4780,21 +4780,21 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return (o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o3)
     }
   }
 }
@@ -4871,21 +4871,21 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o4)
     }
   }
 }
@@ -4963,21 +4963,21 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
 
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        return ()
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return ()
     }
   }
 }
@@ -5054,27 +5054,27 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o2, o3, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2, o3, o4, o5)
     }
   }
 }
@@ -5156,26 +5156,26 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o1, o2, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2, o3, o4)
     }
   }
 }
@@ -5257,26 +5257,26 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o2, o3, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2, o3, o5)
     }
   }
 }
@@ -5359,25 +5359,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o1, o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2, o3)
     }
   }
 }
@@ -5459,26 +5459,26 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o2, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2, o4, o5)
     }
   }
 }
@@ -5561,25 +5561,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o1, o2, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2, o4)
     }
   }
 }
@@ -5662,25 +5662,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o2, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2, o5)
     }
   }
 }
@@ -5764,24 +5764,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o1, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o2)
     }
   }
 }
@@ -5863,26 +5863,26 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o3, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o3, o4, o5)
     }
   }
 }
@@ -5965,25 +5965,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o1, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o3, o4)
     }
   }
 }
@@ -6066,25 +6066,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o3, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o3, o5)
     }
   }
 }
@@ -6168,24 +6168,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o1, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o3)
     }
   }
 }
@@ -6268,25 +6268,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o4, o5)
     }
   }
 }
@@ -6370,24 +6370,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o1, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o4)
     }
   }
 }
@@ -6471,24 +6471,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1, o5)
     }
   }
 }
@@ -6573,23 +6573,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P1.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o1)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o1)
     }
   }
 }
@@ -6671,26 +6671,26 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o2, o3, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o3, o4, o5)
     }
   }
 }
@@ -6773,25 +6773,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o2, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o3, o4)
     }
   }
 }
@@ -6874,25 +6874,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o2, o3, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o3, o5)
     }
   }
 }
@@ -6976,24 +6976,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o3)
     }
   }
 }
@@ -7076,25 +7076,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o2, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o4, o5)
     }
   }
 }
@@ -7178,24 +7178,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o2, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o4)
     }
   }
 }
@@ -7279,24 +7279,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o2, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o5)
     }
   }
 }
@@ -7381,23 +7381,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2)
     }
   }
 }
@@ -7480,25 +7480,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o3, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o3, o4, o5)
     }
   }
 }
@@ -7582,24 +7582,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o3, o4)
     }
   }
 }
@@ -7683,24 +7683,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P3.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o3, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o3, o5)
     }
   }
 }
@@ -7785,23 +7785,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o3)
     }
   }
 }
@@ -7885,24 +7885,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o4, o5)
     }
   }
 }
@@ -7987,23 +7987,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o4)
     }
   }
 }
@@ -8088,23 +8088,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o5)
     }
   }
 }
@@ -8190,22 +8190,22 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o0)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0)
     }
   }
 }
@@ -8287,26 +8287,26 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o2, o3, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2, o3, o4, o5)
     }
   }
 }
@@ -8389,25 +8389,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o1, o2, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2, o3, o4)
     }
   }
 }
@@ -8490,25 +8490,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o2, o3, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2, o3, o5)
     }
   }
 }
@@ -8592,24 +8592,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o1, o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2, o3)
     }
   }
 }
@@ -8692,25 +8692,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o2, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2, o4, o5)
     }
   }
 }
@@ -8794,24 +8794,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o1, o2, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2, o4)
     }
   }
 }
@@ -8895,24 +8895,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o2, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2, o5)
     }
   }
 }
@@ -8997,23 +8997,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o1, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o2)
     }
   }
 }
@@ -9096,25 +9096,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o3, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o3, o4, o5)
     }
   }
 }
@@ -9198,24 +9198,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o1, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o3, o4)
     }
   }
 }
@@ -9299,24 +9299,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P3.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o3, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o3, o5)
     }
   }
 }
@@ -9401,23 +9401,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o1, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o3)
     }
   }
 }
@@ -9501,24 +9501,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o4, o5)
     }
   }
 }
@@ -9603,23 +9603,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o1, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o4)
     }
   }
 }
@@ -9704,23 +9704,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1, o5)
     }
   }
 }
@@ -9806,22 +9806,22 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let o1 = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o1)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o1)
     }
   }
 }
@@ -9904,25 +9904,25 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o2, o3, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2, o3, o4, o5)
     }
   }
 }
@@ -10006,24 +10006,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output,
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o2, o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2, o3, o4)
     }
   }
 }
@@ -10107,24 +10107,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output,
       P3.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o2, o3, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2, o3, o5)
     }
   }
 }
@@ -10209,23 +10209,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output,
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o2, o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2, o3)
     }
   }
 }
@@ -10309,24 +10309,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o2, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2, o4, o5)
     }
   }
 }
@@ -10411,23 +10411,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o2, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2, o4)
     }
   }
 }
@@ -10512,23 +10512,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o2, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2, o5)
     }
   }
 }
@@ -10614,22 +10614,22 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o2)
     }
   }
 }
@@ -10713,24 +10713,24 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P3.Output,
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o3, o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o3, o4, o5)
     }
   }
 }
@@ -10815,23 +10815,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P3.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o3, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o3, o4)
     }
   }
 }
@@ -10916,23 +10916,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P3.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o3, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o3, o5)
     }
   }
 }
@@ -11018,22 +11018,22 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P3.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let o3 = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o3)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o3)
     }
   }
 }
@@ -11118,23 +11118,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P4.Output,
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o4, o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o4, o5)
     }
   }
 }
@@ -11220,22 +11220,22 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return (o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o4)
     }
   }
 }
@@ -11321,22 +11321,22 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P5.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let o5 = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o5)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o5)
     }
   }
 }
@@ -11423,22 +11423,22 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
 
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let _ = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let _ = p4.parse(&input),
-        let _ = p5.parse(&input)
-      else {
+      do {
+        _ = try p0.parse(&input)
+        _ = try p1.parse(&input)
+        _ = try p2.parse(&input)
+        _ = try p3.parse(&input)
+        _ = try p4.parse(&input)
+        _ = try p5.parse(&input)
+        return ()
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return ()
     }
   }
 }
@@ -11509,10 +11509,11 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+      var errors: [Error] = []
+      do { return try self.p0.parse(&input) } catch { errors.append(error) }
+      do { return try self.p1.parse(&input) } catch { errors.append(error) }
+      throw ParsingError()
     }
   }
 }
@@ -11558,11 +11559,12 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+      var errors: [Error] = []
+      do { return try self.p0.parse(&input) } catch { errors.append(error) }
+      do { return try self.p1.parse(&input) } catch { errors.append(error) }
+      do { return try self.p2.parse(&input) } catch { errors.append(error) }
+      throw ParsingError()
     }
   }
 }
@@ -11616,12 +11618,13 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+      var errors: [Error] = []
+      do { return try self.p0.parse(&input) } catch { errors.append(error) }
+      do { return try self.p1.parse(&input) } catch { errors.append(error) }
+      do { return try self.p2.parse(&input) } catch { errors.append(error) }
+      do { return try self.p3.parse(&input) } catch { errors.append(error) }
+      throw ParsingError()
     }
   }
 }
@@ -11683,13 +11686,14 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+      var errors: [Error] = []
+      do { return try self.p0.parse(&input) } catch { errors.append(error) }
+      do { return try self.p1.parse(&input) } catch { errors.append(error) }
+      do { return try self.p2.parse(&input) } catch { errors.append(error) }
+      do { return try self.p3.parse(&input) } catch { errors.append(error) }
+      do { return try self.p4.parse(&input) } catch { errors.append(error) }
+      throw ParsingError()
     }
   }
 }
@@ -11759,14 +11763,15 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
-      if let output = self.p5.parse(&input) { return output }
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+      var errors: [Error] = []
+      do { return try self.p0.parse(&input) } catch { errors.append(error) }
+      do { return try self.p1.parse(&input) } catch { errors.append(error) }
+      do { return try self.p2.parse(&input) } catch { errors.append(error) }
+      do { return try self.p3.parse(&input) } catch { errors.append(error) }
+      do { return try self.p4.parse(&input) } catch { errors.append(error) }
+      do { return try self.p5.parse(&input) } catch { errors.append(error) }
+      throw ParsingError()
     }
   }
 }
@@ -11844,15 +11849,16 @@ extension Parsers {
       self.p6 = p6
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
-      if let output = self.p5.parse(&input) { return output }
-      if let output = self.p6.parse(&input) { return output }
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+      var errors: [Error] = []
+      do { return try self.p0.parse(&input) } catch { errors.append(error) }
+      do { return try self.p1.parse(&input) } catch { errors.append(error) }
+      do { return try self.p2.parse(&input) } catch { errors.append(error) }
+      do { return try self.p3.parse(&input) } catch { errors.append(error) }
+      do { return try self.p4.parse(&input) } catch { errors.append(error) }
+      do { return try self.p5.parse(&input) } catch { errors.append(error) }
+      do { return try self.p6.parse(&input) } catch { errors.append(error) }
+      throw ParsingError()
     }
   }
 }
@@ -11938,16 +11944,17 @@ extension Parsers {
       self.p7 = p7
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
-      if let output = self.p5.parse(&input) { return output }
-      if let output = self.p6.parse(&input) { return output }
-      if let output = self.p7.parse(&input) { return output }
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+      var errors: [Error] = []
+      do { return try self.p0.parse(&input) } catch { errors.append(error) }
+      do { return try self.p1.parse(&input) } catch { errors.append(error) }
+      do { return try self.p2.parse(&input) } catch { errors.append(error) }
+      do { return try self.p3.parse(&input) } catch { errors.append(error) }
+      do { return try self.p4.parse(&input) } catch { errors.append(error) }
+      do { return try self.p5.parse(&input) } catch { errors.append(error) }
+      do { return try self.p6.parse(&input) } catch { errors.append(error) }
+      do { return try self.p7.parse(&input) } catch { errors.append(error) }
+      throw ParsingError()
     }
   }
 }
@@ -12041,17 +12048,18 @@ extension Parsers {
       self.p8 = p8
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
-      if let output = self.p5.parse(&input) { return output }
-      if let output = self.p6.parse(&input) { return output }
-      if let output = self.p7.parse(&input) { return output }
-      if let output = self.p8.parse(&input) { return output }
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+      var errors: [Error] = []
+      do { return try self.p0.parse(&input) } catch { errors.append(error) }
+      do { return try self.p1.parse(&input) } catch { errors.append(error) }
+      do { return try self.p2.parse(&input) } catch { errors.append(error) }
+      do { return try self.p3.parse(&input) } catch { errors.append(error) }
+      do { return try self.p4.parse(&input) } catch { errors.append(error) }
+      do { return try self.p5.parse(&input) } catch { errors.append(error) }
+      do { return try self.p6.parse(&input) } catch { errors.append(error) }
+      do { return try self.p7.parse(&input) } catch { errors.append(error) }
+      do { return try self.p8.parse(&input) } catch { errors.append(error) }
+      throw ParsingError()
     }
   }
 }
@@ -12153,18 +12161,19 @@ extension Parsers {
       self.p9 = p9
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
-      if let output = self.p5.parse(&input) { return output }
-      if let output = self.p6.parse(&input) { return output }
-      if let output = self.p7.parse(&input) { return output }
-      if let output = self.p8.parse(&input) { return output }
-      if let output = self.p9.parse(&input) { return output }
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+      var errors: [Error] = []
+      do { return try self.p0.parse(&input) } catch { errors.append(error) }
+      do { return try self.p1.parse(&input) } catch { errors.append(error) }
+      do { return try self.p2.parse(&input) } catch { errors.append(error) }
+      do { return try self.p3.parse(&input) } catch { errors.append(error) }
+      do { return try self.p4.parse(&input) } catch { errors.append(error) }
+      do { return try self.p5.parse(&input) } catch { errors.append(error) }
+      do { return try self.p6.parse(&input) } catch { errors.append(error) }
+      do { return try self.p7.parse(&input) } catch { errors.append(error) }
+      do { return try self.p8.parse(&input) } catch { errors.append(error) }
+      do { return try self.p9.parse(&input) } catch { errors.append(error) }
+      throw ParsingError()
     }
   }
 }

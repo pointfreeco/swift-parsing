@@ -22,7 +22,7 @@ public struct Parse<Parsers>: Parser where Parsers: Parser {
     _ transform: Downstream,
     @ParserBuilder with build: () -> Upstream
   ) where Parsers == Parsing.Parsers.Pipe<Upstream, Downstream> {
-    self.parsers = build().pipe(transform)
+    self.parsers = build().map(transform)
   }
 
   @inlinable
@@ -34,8 +34,8 @@ public struct Parse<Parsers>: Parser where Parsers: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout Parsers.Input) -> Parsers.Output? {
-    self.parsers.parse(&input)
+  public func parse(_ input: inout Parsers.Input) rethrows -> Parsers.Output {
+    try self.parsers.parse(&input)
   }
 }
 

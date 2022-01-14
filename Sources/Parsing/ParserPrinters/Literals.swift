@@ -16,8 +16,8 @@ extension Array: Printer {
 
 extension String: ParserPrinter {
   @inlinable
-  public func parse(_ input: inout Substring) -> Void? {
-    guard input.starts(with: self) else { return nil }
+  public func parse(_ input: inout Substring) throws {
+    guard input.starts(with: self) else { throw ParsingError() }
     input.removeFirst(self.count)
     return ()
   }
@@ -30,8 +30,8 @@ extension String: ParserPrinter {
 
 extension String.UnicodeScalarView: ParserPrinter {
   @inlinable
-  public func parse(_ input: inout Substring.UnicodeScalarView) -> Void? {
-    guard input.starts(with: self) else { return nil }
+  public func parse(_ input: inout Substring.UnicodeScalarView) throws {
+    guard input.starts(with: self) else { throw ParsingError() }
     input.removeFirst(self.count)
     return ()
   }
@@ -44,8 +44,8 @@ extension String.UnicodeScalarView: ParserPrinter {
 
 extension String.UTF8View: ParserPrinter {
   @inlinable
-  public func parse(_ input: inout Substring.UTF8View) -> Void? {
-    guard input.starts(with: self) else { return nil }
+  public func parse(_ input: inout Substring.UTF8View) throws {
+    guard input.starts(with: self) else { throw ParsingError() }
     input.removeFirst(self.count)
     return ()
   }

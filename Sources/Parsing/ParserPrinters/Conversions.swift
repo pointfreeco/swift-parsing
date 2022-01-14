@@ -12,7 +12,7 @@ public struct Conversion<Input, Output>: ParserPrinter {
   }
 
   @inlinable
-  public func parse(_ input: inout Input) -> Output? {
+  public func parse(_ input: inout Input) -> Output {
     self.apply(input)
   }
 
@@ -23,25 +23,25 @@ public struct Conversion<Input, Output>: ParserPrinter {
 }
 
 public struct PartialConversion<Input, Output>: ParserPrinter {
-  public let apply: (Input) -> Output?
-  public let unapply: (Output) -> Input?
+  public let apply: (Input) throws -> Output
+  public let unapply: (Output) throws -> Input
 
   @inlinable
   public init(
-    apply: @escaping (Input) -> Output,
-    unapply: @escaping (Output) -> Input
+    apply: @escaping (Input) throws -> Output,
+    unapply: @escaping (Output) throws -> Input
   ) {
     self.apply = apply
     self.unapply = unapply
   }
 
   @inlinable
-  public func parse(_ input: inout Input) -> Output? {
-    self.apply(input)
+  public func parse(_ input: inout Input) throws -> Output {
+    try self.apply(input)
   }
 
   @inlinable
   public func print(_ output: Output) -> Input? {
-    self.unapply(output)
+    try? self.unapply(output)
   }
 }

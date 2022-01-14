@@ -28,8 +28,8 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> ()? {
-      self.upstream.parse(&input).map { _ in () }
+    public func parse(_ input: inout Upstream.Input) rethrows {
+      _ = try self.upstream.parse(&input)
     }
 
     @inlinable

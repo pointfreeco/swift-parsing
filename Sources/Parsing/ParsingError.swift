@@ -1,3 +1,3 @@
 public struct ParsingError: Error {
-  public init()
+  public init() {}
 }

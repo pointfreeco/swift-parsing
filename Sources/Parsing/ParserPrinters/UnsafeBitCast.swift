@@ -8,7 +8,7 @@ public struct UnsafeBitCast<Values, Root>: ParserPrinter {
   }
 
   @inlinable
-  public func parse(_ input: inout Values) -> Root? {
+  public func parse(_ input: inout Values) -> Root {
     self.initializer(input)
   }
 
