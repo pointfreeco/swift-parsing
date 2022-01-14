@@ -33,9 +33,17 @@ public enum ParserBuilder {
   }
 
   @inlinable
-  public static func buildLimitedAvailability<P>(_ component: P) -> Optionally<P>
-  where P: Parser {
-    .init { component }
+  public static func buildIf<P>(_ parser: P?) -> Parsers.OptionalVoid<P> {
+    .init(upstream: parser)
+  }
+
+  @inlinable
+  public static func buildLimitedAvailability<P>(_ parser: P?) -> P? where P: Parser {
+    parser
+  }
+
+  @inlinable
+  public static func buildLimitedAvailability<P>(_ parser: P?) -> Parsers.OptionalVoid<P> {
+    .init(upstream: parser)
   }
 }
-
