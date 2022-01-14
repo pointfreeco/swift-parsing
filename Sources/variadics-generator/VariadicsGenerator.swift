@@ -148,7 +148,7 @@ struct VariadicsGenerator: ParsableCommand {
       output("\n    )\n  ) -> P0.Input? {\n    guard\n      ")
       outputForEach(0..<arity, separator: ",\n      ") {
         let binding = $0 == 0 && arity > 1 ? "var" : "let"
-        let output = permutation.isCaptureless(at: $0) ? "()"
+        let output = permutation.isCaptureless(at: $0) ? ""
           : permutation.captureIndices.count == 1 ? "output"
           : "output.\(permutation.captureIndices.firstIndex(of: $0)!)"
         return "\(binding) i\($0) = p\($0).print(\(output))"

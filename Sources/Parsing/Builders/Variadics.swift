@@ -107,7 +107,7 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output),
-      let i1 = p1.print(())
+      let i1 = p1.print()
     else { return nil }
     i0.append(contentsOf: i1)
     return i0
@@ -167,7 +167,7 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -230,8 +230,8 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(())
+      var i0 = p0.print(),
+      let i1 = p1.print()
     else { return nil }
     i0.append(contentsOf: i1)
     return i0
@@ -372,7 +372,7 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(())
+      let i2 = p2.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -442,7 +442,7 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -513,8 +513,8 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output),
-      let i1 = p1.print(()),
-      let i2 = p2.print(())
+      let i1 = p1.print(),
+      let i2 = p2.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -583,7 +583,7 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1)
     else { return nil }
@@ -654,9 +654,9 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output),
-      let i2 = p2.print(())
+      let i2 = p2.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -725,8 +725,8 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -798,9 +798,9 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(())
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -961,7 +961,7 @@ where
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
       let i2 = p2.print(output.2),
-      let i3 = p3.print(())
+      let i3 = p3.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -1041,7 +1041,7 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.2)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -1122,8 +1122,8 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
-      let i3 = p3.print(())
+      let i2 = p2.print(),
+      let i3 = p3.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -1202,7 +1202,7 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2)
     else { return nil }
@@ -1283,9 +1283,9 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(())
+      let i3 = p3.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -1364,8 +1364,8 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -1445,9 +1445,9 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(())
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -1525,7 +1525,7 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2)
@@ -1606,10 +1606,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(())
+      let i3 = p3.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -1687,9 +1687,9 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -1768,10 +1768,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output),
-      let i2 = p2.print(()),
-      let i3 = p3.print(())
+      let i2 = p2.print(),
+      let i3 = p3.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -1849,8 +1849,8 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output.0),
       let i3 = p3.print(output.1)
     else { return nil }
@@ -1930,10 +1930,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output),
-      let i3 = p3.print(())
+      let i3 = p3.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -2011,9 +2011,9 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -2094,10 +2094,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(())
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -2278,7 +2278,7 @@ where
       let i1 = p1.print(output.1),
       let i2 = p2.print(output.2),
       let i3 = p3.print(output.3),
-      let i4 = p4.print(())
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -2368,7 +2368,7 @@ where
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
       let i2 = p2.print(output.2),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.3)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -2459,8 +2459,8 @@ where
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
       let i2 = p2.print(output.2),
-      let i3 = p3.print(()),
-      let i4 = p4.print(())
+      let i3 = p3.print(),
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -2549,7 +2549,7 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.2),
       let i4 = p4.print(output.3)
     else { return nil }
@@ -2640,9 +2640,9 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.2),
-      let i4 = p4.print(())
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -2731,8 +2731,8 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output.2)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -2822,9 +2822,9 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(())
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -2912,7 +2912,7 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
       let i4 = p4.print(output.3)
@@ -3003,10 +3003,10 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
-      let i4 = p4.print(())
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -3094,9 +3094,9 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.2)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -3185,10 +3185,10 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
-      let i4 = p4.print(())
+      let i3 = p3.print(),
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -3276,8 +3276,8 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
       let i4 = p4.print(output.2)
     else { return nil }
@@ -3367,10 +3367,10 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
-      let i4 = p4.print(())
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -3458,9 +3458,9 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output.1)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -3549,10 +3549,10 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(())
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -3639,7 +3639,7 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
@@ -3730,11 +3730,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
-      let i4 = p4.print(())
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -3821,10 +3821,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.2)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -3912,11 +3912,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
-      let i4 = p4.print(())
+      let i3 = p3.print(),
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -4003,9 +4003,9 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
       let i4 = p4.print(output.2)
     else { return nil }
@@ -4094,11 +4094,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
-      let i4 = p4.print(())
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -4185,10 +4185,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output.1)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -4276,11 +4276,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(())
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -4367,8 +4367,8 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output.0),
       let i3 = p3.print(output.1),
       let i4 = p4.print(output.2)
@@ -4458,11 +4458,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output.0),
       let i3 = p3.print(output.1),
-      let i4 = p4.print(())
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -4549,10 +4549,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output.0),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.1)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -4640,11 +4640,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output),
-      let i3 = p3.print(()),
-      let i4 = p4.print(())
+      let i3 = p3.print(),
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -4731,9 +4731,9 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output.0),
       let i4 = p4.print(output.1)
     else { return nil }
@@ -4822,11 +4822,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output),
-      let i4 = p4.print(())
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -4913,10 +4913,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -5006,11 +5006,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(())
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -5211,7 +5211,7 @@ where
       let i2 = p2.print(output.2),
       let i3 = p3.print(output.3),
       let i4 = p4.print(output.4),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -5311,7 +5311,7 @@ where
       let i1 = p1.print(output.1),
       let i2 = p2.print(output.2),
       let i3 = p3.print(output.3),
-      let i4 = p4.print(()),
+      let i4 = p4.print(),
       let i5 = p5.print(output.4)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -5412,8 +5412,8 @@ where
       let i1 = p1.print(output.1),
       let i2 = p2.print(output.2),
       let i3 = p3.print(output.3),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -5512,7 +5512,7 @@ where
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
       let i2 = p2.print(output.2),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.3),
       let i5 = p5.print(output.4)
     else { return nil }
@@ -5613,9 +5613,9 @@ where
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
       let i2 = p2.print(output.2),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.3),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -5714,8 +5714,8 @@ where
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
       let i2 = p2.print(output.2),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
       let i5 = p5.print(output.3)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -5815,9 +5815,9 @@ where
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
       let i2 = p2.print(output.2),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i3 = p3.print(),
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -5915,7 +5915,7 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.2),
       let i4 = p4.print(output.3),
       let i5 = p5.print(output.4)
@@ -6016,10 +6016,10 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.2),
       let i4 = p4.print(output.3),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -6117,9 +6117,9 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.2),
-      let i4 = p4.print(()),
+      let i4 = p4.print(),
       let i5 = p5.print(output.3)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -6218,10 +6218,10 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.2),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -6319,8 +6319,8 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output.2),
       let i5 = p5.print(output.3)
     else { return nil }
@@ -6420,10 +6420,10 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output.2),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -6521,9 +6521,9 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
       let i5 = p5.print(output.2)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -6622,10 +6622,10 @@ where
     guard
       var i0 = p0.print(output.0),
       let i1 = p1.print(output.1),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -6722,7 +6722,7 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
       let i4 = p4.print(output.3),
@@ -6823,11 +6823,11 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
       let i4 = p4.print(output.3),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -6924,10 +6924,10 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
-      let i4 = p4.print(()),
+      let i4 = p4.print(),
       let i5 = p5.print(output.3)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -7025,11 +7025,11 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -7126,9 +7126,9 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.2),
       let i5 = p5.print(output.3)
     else { return nil }
@@ -7227,11 +7227,11 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.2),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -7328,10 +7328,10 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
       let i5 = p5.print(output.2)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -7429,11 +7429,11 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
+      let i1 = p1.print(),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i3 = p3.print(),
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -7530,8 +7530,8 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
       let i4 = p4.print(output.2),
       let i5 = p5.print(output.3)
@@ -7631,11 +7631,11 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
       let i4 = p4.print(output.2),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -7732,10 +7732,10 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
-      let i4 = p4.print(()),
+      let i4 = p4.print(),
       let i5 = p5.print(output.2)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -7833,11 +7833,11 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -7934,9 +7934,9 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output.1),
       let i5 = p5.print(output.2)
     else { return nil }
@@ -8035,11 +8035,11 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output.1),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -8136,10 +8136,10 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output.0),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
       let i5 = p5.print(output.1)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -8237,11 +8237,11 @@ where
   ) -> P0.Input? {
     guard
       var i0 = p0.print(output),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -8337,7 +8337,7 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
@@ -8438,12 +8438,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
       let i4 = p4.print(output.3),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -8539,11 +8539,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
-      let i4 = p4.print(()),
+      let i4 = p4.print(),
       let i5 = p5.print(output.3)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -8640,12 +8640,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
       let i3 = p3.print(output.2),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -8741,10 +8741,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.2),
       let i5 = p5.print(output.3)
     else { return nil }
@@ -8842,12 +8842,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.2),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -8943,11 +8943,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
       let i5 = p5.print(output.2)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -9044,12 +9044,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
       let i2 = p2.print(output.1),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i3 = p3.print(),
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -9145,9 +9145,9 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
       let i4 = p4.print(output.2),
       let i5 = p5.print(output.3)
@@ -9246,12 +9246,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
       let i4 = p4.print(output.2),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -9347,11 +9347,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
-      let i4 = p4.print(()),
+      let i4 = p4.print(),
       let i5 = p5.print(output.2)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -9448,12 +9448,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
-      let i2 = p2.print(()),
+      let i2 = p2.print(),
       let i3 = p3.print(output.1),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -9549,10 +9549,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output.1),
       let i5 = p5.print(output.2)
     else { return nil }
@@ -9650,12 +9650,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output.1),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -9751,11 +9751,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output.0),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
       let i5 = p5.print(output.1)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -9852,12 +9852,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
+      var i0 = p0.print(),
       let i1 = p1.print(output),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -9953,8 +9953,8 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output.0),
       let i3 = p3.print(output.1),
       let i4 = p4.print(output.2),
@@ -10054,12 +10054,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output.0),
       let i3 = p3.print(output.1),
       let i4 = p4.print(output.2),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -10155,11 +10155,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output.0),
       let i3 = p3.print(output.1),
-      let i4 = p4.print(()),
+      let i4 = p4.print(),
       let i5 = p5.print(output.2)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -10256,12 +10256,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output.0),
       let i3 = p3.print(output.1),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -10357,10 +10357,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output.0),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.1),
       let i5 = p5.print(output.2)
     else { return nil }
@@ -10458,12 +10458,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output.0),
-      let i3 = p3.print(()),
+      let i3 = p3.print(),
       let i4 = p4.print(output.1),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -10559,11 +10559,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output.0),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
       let i5 = p5.print(output.1)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -10660,12 +10660,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
       let i2 = p2.print(output),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i3 = p3.print(),
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -10761,9 +10761,9 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output.0),
       let i4 = p4.print(output.1),
       let i5 = p5.print(output.2)
@@ -10862,12 +10862,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output.0),
       let i4 = p4.print(output.1),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -10963,11 +10963,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output.0),
-      let i4 = p4.print(()),
+      let i4 = p4.print(),
       let i5 = p5.print(output.1)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -11064,12 +11064,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
       let i3 = p3.print(output),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -11165,10 +11165,10 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output.0),
       let i5 = p5.print(output.1)
     else { return nil }
@@ -11266,12 +11266,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
       let i4 = p4.print(output),
-      let i5 = p5.print(())
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
@@ -11367,11 +11367,11 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
       let i5 = p5.print(output)
     else { return nil }
     i0.append(contentsOf: i1)
@@ -11470,12 +11470,12 @@ where
     )
   ) -> P0.Input? {
     guard
-      var i0 = p0.print(()),
-      let i1 = p1.print(()),
-      let i2 = p2.print(()),
-      let i3 = p3.print(()),
-      let i4 = p4.print(()),
-      let i5 = p5.print(())
+      var i0 = p0.print(),
+      let i1 = p1.print(),
+      let i2 = p2.print(),
+      let i3 = p3.print(),
+      let i4 = p4.print(),
+      let i5 = p5.print()
     else { return nil }
     i0.append(contentsOf: i1)
     i0.append(contentsOf: i2)
