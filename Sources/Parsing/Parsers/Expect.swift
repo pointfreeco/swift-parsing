@@ -1,0 +1,39 @@
+/// Parses the provided `Upstream` ``Parser``, returning `Void` if it was successful or `nil` if not,
+/// but does not consume any of the input.
+///
+/// For example, identifiers (variables, functions, etc.) in Swift allow the first character to be
+/// a letter or underscore, but not a digit, but subsequent characters can be digits.
+/// Eg. `let a1 = "a1"` is valid, but `let 1a = "1a"` is not. This parser will check the input
+/// starts with a letter or underscore, and if it does, it will return the remainder of the input
+/// up to the first character that is not a letter, a digit, or an underscore.
+///
+/// ```swift
+/// let identifier = Expect(Prefix(1) { $0.isLetter || $0 == "_" })
+///     .take(Prefix { $0.isNumber || $0.isLetter || $0 == "_" })
+/// ```
+///
+/// Note that the `Expect` does not consume the first character, but will only pass if the `Prefix(1)...` parses.
+/// The subsequent `.take(...)` will consume the first character, along with any subsequent characters
+/// that match the criteria.
+public struct Expect<Upstream>: Parser where Upstream: Parser {
+  /// The parser from which this parser checks is successful.
+  public let upstream: Upstream
+
+  /// Construct a ``Expect`` with the provided `Upstream` ``Parser``.
+  ///
+  /// - Parameter upstream: The ``Parser`` to check.
+  @inlinable
+  public init(_ upstream: Upstream) {
+    self.upstream = upstream
+  }
+
+  @inlinable
+  public func parse(_ input: inout Upstream.Input) -> Void? {
+    let original = input
+    if self.upstream.parse(&input) != nil {
+      input = original
+      return ()
+    }
+    return nil
+  }
+}
