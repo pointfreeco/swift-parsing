@@ -15,24 +15,24 @@
 /// The subsequent `.take(...)` will consume the first character, along with any subsequent characters
 /// that match the criteria.
 public struct Peek<Upstream>: Parser where Upstream: Parser {
-    /// The parser from which this parser checks is successful.
-    public let upstream: Upstream
-    
-    /// Construct a ``Peek`` with the provided `Upstream` ``Parser``.
-    ///
-    /// - Parameter upstream: The ``Parser`` to check.
-    @inlinable
-    public init(_ upstream: Upstream) {
-        self.upstream = upstream
+  /// The parser from which this parser checks is successful.
+  public let upstream: Upstream
+
+  /// Construct a ``Peek`` with the provided `Upstream` ``Parser``.
+  ///
+  /// - Parameter upstream: The ``Parser`` to check.
+  @inlinable
+  public init(_ upstream: Upstream) {
+    self.upstream = upstream
+  }
+
+  @inlinable
+  public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
+    let original = input
+    if let result = self.upstream.parse(&input) {
+      input = original
+      return result
     }
-    
-    @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
-      let original = input
-      if let result = self.upstream.parse(&input) {
-        input = original
-        return result
-      }
-      return nil
-    }
+    return nil
+  }
 }
