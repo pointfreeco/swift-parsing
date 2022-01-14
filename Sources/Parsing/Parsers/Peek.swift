@@ -28,11 +28,11 @@ public struct Peek<Upstream>: Parser where Upstream: Parser {
     }
     
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Void? {
+    public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
       let original = input
-      if self.upstream.parse(&input) != nil {
+      if let result = self.upstream.parse(&input) {
         input = original
-        return ()
+        return result
       }
       return nil
     }
