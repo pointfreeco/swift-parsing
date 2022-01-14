@@ -32,16 +32,9 @@ public enum OneOfBuilder {
     .second(parser)
   }
 
-  public static func buildIf<P>(
-    _ parser: P?
-  ) -> Conditional<P, Parsers.Fail<P.Input, P.Output>>
-  where P: Parser
-  {
-    if let parser = parser {
-      return .first(parser)
-    } else {
-      return .second(.init())
-    }
+  @inlinable
+  public static func buildIf<P>(_ parser: P?) -> P? where P: Parser {
+    parser
   }
 
   @inlinable
