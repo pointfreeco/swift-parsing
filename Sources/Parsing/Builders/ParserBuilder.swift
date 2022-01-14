@@ -1,3 +1,6 @@
+import SwiftUI
+
+/// A custom parameter attribute that constructs a sequence of parsers from a block.
 @resultBuilder
 public enum ParserBuilder {
   @inlinable

@@ -1,3 +1,4 @@
+/// A custom parameter attribute that constructs an alternation of parsers from a block.
 @resultBuilder
 public enum OneOfBuilder {
   @inlinable
