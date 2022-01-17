@@ -21,16 +21,14 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   enum Episode: Equatable {
     case show
     case comments(Comments)
-
-    enum Comments: Equatable {
-      case post(Comment)
-      case show(count: Int)
-
-      struct Comment: Decodable, Equatable {
-        let commenter: String
-        let message: String
-      }
-    }
+  }
+  enum Comments: Equatable {
+    case post(Comment)
+    case show(count: Int)
+  }
+  struct Comment: Decodable, Equatable {
+    let commenter: String
+    let message: String
   }
 
   let router = OneOf {
@@ -56,14 +54,14 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
               Path(FromUTF8View { "comments".utf8 })
 
               OneOf {
-                Route(Episode.Comments.post) {
+                Route(Comments.post) {
                   Method.post
                   Body {
-                    JSON(Episode.Comments.Comment.self)
+                    JSON(Comment.self)
                   }
                 }
 
-                Route(Episode.Comments.show) {
+                Route(Comments.show) {
                   Query("count", Int.parser(), default: 10)
                 }
               }
