@@ -8,6 +8,24 @@ import Parsing
 
 // MARK: - Parser
 
+private struct Coordinate {
+  let latitude: Double
+  let longitude: Double
+}
+
+private enum Currency { case eur, gbp, usd }
+
+private struct Money {
+  let currency: Currency
+  let dollars: Int
+}
+
+private struct Race {
+  let location: String
+  let entranceFee: Money
+  let path: [Coordinate]
+}
+
 private let northSouth = OneOf {
   "N".utf8.map { 1.0 }
   "S".utf8.map { -1.0 }
@@ -30,11 +48,6 @@ private let longitude = Parse(*) {
   eastWest
 }
 
-private struct Coordinate {
-  let latitude: Double
-  let longitude: Double
-}
-
 private let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }
 
 private let coord = Parse(Coordinate.init(latitude:longitude:)) {
@@ -46,28 +59,15 @@ private let coord = Parse(Coordinate.init(latitude:longitude:)) {
   longitude
 }
 
-private enum Currency { case eur, gbp, usd }
-
 private let currency = OneOf {
   "€".utf8.map { Currency.eur }
   "£".utf8.map { Currency.gbp }
   "$".utf8.map { Currency.usd }
 }
 
-private struct Money {
-  let currency: Currency
-  let dollars: Int
-}
-
 private let money = Parse(Money.init(currency:dollars:)) {
   currency
   Int.parser()
-}
-
-private struct Race {
-  let location: String
-  let entranceFee: Money
-  let path: [Coordinate]
 }
 
 private let locationName = Prefix { $0 != .init(ascii: ",") }
