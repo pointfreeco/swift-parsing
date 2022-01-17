@@ -93,7 +93,7 @@ Not only is this code a little messy, but it is also inefficient since we are al
 
 It would be more straightforward and efficient to instead describe how to consume bits from the beginning of the input and convert that into users. This is what this parser library excels at 😄.
 
-We can start by describing what it means to parse a single row, first by parsing an integer off the front of the string, and then parsing a comma:
+We can start by describing what it means to parse a single row, first by parsing an integer off the front of the string, and then parsing a comma. We can do this by using the `Parse` type, which acts as an entry point into describing a list of parsers that you want to run one after the other to consume from an input:
 
 ```swift
 let user = Parse {
@@ -283,7 +283,7 @@ The type of this parser is now:
 Parsers.Map<Prefix<Substring>, Substring>
 ```
 
-Notice how the type of the parser encodes the operations that we performed. This adds a bit of complexity when using these types, but comes with some performance benefits because Swift can usually optimize the creation of those nested types.
+Notice how the type of the parser encodes the operations that we performed. This adds a bit of complexity when using these types, but comes with some performance benefits because Swift can usually optimize away the creation of those nested types.
 
 ### Result builder
 
@@ -365,7 +365,9 @@ However, we are incurring the cost of parsing `Substring` for this entire parser
 let city = OneOf {
   "London".utf8.map { City.london }
   "New York".utf8.map { City.newYork }
-  FromSubstring { "San José" }.map { City.sanJose }
+  FromSubstring { 
+    "San José".map { City.sanJose }
+  }
 }
 ```
 

@@ -13,7 +13,18 @@
 /// Use this parser when you are parsing into an output data model that contains `nil`.
 ///
 /// If you are optionally parsing input that should coalesce into some default, you can skip the
-/// optionality and instead use ``OneOf`` with an ``Always`` parser, given a default.
+/// optionality and instead use ``OneOf`` with an ``Always`` parser, given a default:
+///
+/// ```swift
+/// enum Currency { case eur, gbp, usd, unknown }
+///
+/// let currency = OneOf {
+///   "€".map { Currency.eur }
+///   "£".map { Currency.gbp }
+///   "$".map { Currency.usd }
+///   Always(Currency.unknown)
+/// }
+/// ```
 public struct OneOf<Parsers>: Parser where Parsers: Parser {
   public let parsers: Parsers
 
