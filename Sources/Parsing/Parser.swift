@@ -91,3 +91,15 @@ extension Parser {
       .flatMap { $0 }
   }
 }
+
+let tmp = Parse {
+  Int.parser()
+  ","
+  Prefix { $0 != "," }
+  ","
+  Bool.parser()
+  ","
+  Int.parser()
+  ","
+}
+

@@ -83,7 +83,7 @@ struct VariadicsGenerator: ParsableCommand {
   func run() throws {
     output("// BEGIN AUTO-GENERATED CONTENT\n\n")
 
-    for arity in 2...6 {
+    for arity in 2...8 {
       emitZipDeclarations(arity: arity)
     }
 
