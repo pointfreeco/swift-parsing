@@ -137,7 +137,7 @@ where
 P0: Printer,
 P1: Printer,
 P2: Printer,
-P0.Input == Substring
+P0.Input: RangeReplaceableCollection
 {
   func print(_ output: P1.Output) -> P0.Input? {
     guard
@@ -188,9 +188,9 @@ extension Skip: Printer where Parsers: Printer, Parsers.Output == Void {
 
 extension Parsers.ZipVV: Printer
 where
-P0: Printer,
-P1: Printer,
-P0.Input == Substring
+  P0: Printer,
+  P1: Printer,
+  P0.Input: RangeReplaceableCollection
 {
   func print(_ output: ()) -> P0.Input? {
     guard let input0 = self.p0.print(())
@@ -246,12 +246,12 @@ Parse
 
 extension Parsers.ZipOVOVO: Printer
 where
-P0: Printer,
-P1: Printer,
-P2: Printer,
-P3: Printer,
-P4: Printer,
-P0.Input == Substring
+  P0: Printer,
+  P1: Printer,
+  P2: Printer,
+  P3: Printer,
+  P4: Printer,
+  P0.Input: RangeReplaceableCollection
 {
   func print(_ output: (P0.Output, P2.Output, P4.Output)) -> P0.Input? {
     guard
@@ -343,3 +343,47 @@ users_.print([
   (1, "Blob, Esq.", true),
 ])!
 )
+
+
+
+
+extension Substring.UTF8View: RangeReplaceableCollection {
+  public init() {
+    self = ""[...].utf8
+  }
+
+  public mutating func append<S>(contentsOf newElements: S) where S : Sequence, String.UTF8View.Element == S.Element {
+    var result = Substring(self)
+    result.append(contentsOf: Substring(decoding: Array(newElements), as: UTF8.self))
+    self = result.utf8
+  }
+}
+
+extension String.UTF8View: Printer {
+  func print(_ output: ()) -> Substring.UTF8View? {
+    String(self)[...].utf8
+  }
+}
+
+let quotedFieldUtf8 = Parse {
+  "\"".utf8
+  Prefix { $0 != .init(ascii: "\"") }
+  "\"".utf8
+}
+let fieldUtf8 = OneOf {
+  quotedFieldUtf8
+  Prefix { $0 != .init(ascii: ",") }
+}
+
+Substring(fieldUtf8.print("Blob"[...].utf8)!)
+Substring(fieldUtf8.print("Blob, Esq."[...].utf8)!)
+
+let userUtf8 = Parse {
+  Int.parser()
+  ",".utf8
+  fieldUtf8
+  ",".utf8
+  Bool.parser()
+}
+
+Substring(userUtf8.print((42, "Blob, Esq."[...].utf8, true))!)
