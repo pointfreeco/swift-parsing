@@ -171,9 +171,9 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     """
   var output: [Race]!
 
-  let input1 = Substring(repeating: "👩‍👩‍👦‍👦", count: 1_000)
-  let input2 = Substring(repeating: "👩‍👩‍👦‍👦", count: 1_000)
-  var result: Substring!
+  let input1 = Substring(repeating: "A", count: 10).utf8
+  let input2 = Substring(repeating: "A", count: 10).utf8
+  var result: Substring.UTF8View!
 
   suite.benchmark(
     name: "Parser",
@@ -202,9 +202,16 @@ extension Substring.UTF8View: RangeReplaceableCollection {
 //  }
 
   @inlinable
-  public mutating func append<S>(contentsOf newElements: S) where S : Sequence, String.UTF8View.Element == S.Element {
-    var result = Substring(self)
-    result.append(contentsOf: Substring(decoding: Array(newElements), as: UTF8.self))
-    self = result.utf8
+  public mutating func append<S: Sequence>(contentsOf elements: S) where S.Element == Element {
+    if let elements = elements as? Substring.UTF8View {
+      var str = Substring(self)
+      str.append(contentsOf: Substring(elements))
+      self = str.utf8
+      return
+    }
+
+    var str = Substring(self)
+    str.append(contentsOf: Substring(decoding: Array(elements), as: UTF8.self))
+    self = str.utf8
   }
 }

@@ -304,14 +304,14 @@ user_.print((id: 2, name: "Blob, Esq.", admin: true)) // "2,"Blob, Esq.",true"
 
 extension Many: Printer
 where
-Element: Printer,
-Element.Input == Substring,
-Result == [Element.Output],
-Separator: Printer,
-Separator.Output == Void
+  Element: Printer,
+  Element.Input: RangeReplaceableCollection,
+  Result == [Element.Output],
+  Separator: Printer,
+  Separator.Output == Void
 {
   func print(_ output: [Element.Output]) -> Element.Input? {
-    var input = ""[...]
+    var input = Input()
     var firstElement = true
     for elementOutput in output {
       defer { firstElement = false }
@@ -387,3 +387,16 @@ let userUtf8 = Parse {
 }
 
 Substring(userUtf8.print((42, "Blob, Esq."[...].utf8, true))!)
+
+let usersUtf8 = Many {
+  userUtf8
+} separator: {
+  "\n".utf8
+}
+
+Substring(
+  usersUtf8.print([
+    (1, "Blob"[...].utf8, false),
+    (42, "Blob, Esq."[...].utf8, true),
+  ])!
+)
