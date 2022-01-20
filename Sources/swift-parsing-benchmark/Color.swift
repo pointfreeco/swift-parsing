@@ -29,7 +29,7 @@ extension HexByte where Input == Substring.UTF8View {
   init() {}
 }
 
-private let hexColor = Parse(Destructure(Color.init(red:green:blue:))) {
+private let hexColor = Parse(.destructure(Color.init(red:green:blue:))) {
   "#".utf8
   HexByte()
   HexByte()

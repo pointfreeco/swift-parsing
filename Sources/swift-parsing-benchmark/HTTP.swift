@@ -77,13 +77,12 @@ private let method = Prefix(while: isToken)
 private let uri = Prefix(while: isNotSpace)
   .map(String.parser())
 
-private let httpVersion = Parse {
+private let httpVersion = Parse(String.parser()) {
   "HTTP/".utf8
   Prefix(while: isVersion)
 }
-.map(String.parser())
 
-private let requestLine = Parse(UnsafeBitCast(Request.init(method:uri:version:))) {
+private let requestLine = Parse(.destructure(Request.init(method:uri:version:))) {
   method
   " ".utf8
   uri
@@ -98,7 +97,7 @@ private let headerValue = Parse {
   Newline()
 }
 
-private let header = Parse(UnsafeBitCast(Header.init(name:value:))) {
+private let header = Parse(.destructure(Header.init(name:value:))) {
   Prefix(while: isToken).map(String.parser())
   ":".utf8
   Many {
