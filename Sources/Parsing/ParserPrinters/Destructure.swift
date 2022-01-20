@@ -1,4 +1,4 @@
-public struct UnsafeBitCast<Values, Root>: ParserPrinter {
+public struct Destructure<Values, Root>: ParserPrinter {
   @usableFromInline
   let initializer: (Values) -> Root
 

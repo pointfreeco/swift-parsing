@@ -42,7 +42,7 @@ private struct Coordinate {
 
 private let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }.printing(" ".utf8)
 
-private let coord = Parse(UnsafeBitCast(Coordinate.init(latitude:longitude:))) {
+private let coord = Parse(Destructure(Coordinate.init(latitude:longitude:))) {
   latitude
   ",".utf8
   zeroOrMoreSpaces
@@ -62,7 +62,7 @@ private struct Money {
   let dollars: Int
 }
 
-private let money = Parse(UnsafeBitCast(Money.init(currency:dollars:))) {
+private let money = Parse(Destructure(Money.init(currency:dollars:))) {
   currency
   Int.parser()
 }
@@ -75,7 +75,7 @@ private struct Race {
 
 private let locationName = Prefix { $0 != .init(ascii: ",") }.map(String.parser())
 
-private let race = Parse(UnsafeBitCast(Race.init(location:entranceFee:path:))) {
+private let race = Parse(Destructure(Race.init(location:entranceFee:path:))) {
   locationName
   ",".utf8
   zeroOrMoreSpaces
