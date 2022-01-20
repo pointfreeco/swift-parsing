@@ -24,6 +24,15 @@ public struct AnyParserPrinter<Input, Output>: ParserPrinter {
   }
 
   @inlinable
+  public init(
+    apply: @escaping (Input) -> Output,
+    unapply: @escaping (Output) -> Input
+  ) {
+    self.parser = { apply($0) }
+    self.printer = unapply
+  }
+
+  @inlinable
   public func parse(_ input: inout Input) -> Output? {
     self.parser(&input)
   }

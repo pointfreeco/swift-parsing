@@ -3,9 +3,7 @@ public struct Parse<Parsers>: Parser where Parsers: Parser {
   public let parsers: Parsers
 
   @inlinable
-  public init(
-    @ParserBuilder with build: () -> Parsers
-  ) {
+  public init(@ParserBuilder with build: () -> Parsers) {
     self.parsers = build()
   }
 
@@ -19,10 +17,10 @@ public struct Parse<Parsers>: Parser where Parsers: Parser {
 
   @inlinable
   public init<Upstream, Downstream>(
-    _ transform: Downstream,
+    _ conversion: Downstream,
     @ParserBuilder with build: () -> Upstream
-  ) where Parsers == Parsing.Parsers.Pipe<Upstream, Downstream> {
-    self.parsers = build().pipe(transform)
+  ) where Parsers == Parsing.Parsers.MapConversion<Upstream, Downstream> {
+    self.parsers = build().map(conversion)
   }
 
   @inlinable

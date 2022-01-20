@@ -71,13 +71,11 @@ private typealias Output = (Request, [Header])
 
 // MARK: - Parsers
 
-private let method = Prefix(while: isToken)
-  .map(String.parser())
+private let method = Parse(.string) { Prefix(while: isToken) }
 
-private let uri = Prefix(while: isNotSpace)
-  .map(String.parser())
+private let uri = Parse(.string) { Prefix(while: isNotSpace) }
 
-private let httpVersion = Parse(String.parser()) {
+private let httpVersion = Parse(.string) {
   "HTTP/".utf8
   Prefix(while: isVersion)
 }
@@ -93,12 +91,12 @@ private let requestLine = Parse(.destructure(Request.init(method:uri:version:)))
 
 private let headerValue = Parse {
   Prefix(1..., while: isHorizontalSpace).printing(" ".utf8)
-  Prefix(while: notLineEnding).map(String.parser())
+  Parse(.string) { Prefix(while: notLineEnding) }
   Newline()
 }
 
 private let header = Parse(.destructure(Header.init(name:value:))) {
-  Prefix(while: isToken).map(String.parser())
+  Parse(.string) { Prefix(while: isToken) }
   ":".utf8
   Many {
     headerValue

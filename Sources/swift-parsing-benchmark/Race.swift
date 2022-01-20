@@ -9,27 +9,31 @@ import Parsing
 // MARK: - Parser
 
 private let northSouth = OneOf {
-  "N".utf8.map(Exactly(1.0))
-  "S".utf8.map(Exactly(-1.0))
+  "N".utf8.map(.exactly(1.0))
+  "S".utf8.map(.exactly(-1.0))
 }
 
 private let eastWest = OneOf {
-  "E".utf8.map(Exactly(1.0))
-  "W".utf8.map(Exactly(-1.0))
+  "E".utf8.map(.exactly(1.0))
+  "W".utf8.map(.exactly(-1.0))
 }
 
-private let multiply = Conversion<(Double, Double), Double>(
-  apply: *,
-  unapply: { $0 < 0 ? (abs($0), -1) : ($0, 1) }
-)
+private extension Conversion where Self == AnyConversion<(Double, Double), Double> {
+  static var multiply: Self {
+    .init(
+      apply: *,
+      unapply: { $0 < 0 ? (abs($0), -1) : ($0, 1) }
+    )
+  }
+}
 
-private let latitude = Parse(multiply) {
+private let latitude = Parse(.multiply) {
   Double.parser()
   "° ".utf8
   northSouth
 }
 
-private let longitude = Parse(multiply) {
+private let longitude = Parse(.multiply) {
   Double.parser()
   "° ".utf8
   eastWest
@@ -52,9 +56,9 @@ private let coord = Parse(.destructure(Coordinate.init(latitude:longitude:))) {
 private enum Currency { case eur, gbp, usd }
 
 private let currency = OneOf {
-  "€".utf8.map(Exactly(Currency.eur))
-  "£".utf8.map(Exactly(Currency.gbp))
-  "$".utf8.map(Exactly(Currency.usd))
+  "€".utf8.map(.exactly(Currency.eur))
+  "£".utf8.map(.exactly(Currency.gbp))
+  "$".utf8.map(.exactly(Currency.usd))
 }
 
 private struct Money {
@@ -73,7 +77,7 @@ private struct Race {
   let path: [Coordinate]
 }
 
-private let locationName = Prefix { $0 != .init(ascii: ",") }.map(String.parser())
+private let locationName = Parse(.string) { Prefix { $0 != .init(ascii: ",") } }
 
 private let race = Parse(.destructure(Race.init(location:entranceFee:path:))) {
   locationName
