@@ -15,10 +15,10 @@ where
   }
 }
 
-extension Rest: Printer {
+extension Rest: Printer where Input: AppendableCollection {
   @inlinable
-  public func print(_ output: Input) -> Input? {
-    output
+  public func print(_ output: Input, to input: inout Input) {
+    input.append(contentsOf: output)
   }
 }
 

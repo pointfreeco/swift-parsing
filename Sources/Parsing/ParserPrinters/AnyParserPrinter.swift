@@ -7,29 +7,20 @@ extension Parser where Self: ParserPrinter {
 
 public struct AnyParserPrinter<Input, Output>: ParserPrinter {
   @usableFromInline let parser: (inout Input) throws -> Output
-  @usableFromInline let printer: (Output) -> Input?
+  @usableFromInline let printer: (Output, inout Input) throws -> Void
 
   @inlinable
   public init<P>(_ parserPrinter: P) where P: ParserPrinter, P.Input == Input, P.Output == Output {
-    self.init(parse: parserPrinter.parse(_:), print: parserPrinter.print(_:))
+    self.init(parse: parserPrinter.parse(_:), print: parserPrinter.print(_:to:))
   }
 
   @inlinable
   public init(
     parse: @escaping (inout Input) throws -> Output,
-    print: @escaping (Output) -> Input?
+    print: @escaping (Output, inout Input) throws -> Void
   ) {
     self.parser = parse
     self.printer = print
-  }
-
-  @inlinable
-  public init(
-    apply: @escaping (Input) -> Output,
-    unapply: @escaping (Output) -> Input
-  ) {
-    self.parser = { apply($0) }
-    self.printer = unapply
   }
 
   @inlinable
@@ -38,7 +29,7 @@ public struct AnyParserPrinter<Input, Output>: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: Output) -> Input? {
-    self.printer(output)
+  public func print(_ output: Output, to input: inout Input) throws {
+    try self.printer(output, &input)
   }
 }

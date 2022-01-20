@@ -15,8 +15,8 @@ public struct Fail<Input, Output>: Parser {
 
 extension Fail: Printer {
   @inlinable
-  public func print(_ output: Output) -> Input? {
-    nil
+  public func print(_ output: Output, to input: inout Input) throws {
+    throw ParsingError()
   }
 }
 

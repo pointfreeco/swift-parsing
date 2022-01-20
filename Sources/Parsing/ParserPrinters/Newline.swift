@@ -24,8 +24,8 @@ where
 
 extension Newline: Printer where Input: AppendableCollection {
   @inlinable
-  public func print(_ output: ()) -> Input? {
-    Input("\n".utf8)
+  public func print(_ output: (), to input: inout Input) {
+    input.append(contentsOf: "\n".utf8)
   }
 }
 

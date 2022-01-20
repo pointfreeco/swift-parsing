@@ -32,8 +32,8 @@ where
 
 extension First: Printer where Input: AppendableCollection {
   @inlinable
-  public func print(_ output: Input.Element) -> Input? {
-    .init(CollectionOfOne(output))
+  public func print(_ output: Input.Element, to input: inout Input) {
+    input.append(contentsOf: CollectionOfOne(output))
   }
 }
 

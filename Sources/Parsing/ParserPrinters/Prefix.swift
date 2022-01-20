@@ -158,16 +158,16 @@ where
   }
 }
 
-extension Prefix: Printer {
+extension Prefix: Printer where Input: AppendableCollection {
   @inlinable
-  public func print(_ output: Input) -> Input? {
+  public func print(_ output: Input, to input: inout Input) throws {
     let count = output.count
     guard
       count >= self.minLength,
       self.maxLength.map({ count <= $0 }) ?? true,
       self.predicate.map({ output.allSatisfy($0) }) ?? true
-    else { return nil }
-    return output
+    else { throw ParsingError() }
+    input.append(contentsOf: output)
   }
 }
 

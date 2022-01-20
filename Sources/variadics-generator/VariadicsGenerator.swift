@@ -132,7 +132,7 @@ struct VariadicsGenerator: ParsableCommand {
       // Emit printer extension.
       output("extension Parsers.\(typeName): Printer\nwhere\n  ")
       outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Printer" }
-      output(",\n  P0.Input: Appendable,\n  ")
+      output(",\n  ")
       outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
         "P\($0).Input == P\($1).Input"
       }
@@ -144,17 +144,15 @@ struct VariadicsGenerator: ParsableCommand {
       }
       output("\n{\n  @inlinable public func print(\n    _ output: (\n")
       outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
-      output("\n    )\n  ) -> P0.Input? {\n    guard\n      ")
-      outputForEach(0..<arity, separator: ",\n      ") {
-        let binding = $0 == 0 && arity > 1 ? "var" : "let"
+      output("\n    ),\n    to input: inout P0.Input\n  ) rethrows {\n    let original = input")
+      output("\n    do {\n      ")
+      outputForEach(0..<arity, separator: "\n      ") {
         let output = permutation.isCaptureless(at: $0) ? ""
-          : permutation.captureIndices.count == 1 ? "output"
-          : "output.\(permutation.captureIndices.firstIndex(of: $0)!)"
-        return "\(binding) i\($0) = p\($0).print(\(output))"
+          : permutation.captureIndices.count == 1 ? "output, "
+          : "output.\(permutation.captureIndices.firstIndex(of: $0)!), "
+        return "try p\($0).print(\(output)to: &input)"
       }
-      output("\n    else { return nil }\n    ")
-      outputForEach(1..<arity, separator: "\n    ") { "i0.append(contentsOf: i\($0))" }
-      output("\n    return i0\n  }\n}\n\n")
+      output("\n    } catch {\n      input = original\n      throw error\n    }\n  }\n}\n\n")
 
       // Emit builders.
       output("extension ParserBuilder {\n")
@@ -211,11 +209,29 @@ struct VariadicsGenerator: ParsableCommand {
     outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
       "P\($0).Output == P\($1).Output"
     }
-    output("\n{\n  @inlinable public func print(_ output: P0.Output) -> P0.Input? {\n    ")
-    outputForEach((0..<arity).reversed(), separator: "\n    ") {
-      "if let input = self.p\($0).print(output) { return input }"
+    output("\n{\n  ")
+    output("@inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {")
+    output("\n")
+    outputForEach(Array(zip((0..<arity).reversed(), 0..<arity)), separator: "\n") {
+      let indent = String(repeating: "  ", count: $1)
+      // TODO: Accumulate errors
+//      return """
+//            \(indent)do {
+//            \(indent)  try self.p\($0).print(output, to: &input)
+//            \(indent)} catch let e\($0) {
+//        """
+      return """
+            \(indent)do {
+            \(indent)  try self.p\($0).print(output, to: &input)
+            \(indent)} catch {
+        """
     }
-    output("\n    return nil\n  }\n}\n\n")
+    output("\n    \(String(repeating: "  ", count: arity))throw ParsingError()\n")
+    outputForEach((0..<arity).reversed(), separator: "\n") {
+      let indent = String(repeating: "  ", count: $0)
+      return "    \(indent)}"
+    }
+    output("\n  }\n}\n\n")
 
     // Emit builders.
     output("extension OneOfBuilder {\n")

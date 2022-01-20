@@ -32,8 +32,10 @@ where
 
 extension FromSubstring: Printer where SubstringParser: Printer {
   @inlinable
-  public func print(_ output: SubstringParser.Output) -> Input? {
-    self.substringParser.print(output).map(self.fromSubstring)
+  public func print(_ output: SubstringParser.Output, to input: inout Input) rethrows {
+    var substringInput = self.toSubstring(input)
+    try self.substringParser.print(output, to: &substringInput)
+    input = self.fromSubstring(substringInput)
   }
 }
 

@@ -166,40 +166,43 @@ where
 extension Many: Printer
 where
   Element: Printer,
-  Element.Input: Appendable,
   Separator: Printer,
   Separator.Output == Void
 {
   @inlinable
-  public func print(_ output: Result) -> Element.Input? {
-    var input = Element.Input()
-
+  public func print(_ output: Result, to input: inout Input) throws {
+    let original = input
     let iterator = self.iterator(output)
-    guard let firstInput = iterator.next().flatMap(self.element.print)
-    else { return self.minimum == 0 ? input : nil }
+    guard let first = iterator.next() else { throw ParsingError() } // TODO: return self.minimum == 0 ? input : nil
+    try self.element.print(first, to: &input)
 
-    input.append(contentsOf: firstInput)
     var count = 1
 
     while let element = iterator.next() {
-      guard let elementInput = self.element.print(element)
-      else { return nil }
+      let rest = input
 
-      guard let separatorInput = self.separator.print()
-      else { return nil }
+      try self.separator.print(to: &input)
+      do {
+        try self.element.print(element, to: &input)
+      } catch {
+        input = rest
+        return
+      }
 
-      input.append(contentsOf: separatorInput)
-      input.append(contentsOf: elementInput)
       count += 1
 
       guard count <= self.maximum
-      else { return nil }
+      else {
+        input = original
+        throw ParsingError()
+      }
     }
 
     guard count >= self.minimum
-    else { return nil }
-
-    return input
+    else {
+      input = original
+      throw ParsingError()
+    }
   }
 }
 

@@ -8,8 +8,8 @@ extension Array: Parser where Element: Equatable {
 
 extension Array: Printer {
   @inlinable
-  public func print(_ output: Void) -> SubSequence? {
-    self[...]
+  public func print(_ output: Void, to input: inout SubSequence) {
+    input.append(contentsOf: self)
   }
 }
 
@@ -21,8 +21,8 @@ extension String: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: ()) -> Substring? {
-    self[...]
+  public func print(_ output: Void, to input: inout SubSequence) {
+    input.append(contentsOf: self)
   }
 }
 
@@ -34,8 +34,8 @@ extension String.UnicodeScalarView: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: ()) -> Substring.UnicodeScalarView? {
-    String(self)[...].unicodeScalars
+  public func print(_ output: Void, to input: inout SubSequence) {
+    input.append(contentsOf: self)
   }
 }
 
@@ -47,7 +47,7 @@ extension String.UTF8View: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: ()) -> Substring.UTF8View? {
-    String(self)[...].utf8
+  public func print(_ output: Void, to input: inout SubSequence) {
+    input.append(contentsOf: self)
   }
 }

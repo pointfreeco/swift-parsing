@@ -19,9 +19,9 @@ where Input: Collection, Input.SubSequence == Input, Input.Element == UInt8 {
 }
 
 extension HexByte: Printer where Input: AppendableCollection {
-  func print(_ output: UInt8) -> Input? {
+  func print(_ output: UInt8, to input: inout Input) {
     let byte = String(output, radix: 16)
-    return byte.count == 1 ? Input("0\(byte)".utf8) : Input("\(byte)".utf8)
+    input.append(contentsOf: byte.count == 1 ? "0\(byte)".utf8 : "\(byte)".utf8)
   }
 }
 
@@ -46,7 +46,7 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
     run: { output = try hexColor.parse(input) },
     tearDown: {
       precondition(output == expected)
-      precondition(hexColor.print(output)?.elementsEqual("#ff0000".utf8) == true)
+      precondition(try! hexColor.print(output).elementsEqual("#ff0000".utf8) == true)
     }
   )
 }

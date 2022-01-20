@@ -28,11 +28,9 @@ public struct Always<Input, Output>: Parser {
   }
 }
 
-extension Always: Printer where Input: Appendable {
+extension Always: Printer {
   @inlinable
-  public func print(_ output: Output) -> Input? {
-    .init()
-  }
+  public func print(_ output: Output, to input: inout Input) {}
 }
 
 extension Always where Input == Substring {

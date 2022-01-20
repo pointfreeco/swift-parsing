@@ -17,8 +17,10 @@ where
 
 extension FromUTF8View: Printer where UTF8Parser: Printer {
   @inlinable
-  public func print(_ output: UTF8Parser.Output) -> Input? {
-    self.utf8Parser.print(output).map(self.fromUTF8)
+  public func print(_ output: UTF8Parser.Output, to input: inout Input) rethrows {
+    var utf8Input = self.toUTF8(input)
+    try self.utf8Parser.print(output, to: &utf8Input)
+    input = self.fromUTF8(utf8Input)
   }
 }
 

@@ -46,7 +46,8 @@ extension Parsers {
 
 extension Parsers.Filter: Printer where Upstream: Printer {
   @inlinable
-  public func print(_ output: Upstream.Output) -> Upstream.Input? {
-    self.predicate(output) ? self.upstream.print(output) : nil
+  public func print(_ output: Upstream.Output, to input: inout Upstream.Input) throws {
+    guard self.predicate(output) else { throw ParsingError() }
+    try self.upstream.print(output, to: &input)
   }
 }

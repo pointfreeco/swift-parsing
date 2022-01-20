@@ -251,23 +251,23 @@ extension Parsers {
 
 extension Parsers.DoubleParser: Printer where Input: AppendableCollection {
   @inlinable
-  public func print(_ output: Output) -> Input? {
-    .init(String(output).utf8)
+  public func print(_ output: Output, to input: inout Input) {
+    input.append(contentsOf: String(output).utf8)
   }
 }
 
 extension Parsers.FloatParser: Printer where Input: AppendableCollection {
   @inlinable
-  public func print(_ output: Output) -> Input? {
-    .init(String(output).utf8)
+  public func print(_ output: Output, to input: inout Input) {
+    input.append(contentsOf: String(output).utf8)
   }
 }
 
 #if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
   extension Parsers.Float80Parser: Printer where Input: AppendableCollection {
     @inlinable
-    public func print(_ output: Output) -> Input? {
-      .init(String(output).utf8)
+    public func print(_ output: Output, to input: inout Input) {
+      input.append(contentsOf: String(output).utf8)
     }
   }
 #endif

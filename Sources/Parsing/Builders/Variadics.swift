@@ -35,21 +35,23 @@ extension Parsers.ZipOO: Printer
 where
   P0: Printer,
   P1: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input
 {
   @inlinable public func print(
     _ output: (
       P0.Output,
       P1.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -96,21 +98,23 @@ extension Parsers.ZipOV: Printer
 where
   P0: Printer,
   P1: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Output == Void
 {
   @inlinable public func print(
     _ output: (
       P0.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output),
-      let i1 = p1.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output, to: &input)
+      try p1.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -157,21 +161,23 @@ extension Parsers.ZipVO: Printer
 where
   P0: Printer,
   P1: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P0.Output == Void
 {
   @inlinable public func print(
     _ output: (
       P1.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -219,7 +225,6 @@ extension Parsers.ZipVV: Printer
 where
   P0: Printer,
   P1: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P0.Output == Void,
   P1.Output == Void
@@ -227,14 +232,17 @@ where
   @inlinable public func print(
     _ output: (
 
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -287,7 +295,6 @@ where
   P0: Printer,
   P1: Printer,
   P2: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input
 {
@@ -296,16 +303,18 @@ where
       P0.Output,
       P1.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -358,7 +367,6 @@ where
   P0: Printer,
   P1: Printer,
   P2: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Output == Void
@@ -367,16 +375,18 @@ where
     _ output: (
       P0.Output,
       P1.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -429,7 +439,6 @@ where
   P0: Printer,
   P1: Printer,
   P2: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P1.Output == Void
@@ -438,16 +447,18 @@ where
     _ output: (
       P0.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -500,7 +511,6 @@ where
   P0: Printer,
   P1: Printer,
   P2: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P1.Output == Void,
@@ -509,16 +519,18 @@ where
   @inlinable public func print(
     _ output: (
       P0.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output),
-      let i1 = p1.print(),
-      let i2 = p2.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -571,7 +583,6 @@ where
   P0: Printer,
   P1: Printer,
   P2: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P0.Output == Void
@@ -580,16 +591,18 @@ where
     _ output: (
       P1.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -642,7 +655,6 @@ where
   P0: Printer,
   P1: Printer,
   P2: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P0.Output == Void,
@@ -651,16 +663,18 @@ where
   @inlinable public func print(
     _ output: (
       P1.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output),
-      let i2 = p2.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output, to: &input)
+      try p2.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -713,7 +727,6 @@ where
   P0: Printer,
   P1: Printer,
   P2: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P0.Output == Void,
@@ -722,16 +735,18 @@ where
   @inlinable public func print(
     _ output: (
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -785,7 +800,6 @@ where
   P0: Printer,
   P1: Printer,
   P2: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P0.Output == Void,
@@ -795,16 +809,18 @@ where
   @inlinable public func print(
     _ output: (
 
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -863,7 +879,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input
@@ -874,18 +889,19 @@ where
       P1.Output,
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -944,7 +960,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -955,18 +970,19 @@ where
       P0.Output,
       P1.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1025,7 +1041,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1036,18 +1051,19 @@ where
       P0.Output,
       P1.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1106,7 +1122,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1117,18 +1132,19 @@ where
     _ output: (
       P0.Output,
       P1.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1187,7 +1203,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1198,18 +1213,19 @@ where
       P0.Output,
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1268,7 +1284,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1279,18 +1294,19 @@ where
     _ output: (
       P0.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1349,7 +1365,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1360,18 +1375,19 @@ where
     _ output: (
       P0.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1430,7 +1446,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1441,18 +1456,19 @@ where
   @inlinable public func print(
     _ output: (
       P0.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1511,7 +1527,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1522,18 +1537,19 @@ where
       P1.Output,
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1592,7 +1608,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1603,18 +1618,19 @@ where
     _ output: (
       P1.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1673,7 +1689,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1684,18 +1699,19 @@ where
     _ output: (
       P1.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1754,7 +1770,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1765,18 +1780,19 @@ where
   @inlinable public func print(
     _ output: (
       P1.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output),
-      let i2 = p2.print(),
-      let i3 = p3.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1835,7 +1851,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1846,18 +1861,19 @@ where
     _ output: (
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.0),
-      let i3 = p3.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.0, to: &input)
+      try p3.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1916,7 +1932,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1927,18 +1942,19 @@ where
   @inlinable public func print(
     _ output: (
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output),
-      let i3 = p3.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output, to: &input)
+      try p3.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -1997,7 +2013,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2008,18 +2023,19 @@ where
   @inlinable public func print(
     _ output: (
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -2079,7 +2095,6 @@ where
   P1: Printer,
   P2: Printer,
   P3: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2091,18 +2106,19 @@ where
   @inlinable public func print(
     _ output: (
 
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -2167,7 +2183,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2180,20 +2195,20 @@ where
       P2.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(output.3),
-      let i4 = p4.print(output.4)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(output.3, to: &input)
+      try p4.print(output.4, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -2258,7 +2273,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2271,20 +2285,20 @@ where
       P1.Output,
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(output.3),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(output.3, to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -2349,7 +2363,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2362,20 +2375,20 @@ where
       P1.Output,
       P2.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -2440,7 +2453,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2453,20 +2465,20 @@ where
       P0.Output,
       P1.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -2531,7 +2543,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2544,20 +2555,20 @@ where
       P1.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -2622,7 +2633,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2635,20 +2645,20 @@ where
       P0.Output,
       P1.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -2713,7 +2723,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2726,20 +2735,20 @@ where
       P0.Output,
       P1.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -2804,7 +2813,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2817,20 +2825,20 @@ where
     _ output: (
       P0.Output,
       P1.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -2895,7 +2903,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2908,20 +2915,20 @@ where
       P2.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -2986,7 +2993,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2999,20 +3005,20 @@ where
       P0.Output,
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -3077,7 +3083,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3090,20 +3095,20 @@ where
       P0.Output,
       P2.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -3168,7 +3173,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3181,20 +3185,20 @@ where
     _ output: (
       P0.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -3259,7 +3263,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3272,20 +3275,20 @@ where
       P0.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -3350,7 +3353,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3363,20 +3365,20 @@ where
     _ output: (
       P0.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -3441,7 +3443,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3454,20 +3455,20 @@ where
     _ output: (
       P0.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -3532,7 +3533,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3545,20 +3545,20 @@ where
   @inlinable public func print(
     _ output: (
       P0.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -3623,7 +3623,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3636,20 +3635,20 @@ where
       P2.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -3714,7 +3713,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3727,20 +3725,20 @@ where
       P1.Output,
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -3805,7 +3803,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3818,20 +3815,20 @@ where
       P1.Output,
       P2.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -3896,7 +3893,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3909,20 +3905,20 @@ where
     _ output: (
       P1.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -3987,7 +3983,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4000,20 +3995,20 @@ where
       P1.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -4078,7 +4073,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4091,20 +4085,20 @@ where
     _ output: (
       P1.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -4169,7 +4163,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4182,20 +4175,20 @@ where
     _ output: (
       P1.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -4260,7 +4253,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4273,20 +4265,20 @@ where
   @inlinable public func print(
     _ output: (
       P1.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -4351,7 +4343,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4364,20 +4355,20 @@ where
       P2.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.0),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.0, to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -4442,7 +4433,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4455,20 +4445,20 @@ where
     _ output: (
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.0),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.0, to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -4533,7 +4523,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4546,20 +4535,20 @@ where
     _ output: (
       P2.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.0),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.0, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -4624,7 +4613,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4637,20 +4625,20 @@ where
   @inlinable public func print(
     _ output: (
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output),
-      let i3 = p3.print(),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -4715,7 +4703,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4728,20 +4715,20 @@ where
     _ output: (
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.0),
-      let i4 = p4.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.0, to: &input)
+      try p4.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -4806,7 +4793,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4819,20 +4805,20 @@ where
   @inlinable public func print(
     _ output: (
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output, to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -4897,7 +4883,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4910,20 +4895,20 @@ where
   @inlinable public func print(
     _ output: (
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -4989,7 +4974,6 @@ where
   P2: Printer,
   P3: Printer,
   P4: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5003,20 +4987,20 @@ where
   @inlinable public func print(
     _ output: (
 
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -5087,7 +5071,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5102,22 +5085,21 @@ where
       P3.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(output.3),
-      let i4 = p4.print(output.4),
-      let i5 = p5.print(output.5)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(output.3, to: &input)
+      try p4.print(output.4, to: &input)
+      try p5.print(output.5, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -5188,7 +5170,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5203,22 +5184,21 @@ where
       P2.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(output.3),
-      let i4 = p4.print(output.4),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(output.3, to: &input)
+      try p4.print(output.4, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -5289,7 +5269,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5304,22 +5283,21 @@ where
       P2.Output,
       P3.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(output.3),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.4)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(output.3, to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.4, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -5390,7 +5368,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5405,22 +5382,21 @@ where
       P1.Output,
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(output.3),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(output.3, to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -5491,7 +5467,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5506,22 +5481,21 @@ where
       P2.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.3),
-      let i5 = p5.print(output.4)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.3, to: &input)
+      try p5.print(output.4, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -5592,7 +5566,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5607,22 +5580,21 @@ where
       P1.Output,
       P2.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.3),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.3, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -5693,7 +5665,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5708,22 +5679,21 @@ where
       P1.Output,
       P2.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -5794,7 +5764,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5809,22 +5778,21 @@ where
       P0.Output,
       P1.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(output.2),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(output.2, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -5895,7 +5863,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5910,22 +5877,21 @@ where
       P3.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(output.3),
-      let i5 = p5.print(output.4)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(output.3, to: &input)
+      try p5.print(output.4, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -5996,7 +5962,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6011,22 +5976,21 @@ where
       P1.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(output.3),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(output.3, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -6097,7 +6061,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6112,22 +6075,21 @@ where
       P1.Output,
       P3.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -6198,7 +6160,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6213,22 +6174,21 @@ where
       P0.Output,
       P1.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -6299,7 +6259,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6314,22 +6273,21 @@ where
       P1.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -6400,7 +6358,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6415,22 +6372,21 @@ where
       P0.Output,
       P1.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -6501,7 +6457,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6516,22 +6471,21 @@ where
       P0.Output,
       P1.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -6602,7 +6556,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6617,22 +6570,21 @@ where
     _ output: (
       P0.Output,
       P1.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(output.1),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(output.1, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -6703,7 +6655,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6718,22 +6669,21 @@ where
       P3.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(output.3),
-      let i5 = p5.print(output.4)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(output.3, to: &input)
+      try p5.print(output.4, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -6804,7 +6754,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6819,22 +6768,21 @@ where
       P2.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(output.3),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(output.3, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -6905,7 +6853,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6920,22 +6867,21 @@ where
       P2.Output,
       P3.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -7006,7 +6952,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7021,22 +6966,21 @@ where
       P0.Output,
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -7107,7 +7051,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7122,22 +7065,21 @@ where
       P2.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -7208,7 +7150,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7223,22 +7164,21 @@ where
       P0.Output,
       P2.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -7309,7 +7249,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7324,22 +7263,21 @@ where
       P0.Output,
       P2.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -7410,7 +7348,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7425,22 +7362,21 @@ where
     _ output: (
       P0.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -7511,7 +7447,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7526,22 +7461,21 @@ where
       P3.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -7612,7 +7546,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7627,22 +7560,21 @@ where
       P0.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -7713,7 +7645,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7728,22 +7659,21 @@ where
       P0.Output,
       P3.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -7814,7 +7744,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7829,22 +7758,21 @@ where
     _ output: (
       P0.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -7915,7 +7843,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7930,22 +7857,21 @@ where
       P0.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.1),
-      let i5 = p5.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.1, to: &input)
+      try p5.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -8016,7 +7942,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8031,22 +7956,21 @@ where
     _ output: (
       P0.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.1),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.1, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -8117,7 +8041,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8132,22 +8055,21 @@ where
     _ output: (
       P0.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output.0),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output.0, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -8218,7 +8140,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8233,22 +8154,21 @@ where
   @inlinable public func print(
     _ output: (
       P0.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(output),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(output, to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -8319,7 +8239,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8334,22 +8253,21 @@ where
       P3.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(output.3),
-      let i5 = p5.print(output.4)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(output.3, to: &input)
+      try p5.print(output.4, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -8420,7 +8338,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8435,22 +8352,21 @@ where
       P2.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(output.3),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(output.3, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -8521,7 +8437,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8536,22 +8451,21 @@ where
       P2.Output,
       P3.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -8622,7 +8536,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8637,22 +8550,21 @@ where
       P1.Output,
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(output.2),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(output.2, to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -8723,7 +8635,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8738,22 +8649,21 @@ where
       P2.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -8824,7 +8734,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8839,22 +8748,21 @@ where
       P1.Output,
       P2.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -8925,7 +8833,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8940,22 +8847,21 @@ where
       P1.Output,
       P2.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -9026,7 +8932,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9041,22 +8946,21 @@ where
     _ output: (
       P1.Output,
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(output.1),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(output.1, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -9127,7 +9031,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9142,22 +9045,21 @@ where
       P3.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -9228,7 +9130,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9243,22 +9144,21 @@ where
       P1.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -9329,7 +9229,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9344,22 +9243,21 @@ where
       P1.Output,
       P3.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -9430,7 +9328,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9445,22 +9342,21 @@ where
     _ output: (
       P1.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -9531,7 +9427,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9546,22 +9441,21 @@ where
       P1.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.1),
-      let i5 = p5.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.1, to: &input)
+      try p5.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -9632,7 +9526,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9647,22 +9540,21 @@ where
     _ output: (
       P1.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.1),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.1, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -9733,7 +9625,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9748,22 +9639,21 @@ where
     _ output: (
       P1.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output.0),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output.0, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -9834,7 +9724,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9849,22 +9738,21 @@ where
   @inlinable public func print(
     _ output: (
       P1.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(output),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(output, to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -9935,7 +9823,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9950,22 +9837,21 @@ where
       P3.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.0),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print(output.3)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.0, to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(output.3, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -10036,7 +9922,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10051,22 +9936,21 @@ where
       P2.Output,
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.0),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(output.2),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.0, to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(output.2, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -10137,7 +10021,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10152,22 +10035,21 @@ where
       P2.Output,
       P3.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.0),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.0, to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -10238,7 +10120,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10253,22 +10134,21 @@ where
     _ output: (
       P2.Output,
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.0),
-      let i3 = p3.print(output.1),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.0, to: &input)
+      try p3.print(output.1, to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -10339,7 +10219,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10354,22 +10233,21 @@ where
       P2.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.0),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.1),
-      let i5 = p5.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.0, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.1, to: &input)
+      try p5.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -10440,7 +10318,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10455,22 +10332,21 @@ where
     _ output: (
       P2.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.0),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.1),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.0, to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.1, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -10541,7 +10417,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10556,22 +10431,21 @@ where
     _ output: (
       P2.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output.0),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output.0, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -10642,7 +10516,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10657,22 +10530,21 @@ where
   @inlinable public func print(
     _ output: (
       P2.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(output),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(output, to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -10743,7 +10615,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10758,22 +10629,21 @@ where
       P3.Output,
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.0),
-      let i4 = p4.print(output.1),
-      let i5 = p5.print(output.2)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.0, to: &input)
+      try p4.print(output.1, to: &input)
+      try p5.print(output.2, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -10844,7 +10714,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10859,22 +10728,21 @@ where
     _ output: (
       P3.Output,
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.0),
-      let i4 = p4.print(output.1),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.0, to: &input)
+      try p4.print(output.1, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -10945,7 +10813,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10960,22 +10827,21 @@ where
     _ output: (
       P3.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output.0),
-      let i4 = p4.print(),
-      let i5 = p5.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output.0, to: &input)
+      try p4.print(to: &input)
+      try p5.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -11046,7 +10912,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -11061,22 +10926,21 @@ where
   @inlinable public func print(
     _ output: (
       P3.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(output),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(output, to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -11147,7 +11011,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -11162,22 +11025,21 @@ where
     _ output: (
       P4.Output,
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output.0),
-      let i5 = p5.print(output.1)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output.0, to: &input)
+      try p5.print(output.1, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -11248,7 +11110,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -11263,22 +11124,21 @@ where
   @inlinable public func print(
     _ output: (
       P4.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(output),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(output, to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -11349,7 +11209,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -11364,22 +11223,21 @@ where
   @inlinable public func print(
     _ output: (
       P5.Output
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print(output)
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(output, to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -11451,7 +11309,6 @@ where
   P3: Printer,
   P4: Printer,
   P5: Printer,
-  P0.Input: Appendable,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -11467,22 +11324,21 @@ where
   @inlinable public func print(
     _ output: (
 
-    )
-  ) -> P0.Input? {
-    guard
-      var i0 = p0.print(),
-      let i1 = p1.print(),
-      let i2 = p2.print(),
-      let i3 = p3.print(),
-      let i4 = p4.print(),
-      let i5 = p5.print()
-    else { return nil }
-    i0.append(contentsOf: i1)
-    i0.append(contentsOf: i2)
-    i0.append(contentsOf: i3)
-    i0.append(contentsOf: i4)
-    i0.append(contentsOf: i5)
-    return i0
+    ),
+    to input: inout P0.Input
+  ) rethrows {
+    let original = input
+    do {
+      try p0.print(to: &input)
+      try p1.print(to: &input)
+      try p2.print(to: &input)
+      try p3.print(to: &input)
+      try p4.print(to: &input)
+      try p5.print(to: &input)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 
@@ -11525,10 +11381,16 @@ where
   P0.Input == P1.Input,
   P0.Output == P1.Output
 {
-  @inlinable public func print(_ output: P0.Output) -> P0.Input? {
-    if let input = self.p1.print(output) { return input }
-    if let input = self.p0.print(output) { return input }
-    return nil
+  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+    do {
+      try self.p1.print(output, to: &input)
+    } catch {
+      do {
+        try self.p0.print(output, to: &input)
+      } catch {
+        throw ParsingError()
+      }
+    }
   }
 }
 
@@ -11579,11 +11441,20 @@ where
   P0.Output == P1.Output,
   P1.Output == P2.Output
 {
-  @inlinable public func print(_ output: P0.Output) -> P0.Input? {
-    if let input = self.p2.print(output) { return input }
-    if let input = self.p1.print(output) { return input }
-    if let input = self.p0.print(output) { return input }
-    return nil
+  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+    do {
+      try self.p2.print(output, to: &input)
+    } catch {
+      do {
+        try self.p1.print(output, to: &input)
+      } catch {
+        do {
+          try self.p0.print(output, to: &input)
+        } catch {
+          throw ParsingError()
+        }
+      }
+    }
   }
 }
 
@@ -11642,12 +11513,24 @@ where
   P1.Output == P2.Output,
   P2.Output == P3.Output
 {
-  @inlinable public func print(_ output: P0.Output) -> P0.Input? {
-    if let input = self.p3.print(output) { return input }
-    if let input = self.p2.print(output) { return input }
-    if let input = self.p1.print(output) { return input }
-    if let input = self.p0.print(output) { return input }
-    return nil
+  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+    do {
+      try self.p3.print(output, to: &input)
+    } catch {
+      do {
+        try self.p2.print(output, to: &input)
+      } catch {
+        do {
+          try self.p1.print(output, to: &input)
+        } catch {
+          do {
+            try self.p0.print(output, to: &input)
+          } catch {
+            throw ParsingError()
+          }
+        }
+      }
+    }
   }
 }
 
@@ -11714,13 +11597,28 @@ where
   P2.Output == P3.Output,
   P3.Output == P4.Output
 {
-  @inlinable public func print(_ output: P0.Output) -> P0.Input? {
-    if let input = self.p4.print(output) { return input }
-    if let input = self.p3.print(output) { return input }
-    if let input = self.p2.print(output) { return input }
-    if let input = self.p1.print(output) { return input }
-    if let input = self.p0.print(output) { return input }
-    return nil
+  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+    do {
+      try self.p4.print(output, to: &input)
+    } catch {
+      do {
+        try self.p3.print(output, to: &input)
+      } catch {
+        do {
+          try self.p2.print(output, to: &input)
+        } catch {
+          do {
+            try self.p1.print(output, to: &input)
+          } catch {
+            do {
+              try self.p0.print(output, to: &input)
+            } catch {
+              throw ParsingError()
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -11795,14 +11693,32 @@ where
   P3.Output == P4.Output,
   P4.Output == P5.Output
 {
-  @inlinable public func print(_ output: P0.Output) -> P0.Input? {
-    if let input = self.p5.print(output) { return input }
-    if let input = self.p4.print(output) { return input }
-    if let input = self.p3.print(output) { return input }
-    if let input = self.p2.print(output) { return input }
-    if let input = self.p1.print(output) { return input }
-    if let input = self.p0.print(output) { return input }
-    return nil
+  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+    do {
+      try self.p5.print(output, to: &input)
+    } catch {
+      do {
+        try self.p4.print(output, to: &input)
+      } catch {
+        do {
+          try self.p3.print(output, to: &input)
+        } catch {
+          do {
+            try self.p2.print(output, to: &input)
+          } catch {
+            do {
+              try self.p1.print(output, to: &input)
+            } catch {
+              do {
+                try self.p0.print(output, to: &input)
+              } catch {
+                throw ParsingError()
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -11885,15 +11801,36 @@ where
   P4.Output == P5.Output,
   P5.Output == P6.Output
 {
-  @inlinable public func print(_ output: P0.Output) -> P0.Input? {
-    if let input = self.p6.print(output) { return input }
-    if let input = self.p5.print(output) { return input }
-    if let input = self.p4.print(output) { return input }
-    if let input = self.p3.print(output) { return input }
-    if let input = self.p2.print(output) { return input }
-    if let input = self.p1.print(output) { return input }
-    if let input = self.p0.print(output) { return input }
-    return nil
+  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+    do {
+      try self.p6.print(output, to: &input)
+    } catch {
+      do {
+        try self.p5.print(output, to: &input)
+      } catch {
+        do {
+          try self.p4.print(output, to: &input)
+        } catch {
+          do {
+            try self.p3.print(output, to: &input)
+          } catch {
+            do {
+              try self.p2.print(output, to: &input)
+            } catch {
+              do {
+                try self.p1.print(output, to: &input)
+              } catch {
+                do {
+                  try self.p0.print(output, to: &input)
+                } catch {
+                  throw ParsingError()
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -11984,16 +11921,40 @@ where
   P5.Output == P6.Output,
   P6.Output == P7.Output
 {
-  @inlinable public func print(_ output: P0.Output) -> P0.Input? {
-    if let input = self.p7.print(output) { return input }
-    if let input = self.p6.print(output) { return input }
-    if let input = self.p5.print(output) { return input }
-    if let input = self.p4.print(output) { return input }
-    if let input = self.p3.print(output) { return input }
-    if let input = self.p2.print(output) { return input }
-    if let input = self.p1.print(output) { return input }
-    if let input = self.p0.print(output) { return input }
-    return nil
+  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+    do {
+      try self.p7.print(output, to: &input)
+    } catch {
+      do {
+        try self.p6.print(output, to: &input)
+      } catch {
+        do {
+          try self.p5.print(output, to: &input)
+        } catch {
+          do {
+            try self.p4.print(output, to: &input)
+          } catch {
+            do {
+              try self.p3.print(output, to: &input)
+            } catch {
+              do {
+                try self.p2.print(output, to: &input)
+              } catch {
+                do {
+                  try self.p1.print(output, to: &input)
+                } catch {
+                  do {
+                    try self.p0.print(output, to: &input)
+                  } catch {
+                    throw ParsingError()
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -12092,17 +12053,44 @@ where
   P6.Output == P7.Output,
   P7.Output == P8.Output
 {
-  @inlinable public func print(_ output: P0.Output) -> P0.Input? {
-    if let input = self.p8.print(output) { return input }
-    if let input = self.p7.print(output) { return input }
-    if let input = self.p6.print(output) { return input }
-    if let input = self.p5.print(output) { return input }
-    if let input = self.p4.print(output) { return input }
-    if let input = self.p3.print(output) { return input }
-    if let input = self.p2.print(output) { return input }
-    if let input = self.p1.print(output) { return input }
-    if let input = self.p0.print(output) { return input }
-    return nil
+  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+    do {
+      try self.p8.print(output, to: &input)
+    } catch {
+      do {
+        try self.p7.print(output, to: &input)
+      } catch {
+        do {
+          try self.p6.print(output, to: &input)
+        } catch {
+          do {
+            try self.p5.print(output, to: &input)
+          } catch {
+            do {
+              try self.p4.print(output, to: &input)
+            } catch {
+              do {
+                try self.p3.print(output, to: &input)
+              } catch {
+                do {
+                  try self.p2.print(output, to: &input)
+                } catch {
+                  do {
+                    try self.p1.print(output, to: &input)
+                  } catch {
+                    do {
+                      try self.p0.print(output, to: &input)
+                    } catch {
+                      throw ParsingError()
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 
@@ -12209,18 +12197,48 @@ where
   P7.Output == P8.Output,
   P8.Output == P9.Output
 {
-  @inlinable public func print(_ output: P0.Output) -> P0.Input? {
-    if let input = self.p9.print(output) { return input }
-    if let input = self.p8.print(output) { return input }
-    if let input = self.p7.print(output) { return input }
-    if let input = self.p6.print(output) { return input }
-    if let input = self.p5.print(output) { return input }
-    if let input = self.p4.print(output) { return input }
-    if let input = self.p3.print(output) { return input }
-    if let input = self.p2.print(output) { return input }
-    if let input = self.p1.print(output) { return input }
-    if let input = self.p0.print(output) { return input }
-    return nil
+  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+    do {
+      try self.p9.print(output, to: &input)
+    } catch {
+      do {
+        try self.p8.print(output, to: &input)
+      } catch {
+        do {
+          try self.p7.print(output, to: &input)
+        } catch {
+          do {
+            try self.p6.print(output, to: &input)
+          } catch {
+            do {
+              try self.p5.print(output, to: &input)
+            } catch {
+              do {
+                try self.p4.print(output, to: &input)
+              } catch {
+                do {
+                  try self.p3.print(output, to: &input)
+                } catch {
+                  do {
+                    try self.p2.print(output, to: &input)
+                  } catch {
+                    do {
+                      try self.p1.print(output, to: &input)
+                    } catch {
+                      do {
+                        try self.p0.print(output, to: &input)
+                      } catch {
+                        throw ParsingError()
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 }
 

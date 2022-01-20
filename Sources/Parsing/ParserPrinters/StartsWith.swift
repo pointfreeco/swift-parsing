@@ -68,8 +68,8 @@ where
 
 extension StartsWith: Printer where Input: AppendableCollection {
   @inlinable
-  public func print(_ output: ()) -> Input? {
-    .init(self.possiblePrefix)
+  public func print(_ output: (), to input: inout Input) {
+    input.append(contentsOf: self.possiblePrefix)
   }
 }
 

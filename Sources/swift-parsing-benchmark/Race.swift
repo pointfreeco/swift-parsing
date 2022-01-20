@@ -181,7 +181,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     run: { output = try races.parse(input) },
     tearDown: {
       precondition(output.count == 3)
-      precondition(races.print(output)?.elementsEqual(input.utf8) == true)
+      precondition(try! races.print(output).elementsEqual(input.utf8) == true)
     }
   )
 }

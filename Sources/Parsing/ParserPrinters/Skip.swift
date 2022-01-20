@@ -16,8 +16,8 @@ public struct Skip<Parsers>: Parser where Parsers: Parser {
 
 extension Skip: Printer where Parsers: Printer, Parsers.Output == Void {
   @inlinable
-  public func print(_ output: ()) -> Parsers.Input? {
-    self.parsers.print()
+  public func print(_ output: (), to input: inout Parsers.Input) rethrows {
+    try self.parsers.print(to: &input)
   }
 }
 

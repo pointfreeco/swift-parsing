@@ -80,12 +80,12 @@ extension Parsers {
 
 extension Parsers.BoolParser: Printer where Input: AppendableCollection {
   @inlinable
-  public func print(_ output: Bool) -> Input? {
+  public func print(_ output: Bool, to input: inout Input) {
     switch output {
     case true:
-      return Input([116, 114, 117, 101] /*"true".utf8*/)
+      input.append(contentsOf: [116, 114, 117, 101] /*"true".utf8*/)
     case false:
-      return Input([102, 97, 108, 115, 101] /*"false".utf8*/)
+      input.append(contentsOf: [102, 97, 108, 115, 101] /*"false".utf8*/)
     }
   }
 }

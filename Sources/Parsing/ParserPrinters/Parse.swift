@@ -39,7 +39,7 @@ public struct Parse<Parsers>: Parser where Parsers: Parser {
 
 extension Parse: Printer where Parsers: Printer {
   @inlinable
-  public func print(_ output: Parsers.Output) -> Parsers.Input? {
-    self.parsers.print(output)
+  public func print(_ output: Parsers.Output, to input: inout Parsers.Input) rethrows {
+    try self.parsers.print(output, to: &input)
   }
 }

@@ -1,9 +1,10 @@
-extension Parser {
+extension Parser where Input: Appendable {
   @inlinable
   public func printing(_ input: Input) -> Parsers.Printing<Self> {
     .init(upstream: self, input: input)
   }
 }
+// .printing(" "[...].utf8)
 
 extension Parser where Input: AppendableCollection {
   @inlinable
@@ -12,9 +13,14 @@ extension Parser where Input: AppendableCollection {
     .init(upstream: self, input: input)
   }
 }
+// .printing(" ".utf8)
 
 extension Parsers {
-  public struct Printing<Upstream>: ParserPrinter where Upstream: Parser {
+  public struct Printing<Upstream>: ParserPrinter
+  where
+    Upstream: Parser,
+    Upstream.Input: Appendable
+  {
     public let upstream: Upstream
     public let input: Upstream.Input
 
@@ -33,8 +39,8 @@ extension Parsers {
     }
 
     @inlinable
-    public func print(_ output: ()) -> Upstream.Input? {
-      self.input
+    public func print(_ output: (), to input: inout Upstream.Input) {
+      input.append(contentsOf: self.input)
     }
   }
 }

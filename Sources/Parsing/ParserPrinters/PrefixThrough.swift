@@ -50,15 +50,13 @@ where
   }
 }
 
-extension PrefixThrough: Printer {
+extension PrefixThrough: Printer where Input: AppendableCollection {
   @inlinable
-  public func print(_ output: Input) -> Input? {
+  public func print(_ output: Input, to input: inout Input) throws {
     var output = output
-    guard
-      let input = try? self.parse(&output),
-      output.isEmpty
-    else { return nil }
-    return input
+    let appended = try self.parse(&output)
+    guard !output.isEmpty else { throw ParsingError() }
+    input.append(contentsOf: appended)
   }
 }
 

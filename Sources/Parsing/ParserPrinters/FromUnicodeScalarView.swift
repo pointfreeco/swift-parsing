@@ -19,8 +19,10 @@ where
 
 extension FromUnicodeScalarView: Printer where UnicodeScalarsParser: Printer {
   @inlinable
-  public func print(_ output: UnicodeScalarsParser.Output) -> Input? {
-    self.unicodeScalarsParser.print(output).map(self.fromUnicodeScalars)
+  public func print(_ output: UnicodeScalarsParser.Output, to input: inout Input) rethrows {
+    var unicodeScalarsInput = self.toUnicodeScalars(input)
+    try self.unicodeScalarsParser.print(output, to: &unicodeScalarsInput)
+    input = self.fromUnicodeScalars(unicodeScalarsInput)
   }
 }
 

@@ -41,7 +41,7 @@ extension Parsers {
 
 extension Parsers.MapConversion: Printer where Upstream: Printer {
   @inlinable
-  public func print(_ output: Downstream.Output) -> Upstream.Input? {
-    (try? self.downstream.unapply(output)).flatMap(self.upstream.print)
+  public func print(_ output: Downstream.Output, to input: inout Upstream.Input) rethrows {
+    try self.upstream.print(self.downstream.unapply(output), to: &input)
   }
 }

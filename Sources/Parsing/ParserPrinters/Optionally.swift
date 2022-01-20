@@ -18,17 +18,10 @@ public struct Optionally<Wrapped>: Parser where Wrapped: Parser {
   }
 }
 
-extension Optionally: Printer
-where
-  Wrapped: Printer,
-  Wrapped.Input: Appendable
-{
+extension Optionally: Printer where Wrapped: Printer {
   @inlinable
-  public func print(_ output: Wrapped.Output?) -> Wrapped.Input? {
-    guard
-      let output = output,
-      let input = self.wrapped.print(output)
-    else { return Wrapped.Input() }
-    return input
+  public func print(_ output: Wrapped.Output?, to input: inout Wrapped.Input) rethrows {
+    guard let output = output else { return }
+    try? self.wrapped.print(output, to: &input) // TODO: Should this fail?
   }
 }

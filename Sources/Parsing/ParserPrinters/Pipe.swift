@@ -47,10 +47,3 @@ extension Parsers {
     }
   }
 }
-
-extension Parsers.Pipe: Printer where Upstream: Printer, Downstream: Printer {
-  @inlinable
-  public func print(_ output: Downstream.Output) -> Upstream.Input? {
-    self.downstream.print(output).flatMap(self.upstream.print)
-  }
-}

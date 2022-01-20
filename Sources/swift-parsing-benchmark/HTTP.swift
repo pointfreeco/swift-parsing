@@ -146,7 +146,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     run: { output = try request.parse(input) },
     tearDown: {
       precondition(output == expected)
-      precondition(request.print(output)?.elementsEqual(input.utf8) == true)
+      precondition(try! request.print(output).elementsEqual(input.utf8) == true)
     }
   )
 }

@@ -55,20 +55,20 @@ where
   }
 }
 
-extension Stream: Printer where Parsers: Printer {
-  @inlinable
-  public func print(_ output: [Parsers.Output]) -> AnyIterator<Parsers.Input>? {
-    var inputs: [Parsers.Input] = []
-    inputs.reserveCapacity(output.count)
-    for output in output {
-      guard let input = self.parsers.print(output)
-      else { return nil }
-
-      inputs.append(input)
-    }
-    return AnyIterator(inputs.makeIterator())
-  }
-}
+//extension Stream: Printer where Parsers: Printer {
+//  @inlinable
+//  public func print(_ output: [Parsers.Output]) -> AnyIterator<Parsers.Input>? {
+//    var inputs: [Parsers.Input] = []
+//    inputs.reserveCapacity(output.count)
+//    for output in output {
+//      guard let input = self.parsers.print(output)
+//      else { return nil }
+//
+//      inputs.append(input)
+//    }
+//    return AnyIterator(inputs.makeIterator())
+//  }
+//}
 
 extension Parsers {
   public typealias Stream = Parsing.Stream  // NB: Convenience type alias for discovery

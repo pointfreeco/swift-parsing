@@ -4,14 +4,10 @@ extension Optional: Parser where Wrapped: Parser {
   }
 }
 
-extension Optional: Printer where Wrapped: Printer, Wrapped.Input: Appendable {
-  public func print(_ output: Wrapped.Output?) -> Wrapped.Input? {
-    switch self {
-    case let .some(printer):
-      return output.flatMap(printer.print)
-    case .none:
-      return .init()
-    }
+extension Optional: Printer where Wrapped: Printer {
+  public func print(_ output: Wrapped.Output?, to input: inout Wrapped.Input) rethrows {
+    guard let output = output else { return }
+    try self?.print(output, to: &input)
   }
 }
 
@@ -33,17 +29,8 @@ extension Parsers {
   }
 }
 
-extension Parsers.OptionalVoid: Printer
-where
-  Wrapped: Printer,
-  Wrapped.Input: Appendable
-{
-  public func print(_ output: ()) -> Wrapped.Input? {
-    switch self.wrapped {
-    case let .some(printer):
-      return printer.print()
-    case .none:
-      return .init()
-    }
+extension Parsers.OptionalVoid: Printer where Wrapped: Printer {
+  public func print(_ output: (), to input: inout Wrapped.Input) rethrows {
+    try self.wrapped?.print(to: &input)
   }
 }

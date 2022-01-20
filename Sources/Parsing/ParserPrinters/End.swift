@@ -14,11 +14,9 @@ public struct End<Input>: Parser where Input: Collection {
   }
 }
 
-extension End: Printer where Input: Appendable {
+extension End: Printer {
   @inlinable
-  public func print(_ output: Void) -> Input? {
-    .init()
-  }
+  public func print(_ output: Void, to input: inout Input) {}
 }
 
 extension End where Input == Substring {
