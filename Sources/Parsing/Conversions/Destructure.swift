@@ -16,12 +16,12 @@ extension Conversions {
     }
 
     @inlinable
-    public func apply(_ input: Values) -> Root? {
+    public func apply(_ input: Values) -> Root {
       self.initializer(input)
     }
 
     @inlinable
-    public func unapply(_ output: Root) -> Values? {
+    public func unapply(_ output: Root) -> Values {
       unsafeBitCast(output, to: Values.self)
     }
   }

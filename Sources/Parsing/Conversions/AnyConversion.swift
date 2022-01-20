@@ -1,13 +1,13 @@
 public struct AnyConversion<Input, Output>: Conversion {
   @usableFromInline
-  let _apply: (Input) -> Output?
+  let _apply: (Input) throws -> Output
 
   @usableFromInline
-  let _unapply: (Output) -> Input?
+  let _unapply: (Output) throws -> Input
 
   public init(
-    apply: @escaping (Input) -> Output?,
-    unapply: @escaping (Output) -> Input?
+    apply: @escaping (Input) throws -> Output,
+    unapply: @escaping (Output) throws -> Input
   ) {
     self._apply = apply
     self._unapply = unapply
@@ -17,11 +17,11 @@ public struct AnyConversion<Input, Output>: Conversion {
     self.init(apply: conversion.apply, unapply: conversion.unapply)
   }
 
-  public func apply(_ input: Input) -> Output? {
-    self._apply(input)
+  public func apply(_ input: Input) throws -> Output {
+    try self._apply(input)
   }
 
-  public func unapply(_ output: Output) -> Input? {
-    self._unapply(output)
+  public func unapply(_ output: Output) throws -> Input {
+    try self._unapply(output)
   }
 }

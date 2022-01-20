@@ -17,13 +17,14 @@ extension Conversions {
     }
 
     @inlinable
-    public func apply(_ input: Void) -> Output? {
+    public func apply(_ input: Void) -> Output {
       self.output
     }
 
     @inlinable
-    public func unapply(_ output: Output) -> Void? {
-      self.output == output ? () : nil
+    public func unapply(_ output: Output) throws {
+      guard self.output == output
+      else { throw ParsingError() }
     }
   }
 }

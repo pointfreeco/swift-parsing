@@ -22,21 +22,19 @@ extension Parsers {
       self.downstream = downstream
     }
 
-    // TODO: rethrows
     @inlinable
     @inline(__always)
-    public func parse(_ input: inout Upstream.Input) throws -> Downstream.Output {
+    public func parse(_ input: inout Upstream.Input) rethrows -> Downstream.Output {
       let original = input
 
       let downstreamInput = try self.upstream.parse(&input)
 
-      guard let output = self.downstream.apply(downstreamInput)
-      else {
+      do {
+        return try self.downstream.apply(downstreamInput)
+      } catch {
         input = original
-        throw ParsingError()
+        throw error
       }
-
-      return output
     }
   }
 }
@@ -44,6 +42,6 @@ extension Parsers {
 extension Parsers.MapConversion: Printer where Upstream: Printer {
   @inlinable
   public func print(_ output: Downstream.Output) -> Upstream.Input? {
-    self.downstream.unapply(output).flatMap(self.upstream.print)
+    (try? self.downstream.unapply(output)).flatMap(self.upstream.print)
   }
 }

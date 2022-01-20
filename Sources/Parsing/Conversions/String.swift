@@ -16,12 +16,12 @@ extension Conversions {
     public init() {}
 
     @inlinable
-    public func apply(_ input: Substring) -> String? {
+    public func apply(_ input: Substring) -> String {
       String(input)
     }
 
     @inlinable
-    public func unapply(_ output: String) -> Substring? {
+    public func unapply(_ output: String) -> Substring {
       Substring(output)
     }
   }
@@ -36,11 +36,11 @@ extension Conversions {
     public init() {}
 
     @inlinable
-    public func apply(_ input: Input) -> String? {
+    public func apply(_ input: Input) -> String {
       String(decoding: input, as: UTF8.self)
     }
 
-    public func unapply(_ output: String) -> Input? {
+    public func unapply(_ output: String) -> Input {
       .init(output.utf8)
     }
   }
