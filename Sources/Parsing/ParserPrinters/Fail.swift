@@ -8,8 +8,8 @@ public struct Fail<Input, Output>: Parser {
   public init() {}
 
   @inlinable
-  public func parse(_ input: inout Input) -> Output? {
-    nil
+  public func parse(_ input: inout Input) throws -> Output {
+    throw ParsingError()
   }
 }
 

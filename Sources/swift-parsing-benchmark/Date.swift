@@ -138,7 +138,7 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
   let dateTimeParser = dateTime.compactMap(Calendar.current.date(from:))
   suite.benchmark(
     name: "Parser",
-    run: { output = dateTimeParser.parse(input) },
+    run: { output = try dateTimeParser.parse(input) },
     tearDown: { precondition(output == expected) }
   )
 

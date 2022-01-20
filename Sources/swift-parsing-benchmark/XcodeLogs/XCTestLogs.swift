@@ -13,7 +13,7 @@ let xcodeLogsSuite = BenchmarkSuite(name: "Xcode Logs") { suite in
     name: "Parser",
     run: {
       var input = xcodeLogs[...].utf8
-      output = testResultsUtf8.parse(&input)!
+      output = try testResultsUtf8.parse(&input)
     },
     tearDown: {
       precondition(output.count == 284)
@@ -56,11 +56,11 @@ private let testCaseBody = Parse {
 struct TestCaseBody: Parser {
   func parse(
     _ input: inout Substring.UTF8View
-  ) -> (file: Substring.UTF8View, line: Int, message: Substring.UTF8View)? {
+  ) throws -> (file: Substring.UTF8View, line: Int, message: Substring.UTF8View) {
     let original = input
 
     guard input.first == .init(ascii: "/")
-    else { return nil }
+    else { throw ParsingError() }
 
     var slashCount = 0
     let filePathPrefix = input.prefix { codeUnit in
@@ -71,17 +71,19 @@ struct TestCaseBody: Parser {
     }
 
     input.removeFirst(filePathPrefix.count)
-    guard
-      var failure = PrefixUpTo(filePathPrefix).parse(&input)
-        ?? PrefixUpTo("Test Case '-[".utf8).parse(&input)
-    else {
-      input = original
-      return nil
-    }
+    do {
+      var failure = try OneOf {
+        PrefixUpTo(filePathPrefix)
+        PrefixUpTo("Test Case '-[".utf8)
+      }
+      .parse(&input)
 
-    failure.removeLast()  // trailing newline
-    let output = testCaseBody.parse(&failure)
-    return output
+      failure.removeLast()  // trailing newline
+      return try testCaseBody.parse(&failure)
+    } catch {
+      input = original
+      throw error
+    }
   }
 }
 

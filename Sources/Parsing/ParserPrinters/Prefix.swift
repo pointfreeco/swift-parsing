@@ -148,11 +148,11 @@ where
 
   @inlinable
   @inline(__always)
-  public func parse(_ input: inout Input) -> Input? {
+  public func parse(_ input: inout Input) throws -> Input {
     var prefix = maxLength.map(input.prefix) ?? input
     prefix = predicate.map { prefix.prefix(while: $0) } ?? prefix
     let count = prefix.count
-    guard count >= self.minLength else { return nil }
+    guard count >= self.minLength else { throw ParsingError() }
     input.removeFirst(count)
     return prefix
   }

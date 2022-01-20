@@ -9,11 +9,11 @@ final class FromSubstringTests: XCTestCase {
     }
 
     var input = "caf\u{00E9}"[...].utf8
-    XCTAssertNotNil(p.parse(&input))
+    XCTAssertNoThrow(try p.parse(&input))
     XCTAssert(input.isEmpty)
 
     input = "cafe\u{0301}"[...].utf8
-    XCTAssertNotNil(p.parse(&input))
+    XCTAssertNoThrow(try p.parse(&input))
     XCTAssert(input.isEmpty)
   }
 
@@ -24,11 +24,11 @@ final class FromSubstringTests: XCTestCase {
     }
 
     var input = "caf\u{00E9}"[...].unicodeScalars
-    XCTAssertNotNil(p.parse(&input))
+    XCTAssertNoThrow(try p.parse(&input))
     XCTAssert(input.isEmpty)
 
     input = "cafe\u{0301}"[...].unicodeScalars
-    XCTAssertNotNil(p.parse(&input))
+    XCTAssertNoThrow(try p.parse(&input))
     XCTAssert(input.isEmpty)
   }
 }

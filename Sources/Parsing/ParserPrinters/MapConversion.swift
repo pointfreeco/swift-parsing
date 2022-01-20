@@ -22,18 +22,18 @@ extension Parsers {
       self.downstream = downstream
     }
 
+    // TODO: rethrows
     @inlinable
     @inline(__always)
-    public func parse(_ input: inout Upstream.Input) -> Downstream.Output? {
+    public func parse(_ input: inout Upstream.Input) throws -> Downstream.Output {
       let original = input
 
-      guard let downstreamInput = self.upstream.parse(&input)
-      else { return nil }
+      let downstreamInput = try self.upstream.parse(&input)
 
       guard let output = self.downstream.apply(downstreamInput)
       else {
         input = original
-        return nil
+        throw ParsingError()
       }
 
       return output

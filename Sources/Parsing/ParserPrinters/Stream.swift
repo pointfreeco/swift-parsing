@@ -44,14 +44,12 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout AnyIterator<Parsers.Input>) -> [Parsers.Output]? {
+  public func parse(_ input: inout AnyIterator<Parsers.Input>) rethrows -> [Parsers.Output] {
     var buffer = Parsers.Input()
     var outputs: Output = []
     while let chunk = input.next() {
       buffer.append(contentsOf: chunk)
-      while let output = self.parsers.parse(&buffer) {
-        outputs.append(output)
-      }
+      try outputs.append(self.parsers.parse(&buffer))
     }
     return outputs
   }

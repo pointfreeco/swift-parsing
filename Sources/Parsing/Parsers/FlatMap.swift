@@ -36,16 +36,15 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> NewParser.Output? {
+    public func parse(_ input: inout Upstream.Input) rethrows -> NewParser.Output {
       let original = input
-      guard let newParser = self.upstream.parse(&input).map(self.transform)
-      else { return nil }
-      guard let output = newParser.parse(&input)
-      else {
+      let newParser = self.transform(try self.upstream.parse(&input))
+      do {
+        return try newParser.parse(&input)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return output
     }
   }
 }

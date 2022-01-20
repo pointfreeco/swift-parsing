@@ -19,8 +19,8 @@ final class OneOfBuilderTests: XCTestCase {
       "member".map { Role.member }
     }
 
-    XCTAssertEqual(.guest, parser.parse("guest"))
-    XCTAssertEqual(nil, parser.parse("admin"))
+    XCTAssertEqual(.guest, try parser.parse("guest"))
+    XCTAssertThrowsError(try parser.parse("admin"))
 
     parseAdmins = true
     parser = OneOf {
@@ -31,7 +31,7 @@ final class OneOfBuilderTests: XCTestCase {
       "guest".map { Role.guest }
       "member".map { Role.member }
     }
-    XCTAssertEqual(.guest, parser.parse("guest"))
-    XCTAssertEqual(.admin, parser.parse("admin"))
+    XCTAssertEqual(.guest, try parser.parse("guest"))
+    XCTAssertEqual(.admin, try parser.parse("admin"))
   }
 }

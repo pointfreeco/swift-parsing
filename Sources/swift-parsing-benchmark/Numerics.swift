@@ -21,7 +21,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
 
     suite.benchmark(
       name: "Int.parser",
-      run: { output = Int.parser(of: Substring.UTF8View.self).parse(input) },
+      run: { output = try Int.parser(of: Substring.UTF8View.self).parse(input) },
       tearDown: { precondition(output == expected) }
     )
 
@@ -48,7 +48,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     }
     suite.benchmark(
       name: "Comma separated: Int.parser",
-      run: { output = parser.parse(input) },
+      run: { output = try parser.parse(input) },
       tearDown: { precondition(output == expected) }
     )
 
@@ -93,7 +93,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     suite.benchmark(
       name: "Double.parser",
       run: {
-        output = Double.parser(of: Substring.UTF8View.self).parse(input)
+        output = try Double.parser(of: Substring.UTF8View.self).parse(input)
       },
       tearDown: { precondition(output == expected) }
     )
@@ -121,7 +121,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     }
     suite.benchmark(
       name: "Comma separated: Double.parser",
-      run: { output = parser.parse(input) },
+      run: { output = try parser.parse(input) },
       tearDown: { precondition(output == expected) }
     )
 

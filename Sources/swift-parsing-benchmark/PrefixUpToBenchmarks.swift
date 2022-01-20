@@ -7,7 +7,8 @@ let prefixUpToSuite = BenchmarkSuite(name: "PrefixUpTo") { suite in
 
   suite.benchmark("Parser") {
     var v = str[...].utf8
-    precondition(PrefixUpTo("Hello".utf8).parse(&v)!.count == 10_000)
+    let output = try PrefixUpTo("Hello".utf8).parse(&v)
+    precondition(output.count == 10_000)
   }
 
   if #available(macOS 10.15, *) {

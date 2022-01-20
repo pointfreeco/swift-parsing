@@ -39,7 +39,7 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
       name: "Parser: Substring",
       run: {
         var input = input[...]
-        output = users.parse(&input)!
+        output = try users.parse(&input)
       },
       tearDown: {
         precondition(output == expectedOutput)
@@ -65,7 +65,7 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
       name: "Parser: UTF8",
       run: {
         var input = input[...].utf8
-        output = users.parse(&input)!
+        output = try users.parse(&input)
       },
       tearDown: {
         precondition(output == expectedOutput)

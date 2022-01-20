@@ -30,14 +30,14 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
+    public func parse(_ input: inout Upstream.Input) throws -> Upstream.Output {
       let original = input
+      let output = try self.upstream.parse(&input)
       guard
-        let output = self.upstream.parse(&input),
         self.predicate(output)
       else {
         input = original
-        return nil
+        throw ParsingError()
       }
       return output
     }

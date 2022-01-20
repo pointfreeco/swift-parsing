@@ -36,13 +36,10 @@ where
   }
 
   @inlinable
-  func parse(_ input: inout URLRequestData) -> Parsers.Output? {
-    guard
-      var body = input.body,
-      let output = self.bodyParser.parse(&body),
-      body.isEmpty
-    else { return nil }
-
+  func parse(_ input: inout URLRequestData) throws -> Parsers.Output {
+    guard var body = input.body else { throw ParsingError() }
+    let output = try self.bodyParser.parse(&body)
+    guard body.isEmpty else { throw ParsingError() }
     input.body = nil
     return output
   }
@@ -60,10 +57,8 @@ struct JSON<Value: Decodable>: Parser {
   }
 
   @inlinable
-  func parse(_ input: inout ArraySlice<UInt8>) -> Value? {
-    guard
-      let output = try? decoder.decode(Value.self, from: Data(input))
-    else { return nil }
+  func parse(_ input: inout ArraySlice<UInt8>) throws -> Value {
+    let output = try decoder.decode(Value.self, from: Data(input))
     input = []
     return output
   }
@@ -84,10 +79,9 @@ struct Method: Parser {
   }
 
   @inlinable
-  func parse(_ input: inout URLRequestData) -> Void? {
-    guard input.method?.uppercased() == self.name else { return nil }
+  func parse(_ input: inout URLRequestData) throws {
+    guard input.method?.uppercased() == self.name else { throw ParsingError() }
     input.method = nil
-    return ()
   }
 }
 
@@ -104,12 +98,10 @@ where
   }
 
   @inlinable
-  func parse(_ input: inout URLRequestData) -> Component.Output? {
-    guard
-      var component = input.path.first,
-      let output = self.componentParser.parse(&component),
-      component.isEmpty
-    else { return nil }
+  func parse(_ input: inout URLRequestData) throws -> Component.Output {
+    guard var component = input.path.first else { throw ParsingError() }
+    let output = try self.componentParser.parse(&component)
+    guard component.isEmpty else { throw ParsingError() }
 
     input.path.removeFirst()
     return output
@@ -121,10 +113,8 @@ struct PathEnd: Parser {
   init() {}
 
   @inlinable
-  func parse(_ input: inout URLRequestData) -> Void? {
-    guard input.path.isEmpty
-    else { return nil }
-    return ()
+  func parse(_ input: inout URLRequestData) throws {
+    guard input.path.isEmpty else { throw ParsingError() }
   }
 }
 
@@ -161,19 +151,23 @@ where
   }
 
   @inlinable
-  func parse(_ input: inout URLRequestData) -> Value.Output? {
-    guard
-      let wrapped = input.query[self.name]?.first,
-      var value = wrapped,
-      let output = self.valueParser.parse(&value),
-      value.isEmpty
-    else { return defaultValue }
-
-    input.query[self.name]?.removeFirst()
-    if input.query[self.name]?.isEmpty ?? true {
-      input.query[self.name] = nil
+  func parse(_ input: inout URLRequestData) throws -> Value.Output {
+    do {
+      guard
+        let wrapped = input.query[self.name]?.first,
+        var value = wrapped
+      else { throw ParsingError() }
+      let output = try self.valueParser.parse(&value)
+      guard value.isEmpty else { throw ParsingError() }
+      input.query[self.name]?.removeFirst()
+      if input.query[self.name]?.isEmpty ?? true {
+        input.query[self.name] = nil
+      }
+      return output
+    } catch {
+      guard let defaultValue = defaultValue else { throw error }
+      return defaultValue
     }
-    return output
   }
 }
 
@@ -211,15 +205,15 @@ where
   }
 
   @inlinable
-  func parse(_ input: inout URLRequestData) -> Parsers.Output? {
+  func parse(_ input: inout URLRequestData) throws -> Parsers.Output {
     let original = input
+    let output = try self.parsers.parse(&input)
     guard
-      let output = self.parsers.parse(&input),
       input.path.isEmpty,
-      input.method == nil || Method.get.parse(&input) != nil
+      input.method == nil || (try? Method.get.parse(&input)) != nil
     else {
       input = original
-      return nil
+      throw ParsingError()
     }
     return output
   }

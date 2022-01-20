@@ -2,7 +2,7 @@ import Parsing
 import XCTest
 
 final class StreamTests: XCTestCase {
-  func testBasics() throws {
+  func testBasics() {
     var stream = AnyIterator(
       sequence(state: 0) { state -> ArraySlice<UInt8>? in
         state += 1
@@ -10,13 +10,17 @@ final class StreamTests: XCTestCase {
       }
     )
 
-    let output = try XCTUnwrap(
-      Int.parser(of: ArraySlice<UInt8>.self)
-        .skip(Array("\n".utf8))
-        .stream
+    XCTAssertEqual(
+      Array(
+        try Stream {
+          Int.parser(of: ArraySlice<UInt8>.self)
+          Skip {
+            Array("\n".utf8)
+          }
+        }
         .parse(&stream)
+      ),
+      Array(1...20)
     )
-
-    XCTAssertEqual(Array(output), Array(1...20))
   }
 }

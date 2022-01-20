@@ -21,7 +21,7 @@ let boolSuite = BenchmarkSuite(name: "Bool") { suite in
 
   suite.benchmark(
     name: "BoolParser",
-    run: { output = Bool.parser(of: Substring.UTF8View.self).parse(input) },
+    run: { output = try Bool.parser(of: Substring.UTF8View.self).parse(input) },
     tearDown: { precondition(output == expected) }
   )
 

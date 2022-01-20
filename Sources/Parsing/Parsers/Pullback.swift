@@ -46,8 +46,8 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Input) -> Downstream.Output? {
-      self.downstream.parse(&input[keyPath: self.keyPath])
+    public func parse(_ input: inout Input) rethrows -> Downstream.Output {
+      try self.downstream.parse(&input[keyPath: self.keyPath])
     }
 
     @inlinable

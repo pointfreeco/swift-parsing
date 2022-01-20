@@ -7,12 +7,12 @@ private struct Color: Equatable {
 
 struct HexByte<Input>: Parser
 where Input: Collection, Input.SubSequence == Input, Input.Element == UInt8 {
-  func parse(_ input: inout Input) -> UInt8? {
+  func parse(_ input: inout Input) throws -> UInt8 {
     let prefix = input.prefix(2)
     guard
       prefix.count == 2,
       let byte = UInt8(String(decoding: prefix, as: UTF8.self), radix: 16)
-    else { return nil }
+    else { throw ParsingError() }
     input.removeFirst(2)
     return byte
   }
@@ -43,7 +43,7 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
 
   suite.benchmark(
     name: "Parser",
-    run: { output = hexColor.parse(input) },
+    run: { output = try hexColor.parse(input) },
     tearDown: {
       precondition(output == expected)
       precondition(hexColor.print(output)?.elementsEqual("#ff0000".utf8) == true)

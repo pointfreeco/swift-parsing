@@ -30,7 +30,7 @@ where
 
   @inlinable
   @inline(__always)
-  public func parse(_ input: inout Input) -> Input? {
+  public func parse(_ input: inout Input) throws -> Input {
     guard let first = self.possibleMatch.first else { return self.possibleMatch }
     let count = self.possibleMatch.count
     let original = input
@@ -44,14 +44,15 @@ where
       input.removeFirst()
     }
     input = original
-    return nil
+    throw ParsingError()
   }
 }
 
 extension PrefixUpTo: Printer {
   @inlinable
   public func print(_ output: Input) -> Input? {
-    guard self.parse(output) == nil
+    var output = output
+    guard (try? self.parse(&output)) == nil
     else { return nil }
     return output
   }

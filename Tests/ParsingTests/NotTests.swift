@@ -17,13 +17,13 @@ class NotTests: XCTestCase {
       }
     }
 
-    let result = uncommentedLine.parse(&input)
+    let result = try uncommentedLine.parse(&input)
 
     XCTAssertEqual(result, "let foo = true")
     XCTAssertEqual(input, "let bar = false"[...])
   }
 
-  func testNotUpstreamParses() throws {
+  func testNotUpstreamParses() {
     var input = """
       // a comment
       let foo = true
@@ -34,9 +34,7 @@ class NotTests: XCTestCase {
       Prefix { $0 != "\n" }
     }
 
-    let result = uncommentedLine.parse(&input)
-
-    XCTAssertNil(result)
+    XCTAssertThrowsError(try uncommentedLine.parse(&input))
     XCTAssertEqual(
       input,
       """
@@ -44,5 +42,4 @@ class NotTests: XCTestCase {
       let foo = true
       """[...])
   }
-
 }
