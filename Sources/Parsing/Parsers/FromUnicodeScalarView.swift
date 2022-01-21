@@ -5,6 +5,9 @@ where
   UnicodeScalarsParser: Parser,
   UnicodeScalarsParser.Input == Substring.UnicodeScalarView
 {
+  public typealias Input = Input
+  public typealias Output = UnicodeScalarsParser.Output
+
   public let unicodeScalarsParser: UnicodeScalarsParser
   public let toUnicodeScalars: (Input) -> Substring.UnicodeScalarView
   public let fromUnicodeScalars: (Substring.UnicodeScalarView) -> Input

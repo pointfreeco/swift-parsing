@@ -32,6 +32,9 @@ extension Parsers {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/compactMap(_:)`` operation, which constructs this type.
   public struct CompactMap<Upstream, Output>: Parser where Upstream: Parser {
+    public typealias Input = Upstream.Input
+    public typealias Output = Output
+
     public let upstream: Upstream
     public let transform: (Upstream.Output) -> Output?
 

@@ -4,6 +4,9 @@
 /// Fail<Substring, Int>().parse("123 Hello") // (output: nil, rest: "123 Hello")
 /// ```
 public struct Fail<Input, Output>: Parser {
+  public typealias Input = Input
+  public typealias Output = Output
+
   @inlinable
   public init() {}
 

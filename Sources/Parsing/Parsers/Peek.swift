@@ -15,6 +15,9 @@
 /// The subsequent `.take(...)` will consume the first character, along with any subsequent characters
 /// that match the criteria.
 public struct Peek<Upstream>: Parser where Upstream: Parser {
+  public typealias Input = Upstream.Input
+  public typealias Output = Upstream.Output
+
   /// The parser from which this parser checks is successful.
   public let upstream: Upstream
 

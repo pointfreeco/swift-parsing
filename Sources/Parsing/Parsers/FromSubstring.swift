@@ -18,6 +18,9 @@ where
   SubstringParser: Parser,
   SubstringParser.Input == Substring
 {
+  public typealias Input = Input
+  public typealias Output = SubstringParser.Output
+
   public let substringParser: SubstringParser
   public let toSubstring: (Input) -> Substring
   public let fromSubstring: (Substring) -> Input

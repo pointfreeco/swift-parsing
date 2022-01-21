@@ -5,6 +5,9 @@
 /// End<Substring>().parse("Hello"[...]) // (output: nil, rest: "Hello")
 /// ```
 public struct End<Input>: Parser where Input: Collection {
+  public typealias Input = Input
+  public typealias Output = Void
+
   @inlinable
   public init() {}
 

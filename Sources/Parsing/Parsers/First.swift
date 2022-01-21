@@ -19,6 +19,9 @@ where
   Input: Collection,
   Input.SubSequence == Input
 {
+  public typealias Input = Input
+  public typealias Output = Input.Element
+
   @inlinable
   public init() {}
 

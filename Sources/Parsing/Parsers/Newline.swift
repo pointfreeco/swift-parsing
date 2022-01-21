@@ -7,6 +7,9 @@ where
   Input.SubSequence == Input,
   Input.Element == UTF8.CodeUnit
 {
+  public typealias Input = Input
+  public typealias Output = Void
+
   @inlinable
   public init() {}
 

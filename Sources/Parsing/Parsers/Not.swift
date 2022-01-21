@@ -10,6 +10,9 @@
 /// This will check the input doesn't start with `"//"`, and if it doesn't, it will return the
 /// the whole input up to the first newline.
 public struct Not<Upstream>: Parser where Upstream: Parser {
+  public typealias Input = Upstream.Input
+  public typealias Output = Void
+
   /// The parser from which this parser checks is successful.
   public let upstream: Upstream
 

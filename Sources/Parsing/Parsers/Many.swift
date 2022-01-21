@@ -38,6 +38,9 @@ where
   Separator: Parser,
   Element.Input == Separator.Input
 {
+  public typealias Input = Element.Input
+  public typealias Output = Result
+
   public let element: Element
   public let initialResult: Result
   public let maximum: Int
