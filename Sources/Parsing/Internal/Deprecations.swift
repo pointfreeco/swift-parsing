@@ -42,7 +42,7 @@ extension Many where Separator == Always<Input, Void> {
     self.initialResult = initialResult
     self.maximum = maximum
     self.minimum = minimum
-    self.separator = nil
+    self.separator = .init(())
     self.updateAccumulatingResult = updateAccumulatingResult
   }
 }
