@@ -6,7 +6,8 @@ where
   Input.Element == UTF8.CodeUnit
 {
   public typealias Input = Input
-  
+  public typealias Output = Input
+
   @inlinable
   public init() {}
 
