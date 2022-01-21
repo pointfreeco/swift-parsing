@@ -34,7 +34,10 @@ where
   First.Input == Second.Input,
   First.Output == Second.Output
 {
-  case first(First)
+  public typealias Input = First.Input
+  public typealias Output = First.Output
+
+case first(First)
   case second(Second)
 
   @inlinable

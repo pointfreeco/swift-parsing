@@ -1,4 +1,7 @@
 extension Array: Parser where Element: Equatable {
+  public typealias Input = SubSequence
+  public typealias Output = Void
+
   @inlinable
   public func parse(_ input: inout ArraySlice<Element>) -> Void? {
     guard input.starts(with: self) else { return nil }
@@ -8,6 +11,9 @@ extension Array: Parser where Element: Equatable {
 }
 
 extension String: Parser {
+  public typealias Input = SubSequence
+  public typealias Output = Void
+
   @inlinable
   public func parse(_ input: inout Substring) -> Void? {
     guard input.starts(with: self) else { return nil }
@@ -17,6 +23,9 @@ extension String: Parser {
 }
 
 extension String.UnicodeScalarView: Parser {
+  public typealias Input = SubSequence
+  public typealias Output = Void
+
   @inlinable
   public func parse(_ input: inout Substring.UnicodeScalarView) -> Void? {
     guard input.starts(with: self) else { return nil }
@@ -26,6 +35,9 @@ extension String.UnicodeScalarView: Parser {
 }
 
 extension String.UTF8View: Parser {
+  public typealias Input = SubSequence
+  public typealias Output = Void
+
   @inlinable
   public func parse(_ input: inout Substring.UTF8View) -> Void? {
     guard input.starts(with: self) else { return nil }

@@ -36,6 +36,9 @@ where
   Parsers: Parser,
   Parsers.Input: RangeReplaceableCollection
 {
+  public typealias Input = AnyIterator<Parsers.Input>
+  public typealias Output = [Parsers.Output]
+
   public let parsers: Parsers
 
   @inlinable

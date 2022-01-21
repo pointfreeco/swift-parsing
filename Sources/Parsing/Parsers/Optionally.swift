@@ -17,6 +17,9 @@
 /// }
 /// ```
 public struct Optionally<Wrapped>: Parser where Wrapped: Parser {
+  public typealias Input = Wrapped.Input
+  public typealias Output = Wrapped.Output?
+
   public let wrapped: Wrapped
 
   @inlinable

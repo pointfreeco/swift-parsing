@@ -15,6 +15,9 @@
 /// evens.parse("123") // nil
 /// ```
 public struct Fail<Input, Output>: Parser {
+  public typealias Input = Input
+  public typealias Output = Output
+
   @inlinable
   public init() {}
 

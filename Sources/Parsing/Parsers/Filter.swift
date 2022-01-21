@@ -20,6 +20,9 @@ extension Parsers {
   ///
   /// Returned from the ``Parser/filter(_:)`` method.
   public struct Filter<Upstream>: Parser where Upstream: Parser {
+    public typealias Input = Upstream.Input
+    public typealias Output = Upstream.Output
+
     public let upstream: Upstream
     public let predicate: (Upstream.Output) -> Bool
 

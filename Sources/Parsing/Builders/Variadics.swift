@@ -7,6 +7,9 @@ extension Parsers {
     P1: Parser,
     P0.Input == P1.Input
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output)
+
     public let p0: P0, p1: P1
 
     @inlinable public init(_ p0: P0, _ p1: P1) {
@@ -47,6 +50,9 @@ extension Parsers {
     P0.Input == P1.Input,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output)
+
     public let p0: P0, p1: P1
 
     @inlinable public init(_ p0: P0, _ p1: P1) {
@@ -86,6 +92,9 @@ extension Parsers {
     P0.Input == P1.Input,
     P0.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output)
+
     public let p0: P0, p1: P1
 
     @inlinable public init(_ p0: P0, _ p1: P1) {
@@ -126,6 +135,9 @@ extension Parsers {
     P0.Output == Void,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = ()
+
     public let p0: P0, p1: P1
 
     @inlinable public init(_ p0: P0, _ p1: P1) {
@@ -166,6 +178,9 @@ extension Parsers {
     P0.Input == P1.Input,
     P1.Input == P2.Input
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -211,6 +226,9 @@ extension Parsers {
     P1.Input == P2.Input,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output)
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -255,6 +273,9 @@ extension Parsers {
     P1.Input == P2.Input,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -300,6 +321,9 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output)
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -343,6 +367,9 @@ extension Parsers {
     P1.Input == P2.Input,
     P0.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -388,6 +415,9 @@ extension Parsers {
     P0.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output)
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -432,6 +462,9 @@ extension Parsers {
     P0.Output == Void,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output)
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -477,6 +510,9 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = ()
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -521,6 +557,9 @@ extension Parsers {
     P1.Input == P2.Input,
     P2.Input == P3.Input
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -571,6 +610,9 @@ extension Parsers {
     P2.Input == P3.Input,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -620,6 +662,9 @@ extension Parsers {
     P2.Input == P3.Input,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -670,6 +715,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -718,6 +766,9 @@ extension Parsers {
     P2.Input == P3.Input,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -768,6 +819,9 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -817,6 +871,9 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -867,6 +924,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -914,6 +974,9 @@ extension Parsers {
     P2.Input == P3.Input,
     P0.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -964,6 +1027,9 @@ extension Parsers {
     P0.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -1013,6 +1079,9 @@ extension Parsers {
     P0.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -1063,6 +1132,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -1111,6 +1183,9 @@ extension Parsers {
     P0.Output == Void,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -1161,6 +1236,9 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -1210,6 +1288,9 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -1260,6 +1341,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = ()
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -1308,6 +1392,9 @@ extension Parsers {
     P2.Input == P3.Input,
     P3.Input == P4.Input
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1363,6 +1450,9 @@ extension Parsers {
     P3.Input == P4.Input,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1417,6 +1507,9 @@ extension Parsers {
     P3.Input == P4.Input,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1472,6 +1565,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1525,6 +1621,9 @@ extension Parsers {
     P3.Input == P4.Input,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1580,6 +1679,9 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1634,6 +1736,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1689,6 +1794,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1741,6 +1849,9 @@ extension Parsers {
     P3.Input == P4.Input,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1796,6 +1907,9 @@ extension Parsers {
     P1.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1850,6 +1964,9 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1905,6 +2022,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1958,6 +2078,9 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2013,6 +2136,9 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2067,6 +2193,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2122,6 +2251,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2173,6 +2305,9 @@ extension Parsers {
     P3.Input == P4.Input,
     P0.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2228,6 +2363,9 @@ extension Parsers {
     P0.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2282,6 +2420,9 @@ extension Parsers {
     P0.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2337,6 +2478,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2390,6 +2534,9 @@ extension Parsers {
     P0.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2445,6 +2592,9 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2499,6 +2649,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2554,6 +2707,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2606,6 +2762,9 @@ extension Parsers {
     P0.Output == Void,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2661,6 +2820,9 @@ extension Parsers {
     P1.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2715,6 +2877,9 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2770,6 +2935,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2823,6 +2991,9 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2878,6 +3049,9 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2932,6 +3106,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2987,6 +3164,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = ()
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -3039,6 +3219,9 @@ extension Parsers {
     P3.Input == P4.Input,
     P4.Input == P5.Input
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output, P3.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3099,6 +3282,9 @@ extension Parsers {
     P4.Input == P5.Input,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3158,6 +3344,9 @@ extension Parsers {
     P4.Input == P5.Input,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output, P3.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3218,6 +3407,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3276,6 +3468,9 @@ extension Parsers {
     P4.Input == P5.Input,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3336,6 +3531,9 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3395,6 +3593,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3455,6 +3656,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3512,6 +3716,9 @@ extension Parsers {
     P4.Input == P5.Input,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P3.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3572,6 +3779,9 @@ extension Parsers {
     P2.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3631,6 +3841,9 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P3.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3691,6 +3904,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3749,6 +3965,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3809,6 +4028,9 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3868,6 +4090,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3928,6 +4153,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P1.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3984,6 +4212,9 @@ extension Parsers {
     P4.Input == P5.Input,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output, P3.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4044,6 +4275,9 @@ extension Parsers {
     P1.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4103,6 +4337,9 @@ extension Parsers {
     P1.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output, P3.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4163,6 +4400,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4221,6 +4461,9 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4281,6 +4524,9 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4340,6 +4586,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4400,6 +4649,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4457,6 +4709,9 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P3.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4517,6 +4772,9 @@ extension Parsers {
     P2.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4576,6 +4834,9 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P3.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4636,6 +4897,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4694,6 +4958,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4754,6 +5021,9 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4813,6 +5083,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4873,6 +5146,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P0.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4928,6 +5204,9 @@ extension Parsers {
     P4.Input == P5.Input,
     P0.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output, P3.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4988,6 +5267,9 @@ extension Parsers {
     P0.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5047,6 +5329,9 @@ extension Parsers {
     P0.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output, P3.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5107,6 +5392,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5165,6 +5453,9 @@ extension Parsers {
     P0.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5225,6 +5516,9 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5284,6 +5578,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5344,6 +5641,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5401,6 +5701,9 @@ extension Parsers {
     P0.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P3.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5461,6 +5764,9 @@ extension Parsers {
     P2.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5520,6 +5826,9 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P3.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5580,6 +5889,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5638,6 +5950,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5698,6 +6013,9 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5757,6 +6075,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5817,6 +6138,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P1.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5873,6 +6197,9 @@ extension Parsers {
     P0.Output == Void,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output, P3.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5933,6 +6260,9 @@ extension Parsers {
     P1.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output, P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5992,6 +6322,9 @@ extension Parsers {
     P1.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output, P3.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6052,6 +6385,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output, P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6110,6 +6446,9 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6170,6 +6509,9 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6229,6 +6571,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6289,6 +6634,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P2.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6346,6 +6694,9 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P3.Output, P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6406,6 +6757,9 @@ extension Parsers {
     P2.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P3.Output, P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6465,6 +6819,9 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P3.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6525,6 +6882,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P3.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6583,6 +6943,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P4.Output, P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6643,6 +7006,9 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P4.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6702,6 +7068,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (P5.Output)
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6762,6 +7131,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = ()
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -6809,6 +7181,9 @@ extension Parsers {
     P0.Input == P1.Input,
     P0.Output == P1.Output
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1
 
     @inlinable public init(_ p0: P0, _ p1: P1) {
@@ -6843,6 +7218,9 @@ extension Parsers {
     P0.Output == P1.Output,
     P1.Output == P2.Output
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -6882,6 +7260,9 @@ extension Parsers {
     P1.Output == P2.Output,
     P2.Output == P3.Output
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -6926,6 +7307,9 @@ extension Parsers {
     P2.Output == P3.Output,
     P3.Output == P4.Output
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -6975,6 +7359,9 @@ extension Parsers {
     P3.Output == P4.Output,
     P4.Output == P5.Output
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -7029,6 +7416,9 @@ extension Parsers {
     P4.Output == P5.Output,
     P5.Output == P6.Output
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6) {
@@ -7088,11 +7478,12 @@ extension Parsers {
     P5.Output == P6.Output,
     P6.Output == P7.Output
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -7154,11 +7545,12 @@ extension Parsers {
     P6.Output == P7.Output,
     P7.Output == P8.Output
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -7225,12 +7617,12 @@ extension Parsers {
     P7.Output == P8.Output,
     P8.Output == P9.Output
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8,
-      _ p9: P9
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8, _ p9: P9) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -7261,8 +7653,7 @@ extension Parsers {
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8,
-    _ p9: P9
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8, _ p9: P9
   ) -> Parsers.OneOf10<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> {
     Parsers.OneOf10(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)
   }

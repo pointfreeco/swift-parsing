@@ -26,6 +26,9 @@ extension Parsers {
     Upstream: Parser,
     NewParser.Input == Upstream.Input
   {
+    public typealias Input = Upstream.Input
+    public typealias Output = NewParser.Output
+
     public let upstream: Upstream
     public let transform: (Upstream.Output) -> NewParser
 

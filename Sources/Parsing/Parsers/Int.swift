@@ -84,6 +84,9 @@ extension Parsers {
     Input.Element == UTF8.CodeUnit,
     Output: FixedWidthInteger
   {
+    public typealias Input = Input
+    public typealias Output = Output
+
     /// If the parser will attempt to parse a leading `+` or `-` sign.
     public let isSigned: Bool
 
