@@ -28,6 +28,9 @@ where
   Parsers: Parser,
   Parsers.Input == ArraySlice<UInt8>
 {
+  typealias Input = URLRequestData
+  typealias Output = Parsers.Output
+
   let bodyParser: Parsers
 
   @inlinable
@@ -49,6 +52,9 @@ where
 }
 
 struct JSON<Value: Decodable>: Parser {
+  typealias Input = ArraySlice<UInt8>
+  typealias Output = Value
+
   let decoder: JSONDecoder
 
   @inlinable
@@ -70,6 +76,9 @@ struct JSON<Value: Decodable>: Parser {
 }
 
 struct Method: Parser {
+  typealias Input = URLRequestData
+  typealias Output = Void
+
   let name: String
 
   static let get = Self("GET")
@@ -96,6 +105,9 @@ where
   Component: Parser,
   Component.Input == Substring
 {
+  typealias Input = URLRequestData
+  typealias Output = Component.Output
+
   let componentParser: Component
 
   @inlinable
@@ -117,6 +129,9 @@ where
 }
 
 struct PathEnd: Parser {
+  typealias Input = URLRequestData
+  typealias Output = Void
+  
   @inlinable
   init() {}
 
@@ -133,6 +148,9 @@ where
   Value: Parser,
   Value.Input == Substring
 {
+  typealias Input = URLRequestData
+  typealias Output = Value.Output
+
   let defaultValue: Value.Output?
   let name: String
   let valueParser: Value
@@ -182,6 +200,9 @@ where
   Parsers: Parser,
   Parsers.Input == URLRequestData
 {
+  typealias Input = Parsers.Input
+  typealias Output = Parsers.Output
+
   let parsers: Parsers
 
   @inlinable

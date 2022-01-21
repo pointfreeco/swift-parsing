@@ -37,7 +37,7 @@ where
   public typealias Input = First.Input
   public typealias Output = First.Output
 
-case first(First)
+  case first(First)
   case second(Second)
 
   @inlinable

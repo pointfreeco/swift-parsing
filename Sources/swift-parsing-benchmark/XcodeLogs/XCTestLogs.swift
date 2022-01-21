@@ -54,6 +54,9 @@ private let testCaseBody = Parse {
 }
 
 struct TestCaseBody: Parser {
+  typealias Input = Substring.UTF8View
+  typealias Output = (file: Substring.UTF8View, line: Int, message: Substring.UTF8View)
+
   func parse(
     _ input: inout Substring.UTF8View
   ) -> (file: Substring.UTF8View, line: Int, message: Substring.UTF8View)? {

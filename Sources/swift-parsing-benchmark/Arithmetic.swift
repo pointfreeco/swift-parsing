@@ -54,6 +54,9 @@ where
   Operator.Input == Operand.Input,
   Operator.Output == (Operand.Output, Operand.Output) -> Operand.Output
 {
+  public typealias Input = Operand.Input
+  public typealias Output = Operand.Output
+
   public let `associativity`: Associativity
   public let operand: Operand
   public let `operator`: Operator
@@ -114,6 +117,6 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
 
   suite.benchmark("Parser") {
     var arithmetic = arithmetic[...].utf8
-    precondition(additionAndSubtraction.parse(&arithmetic) == -22.5)
+    precondition(additionAndSubtraction.parse(&arithmetic) == .some(-22.5))
   }
 }
