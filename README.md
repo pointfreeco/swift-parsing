@@ -93,7 +93,7 @@ Not only is this code a little messy, but it is also inefficient since we are al
 
 It would be more straightforward and efficient to instead describe how to consume bits from the beginning of the input and convert that into users. This is what this parser library excels at 😄.
 
-We can start by describing what it means to parse a single row, first by parsing an integer off the front of the string, and then parsing a comma:
+We can start by describing what it means to parse a single row, first by parsing an integer off the front of the string, and then parsing a comma. We can do this by using the `Parse` type, which acts as an entry point into describing a list of parsers that you want to run one after the other to consume from an input:
 
 ```swift
 let user = Parse {
@@ -283,7 +283,7 @@ The type of this parser is now:
 Parsers.Map<Prefix<Substring>, Substring>
 ```
 
-Notice how the type of the parser encodes the operations that we performed. This adds a bit of complexity when using these types, but comes with some performance benefits because Swift can usually optimize the creation of those nested types.
+Notice how the type of the parser encodes the operations that we performed. This adds a bit of complexity when using these types, but comes with some performance benefits because Swift can usually optimize away the creation of those nested types.
 
 ### Result builder
 
@@ -365,7 +365,9 @@ However, we are incurring the cost of parsing `Substring` for this entire parser
 let city = OneOf {
   "London".utf8.map { City.london }
   "New York".utf8.map { City.newYork }
-  FromSubstring { "San José" }.map { City.sanJose }
+  FromSubstring { 
+    "San José".map { City.sanJose }
+  }
 }
 ```
 
@@ -415,39 +417,39 @@ Bool.Bool.init                                      0.000 ns ±    inf %    1000
 Bool.BoolParser                                    42.000 ns ±  60.93 %    1000000
 Bool.Scanner.scanBool                             584.000 ns ±  16.36 %    1000000
 Color.Parser                                      208.000 ns ±  25.44 %    1000000
-CSV.Parser                                    1523875.000 ns ±   0.84 %        922
+CSV.Parser                                    1387958.000 ns ±   0.84 %        922
 CSV.Ad hoc mutating methods                    863479.000 ns ±   2.49 %       1656
 Date.Parser                                      5875.000 ns ±   6.55 %     241380
 Date.DateFormatter                              24166.000 ns ±   3.50 %      56837
 Date.ISO8601DateFormatter                       32625.000 ns ±   3.53 %      42868
 HTTP.HTTP                                        4875.000 ns ±   5.85 %     286041
-JSON.Parser                                      6167.000 ns ±   3.99 %     224290
+JSON.Parser                                      5917.000 ns ±   3.99 %     224290
 JSON.JSONSerialization                           1708.000 ns ±  11.68 %     802207
 Numerics.Int.init                                  41.000 ns ±  69.46 %    1000000
 Numerics.Int.parser                                42.000 ns ±  60.40 %    1000000
 Numerics.Scanner.scanInt                          125.000 ns ±  33.94 %    1000000
-Numerics.Comma separated: Int.parser          5002166.000 ns ±   0.75 %        279
+Numerics.Comma separated: Int.parser          3279938.000 ns ±   0.75 %        279
 Numerics.Comma separated: Scanner.scanInt    52291583.000 ns ±   0.43 %         27
 Numerics.Comma separated: String.split       13989062.000 ns ±   0.86 %        100
 Numerics.Double.init                               42.000 ns ± 103.43 %    1000000
 Numerics.Double.parser                             84.000 ns ±  57.35 %    1000000
 Numerics.Scanner.scanDouble                       167.000 ns ±  30.26 %    1000000
-Numerics.Comma separated: Double.parser      12062791.500 ns ±   1.03 %        116
+Numerics.Comma separated: Double.parser       9871333.500 ns ±   1.03 %        116
 Numerics.Comma separated: Scanner.scanDouble 54031625.000 ns ±   0.39 %         26
 Numerics.Comma separated: String.split       18210792.000 ns ±   0.68 %         77
 PrefixUpTo.Parser                               13292.000 ns ±   3.85 %     104936
 PrefixUpTo.Scanner.scanUpToString               97500.000 ns ±   1.22 %      14267
 Race.Parser                                     27041.000 ns ±   3.84 %      51576
 README Example.Parser: Substring                 2375.000 ns ±  11.91 %     583192
-README Example.Parser: UTF8                       958.000 ns ±  14.26 %    1000000
+README Example.Parser: UTF8                       875.000 ns ±  14.26 %    1000000
 README Example.Adhoc                             3334.000 ns ±   7.75 %     412681
 README Example.Scanner                          14708.000 ns ±   5.34 %      94978
 Routing.Parser                                   3375.000 ns ±   7.23 %     409775
 String Abstractions.Substring                  613292.000 ns ±   0.85 %       2273
-String Abstractions.UTF8                        58125.000 ns ±   1.78 %      23918
+String Abstractions.UTF8                        35583.000 ns ±   1.78 %      23918
 UUID.UUID.init                                    209.000 ns ±  30.39 %    1000000
 UUID.UUIDParser                                   375.000 ns ±  20.14 %    1000000
-Xcode Logs.Parser                             3340625.000 ns ±   0.97 %        417
+Xcode Logs.Parser                             3335583.000 ns ±   0.97 %        417
 ```
 
 ## Documentation
