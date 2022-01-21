@@ -284,20 +284,20 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) throws -> (
       P0.Output,
       P2.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input) as P0.Output
+        _ = try p1.parse(&input) as P1.Output
+        let o2 = try p2.parse(&input) as P2.Output
+        return (o0, o2)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2)
     }
   }
 }

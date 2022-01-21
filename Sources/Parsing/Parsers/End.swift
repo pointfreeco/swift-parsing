@@ -12,9 +12,8 @@ public struct End<Input>: Parser where Input: Collection {
   public init() {}
 
   @inlinable
-  public func parse(_ input: inout Input) -> Void? {
-    guard input.isEmpty else { return nil }
-    return ()
+  public func parse(_ input: inout Input) throws {
+    guard input.isEmpty else { throw ParsingError() }
   }
 }
 

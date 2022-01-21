@@ -11,10 +11,10 @@ where
   public let fromUTF8: (Substring.UTF8View) -> Input
 
   @inlinable
-  public func parse(_ input: inout Input) -> UTF8Parser.Output? {
+  public func parse(_ input: inout Input) throws -> UTF8Parser.Output {
     var utf8 = self.toUTF8(input)
     defer { input = self.fromUTF8(utf8) }
-    return self.utf8Parser.parse(&utf8)
+    return try self.utf8Parser.parse(&utf8)
   }
 }
 

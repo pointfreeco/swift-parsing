@@ -27,7 +27,7 @@ public struct Parse<Parsers>: Parser where Parsers: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout Parsers.Input) -> Parsers.Output? {
-    self.parsers.parse(&input)
+  public func parse(_ input: inout Parsers.Input) throws -> Parsers.Output {
+    try self.parsers.parse(&input)
   }
 }
