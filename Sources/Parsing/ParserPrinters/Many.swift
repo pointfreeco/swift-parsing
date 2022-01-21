@@ -173,9 +173,12 @@ where
   public func print(_ output: Result, to input: inout Input) throws {
     let original = input
     let iterator = self.iterator(output)
-    guard let first = iterator.next() else { throw ParsingError() } // TODO: return self.minimum == 0 ? input : nil
-    try self.element.print(first, to: &input)
+    guard let first = iterator.next() else {
+      guard self.minimum == 0 else { throw ParsingError() }
+      return
+    }
 
+    try self.element.print(first, to: &input)
     var count = 1
 
     while let element = iterator.next() {
@@ -188,7 +191,6 @@ where
         input = rest
         return
       }
-
       count += 1
 
       guard count <= self.maximum
