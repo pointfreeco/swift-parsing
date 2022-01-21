@@ -9,7 +9,7 @@ where
   public init() {}
 
   @inlinable
-  public func parse(_ input: inout Input) -> Input? {
+  public func parse(_ input: inout Input) -> Input {
     let output = input.prefix(while: { (byte: UTF8.CodeUnit) in
       byte == .init(ascii: " ")
         || byte == .init(ascii: "\n")

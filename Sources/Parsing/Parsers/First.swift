@@ -27,8 +27,10 @@ where
   public init() {}
 
   @inlinable
-  public func parse(_ input: inout Input) -> Input.Element? {
-    guard let first = input.first else { return nil }
+  public func parse(_ input: inout Input) throws -> Input.Element {
+    guard let first = input.first else {
+      throw ParsingError.expectedInput("an element of \(Input.Element.self)", at: input)
+    }
     input.removeFirst()
     return first
   }

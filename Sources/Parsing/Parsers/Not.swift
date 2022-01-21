@@ -24,12 +24,14 @@ public struct Not<Upstream>: Parser where Upstream: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout Upstream.Input) -> Void? {
+  public func parse(_ input: inout Upstream.Input) throws {
     let original = input
-    if self.upstream.parse(&input) != nil {
-      input = original
-      return nil
+    do {
+      _ = try self.upstream.parse(&input)
+    } catch {
+      return
     }
-    return ()
+    input = original
+    throw ParsingError.failed(debugDescription: "TODO", at: input)
   }
 }

@@ -75,7 +75,7 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout Element.Input) -> Result? {
+  public func parse(_ input: inout Element.Input) throws -> Result {
     let original = input
     var rest = input
     #if DEBUG
@@ -83,16 +83,22 @@ where
     #endif
     var result = self.initialResult
     var count = 0
-    while count < self.maximum,
-      let output = self.element.parse(&input)
-    {
+    while count < self.maximum {
+      let output: Element.Output
+      do {
+        output = try self.element.parse(&input)
+      } catch {
+        break
+      }
       #if DEBUG
         defer { previous = input }
       #endif
       count += 1
       self.updateAccumulatingResult(&result, output)
       rest = input
-      if self.separator.parse(&input) == nil {
+      do {
+        _ = try self.separator.parse(&input)
+      } catch {
         break
       }
       #if DEBUG
@@ -120,7 +126,13 @@ where
     }
     guard count >= self.minimum else {
       input = original
-      return nil
+      throw ParsingError.failed(
+        debugDescription: """
+        Expected to parse at least \(self.minimum) values of \(Element.Output.self), but \
+        parsed \(count)
+        """,
+        at: rest
+      )
     }
     input = rest
     return result

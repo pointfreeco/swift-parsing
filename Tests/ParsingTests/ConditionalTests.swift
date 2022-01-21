@@ -13,13 +13,13 @@ final class ConditionalTests: XCTestCase {
 
   func testFirst() {
     var input = "42 Hello, world!"[...]
-    XCTAssertEqual(true, parser.parse(&input))
+    XCTAssertEqual(true, try parser.parse(&input))
     XCTAssertEqual(" Hello, world!", input)
   }
 
   func testSecond() {
     var input = "43 Hello, world!"[...]
-    XCTAssertEqual(nil, parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input))
     XCTAssertEqual("43 Hello, world!", input)
   }
 }

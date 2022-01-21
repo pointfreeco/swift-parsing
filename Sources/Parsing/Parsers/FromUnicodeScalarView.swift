@@ -10,10 +10,10 @@ where
   public let fromUnicodeScalars: (Substring.UnicodeScalarView) -> Input
 
   @inlinable
-  public func parse(_ input: inout Input) -> UnicodeScalarsParser.Output? {
+  public func parse(_ input: inout Input) rethrows -> UnicodeScalarsParser.Output {
     var unicodeScalars = self.toUnicodeScalars(input)
     defer { input = self.fromUnicodeScalars(unicodeScalars) }
-    return self.unicodeScalarsParser.parse(&unicodeScalars)
+    return try self.unicodeScalarsParser.parse(&unicodeScalars)
   }
 }
 

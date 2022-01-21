@@ -16,7 +16,7 @@ public struct Always<Input, Output>: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout Input) -> Output? {
+  public func parse(_ input: inout Input) -> Output {
     self.output
   }
 

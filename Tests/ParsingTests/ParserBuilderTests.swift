@@ -13,8 +13,8 @@ final class ParserBuilderTests: XCTestCase {
       Prefix { $0 != "!" }
       "!"
     }
-    XCTAssertEqual("world", parser.parse("Hello, world!"))
-    XCTAssertNil(parser.parse("Hello world!"))
+    XCTAssertEqual("world", try parser.parse("Hello, world!"))
+    XCTAssertThrowsError(try parser.parse("Hello world!"))
 
     parseComma = false
     parser = Parse {
@@ -26,8 +26,8 @@ final class ParserBuilderTests: XCTestCase {
       Prefix { $0 != "!" }
       "!"
     }
-    XCTAssertEqual("world", parser.parse("Hello world!"))
-    XCTAssertNil(parser.parse("Hello, world!"))
+    XCTAssertEqual("world", try parser.parse("Hello world!"))
+    XCTAssertThrowsError(try parser.parse("Hello, world!"))
   }
 
   func testBuildIfOutput() throws {
@@ -42,7 +42,7 @@ final class ParserBuilderTests: XCTestCase {
     var (int, string) = try XCTUnwrap(parser.parse("42 Blob"))
     XCTAssertEqual(42, int)
     XCTAssertEqual("Blob", string)
-    XCTAssertNil(parser.parse("Blob"))
+    XCTAssertThrowsError(try parser.parse("Blob"))
 
     parseInt = false
     parser = Parse {

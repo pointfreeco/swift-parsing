@@ -4,8 +4,8 @@ import XCTest
 final class OneOfTests: XCTestCase {
   func testOneOfFirstSuccess() {
     var input = "New York, Hello!"[...]
-    XCTAssertNotNil(
-      OneOf {
+    XCTAssertNoThrow(
+      try OneOf {
         "New York"
         "Berlin"
       }
@@ -16,8 +16,8 @@ final class OneOfTests: XCTestCase {
 
   func testOneOfSecondSuccess() {
     var input = "Berlin, Hello!"[...]
-    XCTAssertNotNil(
-      OneOf {
+    XCTAssertNoThrow(
+      try OneOf {
         "New York"
         "Berlin"
       }
@@ -28,8 +28,8 @@ final class OneOfTests: XCTestCase {
 
   func testOneOfFailure() {
     var input = "London, Hello!"[...]
-    XCTAssertNil(
-      OneOf {
+    XCTAssertThrowsError(
+      try OneOf {
         "New York"
         "Berlin"
       }
@@ -39,8 +39,8 @@ final class OneOfTests: XCTestCase {
 
   func testOneOfManyFirstSuccess() {
     var input = "New York, Hello!"[...]
-    XCTAssertNotNil(
-      OneOf {
+    XCTAssertNoThrow(
+      try OneOf {
         for city in ["New York", "Berlin"] {
           city
         }
@@ -52,8 +52,8 @@ final class OneOfTests: XCTestCase {
 
   func testOneOfManyLastSuccess() {
     var input = "Berlin, Hello!"[...]
-    XCTAssertNotNil(
-      OneOf {
+    XCTAssertNoThrow(
+      try OneOf {
         for city in ["New York", "Berlin"] {
           city
         }
@@ -65,8 +65,8 @@ final class OneOfTests: XCTestCase {
 
   func testOneOfManyFailure() {
     var input = "London, Hello!"[...]
-    XCTAssertNil(
-      OneOf {
+    XCTAssertThrowsError(
+      try OneOf {
         "New York"
         "Berlin"
       }

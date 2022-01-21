@@ -30,7 +30,7 @@ where
 
   @inlinable
   @inline(__always)
-  public func parse(_ input: inout Input) -> Input? {
+  public func parse(_ input: inout Input) throws -> Input {
     guard let first = self.possibleMatch.first else { return self.possibleMatch }
     let count = self.possibleMatch.count
     let original = input
@@ -46,7 +46,10 @@ where
       input.removeFirst()
     }
     input = original
-    return nil
+    throw ParsingError.failed(
+      debugDescription: "Did not find a prefix through '\(self.possibleMatch)'",
+      at: input
+    )
   }
 }
 

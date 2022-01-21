@@ -98,7 +98,7 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Input) -> Output? {
+    public func parse(_ input: inout Input) throws -> Output {
       @inline(__always)
       func digit(for n: UTF8.CodeUnit) -> Output? {
         let output: Output
@@ -116,7 +116,9 @@ extension Parsers {
       }
       var length = 0
       var iterator = input.makeIterator()
-      guard let first = iterator.next() else { return nil }
+      guard let first = iterator.next() else {
+        throw ParsingError.expectedInput("an integer", at: input)
+      }
       let isPositive: Bool
       let parsedSign: Bool
       var overflow = false
@@ -131,7 +133,9 @@ extension Parsers {
         isPositive = true
         output = 0
       case let (_, n):
-        guard let n = digit(for: n) else { return nil }
+        guard let n = digit(for: n) else {
+          throw ParsingError.expectedInput("an integer", at: input)
+        }
         parsedSign = false
         isPositive = true
         output = n
@@ -140,16 +144,22 @@ extension Parsers {
       let radix = Output(self.radix)
       while let next = iterator.next(), let n = digit(for: next) {
         (output, overflow) = output.multipliedReportingOverflow(by: radix)
-        guard !overflow else { return nil }
+        guard !overflow else {
+          throw ParsingError.expectedInput("an integer", at: input)
+        }
         (output, overflow) =
           isPositive
           ? output.addingReportingOverflow(n)
           : output.subtractingReportingOverflow(n)
-        guard !overflow else { return nil }
+        guard !overflow else {
+          throw ParsingError.expectedInput("an integer", at: input)
+        }
         length += 1
       }
       guard length > (parsedSign ? 1 : 0)
-      else { return nil }
+      else {
+        throw ParsingError.expectedInput("an integer", at: input)
+      }
       input.removeFirst(length)
       return output
     }

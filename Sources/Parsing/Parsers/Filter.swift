@@ -30,14 +30,18 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
+    public func parse(_ input: inout Upstream.Input) throws -> Upstream.Output {
       let original = input
-      guard
-        let output = self.upstream.parse(&input),
-        self.predicate(output)
+      let output = try self.upstream.parse(&input)
+      guard self.predicate(output)
       else {
         input = original
-        return nil
+        throw ParsingError.failed(
+          debugDescription: """
+            Parsed '\(output)', but it failed to satisfy the predicate passed to 'filter'
+            """,
+          at: input
+        )
       }
       return output
     }

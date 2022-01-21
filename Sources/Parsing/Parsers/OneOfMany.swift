@@ -27,13 +27,16 @@ extension Parsers {
 
     @inlinable
     @inline(__always)
-    public func parse(_ input: inout Parsers.Input) -> Parsers.Output? {
+    public func parse(_ input: inout Parsers.Input) throws -> Parsers.Output {
+      var errors: [Error] = []
       for parser in self.parsers {
-        if let output = parser.parse(&input) {
-          return output
+        do {
+          return try parser.parse(&input)
+        } catch {
+          errors.append(error)
         }
       }
-      return nil
+      throw ParsingError.manyFailed(errors, at: input)
     }
   }
 }

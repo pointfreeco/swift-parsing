@@ -76,7 +76,7 @@ extension Parsers {
     public init() {}
 
     @inlinable
-    public func parse(_ input: inout Input) -> Bool? {
+    public func parse(_ input: inout Input) throws -> Bool {
       if input.starts(with: [116, 114, 117, 101] /*"true".utf8*/) {
         input.removeFirst(4)
         return true
@@ -84,7 +84,7 @@ extension Parsers {
         input.removeFirst(5)
         return false
       }
-      return nil
+      throw ParsingError.expectedInput("a boolean", at: input)
     }
   }
 }

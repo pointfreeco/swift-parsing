@@ -69,10 +69,10 @@ extension Parsers {
     public init() {}
 
     @inlinable
-    public func parse(_ input: inout Input) -> UUID? {
+    public func parse(_ input: inout Input) throws -> UUID {
       var prefix = input.prefix(36)
       guard prefix.count == 36
-      else { return nil }
+      else { throw ParsingError.expectedInput("a UUID", at: input) }
 
       @inline(__always)
       func digit(for n: UTF8.CodeUnit) -> UTF8.CodeUnit? {
@@ -120,7 +120,7 @@ extension Parsers {
         let _13 = nextByte(),
         let _14 = nextByte(),
         let _15 = nextByte()
-      else { return nil }
+      else { throw ParsingError.expectedInput("a UUID", at: input) }
 
       input.removeFirst(36)
       return UUID(

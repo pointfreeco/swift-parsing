@@ -66,12 +66,11 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout Input) -> Void? {
-    guard self.startsWith(input)
-    else { return nil }
-
+  public func parse(_ input: inout Input) throws {
+    guard self.startsWith(input) else {
+      throw ParsingError.expectedInput("\(self.possiblePrefix)", at: input)
+    }
     input.removeFirst(self.count)
-    return ()
   }
 }
 

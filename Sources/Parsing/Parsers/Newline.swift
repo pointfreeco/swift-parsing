@@ -11,7 +11,7 @@ where
   public init() {}
 
   @inlinable
-  public func parse(_ input: inout Input) -> Void? {
+  public func parse(_ input: inout Input) throws {
     if input.first == .init(ascii: "\n") {
       input.removeFirst()
       return ()
@@ -19,7 +19,7 @@ where
       input.removeFirst(2)
       return ()
     }
-    return nil
+    throw ParsingError.expectedInput("a newline", at: input)
   }
 }
 

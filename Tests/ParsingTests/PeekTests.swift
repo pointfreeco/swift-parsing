@@ -2,7 +2,6 @@ import Parsing
 import XCTest
 
 class PeekTests: XCTestCase {
-
   func testPeekDuplicate() throws {
     var input = "foobar"[...]
 
@@ -13,9 +12,9 @@ class PeekTests: XCTestCase {
 
     let result = duplicator.parse(&input)
 
-    XCTAssertEqual(result?.0, "foobar")
-    XCTAssertEqual(result?.1, "foobar")
-    XCTAssertEqual(input, ""[...])
+    XCTAssertEqual(result.0, "foobar")
+    XCTAssertEqual(result.1, "foobar")
+    XCTAssertEqual(input, "")
   }
 
   func testPeekMatches() throws {
@@ -28,10 +27,10 @@ class PeekTests: XCTestCase {
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
 
-    let result = identifier.parse(&input)
+    let result = try identifier.parse(&input)
 
     XCTAssertEqual(result, "_foo1")
-    XCTAssertEqual(input, " = nil"[...])
+    XCTAssertEqual(input, " = nil")
   }
 
   func testPeekFails() throws {
@@ -46,10 +45,7 @@ class PeekTests: XCTestCase {
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
 
-    let result = identifier.parse(&input)
-
-    XCTAssertNil(result)
-    XCTAssertEqual(input, "1foo = nil"[...])
+    XCTAssertThrowsError(try identifier.parse(&input))
+    XCTAssertEqual(input, "1foo = nil")
   }
-
 }

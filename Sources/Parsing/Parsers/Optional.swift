@@ -1,13 +1,9 @@
 extension Optional: Parser where Wrapped: Parser {
-  public func parse(_ input: inout Wrapped.Input) -> Wrapped.Output?? {
-    switch self {
-    case let .some(parser):
-      guard let output = parser.parse(&input)
-      else { return .none }
-      return output
-    case .none:
-      return .some(nil)
-    }
+  public func parse(_ input: inout Wrapped.Input) rethrows -> Wrapped.Output? {
+    guard let self = self
+    else { return nil }
+
+    return try self.parse(&input)
   }
 }
 
@@ -34,13 +30,11 @@ extension Parsers {
       self.wrapped = wrapped
     }
 
-    public func parse(_ input: inout Wrapped.Input) -> Void? {
-      switch self.wrapped {
-      case let .some(parser):
-        return parser.parse(&input)
-      case .none:
-        return ()
-      }
+    public func parse(_ input: inout Wrapped.Input) rethrows {
+      guard let wrapped = self.wrapped
+      else { return }
+
+      return try wrapped.parse(&input)
     }
   }
 }
