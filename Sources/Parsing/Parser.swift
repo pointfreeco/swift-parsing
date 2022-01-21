@@ -35,8 +35,10 @@
   func parse(_ input: inout Input) throws -> Output
 }
 
-public struct ParsingError: Error {
-  public init() {}
+@usableFromInline
+struct ParsingError: Error {
+  @usableFromInline
+  init() {}
 }
 
 extension Parser {
