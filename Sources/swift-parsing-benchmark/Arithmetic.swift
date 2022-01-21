@@ -11,19 +11,19 @@ import Parsing
 // MARK: - Parsers
 
 private let additionAndSubtraction = InfixOperator(
-  OneOfMany(
-    "+".utf8.map { (+) },
+  OneOf {
+    "+".utf8.map { (+) }
     "-".utf8.map { (-) }
-  ),
+  },
   associativity: .left,
   lowerThan: multiplicationAndDivision
 )
 
 private let multiplicationAndDivision = InfixOperator(
-  OneOfMany(
-    "*".utf8.map { (*) },
+  OneOf {
+    "*".utf8.map { (*) }
     "/".utf8.map { (/) }
-  ),
+  },
   associativity: .left,
   lowerThan: exponent
 )
@@ -34,11 +34,16 @@ private let exponent = InfixOperator(
   lowerThan: factor
 )
 
-private let factor: AnyParser<Substring.UTF8View, Double> = "(".utf8
-  .take(Lazy { additionAndSubtraction })
-  .skip(")".utf8)
-  .orElse(Double.parser())
-  .eraseToAnyParser()
+private let factor: AnyParser<Substring.UTF8View, Double> = OneOf {
+  Parse {
+    "(".utf8
+    Lazy { additionAndSubtraction }
+    ")".utf8
+  }
+
+  Double.parser()
+}
+.eraseToAnyParser()
 
 // MARK: -
 
@@ -65,34 +70,36 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout Operand.Input) -> Operand.Output? {
+  public func parse(_ input: inout Operand.Input) rethrows -> Operand.Output {
     switch associativity {
     case .left:
-      guard var lhs = self.operand.parse(&input) else { return nil }
+      var lhs = try self.operand.parse(&input)
       var rest = input
-      while let operation = self.operator.parse(&input),
-        let rhs = self.operand.parse(&input)
-      {
-        rest = input
-        lhs = operation(lhs, rhs)
+      while true {
+        do {
+          let operation = try self.operator.parse(&input)
+          let rhs = try self.operand.parse(&input)
+          rest = input
+          lhs = operation(lhs, rhs)
+        } catch {
+          input = rest
+          return lhs
+        }
       }
-      input = rest
-      return lhs
     case .right:
       var lhs: [(Operand.Output, Operator.Output)] = []
       while true {
-        guard let rhs = self.operand.parse(&input)
-        else { break }
-        guard let operation = self.operator.parse(&input)
-        else {
+        let rhs = try self.operand.parse(&input)
+        do {
+          let operation = try self.operator.parse(&input)
+          lhs.append((rhs, operation))
+        } catch {
           return lhs.reversed().reduce(rhs) { rhs, pair in
             let (lhs, operation) = pair
             return operation(lhs, rhs)
           }
         }
-        lhs.append((rhs, operation))
       }
-      return nil
     }
   }
 }
@@ -109,6 +116,7 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
 
   suite.benchmark("Parser") {
     var arithmetic = arithmetic[...].utf8
-    precondition(additionAndSubtraction.parse(&arithmetic) == -22.5)
+    let output = try additionAndSubtraction.parse(&arithmetic)
+    precondition(output == -22.5)
   }
 }

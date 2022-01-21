@@ -97,7 +97,7 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
     name: "Parser",
     run: {
       var input = input
-      output = header.parse(&input)!
+      try output = header.parse(&input)
       rest = input
     },
     tearDown: {
@@ -125,9 +125,9 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
 }
 
 struct Word16Parser: Parser {
-  func parse(_ input: inout Data) -> UInt16? {
+  func parse(_ input: inout Data) throws -> UInt16 {
     guard input.count >= 2
-    else { return nil }
+    else { throw ParsingError() }
     let output = UInt16(input[input.startIndex]) + UInt16(input[input.startIndex + 1]) << 8
     input.removeFirst(2)
     return output

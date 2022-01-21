@@ -26,18 +26,18 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
 
     suite.benchmark("Substring") {
       var input = input[...].utf8
-      let output = Many {
+      let output = try Many {
         Int.parser()
       } separator: {
         FromSubstring { "\u{00E9}" }
       }
       .parse(&input)
-      precondition(output?.count == count)
+      precondition(output.count == count)
     }
 
     suite.benchmark("UTF8") {
       var input = input[...].utf8
-      let output = Many {
+      let output = try Many {
         Int.parser()
       } separator: {
         OneOf {
@@ -46,7 +46,7 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
         }
       }
       .parse(&input)
-      precondition(output?.count == count)
+      precondition(output.count == count)
     }
   #endif
 }

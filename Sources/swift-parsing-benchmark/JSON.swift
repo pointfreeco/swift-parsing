@@ -179,7 +179,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   var jsonOutput: JSONValue!
   suite.benchmark(
     name: "Parser",
-    run: { jsonOutput = json.parse(input) },
+    run: { jsonOutput = try json.parse(input) },
     tearDown: {
       precondition(
         jsonOutput

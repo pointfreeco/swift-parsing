@@ -10,7 +10,7 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
   suite.benchmark(
     name: "Parser",
     run: {
-      output = csv.parse(csvInput)!
+      output = try csv.parse(csvInput)
     },
     tearDown: {
       precondition(output.count == rowCount)

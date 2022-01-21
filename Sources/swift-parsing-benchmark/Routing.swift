@@ -107,9 +107,9 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
     suite.benchmark(
       name: "Parser",
       run: {
-        output = requests.map {
+        output = try requests.map {
           var input = $0
-          return router.parse(&input)!
+          return try router.parse(&input)
         }
       },
       tearDown: {

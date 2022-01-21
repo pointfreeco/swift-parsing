@@ -151,7 +151,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
   var output: (Request, [Header])!
   suite.benchmark(
     name: "HTTP",
-    run: { output = request.parse(input) },
+    run: { output = try request.parse(input) },
     tearDown: { precondition(output == expected) }
   )
 }
