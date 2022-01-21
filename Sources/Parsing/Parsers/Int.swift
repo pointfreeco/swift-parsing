@@ -120,7 +120,7 @@ extension Parsers {
       var length = 0
       var iterator = input.makeIterator()
       guard let first = iterator.next() else {
-        throw ParsingError("Expected an integer", rest: String(decoding: input, as: UTF8.self))
+        throw ParsingError("Expected an integer", rest: input)
       }
       let isPositive: Bool
       let parsedSign: Bool
@@ -137,7 +137,7 @@ extension Parsers {
         output = 0
       case let (_, n):
         guard let n = digit(for: n) else {
-          throw ParsingError("Expected an integer", rest: String(decoding: input, as: UTF8.self))
+          throw ParsingError("Expected an integer", rest: input)
         }
         parsedSign = false
         isPositive = true
@@ -148,14 +148,14 @@ extension Parsers {
       while let next = iterator.next(), let n = digit(for: next) {
         (output, overflow) = output.multipliedReportingOverflow(by: radix)
         guard !overflow else {
-          throw ParsingError("Expected an integer", rest: String(decoding: input, as: UTF8.self))
+          throw ParsingError("Expected an integer", rest: input)
         }
         (output, overflow) =
           isPositive
           ? output.addingReportingOverflow(n)
           : output.subtractingReportingOverflow(n)
         guard !overflow else {
-          throw ParsingError("Expected an integer", rest: String(decoding: input, as: UTF8.self))
+          throw ParsingError("Expected an integer", rest: input)
         }
         length += 1
       }

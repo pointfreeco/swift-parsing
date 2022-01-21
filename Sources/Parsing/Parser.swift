@@ -46,6 +46,17 @@ public struct ParsingError: Error {
     self.message = message
     self.rest = rest
   }
+
+  public init<Input>(_ message: String = "", rest: Input)
+  where Input: Collection, Input.SubSequence == Input, Input.Element == UInt8 {
+    self.message = message
+    self.rest = String(decoding: rest, as: UTF8.self)
+  }
+
+  public init<S: StringProtocol>(_ message: String = "", rest: S) {
+    self.message = message
+    self.rest = String(rest)
+  }
 }
 
 extension Parser {
