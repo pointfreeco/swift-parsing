@@ -43,7 +43,7 @@ where
   public let iterator: (Result) -> AnyIterator<Element.Output>
   public let maximum: Int
   public let minimum: Int
-  public let separator: Separator?
+  public let separator: Separator
   public let updateAccumulatingResult: (inout Result, Element.Output) -> Void
 
   /// Initializes a parser that attempts to run the given parser at least and at most the given
@@ -128,7 +128,7 @@ where
       count += 1
       self.updateAccumulatingResult(&result, output)
       rest = input
-      if self.separator != nil, self.separator?.parse(&input) == nil {
+      if self.separator.parse(&input) == nil {
         break
       }
       #if DEBUG
@@ -182,16 +182,14 @@ where
     var count = 1
 
     while let element = iterator.next() {
-      guard let elementInput = self.element.print(element)
+      guard
+        let separatorInput = self.separator.print(),
+        let elementInput = self.element.print(element)
       else { return nil }
 
-      if let separator = self.separator {
-        guard let separatorInput = separator.print()
-        else { return nil }
-
-        input.append(contentsOf: separatorInput)
-      }
+      input.append(contentsOf: separatorInput)
       input.append(contentsOf: elementInput)
+      
       count += 1
 
       guard count <= self.maximum
@@ -232,7 +230,7 @@ extension Many where Separator == Always<Input, Void> {
     self.iterator = { AnyIterator(iterator($0)) }
     self.maximum = maximum
     self.minimum = minimum
-    self.separator = nil
+    self.separator = .init(())
     self.updateAccumulatingResult = updateAccumulatingResult
   }
 

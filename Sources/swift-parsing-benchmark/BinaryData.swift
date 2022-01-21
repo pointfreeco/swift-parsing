@@ -10,8 +10,7 @@ import Parsing
  (here)[https://tools.ietf.org/html/rfc1035#page-26]. It consists of 12 bytes, and contains
  information for 13 fields:
 
-                                   1  1  1  1  1  1
-     0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5
+     0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
      +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
      |                      ID                       |
      +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
