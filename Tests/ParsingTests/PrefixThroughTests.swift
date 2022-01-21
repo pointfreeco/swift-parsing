@@ -33,8 +33,8 @@ final class PrefixThroughTests: XCTestCase {
   }
 
   func testPrint() {
-    XCTAssertEqual("Hello,world, ", PrefixThrough(", ").print("Hello,world, "))
-    XCTAssertNil(PrefixThrough(", ").print("Hello,world, 42!"))
-    XCTAssertNil(PrefixThrough(", ").print("Hello,world, 42, "))
+    XCTAssertEqual("Hello,world, ", try PrefixThrough(", ").print("Hello,world, "))
+    XCTAssertThrowsError(try PrefixThrough(", ").print("Hello,world, 42!"))
+    XCTAssertThrowsError(try PrefixThrough(", ").print("Hello,world, 42, "))
   }
 }

@@ -33,9 +33,9 @@ final class PrefixUpToTests: XCTestCase {
   }
 
   func testPrint() {
-    XCTAssertEqual("Hello,world", PrefixUpTo(", ").print("Hello,world"))
-    XCTAssertNil(PrefixUpTo(", ").print("Hello,world, "))
-    XCTAssertNil(PrefixUpTo(", ").print("Hello,world, 42!"))
-    XCTAssertNil(PrefixUpTo(", ").print("Hello,world, 42, "))
+    XCTAssertEqual("Hello,world", try PrefixUpTo(", ").print("Hello,world"))
+    XCTAssertThrowsError(try PrefixUpTo(", ").print("Hello,world, "))
+    XCTAssertThrowsError(try PrefixUpTo(", ").print("Hello,world, 42!"))
+    XCTAssertThrowsError(try PrefixUpTo(", ").print("Hello,world, 42, "))
   }
 }

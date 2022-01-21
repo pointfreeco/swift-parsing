@@ -3,6 +3,8 @@ import XCTest
 
 final class AnyParserTests: XCTestCase {
   func testClosureInitializer() {
+    struct ParsingError: Error {}
+
     let parser = AnyParser<Substring, Void> { input in
       guard input.starts(with: "Hello") else { throw ParsingError() }
       input.removeFirst(5)

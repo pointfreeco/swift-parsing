@@ -51,9 +51,14 @@ where
 extension PrefixUpTo: Printer where Input: AppendableCollection {
   @inlinable
   public func print(_ output: Input, to input: inout Input) throws {
-    var output = output
-    _ = try self.parse(&output)
-    input.append(contentsOf: output)
+    do {
+      var output = output
+      _ = try self.parse(&output)
+    } catch {
+      input.append(contentsOf: output)
+      return
+    }
+    throw ParsingError()
   }
 }
 

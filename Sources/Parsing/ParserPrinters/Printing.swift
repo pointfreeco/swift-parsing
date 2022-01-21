@@ -1,36 +1,28 @@
-extension Parser where Input: Appendable {
+extension Parser {
   @inlinable
-  public func printing(_ input: Input) -> Parsers.Printing<Self> {
-    .init(upstream: self, input: input)
+  public func printing<P>(_ printer: P) -> Parsers.Printing<Self, P> {
+    .init(upstream: self, printer: printer)
   }
 }
-// .printing(" "[...].utf8)
-
-extension Parser where Input: AppendableCollection {
-  @inlinable
-  public func printing<Input>(_ input: Input) -> Parsers.Printing<Self>
-  where Input: Collection, Input.Element == Self.Input.Element {
-    .init(upstream: self, input: input)
-  }
-}
-// .printing(" ".utf8)
 
 extension Parsers {
-  public struct Printing<Upstream>: ParserPrinter
+  public struct Printing<Upstream, Printer>: ParserPrinter
   where
     Upstream: Parser,
-    Upstream.Input: Appendable
+    Printer: Parsing.Printer,
+    Upstream.Input == Printer.Input,
+    Printer.Output == Void
   {
     public let upstream: Upstream
-    public let input: Upstream.Input
+    public let printer: Printer
 
     @inlinable
     public init(
       upstream: Upstream,
-      input: Upstream.Input
+      printer: Printer
     ) {
       self.upstream = upstream
-      self.input = input
+      self.printer = printer
     }
 
     @inlinable
@@ -39,22 +31,8 @@ extension Parsers {
     }
 
     @inlinable
-    public func print(_ output: (), to input: inout Upstream.Input) {
-      input.append(contentsOf: self.input)
+    public func print(_ output: (), to input: inout Upstream.Input) rethrows {
+      try self.printer.print(to: &input)
     }
-  }
-}
-
-extension Parsers.Printing where Upstream.Input: AppendableCollection {
-  @inlinable
-  public init<Input>(
-    upstream: Upstream,
-    input: Input
-  ) where
-    Input: Collection,
-    Input.Element == Upstream.Input.Element
-  {
-    self.upstream = upstream
-    self.input = .init(input)
   }
 }

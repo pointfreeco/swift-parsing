@@ -55,7 +55,7 @@ extension PrefixThrough: Printer where Input: AppendableCollection {
   public func print(_ output: Input, to input: inout Input) throws {
     var output = output
     let appended = try self.parse(&output)
-    guard !output.isEmpty else { throw ParsingError() }
+    guard output.isEmpty else { throw ParsingError() }
     input.append(contentsOf: appended)
   }
 }

@@ -4,7 +4,7 @@
   func print(_ output: Output, to input: inout Input) throws
 }
 
-extension Printer where Input: Appendable {
+extension Printer where Input: AppendableCollection {
   @inlinable
   public func print(_ output: Output) rethrows -> Input {
     var input = Input()
@@ -20,7 +20,7 @@ extension Printer where Output == Void {
   }
 }
 
-extension Printer where Input: Appendable, Output == Void {
+extension Printer where Input: AppendableCollection, Output == Void {
   @inlinable
   public func print() rethrows -> Input {
     try self.print(())

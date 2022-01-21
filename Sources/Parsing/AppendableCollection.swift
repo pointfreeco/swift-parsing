@@ -1,11 +1,7 @@
 import Foundation
 
-public protocol Appendable {
+public protocol AppendableCollection: Collection {
   init()
-  mutating func append(contentsOf other: Self)
-}
-
-public protocol AppendableCollection: Appendable, Collection {
   mutating func append<S: Sequence>(contentsOf elements: S) where S.Element == Element
 }
 
@@ -22,7 +18,7 @@ extension Array: AppendableCollection {}
 extension ArraySlice: AppendableCollection {}
 extension ContiguousArray: AppendableCollection {}
 extension Data: AppendableCollection {}
-extension Slice: Appendable, AppendableCollection where Base: RangeReplaceableCollection {}
+extension Slice: AppendableCollection where Base: RangeReplaceableCollection {}
 extension String: AppendableCollection {}
 extension String.UnicodeScalarView: AppendableCollection {}
 extension Substring: AppendableCollection {}
