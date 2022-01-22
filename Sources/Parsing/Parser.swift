@@ -37,41 +37,88 @@
 }
 
 @usableFromInline
-enum ParsingError<Input>: Error {
+enum ParsingError: Error {
   case expectedInput(String, Context)
   case failed(Context)
   case manyFailed([Error], Context)
 
   @usableFromInline
-  static func expectedInput(_ description: String, at remainingInput: Input) -> Self {
+  static func expectedInput(_ description: String, at remainingInput: Any) -> Self {
     .expectedInput(description, .init(remainingInput: remainingInput, debugDescription: ""))
   }
 
   @usableFromInline
-  static func failed(debugDescription: String, at remainingInput: Input) -> Self {
+  static func failed(debugDescription: String, at remainingInput: Any) -> Self {
     .failed(.init(remainingInput: remainingInput, debugDescription: debugDescription))
   }
 
   @usableFromInline
-  static func manyFailed(_ errors: [Error], at remainingInput: Input) -> Self {
+  static func manyFailed(_ errors: [Error], at remainingInput: Any) -> Self {
     .manyFailed(errors, .init(remainingInput: remainingInput, debugDescription: ""))
   }
 
   @usableFromInline
   struct Context {
     var debugDescription: String
-    var remainingInput: Input
+    var remainingInput: Any
     var underlyingError: Error?
 
     @usableFromInline
     init(
-      remainingInput: Input,
+      remainingInput: Any,
       debugDescription: String,
       underlyingError: Error? = nil
     ) {
       self.remainingInput = remainingInput
       self.debugDescription = debugDescription
       self.underlyingError = underlyingError
+    }
+  }
+}
+
+extension ParsingError: CustomDebugStringConvertible {
+  @usableFromInline
+  var debugDescription: String {
+    func printInput(_ input: Any) -> String {
+      switch input {
+      case let input as Substring.UTF8View:
+        return String(Substring(input)).debugDescription
+      case let input as Substring:
+        return String(input).debugDescription
+      default:
+        return "\(input)"
+      }
+    }
+
+    switch self {
+    case let .expectedInput(description, context):
+      return "Expected to parse \(description) from \(printInput(context.remainingInput))"
+    case let .failed(context):
+      return ""
+    case let .manyFailed(errors, context):
+      func descriptions(from errors: [Error]) -> [String] {
+        errors.flatMap { error -> [String] in
+          switch error {
+          case let ParsingError.expectedInput(description, context):
+            return ["\(description) from \(printInput(context.remainingInput))"]
+          case let ParsingError.failed(context):
+            return [context.debugDescription]
+          case let ParsingError.manyFailed(errors, _):
+            return descriptions(from: errors)
+          default:
+            return [error.localizedDescription]
+          }
+        }
+      }
+
+      let descriptions = descriptions(from: errors)
+      return """
+        Expected to parse one of:
+
+        \(descriptions.map { "- \($0)" }.joined(separator: "\n"))
+
+        Remaining input: "\(printInput(context.remainingInput))"
+        """
     }
   }
 }

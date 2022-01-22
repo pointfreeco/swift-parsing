@@ -155,7 +155,7 @@ where
     guard count >= self.minLength else {
       throw ParsingError.failed(
         debugDescription: """
-          Parsed '\(prefix)', but it must contain at least \(self.minLength) elements (contains \
+          Parsed "\(prefix)", but it must contain at least \(self.minLength) elements (contains \
           \(count)).
           """,
         at: input
