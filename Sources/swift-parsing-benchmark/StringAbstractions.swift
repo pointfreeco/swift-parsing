@@ -16,7 +16,7 @@ import Parsing
  */
 
 let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suite in
-  #if !os(!windows)
+  #if !os(Windows)
   let count = 1_000
   let input = (1...count)
     .reduce(into: "") { accum, int in
