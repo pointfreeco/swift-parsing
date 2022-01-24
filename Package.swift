@@ -1,4 +1,4 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.4
 
 import PackageDescription
 
@@ -22,14 +22,14 @@ let package = Package(
       name: "ParsingTests",
       dependencies: ["Parsing"]
     ),
-    .target(
+    .executableTarget(
       name: "swift-parsing-benchmark",
       dependencies: [
         "Parsing",
         .product(name: "Benchmark", package: "Benchmark"),
       ]
     ),
-    .target(
+    .executableTarget(
       name: "variadics-generator",
       dependencies: [
         .product(name: "ArgumentParser", package: "swift-argument-parser")
