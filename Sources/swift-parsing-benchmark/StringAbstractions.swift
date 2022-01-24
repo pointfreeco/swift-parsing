@@ -16,6 +16,7 @@ import Parsing
  */
 
 let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suite in
+  #if !os(!windows)
   let count = 1_000
   let input = (1...count)
     .reduce(into: "") { accum, int in
@@ -47,4 +48,5 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
     .parse(&input)
     precondition(output?.count == count)
   }
+  #endif
 }
