@@ -94,7 +94,7 @@ extension ParsingError: CustomDebugStringConvertible {
     case let .expectedInput(description, context):
       return "Expected to parse \(description) from \(printInput(context.remainingInput))"
     case let .failed(context):
-      return ""
+      return context.debugDescription
     case let .manyFailed(errors, context):
       func descriptions(from errors: [Error]) -> [String] {
         errors.flatMap { error -> [String] in

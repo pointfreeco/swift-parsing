@@ -135,15 +135,14 @@ where
     do {
       _ = try self.terminator.parse(&input)
     } catch {
+      input = original
       throw elementError ?? error
     }
     guard count >= self.minimum else {
       input = original
-      throw ParsingError.failed(
-        debugDescription: """
-        Expected to parse at least \(self.minimum) values of \(Element.Output.self), but \
-        parsed \(count)
-        """,
+      let atLeast = self.minimum - count
+      throw ParsingError.expectedInput(
+        "\(atLeast) value\(atLeast == 1 ? "" : "s") of \(Element.Output.self)",
         at: rest
       )
     }
