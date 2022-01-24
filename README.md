@@ -159,7 +159,7 @@ let user = Parse {
 }
 ```
 
-If we map the name parser to a `String` in the builder block, we can even pass the user initializer directly:
+Or we can pass the `User` initializer to `Parse` in a point-free style by transforming the `Prefix` parser's output from a `Substring` to ` String` first:
 
 ```swift
 let user = Parse(User.init(id:name:isAdmin:)) {
@@ -171,7 +171,7 @@ let user = Parse(User.init(id:name:isAdmin:)) {
 }
 ```
 
-That is enough to parse a single user from the input string:
+That is enough to parse a single user from the input string, leaving behind a newline and the final two users:
 
 ```swift
 user.parse(&input) // => User(id: 1, name: "Blob", isAdmin: true)
@@ -285,7 +285,7 @@ Parsers.Map<Prefix<Substring>, Substring>
 
 Notice how the type of the parser encodes the operations that we performed. This adds a bit of complexity when using these types, but comes with some performance benefits because Swift can usually optimize away the creation of those nested types.
 
-### Result builder
+### Result builders
 
 The library takes advantage of Swift's `@resultBuilder` feature to make constructing complex parsers as fluent as possible, and should be reminiscent of how views are constructed in SwiftUI. The main entry point into building a parser is the `Parse` builder:
 
@@ -365,9 +365,8 @@ However, we are incurring the cost of parsing `Substring` for this entire parser
 let city = OneOf {
   "London".utf8.map { City.london }
   "New York".utf8.map { City.newYork }
-  FromSubstring { 
-    "San José".map { City.sanJose }
-  }
+  FromSubstring { "San José" }
+    .map { City.sanJose }
 }
 ```
 
