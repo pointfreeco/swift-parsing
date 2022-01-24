@@ -16,9 +16,9 @@ final class OneOfBuilderTests: XCTestCase {
     }
 
     for role in Role.allCases {
-      XCTAssertEqual(role, parser.parse(role.rawValue))
+      XCTAssertEqual(role, try parser.parse(role.rawValue))
     }
-    XCTAssertNil(parser.parse("president"))
+    XCTAssertThrowsError(try parser.parse("president"))
   }
 
   func testBuildIf() {
