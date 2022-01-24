@@ -33,13 +33,35 @@ public protocol Parser {
   /// - Parameter input: A nebulous piece of data to be parsed.
   /// - Returns: A more well-structured value parsed from the given input, or `nil`.
   func parse(_ input: inout Input) -> Output?
+
+//  @_disfavoredOverload
+  func parse(_ input: inout Input) throws -> Output
+}
+
+@usableFromInline
+struct ParsingError: Error {
+  @usableFromInline
+  init() {}
+}
+
+extension Parser {
+  @_disfavoredOverload
+  public func parse(_ input: inout Input) throws -> Output {
+    guard let output = self.parse(&input)
+    else { throw ParsingError() }
+    return output
+  }
+
+  public func parse(_ input: inout Input) -> Output? {
+    try? (self.parse(&input) as Output)
+  }
 }
 
 extension Parser {
   @inlinable
   public func parse(_ input: Input) -> (output: Output?, rest: Input) {
     var input = input
-    let output = self.parse(&input)
+    let output: Output? = self.parse(&input)
     return (output, input)
   }
 

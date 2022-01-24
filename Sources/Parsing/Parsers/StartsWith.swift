@@ -61,12 +61,11 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout Input) -> Void? {
+  public func parse(_ input: inout Input) throws {
     guard self.startsWith(input)
-    else { return nil }
+    else { throw ParsingError() }
 
     input.removeFirst(self.count)
-    return ()
   }
 }
 
