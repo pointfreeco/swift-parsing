@@ -30,7 +30,7 @@ public enum ParserBuilder {
 
   @inlinable
   public static func buildIf<P>(_ parser: P?) -> Parsers.OptionalVoid<P> {
-    .init(upstream: parser)
+    .init(wrapped: parser)
   }
 
   @inlinable
@@ -40,6 +40,6 @@ public enum ParserBuilder {
 
   @inlinable
   public static func buildLimitedAvailability<P>(_ parser: P?) -> Parsers.OptionalVoid<P> {
-    .init(upstream: parser)
+    .init(wrapped: parser)
   }
 }

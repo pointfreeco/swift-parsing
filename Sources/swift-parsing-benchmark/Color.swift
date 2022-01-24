@@ -5,10 +5,7 @@ private struct Color: Equatable {
   let red, green, blue: UInt8
 }
 
-private typealias Input = Substring.UTF8View
-private typealias Output = Color
-
-private let hexPrimary = Prefix<Input>(2).pipe {
+private let hexPrimary = Prefix<Substring.UTF8View>(2).pipe {
   UInt8.parser(isSigned: false, radix: 16)
   End()
 }
