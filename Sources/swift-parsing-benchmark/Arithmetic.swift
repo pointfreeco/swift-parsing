@@ -10,29 +10,29 @@ import Parsing
 
 // MARK: - Parsers
 
-private let additionAndSubtraction = InfixOperator(associativity: .left) {
+private let additionAndSubtraction = InfixOperator(
   OneOf {
     "+".utf8.map { (+) }
     "-".utf8.map { (-) }
-  }
-} lowerThan: {
-  multiplicationAndDivision
-}
+  },
+  associativity: .left,
+  lowerThan: multiplicationAndDivision
+)
 
-private let multiplicationAndDivision = InfixOperator(associativity: .left) {
+private let multiplicationAndDivision = InfixOperator(
   OneOf {
     "*".utf8.map { (*) }
     "/".utf8.map { (/) }
-  }
-} lowerThan: {
-  exponent
-}
+  },
+  associativity: .left,
+  lowerThan: exponent
+)
 
-private let exponent = InfixOperator(associativity: .left) {
-  "^".utf8.map { pow }
-} lowerThan: {
-  factor
-}
+private let exponent = InfixOperator(
+  "^".utf8.map { pow },
+  associativity: .left,
+  lowerThan: factor
+)
 
 private let factor: AnyParser<Substring.UTF8View, Double> = OneOf {
   Parse {
@@ -58,16 +58,18 @@ where
   public let operand: Operand
   public let `operator`: Operator
 
+  @inlinable
   public init(
+    _ operator: Operator,
     associativity: Associativity,
-    @ParserBuilder operator: () -> Operator,
-    @ParserBuilder lowerThan operand: () -> Operand  // Should this be called `precedes operand:`?
+    lowerThan operand: Operand  // Should this be called `precedes operand:`?
   ) {
     self.associativity = `associativity`
-    self.operand = operand()
-    self.operator = `operator`()
+    self.operand = operand
+    self.operator = `operator`
   }
 
+  @inlinable
   public func parse(_ input: inout Operand.Input) -> Operand.Output? {
     switch associativity {
     case .left:
