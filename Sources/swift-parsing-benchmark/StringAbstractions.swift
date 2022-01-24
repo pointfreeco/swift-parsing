@@ -16,37 +16,35 @@ import Parsing
  */
 
 let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suite in
-  #if compiler(>=5.5)
-    let count = 1_000
-    let input = (1...count)
-      .reduce(into: "") { accum, int in
-        accum += "\(int)" + (int.isMultiple(of: 2) ? "\u{00E9}" : "e\u{0301}")
-      }
-      .dropLast()
-
-    suite.benchmark("Substring") {
-      var input = input[...].utf8
-      let output = Many {
-        Int.parser()
-      } separator: {
-        FromSubstring { "\u{00E9}" }
-      }
-      .parse(&input)
-      precondition(output?.count == count)
+  let count = 1_000
+  let input = (1...count)
+    .reduce(into: "") { accum, int in
+      accum += "\(int)" + (int.isMultiple(of: 2) ? "\u{00E9}" : "e\u{0301}")
     }
+    .dropLast()
 
-    suite.benchmark("UTF8") {
-      var input = input[...].utf8
-      let output = Many {
-        Int.parser()
-      } separator: {
-        OneOf {
-          "\u{00E9}".utf8
-          "e\u{0301}".utf8
-        }
-      }
-      .parse(&input)
-      precondition(output?.count == count)
+  suite.benchmark("Substring") {
+    var input = input[...].utf8
+    let output = Many {
+      Int.parser(of: Substring.UTF8View.self)
+    } separator: {
+      FromSubstring { "\u{00E9}" }
     }
-  #endif
+    .parse(&input)
+    precondition(output?.count == count)
+  }
+
+  suite.benchmark("UTF8") {
+    var input = input[...].utf8
+    let output = Many {
+      Int.parser()
+    } separator: {
+      OneOf {
+        "\u{00E9}".utf8
+        "e\u{0301}".utf8
+      }
+    }
+    .parse(&input)
+    precondition(output?.count == count)
+  }
 }
