@@ -52,7 +52,7 @@ extension Parser {
   @_disfavoredOverload
   public func parse(_ input: inout Input) throws -> Output {
     guard let output = self.parse(&input) else {
-      throw ParsingError(expect: "parser to throw", remainingInput: input)
+      throw ParsingError(expect: "parser to throw (\(Self.self))", remainingInput: input)
     }
     return output
   }
