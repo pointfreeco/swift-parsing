@@ -4,9 +4,20 @@ extension Bool {
   /// This parser only recognizes the literal "true" and "false" characters:
   ///
   /// ```swift
-  /// Bool.parser().parse("true Hello"[...].utf8)  // (output: true, rest: " Hello")
-  /// Bool.parser().parse("false Hello"[...].utf8) // (output: false, rest: " Hello")
-  /// Bool.parser().parse("1 Hello"[...].utf8)     // (output: nil, rest: "1 Hello")
+  /// // Parses "true":
+  /// var input = "true Hello"[...].utf8
+  /// Bool.parser().parse(&input)  // true
+  /// input                        // " Hello"
+  ///
+  /// // Parses "false":
+  /// input = "false Hello"[...].utf8
+  /// Bool.parser().parse(&input)  // false
+  /// input                        // " Hello"
+  ///
+  /// // Otherwise fails:
+  /// input = "1 Hello"[...].utf8
+  /// Bool.parser().parse(&input)  // nil
+  /// input                        // "1 Hello"
   /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
@@ -45,8 +56,8 @@ extension Bool {
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
-  ) -> Parsers.UTF8ViewToSubstring<Parsers.BoolParser<Substring.UTF8View>> {
-    .init(.init())
+  ) -> FromUTF8View<Substring, Parsers.BoolParser<Substring.UTF8View>> {
+    .init { Parsers.BoolParser<Substring.UTF8View>() }
   }
 }
 

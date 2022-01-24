@@ -28,6 +28,20 @@ public struct Always<Input, Output>: Parser {
   }
 }
 
+extension Always where Input == Substring {
+  @inlinable
+  public init(_ output: Output) {
+    self.output = output
+  }
+}
+
+extension Always where Input == Substring.UTF8View {
+  @inlinable
+  public init(_ output: Output) {
+    self.output = output
+  }
+}
+
 extension Parsers {
   public typealias Always = Parsing.Always  // NB: Convenience type alias for discovery
 }

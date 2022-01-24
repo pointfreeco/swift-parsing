@@ -18,8 +18,24 @@ test:
 		-scheme Parsing \
 		-destination platform="$(PLATFORM_TVOS)"
 
+test-linux:
+	docker run \
+		--rm \
+		-v "$(PWD):$(PWD)" \
+		-w "$(PWD)" \
+		swift:5.3 \
+		bash -c 'make test-swift'
+
+test-swift:
+	swift test \
+		--enable-test-discovery \
+		--parallel
+
 format:
 	swift format --in-place --recursive \
 		./Package.swift ./Sources ./Tests
 
-.PHONY: format test-all test-swift test-workspace
+generate-variadics:
+	swift run variadics-generator > Sources/Parsing/Builders/Variadics.swift
+
+.PHONY: benchmarks format generate-variadics test

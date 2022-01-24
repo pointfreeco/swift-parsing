@@ -2,6 +2,10 @@ import Benchmark
 import Foundation
 import Parsing
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 /*
  This benchmark demonstrates how you can build a URL request router that can transform an input
  request into a more well-structured data type, such as an enum. We build a router that can
@@ -9,158 +13,108 @@ import Parsing
  */
 
 let routingSuite = BenchmarkSuite(name: "Routing") { suite in
-  enum Route: Equatable {
-    case home
-    case contactUs
-    case episodes
-    case episode(id: Int)
-    case episodeComments(id: Int)
-  }
+  #if compiler(>=5.5)
+    enum AppRoute: Equatable {
+      case home
+      case contactUs
+      case episodes(Episodes)
+    }
+    enum Episodes: Equatable {
+      case index
+      case episode(id: Int, route: Episode)
+    }
+    enum Episode: Equatable {
+      case show
+      case comments(Comments)
+    }
+    enum Comments: Equatable {
+      case post(Comment)
+      case show(count: Int)
+    }
+    struct Comment: Decodable, Equatable {
+      let commenter: String
+      let message: String
+    }
 
-  let router = Method("GET")
-    .skip(End())
-    .map { Route.home }
-    .orElse(
-      Method("GET")
-        .skip(Path("contact-us".utf8))
-        .skip(End())
-        .map { Route.contactUs }
-    )
-    .orElse(
-      Method("GET")
-        .skip(Path("episodes".utf8))
-        .skip(End())
-        .map { Route.episodes }
-    )
-    .orElse(
-      Method("GET")
-        .skip(Path("episodes".utf8))
-        .take(Path(Int.parser()))
-        .skip(End())
-        .map(Route.episode(id:))
-    )
-    .orElse(
-      Method("GET")
-        .skip(Path("episodes".utf8))
-        .take(Path(Int.parser()))
-        .skip(Path("comments".utf8))
-        .skip(End())
-        .map(Route.episodeComments(id:))
-    )
+    let router = OneOf {
+      Route(AppRoute.home)
 
-  let requests = [
-    RequestData(
-      method: "GET"
-    ),
-    RequestData(
-      method: "GET",
-      pathComponents: ["contact-us"[...].utf8]
-    ),
-    RequestData(
-      method: "GET",
-      pathComponents: ["episodes"[...].utf8]
-    ),
-    RequestData(
-      method: "GET",
-      pathComponents: ["episodes"[...].utf8, "1"[...].utf8]
-    ),
-    RequestData(
-      method: "GET",
-      pathComponents: ["episodes"[...].utf8, "1"[...].utf8, "comments"[...].utf8]
-    ),
-  ]
-
-  var output: [Route]!
-  var expectedOutput = [
-    Route.home,
-    .contactUs,
-    .episodes,
-    .episode(id: 1),
-    .episodeComments(id: 1),
-  ]
-  suite.benchmark(
-    name: "Parser",
-    run: {
-      output = requests.map {
-        var input = $0
-        return router.parse(&input)!
+      Route(AppRoute.contactUs) {
+        Path(FromUTF8View { "contact-us".utf8 })
       }
-    },
-    tearDown: {
-      precondition(output == expectedOutput)
+
+      Route(AppRoute.episodes) {
+        Path(FromUTF8View { "episodes".utf8 })
+
+        OneOf {
+          Route(Episodes.index)
+
+          Route(Episodes.episode) {
+            Path(Int.parser())
+
+            OneOf {
+              Route(Episode.show)
+
+              Route(Episode.comments) {
+                Path(FromUTF8View { "comments".utf8 })
+
+                OneOf {
+                  Route(Comments.post) {
+                    Method.post
+                    Body {
+                      JSON(Comment.self)
+                    }
+                  }
+
+                  Route(Comments.show) {
+                    Query("count", Int.parser(), default: 10)
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
-  )
-}
 
-private struct RequestData {
-  var body: Data?
-  var headers: [(String, Substring.UTF8View)] = []
-  var method: String?
-  var pathComponents: ArraySlice<Substring.UTF8View> = []
-  var queryItems: [(String, Substring.UTF8View)] = []
-}
+    var postRequest = URLRequest(url: URL(string: "/episodes/1/comments")!)
+    postRequest.httpMethod = "POST"
+    postRequest.httpBody = Data(
+      """
+      {"commenter": "Blob", "message": "Hi!"}
+      """.utf8)
+    let requests = [
+      URLRequest(url: URL(string: "/")!),
+      URLRequest(url: URL(string: "/contact-us")!),
+      URLRequest(url: URL(string: "/episodes")!),
+      URLRequest(url: URL(string: "/episodes/1")!),
+      URLRequest(url: URL(string: "/episodes/1/comments")!),
+      URLRequest(url: URL(string: "/episodes/1/comments?count=20")!),
+      postRequest,
+    ]
+    .map { URLRequestData(request: $0)! }
 
-private struct Method: Parser {
-  typealias Input = RequestData
-  typealias Output = Void
-
-  let method: String
-
-  init(_ method: String) {
-    self.method = method
-  }
-
-  func parse(_ input: inout RequestData) -> Void? {
-    guard input.method?.lowercased() == self.method.lowercased()
-    else { return nil }
-
-    input.method = nil
-    return ()
-  }
-}
-
-private struct Path<Component>: Parser
-where
-  Component: Parser,
-  Component.Input == Substring.UTF8View
-{
-  typealias Input = RequestData
-  typealias Output = Component.Output
-
-  let component: Component
-
-  init(_ component: Component) {
-    self.component = component
-  }
-
-  func parse(_ input: inout Input) -> Output? {
-    guard !input.pathComponents.isEmpty
-    else { return nil }
-
-    let original = input
-    let output = self.component.parse(&input.pathComponents[input.pathComponents.startIndex])
-    guard input.pathComponents[input.pathComponents.startIndex].isEmpty
-    else {
-      input = original
-      return nil
-    }
-    input.pathComponents.removeFirst()
-    return output
-  }
-}
-
-private struct End: Parser {
-  typealias Input = RequestData
-  typealias Output = Void
-
-  func parse(_ input: inout Input) -> Output? {
-    guard
-      input.method == nil,
-      input.pathComponents.isEmpty
-    else { return nil }
-
-    input = .init()
-
-    return ()
-  }
+    var output: [AppRoute]!
+    var expectedOutput: [AppRoute] = [
+      .home,
+      .contactUs,
+      .episodes(.index),
+      .episodes(.episode(id: 1, route: .show)),
+      .episodes(.episode(id: 1, route: .comments(.show(count: 10)))),
+      .episodes(.episode(id: 1, route: .comments(.show(count: 20)))),
+      .episodes(.episode(id: 1, route: .comments(.post(.init(commenter: "Blob", message: "Hi!"))))),
+    ]
+    suite.benchmark(
+      name: "Parser",
+      run: {
+        output = requests.map {
+          var input = $0
+          return router.parse(&input)!
+        }
+      },
+      tearDown: {
+        precondition(output == expectedOutput)
+      }
+    )
+  #endif
 }

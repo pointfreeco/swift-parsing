@@ -3,10 +3,11 @@ extension Parser {
   /// the output of the given parser.
   ///
   /// - Parameter downstream: A parser that parses the output of this parser.
-  /// - Returns: A parser that pipes this parser's output into another parser.
-  @inlinable
-  public func pipe<Downstream>(_ downstream: Downstream) -> Parsers.Pipe<Self, Downstream> {
-    .init(upstream: self, downstream: downstream)
+  /// - Returns: A parser that pipes this parser's output into another parser.  @inlinable
+  public func pipe<Downstream>(
+    @ParserBuilder _ build: () -> Downstream
+  ) -> Parsers.Pipe<Self, Downstream> {
+    .init(upstream: self, downstream: build())
   }
 }
 

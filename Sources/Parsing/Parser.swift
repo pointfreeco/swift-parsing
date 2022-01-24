@@ -7,15 +7,16 @@
 /// a parsing failure.
 ///
 /// The argument of the ``parse(_:)-4u8o0`` function is `inout` because a parser will usually
-/// consume some of the input in order to produce an output. For example, we can use the
-/// `Int.parser()` parser to extract an integer from the beginning of a `UTF8View` and consume that
+/// consume some of the input in order to produce an output. For example, we can use an
+/// `Int.parser()` parser to extract an integer from the beginning of a substring and consume that
 /// portion of the string:
 ///
 /// ```swift
-/// var input = "123 Hello world"[...].utf8
-/// let output = Int.parser.parse(&input)
-/// precondition(output == 123)
-/// precondition(input.elementsEqual(" Hello world"[...].utf8))
+/// var input = "123 Hello world"[...]
+///
+/// Int.parser().parse(&input) // 123
+///
+/// precondition(input == " Hello world")
 /// ```
 ///
 /// It is best practice for a parser to _not_ consume any of the input if it fails to produce an
@@ -36,13 +37,6 @@ public protocol Parser {
 }
 
 extension Parser {
-  @inlinable
-  public func parse(_ input: Input) -> (output: Output?, rest: Input) {
-    var input = input
-    let output = self.parse(&input)
-    return (output, input)
-  }
-
   @inlinable
   public func parse<SuperSequence>(
     _ input: SuperSequence

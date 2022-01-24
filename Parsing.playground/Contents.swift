@@ -7,11 +7,12 @@ struct Color {
 let hexPrimary = Prefix(2)
   .compactMap { UInt8($0, radix: 16) }
 
-let hexColor = "#"
-  .take(hexPrimary)
-  .take(hexPrimary)
-  .take(hexPrimary)
-  .map(Color.init)
+let hexColor = Parse(Color.init(red:green:blue:)) {
+  "#"
+  hexPrimary
+  hexPrimary
+  hexPrimary
+}
 
 do {
   var hex = "#000000"[...]
