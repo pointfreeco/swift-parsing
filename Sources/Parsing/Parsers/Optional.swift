@@ -12,11 +12,26 @@ extension Optional: Parser where Wrapped: Parser {
 }
 
 extension Parsers {
+  /// A parser that attempts to run a given void parser, succeeding with void.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// `if` statements in a builder block:
+  ///
+  /// ```swift
+  /// Parse {
+  ///   "Hello"
+  ///   if useComma {
+  ///     ","
+  ///   }
+  ///   " "
+  ///   Rest()
+  /// }
+  /// ```
   public struct OptionalVoid<Wrapped>: Parser where Wrapped: Parser, Wrapped.Output == Void {
     let wrapped: Wrapped?
 
-    public init(upstream: Wrapped?) {
-      self.wrapped = upstream
+    public init(wrapped: Wrapped?) {
+      self.wrapped = wrapped
     }
 
     public func parse(_ input: inout Wrapped.Input) -> Void? {
