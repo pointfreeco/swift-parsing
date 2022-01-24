@@ -10,8 +10,6 @@
 /// }
 /// ```
 ///
-/// Use this parser when you are parsing into an output data model that contains `nil`.
-///
 /// If you are optionally parsing input that should coalesce into some default, you can skip the
 /// optionality and instead use ``OneOf`` with an ``Always`` parser, given a default:
 ///

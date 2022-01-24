@@ -1,28 +1,28 @@
-/// Parses a `Void` result if the next input does not match the provided `Upstream` ``Parser``,
-/// otherwise returns `nil`, in both cases leaving the input unchanged.
+/// A parser that succeeds if the given parser fails, and does not consume any input.
 ///
 /// For example:
 ///
 /// ```swift
-/// let uncommentedLine = Not("//").take(PrefixUpTo<Substring>("\n"))
+/// let uncommentedLine = Parse {
+///   Not { "//" }
+///   PrefixUpTo("\n")
+/// }
 /// ```
 ///
-/// This will check the input doesn't start with `"//"`, and if it doesn't, it will return the
-/// the whole input up to the first newline.
+/// This will check the input doesn't start with `"//"`, and if it doesn't, it will return the whole
+/// input up to the first newline.
 public struct Not<Upstream>: Parser where Upstream: Parser {
-  /// The parser from which this parser checks is successful.
   public let upstream: Upstream
 
-  /// Construct a ``Not`` with the provided `Upstream` ``Parser``.
+  /// Creates a parser that succeeds if the given parser fails, and does not consume any input.
   ///
-  /// - Parameter upstream: The ``Parser`` to check.
+  /// - Parameter build: A parser that causes this parser to fail if it succeeds, or succeed if it
+  ///   fails.
   @inlinable
   public init(@ParserBuilder _ build: () -> Upstream) {
     self.upstream = build()
   }
 
-  /// A parser that parses a `Void` result if the next input does not match the provided
-  /// `Upstream` ``Parser``, otherwise returns `nil`. In both cases leaving the `input`` unchanged.
   @inlinable
   public func parse(_ input: inout Upstream.Input) -> Void? {
     let original = input

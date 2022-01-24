@@ -1,4 +1,7 @@
-/// A custom parameter attribute that constructs a sequence of parsers from a block.
+/// A custom parameter attribute that constructs a parser that attempts to run a number of parsers,
+/// one after the other, and accumulates their outputs.
+///
+/// See ``Parse`` for an entrypoint into this builder.
 @resultBuilder
 public enum ParserBuilder {
   @inlinable

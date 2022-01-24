@@ -145,7 +145,7 @@ let user = Parse {
 .map { User(id: $0, name: String($1), isAdmin: $2) }
 ```
 
-To make the data we are parsing to more prominent, we can instead pass the transform function as the first argument to `Parse`:
+To make the data we are parsing to more prominent, we can instead pass the transform closure as the first argument to `Parse`:
 
 ```swift
 let user = Parse {
@@ -159,7 +159,7 @@ let user = Parse {
 }
 ```
 
-We can even pass the initializer directly if we map the name parser to a `String` in the builder block:
+If we map the name parser to a `String` in the builder block, we can even pass the user initializer directly:
 
 ```swift
 let user = Parse(User.init(id:name:isAdmin:)) {
@@ -248,7 +248,7 @@ That's the basics of parsing a simple string format, but there's a lot more oper
 
 ### Protocol
 
-The design of the library is largely inspired by the Swift standard library and Apple’s Combine framework. A parser is represented as a protocol that many types conform to, and then parser transformations (also known as “combinators”) are methods that return concrete types conforming to the parser protocol.
+The design of the library is largely inspired by the Swift standard library and Apple's Combine framework. A parser is represented as a protocol that many types conform to, and then parser transformations (also known as "combinators") are methods that return concrete types conforming to the parser protocol.
 
 For example, to parse all the characters from the beginning of a substring until you encounter a comma you can use the `Prefix` parser:
 
