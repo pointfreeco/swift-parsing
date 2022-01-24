@@ -11,19 +11,19 @@ import Parsing
 // MARK: - Parsers
 
 private let additionAndSubtraction = InfixOperator(
-  OneOf {
-    "+".utf8.map { (+) }
+  OneOfMany(
+    "+".utf8.map { (+) },
     "-".utf8.map { (-) }
-  },
+  ),
   associativity: .left,
   lowerThan: multiplicationAndDivision
 )
 
 private let multiplicationAndDivision = InfixOperator(
-  OneOf {
-    "*".utf8.map { (*) }
+  OneOfMany(
+    "*".utf8.map { (*) },
     "/".utf8.map { (/) }
-  },
+  ),
   associativity: .left,
   lowerThan: exponent
 )
@@ -34,16 +34,11 @@ private let exponent = InfixOperator(
   lowerThan: factor
 )
 
-private let factor: AnyParser<Substring.UTF8View, Double> = OneOf {
-  Parse {
-    "(".utf8
-    Lazy { additionAndSubtraction }
-    ")".utf8
-  }
-
-  Double.parser()
-}
-.eraseToAnyParser()
+private let factor: AnyParser<Substring.UTF8View, Double> = "(".utf8
+  .take(Lazy { additionAndSubtraction })
+  .skip(")".utf8)
+  .orElse(Double.parser())
+  .eraseToAnyParser()
 
 // MARK: -
 
