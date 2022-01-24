@@ -6,13 +6,17 @@
 /// For example, it can parse the leading character off a substring:
 ///
 /// ```swift
-/// First().parse("Hello"[...]) // (output: "H", rest: "ello")
+/// var input = "Hello"[...]
+/// First().parse(&input) // "H"
+/// input                 // "ello"
 /// ```
 ///
 /// If the collection is empty, or if it has been consumed in its entirety, parsing will fail:
 ///
 /// ```swift
-/// First().parse(""[...]) // (output: nil, rest: "")
+/// input = ""
+/// First().parse(&input) // nil
+/// input                 // ""
 /// ```
 public struct First<Input>: Parser
 where

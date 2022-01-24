@@ -9,7 +9,7 @@
 /// Optionally { Int.parser() }
 ///   .map { $0 ?? 0 }
 ///
-/// // vs
+/// // vs.
 ///
 /// OneOf {
 ///   Int.parser()
