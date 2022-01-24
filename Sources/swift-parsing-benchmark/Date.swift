@@ -64,7 +64,7 @@ private let timeNumoffset = Parse {
 }
 
 private let timeOffset = OneOf {
-  "Z".utf8.map { (/*sign: */1, /*minute: */0, /*second: */0) }
+  "Z".utf8.map { ( /*sign: */1, /*minute: */ 0, /*second: */ 0) }
   timeNumoffset
 }
 .compactMap { TimeZone(secondsFromGMT: $0 * ($1 * 60 + $2)) }

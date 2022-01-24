@@ -79,7 +79,8 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 
     var postRequest = URLRequest(url: URL(string: "/episodes/1/comments")!)
     postRequest.httpMethod = "POST"
-    postRequest.httpBody = Data("""
+    postRequest.httpBody = Data(
+      """
       {"commenter": "Blob", "message": "Hi!"}
       """.utf8)
     let requests = [

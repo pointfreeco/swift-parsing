@@ -32,7 +32,7 @@ let package = Package(
     .target(
       name: "variadics-generator",
       dependencies: [
-        .product(name: "ArgumentParser", package: "swift-argument-parser"),
+        .product(name: "ArgumentParser", package: "swift-argument-parser")
       ]
     ),
   ]

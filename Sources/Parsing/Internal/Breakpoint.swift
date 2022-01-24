@@ -12,7 +12,8 @@ func breakpoint(_ message: @autoclosure () -> String = "") {
     var info: kinfo_proc = kinfo_proc()
     var info_size = MemoryLayout<kinfo_proc>.size
 
-    let isDebuggerAttached = sysctl(&name, 4, &info, &info_size, nil, 0) != -1
+    let isDebuggerAttached =
+      sysctl(&name, 4, &info, &info_size, nil, 0) != -1
       && info.kp_proc.p_flag & P_TRACED != 0
 
     if isDebuggerAttached {
