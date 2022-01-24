@@ -66,9 +66,6 @@ private func isVersion(_ c: UTF8.CodeUnit) -> Bool {
     || c == .init(ascii: ".")
 }
 
-private typealias Input = Substring.UTF8View
-private typealias Output = (Request, [Header])
-
 // MARK: - Parsers
 
 private let method = Prefix(while: isToken)

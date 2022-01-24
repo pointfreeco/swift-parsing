@@ -13,10 +13,8 @@ import Parsing
 
 // MARK: - Parser
 
-private typealias Input = Substring.UTF8View
-
 private let digits = { (n: Int) in
-  Prefix<Input>(n).pipe {
+  Prefix<Substring.UTF8View>(n).pipe {
     Int.parser(isSigned: false)
     End()
   }
