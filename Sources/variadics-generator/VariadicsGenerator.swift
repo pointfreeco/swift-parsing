@@ -79,7 +79,6 @@ func outputForEach<C: Collection>(
   }
 }
 
-@main
 struct VariadicsGenerator: ParsableCommand {
   func run() throws {
     output("// BEGIN AUTO-GENERATED CONTENT\n\n")
