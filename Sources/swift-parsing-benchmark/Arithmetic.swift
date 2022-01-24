@@ -58,7 +58,6 @@ where
   public let operand: Operand
   public let `operator`: Operator
 
-  @inlinable
   public init(
     associativity: Associativity,
     @ParserBuilder operator: () -> Operator,
@@ -69,7 +68,6 @@ where
     self.operator = `operator`()
   }
 
-  @inlinable
   public func parse(_ input: inout Operand.Input) -> Operand.Output? {
     switch associativity {
     case .left:

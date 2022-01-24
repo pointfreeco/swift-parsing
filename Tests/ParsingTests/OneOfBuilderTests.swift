@@ -2,6 +2,25 @@ import Parsing
 import XCTest
 
 final class OneOfBuilderTests: XCTestCase {
+  func testBuildArray() {
+    enum Role: String, CaseIterable, Equatable {
+      case admin
+      case guest
+      case member
+    }
+
+    let parser = OneOf {
+      for role in Role.allCases {
+        role.rawValue.map { role }
+      }
+    }
+
+    for role in Role.allCases {
+      XCTAssertEqual(role, parser.parse(role.rawValue))
+    }
+    XCTAssertNil(parser.parse("president"))
+  }
+
   func testBuildIf() {
     enum Role {
       case admin
