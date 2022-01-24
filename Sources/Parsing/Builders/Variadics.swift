@@ -145,18 +145,17 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) throws -> (
 
-    )? {
+    ) {
       let original = input
-      guard
-        let _ = p0.parse(&input),
-        let _ = p1.parse(&input)
-      else {
+      do {
+        try p0.parse(&input) as P0.Output
+        try p1.parse(&input) as P1.Output
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return ()
     }
   }
 }
@@ -7194,12 +7193,12 @@ public let p0: P0, p1: P1
     @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
       do {
         return try self.p0.parse(&input)
-      } catch let e0 as ParsingError {
+      } catch let e0 as ParsingError<P0.Input> {
         do {
           return try self.p1.parse(&input)
-        } catch let e1 as ParsingError {
-          let failures = [e0, e1].map { "- \($0.message)" }.joined(separator: "\n")
-          throw ParsingError("Expected one of the following:\n\(failures)", rest: e1.rest)
+        } catch let e1 as ParsingError<P0.Input> {
+          let failures = [e0, e1].map { "- \($0.expected)" }.joined(separator: "\n")
+          throw ParsingError(expect: "one of:\n\(failures)", remainingInput: input)
         }
       }
     }

@@ -38,31 +38,22 @@ public protocol Parser {
   func parse(_ input: inout Input) throws -> Output
 }
 
-public struct ParsingError: Error {
-  public let message: String
-  public let rest: String
+public struct ParsingError<Input>: Error {
+  public let expected: String
+  public let remainingInput: Input
 
-  public init(_ message: String = "", rest: String = "") {
-    self.message = message
-    self.rest = rest
-  }
-
-  public init<Input>(_ message: String = "", rest: Input)
-  where Input: Collection, Input.SubSequence == Input, Input.Element == UInt8 {
-    self.message = message
-    self.rest = String(decoding: rest, as: UTF8.self)
-  }
-
-  public init<S: StringProtocol>(_ message: String = "", rest: S) {
-    self.message = message
-    self.rest = String(rest)
+  public init(expect expected: String = "", remainingInput: Input) {
+    self.expected = expected
+    self.remainingInput = remainingInput
   }
 }
 
 extension Parser {
   @_disfavoredOverload
   public func parse(_ input: inout Input) throws -> Output {
-    guard let output = self.parse(&input) else { throw ParsingError("'nil' overload used") }
+    guard let output = self.parse(&input) else {
+      throw ParsingError(expect: "parser to throw", remainingInput: input)
+    }
     return output
   }
 

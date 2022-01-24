@@ -13,7 +13,7 @@ public struct End<Input>: Parser where Input: Collection {
 
   @inlinable
   public func parse(_ input: inout Input) throws {
-    guard input.isEmpty else { throw ParsingError() }
+    guard input.isEmpty else { throw ParsingError(expect: "end of input", remainingInput: input) }
   }
 }
 
