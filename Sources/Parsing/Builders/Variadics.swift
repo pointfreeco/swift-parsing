@@ -7193,10 +7193,10 @@ public let p0: P0, p1: P1
     @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
       do {
         return try self.p0.parse(&input)
-      } catch let e0 as ParsingError<P0.Input> {
+      } catch let e0 as ParsingError {
         do {
           return try self.p1.parse(&input)
-        } catch let e1 as ParsingError<P0.Input> {
+        } catch let e1 as ParsingError {
           let failures = [e0, e1].map { "- \($0.expected)" }.joined(separator: "\n")
           throw ParsingError(expect: "one of:\n\(failures)", remainingInput: input)
         }

@@ -38,11 +38,11 @@ public protocol Parser {
   func parse(_ input: inout Input) throws -> Output
 }
 
-public struct ParsingError<Input>: Error {
+public struct ParsingError: Error {
   public let expected: String
-  public let remainingInput: Input
+  public let remainingInput: Any
 
-  public init(expect expected: String = "", remainingInput: Input) {
+  public init(expect expected: String = "", remainingInput: Any = ()) {
     self.expected = expected
     self.remainingInput = remainingInput
   }
