@@ -32,17 +32,20 @@ import Foundation
 /// precondition(input == "")
 /// precondition(output == 6)
 /// ```
-public struct Many<Element, Result, Separator>: Parser
+public struct Many<Element, Result, Separator, Terminator>: Parser
 where
   Element: Parser,
   Separator: Parser,
-  Element.Input == Separator.Input
+  Terminator: Parser,
+  Element.Input == Separator.Input,
+  Element.Input == Terminator.Input
 {
   public let element: Element
   public let initialResult: Result
   public let maximum: Int
   public let minimum: Int
   public let separator: Separator
+  public let terminator: Terminator
   public let updateAccumulatingResult: (inout Result, Element.Output) -> Void
 
   /// Initializes a parser that attempts to run the given parser at least and at most the given
@@ -64,13 +67,15 @@ where
     atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
     @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder separator: () -> Separator,
+    @ParserBuilder terminator: () -> Terminator
   ) {
     self.element = element()
     self.initialResult = initialResult
     self.maximum = maximum
     self.minimum = minimum
     self.separator = separator()
+    self.terminator = terminator()
     self.updateAccumulatingResult = updateAccumulatingResult
   }
 
@@ -83,11 +88,13 @@ where
     #endif
     var result = self.initialResult
     var count = 0
+    var elementError: Error?
     while count < self.maximum {
       let output: Element.Output
       do {
         output = try self.element.parse(&input)
       } catch {
+        elementError = error
         break
       }
       #if DEBUG
@@ -124,6 +131,12 @@ where
         }
       #endif
     }
+    input = rest
+    do {
+      _ = try self.terminator.parse(&input)
+    } catch {
+      throw elementError ?? error
+    }
     guard count >= self.minimum else {
       input = original
       throw ParsingError.failed(
@@ -134,12 +147,11 @@ where
         at: rest
       )
     }
-    input = rest
     return result
   }
 }
 
-extension Many where Separator == Always<Input, Void> {
+extension Many where Separator == Always<Input, Void>, Terminator == Always<Input, Void> {
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs into a result with a given closure.
   ///
@@ -164,6 +176,47 @@ extension Many where Separator == Always<Input, Void> {
     self.maximum = maximum
     self.minimum = minimum
     self.separator = .init(())
+    self.terminator = .init(())
+    self.updateAccumulatingResult = updateAccumulatingResult
+  }
+}
+
+extension Many where Separator == Always<Input, Void> {
+  @inlinable
+  public init(
+    into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder terminator: () -> Terminator
+  ) {
+    self.element = element()
+    self.initialResult = initialResult
+    self.maximum = maximum
+    self.minimum = minimum
+    self.separator = .init(())
+    self.terminator = terminator()
+    self.updateAccumulatingResult = updateAccumulatingResult
+  }
+}
+
+extension Many where Terminator == Always<Input, Void> {
+  @inlinable
+  public init(
+    into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator
+  ) {
+    self.element = element()
+    self.initialResult = initialResult
+    self.maximum = maximum
+    self.minimum = minimum
+    self.separator = separator()
+    self.terminator = .init(())
     self.updateAccumulatingResult = updateAccumulatingResult
   }
 }
@@ -183,7 +236,8 @@ extension Many where Result == [Element.Output] {
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder separator: () -> Separator,
+    @ParserBuilder terminator: () -> Terminator
   ) {
     self.init(
       into: [],
@@ -191,12 +245,18 @@ extension Many where Result == [Element.Output] {
       atMost: maximum,
       { $0.append($1) },
       element: element,
-      separator: separator
+      separator: separator,
+      terminator: terminator
     )
   }
 }
 
-extension Many where Result == [Element.Output], Separator == Always<Input, Void> {
+extension Many
+where
+  Result == [Element.Output],
+  Separator == Always<Input, Void>,
+  Terminator == Always<Input, Void>
+{
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs in an array.
   ///
@@ -217,6 +277,44 @@ extension Many where Result == [Element.Output], Separator == Always<Input, Void
       atMost: maximum,
       { $0.append($1) },
       element: element
+    )
+  }
+}
+
+extension Many where Result == [Element.Output], Separator == Always<Input, Void> {
+  @inlinable
+  public init(
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder terminator: () -> Terminator
+  ) {
+    self.init(
+      into: [],
+      atLeast: minimum,
+      atMost: maximum,
+      { $0.append($1) },
+      element: element,
+      terminator: terminator
+    )
+  }
+}
+
+extension Many where Result == [Element.Output], Terminator == Always<Input, Void> {
+  @inlinable
+  public init(
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator
+  ) {
+    self.init(
+      into: [],
+      atLeast: minimum,
+      atMost: maximum,
+      { $0.append($1) },
+      element: element,
+      separator: separator
     )
   }
 }

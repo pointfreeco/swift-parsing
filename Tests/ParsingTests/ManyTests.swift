@@ -110,4 +110,29 @@ class ManyTests: XCTestCase {
       ["2001", "db8", "", "2", "1"]
     )
   }
+
+  func testTerminator() throws {
+    let user = Parse {
+      Int.parser()
+      ","
+      Prefix { $0 != "," }
+      ","
+      Bool.parser()
+    }
+
+    let users = Many {
+      user
+    } separator: {
+      "\n"
+    } terminator: {
+      End()
+    }
+
+    var input = """
+      1,Blob,true
+      2,Blob Sr,false
+      3,Blob Jr,true
+      """[...]
+    try users.parse(&input)
+  }
 }
