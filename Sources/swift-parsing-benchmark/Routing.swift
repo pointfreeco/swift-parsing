@@ -2,6 +2,10 @@ import Benchmark
 import Foundation
 import Parsing
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 /*
  This benchmark demonstrates how you can build a URL request router that can transform an input
  request into a more well-structured data type, such as an enum. We build a router that can
