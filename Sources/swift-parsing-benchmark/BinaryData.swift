@@ -10,8 +10,7 @@ import Parsing
  (here)[https://tools.ietf.org/html/rfc1035#page-26]. It consists of 12 bytes, and contains
  information for 13 fields:
 
-                                   1  1  1  1  1  1
-     0  1  2  3  4  5  6  7  8  9  0  1  2  3  4  5
+     0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
      +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
      |                      ID                       |
      +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
@@ -30,56 +29,55 @@ import Parsing
 let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
   let id = Word16Parser()
 
-  let fields1 = First<Data>()
-    .map { (byte: UInt8) in
-      (
-        qr: Bit(rawValue: byte & 0b00000001)!,
-        opcode: Opcode(rawValue: (byte & 0b00011110) >> 1),
-        aa: Bit(rawValue: (byte & 0b00100000) >> 5)!,
-        tc: Bit(rawValue: (byte & 0b01000000) >> 6)!,
-        rd: Bit(rawValue: (byte & 0b10000000) >> 7)!
-      )
-    }
+  let fields1 = First<Data>().map { (byte: UInt8) in
+    (
+      qr: Bit(rawValue: byte & 0b00000001)!,
+      opcode: Opcode(rawValue: (byte & 0b00011110) >> 1),
+      aa: Bit(rawValue: (byte & 0b00100000) >> 5)!,
+      tc: Bit(rawValue: (byte & 0b01000000) >> 6)!,
+      rd: Bit(rawValue: (byte & 0b10000000) >> 7)!
+    )
+  }
 
-  let fields2 = First<Data>()
-    .map { byte in
-      (
-        ra: Bit(rawValue: byte & 0b00000001)!,
-        z: UInt3(uint8: (byte & 0b00001110) >> 1)!,
-        rcode: Rcode(rawValue: (byte & 0b11110000) >> 4)
-      )
-    }
+  let fields2 = First<Data>().map { byte in
+    (
+      ra: Bit(rawValue: byte & 0b00000001)!,
+      z: UInt3(uint8: (byte & 0b00001110) >> 1)!,
+      rcode: Rcode(rawValue: (byte & 0b11110000) >> 4)
+    )
+  }
 
-  let counts = Word16Parser()
-    .take(Word16Parser())
-    .take(Word16Parser())
-    .take(Word16Parser())
-    .map {
-      (qd: $0, an: $1, ns: $2, ar: $3)
-    }
+  let counts = Parse {
+    (qd: $0, an: $1, ns: $2, ar: $3)
+  } with: {
+    Word16Parser()
+    Word16Parser()
+    Word16Parser()
+    Word16Parser()
+  }
 
-  let header =
+  let header = Parse { id, fields1, fields2, counts in
+    DnsHeader(
+      id: id,
+      qr: fields1.qr,
+      opcode: fields1.opcode,
+      aa: fields1.aa,
+      tc: fields1.tc,
+      rd: fields1.rd,
+      ra: fields2.ra,
+      z: fields2.z,
+      rcode: fields2.rcode,
+      qdcount: counts.qd,
+      ancount: counts.an,
+      nscount: counts.ns,
+      arcount: counts.ar
+    )
+  } with: {
     id
-    .take(fields1)
-    .take(fields2)
-    .take(counts)
-    .map { id, fields1, fields2, counts in
-      DnsHeader(
-        id: id,
-        qr: fields1.qr,
-        opcode: fields1.opcode,
-        aa: fields1.aa,
-        tc: fields1.tc,
-        rd: fields1.rd,
-        ra: fields2.ra,
-        z: fields2.z,
-        rcode: fields2.rcode,
-        qdcount: counts.qd,
-        ancount: counts.an,
-        nscount: counts.ns,
-        arcount: counts.ar
-      )
-    }
+    fields1
+    fields2
+    counts
+  }
 
   let input = Data([
     // header

@@ -6,8 +6,10 @@ class PeekTests: XCTestCase {
   func testPeekDuplicate() throws {
     var input = "foobar"[...]
 
-    let duplicator = Peek(Rest<Substring>())
-      .take(Rest())
+    let duplicator = Parse {
+      Peek { Rest<Substring>() }
+      Rest()
+    }
 
     let result = duplicator.parse(&input)
 
@@ -19,8 +21,12 @@ class PeekTests: XCTestCase {
   func testPeekMatches() throws {
     var input = "_foo1 = nil"[...]
 
-    let identifier = Skip(Peek(Prefix(1) { $0.isLetter || $0 == "_" }))
-      .take(Prefix { $0.isNumber || $0.isLetter || $0 == "_" })
+    let identifier = Parse {
+      Skip {
+        Peek { Prefix(1) { $0.isLetter || $0 == "_" } }
+      }
+      Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
+    }
 
     let result = identifier.parse(&input)
 
@@ -31,8 +37,14 @@ class PeekTests: XCTestCase {
   func testPeekFails() throws {
     var input = "1foo = nil"[...]
 
-    let identifier = Skip(Peek(Prefix(1) { $0.isLetter || $0 == "_" }))
-      .take(Prefix { $0.isNumber || $0.isLetter || $0 == "_" })
+    let identifier = Parse {
+      Skip {
+        Peek {
+          Prefix(1) { $0.isLetter || $0 == "_" }
+        }
+      }
+      Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
+    }
 
     let result = identifier.parse(&input)
 

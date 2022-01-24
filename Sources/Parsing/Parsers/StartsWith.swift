@@ -6,13 +6,18 @@
 /// If `true`, it consumes this prefix and returns `Void`:
 ///
 /// ```swift
-/// StartsWith("Hello, ").parse("Hello, Blob!"[...]) // (output: (), rest: "Blob!")
+/// var input = "Hello, Blob!"[...]
+///
+/// StartsWith("Hello, ").parse(&input) // ()
+/// input                               // "Blob!"
 /// ```
 ///
 /// If `false`, it fails and leaves input intact:
 ///
 /// ```swift
-/// StartsWith("Hello, ").parse("Goodnight, Blob!"[...]) // (output: nil, rest: "Goodnight, Blob!")
+/// var input = "Goodnight, Blob!"[...]
+/// StartsWith("Hello, ").parse(&input) // nil
+/// input                               // "Goodnight, Blob!"
 /// ```
 ///
 /// This parser returns `Void` and _not_ the sequence of elements it consumes because the sequence
@@ -20,11 +25,14 @@
 /// ``StartsWith/init(_:)``). This means `StartsWith` plays nicely when chained into the
 /// ``Parser/take(_:)-1fw8y`` operation, which will discard the `Void` output.
 ///
-/// In many circumstances you can elide the `StartsWith` parser entirely and just use the collection as the
-/// parser. For example:
+/// In many circumstances you can elide the `StartsWith` parser entirely and just use the collection
+/// as the parser. For example:
 ///
 /// ```swift
-/// "Hello, ".parse("Hello, Blob!"[...]) // (output: (), rest: "Blob!")
+/// var input = "Hello, Blob!"[...]
+///
+/// "Hello, ".parse(&input) // ()
+/// input                   // "Blob!"
 /// ```
 public struct StartsWith<Input>: Parser
 where

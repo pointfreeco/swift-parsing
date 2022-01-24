@@ -1,33 +1,46 @@
-extension Optional {
-  /// A parser that parses `nil` when this parser fails.
-  ///
-  /// Use this parser when you are parsing into an output data model that contains `nil`.
-  ///
-  /// If you are optionally parsing input that should coalesce into some default, you can skip the
-  /// optionality and instead use ``Parser/orElse(_:)`` with an ``Always`` parser, given a default.
-  @inlinable
-  public static func parser<P>(of parser: P) -> Parsers.OptionalParser<P>
-  where P: Parser, P.Output == Wrapped {
-    .init(parser)
+extension Optional: Parser where Wrapped: Parser {
+  public func parse(_ input: inout Wrapped.Input) -> Wrapped.Output?? {
+    switch self {
+    case let .some(parser):
+      guard let output = parser.parse(&input)
+      else { return .none }
+      return output
+    case .none:
+      return .some(nil)
+    }
   }
 }
 
 extension Parsers {
-  /// A parser that parses `nil` when its wrapped parser fails.
+  /// A parser that attempts to run a given void parser, succeeding with void.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// `Optional.parser(of:)`, which constructs this type.
-  public struct OptionalParser<Wrapped>: Parser where Wrapped: Parser {
-    public let wrapped: Wrapped
+  /// `if` statements in a builder block:
+  ///
+  /// ```swift
+  /// Parse {
+  ///   "Hello"
+  ///   if useComma {
+  ///     ","
+  ///   }
+  ///   " "
+  ///   Rest()
+  /// }
+  /// ```
+  public struct OptionalVoid<Wrapped>: Parser where Wrapped: Parser, Wrapped.Output == Void {
+    let wrapped: Wrapped?
 
-    @inlinable
-    public init(_ wrapped: Wrapped) {
+    public init(wrapped: Wrapped?) {
       self.wrapped = wrapped
     }
 
-    @inlinable
-    public func parse(_ input: inout Wrapped.Input) -> Wrapped.Output?? {
-      .some(self.wrapped.parse(&input))
+    public func parse(_ input: inout Wrapped.Input) -> Void? {
+      switch self.wrapped {
+      case let .some(parser):
+        return parser.parse(&input)
+      case .none:
+        return ()
+      }
     }
   }
 }

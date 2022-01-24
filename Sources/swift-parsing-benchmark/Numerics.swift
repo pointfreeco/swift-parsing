@@ -41,7 +41,11 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     let expected = Array(1...100_000)
     var output: [Int]!
 
-    let parser = Many(Int.parser(), separator: ",".utf8)
+    let parser = Many {
+      Int.parser()
+    } separator: {
+      ",".utf8
+    }
     suite.benchmark(
       name: "Comma separated: Int.parser",
       run: { output = parser.parse(input) },
@@ -110,7 +114,11 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     let expected = (1...100_000).map(Double.init)
     var output: [Double]!
 
-    let parser = Many(Double.parser(), separator: ",".utf8)
+    let parser = Many {
+      Double.parser()
+    } separator: {
+      ",".utf8
+    }
     suite.benchmark(
       name: "Comma separated: Double.parser",
       run: { output = parser.parse(input) },

@@ -21,26 +21,37 @@ let xcodeLogsSuite = BenchmarkSuite(name: "Xcode Logs") { suite in
   )
 }
 
-private let testCaseFinishedLine = Skip(PrefixThrough(" (".utf8))
-  .take(Double.parser())
-  .skip(" seconds).\n".utf8)
-
-private let testCaseStartedLine = Skip(PrefixUpTo("Test Case '-[".utf8))
-  .take(PrefixThrough("\n".utf8))
-  .map { line in
-    line.split(separator: .init(ascii: " "))[3].dropLast(2)
+private let testCaseFinishedLine = Parse {
+  Skip {
+    PrefixThrough(" (".utf8)
   }
+  Double.parser()
+  " seconds).\n".utf8
+}
 
-private let fileName = Skip("/".utf8)
-  .take(PrefixThrough(".swift".utf8))
-  .compactMap { $0.split(separator: .init(ascii: "/")).last }
+private let testCaseStartedLine = Parse {
+  Skip {
+    PrefixUpTo("Test Case '-[".utf8)
+  }
+  PrefixThrough("\n".utf8)
+    .map { line in line.split(separator: .init(ascii: " "))[3].dropLast(2) }
+}
 
-private let testCaseBody =
+private let fileName = Parse {
+  "/".utf8
+  PrefixThrough(".swift".utf8)
+    .compactMap { $0.split(separator: .init(ascii: "/")).last }
+}
+
+private let testCaseBody = Parse {
   fileName
-  .skip(":".utf8)
-  .take(Int.parser())
-  .skip(PrefixThrough("] : ".utf8))
-  .take(Rest())
+  ":".utf8
+  Int.parser()
+  Skip {
+    PrefixThrough("] : ".utf8)
+  }
+  Rest()
+}
 
 struct TestCaseBody: Parser {
   func parse(
@@ -85,28 +96,36 @@ enum TestResult {
   case passed(testName: Substring, time: Double)
 }
 
-private let testFailed =
+private let testFailed = Parse {
   testCaseStartedLine
-  .take(Many(TestCaseBody()))
-  .take(testCaseFinishedLine)
-  .map { testName, bodyData, time in
-    bodyData.map { body in
-      TestResult.failed(
-        failureMessage: Substring(body.2),
-        file: Substring(body.0),
-        line: body.1,
-        testName: Substring(testName),
-        time: time
-      )
-    }
+  Many { TestCaseBody() }
+  testCaseFinishedLine
+}
+.map { testName, bodyData, time in
+  bodyData.map { body in
+    TestResult.failed(
+      failureMessage: Substring(body.2),
+      file: Substring(body.0),
+      line: body.1,
+      testName: Substring(testName),
+      time: time
+    )
   }
-  .filter { !$0.isEmpty }
+}
+.filter { !$0.isEmpty }
 
-private let testPassed = testCaseStartedLine.map(Substring.init)
-  .take(testCaseFinishedLine)
-  .map { [TestResult.passed(testName: $0, time: $1)] }
+private let testPassed = Parse {
+  testCaseStartedLine.map(Substring.init)
+  testCaseFinishedLine
+}
+.map { [TestResult.passed(testName: $0, time: $1)] }
 
-private let testResult = testFailed.orElse(testPassed)
+private let testResult = OneOf {
+  testFailed
+  testPassed
+}
 
-let testResultsUtf8 = Many(testResult)
-  .map { $0.flatMap { $0 } }
+let testResultsUtf8 = Many {
+  testResult
+}
+.map { $0.flatMap { $0 } }

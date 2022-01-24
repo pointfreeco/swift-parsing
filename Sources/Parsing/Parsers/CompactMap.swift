@@ -1,5 +1,5 @@
 extension Parser {
-  /// Returns a parser that outputs the non-`nil` results of calling the given closure with the
+  /// Returns a parser that outputs the non-`nil` result of calling the given closure with the
   /// output of this parser.
   ///
   /// This method is similar to `Sequence.compactMap` in the Swift standard library, as well as
@@ -26,8 +26,8 @@ extension Parser {
 }
 
 extension Parsers {
-  /// A parser that outputs the non-`nil` results of calling the given transformation with the
-  /// output of its upstream parser.
+  /// A parser that outputs the non-`nil` result of calling the given transformation with the output
+  /// of its upstream parser.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/compactMap(_:)`` operation, which constructs this type.

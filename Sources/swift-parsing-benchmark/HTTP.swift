@@ -66,40 +66,57 @@ private func isVersion(_ c: UTF8.CodeUnit) -> Bool {
     || c == .init(ascii: ".")
 }
 
+// MARK: - Parsers
+
 private let method = Prefix(while: isToken)
-  .map { String(Substring($0)) }
+  .map { String(decoding: $0, as: UTF8.self) }
 
 private let uri = Prefix(while: isNotSpace)
-  .map { String(Substring($0)) }
+  .map { String(decoding: $0, as: UTF8.self) }
 
-private let httpVersion = "HTTP/".utf8
-  .take(Prefix(while: isVersion))
-  .map { String(Substring($0)) }
+private let httpVersion = Parse {
+  "HTTP/".utf8
+  Prefix(while: isVersion)
+}
+.map { String(decoding: $0, as: UTF8.self) }
 
-private let requestLine =
+private let requestLine = Parse(Request.init(method:uri:version:)) {
   method
-  .skip(" ".utf8)
-  .take(uri)
-  .skip(" ".utf8)
-  .take(httpVersion)
-  .skip(Newline())
-  .map(Request.init)
+  " ".utf8
+  uri
+  " ".utf8
+  httpVersion
+  Newline()
+}
 
-private let headerValue = " ".utf8.orElse("\t".utf8)
-  .skip(Prefix(while: isHorizontalSpace))
-  .take(
-    Prefix(while: notLineEnding)
-      .map { String(Substring($0)) }
-  )
-  .skip(Newline())
+private let headerValue = Parse {
+  Skip {
+    OneOf {
+      " ".utf8
+      "\t".utf8
+    }
+    Prefix(while: isHorizontalSpace)
+  }
+  Prefix(while: notLineEnding).map { String(decoding: $0, as: UTF8.self) }
+  Skip {
+    Newline()
+  }
+}
 
-private let header = Prefix(while: isToken)
-  .map { String(Substring($0)) }
-  .skip(":".utf8)
-  .take(Many(headerValue))
-  .map(Header.init)
+private let header = Parse(Header.init(name:value:)) {
+  Prefix(while: isToken).map { String(decoding: $0, as: UTF8.self) }
+  ":".utf8
+  Many {
+    headerValue
+  }
+}
 
-private let request = requestLine.take(Many(header))
+private let request = Parse {
+  requestLine
+  Many {
+    header
+  }
+}
 
 let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
   let input = """

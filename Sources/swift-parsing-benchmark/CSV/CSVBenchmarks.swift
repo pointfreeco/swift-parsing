@@ -2,23 +2,62 @@ import Benchmark
 import Foundation
 import Parsing
 
-// MARK: - Parser
+let csvSuite = BenchmarkSuite(name: "CSV") { suite in
+  let rowCount = 1_000
+  let columnCount = 5
+  var output: [[String]] = []
 
-private let plainField = Prefix {
-  $0 != .init(ascii: ",") && $0 != .init(ascii: "\n")
+  suite.benchmark(
+    name: "Parser",
+    run: {
+      output = csv.parse(csvInput)!
+    },
+    tearDown: {
+      precondition(output.count == rowCount)
+      precondition(output.allSatisfy { $0.count == columnCount })
+    }
+  )
+
+  suite.benchmark(
+    name: "Ad hoc mutating methods",
+    run: {
+      var input = csvInput[...].utf8
+      output = input.parseCsv()
+    },
+    tearDown: {
+      precondition(output.count == rowCount)
+      precondition(output.allSatisfy { $0.count == columnCount })
+    }
+  )
 }
 
-private let quotedField = "\"".utf8
-  .take(Prefix { $0 != .init(ascii: "\"") })
-  .skip("\"".utf8)
+// MARK: - Parser
 
-private let field = quotedField.orElse(plainField)
-  .map { String(decoding: $0, as: UTF8.self) }
-//  .map { String(Substring($0)) }
+private let plainField = Prefix { $0 != .init(ascii: ",") && $0 != .init(ascii: "\n") }
 
-private let line = Many(field, separator: ",".utf8)
+private let quotedField = Parse {
+  "\"".utf8
+  Prefix { $0 != .init(ascii: "\"") }
+  "\"".utf8
+}
 
-private let csv = Many(line, separator: "\n".utf8)
+private let field = OneOf {
+  quotedField
+  plainField
+}
+.map { String(Substring($0)) }
+
+private let line = Many {
+  field
+} separator: {
+  ",".utf8
+}
+
+private let csv = Many {
+  line
+} separator: {
+  "\n".utf8
+}
 
 // MARK: - Ad hoc mutating methods
 
@@ -72,35 +111,4 @@ extension Substring.UTF8View {
     self.removeFirst(prefix.count)
     return prefix
   }
-}
-
-// MARK: - Suite
-
-let csvSuite = BenchmarkSuite(name: "CSV") { suite in
-  let rowCount = 1_000
-  let columnCount = 5
-  var output: [[String]] = []
-
-  suite.benchmark(
-    name: "Parser",
-    run: {
-      output = csv.parse(csvInput)!
-    },
-    tearDown: {
-      precondition(output.count == rowCount)
-      precondition(output.allSatisfy { $0.count == columnCount })
-    }
-  )
-
-  suite.benchmark(
-    name: "Ad hoc mutating methods",
-    run: {
-      var input = csvInput[...].utf8
-      output = input.parseCsv()
-    },
-    tearDown: {
-      precondition(output.count == rowCount)
-      precondition(output.allSatisfy { $0.count == columnCount })
-    }
-  )
 }

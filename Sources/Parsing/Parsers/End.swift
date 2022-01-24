@@ -1,8 +1,24 @@
 /// A parser that succeeds if the input is empty, and fails otherwise.
 ///
+/// Useful as a final parser in a long sequence of parsers to guarantee that all input has been
+/// consumed.
+///
 /// ```swift
-/// End<Substring>().parse(""[...]) // (output: (), rest: "")
-/// End<Substring>().parse("Hello"[...]) // (output: nil, rest: "Hello")
+/// let parser = Parse {
+///   Many {
+///     Int.parser()
+///   } separator: {
+///     ","
+///   }
+///
+///   End()  // All input should be consumed.
+/// }
+///
+/// var input = "1,2,3"[...]
+/// parser.parse(&input) // [1, 2, 3]
+///
+/// input = "1,2,3,hello"
+/// parser.parse(&input) // nil
 /// ```
 public struct End<Input>: Parser where Input: Collection {
   @inlinable

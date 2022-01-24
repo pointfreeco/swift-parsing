@@ -1,7 +1,18 @@
 /// A parser that always fails, no matter the input.
 ///
+/// Useful for conditionally causing parsing to fail when used with `Parser.flatMap`.
+///
 /// ```swift
-/// Fail<Substring, Int>().parse("123 Hello") // (output: nil, rest: "123 Hello")
+/// let evens = Int.parser().flatMap {
+///   if $0.isMultiple(of: 2) {
+///     Always($0)
+///   } else {
+///     Fail()
+///   }
+/// }
+///
+/// evens.parse("42")  // 42
+/// evens.parse("123") // nil
 /// ```
 public struct Fail<Input, Output>: Parser {
   @inlinable
