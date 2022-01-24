@@ -1,5 +1,16 @@
 // NB: Deprecated after 0.4.1:
 
+extension Parser {
+  @_disfavoredOverload
+  @available(*, deprecated, message: "Use the 'inout' version of 'parse', instead.")
+  @inlinable
+  public func parse(_ input: Input) -> (output: Output?, rest: Input) {
+    var input = input
+    let output = self.parse(&input)
+    return (output, input)
+  }
+}
+
 extension Many {
   @available(macOS 0, iOS 0, watchOS 0, tvOS 0, *)
   @available(macOS, deprecated: 100000, message: "Use the '@ParserBuilder' initializer instead.")
