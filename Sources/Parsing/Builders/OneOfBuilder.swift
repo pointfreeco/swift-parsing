@@ -1,7 +1,7 @@
 /// A custom parameter attribute that constructs a parser that attempts to run a number of parsers,
 /// one after the other, till one succeeds with an output.
 ///
-/// See ``OneOf`` for an entrypoint into this builder.
+/// See ``OneOf`` for an entry point into this builder.
 @resultBuilder
 public enum OneOfBuilder {
   @inlinable
