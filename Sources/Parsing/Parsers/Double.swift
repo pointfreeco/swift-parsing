@@ -180,14 +180,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout Input) -> Double? {
-      let original = input
       guard
         let s = input.parseFloat(),
         let n = Double(String(decoding: s, as: UTF8.self))
-      else {
-        input = original
-        return nil
-      }
+      else { return nil }
       return n
     }
   }
@@ -207,14 +203,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout Input) -> Float? {
-      let original = input
       guard
         let s = input.parseFloat(),
         let n = Float(String(decoding: s, as: UTF8.self))
-      else {
-        input = original
-        return nil
-      }
+      else { return nil }
       return n
     }
   }
@@ -235,14 +227,10 @@ extension Parsers {
 
       @inlinable
       public func parse(_ input: inout Input) -> Float80? {
-        let original = input
         guard
           let s = input.parseFloat(),
           let n = Float80(String(decoding: s, as: UTF8.self))
-        else {
-          input = original
-          return nil
-        }
+        else { return nil }
         return n
       }
     }

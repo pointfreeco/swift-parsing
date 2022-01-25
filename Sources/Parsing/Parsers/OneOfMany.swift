@@ -29,7 +29,9 @@ extension Parsers {
     @inline(__always)
     public func parse(_ input: inout Parsers.Input) -> Parsers.Output? {
       for parser in self.parsers {
-        if let output = parser.parse(&input) {
+        var i = input
+        if let output = parser.parse(&i) {
+          input = i
           return output
         }
       }

@@ -45,7 +45,6 @@ where
       }
       input.removeFirst()
     }
-    input = original
     return nil
   }
 }

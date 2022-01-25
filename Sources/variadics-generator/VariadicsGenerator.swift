@@ -120,12 +120,12 @@ struct VariadicsGenerator: ParsableCommand {
       outputForEach(0..<arity, separator: "\n      ") { "self.p\($0) = p\($0)" }
       output("\n    }\n\n    @inlinable public func parse(_ input: inout P0.Input) -> (\n")
       outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
-      output("\n    )? {\n      let original = input\n      guard\n        ")
+      output("\n    )? {\n      guard\n        ")
       outputForEach(0..<arity, separator: ",\n        ") {
         "let \(permutation.isCaptureless(at: $0) ? "_" : "o\($0)") = p\($0).parse(&input)"
       }
       output(
-        "\n      else {\n        input = original\n        return nil\n      }\n      return ("
+        "\n      else {\n        return nil\n      }\n      return ("
       )
       outputForEach(permutation.captureIndices, separator: ", ") { "o\($0)" }
       output(")\n    }\n  }\n}\n\n")
@@ -168,7 +168,13 @@ struct VariadicsGenerator: ParsableCommand {
     output("\n    }\n\n    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {")
     output("\n      ")
     outputForEach(0..<arity, separator: "\n      ") {
-      "if let output = self.p\($0).parse(&input) { return output }"
+      """
+      var i\($0) = input
+            if let output = self.p\($0).parse(&i\($0)) {
+              input = i\($0)
+              return output
+            }
+      """
     }
     output("\n      return nil\n    }\n  }\n}\n\n")
 
