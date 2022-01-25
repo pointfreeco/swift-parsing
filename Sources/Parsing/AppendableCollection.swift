@@ -31,16 +31,15 @@ extension Substring.UTF8View: AppendableCollection {
   }
 
   @inlinable
-  public mutating func append(contentsOf other: Substring.UTF8View) {
-    var str = Substring(self)
-    str.append(contentsOf: Substring(other))
-    self = str.utf8
-  }
-
-  @inlinable
   public mutating func append<S: Sequence>(contentsOf elements: S) where S.Element == Element {
     var str = Substring(self)
-    str.append(contentsOf: Substring(decoding: Array(elements), as: UTF8.self))
-    self = str.utf8
+    defer { self = str.utf8 }
+
+    switch elements {
+    case let elements as Substring.UTF8View:
+      str.append(contentsOf: Substring(elements))
+    default:
+      str.append(contentsOf: Substring(decoding: Array(elements), as: UTF8.self))
+    }
   }
 }
