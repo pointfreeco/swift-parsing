@@ -91,6 +91,8 @@ private let races = Many {
   race
 } separator: {
   "\n---\n".utf8
+} terminator: {
+  End()
 }
 
 // MARK: - Benchmarks

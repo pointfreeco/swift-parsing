@@ -88,13 +88,13 @@ where
     #endif
     var result = self.initialResult
     var count = 0
-    var elementError: Error?
+    var loopError: Error?
     while count < self.maximum {
       let output: Element.Output
       do {
         output = try self.element.parse(&input)
       } catch {
-        elementError = error
+        loopError = error
         break
       }
       #if DEBUG
@@ -106,6 +106,7 @@ where
       do {
         _ = try self.separator.parse(&input)
       } catch {
+        loopError = error
         break
       }
       #if DEBUG
@@ -136,7 +137,7 @@ where
       _ = try self.terminator.parse(&input)
     } catch {
       input = original
-      throw elementError ?? error
+      throw loopError ?? error
     }
     guard count >= self.minimum else {
       input = original
