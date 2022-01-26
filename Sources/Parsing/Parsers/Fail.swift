@@ -15,30 +15,43 @@
 /// evens.parse("123") // nil
 /// ```
 public struct Fail<Input, Output>: Parser {
+  @usableFromInline
+  let error: Error
+
   @inlinable
-  public init() {}
+  public init(throwing error: Error) {
+    self.error = error
+  }
 
   @inlinable
   public func parse(_ input: inout Input) throws -> Output {
-    // TODO: `Fail.init(throwing: Error)`?
-    throw ParsingError.failed(
-      summary: "failed",
-      label: "",
-      at: input
-    )
+    switch self.error {
+    case is ParsingError:
+      throw self.error
+    default:
+      throw ParsingError.failed(
+        "",
+        .init(
+          remainingInput: input,
+          debugDescription: "failed",
+          underlyingError: self.error
+        )
+      )
+    }
   }
 }
 
-extension Fail where Input == Substring {
-  @_disfavoredOverload
+extension Fail {
   @inlinable
-  public init() {}
-}
+  public init() {
+    self.init(throwing: DefaultError())
+  }
 
-extension Fail where Input == Substring.UTF8View {
-  @_disfavoredOverload
-  @inlinable
-  public init() {}
+  @usableFromInline
+  struct DefaultError: Error {
+    @usableFromInline
+    init() {}
+  }
 }
 
 extension Parsers {

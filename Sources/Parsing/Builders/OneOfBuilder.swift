@@ -29,14 +29,29 @@ public enum OneOfBuilder {
   }
 
   @inlinable
-  public static func buildIf<P>(_ parser: P?) -> Conditional<P, Fail<P.Input, P.Output>> {
-    parser.map(Conditional.first) ?? .second(.init())
+  public static func buildIf<P>(_ parser: P?) -> OptionalOneOf<P> {
+    .init(wrapped: parser)
   }
 
   @inlinable
-  public static func buildLimitedAvailability<P>(
-    _ parser: P?
-  ) -> Conditional<P, Fail<P.Input, P.Output>> {
-    parser.map(Conditional.first) ?? .second(.init())
+  public static func buildLimitedAvailability<P>(_ parser: P?) -> OptionalOneOf<P> {
+    .init(wrapped: parser)
+  }
+
+  public struct OptionalOneOf<Wrapped>: Parser where Wrapped: Parser {
+    @usableFromInline
+    let wrapped: Wrapped?
+
+    @usableFromInline
+    init(wrapped: Wrapped?) {
+      self.wrapped = wrapped
+    }
+
+    @inlinable
+    public func parse(_ input: inout Wrapped.Input) throws -> Wrapped.Output {
+      guard let wrapped = self.wrapped
+      else { throw ParsingError.manyFailed([], at: input) }
+      return try wrapped.parse(&input)
+    }
   }
 }
