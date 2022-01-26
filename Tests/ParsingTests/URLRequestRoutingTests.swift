@@ -1,7 +1,7 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
-struct ParsingError: LocalizedError {
+struct RoutingError: LocalizedError {
   var errorDescription: String?
 
   init(expect errorDescription: String) {
@@ -117,13 +117,13 @@ where
   func parse(_ input: inout URLRequestData) throws -> Parsers.Output {
     guard var body = input.body
     else {
-      throw ParsingError(expect: "HTTP body to be present")
+      throw RoutingError(expect: "HTTP body to be present")
     }
 
     let output = try self.bodyParser.parse(&body)
 
     guard body.isEmpty else {
-      throw ParsingError(
+      throw RoutingError(
         expect: """
           HTTP body to have been fully parsed (\(body.count) bytes remaining)
           """
@@ -172,10 +172,9 @@ struct Method: Parser {
   func parse(_ input: inout URLRequestData) throws {
     guard input.method?.uppercased() == self.name
     else {
-      throw ParsingError(expect: "Method \(self.name)")
+      throw RoutingError(expect: "Method \(self.name)")
     }
     input.method = nil
-    return ()
   }
 }
 
@@ -195,14 +194,14 @@ where
   func parse(_ input: inout URLRequestData) throws -> Component.Output {
     guard var component = input.path.first
     else {
-      throw ParsingError(expect: "another path component")
+      throw RoutingError(expect: "another path component")
     }
 
     let output = try self.componentParser.parse(&component)
 
     guard component.isEmpty
     else {
-      throw ParsingError(
+      throw RoutingError(
         expect: """
           to have fully consumed "\(input.path.first!)" from path; remaining: "\(component)"
           """
@@ -221,8 +220,7 @@ struct PathEnd: Parser {
   @inlinable
   func parse(_ input: inout URLRequestData) throws {
     guard input.path.isEmpty
-    else { throw ParsingError(expect: "path to be empty") }
-    return ()
+    else { throw RoutingError(expect: "path to be empty") }
   }
 }
 
@@ -272,7 +270,7 @@ where
       let wrapped = input.query[self.name]?.first,
       var value = wrapped
     else {
-      return try defaultOrError(ParsingError(expect: "query item named \"\(self.name)\""))
+      return try defaultOrError(RoutingError(expect: "query item named \"\(self.name)\""))
     }
 
     let output: Value.Output
@@ -285,7 +283,7 @@ where
     guard value.isEmpty
     else {
       return try defaultOrError(
-        ParsingError(
+        RoutingError(
           expect: """
             to have fully consumed "\(input.query[self.name]!.first!!)" from query item named \
             "\(self.name)"; remaining: "\(value)"
@@ -346,7 +344,7 @@ where
       input.path.isEmpty
     else {
       input = original
-      throw ParsingError(
+      throw RoutingError(
         expect: """
           method and all path components to be consumed from input: \(input)
           """

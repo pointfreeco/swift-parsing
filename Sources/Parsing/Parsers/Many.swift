@@ -142,7 +142,10 @@ where
       input = original
       let atLeast = self.minimum - count
       throw ParsingError.expectedInput(
-        "\(atLeast) value\(atLeast == 1 ? "" : "s") of \(Element.Output.self)",
+        """
+        \(atLeast) \(count == 0 ? "" : "more ")value\(atLeast == 1 ? "" : "s") of \
+        \(Element.Output.self)
+        """,
         at: rest
       )
     }

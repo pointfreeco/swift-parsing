@@ -153,11 +153,12 @@ where
     prefix = predicate.map { prefix.prefix(while: $0) } ?? prefix
     let count = prefix.count
     guard count >= self.minLength else {
-      throw ParsingError.failed(
-        debugDescription: """
-          Parsed "\(prefix)", but it must contain at least \(self.minLength) elements (contains \
-          \(count)).
-          """,
+      let atLeast = self.minLength - count
+      throw ParsingError.expectedInput(
+        """
+        \(self.minLength - count) \(count == 0 ? "" : " more")element\(atLeast == 1 ? "" : "s")\
+        \(predicate == nil ? "" : " satisfying predicate")
+        """,
         at: input
       )
     }

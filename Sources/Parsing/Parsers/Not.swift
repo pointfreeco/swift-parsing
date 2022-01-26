@@ -32,6 +32,6 @@ public struct Not<Upstream>: Parser where Upstream: Parser {
       return
     }
     input = original
-    throw ParsingError.failed(debugDescription: "TODO", at: input)
+    throw ParsingError.failed(summary: "TODO", label: "TODO", at: input)
   }
 }

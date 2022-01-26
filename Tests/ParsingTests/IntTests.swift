@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class IntTests: XCTestCase {
@@ -26,21 +26,61 @@ final class IntTests: XCTestCase {
     XCTAssertEqual(" Hello", String(input))
 
     input = "Hello"[...].utf8
-    XCTAssertThrowsError(try parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | Hello
+          | ^ expected integer
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("Hello", String(input))
 
     input = "- Hello"[...].utf8
-    XCTAssertThrowsError(try parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:2
+        1 | - Hello
+          |  ^ expected integer
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("- Hello", String(input))
 
     input = "+ Hello"[...].utf8
-    XCTAssertThrowsError(try parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | + Hello
+          |  ^ expected integer
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("+ Hello", String(input))
   }
 
   func testOverflow() {
     var input = "1234 Hello"[...].utf8
-    XCTAssertThrowsError(try UInt8.parser(of: Substring.UTF8View.self).parse(&input))
+    XCTAssertThrowsError(try UInt8.parser(of: Substring.UTF8View.self).parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: failed to process integer
+         --> input:1:1
+        1 | 1234 Hello
+          |     ^ overflow maximum of 255
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("1234 Hello", String(input))
   }
 }

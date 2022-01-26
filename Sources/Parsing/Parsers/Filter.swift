@@ -37,9 +37,10 @@ extension Parsers {
       else {
         input = original
         throw ParsingError.failed(
-          debugDescription: """
-            Parsed "\(output)", but it failed to satisfy the predicate passed to "filter"
+          summary: """
+            parsed "\(output)", but it failed to satisfy the predicate passed to "filter"
             """,
+          label: "remaining input",
           at: input
         )
       }

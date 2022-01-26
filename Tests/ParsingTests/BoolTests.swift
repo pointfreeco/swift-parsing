@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class BoolTests: XCTestCase {
@@ -16,7 +16,17 @@ final class BoolTests: XCTestCase {
 
   func testParseFailure() {
     var input = "Hello, world!"[...].utf8
-    XCTAssertThrowsError(try Bool.parser().parse(&input))
+    XCTAssertThrowsError(try Bool.parser().parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | Hello, world!
+          | ^ expected boolean
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("Hello, world!", Substring(input))
   }
 }

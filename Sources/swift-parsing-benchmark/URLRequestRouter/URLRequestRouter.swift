@@ -97,7 +97,6 @@
         throw ParsingError()
       }
       input.method = nil
-      return ()
     }
   }
 
@@ -137,10 +136,9 @@
     init() {}
 
     @inlinable
-    func parse(_ input: inout URLRequestData) -> Void? {
+    func parse(_ input: inout URLRequestData) throws {
       guard input.path.isEmpty
-      else { return nil }
-      return ()
+      else { throw ParsingError() }
     }
   }
 

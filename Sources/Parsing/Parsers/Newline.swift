@@ -14,12 +14,12 @@ where
   public func parse(_ input: inout Input) throws {
     if input.first == .init(ascii: "\n") {
       input.removeFirst()
-      return ()
+      return
     } else if input.first == .init(ascii: "\r"), input.dropFirst().first == .init(ascii: "\n") {
       input.removeFirst(2)
-      return ()
+      return
     }
-    throw ParsingError.expectedInput("a newline", at: input)
+    throw ParsingError.expectedInput("newline", at: input)
   }
 }
 

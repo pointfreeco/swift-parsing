@@ -21,7 +21,11 @@ public struct Fail<Input, Output>: Parser {
   @inlinable
   public func parse(_ input: inout Input) throws -> Output {
     // TODO: `Fail.init(throwing: Error)`?
-    throw ParsingError.failed(debugDescription: "A failing parser ran.", at: input)
+    throw ParsingError.failed(
+      summary: "failed",
+      label: "remaining input",
+      at: input
+    )
   }
 }
 

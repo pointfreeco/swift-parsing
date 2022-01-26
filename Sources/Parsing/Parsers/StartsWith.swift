@@ -68,7 +68,7 @@ where
   @inlinable
   public func parse(_ input: inout Input) throws {
     guard self.startsWith(input) else {
-      throw ParsingError.expectedInput("\(self.possiblePrefix)", at: input)
+      throw ParsingError.expectedInput(formatValue(self.possiblePrefix), at: input)
     }
     input.removeFirst(self.count)
   }

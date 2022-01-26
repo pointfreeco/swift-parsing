@@ -74,40 +74,4 @@ final class OneOfTests: XCTestCase {
     )
     XCTAssertEqual("London, Hello!", Substring(input))
   }
-
-  func testQuotedField() throws {
-    let field = OneOf {
-      Parse {
-        "\""
-        Prefix { $0 != "\"" }
-        "\""
-      }
-
-      Prefix(1...) { $0 != "," }
-    }
-
-    try field.parse("")
-  }
-
-  func testUserParser() throws {
-    let field = OneOf {
-      Parse {
-        "\""
-        Prefix { $0 != "\"" }
-        "\""
-      }
-
-      Prefix(1...) { $0 != "," }
-    }
-
-    let user = Parse {
-      Int.parser()
-      ","
-      field
-      ","
-      Bool.parser()
-    }
-
-    try user.parse("123,,true")
-  }
 }

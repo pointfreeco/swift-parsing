@@ -186,7 +186,7 @@ extension Parsers {
         let n = Double(String(decoding: s, as: UTF8.self))
       else {
         input = original
-        throw ParsingError.expectedInput("a double", at: input)
+        throw ParsingError.expectedInput("double", at: input)
       }
       return n
     }
@@ -213,7 +213,7 @@ extension Parsers {
         let n = Float(String(decoding: s, as: UTF8.self))
       else {
         input = original
-        throw ParsingError.expectedInput("a float", at: input)
+        throw ParsingError.expectedInput("float", at: input)
       }
       return n
     }
@@ -241,7 +241,7 @@ extension Parsers {
           let n = Float80(String(decoding: s, as: UTF8.self))
         else {
           input = original
-          throw ParsingError.expectedInput("an extended-precision float", at: input)
+          throw ParsingError.expectedInput("extended-precision float", at: input)
         }
         return n
       }

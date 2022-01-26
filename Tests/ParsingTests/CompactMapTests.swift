@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class CompactMapTests: XCTestCase {
@@ -15,7 +15,17 @@ final class CompactMapTests: XCTestCase {
     var input = "ERRORS"[...]
     XCTAssertThrowsError(
       try Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
-    )
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: processed "ER", but "compactMap" transformed it to "nil", not "Int"
+         --> input:1:3
+        1 | ERRORS
+          |   ^ remaining input
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("ERRORS", Substring(input))
   }
 

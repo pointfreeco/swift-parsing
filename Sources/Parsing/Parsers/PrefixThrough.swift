@@ -46,8 +46,8 @@ where
       input.removeFirst()
     }
     input = original
-    throw ParsingError.failed(
-      debugDescription: "Did not find a prefix through '\(self.possibleMatch)'",
+    throw ParsingError.expectedInput(
+      "prefix through \(formatValue(self.possibleMatch))",
       at: input
     )
   }

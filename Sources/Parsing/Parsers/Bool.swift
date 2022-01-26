@@ -84,7 +84,7 @@ extension Parsers {
         input.removeFirst(5)
         return false
       }
-      throw ParsingError.expectedInput("a boolean", at: input)
+      throw ParsingError.expectedInput("boolean", at: input)
     }
   }
 }

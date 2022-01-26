@@ -27,7 +27,7 @@ public struct End<Input>: Parser where Input: Collection {
   @inlinable
   public func parse(_ input: inout Input) throws {
     guard input.isEmpty else {
-      throw ParsingError.expectedInput("no more input", at: input)
+      throw ParsingError.expectedInput("end of input", at: input)
     }
   }
 }

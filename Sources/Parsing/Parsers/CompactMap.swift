@@ -50,11 +50,13 @@ extension Parsers {
       let output = try self.upstream.parse(&input)
       guard let newOutput = self.transform(output)
       else {
-        input = original
+        defer { input = original }
+//        throw ParsingError.expectedInput(
+//          "\(Output.self)", at: original[..<input.startIndex]
+//        )
         throw ParsingError.failed(
-          debugDescription: """
-            Parsed "\(output)", but "compactMap' transformed it to 'nil', not '\(Output.self)'.
-            """,
+          summary: "failed to process \(Output.self) from \(formatValue(output))",
+          label: "remaining input",
           at: input
         )
       }
