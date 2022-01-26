@@ -117,105 +117,19 @@ extension ParsingError: CustomDebugStringConvertible {
   var debugDescription: String {
     switch self.flattened() {
     case let .failed(label, context):
-      func format<Input>(from originalInput: Input, to remainingInput: Input) -> String? {
-        switch (originalInput, remainingInput) {
-        case let (originalInput as Substring, remainingInput as Substring):
-          let input = originalInput.startIndex == remainingInput.startIndex
-            ? originalInput
-            : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
-          let substring = input.endIndex == input.base.endIndex
-            ? input[..<input.startIndex]
-            : input
+      return format(label: label, context: context) ?? "FAIL"
 
-          let position = substring.base[..<substring.startIndex].reduce(
-            into: (0, 0)
-          ) { (position: inout (line: Int, column: Int), character: Character) in
-            if character.isNewline {
-              position.line += 1
-              position.column = 0
-            } else {
-              position.column += 1
-            }
-          }
-
-          let selectedLine = substring.base[
-            substring.base.index(substring.startIndex, offsetBy: -position.column)..<(
-              substring.base[substring.startIndex...].firstIndex(where: \.isNewline)
-              ?? substring.base.endIndex
-            )]
-
-          return formatError(
-            summary: context.debugDescription,
-            location: "input:\(position.line + 1):\(position.column + 1)",
-            prefix: "\(position.line + 1)",
-            diagnostic: """
-              \(selectedLine)
-              \(String(repeating: " ", count: position.column))\
-              \(String(repeating: "^", count: max(1, substring.count)))\
-              \(label.isEmpty ? "" : " \(label)")
-              """
-          )
-
-        case let (originalInput as Substring.UTF8View, remainingInput as Substring.UTF8View):
-          return format(from: Substring(originalInput), to: Substring(remainingInput))
-
-        case let (originalInput as Slice<[Substring]>, remainingInput as Slice<[Substring]>):
-          let input = originalInput.startIndex == remainingInput.startIndex
-            ? originalInput
-            : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
-          let slice = input.endIndex == input.base.endIndex
-            ? input[..<input.startIndex]
-            : input
-
-          let expectation: String
-          if
-            let error = context.underlyingError as? ParsingError,
-            case let .failed(elementLabel, elementContext) = error,
-            let originalInput = elementContext.originalInput as? Substring
-              ?? (elementContext.originalInput as? Substring.UTF8View).flatMap(Substring.init),
-            let remainingInput = elementContext.remainingInput as? Substring
-              ?? (elementContext.remainingInput as? Substring.UTF8View).flatMap(Substring.init)
-          {
-            let input = originalInput.startIndex == remainingInput.startIndex
-              ? originalInput
-              : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
-            let substring = input.endIndex == input.base.endIndex
-              ? input[..<input.startIndex]
-              : input
-            let indent = String(
-              repeating: " ",
-              count: substring.distance(
-                from: substring.base.startIndex,
-                to: substring.startIndex
-              )
-            )
-            expectation = """
-               \(indent)\(String(repeating: "^", count: max(1, substring.count)))\
-              \(elementLabel.isEmpty ? "" : " \(elementLabel)")
-              """
-          } else {
-            let count = slice.map(formatValue).joined(separator: ", ").count
-            expectation = """
-              \(String(repeating: "^", count: max(1, count)))\(label.isEmpty ? "" : " \(label)")
-              """
-          }
-
-          let indent = slice.base[..<slice.startIndex].map { "\(formatValue($0.base)), " }.joined()
-          return formatError(
-            summary: context.debugDescription,
-            location: "input[\(slice.startIndex)]",
-            prefix: "\(slice.startIndex)",
-            diagnostic: """
-              \(slice.base)
-              \(String(repeating: " ", count: indent.count + 1))\(expectation)
-              """
-          )
-
-        default:
-          return nil
-        }
-      }
-      return format(from: context.originalInput, to: context.remainingInput) ?? "FAIL"
+    case let .manyFailed(errors, context) where errors.isEmpty:
+      #if DEBUG
+        breakpoint(
+          """
+          ---
+          "ParsingError.manyFailed" was thrown with no errors.
+          ---
+          """
+        )
+      #endif
+      return format(label: "processed up to", context: context) ?? "FAIL"
 
     case let .manyFailed(errors, _):
       let failures = errors
@@ -229,6 +143,110 @@ extension ParsingError: CustomDebugStringConvertible {
         """
     }
   }
+}
+
+@usableFromInline
+func format(label: String, context: ParsingError.Context) -> String? {
+  func formatHelp<Input>(from originalInput: Input, to remainingInput: Input) -> String? {
+    switch (originalInput, remainingInput) {
+    case let (originalInput as Substring, remainingInput as Substring):
+      let input = originalInput.startIndex == remainingInput.startIndex
+      ? originalInput
+      : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
+      let substring = input.endIndex == input.base.endIndex
+      ? input[..<input.startIndex]
+      : input
+
+      let position = substring.base[..<substring.startIndex].reduce(
+        into: (0, 0)
+      ) { (position: inout (line: Int, column: Int), character: Character) in
+        if character.isNewline {
+          position.line += 1
+          position.column = 0
+        } else {
+          position.column += 1
+        }
+      }
+
+      let selectedLine = substring.base[
+        substring.base.index(substring.startIndex, offsetBy: -position.column)..<(
+          substring.base[substring.startIndex...].firstIndex(where: \.isNewline)
+          ?? substring.base.endIndex
+        )]
+
+      return formatError(
+        summary: context.debugDescription,
+        location: "input:\(position.line + 1):\(position.column + 1)",
+        prefix: "\(position.line + 1)",
+        diagnostic: """
+        \(selectedLine)
+        \(String(repeating: " ", count: position.column))\
+        \(String(repeating: "^", count: max(1, substring.count)))\
+        \(label.isEmpty ? "" : " \(label)")
+        """
+      )
+
+    case let (originalInput as Substring.UTF8View, remainingInput as Substring.UTF8View):
+      return formatHelp(from: Substring(originalInput), to: Substring(remainingInput))
+
+    case let (originalInput as Slice<[Substring]>, remainingInput as Slice<[Substring]>):
+      let input = originalInput.startIndex == remainingInput.startIndex
+      ? originalInput
+      : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
+      let slice = input.endIndex == input.base.endIndex
+      ? input[..<input.startIndex]
+      : input
+
+      let expectation: String
+      if
+        let error = context.underlyingError as? ParsingError,
+        case let .failed(elementLabel, elementContext) = error,
+        let originalInput = elementContext.originalInput as? Substring
+          ?? (elementContext.originalInput as? Substring.UTF8View).flatMap(Substring.init),
+        let remainingInput = elementContext.remainingInput as? Substring
+          ?? (elementContext.remainingInput as? Substring.UTF8View).flatMap(Substring.init)
+      {
+        let input = originalInput.startIndex == remainingInput.startIndex
+        ? originalInput
+        : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
+        let substring = input.endIndex == input.base.endIndex
+        ? input[..<input.startIndex]
+        : input
+        let indent = String(
+          repeating: " ",
+          count: substring.distance(
+            from: substring.base.startIndex,
+            to: substring.startIndex
+          )
+        )
+        expectation = """
+           \(indent)\(String(repeating: "^", count: max(1, substring.count)))\
+          \(elementLabel.isEmpty ? "" : " \(elementLabel)")
+          """
+      } else {
+        let count = slice.map(formatValue).joined(separator: ", ").count
+        expectation = """
+          \(String(repeating: "^", count: max(1, count)))\(label.isEmpty ? "" : " \(label)")
+          """
+      }
+
+      let indent = slice.base[..<slice.startIndex].map { "\(formatValue($0.base)), " }.joined()
+      return formatError(
+        summary: context.debugDescription,
+        location: "input[\(slice.startIndex)]",
+        prefix: "\(slice.startIndex)",
+        diagnostic: """
+          \(slice.base)
+          \(String(repeating: " ", count: indent.count + 1))\(expectation)
+          """
+      )
+
+    default:
+      return nil
+    }
+  }
+
+  return formatHelp(from: context.originalInput, to: context.remainingInput)
 }
 
 @usableFromInline

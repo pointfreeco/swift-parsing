@@ -40,12 +40,12 @@ final class PipeTests: XCTestCase {
       .parse(&input)
     ) { error in
       XCTAssertEqual(
-        """
+        #"""
         error: unexpected input
          --> input:1:1
         1 | true
           | ^ expected prefix up to "\n"
-        """,
+        """#,
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }

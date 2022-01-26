@@ -65,17 +65,10 @@ final class ParserBuilderTests: XCTestCase {
     XCTAssertThrowsError(try parser.parse("Blob")) { error in
       XCTAssertEqual(
         """
-        error: multiple failures occurred
-
         error: unexpected input
          --> input:1:1
-        1 | London, Hello!
-          | ^ expected "New York"
-
-        error: unexpected input
-         --> input:1:1
-        1 | London, Hello!
-          | ^ expected "Berlin"
+        1 | Blob
+          | ^ expected integer
         """,
         (error as? ParsingError)?.debugDescription ?? ""
       )
