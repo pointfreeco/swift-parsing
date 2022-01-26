@@ -156,10 +156,10 @@ where
       let atLeast = self.minLength - count
       throw ParsingError.expectedInput(
         """
-        \(self.minLength - count) \(count == 0 ? "" : " more")element\(atLeast == 1 ? "" : "s")\
+        \(self.minLength - count) \(count == 0 ? "" : "more ")element\(atLeast == 1 ? "" : "s")\
         \(predicate == nil ? "" : " satisfying predicate")
         """,
-        at: input
+        at: input.dropFirst(self.minLength)
       )
     }
     input.removeFirst(count)

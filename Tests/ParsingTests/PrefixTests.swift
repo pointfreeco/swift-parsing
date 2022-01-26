@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class PrefixTests: XCTestCase {
@@ -16,7 +16,17 @@ final class PrefixTests: XCTestCase {
 
   func testPrefixOver() {
     var input = "42 Hi!"[...]
-    XCTAssertThrowsError(try Prefix(10).parse(&input))
+    XCTAssertThrowsError(try Prefix(10).parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:7
+        1 | 42 Hi!
+          |       ^ expected 4 more elements
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("42 Hi!", input)
   }
 
@@ -40,7 +50,17 @@ final class PrefixTests: XCTestCase {
 
   func testPrefixRangeFromFailure() {
     var input = "42 Hello, world!"[...]
-    XCTAssertThrowsError(try Prefix(100...).parse(&input))
+    XCTAssertThrowsError(try Prefix(100...) { _ in true }.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:17
+        1 | 42 Hello, world!
+          |                 ^ expected 84 more elements satisfying predicate
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("42 Hello, world!", input)
   }
 

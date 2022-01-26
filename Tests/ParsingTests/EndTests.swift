@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class EndTests: XCTestCase {
@@ -10,7 +10,17 @@ final class EndTests: XCTestCase {
 
   func testFailure() {
     var input = "Hello, world!"[...]
-    XCTAssertThrowsError(try End().parse(&input))
+    XCTAssertThrowsError(try End().parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | Hello, world!
+          | ^ expected end of input
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("Hello, world!", input)
   }
 }

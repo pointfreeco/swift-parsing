@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class OneOfBuilderTests: XCTestCase {
@@ -18,7 +18,29 @@ final class OneOfBuilderTests: XCTestCase {
     for role in Role.allCases {
       XCTAssertEqual(role, try parser.parse(role.rawValue))
     }
-    XCTAssertThrowsError(try parser.parse("president"))
+    XCTAssertThrowsError(try parser.parse("president")) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:1
+        1 | president
+          | ^ expected "admin"
+
+        error: unexpected input
+         --> input:1:1
+        1 | president
+          | ^ expected "guest"
+
+        error: unexpected input
+         --> input:1:1
+        1 | president
+          | ^ expected "member"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
   }
 
   func testBuildIf() {
@@ -39,7 +61,24 @@ final class OneOfBuilderTests: XCTestCase {
     }
 
     XCTAssertEqual(.guest, try parser.parse("guest"))
-    XCTAssertThrowsError(try parser.parse("admin"))
+    XCTAssertThrowsError(try parser.parse("admin")) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:1
+        1 | admin
+          | ^ expected "guest"
+
+        error: unexpected input
+         --> input:1:1
+        1 | admin
+          | ^ expected "member"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
 
     parseAdmins = true
     parser = OneOf {
@@ -52,5 +91,28 @@ final class OneOfBuilderTests: XCTestCase {
     }
     XCTAssertEqual(.guest, try parser.parse("guest"))
     XCTAssertEqual(.admin, try parser.parse("admin"))
+    XCTAssertThrowsError(try parser.parse("president")) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:1
+        1 | president
+          | ^ expected "admin"
+
+        error: unexpected input
+         --> input:1:1
+        1 | president
+          | ^ expected "guest"
+
+        error: unexpected input
+         --> input:1:1
+        1 | president
+          | ^ expected "member"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
   }
 }

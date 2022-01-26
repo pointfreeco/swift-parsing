@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class ParserBuilderTests: XCTestCase {
@@ -14,7 +14,17 @@ final class ParserBuilderTests: XCTestCase {
       "!"
     }
     XCTAssertEqual("world", try parser.parse("Hello, world!"))
-    XCTAssertThrowsError(try parser.parse("Hello world!"))
+    XCTAssertThrowsError(try parser.parse("Hello world!")) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:6
+        1 | Hello world!
+          |      ^ expected ","
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
 
     parseComma = false
     parser = Parse {
@@ -27,7 +37,17 @@ final class ParserBuilderTests: XCTestCase {
       "!"
     }
     XCTAssertEqual("world", try parser.parse("Hello world!"))
-    XCTAssertThrowsError(try parser.parse("Hello, world!"))
+    XCTAssertThrowsError(try parser.parse("Hello, world!")) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:6
+        1 | Hello, world!
+          |      ^ expected " "
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
   }
 
   func testBuildIfOutput() throws {
@@ -42,7 +62,24 @@ final class ParserBuilderTests: XCTestCase {
     var (int, string) = try XCTUnwrap(parser.parse("42 Blob"))
     XCTAssertEqual(42, int)
     XCTAssertEqual("Blob", string)
-    XCTAssertThrowsError(try parser.parse("Blob"))
+    XCTAssertThrowsError(try parser.parse("Blob")) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:1
+        1 | London, Hello!
+          | ^ expected "New York"
+
+        error: unexpected input
+         --> input:1:1
+        1 | London, Hello!
+          | ^ expected "Berlin"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
 
     parseInt = false
     parser = Parse {

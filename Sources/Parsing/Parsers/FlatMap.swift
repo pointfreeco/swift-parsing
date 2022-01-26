@@ -40,9 +40,19 @@ extension Parsers {
       let original = input
       do {
         return try self.transform(self.upstream.parse(&input)).parse(&input)
+      } catch let ParsingError.failed(reason, context) {
+        defer { input = original }
+        throw ParsingError.failed(
+          reason, .init(
+            originalInput: original,
+            remainingInput: input,
+            debugDescription: context.debugDescription,
+            underlyingError: ParsingError.failed(reason, context)
+          )
+        )
       } catch {
-        input = original
-        throw error
+        defer { input = original }
+        throw error // TODO: wrap in `ParsingError`
       }
     }
   }

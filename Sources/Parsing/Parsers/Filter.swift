@@ -35,13 +35,12 @@ extension Parsers {
       let output = try self.upstream.parse(&input)
       guard self.predicate(output)
       else {
-        input = original
+        defer { input = original }
         throw ParsingError.failed(
-          summary: """
-            parsed "\(output)", but it failed to satisfy the predicate passed to "filter"
-            """,
-          label: "remaining input",
-          at: input
+          summary: "processed value \(formatValue(output)) failed to satisfy predicate",
+          label: "processed input",
+          from: original,
+          to: input
         )
       }
       return output

@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class PrefixThroughTests: XCTestCase {
@@ -16,13 +16,33 @@ final class PrefixThroughTests: XCTestCase {
 
   func testFailureIsEmpty() {
     var input = ""[...]
-    XCTAssertThrowsError(try PrefixThrough(", ").parse(&input))
+    XCTAssertThrowsError(try PrefixThrough(", ").parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 |
+          | ^ expected prefix through ", "
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("", input)
   }
 
   func testFailureNoMatch() {
     var input = "Hello world!"[...]
-    XCTAssertThrowsError(try PrefixThrough(", ").parse(&input))
+    XCTAssertThrowsError(try PrefixThrough(", ").parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | Hello world!
+          | ^ expected prefix through ", "
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("Hello world!", input)
   }
 

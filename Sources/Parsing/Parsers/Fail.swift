@@ -23,7 +23,7 @@ public struct Fail<Input, Output>: Parser {
     // TODO: `Fail.init(throwing: Error)`?
     throw ParsingError.failed(
       summary: "failed",
-      label: "remaining input",
+      label: "",
       at: input
     )
   }

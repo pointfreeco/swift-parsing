@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class PrefixUpToTests: XCTestCase {
@@ -16,13 +16,33 @@ final class PrefixUpToTests: XCTestCase {
 
   func testFailureIsEmpty() {
     var input = ""[...]
-    XCTAssertThrowsError(try PrefixUpTo(", ").parse(&input))
+    XCTAssertThrowsError(try PrefixUpTo(", ").parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 |
+          | ^ expected prefix up to ", "
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("", input)
   }
 
   func testFailureNoMatch() {
     var input = "Hello world!"[...]
-    XCTAssertThrowsError(try PrefixUpTo(", ").parse(&input))
+    XCTAssertThrowsError(try PrefixUpTo(", ").parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | Hello world!
+          | ^ expected prefix up to ", "
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("Hello world!", input)
   }
 

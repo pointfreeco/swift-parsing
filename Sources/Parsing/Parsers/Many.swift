@@ -144,7 +144,7 @@ where
       throw ParsingError.expectedInput(
         """
         \(atLeast) \(count == 0 ? "" : "more ")value\(atLeast == 1 ? "" : "s") of \
-        \(Element.Output.self)
+        "\(Element.Output.self)"
         """,
         at: rest
       )

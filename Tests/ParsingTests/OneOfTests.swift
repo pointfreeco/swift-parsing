@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class OneOfTests: XCTestCase {
@@ -33,7 +33,25 @@ final class OneOfTests: XCTestCase {
         "New York"
         "Berlin"
       }
-      .parse(&input))
+      .parse(&input)
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:1
+        1 | London, Hello!
+          | ^ expected "New York"
+
+        error: unexpected input
+         --> input:1:1
+        1 | London, Hello!
+          | ^ expected "Berlin"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("London, Hello!", Substring(input))
   }
 
@@ -71,7 +89,24 @@ final class OneOfTests: XCTestCase {
         "Berlin"
       }
       .parse(&input)
-    )
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:1
+        1 | London, Hello!
+          | ^ expected "New York"
+
+        error: unexpected input
+         --> input:1:1
+        1 | London, Hello!
+          | ^ expected "Berlin"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("London, Hello!", Substring(input))
   }
 }

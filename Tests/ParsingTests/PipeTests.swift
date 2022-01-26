@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class PipeTests: XCTestCase {
@@ -16,7 +16,18 @@ final class PipeTests: XCTestCase {
         End()
       }
       .parse(&input)
-    )
+    ) { error in
+      // TODO: How should this error render?
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:5
+        1 | true Hello, world!
+          |     ^ expected end of input
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("true Hello, world!", Substring(input))
   }
 
@@ -27,7 +38,17 @@ final class PipeTests: XCTestCase {
         Bool.parser()
       }
       .parse(&input)
-    )
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | true
+          | ^ expected prefix up to "\n"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("true", Substring(input))
   }
 }

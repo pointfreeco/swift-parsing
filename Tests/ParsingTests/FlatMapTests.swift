@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class FlatMapTests: XCTestCase {
@@ -12,9 +12,37 @@ final class FlatMapTests: XCTestCase {
     XCTAssertEqual(" Hello, world!", Substring(input))
   }
 
-  func testFailure() {
+  func testUpstreamFailure() {
     var input = "Hello, world!"[...].utf8
-    XCTAssertThrowsError(try Int.parser().flatMap { Always($0 + 1) }.parse(&input))
+    XCTAssertThrowsError(try Int.parser().flatMap { Always($0 + 1) }.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | Hello, world!
+          | ^ expected integer
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
+    XCTAssertEqual("Hello, world!", Substring(input))
+  }
+
+  func testDownstreamFailure() {
+    var input = "Hello, world!"[...].utf8
+    XCTAssertThrowsError(
+      try Prefix(2).flatMap { _ in Int.parser() }.parse(&input)
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | Hello, world!
+          | ^^ expected integer
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("Hello, world!", Substring(input))
   }
 }

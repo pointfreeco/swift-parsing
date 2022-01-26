@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class NewlineTests: XCTestCase {
@@ -10,13 +10,17 @@ final class NewlineTests: XCTestCase {
     XCTAssertEqual("\n\rHello, world!", Substring(input))
     XCTAssertNoThrow(try Newline().parse(&input))
     XCTAssertEqual("\rHello, world!", Substring(input))
-    XCTAssertThrowsError(try Newline().parse(&input))
+    XCTAssertThrowsError(try Newline().parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:4:1
+        4 |
+          | ^ expected newline
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("\rHello, world!", Substring(input))
-  }
-
-  func testAlwaysSucceeds() {
-    var input = "Hello, world!"[...].utf8
-    XCTAssertThrowsError(try Newline().parse(&input))
-    XCTAssertEqual("Hello, world!", Substring(input))
   }
 }

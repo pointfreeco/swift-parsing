@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class UUIDTests: XCTestCase {
@@ -19,7 +19,17 @@ final class UUIDTests: XCTestCase {
     XCTAssertEqual(" Hello", String(input))
 
     input = "DADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF Hello"[...].utf8
-    XCTAssertThrowsError(try parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | DADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF Hello
+          | ^ expected UUID
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("DADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF Hello", String(input))
   }
 }

@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class FilterTests: XCTestCase {
@@ -10,7 +10,17 @@ final class FilterTests: XCTestCase {
 
   func testFailure() {
     var input = "43 Hello, world!"[...].utf8
-    XCTAssertThrowsError(try Int.parser().filter { $0.isMultiple(of: 2) }.parse(&input))
+    XCTAssertThrowsError(try Int.parser().filter { $0.isMultiple(of: 2) }.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: processed value 43 failed to satisfy predicate
+         --> input:1:1
+        1 | 43 Hello, world!
+          | ^^ processed input
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("43 Hello, world!", Substring(input))
   }
 

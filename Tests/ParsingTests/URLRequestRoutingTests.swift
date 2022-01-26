@@ -80,18 +80,18 @@ class URLRequestRoutingTests: XCTestCase {
 }
 
 struct URLRequestData {
-  var body: ArraySlice<UInt8>?
+  var body: Slice<[UInt8]>?
   var headers: [String: Substring]
   var method: String?
-  var path: ArraySlice<Substring>
-  var query: [String: ArraySlice<Substring?>]
+  var path: Slice<[Substring]>
+  var query: [String: Slice<[Substring]>]
 
   init(
     method: String? = nil,
-    path: ArraySlice<Substring> = [],
-    query: [String: ArraySlice<Substring?>] = [:],
+    path: Slice<[Substring]> = .init([]),
+    query: [String: Slice<[Substring]>] = [:],
     headers: [String: Substring] = [:],
-    body: ArraySlice<UInt8>? = nil
+    body: Slice<[UInt8]>? = nil
   ) {
     self.method = method
     self.path = path
@@ -104,7 +104,7 @@ struct URLRequestData {
 struct Body<Parsers>: Parser
 where
   Parsers: Parser,
-  Parsers.Input == ArraySlice<UInt8>
+  Parsers.Input == Slice<[UInt8]>
 {
   let bodyParser: Parsers
 
@@ -147,9 +147,9 @@ struct JSON<Value: Decodable>: Parser {
   }
 
   @inlinable
-  func parse(_ input: inout ArraySlice<UInt8>) throws -> Value {
+  func parse(_ input: inout Slice<[UInt8]>) throws -> Value {
     let output = try decoder.decode(Value.self, from: Data(input))
-    input = []
+    input = .init([])
     return output
   }
 }
@@ -267,8 +267,7 @@ where
     }
 
     guard
-      let wrapped = input.query[self.name]?.first,
-      var value = wrapped
+      var value = input.query[self.name]?.first
     else {
       return try defaultOrError(RoutingError(expect: "query item named \"\(self.name)\""))
     }
@@ -285,7 +284,7 @@ where
       return try defaultOrError(
         RoutingError(
           expect: """
-            to have fully consumed "\(input.query[self.name]!.first!!)" from query item named \
+            to have fully consumed "\(input.query[self.name]!.first!)" from query item named \
             "\(self.name)"; remaining: "\(value)"
             """
         )
@@ -364,12 +363,12 @@ extension URLRequestData {
 
     self.init(
       method: request.httpMethod,
-      path: url.path.split(separator: "/")[...],
+      path: .init(url.path.split(separator: "/")),
       query: components.queryItems?.reduce(into: [:]) { query, item in
-        query[item.name, default: []].append(item.value?[...])
+        query[item.name, default: .init()].append(item.value?[...] ?? "")
       } ?? [:],
       headers: request.allHTTPHeaderFields?.mapValues { $0[...] } ?? [:],
-      body: request.httpBody.map { ArraySlice($0) }
+      body: request.httpBody.map { .init($0) }
     )
   }
 

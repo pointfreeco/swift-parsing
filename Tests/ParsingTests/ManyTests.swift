@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 class ManyTests: XCTestCase {
@@ -53,7 +53,17 @@ class ManyTests: XCTestCase {
         ",".utf8
       }
       .parse(&input)
-    )
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:10
+        1 | 1,2,3,4,5
+          |          ^ expected 1 more value of "Int"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual(Substring(input), "1,2,3,4,5")
 
     XCTAssertEqual(
@@ -111,11 +121,17 @@ class ManyTests: XCTestCase {
     )
   }
 
-  func testTerminator() throws {
-    let user = Parse {
+  func testTerminator() {
+    struct User: Equatable {
+      var id: Int
+      var name: String
+      var isAdmin: Bool
+    }
+
+    let user = Parse(User.init) {
       Int.parser()
       ","
-      Prefix { $0 != "," }
+      Prefix { $0 != "," }.map(String.init)
       ","
       Bool.parser()
     }
@@ -133,6 +149,30 @@ class ManyTests: XCTestCase {
       2,Blob Sr,false
       3,Blob Jr,true
       """[...]
-    try users.parse(&input)
+    XCTAssertEqual(
+      [
+        User(id: 1, name: "Blob", isAdmin: true),
+        User(id: 2, name: "Blob Sr", isAdmin: false),
+        User(id: 3, name: "Blob Jr", isAdmin: true),
+      ],
+      try users.parse(&input)
+    )
+
+    input = """
+      1,Blob,true
+      2,Blob Sr,false
+      3,Blob Jr,tru
+      """
+    XCTAssertThrowsError(try users.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:3:11
+        3 | 3,Blob Jr,tru
+          |           ^ expected boolean
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
   }
 }

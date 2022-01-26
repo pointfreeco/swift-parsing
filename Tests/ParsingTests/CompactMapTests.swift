@@ -18,10 +18,10 @@ final class CompactMapTests: XCTestCase {
     ) { error in
       XCTAssertEqual(
         """
-        error: processed "ER", but "compactMap" transformed it to "nil", not "Int"
-         --> input:1:3
+        error: failed to process "Int" from "ER"
+         --> input:1:1
         1 | ERRORS
-          |   ^ remaining input
+          | ^^
         """,
         (error as? ParsingError)?.debugDescription ?? ""
       )

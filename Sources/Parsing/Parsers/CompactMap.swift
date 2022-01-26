@@ -51,13 +51,13 @@ extension Parsers {
       guard let newOutput = self.transform(output)
       else {
         defer { input = original }
-//        throw ParsingError.expectedInput(
-//          "\(Output.self)", at: original[..<input.startIndex]
-//        )
         throw ParsingError.failed(
-          summary: "failed to process \(Output.self) from \(formatValue(output))",
-          label: "remaining input",
-          at: input
+          summary: """
+            failed to process "\(Output.self)" from \(formatValue(output))
+            """,
+          label: "",
+          from: original,
+          to: input
         )
       }
       return newOutput

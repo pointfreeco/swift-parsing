@@ -1,4 +1,4 @@
-import Parsing
+@testable import Parsing
 import XCTest
 
 final class ConditionalTests: XCTestCase {
@@ -19,7 +19,17 @@ final class ConditionalTests: XCTestCase {
 
   func testSecond() {
     var input = "43 Hello, world!"[...]
-    XCTAssertThrowsError(try parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: failed
+         --> input:1:1
+        1 | 43 Hello, world!
+          | ^^
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
     XCTAssertEqual("43 Hello, world!", input)
   }
 }
