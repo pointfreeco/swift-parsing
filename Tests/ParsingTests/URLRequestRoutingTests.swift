@@ -192,24 +192,29 @@ where
 
   @inlinable
   func parse(_ input: inout URLRequestData) throws -> Component.Output {
-    guard var component = input.path.first
-    else {
-      throw RoutingError(expect: "another path component")
-    }
-
-    let output = try self.componentParser.parse(&component)
-
-    guard component.isEmpty
-    else {
-      throw RoutingError(
-        expect: """
-          to have fully consumed "\(input.path.first!)" from path; remaining: "\(component)"
-          """
+    var component = input.path.first ?? ""
+    do {
+      let output = try Parse {
+        self.componentParser
+        End()
+      }
+      .parse(&component)
+      input.path.removeFirst()
+      return output
+    } catch let ParsingError.failed(reason, context) {
+      var path = input.path
+      if !path.isEmpty { path[path.startIndex] = component }
+      throw ParsingError.failed(
+        reason,
+        .init(
+          remainingInput: path,
+          debugDescription: "unexpected path component",
+          underlyingError: ParsingError.failed(reason, context)
+        )
       )
+    } catch {
+      throw error
     }
-
-    input.path.removeFirst()
-    return output
   }
 }
 
@@ -343,10 +348,12 @@ where
       input.path.isEmpty
     else {
       input = original
-      throw RoutingError(
-        expect: """
-          method and all path components to be consumed from input: \(input)
-          """
+      throw ParsingError.failed(
+        "end of path",
+        .init(
+          remainingInput: input.path,
+          debugDescription: "unexpected path component"
+        )
       )
     }
 
@@ -363,7 +370,7 @@ extension URLRequestData {
 
     self.init(
       method: request.httpMethod,
-      path: .init(url.path.split(separator: "/")),
+      path: .init(url.path.split(separator: "/").map { String($0)[...] }),
       query: components.queryItems?.reduce(into: [:]) { query, item in
         query[item.name, default: .init()].append(item.value?[...] ?? "")
       } ?? [:],

@@ -53,6 +53,25 @@ enum ParsingError: Error {
   }
 
   @usableFromInline
+  func flattened() -> Self {
+    func flatten(_ error: Error) -> [Error] {
+      switch error {
+      case let ParsingError.manyFailed(errors, _):
+        return errors.flatMap(flatten)
+      default:
+        return [error]
+      }
+    }
+
+    switch self {
+    case let .manyFailed(errors, context):
+      return .manyFailed(errors.flatMap(flatten), context)
+    case .failed:
+      return self
+    }
+  }
+
+  @usableFromInline
   struct Context {
     @usableFromInline
     var debugDescription: String
@@ -96,7 +115,7 @@ enum ParsingError: Error {
 extension ParsingError: CustomDebugStringConvertible {
   @usableFromInline
   var debugDescription: String {
-    switch self {
+    switch self.flattened() {
     case let .failed(label, context):
       func format<Input>(from originalInput: Input, to remainingInput: Input) -> String? {
         switch (originalInput, remainingInput) {
@@ -152,8 +171,10 @@ extension ParsingError: CustomDebugStringConvertible {
           if
             let error = context.underlyingError as? ParsingError,
             case let .failed(elementLabel, elementContext) = error,
-            let originalInput = elementContext.originalInput as? Substring,
+            let originalInput = elementContext.originalInput as? Substring
+              ?? (elementContext.originalInput as? Substring.UTF8View).flatMap(Substring.init),
             let remainingInput = elementContext.remainingInput as? Substring
+              ?? (elementContext.remainingInput as? Substring.UTF8View).flatMap(Substring.init)
           {
             let input = originalInput.startIndex == remainingInput.startIndex
               ? originalInput
@@ -166,20 +187,20 @@ extension ParsingError: CustomDebugStringConvertible {
               count: substring.distance(
                 from: substring.base.startIndex,
                 to: substring.startIndex
-              ) + 1
+              )
             )
             expectation = """
-              \(indent)\(String(repeating: "^", count: max(1, substring.count)))\
+               \(indent)\(String(repeating: "^", count: max(1, substring.count)))\
               \(elementLabel.isEmpty ? "" : " \(elementLabel)")
               """
           } else {
-            let count = slice.map { "\"\($0)\"" }.joined(separator: ", ").count
+            let count = slice.map(formatValue).joined(separator: ", ").count
             expectation = """
               \(String(repeating: "^", count: max(1, count)))\(label.isEmpty ? "" : " \(label)")
               """
           }
 
-          let indent = slice.base[..<slice.startIndex].map { "\"\($0.base)\", " }.joined()
+          let indent = slice.base[..<slice.startIndex].map { "\(formatValue($0.base)), " }.joined()
           return formatError(
             summary: context.debugDescription,
             location: "input[\(slice.startIndex)]",
@@ -215,10 +236,14 @@ func formatValue<Input>(
   _ input: Input
 ) -> String {
   switch input {
+  case let input as String:
+    return input.debugDescription
+  case let input as String.UTF8View:
+    return String(input).debugDescription
   case let input as Substring:
     return input.debugDescription
   case let input as Substring.UTF8View:
-    return formatValue(Substring(input))
+    return Substring(input).debugDescription
   default:
     return "\(input)"
   }
