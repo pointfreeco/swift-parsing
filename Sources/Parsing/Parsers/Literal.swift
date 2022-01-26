@@ -15,10 +15,10 @@ extension String: Parser {
   public typealias Output = Void
 
   @inlinable
-  public func parse(_ input: inout Substring) -> Void? {
-    guard input.starts(with: self) else { return nil }
+  public func parse(_ input: inout Substring) throws {
+    guard input.starts(with: self)
+    else { throw ParsingError(expected: self.debugDescription, remainingInput: input) }
     input.removeFirst(self.count)
-    return ()
   }
 }
 

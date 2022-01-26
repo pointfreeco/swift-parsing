@@ -18,7 +18,7 @@ class NotTests: XCTestCase {
       }
     }
 
-    let result = uncommentedLine.parse(&input)
+    let result = try uncommentedLine.parse(&input)
 
     XCTAssertEqual(result, "let foo = true")
     XCTAssertEqual(input, "let bar = false"[...])
@@ -35,7 +35,7 @@ class NotTests: XCTestCase {
       Prefix { $0 != "\n" }
     }
 
-    let result = uncommentedLine.parse(&input)
+    let result = try uncommentedLine.parse(&input)
 
     XCTAssertNil(result)
     XCTAssertEqual(

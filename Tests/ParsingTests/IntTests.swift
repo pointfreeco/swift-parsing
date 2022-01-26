@@ -6,23 +6,23 @@ final class IntTests: XCTestCase {
     let parser = Int.parser(of: Substring.UTF8View.self)
 
     var input = "123 Hello"[...].utf8
-    XCTAssertEqual(123, parser.parse(&input))
+    XCTAssertEqual(123, try parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
 
     input = "-123 Hello"[...].utf8
-    XCTAssertEqual(-123, parser.parse(&input))
+    XCTAssertEqual(-123, try parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
 
     input = "+123 Hello"[...].utf8
-    XCTAssertEqual(123, parser.parse(&input))
+    XCTAssertEqual(123, try parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
 
     input = "\(Int.max) Hello"[...].utf8
-    XCTAssertEqual(Int.max, parser.parse(&input))
+    XCTAssertEqual(Int.max, try parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
 
     input = "\(Int.min) Hello"[...].utf8
-    XCTAssertEqual(Int.min, parser.parse(&input))
+    XCTAssertEqual(Int.min, try parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
 
     input = "Hello"[...].utf8

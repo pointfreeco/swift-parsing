@@ -19,8 +19,9 @@ where
       input.removeFirst()
     } else if input.first == .init(ascii: "\r"), input.dropFirst().first == .init(ascii: "\n") {
       input.removeFirst(2)
+    } else {
+      throw ParsingError(expected: "newline '\\n' or '\\r\\n'", remainingInput: input)
     }
-    throw ParsingError()
   }
 }
 

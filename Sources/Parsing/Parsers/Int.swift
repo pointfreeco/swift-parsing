@@ -101,9 +101,9 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Input) -> Output? {
+    public func parse(_ input: inout Input) throws -> Output {
       @inline(__always)
-      func digit(for n: UTF8.CodeUnit) -> Output? {
+      func digit(for n: UTF8.CodeUnit) throws -> Output {
         let output: Output
         switch n {
         case .init(ascii: "0") ... .init(ascii: "9"):
@@ -113,13 +113,17 @@ extension Parsers {
         case .init(ascii: "a") ... .init(ascii: "z"):
           output = Output(n - .init(ascii: "a") + 10)
         default:
-          return nil
+          throw ParsingError(expected: "an integer", remainingInput: input)
         }
-        return output < self.radix ? output : nil
+        if output < self.radix {
+          return output
+        } else {
+          throw ParsingError(expected: "an integer", remainingInput: input)
+        }
       }
       var length = 0
       var iterator = input.makeIterator()
-      guard let first = iterator.next() else { return nil }
+      guard let first = iterator.next() else { throw ParsingError(expected: "an integer", remainingInput: input) }
       let isPositive: Bool
       let parsedSign: Bool
       var overflow = false
@@ -134,25 +138,24 @@ extension Parsers {
         isPositive = true
         output = 0
       case let (_, n):
-        guard let n = digit(for: n) else { return nil }
+        output = try digit(for: n)
         parsedSign = false
         isPositive = true
-        output = n
       }
       length += 1
       let radix = Output(self.radix)
-      while let next = iterator.next(), let n = digit(for: next) {
+      while let next = iterator.next(), let n = try? digit(for: next) {
         (output, overflow) = output.multipliedReportingOverflow(by: radix)
-        guard !overflow else { return nil }
+        guard !overflow else { throw ParsingError(expected: "an integer", remainingInput: input) }
         (output, overflow) =
           isPositive
           ? output.addingReportingOverflow(n)
           : output.subtractingReportingOverflow(n)
-        guard !overflow else { return nil }
+        guard !overflow else { throw ParsingError(expected: "an integer", remainingInput: input) }
         length += 1
       }
       guard length > (parsedSign ? 1 : 0)
-      else { return nil }
+      else { throw ParsingError(expected: "an integer", remainingInput: input) }
       input.removeFirst(length)
       return output
     }

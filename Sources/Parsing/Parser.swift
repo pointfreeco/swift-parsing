@@ -41,14 +41,69 @@ public protocol Parser {
 @usableFromInline
 struct ParsingError: Error {
   @usableFromInline
-  init() {}
+  let expected: String
+  let remainingInput: Any
+
+  @usableFromInline
+  init(expected: String, remainingInput: Any) {
+    self.expected = expected
+    self.remainingInput = remainingInput
+  }
+
+  @usableFromInline
+  @available(*, deprecated)
+  init(_ message: String = "🛑 NO ERROR MESSAGE PROVIDED") {
+    self.expected = message
+    self.remainingInput = ""
+  }
+}
+
+extension ParsingError: CustomDebugStringConvertible {
+  @usableFromInline
+  var debugDescription: String {
+    let rest: String
+    let errorTitle: String
+    switch self.remainingInput {
+    case let input as Substring:
+      let (line, col) = input.base[..<input.startIndex]
+        .reduce(into: (line: 1, col: 1)) { (context: inout (line: Int, col: Int), char: Character) in
+          if char == "\n" {
+            context.line += 1
+            context.col = 1
+          } else {
+            context.line += 1
+          }
+        }
+      rest = String(input)
+      errorTitle = " @ (\(line):\(col))"
+
+    case let input as Substring.UTF8View:
+      rest = String(decoding: input, as: UTF8.self)
+      errorTitle = ""
+    default:
+      rest = "\(self.remainingInput)"
+      errorTitle = ""
+    }
+
+    return """
+    Parsing error\(errorTitle):
+    
+    Expected:
+    \(self.expected)
+    
+    Found:
+    \(rest)
+    """
+  }
 }
 
 extension Parser {
   @_disfavoredOverload
   public func parse(_ input: inout Input) throws -> Output {
     guard let output = self.parse(&input)
-    else { throw ParsingError() }
+    else {
+      throw ParsingError()
+    }
     return output
   }
 
