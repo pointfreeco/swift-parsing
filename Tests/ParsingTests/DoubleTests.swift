@@ -54,8 +54,18 @@ final class DoubleTests: XCTestCase {
     XCTAssertEqual(" Hello", String(input))
 
     input = "-.123 Hello"[...].utf8
-    XCTAssertThrowsError(try parser.parse(&input))
-    XCTAssertEqual("-.123 Hello", String(input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:2
+        1 | -.123 Hello
+          |  ^ expected double
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
+    XCTAssertEqual(".123 Hello", String(input))
 
     input = "Hello"[...].utf8
     XCTAssertThrowsError(try parser.parse(&input)) { error in
@@ -83,7 +93,7 @@ final class DoubleTests: XCTestCase {
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }
-    XCTAssertEqual("- Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
 
     input = "+ Hello"[...].utf8
     XCTAssertThrowsError(try parser.parse(&input)) { error in
@@ -97,7 +107,7 @@ final class DoubleTests: XCTestCase {
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }
-    XCTAssertEqual("+ Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
   }
 
   func testFloat() {
@@ -168,7 +178,7 @@ final class DoubleTests: XCTestCase {
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }
-    XCTAssertEqual("-.123 Hello", String(input))
+    XCTAssertEqual(".123 Hello", String(input))
 
     input = "Hello"[...].utf8
     XCTAssertThrowsError(try parser.parse(&input)) { error in
@@ -196,7 +206,7 @@ final class DoubleTests: XCTestCase {
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }
-    XCTAssertEqual("- Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
 
     input = "+ Hello"[...].utf8
     XCTAssertThrowsError(try parser.parse(&input)) { error in
@@ -210,7 +220,7 @@ final class DoubleTests: XCTestCase {
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }
-    XCTAssertEqual("+ Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
   }
 
   #if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))

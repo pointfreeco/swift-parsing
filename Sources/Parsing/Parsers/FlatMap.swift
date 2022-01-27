@@ -51,7 +51,6 @@ extension Parsers {
           )
         )
       } catch {
-        defer { input = original }
         throw error // TODO: wrap in `ParsingError`
       }
     }

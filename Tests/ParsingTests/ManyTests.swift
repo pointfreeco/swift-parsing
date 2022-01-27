@@ -64,8 +64,9 @@ class ManyTests: XCTestCase {
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }
-    XCTAssertEqual(Substring(input), "1,2,3,4,5")
+    XCTAssertEqual(Substring(input), "")
 
+    input = "1,2,3,4,5"[...].utf8
     XCTAssertEqual(
       try Many(atLeast: 5) {
         Int.parser()

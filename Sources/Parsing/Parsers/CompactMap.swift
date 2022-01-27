@@ -50,12 +50,10 @@ extension Parsers {
       let output = try self.upstream.parse(&input)
       guard let newOutput = self.transform(output)
       else {
-        defer { input = original }
         throw ParsingError.failed(
           summary: """
             failed to process "\(Output.self)" from \(formatValue(output))
             """,
-          label: "",
           from: original,
           to: input
         )

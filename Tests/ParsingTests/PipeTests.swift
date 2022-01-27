@@ -28,7 +28,7 @@ final class PipeTests: XCTestCase {
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }
-    XCTAssertEqual("true Hello, world!", Substring(input))
+    XCTAssertEqual("Hello, world!", Substring(input))
   }
 
   func testFailureInput() {

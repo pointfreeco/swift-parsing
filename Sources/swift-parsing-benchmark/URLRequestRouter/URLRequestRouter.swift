@@ -255,7 +255,6 @@
         input.method == nil || (try? Method.get.parse(&input)) != nil,
         input.path.isEmpty
       else {
-        input = original
         throw ParsingError()
       }
 

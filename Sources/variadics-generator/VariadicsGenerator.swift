@@ -120,14 +120,13 @@ struct VariadicsGenerator: ParsableCommand {
       outputForEach(0..<arity, separator: "\n      ") { "self.p\($0) = p\($0)" }
       output("\n    }\n\n    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (\n")
       outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
-      output("\n    ) {\n      let original = input\n      do {\n        ")
-      outputForEach(0..<arity, separator: "\n        ") {
-        "\(permutation.isCaptureless(at: $0) ? "_" : "let o\($0)") = try p\($0).parse(&input)"
+      output("\n    ) {\n      ")
+      outputForEach(0..<arity, separator: "\n      ") {
+        "\(permutation.isCaptureless(at: $0) ? "" : "let o\($0) = ")try p\($0).parse(&input)"
       }
-      output("\n        return (")
+      output("\n      return (")
       outputForEach(permutation.captureIndices, separator: ", ") { "o\($0)" }
-      output(")\n      } catch {\n        input = original\n        throw error\n      }")
-      output("\n    }\n  }\n}\n\n")
+      output(")\n    }\n  }\n}\n\n")
 
       // Emit builders.
       output("extension ParserBuilder {\n")
@@ -167,9 +166,11 @@ struct VariadicsGenerator: ParsableCommand {
     outputForEach(0..<arity, separator: "\n      ") { "self.p\($0) = p\($0)" }
     output("\n    }\n\n    ")
     output("@inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {")
-    output("\n      var errors: [Error] = []\n      ")
+    output("\n      let original = input\n      var errors: [Error] = []\n      ")
     outputForEach(0..<arity, separator: "\n      ") {
-      "do { return try self.p\($0).parse(&input) } catch { errors.append(error) }"
+      """
+      do { return try self.p\($0).parse(&input) } catch { input = original; errors.append(error) }
+      """
     }
     output("\n      throw ParsingError.manyFailed(errors, at: input)\n    }\n  }\n}\n\n")
 

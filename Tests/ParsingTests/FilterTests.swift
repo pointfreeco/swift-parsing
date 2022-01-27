@@ -21,7 +21,7 @@ final class FilterTests: XCTestCase {
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }
-    XCTAssertEqual("43 Hello, world!", Substring(input))
+    XCTAssertEqual(" Hello, world!", Substring(input))
   }
 
   func testOverloadArray() {

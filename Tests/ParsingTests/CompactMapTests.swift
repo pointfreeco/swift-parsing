@@ -26,7 +26,7 @@ final class CompactMapTests: XCTestCase {
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }
-    XCTAssertEqual("ERRORS", Substring(input))
+    XCTAssertEqual("RORS", Substring(input))
   }
 
   func testOverloadArray() {

@@ -43,11 +43,7 @@ where
       }
       input.removeFirst()
     }
-    input = original
-    throw ParsingError.expectedInput(
-      "prefix up to \(formatValue(self.possibleMatch))",
-      at: input
-    )
+    throw ParsingError.expectedInput("prefix up to \(formatValue(self.possibleMatch))", at: input)
   }
 }
 

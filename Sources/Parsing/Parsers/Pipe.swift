@@ -36,12 +36,7 @@ extension Parsers {
     public func parse(_ input: inout Upstream.Input) rethrows -> Downstream.Output {
       let original = input
       var downstreamInput = try self.upstream.parse(&input)
-      do {
-        return try self.downstream.parse(&downstreamInput)
-      } catch {
-        input = original
-        throw error
-      }
+      return try self.downstream.parse(&downstreamInput)
     }
   }
 }

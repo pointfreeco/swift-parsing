@@ -35,7 +35,6 @@ extension Parsers {
       let output = try self.upstream.parse(&input)
       guard self.predicate(output)
       else {
-        defer { input = original }
         throw ParsingError.failed(
           summary: "processed value \(formatValue(output)) failed to satisfy predicate",
           label: "processed input",

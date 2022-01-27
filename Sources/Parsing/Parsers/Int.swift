@@ -140,27 +140,33 @@ extension Parsers {
         isPositive = true
         output = n
       }
+      let original = input
+      input.removeFirst()
       length += 1
       let radix = Output(self.radix)
       while let next = iterator.next(), let n = digit(for: next) {
+        input.removeFirst()
         (output, overflow) = output.multipliedReportingOverflow(by: radix)
-        guard !overflow else {
-          throw ParsingError.expectedInput("integer", at: input)
+        func overflowError() -> Error {
+          ParsingError.failed(
+            summary: "failed to process integer",
+            label: "overflowed \(Output.max)",
+            from: original,
+            to: input
+          )
         }
+        guard !overflow else { throw overflowError() }
         (output, overflow) =
           isPositive
           ? output.addingReportingOverflow(n)
           : output.subtractingReportingOverflow(n)
-        guard !overflow else {
-          throw ParsingError.expectedInput("integer", at: input)
-        }
+        guard !overflow else { throw overflowError() }
         length += 1
       }
       guard length > (parsedSign ? 1 : 0)
       else {
         throw ParsingError.expectedInput("integer", at: input)
       }
-      input.removeFirst(length)
       return output
     }
   }

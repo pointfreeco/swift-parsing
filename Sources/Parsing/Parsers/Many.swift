@@ -136,11 +136,9 @@ where
     do {
       _ = try self.terminator.parse(&input)
     } catch {
-      input = original
       throw loopError ?? error
     }
     guard count >= self.minimum else {
-      input = original
       let atLeast = self.minimum - count
       throw ParsingError.expectedInput(
         """

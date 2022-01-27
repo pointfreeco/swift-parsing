@@ -82,7 +82,6 @@ struct TestCaseBody: Parser {
       let output = try testCaseBody.parse(&failure)
       return output
     } catch {
-      input = original
       throw error
     }
   }

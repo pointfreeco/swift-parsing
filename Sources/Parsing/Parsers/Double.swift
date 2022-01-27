@@ -181,12 +181,14 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout Input) throws -> Double {
       let original = input
-      guard
-        let s = input.parseFloat(),
-        let n = Double(String(decoding: s, as: UTF8.self))
+      let s = try input.parseFloat("double")
+      guard let n = Double(String(decoding: s, as: UTF8.self))
       else {
-        input = original
-        throw ParsingError.expectedInput("double", at: input)
+        throw ParsingError.failed(
+          summary: "failed to process double from \(formatValue(s))",
+          from: original,
+          to: input
+        )
       }
       return n
     }
@@ -208,12 +210,14 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout Input) throws -> Float {
       let original = input
-      guard
-        let s = input.parseFloat(),
-        let n = Float(String(decoding: s, as: UTF8.self))
+      let s = try input.parseFloat("float")
+      guard let n = Float(String(decoding: s, as: UTF8.self))
       else {
-        input = original
-        throw ParsingError.expectedInput("float", at: input)
+        throw ParsingError.failed(
+          summary: "failed to process float from \(formatValue(s))",
+          from: original,
+          to: input
+        )
       }
       return n
     }
@@ -236,12 +240,14 @@ extension Parsers {
       @inlinable
       public func parse(_ input: inout Input) throws -> Float80 {
         let original = input
-        guard
-          let s = input.parseFloat(),
-          let n = Float80(String(decoding: s, as: UTF8.self))
+        let s = try input.parseFloat("extended-precision float")
+        guard let n = Float(String(decoding: s, as: UTF8.self))
         else {
-          input = original
-          throw ParsingError.expectedInput("extended-precision float", at: input)
+          throw ParsingError.failed(
+            summary: "failed to process extended-precision float from \(formatValue(s))",
+            from: original,
+            to: input
+          )
         }
         return n
       }
@@ -252,13 +258,13 @@ extension Parsers {
 extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
   @inlinable
   @inline(__always)
-  mutating func parseFloat() -> SubSequence? {
+  mutating func parseFloat(_ label: String) throws -> SubSequence {
     let original = self
     if self.first == .init(ascii: "-") || self.first == .init(ascii: "+") {
       self.removeFirst()
     }
     let integer = self.prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
-    guard !integer.isEmpty else { return nil }
+    guard !integer.isEmpty else { throw ParsingError.expectedInput(label, at: self) }
     self.removeFirst(integer.count)
     if self.first == .init(ascii: ".") {
       let fractional =
