@@ -81,7 +81,6 @@ where
 
   @inlinable
   public func parse(_ input: inout Element.Input) throws -> Result {
-    let original = input
     var rest = input
     #if DEBUG
       var previous = input

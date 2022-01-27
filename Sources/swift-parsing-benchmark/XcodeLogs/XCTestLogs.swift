@@ -57,8 +57,6 @@ struct TestCaseBody: Parser {
   func parse(
     _ input: inout Substring.UTF8View
   ) throws -> (file: Substring.UTF8View, line: Int, message: Substring.UTF8View) {
-    let original = input
-
     guard input.first == .init(ascii: "/")
     else { throw ParsingError() }
 
