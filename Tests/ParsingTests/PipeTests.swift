@@ -21,9 +21,9 @@ final class PipeTests: XCTestCase {
       XCTAssertEqual(
         """
         error: unexpected input
-         --> input:1:5
+         --> input:1:1-5
         1 | true Hello, world!
-          |     ^ expected end of input
+          | ^^^^^ pipe: expected end of input
         """,
         (error as? ParsingError)?.debugDescription ?? ""
       )

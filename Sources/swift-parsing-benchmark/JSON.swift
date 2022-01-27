@@ -64,8 +64,9 @@ private let object = Parse(JSONValue.object) {
     Skip {
       Whitespace()
     }
+  } terminator: {
+    "}".utf8
   }
-  "}".utf8
 }
 
 // MARK: Array
@@ -78,8 +79,9 @@ private let array = Parse(JSONValue.array) {
     }
   } separator: {
     ",".utf8
+  } terminator: {
+    "]".utf8
   }
-  "]".utf8
 }
 
 // MARK: String
@@ -137,8 +139,9 @@ private let stringLiteral = Parse {
     }
   } element: {
     fragment
+  } terminator: {
+    "\"".utf8
   }
-  "\"".utf8
 }
 
 private let string = Parse(JSONValue.string) {

@@ -36,7 +36,19 @@ extension Parsers {
     public func parse(_ input: inout Upstream.Input) rethrows -> Downstream.Output {
       let original = input
       var downstreamInput = try self.upstream.parse(&input)
-      return try self.downstream.parse(&downstreamInput)
+      do {
+        return try self.downstream.parse(&downstreamInput)
+      } catch let ParsingError.failed(reason, context) {
+        throw ParsingError.failed(
+          "pipe: \(reason)",
+          .init(
+            originalInput: original,
+            remainingInput: input,
+            debugDescription: context.debugDescription,
+            underlyingError: ParsingError.failed(reason, context)
+          )
+        )
+      }
     }
   }
 }
