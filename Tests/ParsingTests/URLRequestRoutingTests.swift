@@ -75,7 +75,34 @@ class URLRequestRoutingTests: XCTestCase {
     }
 
     var request = URLRequestData(string: "episodes/hello")!
-    try router.parse(&request)
+    XCTAssertThrowsError(try router.parse(&request)) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected path component
+         --> input[0]
+        0 | ["episodes", "hello"]
+          |  ^ expected end of path
+
+        error: unexpected path component
+         --> input[0]
+        0 | ["episodes", "hello"]
+          |   ^ expected "contact-us"
+
+        error: unexpected path component
+         --> input[1]
+        1 | ["episodes", "hello"]
+          |              ^ expected end of path
+
+        error: unexpected path component
+         --> input[1]
+        1 | ["episodes", "hello"]
+          |               ^ expected integer
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
   }
 }
 
@@ -345,7 +372,7 @@ where
       input.path.isEmpty
     else {
       throw ParsingError.failed(
-        "end of path",
+        "expected end of path",
         .init(
           remainingInput: input.path,
           debugDescription: "unexpected path component"
