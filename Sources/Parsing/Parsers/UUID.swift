@@ -65,9 +65,6 @@ extension Parsers {
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit
   {
-    public typealias Input = Input
-    public typealias Output = UUID
-
     @inlinable
     public init() {}
 

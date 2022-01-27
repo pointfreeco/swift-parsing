@@ -5,8 +5,6 @@ where
   Input.SubSequence == Input,
   Input.Element == UTF8.CodeUnit
 {
-  public typealias Input = Input
-  
   @inlinable
   public init() {}
 

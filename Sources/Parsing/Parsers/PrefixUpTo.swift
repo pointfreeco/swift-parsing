@@ -16,9 +16,6 @@ where
   Input: Collection,
   Input.SubSequence == Input
 {
-  public typealias Input = Input
-  public typealias Output = Input
-
   public let possibleMatch: Input
   public let areEquivalent: (Input.Element, Input.Element) -> Bool
 

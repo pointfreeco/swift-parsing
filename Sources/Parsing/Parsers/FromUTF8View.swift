@@ -3,9 +3,6 @@ where
   UTF8Parser: Parser,
   UTF8Parser.Input == Substring.UTF8View
 {
-  public typealias Input = Input
-  public typealias Output = UTF8Parser.Output
-
   public let utf8Parser: UTF8Parser
   public let toUTF8: (Input) -> Substring.UTF8View
   public let fromUTF8: (Substring.UTF8View) -> Input

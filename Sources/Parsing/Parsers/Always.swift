@@ -8,9 +8,6 @@
 /// precondition(input == "Hello")
 /// ```
 public struct Always<Input, Output>: Parser {
-  public typealias Input = Input
-  public typealias Output = Output
-
   public let output: Output
 
   @inlinable

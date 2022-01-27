@@ -1,8 +1,5 @@
 /// A parser that attempts to run a number of parsers to accumulate their outputs.
 public struct Parse<Parsers>: Parser where Parsers: Parser {
-  public typealias Input = Parsers.Input
-  public typealias Output = Parsers.Output
-
   public let parsers: Parsers
 
   @inlinable

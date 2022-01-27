@@ -21,9 +21,6 @@
 /// parser.parse(&input) // nil
 /// ```
 public struct End<Input>: Parser where Input: Collection {
-  public typealias Input = Input
-  public typealias Output = Void
-
   @inlinable
   public init() {}
 

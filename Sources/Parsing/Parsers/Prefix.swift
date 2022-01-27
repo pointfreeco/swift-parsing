@@ -34,9 +34,6 @@ where
   Input: Collection,
   Input.SubSequence == Input
 {
-  public typealias Input = Input
-  public typealias Output = Input
-
   public let maxLength: Int?
   public let minLength: Int
   public let predicate: ((Input.Element) -> Bool)?

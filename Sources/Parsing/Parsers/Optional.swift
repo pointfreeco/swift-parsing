@@ -1,7 +1,4 @@
 extension Optional: Parser where Wrapped: Parser {
-  public typealias Input = Wrapped.Input
-  public typealias Output = Wrapped.Output?
-
   public func parse(_ input: inout Wrapped.Input) -> Wrapped.Output?? {
     switch self {
     case let .some(parser):
@@ -31,9 +28,6 @@ extension Parsers {
   /// }
   /// ```
   public struct OptionalVoid<Wrapped>: Parser where Wrapped: Parser, Wrapped.Output == Void {
-    public typealias Input = Wrapped.Input
-    public typealias Output = Void
-
     let wrapped: Wrapped?
 
     public init(wrapped: Wrapped?) {

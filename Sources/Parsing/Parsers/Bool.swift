@@ -72,9 +72,6 @@ extension Parsers {
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit
   {
-    public typealias Input = Input
-    public typealias Output = Bool
-
     @inlinable
     public init() {}
 

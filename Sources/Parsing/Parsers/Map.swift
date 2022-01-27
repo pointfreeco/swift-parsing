@@ -21,9 +21,6 @@ extension Parsers {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/map(_:)`` operation, which constructs this type.
   public struct Map<Upstream, Output>: Parser where Upstream: Parser {
-    public typealias Input = Upstream.Input
-    public typealias Output = Output
-
     /// The parser from which this parser receives output.
     public let upstream: Upstream
 

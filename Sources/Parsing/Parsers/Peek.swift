@@ -18,9 +18,6 @@
 /// }
 /// ```
 public struct Peek<Upstream>: Parser where Upstream: Parser {
-  public typealias Input = Upstream.Input
-  public typealias Output = Upstream.Output
-
   public let upstream: Upstream
 
   /// Construct a parser that runs the given parser, but does not consume any input.

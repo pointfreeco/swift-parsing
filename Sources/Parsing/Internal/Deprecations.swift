@@ -142,9 +142,6 @@ extension Parsers {
     A.Input == B.Input,
     A.Output == B.Output
   {
-    public typealias Input = A.Input
-    public typealias Output = A.Output
-
     public let a: A
     public let b: B
 
@@ -184,9 +181,6 @@ extension Parsers {
   @available(watchOS, deprecated: 100000, message: "Use 'Optionally' instead.")
   @available(tvOS, deprecated: 100000, message: "Use 'Optionally' instead.")
   public struct OptionalParser<Wrapped>: Parser where Wrapped: Parser {
-    public typealias Input = Wrapped.Input
-    public typealias Output = Wrapped.Output?
-
     public let wrapped: Wrapped
 
     @inlinable
@@ -266,9 +260,6 @@ extension Parsers {
   @available(watchOS, deprecated: 100000, message: "Use 'Parse' (and 'Skip') instead.")
   @available(tvOS, deprecated: 100000, message: "Use 'Parse' (and 'Skip') instead.")
   public struct SkipFirst<A, B>: Parser where A: Parser, B: Parser, A.Input == B.Input {
-    public typealias Input = A.Input
-    public typealias Output = B.Output
-
     public let a: A
     public let b: B
 
@@ -301,9 +292,6 @@ extension Parsers {
   @available(watchOS, deprecated: 100000, message: "Use 'Parse' (and 'Skip') instead.")
   @available(tvOS, deprecated: 100000, message: "Use 'Parse' (and 'Skip') instead.")
   public struct SkipSecond<A, B>: Parser where A: Parser, B: Parser, A.Input == B.Input {
-    public typealias Input = A.Input
-    public typealias Output = A.Output
-
     public let a: A
     public let b: B
 
@@ -435,9 +423,6 @@ extension Parsers {
     Upstream: Parser,
     Upstream.Input == Substring
   {
-    public typealias Input = Substring.UnicodeScalarView
-    public typealias Output = Upstream.Output
-
     public let upstream: Upstream
 
     @inlinable
@@ -463,9 +448,6 @@ extension Parsers {
     UTF8ViewParser: Parser,
     UTF8ViewParser.Input == Substring.UTF8View
   {
-    public typealias Input = Substring
-    public typealias Output = UTF8ViewParser.Output
-
     public let utf8ViewParser: UTF8ViewParser
 
     @inlinable
@@ -624,9 +606,6 @@ extension Parsers {
     B: Parser,
     A.Input == B.Input
   {
-    public typealias Input = A.Input
-    public typealias Output = (A.Output, B.Output)
-
     public let a: A
     public let b: B
 
@@ -662,9 +641,6 @@ extension Parsers {
     C: Parser,
     AB.Input == C.Input
   {
-    public typealias Input = AB.Input
-    public typealias Output = (A, B, C.Output)
-
     public let ab: AB
     public let c: C
 
@@ -703,9 +679,6 @@ extension Parsers {
     D: Parser,
     ABC.Input == D.Input
   {
-    public typealias Input = ABC.Input
-    public typealias Output = (A, B, C, D.Output)
-
     public let abc: ABC
     public let d: D
 
@@ -744,9 +717,6 @@ extension Parsers {
     E: Parser,
     ABCD.Input == E.Input
   {
-    public typealias Input = ABCD.Input
-    public typealias Output = (A, B, C, D, E.Output)
-
     public let abcd: ABCD
     public let e: E
 
@@ -785,9 +755,6 @@ extension Parsers {
     F: Parser,
     ABCDE.Input == F.Input
   {
-    public typealias Input = ABCDE.Input
-    public typealias Output = (A, B, C, D, E, F.Output)
-
     public let abcde: ABCDE
     public let f: F
 
@@ -826,9 +793,6 @@ extension Parsers {
     G: Parser,
     ABCDEF.Input == G.Input
   {
-    public typealias Input = ABCDEF.Input
-    public typealias Output = (A, B, C, D, E, F, G.Output)
-
     public let abcdef: ABCDEF
     public let g: G
 
@@ -867,9 +831,6 @@ extension Parsers {
     H: Parser,
     ABCDEFG.Input == H.Input
   {
-    public typealias Input = ABCDEFG.Input
-    public typealias Output = (A, B, C, D, E, F, G, H.Output)
-
     public let abcdefg: ABCDEFG
     public let h: H
 
@@ -908,9 +869,6 @@ extension Parsers {
     I: Parser,
     ABCDEFGH.Input == I.Input
   {
-    public typealias Input = ABCDEFGH.Input
-    public typealias Output = (A, B, C, D, E, F, G, H, I.Output)
-
     public let abcdefgh: ABCDEFGH
     public let i: I
 
@@ -949,9 +907,6 @@ extension Parsers {
     J: Parser,
     ABCDEFGHI.Input == J.Input
   {
-    public typealias Input = ABCDEFGHI.Input
-    public typealias Output = (A, B, C, D, E, F, G, H, I, J.Output)
-
     public let abcdefghi: ABCDEFGHI
     public let j: J
 
@@ -990,9 +945,6 @@ extension Parsers {
     K: Parser,
     ABCDEFGHIJ.Input == K.Input
   {
-    public typealias Input = ABCDEFGHIJ.Input
-    public typealias Output = (A, B, C, D, E, F, G, H, I, J, K.Output)
-
     public let abcdefghij: ABCDEFGHIJ
     public let k: K
 
@@ -1097,9 +1049,6 @@ where
   Input: Collection,
   Input.SubSequence == Input
 {
-  public typealias Input = Input
-  public typealias Output = Input.Element
-
   public let predicate: (Input.Element) -> Bool
 
   @inlinable

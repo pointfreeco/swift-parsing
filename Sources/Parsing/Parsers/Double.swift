@@ -175,9 +175,6 @@ extension Parsers {
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit
   {
-    public typealias Input = Input
-    public typealias Output = Double
-    
     @inlinable
     public init() {}
 
@@ -205,9 +202,6 @@ extension Parsers {
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit
   {
-    public typealias Input = Input
-    public typealias Output = Float
-
     @inlinable
     public init() {}
 
@@ -236,9 +230,6 @@ extension Parsers {
       Input.SubSequence == Input,
       Input.Element == UTF8.CodeUnit
     {
-      public typealias Input = Input
-      public typealias Output = Float80
-
       @inlinable
       public init() {}
 
