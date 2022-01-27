@@ -18,17 +18,25 @@ class ParsingErrorTests: XCTestCase {
   }
 
   func testUserParser() throws {
+    enum Role {
+      case guest, member, admin
+    }
     struct User {
       var id: Int
       var name: String
-      var isAdmin: Bool
+      var role: Role
+    }
+    let role = OneOf {
+      "guest".map { Role.guest }
+      "member".map { Role.member }
+      "admin".map { Role.admin }
     }
     let user = Parse(User.init) {
       Int.parser()
       ","
       Prefix { $0 != "," }.map(String.init)
       ","
-      Bool.parser()
+      role
       End()
     }
 

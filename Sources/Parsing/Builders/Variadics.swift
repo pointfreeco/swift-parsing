@@ -7229,11 +7229,23 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      return nil
+    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+      do {
+        return try self.p0.parse(&input)
+      } catch let e0 as ParsingError {
+        do {
+          return try self.p1.parse(&input)
+        } catch let e1 as ParsingError {
+          do {
+            return try self.p2.parse(&input)
+          } catch let e2 as ParsingError {
+            throw ParsingError(
+              expected: [e0, e1, e2].map { "- \($0.expected)" }.joined(separator: "\n"),
+              remainingInput: input
+            )
+          }
+        }
+      }
     }
   }
 }

@@ -40,7 +40,9 @@ public protocol Parser {
 
 @usableFromInline
 struct ParsingError: Error {
+  @usableFromInline
   let expected: String
+
   let remainingInput: Any
 
   @usableFromInline
