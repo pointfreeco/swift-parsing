@@ -33,6 +33,8 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
       user
     } separator: {
       "\n"
+    } terminator: {
+      End()
     }
 
     suite.benchmark(
@@ -59,6 +61,8 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
       user
     } separator: {
       "\n".utf8
+    } terminator: {
+      End()
     }
 
     suite.benchmark(

@@ -64,10 +64,18 @@ enum ParsingError: Error {
     }
 
     switch self {
-    case let .manyFailed(errors, context):
-      return .manyFailed(errors.flatMap(flatten), context)
     case .failed:
       return self
+    case let .manyFailed(errors, context):
+      return .manyFailed(errors.flatMap(flatten), context)
+    }
+  }
+
+  @usableFromInline
+  var context: Context {
+    switch self {
+    case let .failed(_, context), let .manyFailed(_, context):
+      return context
     }
   }
 
