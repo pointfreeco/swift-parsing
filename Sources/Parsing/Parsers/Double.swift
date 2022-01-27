@@ -241,7 +241,7 @@ extension Parsers {
       public func parse(_ input: inout Input) throws -> Float80 {
         let original = input
         let s = try input.parseFloat("extended-precision float")
-        guard let n = Float(String(decoding: s, as: UTF8.self))
+        guard let n = Float80(String(decoding: s, as: UTF8.self))
         else {
           throw ParsingError.failed(
             summary: "failed to process extended-precision float from \(formatValue(s))",

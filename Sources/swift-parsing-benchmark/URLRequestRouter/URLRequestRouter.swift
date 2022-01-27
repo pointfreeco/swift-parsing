@@ -247,8 +247,6 @@
 
     @inlinable
     func parse(_ input: inout URLRequestData) throws -> Parsers.Output {
-      let original = input
-
       let output = try self.parsers.parse(&input)
 
       guard

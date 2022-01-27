@@ -57,6 +57,8 @@ private let csv = Many {
   line
 } separator: {
   "\n".utf8
+} terminator: {
+  End()
 }
 
 // MARK: - Ad hoc mutating methods
