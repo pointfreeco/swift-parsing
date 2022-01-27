@@ -84,6 +84,8 @@ private let race = Parse(Race.init(location:entranceFee:path:)) {
     coord
   } separator: {
     "\n".utf8
+  } terminator: {
+    Always(())
   }
 }
 
@@ -91,6 +93,8 @@ private let races = Many {
   race
 } separator: {
   "\n---\n".utf8
+} terminator: {
+  Always(())
 }
 
 // MARK: - Benchmarks
@@ -173,7 +177,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
 
   suite.benchmark(
     name: "Parser",
-    run: { output = races.parse(input) },
+    run: { output = try! races.parse(input) as [Race] },
     tearDown: { precondition(output.count == 3) }
   )
 }

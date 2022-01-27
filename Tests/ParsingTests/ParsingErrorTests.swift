@@ -73,7 +73,7 @@ class ParsingErrorTests: XCTestCase {
     }
 
     var input = """
-      1,Blob,member-
+      1,Blob,member
       2,Blob Jr,guest
       """[...]
     let _: [User] = try users.parse(&input)
