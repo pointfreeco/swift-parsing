@@ -36,6 +36,9 @@ extension Parsers {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/pullback(_:)`` operator, which constructs this type.
   public struct Pullback<Downstream, Input>: Parser where Downstream: Parser {
+    public typealias Input = Input
+    public typealias Output = Downstream.Output
+
     public let downstream: Downstream
     public let keyPath: WritableKeyPath<Input, Downstream.Input>
 

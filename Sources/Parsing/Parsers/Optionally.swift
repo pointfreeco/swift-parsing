@@ -17,6 +17,9 @@
 /// }
 /// ```
 public struct Optionally<Wrapped>: Parser where Wrapped: Parser {
+  public typealias Input = Wrapped.Input
+  public typealias Output = Wrapped.Output?
+
   public let wrapped: Wrapped
 
   @inlinable
@@ -25,7 +28,7 @@ public struct Optionally<Wrapped>: Parser where Wrapped: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout Wrapped.Input) -> Wrapped.Output?? {
-    .some(self.wrapped.parse(&input))
+  public func parse(_ input: inout Wrapped.Input) -> Wrapped.Output? {
+    try? (self.wrapped.parse(&input) as Wrapped.Output)
   }
 }

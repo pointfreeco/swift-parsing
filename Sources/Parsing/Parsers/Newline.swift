@@ -7,19 +7,21 @@ where
   Input.SubSequence == Input,
   Input.Element == UTF8.CodeUnit
 {
+  public typealias Input = Input
+  public typealias Output = Void
+
   @inlinable
   public init() {}
 
   @inlinable
-  public func parse(_ input: inout Input) -> Void? {
+  public func parse(_ input: inout Input) throws {
     if input.first == .init(ascii: "\n") {
       input.removeFirst()
-      return ()
     } else if input.first == .init(ascii: "\r"), input.dropFirst().first == .init(ascii: "\n") {
       input.removeFirst(2)
-      return ()
+    } else {
+      throw ParsingError()
     }
-    return nil
   }
 }
 

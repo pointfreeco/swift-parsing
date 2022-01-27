@@ -39,6 +39,9 @@ where
   Input: Collection,
   Input.SubSequence == Input
 {
+  public typealias Input = Input
+  public typealias Output = Void
+
   public let count: Int
   public let possiblePrefix: AnyCollection<Input.Element>
   public let startsWith: (Input) -> Bool

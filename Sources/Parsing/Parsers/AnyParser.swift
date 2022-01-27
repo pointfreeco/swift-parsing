@@ -25,6 +25,9 @@ extension Parser {
 /// boundaries, such as different modules. When you use type erasure this way, you can change the
 /// underlying parser over time without affecting existing clients.
 public struct AnyParser<Input, Output>: Parser {
+  public typealias Input = Input
+  public typealias Output = Output
+
   @usableFromInline
   let parser: (inout Input) -> Output?
 

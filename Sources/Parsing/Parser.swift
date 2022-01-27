@@ -38,13 +38,22 @@ public protocol Parser {
   func parse(_ input: inout Input) throws -> Output
 }
 
-struct ParsingError: Error {}
+@usableFromInline
+struct ParsingError: Error {
+  @usableFromInline
+  init() {}
+}
 
 extension Parser {
+  @_disfavoredOverload
   public func parse(_ input: inout Input) throws -> Output {
     guard let output = self.parse(&input)
     else { throw ParsingError() }
     return output
+  }
+
+  public func parse(_ input: inout Input) -> Output? {
+    try? (self.parse(&input) as Output)
   }
 }
 
