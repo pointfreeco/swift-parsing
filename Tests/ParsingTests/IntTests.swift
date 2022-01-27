@@ -73,7 +73,7 @@ final class IntTests: XCTestCase {
     XCTAssertThrowsError(try UInt8.parser(of: Substring.UTF8View.self).parse(&input)) { error in
       XCTAssertEqual(
         """
-        error: failed to process integer
+        error: failed to process "UInt8"
          --> input:1:1
         1 | 1234 Hello
           | ^^^^ overflowed 255

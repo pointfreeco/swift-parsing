@@ -149,7 +149,7 @@ extension Parsers {
         (output, overflow) = output.multipliedReportingOverflow(by: radix)
         func overflowError() -> Error {
           ParsingError.failed(
-            summary: "failed to process integer",
+            summary: "failed to process \"\(Output.self)\"",
             label: "overflowed \(Output.max)",
             from: original,
             to: input
