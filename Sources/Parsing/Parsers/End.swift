@@ -21,13 +21,16 @@
 /// parser.parse(&input) // nil
 /// ```
 public struct End<Input>: Parser where Input: Collection {
+  public typealias Input = Input
+  public typealias Output = Void
+
   @inlinable
   public init() {}
 
   @inlinable
-  public func parse(_ input: inout Input) -> Void? {
-    guard input.isEmpty else { return nil }
-    return ()
+  public func parse(_ input: inout Input) throws {
+    guard input.isEmpty
+    else { throw ParsingError() }
   }
 }
 
