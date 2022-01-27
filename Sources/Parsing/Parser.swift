@@ -38,6 +38,12 @@
 
 extension Parser {
   @inlinable
+  public func parse(_ input: Input) rethrows -> Output {
+    var input = input
+    return try self.parse(&input)
+  }
+
+  @inlinable
   public func parse<SuperSequence>(
     _ input: SuperSequence
   ) rethrows -> Output

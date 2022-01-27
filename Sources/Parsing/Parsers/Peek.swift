@@ -31,8 +31,8 @@ public struct Peek<Upstream>: Parser where Upstream: Parser {
   @inlinable
   public func parse(_ input: inout Upstream.Input) rethrows -> Upstream.Output {
     let original = input
+    defer { input = original }
     let output = try self.upstream.parse(&input)
-    input = original
     return output
   }
 }
