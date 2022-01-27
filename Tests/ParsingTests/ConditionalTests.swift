@@ -23,7 +23,7 @@ final class ConditionalTests: XCTestCase {
       XCTAssertEqual(
         """
         error: failed
-         --> input:1:1
+         --> input:1:1-2
         1 | 43 Hello, world!
           | ^^
         """,

@@ -36,7 +36,7 @@ final class FlatMapTests: XCTestCase {
       XCTAssertEqual(
         """
         error: unexpected input
-         --> input:1:1
+         --> input:1:1-2
         1 | Hello, world!
           | ^^ expected integer
         """,

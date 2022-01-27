@@ -19,7 +19,7 @@ final class CompactMapTests: XCTestCase {
       XCTAssertEqual(
         """
         error: failed to process "Int" from "ER"
-         --> input:1:1
+         --> input:1:1-2
         1 | ERRORS
           | ^^
         """,

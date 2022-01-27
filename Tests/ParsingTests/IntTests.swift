@@ -74,7 +74,7 @@ final class IntTests: XCTestCase {
       XCTAssertEqual(
         """
         error: failed to process "UInt8"
-         --> input:1:1
+         --> input:1:1-4
         1 | 1234 Hello
           | ^^^^ overflowed 255
         """,

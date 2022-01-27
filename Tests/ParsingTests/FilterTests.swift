@@ -14,7 +14,7 @@ final class FilterTests: XCTestCase {
       XCTAssertEqual(
         """
         error: processed value 43 failed to satisfy predicate
-         --> input:1:1
+         --> input:1:1-2
         1 | 43 Hello, world!
           | ^^ processed input
         """,

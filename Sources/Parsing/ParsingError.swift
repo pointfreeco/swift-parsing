@@ -176,6 +176,17 @@ func format(label: String, context: ParsingError.Context) -> String? {
         }
       }
 
+      let through = substring.reduce(
+        into: position
+      ) { (position: inout (line: Int, column: Int), character: Character) in
+        if character.isNewline {
+          position.line += 1
+          position.column = 0
+        } else {
+          position.column += 1
+        }
+      }
+
       let selectedLine = substring.base[
         substring.base.index(substring.startIndex, offsetBy: -position.column)..<(
           substring.base[substring.startIndex...].firstIndex(where: \.isNewline)
@@ -184,7 +195,13 @@ func format(label: String, context: ParsingError.Context) -> String? {
 
       return formatError(
         summary: context.debugDescription,
-        location: "input:\(position.line + 1):\(position.column + 1)",
+        location: """
+          input:\(position.line + 1):\(position.column + 1)\
+          \(
+            through.line == position.line
+              ? (through.column == position.column ? "" : "-\(through.column)")
+              : "-\(through.line):\(through.column)")
+          """,
         prefix: "\(position.line + 1)",
         diagnostic: """
         \(selectedLine)
