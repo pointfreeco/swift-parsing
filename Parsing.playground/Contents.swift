@@ -16,10 +16,17 @@ let hexColor = Parse(Color.init(red:green:blue:)) {
 
 do {
   var hex = "#000000"[...]
-  print(try hexColor.parse(&hex))
+  print(hex.debugDescription, "->", try hexColor.parse(&hex), terminator: "\n ...\n\n")
 }
 
 do {
   var hex = "#FF0000"[...]
-  print(try hexColor.parse(&hex))
+  print(hex.debugDescription, "->", try hexColor.parse(&hex), terminator: "\n ...\n\n")
+}
+
+do {
+  var bad = "#BADHEX"[...]
+  try hexColor.parse(&bad)
+} catch {
+  print(error)
 }
