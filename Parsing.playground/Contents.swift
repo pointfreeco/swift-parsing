@@ -1,25 +1,25 @@
 import Parsing
 
-struct Color {
-  let red, green, blue: UInt8
+"Hello".parse("123 Hello world")
+
+Optionally
+{
+  Int.parser()
+}
+.parse("Hello") == .some(nil)
+
+struct User {
+  var id: Int
+  var name: String
+  var isAdmin: Bool
 }
 
-let hexPrimary = Prefix(2)
-  .compactMap { UInt8($0, radix: 16) }
-
-let hexColor = Parse(Color.init(red:green:blue:)) {
-  "#"
-  hexPrimary
-  hexPrimary
-  hexPrimary
+let user = Parse(User.init) {
+  Int.parser()
+  ","
+  Prefix { $0 != "," }.map(String.init)
+  ","
+  Bool.parser()
 }
 
-do {
-  var hex = "#000000"[...]
-  print(hexColor.parse(&hex)!)
-}
-
-do {
-  var hex = "#FF0000"[...]
-  print(hexColor.parse(&hex)!)
-}
+user.parse("1,Blob,tru")

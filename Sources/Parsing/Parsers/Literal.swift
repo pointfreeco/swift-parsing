@@ -16,6 +16,10 @@ extension String: Parser {
   }
 }
 
+func foo() /* -> Void */ {
+  return /* () */
+}
+
 extension String.UnicodeScalarView: Parser {
   @inlinable
   public func parse(_ input: inout Substring.UnicodeScalarView) -> Void? {
