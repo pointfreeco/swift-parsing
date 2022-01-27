@@ -23,17 +23,20 @@ class ParsingErrorTests: XCTestCase {
       var name: String
       var isAdmin: Bool
     }
-
-    // Parse<Parsers.Map<Parsers.ZipOVOVO<FromUTF8View<Substring, Parsers.IntParser<Substring.UTF8View, Int>>, String, Parsers.Map<Prefix<Substring>, String>, String, FromUTF8View<Substring, Parsers.BoolParser<Substring.UTF8View>>>, User>>
     let user = Parse(User.init) {
       Int.parser()
       ","
       Prefix { $0 != "," }.map(String.init)
       ","
       Bool.parser()
+      End()
     }
 
-    var input = "1,Blob,tru"[...]
+    var input = """
+      1,Blob,true
+      2,Blob Jr,false
+      3,Blob Sr,true
+      """[...]
     _ = try user.parse(&input) as User
   }
 }

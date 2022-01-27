@@ -40,18 +40,65 @@ public protocol Parser {
 
 @usableFromInline
 struct ParsingError: Error {
-  let message: String
+  let expected: String
+  let remainingInput: Any
 
   @usableFromInline
+  @available(*, deprecated)
   init(_ message: String = "🛑 NO ERROR MESSAGE PROVIDED") {
-    self.message = message
+    self.expected = message
+    self.remainingInput = ""
+  }
+
+  @usableFromInline
+  init(
+    expected: String,
+    remainingInput: Any
+  ) {
+    self.expected = expected
+    self.remainingInput = remainingInput
   }
 }
 
 extension ParsingError: CustomDebugStringConvertible {
   @usableFromInline
   var debugDescription: String {
-    self.message
+    let rest: String
+    let errorTitle: String
+    switch self.remainingInput {
+    case let input as Substring:
+
+      let (line, col) = input.base[..<input.startIndex]
+        .reduce(into: (line: 1, col: 1)) { (context: inout (line: Int, col: Int), char: Character) in
+          if char == "\n" {
+            context.line += 1
+            context.col = 1
+          } else {
+            context.col += 1
+          }
+        }
+
+      errorTitle = " @ (\(line):\(col))"
+      rest = String(input)
+
+    case let input as Substring.UTF8View:
+      errorTitle = ""
+      rest = String(decoding: input, as: UTF8.self)
+
+    default:
+      errorTitle = ""
+      rest = "\(self.remainingInput)"
+    }
+
+    return """
+    Parsing error\(errorTitle):
+
+    Expected:
+    \(self.expected)
+
+    Found:
+    \(rest)
+    """
   }
 }
 

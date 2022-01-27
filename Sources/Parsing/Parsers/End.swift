@@ -30,7 +30,7 @@ public struct End<Input>: Parser where Input: Collection {
   @inlinable
   public func parse(_ input: inout Input) throws {
     guard input.isEmpty
-    else { throw ParsingError() }
+    else { throw ParsingError(expected: "end of input", remainingInput: input) }
   }
 }
 
