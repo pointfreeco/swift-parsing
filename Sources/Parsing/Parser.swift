@@ -40,8 +40,19 @@ public protocol Parser {
 
 @usableFromInline
 struct ParsingError: Error {
+  let message: String
+
   @usableFromInline
-  init() {}
+  init(_ message: String = "🛑 NO ERROR MESSAGE PROVIDED") {
+    self.message = message
+  }
+}
+
+extension ParsingError: CustomDebugStringConvertible {
+  @usableFromInline
+  var debugDescription: String {
+    self.message
+  }
 }
 
 extension Parser {

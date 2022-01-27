@@ -16,14 +16,14 @@ extension FixedWidthInteger {
   ///     in the range `2...36`.
   /// - Returns: A parser that consumes an integer from the beginning of a collection of UTF-8 code
   ///   units.
-//  @inlinable
-//  public static func parser<Input>(
-//    of inputType: Input.Type = Input.self,
-//    isSigned: Bool = true,
-//    radix: Int = 10
-//  ) -> Parsers.IntParser<Input, Self> {
-//    .init(isSigned: isSigned, radix: radix)
-//  }
+  @inlinable
+  public static func parser<Input>(
+    of inputType: Input.Type = Input.self,
+    isSigned: Bool = true,
+    radix: Int = 10
+  ) -> Parsers.IntParser<Input, Self> {
+    .init(isSigned: isSigned, radix: radix)
+  }
 
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
   /// beginning of a substring's UTF-8 view.
@@ -38,15 +38,15 @@ extension FixedWidthInteger {
   ///   - radix: The radix, or base, to use for converting text to an integer value. `radix` must be
   ///     in the range `2...36`.
   /// - Returns: A parser that consumes an integer from the beginning of a substring's UTF-8 view.
-//  @_disfavoredOverload
-//  @inlinable
-//  public static func parser(
-//    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self,
-//    isSigned: Bool = true,
-//    radix: Int = 10
-//  ) -> Parsers.IntParser<Substring.UTF8View, Self> {
-//    .init(isSigned: isSigned, radix: radix)
-//  }
+  @_disfavoredOverload
+  @inlinable
+  public static func parser(
+    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self,
+    isSigned: Bool = true,
+    radix: Int = 10
+  ) -> Parsers.IntParser<Substring.UTF8View, Self> {
+    .init(isSigned: isSigned, radix: radix)
+  }
 
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
   /// beginning of a substring.
@@ -101,7 +101,7 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Input) -> Output? {
+    public func parse(_ input: inout Input) throws -> Output {
       @inline(__always)
       func digit(for n: UTF8.CodeUnit) -> Output? {
         let output: Output
@@ -119,7 +119,9 @@ extension Parsers {
       }
       var length = 0
       var iterator = input.makeIterator()
-      guard let first = iterator.next() else { return nil }
+      guard let first = iterator.next() else {
+        throw ParsingError("expected integer")
+      }
       let isPositive: Bool
       let parsedSign: Bool
       var overflow = false
@@ -134,7 +136,9 @@ extension Parsers {
         isPositive = true
         output = 0
       case let (_, n):
-        guard let n = digit(for: n) else { return nil }
+        guard let n = digit(for: n) else {
+          throw ParsingError("expected integer")
+        }
         parsedSign = false
         isPositive = true
         output = n
@@ -143,16 +147,22 @@ extension Parsers {
       let radix = Output(self.radix)
       while let next = iterator.next(), let n = digit(for: next) {
         (output, overflow) = output.multipliedReportingOverflow(by: radix)
-        guard !overflow else { return nil }
+        guard !overflow else {
+          throw ParsingError("expected integer not to overflow")
+        }
         (output, overflow) =
           isPositive
           ? output.addingReportingOverflow(n)
           : output.subtractingReportingOverflow(n)
-        guard !overflow else { return nil }
+        guard !overflow else {
+          throw ParsingError("expected integer not to overflow")
+        }
         length += 1
       }
       guard length > (parsedSign ? 1 : 0)
-      else { return nil }
+      else {
+        throw ParsingError("expected integer")
+      }
       input.removeFirst(length)
       return output
     }

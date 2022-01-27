@@ -1977,23 +1977,23 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) throws -> (
       P0.Output,
       P2.Output,
       P4.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input),
-        let o2 = p2.parse(&input),
-        let _ = p3.parse(&input),
-        let o4 = p4.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input) as P0.Output
+        let _ = try p1.parse(&input) as P1.Output
+        let o2 = try p2.parse(&input) as P2.Output
+        let _ = try p3.parse(&input) as P3.Output
+        let o4 = try p4.parse(&input) as P4.Output
+        return (o0, o2, o4)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0, o2, o4)
     }
   }
 }

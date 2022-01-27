@@ -17,7 +17,7 @@ extension String: Parser {
   @inlinable
   public func parse(_ input: inout Substring) throws {
     guard input.starts(with: self)
-    else { throw ParsingError() }
+    else { throw ParsingError("expected \(self.debugDescription)") }
 
     input.removeFirst(self.count)
   }
