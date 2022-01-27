@@ -60,18 +60,18 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) -> (
+    @inlinable public func parse(_ input: inout P0.Input) throws -> (
       P0.Output
-    )? {
+    ) {
       let original = input
-      guard
-        let o0 = p0.parse(&input),
-        let _ = p1.parse(&input)
-      else {
+      do {
+        let o0 = try p0.parse(&input) as P0.Output
+        let _ = try p1.parse(&input) as P1.Output
+        return (o0)
+      } catch {
         input = original
-        return nil
+        throw error
       }
-      return (o0)
     }
   }
 }
