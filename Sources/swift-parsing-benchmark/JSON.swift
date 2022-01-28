@@ -114,7 +114,7 @@ private let escape = Parse {
 }
 
 private let literal = Prefix(1...) {
-  $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\")
+  $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") && $0 != .init(ascii: "\n")
 }
 .map { String(Substring($0)) }
 
@@ -139,9 +139,8 @@ private let stringLiteral = Parse {
     }
   } element: {
     fragment
-  } terminator: {
-    "\"".utf8
   }
+  "\"".utf8
 }
 
 private let string = Parse(JSONValue.string) {
