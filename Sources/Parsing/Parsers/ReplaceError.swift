@@ -1,5 +1,5 @@
 extension Parser {
-  @usableFromInline
+  @inlinable
   public func replaceError(with output: Output) -> Parsers.ReplaceError<Self> {
     .init(output: output, upstream: self)
   }
