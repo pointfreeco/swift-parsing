@@ -17,7 +17,6 @@ final class PipeTests: XCTestCase {
       }
       .parse(&input)
     ) { error in
-      // TODO: How should this error render?
       XCTAssertEqual(
         """
         error: unexpected input

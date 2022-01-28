@@ -41,7 +41,6 @@ extension Parsers {
       do {
         return try self.transform(self.upstream.parse(&input)).parse(&input)
       } catch let ParsingError.failed(reason, context) {
-        defer { input = original }
         throw ParsingError.failed(
           reason, .init(
             originalInput: original,
