@@ -54,12 +54,14 @@ enum ParsingError: Error {
 
   @usableFromInline
   func flattened() -> Self {
-    func flatten(_ error: Error) -> [Error] {
-      switch error {
-      case let ParsingError.manyFailed(errors, _):
-        return errors.flatMap(flatten)
-      default:
-        return [error]
+    func flatten(_ depth: Int = 0) -> (Error) -> [(depth: Int, error: Error)] {
+      { error in
+        switch error {
+        case let ParsingError.manyFailed(errors, _):
+          return errors.flatMap(flatten(depth + 1))
+        default:
+          return [(depth, error)]
+        }
       }
     }
 
@@ -67,7 +69,12 @@ enum ParsingError: Error {
     case .failed:
       return self
     case let .manyFailed(errors, context):
-      return .manyFailed(errors.flatMap(flatten), context)
+      return .manyFailed(
+        errors.flatMap(flatten())
+          .sorted { $0.depth > $1.depth }
+          .map { $0.error },
+        context
+      )
     }
   }
 
