@@ -212,12 +212,7 @@ where
     while let element = iterator.next() {
       let rest = input
       try self.separator.print(to: &input)
-      do {
-        try self.element.print(element, to: &input)
-      } catch {
-        input = rest
-        return
-      }
+      try self.element.print(element, to: &input)
       count += 1
       guard count <= self.maximum
       else {

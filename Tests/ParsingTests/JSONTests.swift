@@ -1,13 +1,43 @@
-import Benchmark
-import Foundation
 import Parsing
+import XCTest
 
 /*
- This benchmark shows how to create a naive JSON parser with combinators.
+ p.print(.gbp)
 
- It is mostly implemented according to the [spec](https://www.json.org/json-en.html) (we take a
- shortcut and use `Double.parser()`, which behaves accordingly).
+ You tried printing a value (.gbp) that was not recognized by OneOf the parsers
+
+ - Didn't match "E" (.eur)
+ - Didn't match "$" (.usd)
+
+ London,
+         ^ tried to print here
  */
+
+class JSONTests: XCTestCase {
+  func testJson() throws {
+//    var s1 = ""[...].utf8
+//    try stringLiteral.print("hel\nlo", to: &s1)
+//    print(s1)
+
+    var str = ""[...].utf8
+    try json.print(
+      .object([
+        "hel\nlo": .boolean(true),
+        "goodbye": .number(42.42),
+        "whatever": .null,
+        "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
+        "ys": .object([
+          "0": .number(2),
+          "1": .string("goodbye"),
+        ]),
+      ]),
+      to: &str
+    )
+    let s = Substring(str)
+    print(s)
+    
+  }
+}
 
 private enum JSONValue: Equatable {
   indirect case array([JSONValue])
@@ -103,7 +133,7 @@ private let unicode = Prefix(4) {
     unapply: {
       $0.unicodeScalars.first
         .map(UInt32.init)
-        .map { String($0, radix: 16)[...].utf8 }
+        .map { String($0, radix: 16)[...].utf8 } // TODO: Left-pad 0s
     }
   )
 )
@@ -149,11 +179,16 @@ private let stringLiteral = Parse {
     case let .literal(other):
       string.append(contentsOf: other)
     }
+  } iterator: { string in
+    string
+      .map {
+        .literal(String($0))
+      }
+      .makeIterator()
   } element: {
     fragment
-  } terminator: {
-    "\"".utf8
   }
+  "\"".utf8
 }
 
 private let string = Parse(/JSONValue.string) {
@@ -179,59 +214,3 @@ private let boolean = Parse(/JSONValue.boolean) {
 //  "null".utf8
 //}
 private let null = "null".utf8.map(/JSONValue.null)
-
-let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
-  let input = #"""
-    {
-      "hello": true,
-      "goodbye": 42.42,
-      "whatever": null,
-      "xs": [1, "hello", null, false],
-      "ys": {
-        "0": 2,
-        "1": "goodbye"
-      }
-    }
-    """#
-  var jsonOutput: JSONValue!
-  suite.benchmark(
-    name: "Parser",
-    run: { jsonOutput = try json.parse(input) },
-    tearDown: {
-      precondition(
-        jsonOutput
-          == .object([
-            "hello": .boolean(true),
-            "goodbye": .number(42.42),
-            "whatever": .null,
-            "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
-            "ys": .object([
-              "0": .number(2),
-              "1": .string("goodbye"),
-            ]),
-          ])
-      )
-    }
-  )
-
-  let dataInput = Data(input.utf8)
-  var objectOutput: Any!
-  suite.benchmark(
-    name: "JSONSerialization",
-    run: { objectOutput = try JSONSerialization.jsonObject(with: dataInput, options: []) },
-    tearDown: {
-      precondition(
-        (objectOutput as! NSDictionary) == [
-          "hello": true,
-          "goodbye": 42.42,
-          "whatever": NSNull(),
-          "xs": [1, "hello", nil, false],
-          "ys": [
-            "0": 2,
-            "1": "goodbye",
-          ],
-        ]
-      )
-    }
-  )
-}

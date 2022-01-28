@@ -13,6 +13,22 @@ public struct AnyConversion<Input, Output>: Conversion {
     self._unapply = unapply
   }
 
+  public init(
+    apply: @escaping (Input) -> Output?,
+    unapply: @escaping (Output) -> Input?
+  ) {
+    self._apply = {
+      guard let value = apply($0)
+      else { throw ConvertingError() }
+      return value
+    }
+    self._unapply = {
+      guard let value = unapply($0)
+      else { throw ConvertingError() }
+      return value
+    }
+  }
+
   public init<C>(_ conversion: C) where C: Conversion, C.Input == Input, C.Output == Output {
     self.init(apply: conversion.apply, unapply: conversion.unapply)
   }
