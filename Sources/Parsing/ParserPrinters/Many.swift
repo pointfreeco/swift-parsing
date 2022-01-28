@@ -32,7 +32,7 @@ import Foundation
 /// precondition(input == "")
 /// precondition(output == 6)
 /// ```
-public struct Many<Element, Result, Separator, Terminator>: Parser
+public struct Many<Element, Result, Separator, Terminator, Printability>: Parser
 where
   Element: Parser,
   Separator: Parser,
@@ -48,76 +48,6 @@ where
   public let separator: Separator
   public let terminator: Terminator
   public let updateAccumulatingResult: (inout Result, Element.Output) -> Void
-
-  /// Initializes a parser that attempts to run the given parser at least and at most the given
-  /// number of times, accumulating the outputs into a result with a given closure.
-  ///
-  /// - Parameters:
-  ///   - initialResult: The value to use as the initial accumulating value.
-  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
-  ///     successful.
-  ///   - maximum: The maximum number of times to run this parser before returning the output.
-  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
-  ///     of the element parser.
-  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
-  ///   - element: A parser to run multiple times to accumulate into a result.
-  ///   - separator: A parser that consumes input between each parsed output.
-  ///   - terminator: TODO
-  @inlinable
-  public init<Iterator>(
-    into initialResult: Result,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
-    iterator: @escaping (Result) -> Iterator,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
-  ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
-    self.element = element()
-    self.initialResult = initialResult
-    self.iterator = { AnyIterator(iterator($0)) }
-    self.maximum = maximum
-    self.minimum = minimum
-    self.separator = separator()
-    self.terminator = terminator()
-    self.updateAccumulatingResult = updateAccumulatingResult
-  }
-
-  /// Initializes a parser that attempts to run the given parser at least and at most the given
-  /// number of times, accumulating the outputs into a result with a given closure.
-  ///
-  /// - Parameters:
-  ///   - initialResult: The value to use as the initial accumulating value.
-  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
-  ///     successful.
-  ///   - maximum: The maximum number of times to run this parser before returning the output.
-  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
-  ///     of the element parser.
-  ///   - element: A parser to run multiple times to accumulate into a result.
-  ///   - separator: A parser that consumes input between each parsed output.
-  ///   - terminator: TODO
-  @inlinable
-  public init(
-    into initialResult: Result,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
-  ) {
-    self.init(
-      into: initialResult,
-      atLeast: minimum,
-      atMost: maximum,
-      updateAccumulatingResult,
-      iterator: { _ in AnyIterator { nil } },
-      element: element,
-      separator: separator,
-      terminator: terminator
-    )
-  }
 
   @inlinable
   public func parse(_ input: inout Element.Input) throws -> Result {
@@ -191,16 +121,89 @@ where
   }
 }
 
+extension Many where Printability == Void {
+  /// Initializes a parser that attempts to run the given parser at least and at most the given
+  /// number of times, accumulating the outputs into a result with a given closure.
+  ///
+  /// - Parameters:
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
+  ///     successful.
+  ///   - maximum: The maximum number of times to run this parser before returning the output.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
+  ///   - terminator: TODO
+  @inlinable
+  public init<Iterator>(
+    into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    iterator: @escaping (Result) -> Iterator,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator,
+    @ParserBuilder terminator: () -> Terminator
+  ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output, Printability == Void {
+    self.element = element()
+    self.initialResult = initialResult
+    self.iterator = { AnyIterator(iterator($0)) }
+    self.maximum = maximum
+    self.minimum = minimum
+    self.separator = separator()
+    self.terminator = terminator()
+    self.updateAccumulatingResult = updateAccumulatingResult
+  }
+}
+
+extension Many where Printability == Never {
+  /// Initializes a parser that attempts to run the given parser at least and at most the given
+  /// number of times, accumulating the outputs into a result with a given closure.
+  ///
+  /// - Parameters:
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
+  ///     successful.
+  ///   - maximum: The maximum number of times to run this parser before returning the output.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
+  ///   - terminator: TODO
+  @inlinable
+  public init(
+    into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator,
+    @ParserBuilder terminator: () -> Terminator
+  ) where Printability == Never {
+    self.element = element()
+    self.initialResult = initialResult
+    self.iterator = { _ in fatalError() }
+    self.maximum = maximum
+    self.minimum = minimum
+    self.separator = separator()
+    self.terminator = terminator()
+    self.updateAccumulatingResult = updateAccumulatingResult
+  }
+}
+
 extension Many: Printer
 where
   Element: Printer,
   Separator: Printer,
   Separator.Output == Void,
   Terminator: Printer,
-  Terminator.Output == Void
+  Terminator.Output == Void,
+  Printability == Void
 {
   @inlinable
-  public func print(_ output: Result, to input: inout Input) throws {
+  public func print(_ output: Result, to input: inout Element.Input) throws {
     let original = input
     let iterator = self.iterator(output)
     guard let first = iterator.next() else {
@@ -228,7 +231,12 @@ where
   }
 }
 
-extension Many where Separator == Always<Input, Void>, Terminator == Always<Input, Void> {
+extension Many
+where
+  Separator == Always<Element.Input, Void>,
+  Terminator == Always<Element.Input, Void>,
+  Printability == Void
+{
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs into a result with a given closure.
   ///
@@ -250,16 +258,25 @@ extension Many where Separator == Always<Input, Void>, Terminator == Always<Inpu
     iterator: @escaping (Result) -> Iterator,
     @ParserBuilder element: () -> Element
   ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
-    self.element = element()
-    self.initialResult = initialResult
-    self.iterator = { AnyIterator(iterator($0)) }
-    self.maximum = maximum
-    self.minimum = minimum
-    self.separator = .init(())
-    self.terminator = .init(())
-    self.updateAccumulatingResult = updateAccumulatingResult
+    self.init(
+      into: initialResult,
+      atLeast: minimum,
+      atMost: maximum,
+      updateAccumulatingResult,
+      iterator: iterator,
+      element: element,
+      separator: { Always<Element.Input, Void>(()) },
+      terminator: { Always<Element.Input, Void>(()) }
+    )
   }
+}
 
+extension Many
+where
+  Separator == Always<Element.Input, Void>,
+  Terminator == Always<Element.Input, Void>,
+  Printability == Never
+{
   @inlinable
   public init(
     into initialResult: Result,
@@ -273,13 +290,14 @@ extension Many where Separator == Always<Input, Void>, Terminator == Always<Inpu
       atLeast: minimum,
       atMost: maximum,
       updateAccumulatingResult,
-      iterator: { _ in AnyIterator { nil } },
-      element: element
+      element: element,
+      separator: { Always<Element.Input, Void>(()) },
+      terminator: { Always<Element.Input, Void>(()) }
     )
   }
 }
 
-extension Many where Separator == Always<Input, Void> {
+extension Many where Separator == Always<Input, Void>, Printability == Void {
   @inlinable
   public init<Iterator>(
     into initialResult: Result,
@@ -290,38 +308,42 @@ extension Many where Separator == Always<Input, Void> {
     @ParserBuilder element: () -> Element,
     @ParserBuilder terminator: () -> Terminator
   ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
-    self.element = element()
-    self.initialResult = initialResult
-    self.iterator = { AnyIterator(iterator($0)) }
-    self.maximum = maximum
-    self.minimum = minimum
-    self.separator = .init(())
-    self.terminator = terminator()
-    self.updateAccumulatingResult = updateAccumulatingResult
-  }
-
-  @inlinable
-  public init(
-    into initialResult: Result,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
-  ) {
     self.init(
       into: initialResult,
       atLeast: minimum,
       atMost: maximum,
       updateAccumulatingResult,
-      iterator: { _ in AnyIterator { nil } },
+      iterator: iterator,
       element: element,
+      separator: { Always<Element.Input, Void>(()) },
       terminator: terminator
     )
   }
 }
 
-extension Many where Terminator == Always<Input, Void> {
+extension Many where Separator == Always<Input, Void>, Printability == Never {
+  @inlinable
+  public init(
+    into initialResult: Result,
+    atLeast minimum: Int = 0,
+    atMost maximum: Int = .max,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder terminator: () -> Terminator
+  ) {
+    self.init(
+      into: initialResult,
+      atLeast: minimum,
+      atMost: maximum,
+      updateAccumulatingResult,
+      element: element,
+      separator: { Always<Element.Input, Void>(()) },
+      terminator: terminator
+    )
+  }
+}
+
+extension Many where Terminator == Always<Input, Void>, Printability == Void {
   @inlinable
   public init<Iterator>(
     into initialResult: Result,
@@ -332,16 +354,20 @@ extension Many where Terminator == Always<Input, Void> {
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
-    self.element = element()
-    self.initialResult = initialResult
-    self.iterator = { AnyIterator(iterator($0)) }
-    self.maximum = maximum
-    self.minimum = minimum
-    self.separator = separator()
-    self.terminator = .init(())
-    self.updateAccumulatingResult = updateAccumulatingResult
+    self.init(
+      into: initialResult,
+      atLeast: minimum,
+      atMost: maximum,
+      updateAccumulatingResult,
+      iterator: { AnyIterator(iterator($0)) },
+      element: element,
+      separator: separator,
+      terminator: { Always<Input, Void>(()) }
+    )
   }
+}
 
+extension Many where Terminator == Always<Input, Void>, Printability == Never {
   @inlinable
   public init(
     into initialResult: Result,
@@ -356,14 +382,14 @@ extension Many where Terminator == Always<Input, Void> {
       atLeast: minimum,
       atMost: maximum,
       updateAccumulatingResult,
-      iterator: { _ in AnyIterator { nil } },
       element: element,
-      separator: separator
+      separator: separator,
+      terminator: { Always<Input, Void>(()) }
     )
   }
 }
 
-extension Many where Result == [Element.Output] {
+extension Many where Result == [Element.Output], Printability == Void {
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs in an array.
   ///
@@ -398,7 +424,8 @@ extension Many
 where
   Result == [Element.Output],
   Separator == Always<Input, Void>,
-  Terminator == Always<Input, Void>
+  Terminator == Always<Input, Void>,
+  Printability == Void
 {
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs in an array.
@@ -425,7 +452,12 @@ where
   }
 }
 
-extension Many where Result == [Element.Output], Separator == Always<Input, Void> {
+extension Many
+where
+  Result == [Element.Output],
+  Separator == Always<Input, Void>,
+  Printability == Void
+{
   @inlinable
   public init(
     atLeast minimum: Int = 0,
@@ -445,7 +477,12 @@ extension Many where Result == [Element.Output], Separator == Always<Input, Void
   }
 }
 
-extension Many where Result == [Element.Output], Terminator == Always<Input, Void> {
+extension Many
+where
+  Result == [Element.Output],
+  Terminator == Always<Input, Void>,
+  Printability == Void
+{
   @inlinable
   public init(
     atLeast minimum: Int = 0,

@@ -149,6 +149,8 @@ private let stringLiteral = Parse {
     case let .literal(other):
       string.append(contentsOf: other)
     }
+  } iterator: { string in
+    CollectionOfOne(StringFragment.literal(string)).makeIterator()
   } element: {
     fragment
   } terminator: {
