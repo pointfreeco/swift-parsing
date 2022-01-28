@@ -139,8 +139,9 @@ private let stringLiteral = Parse {
     }
   } element: {
     fragment
+  } terminator: {
+    "\"".utf8
   }
-  "\"".utf8
 }
 
 private let string = Parse(JSONValue.string) {
