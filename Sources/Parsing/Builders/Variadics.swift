@@ -6072,12 +6072,15 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
-      var errors: [Error] = []
-      do { return try self.p0.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p1.parse(&input) } catch { input = original; errors.append(error) }
-      throw ParsingError.manyFailed(errors, at: input)
+      do { return try self.p0.parse(&input) } catch let e0 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          throw ParsingError.manyFailed(
+            [e0, e1], at: input
+          )
+        }
+      }
     }
   }
 }
@@ -6109,13 +6112,17 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
-      var errors: [Error] = []
-      do { return try self.p0.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p1.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p2.parse(&input) } catch { input = original; errors.append(error) }
-      throw ParsingError.manyFailed(errors, at: input)
+      do { return try self.p0.parse(&input) } catch let e0 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            throw ParsingError.manyFailed(
+              [e0, e1, e2], at: input
+            )
+          }
+        }
+      }
     }
   }
 }
@@ -6151,14 +6158,19 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
-      var errors: [Error] = []
-      do { return try self.p0.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p1.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p2.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p3.parse(&input) } catch { input = original; errors.append(error) }
-      throw ParsingError.manyFailed(errors, at: input)
+      do { return try self.p0.parse(&input) } catch let e0 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              throw ParsingError.manyFailed(
+                [e0, e1, e2, e3], at: input
+              )
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -6198,15 +6210,21 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
-      var errors: [Error] = []
-      do { return try self.p0.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p1.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p2.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p3.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p4.parse(&input) } catch { input = original; errors.append(error) }
-      throw ParsingError.manyFailed(errors, at: input)
+      do { return try self.p0.parse(&input) } catch let e0 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
+                throw ParsingError.manyFailed(
+                  [e0, e1, e2, e3, e4], at: input
+                )
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -6250,16 +6268,23 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
-      var errors: [Error] = []
-      do { return try self.p0.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p1.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p2.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p3.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p4.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p5.parse(&input) } catch { input = original; errors.append(error) }
-      throw ParsingError.manyFailed(errors, at: input)
+      do { return try self.p0.parse(&input) } catch let e0 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
+                do { input = original; return try self.p5.parse(&input) } catch let e5 {
+                  throw ParsingError.manyFailed(
+                    [e0, e1, e2, e3, e4, e5], at: input
+                  )
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -6307,17 +6332,25 @@ extension Parsers {
       self.p6 = p6
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
-      var errors: [Error] = []
-      do { return try self.p0.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p1.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p2.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p3.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p4.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p5.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p6.parse(&input) } catch { input = original; errors.append(error) }
-      throw ParsingError.manyFailed(errors, at: input)
+      do { return try self.p0.parse(&input) } catch let e0 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
+                do { input = original; return try self.p5.parse(&input) } catch let e5 {
+                  do { input = original; return try self.p6.parse(&input) } catch let e6 {
+                    throw ParsingError.manyFailed(
+                      [e0, e1, e2, e3, e4, e5, e6], at: input
+                    )
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -6369,18 +6402,27 @@ extension Parsers {
       self.p7 = p7
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
-      var errors: [Error] = []
-      do { return try self.p0.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p1.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p2.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p3.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p4.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p5.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p6.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p7.parse(&input) } catch { input = original; errors.append(error) }
-      throw ParsingError.manyFailed(errors, at: input)
+      do { return try self.p0.parse(&input) } catch let e0 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
+                do { input = original; return try self.p5.parse(&input) } catch let e5 {
+                  do { input = original; return try self.p6.parse(&input) } catch let e6 {
+                    do { input = original; return try self.p7.parse(&input) } catch let e7 {
+                      throw ParsingError.manyFailed(
+                        [e0, e1, e2, e3, e4, e5, e6, e7], at: input
+                      )
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -6436,19 +6478,29 @@ extension Parsers {
       self.p8 = p8
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
-      var errors: [Error] = []
-      do { return try self.p0.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p1.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p2.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p3.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p4.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p5.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p6.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p7.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p8.parse(&input) } catch { input = original; errors.append(error) }
-      throw ParsingError.manyFailed(errors, at: input)
+      do { return try self.p0.parse(&input) } catch let e0 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
+                do { input = original; return try self.p5.parse(&input) } catch let e5 {
+                  do { input = original; return try self.p6.parse(&input) } catch let e6 {
+                    do { input = original; return try self.p7.parse(&input) } catch let e7 {
+                      do { input = original; return try self.p8.parse(&input) } catch let e8 {
+                        throw ParsingError.manyFailed(
+                          [e0, e1, e2, e3, e4, e5, e6, e7, e8], at: input
+                        )
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
@@ -6508,20 +6560,31 @@ extension Parsers {
       self.p9 = p9
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
-      var errors: [Error] = []
-      do { return try self.p0.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p1.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p2.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p3.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p4.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p5.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p6.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p7.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p8.parse(&input) } catch { input = original; errors.append(error) }
-      do { return try self.p9.parse(&input) } catch { input = original; errors.append(error) }
-      throw ParsingError.manyFailed(errors, at: input)
+      do { return try self.p0.parse(&input) } catch let e0 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
+                do { input = original; return try self.p5.parse(&input) } catch let e5 {
+                  do { input = original; return try self.p6.parse(&input) } catch let e6 {
+                    do { input = original; return try self.p7.parse(&input) } catch let e7 {
+                      do { input = original; return try self.p8.parse(&input) } catch let e8 {
+                        do { input = original; return try self.p9.parse(&input) } catch let e9 {
+                          throw ParsingError.manyFailed(
+                            [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9], at: input
+                          )
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

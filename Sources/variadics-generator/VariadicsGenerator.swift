@@ -165,14 +165,22 @@ struct VariadicsGenerator: ParsableCommand {
     output(") {\n      ")
     outputForEach(0..<arity, separator: "\n      ") { "self.p\($0) = p\($0)" }
     output("\n    }\n\n    ")
-    output("@inlinable public func parse(_ input: inout P0.Input) throws -> P0.Output {")
-    output("\n      let original = input\n      var errors: [Error] = []\n      ")
+    output("@inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {")
+    output("\n      let original = input\n      ")
     outputForEach(0..<arity, separator: "\n      ") {
-      """
-      do { return try self.p\($0).parse(&input) } catch { input = original; errors.append(error) }
-      """
+      return """
+        \(String(repeating: "  ", count: $0))do { \($0 == 0 ? "" : "input = original; ")\
+        return try self.p\($0).parse(&input) } catch let e\($0) {
+        """
     }
-    output("\n      throw ParsingError.manyFailed(errors, at: input)\n    }\n  }\n}\n\n")
+    output("\n      \(String(repeating: "  ", count: arity))throw ParsingError.manyFailed(")
+    output("\n      \(String(repeating: "  ", count: arity + 1))[")
+    outputForEach(0..<arity, separator: ", ") { "e\($0)" }
+    output("], at: input\n      \(String(repeating: "  ", count: arity)))\n      ")
+    outputForEach((0..<arity).reversed(), separator: "\n      ") {
+      "\(String(repeating: "  ", count: $0))}"
+    }
+    output("\n    }\n  }\n}\n\n")
 
     // Emit builders.
     output("extension OneOfBuilder {\n")
@@ -188,3 +196,4 @@ struct VariadicsGenerator: ParsableCommand {
     output(")\n  }\n}\n\n")
   }
 }
+
