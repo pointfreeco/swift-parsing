@@ -44,48 +44,30 @@ extension Parser {
   }
 
   @inlinable
-  public func parse<SuperSequence>(
-    _ input: SuperSequence
-  ) rethrows -> Output
-  where
-    SuperSequence: Collection,
-    SuperSequence.SubSequence == Input
-  {
-    var input = input[...]
-    return try self.parse(&input)
+  public func parse<S: Collection>(_ input: S) rethrows -> Output
+  where Input == S.SubSequence {
+    try self.parse(input[...])
   }
 
   @inlinable
   public func parse<S: StringProtocol>(_ input: S) rethrows -> Output
-  where
-    Input == S.SubSequence.UTF8View
-  {
-    var input = input[...].utf8
-    return try self.parse(&input)
+  where Input == S.SubSequence.UTF8View {
+    try self.parse(input[...].utf8)
   }
 
   @inlinable
   public func parse<S: StringProtocol>(_ input: S) rethrows -> Output?
-  where
-    Input == Slice<UnsafeBufferPointer<UTF8.CodeUnit>>
-  {
-    try input.utf8
-      .withContiguousStorageIfAvailable { input -> Output in
-        var input = input[...]
-        return try self.parse(&input)
-      }
+  where Input == Slice<UnsafeBufferPointer<UInt8>> {
+    try input.utf8.withContiguousStorageIfAvailable { input in
+      try self.parse(input[...])
+    }
   }
 
   @inlinable
   public func parse<C: Collection>(_ input: C) rethrows -> Output?
-  where
-    C.Element == UTF8.CodeUnit,
-    Input == Slice<UnsafeBufferPointer<C.Element>>
-  {
-    try input
-      .withContiguousStorageIfAvailable { input -> Output in
-        var input = input[...]
-        return try self.parse(&input)
-      }
+  where C.Element == UInt8, Input == Slice<UnsafeBufferPointer<UInt8>> {
+    try input.withContiguousStorageIfAvailable { input in
+      try self.parse(input[...])
+    }
   }
 }
