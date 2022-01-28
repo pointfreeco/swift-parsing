@@ -68,19 +68,16 @@ private func isVersion(_ c: UTF8.CodeUnit) -> Bool {
 
 // MARK: - Parsers
 
-private let method = Prefix(while: isToken)
-  .map { String(decoding: $0, as: UTF8.self) }
+private let method = Parse(.string) { Prefix(while: isToken) }
 
-private let uri = Prefix(while: isNotSpace)
-  .map { String(decoding: $0, as: UTF8.self) }
+private let uri = Parse(.string) { Prefix(while: isNotSpace) }
 
-private let httpVersion = Parse {
+private let httpVersion = Parse(.string) {
   "HTTP/".utf8
   Prefix(while: isVersion)
 }
-.map { String(decoding: $0, as: UTF8.self) }
 
-private let requestLine = Parse(Request.init(method:uri:version:)) {
+private let requestLine = Parse(.destructure(Request.init(method:uri:version:))) {
   method
   " ".utf8
   uri
@@ -90,21 +87,13 @@ private let requestLine = Parse(Request.init(method:uri:version:)) {
 }
 
 private let headerValue = Parse {
-  Skip {
-    OneOf {
-      " ".utf8
-      "\t".utf8
-    }
-    Prefix(while: isHorizontalSpace)
-  }
-  Prefix(while: notLineEnding).map { String(decoding: $0, as: UTF8.self) }
-  Skip {
-    Newline()
-  }
+  Prefix(1..., while: isHorizontalSpace).printing(" ".utf8)
+  Parse(.string) { Prefix(while: notLineEnding) }
+  Newline()
 }
 
-private let header = Parse(Header.init(name:value:)) {
-  Prefix(while: isToken).map { String(decoding: $0, as: UTF8.self) }
+private let header = Parse(.destructure(Header.init(name:value:))) {
+  Parse(.string) { Prefix(while: isToken) }
   ":".utf8
   Many {
     headerValue

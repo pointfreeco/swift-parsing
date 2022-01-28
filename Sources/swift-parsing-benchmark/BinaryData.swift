@@ -97,7 +97,7 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
     name: "Parser",
     run: {
       var input = input
-      try output = header.parse(&input)
+      output = try header.parse(&input)
       rest = input
     },
     tearDown: {

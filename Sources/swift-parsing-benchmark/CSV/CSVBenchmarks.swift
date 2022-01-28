@@ -41,11 +41,12 @@ private let quotedField = Parse {
   "\"".utf8
 }
 
-private let field = OneOf {
-  quotedField
-  plainField
+private let field = Parse(.string) {
+  OneOf {
+    quotedField
+    plainField
+  }
 }
-.map { String(Substring($0)) }
 
 private let line = Many {
   field

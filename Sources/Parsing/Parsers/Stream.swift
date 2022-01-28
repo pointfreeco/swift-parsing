@@ -42,7 +42,7 @@ where
   public init(@ParserBuilder build: () -> Parsers) {
     self.parsers = build()
   }
-  
+
   @inlinable
   public func parse(_ input: inout AnyIterator<Parsers.Input>) rethrows -> [Parsers.Output] {
     var buffer = Parsers.Input()
