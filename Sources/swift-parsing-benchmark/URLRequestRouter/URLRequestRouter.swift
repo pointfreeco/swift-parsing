@@ -54,25 +54,41 @@
     }
   }
 
+  extension Body: Printer where Parsers: Printer {
+    @inlinable
+    func print(_ output: Parsers.Output, to input: inout URLRequestData) rethrows {
+      var body = input.body ?? []
+      defer { input.body = body }
+      try self.bodyParser.print(output, to: &body)
+    }
+  }
+
   struct JSON<Value: Decodable>: Parser {
     let decoder: JSONDecoder
+    let encoder: JSONEncoder
 
     @inlinable
     init(
       _ type: Value.Type,
-      decoder: JSONDecoder = .init()
+      decoder: JSONDecoder = .init(),
+      encoder: JSONEncoder = .init()
     ) {
       self.decoder = decoder
+      self.encoder = encoder
     }
 
     @inlinable
     func parse(_ input: inout ArraySlice<UInt8>) throws -> Value {
-      guard let output = try? decoder.decode(Value.self, from: Data(input))
-      else {
-        throw ParsingError()
-      }
+      let output = try decoder.decode(Value.self, from: Data(input))
       input = []
       return output
+    }
+  }
+
+  extension JSON: Printer where Value: Encodable {
+    @inlinable
+    func print(_ output: Value, to input: inout ArraySlice<UInt8>) throws {
+      input = .init(try encoder.encode(output))[...]
     }
   }
 
@@ -93,10 +109,15 @@
     @inlinable
     func parse(_ input: inout URLRequestData) throws {
       guard input.method?.uppercased() == self.name
-      else {
-        throw ParsingError()
-      }
+      else { throw ParsingError() }
       input.method = nil
+    }
+  }
+
+  extension Method: Printer {
+    @inlinable
+    func print(_ output: (), to input: inout URLRequestData) throws {
+      input.method = self.name
     }
   }
 
@@ -115,30 +136,22 @@
     @inlinable
     func parse(_ input: inout URLRequestData) throws -> Component.Output {
       guard var component = input.path.first
-      else {
-        throw ParsingError()
-      }
+      else { throw ParsingError() }
 
       let output = try self.componentParser.parse(&component)
 
       guard component.isEmpty
-      else {
-        throw ParsingError()
-      }
+      else { throw ParsingError() }
 
       input.path.removeFirst()
       return output
     }
   }
 
-  struct PathEnd: Parser {
+  extension Path: Printer where Component: Printer {
     @inlinable
-    init() {}
-
-    @inlinable
-    func parse(_ input: inout URLRequestData) throws {
-      guard input.path.isEmpty
-      else { throw ParsingError() }
+    func print(_ output: Component.Output, to input: inout URLRequestData) rethrows {
+      input.path.append(try self.componentParser.print(output))
     }
   }
 
@@ -212,6 +225,13 @@
     }
   }
 
+  extension Query: Printer where Value: Printer {
+    @inlinable
+    func print(_ output: Value.Output, to input: inout URLRequestData) rethrows {
+      input.query[self.name, default: []].append(try self.valueParser.print(output))
+    }
+  }
+
   struct Route<Parsers>: Parser
   where
     Parsers: Parser,
@@ -223,8 +243,23 @@
     init<Upstream, Route>(
       _ transform: @escaping (Upstream.Output) -> Route,
       @ParserBuilder with parsers: () -> Upstream
-    ) where Upstream.Input == URLRequestData, Parsers == Parsing.Parsers.Map<Upstream, Route> {
+    ) where Parsers == Parsing.Parsers.Map<Upstream, Route> {
       self.parsers = parsers().map(transform)
+    }
+
+    @inlinable
+    init<Upstream, Downstream>(
+      _ conversion: Downstream,
+      @ParserBuilder with parsers: () -> Upstream
+    ) where Parsers == Parsing.Parsers.MapConversion<Upstream, Downstream> {
+      self.parsers = parsers().map(conversion)
+    }
+
+    @inlinable
+    init<Downstream>(
+      _ conversion: Downstream
+    ) where Parsers == Parsing.Parsers.MapConversion<Always<URLRequestData, Void>, Downstream> {
+      self.parsers = Always(()).map(conversion)
     }
 
     @inlinable
@@ -233,7 +268,6 @@
       @ParserBuilder with parsers: () -> Upstream
     )
     where
-      Upstream.Input == URLRequestData,
       Upstream.Output == Void,
       Parsers == Parsing.Parsers.Map<Upstream, Route>
     {
@@ -257,6 +291,16 @@
       }
 
       return output
+    }
+  }
+
+  extension Route: Printer where Parsers: Printer {
+    @inlinable
+    func print(_ output: Parsers.Output, to input: inout URLRequestData) rethrows {
+      try self.parsers.print(output, to: &input)
+      if input.method == nil {
+        input.method = "GET"
+      }
     }
   }
 #endif

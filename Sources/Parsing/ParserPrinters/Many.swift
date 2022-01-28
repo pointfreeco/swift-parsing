@@ -210,7 +210,6 @@ where
     try self.element.print(first, to: &input)
     var count = 1
     while let element = iterator.next() {
-      let rest = input
       try self.separator.print(to: &input)
       try self.element.print(element, to: &input)
       count += 1
