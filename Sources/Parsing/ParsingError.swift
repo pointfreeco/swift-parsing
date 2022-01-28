@@ -71,7 +71,18 @@ enum ParsingError: Error {
     case let .manyFailed(errors, context):
       return .manyFailed(
         errors.flatMap(flatten())
-          .sorted { $0.depth > $1.depth }
+          .sorted {
+            guard $0.depth == $1.depth else { return $0.depth > $1.depth }
+            switch ($0.error, $1.error) {
+            case let (lhs as ParsingError, rhs as ParsingError):
+              return startIndexIsLessThan(lhs.context.remainingInput, rhs.context.remainingInput)
+                .map(!) ?? false
+            case (is ParsingError, _):
+              return true
+            default:
+              return false
+            }
+          }
           .map { $0.error },
         context
       )
@@ -316,4 +327,24 @@ private func formatError(
     \(indent)--> \(location)
     \(diagnostic)
     """
+}
+
+private enum Box<T> {}
+
+protocol AnySequence {
+  static func startIndexIsLessThan(_ lhs: Any, _ rhs: Any) -> Bool
+}
+
+extension Box: AnySequence where T: Collection {
+  static func startIndexIsLessThan(_ lhs: Any, _ rhs: Any) -> Bool {
+    guard let lhs = lhs as? T, let rhs = rhs as? T else { return false }
+    return lhs.startIndex < rhs.startIndex
+  }
+}
+
+private func startIndexIsLessThan(_ lhs: Any, _ rhs: Any) -> Bool? {
+  func open<LHS>(_: LHS.Type) -> Bool? {
+    (Box<LHS>.self as? AnySequence.Type)?.startIndexIsLessThan(lhs, rhs)
+  }
+  return _openExistential(type(of: lhs), do: open)
 }
