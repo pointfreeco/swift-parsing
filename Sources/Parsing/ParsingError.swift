@@ -75,8 +75,11 @@ enum ParsingError: Error {
             guard $0.depth == $1.depth else { return $0.depth > $1.depth }
             switch ($0.error, $1.error) {
             case let (lhs as ParsingError, rhs as ParsingError):
-              return startIndexIsLessThan(lhs.context.remainingInput, rhs.context.remainingInput)
-                .map(!) ?? false
+              return subSequence(
+                lhs.context.remainingInput,
+                isMoreConsumedThan:  rhs.context.remainingInput
+              )
+              ?? false
             case (is ParsingError, _):
               return true
             default:
@@ -331,20 +334,20 @@ private func formatError(
 
 private enum Box<T> {}
 
-protocol AnySequence {
-  static func startIndexIsLessThan(_ lhs: Any, _ rhs: Any) -> Bool
+protocol AnySubSequence {
+  static func subSequence(_ lhs: Any, isMoreConsumedThan rhs: Any) -> Bool
 }
 
-extension Box: AnySequence where T: Collection {
-  static func startIndexIsLessThan(_ lhs: Any, _ rhs: Any) -> Bool {
+extension Box: AnySubSequence where T: Collection, T == T.SubSequence {
+  static func subSequence(_ lhs: Any, isMoreConsumedThan rhs: Any) -> Bool {
     guard let lhs = lhs as? T, let rhs = rhs as? T else { return false }
-    return lhs.startIndex < rhs.startIndex
+    return lhs.startIndex > rhs.startIndex && lhs.endIndex <= rhs.endIndex
   }
 }
 
-private func startIndexIsLessThan(_ lhs: Any, _ rhs: Any) -> Bool? {
+private func subSequence(_ lhs: Any, isMoreConsumedThan rhs: Any) -> Bool? {
   func open<LHS>(_: LHS.Type) -> Bool? {
-    (Box<LHS>.self as? AnySequence.Type)?.startIndexIsLessThan(lhs, rhs)
+    (Box<LHS>.self as? AnySubSequence.Type)?.subSequence(lhs, isMoreConsumedThan: rhs)
   }
   return _openExistential(type(of: lhs), do: open)
 }
