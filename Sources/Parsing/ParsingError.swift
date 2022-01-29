@@ -236,17 +236,12 @@ func format(label: String, context: ParsingError.Context) -> String? {
       if
         let error = context.underlyingError as? ParsingError,
         case let .failed(elementLabel, elementContext) = error,
-        let originalInput = elementContext.originalInput as? Substring
-          ?? (elementContext.originalInput as? Substring.UTF8View).flatMap(Substring.init),
-        let remainingInput = elementContext.remainingInput as? Substring
-          ?? (elementContext.remainingInput as? Substring.UTF8View).flatMap(Substring.init)
+        let originalInput = normalize(elementContext.originalInput) as? Substring,
+        let remainingInput = normalize(elementContext.remainingInput) as? Substring
       {
-        let input = originalInput.startIndex == remainingInput.startIndex
+        let substring = originalInput.startIndex == remainingInput.startIndex
         ? originalInput
         : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
-        let substring = input.endIndex == input.base.endIndex
-        ? input[..<input.startIndex]
-        : input
         let indent = String(
           repeating: " ",
           count: substring.distance(
