@@ -83,22 +83,22 @@ class URLRequestRoutingTests: XCTestCase {
         error: unexpected path component
          --> input[1]
         1 | ["episodes", "hello"]
-          |              ^ expected end of path
+          |               ^ expected integer
 
         error: unexpected path component
          --> input[1]
         1 | ["episodes", "hello"]
-          |               ^ expected integer
-
-        error: unexpected path component
-         --> input[0]
-        0 | ["episodes", "hello"]
-          |  ^ expected end of path
+          |              ^ expected end of path
 
         error: unexpected path component
          --> input[0]
         0 | ["episodes", "hello"]
           |   ^ expected "contact-us"
+
+        error: unexpected path component
+         --> input[0]
+        0 | ["episodes", "hello"]
+          |  ^ expected end of path
         """,
         (error as? ParsingError)?.debugDescription ?? ""
       )

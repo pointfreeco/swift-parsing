@@ -74,10 +74,7 @@ enum ParsingError: Error {
           .sorted {
             switch ($0.error, $1.error) {
             case let (lhs as ParsingError, rhs as ParsingError):
-              return input(
-                lhs.context.remainingInput,
-                isMoreConsumedThan: rhs.context.remainingInput
-              )
+              return lhs.context > rhs.context
             case (is ParsingError, _):
               return $1.depth > $0.depth
             default:
@@ -316,14 +313,26 @@ private func formatError(
     """
 }
 
-private func input(_ lhs: Any, isMoreConsumedThan rhs: Any) -> Bool {
-  switch (normalize(lhs), normalize(rhs)) {
-  case let (lhs as Substring, rhs as Substring):
-    return lhs.endIndex > rhs.endIndex
-  case let (lhs as Slice<[Substring]>, rhs as Slice<[Substring]>):
-    return lhs.endIndex > rhs.endIndex
-  default:
-    return false
+private extension ParsingError.Context {
+  static func > (lhs: Self, rhs: Self) -> Bool {
+    switch (normalize(lhs.remainingInput), normalize(rhs.remainingInput)) {
+    case let (lhsInput as Substring, rhsInput as Substring):
+      return lhsInput.endIndex > rhsInput.endIndex
+    case let (lhsInput as Slice<[Substring]>, rhsInput as Slice<[Substring]>):
+      guard lhsInput.endIndex != rhsInput.endIndex else {
+        switch (lhs.underlyingError, rhs.underlyingError) {
+        case let (lhs as ParsingError, rhs as ParsingError):
+          return lhs.context > rhs.context
+        case (is ParsingError, _):
+          return true
+        default:
+          return false
+        }
+      }
+      return lhsInput.endIndex > rhsInput.endIndex
+    default:
+      return false
+    }
   }
 }
 
