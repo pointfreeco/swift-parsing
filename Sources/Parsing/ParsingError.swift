@@ -176,14 +176,11 @@ extension ParsingError: CustomDebugStringConvertible {
 @usableFromInline
 func format(label: String, context: ParsingError.Context) -> String? {
   func formatHelp<Input>(from originalInput: Input, to remainingInput: Input) -> String? {
-    switch (originalInput, remainingInput) {
+    switch (normalize(originalInput), normalize(remainingInput)) {
     case let (originalInput as Substring, remainingInput as Substring):
-      let input = originalInput.startIndex == remainingInput.startIndex
-      ? originalInput
-      : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
-      let substring = input.endIndex == input.base.endIndex
-      ? input[..<input.startIndex]
-      : input
+      let substring = originalInput.startIndex == remainingInput.startIndex
+        ? originalInput
+        : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
 
       let position = substring.base[..<substring.startIndex].reduce(
         into: (0, 0)
@@ -231,16 +228,10 @@ func format(label: String, context: ParsingError.Context) -> String? {
         """
       )
 
-    case let (originalInput as Substring.UTF8View, remainingInput as Substring.UTF8View):
-      return formatHelp(from: Substring(originalInput), to: Substring(remainingInput))
-
     case let (originalInput as Slice<[Substring]>, remainingInput as Slice<[Substring]>):
-      let input = originalInput.startIndex == remainingInput.startIndex
-      ? originalInput
-      : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
-      let slice = input.endIndex == input.base.endIndex
-      ? input[..<input.startIndex]
-      : input
+      let slice = originalInput.startIndex == remainingInput.startIndex
+        ? originalInput
+        : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
 
       let expectation: String
       if
@@ -332,18 +323,27 @@ private func formatError(
 }
 
 private func input(_ lhs: Any, isMoreConsumedThan rhs: Any) -> Bool {
-  switch (lhs, rhs) {
+  switch (normalize(lhs), normalize(rhs)) {
   case let (lhs as Substring, rhs as Substring):
-    let lhs = lhs.endIndex == lhs.base.endIndex ? lhs[..<lhs.startIndex] : lhs
-    let rhs = rhs.endIndex == rhs.base.endIndex ? rhs[..<rhs.startIndex] : rhs
     return lhs.endIndex > rhs.endIndex
-  case let (lhs as Substring.UTF8View, rhs as Substring.UTF8View):
-    return input(Substring(lhs), isMoreConsumedThan: Substring(rhs))
   case let (lhs as Slice<[Substring]>, rhs as Slice<[Substring]>):
-    let lhs = lhs.endIndex == lhs.base.endIndex ? lhs[..<lhs.startIndex] : lhs
-    let rhs = rhs.endIndex == rhs.base.endIndex ? rhs[..<rhs.startIndex] : rhs
     return lhs.endIndex > rhs.endIndex
   default:
     return false
   }
 }
+
+private func normalize(_ input: Any) -> Any {
+  // TODO: Use `_openExistential` for `C: Collection where C == C.SubSequence` for index juggling?
+  switch input {
+  case let input as Substring:
+    return input.endIndex == input.base.endIndex ? input[..<input.startIndex] : input
+  case let input as Substring.UTF8View:
+    return normalize(Substring(input))
+  case let input as Slice<[Substring]>:
+    return input.endIndex == input.base.endIndex ? input[..<input.startIndex] : input
+  default:
+    return input
+  }
+}
+

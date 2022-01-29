@@ -30,6 +30,6 @@ final class ConditionalTests: XCTestCase {
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }
-    XCTAssertEqual("43 Hello, world!", input)
+    XCTAssertEqual(" Hello, world!", input)
   }
 }

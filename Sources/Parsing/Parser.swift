@@ -49,6 +49,7 @@ extension Parser {
     try self.parse(input[...])
   }
 
+  @_disfavoredOverload
   @inlinable
   public func parse<S: StringProtocol>(_ input: S) rethrows -> Output
   where Input == S.SubSequence.UTF8View {
