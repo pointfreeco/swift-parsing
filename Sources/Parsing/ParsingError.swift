@@ -75,11 +75,7 @@ enum ParsingError: Error {
             guard $0.depth == $1.depth else { return $0.depth > $1.depth }
             switch ($0.error, $1.error) {
             case let (lhs as ParsingError, rhs as ParsingError):
-              return subSequence(
-                lhs.context.remainingInput,
-                isMoreConsumedThan:  rhs.context.remainingInput
-              )
-              ?? false
+              return input(lhs, isMoreConsumedThan: rhs)
             case (is ParsingError, _):
               return true
             default:
@@ -332,22 +328,19 @@ private func formatError(
     """
 }
 
-private enum Box<T> {}
-
-protocol AnySubSequence {
-  static func subSequence(_ lhs: Any, isMoreConsumedThan rhs: Any) -> Bool
-}
-
-extension Box: AnySubSequence where T: Collection, T == T.SubSequence {
-  static func subSequence(_ lhs: Any, isMoreConsumedThan rhs: Any) -> Bool {
-    guard let lhs = lhs as? T, let rhs = rhs as? T else { return false }
-    return lhs.startIndex > rhs.startIndex && lhs.endIndex <= rhs.endIndex
+private func input(_ lhs: Any, isMoreConsumedThan rhs: Any) -> Bool {
+  switch (lhs, rhs) {
+  case let (lhs as Substring, rhs as Substring):
+    let lhs = lhs.endIndex == lhs.base.endIndex ? lhs[..<lhs.startIndex] : lhs
+    let rhs = rhs.endIndex == rhs.base.endIndex ? rhs[..<rhs.startIndex] : rhs
+    return lhs.endIndex > rhs.endIndex
+  case let (lhs as Substring.UTF8View, rhs as Substring.UTF8View):
+    return input(Substring(lhs), isMoreConsumedThan: Substring(rhs))
+  case let (lhs as Slice<[Substring]>, rhs as Slice<[Substring]>):
+    let lhs = lhs.endIndex == lhs.base.endIndex ? lhs[..<lhs.startIndex] : lhs
+    let rhs = rhs.endIndex == rhs.base.endIndex ? rhs[..<rhs.startIndex] : rhs
+    return lhs.endIndex > rhs.endIndex
+  default:
+    return false
   }
-}
-
-private func subSequence(_ lhs: Any, isMoreConsumedThan rhs: Any) -> Bool? {
-  func open<LHS>(_: LHS.Type) -> Bool? {
-    (Box<LHS>.self as? AnySubSequence.Type)?.subSequence(lhs, isMoreConsumedThan: rhs)
-  }
-  return _openExistential(type(of: lhs), do: open)
 }
