@@ -75,7 +75,10 @@ enum ParsingError: Error {
             guard $0.depth == $1.depth else { return $0.depth > $1.depth }
             switch ($0.error, $1.error) {
             case let (lhs as ParsingError, rhs as ParsingError):
-              return input(lhs, isMoreConsumedThan: rhs)
+              return input(
+                lhs.context.remainingInput,
+                isMoreConsumedThan: rhs.context.remainingInput
+              )
             case (is ParsingError, _):
               return true
             default:
