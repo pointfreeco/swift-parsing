@@ -72,7 +72,6 @@ enum ParsingError: Error {
       return .manyFailed(
         errors.flatMap(flatten())
           .sorted {
-            guard $0.depth == $1.depth else { return $0.depth > $1.depth }
             switch ($0.error, $1.error) {
             case let (lhs as ParsingError, rhs as ParsingError):
               return input(
@@ -80,9 +79,9 @@ enum ParsingError: Error {
                 isMoreConsumedThan: rhs.context.remainingInput
               )
             case (is ParsingError, _):
-              return true
+              return $1.depth > $0.depth
             default:
-              return false
+              return $0.depth > $1.depth
             }
           }
           .map { $0.error },
@@ -216,8 +215,8 @@ func format(label: String, context: ParsingError.Context) -> String? {
           input:\(position.line + 1):\(position.column + 1)\
           \(
             through.line == position.line
-              ? (through.column == position.column ? "" : "-\(through.column)")
-              : "-\(through.line):\(through.column)")
+              ? (through.column <= position.column + 1 ? "" : "-\(through.column)")
+              : "-\(through.line + 1):\(through.column + 1)")
           """,
         prefix: "\(position.line + 1)",
         diagnostic: """
