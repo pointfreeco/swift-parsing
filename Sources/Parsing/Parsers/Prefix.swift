@@ -159,7 +159,8 @@ where
         \(self.minLength - count) \(count == 0 ? "" : "more ")element\(atLeast == 1 ? "" : "s")\
         \(predicate == nil ? "" : " satisfying predicate")
         """,
-        at: input.dropFirst(self.minLength)
+        from: input.dropFirst(atLeast),
+        to: input.dropFirst(self.minLength)
       )
     }
     input.removeFirst(count)
