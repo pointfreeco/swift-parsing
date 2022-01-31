@@ -53,6 +53,17 @@ enum ParsingError: Error {
   }
 
   @usableFromInline
+  static func wrap(_ error: Error, at remainingInput: Any) -> Self {
+    error as? ParsingError ?? .failed(
+      "", .init(
+        remainingInput: remainingInput,
+        debugDescription: error.localizedDescription,
+        underlyingError: error
+      )
+    )
+  }
+
+  @usableFromInline
   func flattened() -> Self {
     func flatten(_ depth: Int = 0) -> (Error) -> [(depth: Int, error: Error)] {
       { error in
@@ -75,8 +86,6 @@ enum ParsingError: Error {
             switch ($0.error, $1.error) {
             case let (lhs as ParsingError, rhs as ParsingError):
               return lhs.context > rhs.context
-            case (is ParsingError, _):
-              return $1.depth > $0.depth
             default:
               return $0.depth > $1.depth
             }
@@ -141,7 +150,7 @@ extension ParsingError: CustomDebugStringConvertible {
   var debugDescription: String {
     switch self.flattened() {
     case let .failed(label, context):
-      return format(label: label, context: context) ?? "FAIL"
+      return format(label: label, context: context)
 
     case let .manyFailed(errors, context) where errors.isEmpty:
       #if DEBUG
@@ -153,7 +162,7 @@ extension ParsingError: CustomDebugStringConvertible {
           """
         )
       #endif
-      return format(label: "processed up to", context: context) ?? "FAIL"
+      return format(label: "processed up to", context: context)
 
     case let .manyFailed(errors, _):
       let failures = errors
@@ -170,8 +179,8 @@ extension ParsingError: CustomDebugStringConvertible {
 }
 
 @usableFromInline
-func format(label: String, context: ParsingError.Context) -> String? {
-  func formatHelp<Input>(from originalInput: Input, to remainingInput: Input) -> String? {
+func format(label: String, context: ParsingError.Context) -> String {
+  func formatHelp<Input>(from originalInput: Input, to remainingInput: Input) -> String {
     switch (normalize(originalInput), normalize(remainingInput)) {
     case let (originalInput as Substring, remainingInput as Substring):
       let substring = originalInput.startIndex == remainingInput.startIndex
@@ -269,7 +278,7 @@ func format(label: String, context: ParsingError.Context) -> String? {
       )
 
     default:
-      return nil
+      return "error: \(context.debugDescription)"
     }
   }
 
