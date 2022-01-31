@@ -28,7 +28,7 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
     let output = try Many {
       Int.parser(of: Substring.UTF8View.self)
     } separator: {
-      FromSubstring { "\u{00E9}" }
+      From(.substring) { "\u{00E9}" }
     }
     .parse(&input)
     precondition(output.count == count)

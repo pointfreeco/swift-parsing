@@ -40,11 +40,11 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       Route(/AppRoute.home)
 
       Route(/AppRoute.contactUs) {
-        Path(FromUTF8View { "contact-us".utf8 })
+        Path(From(.utf8) { "contact-us".utf8 })
       }
 
       Route(/AppRoute.episodes) {
-        Path(FromUTF8View { "episodes".utf8 })
+        Path(From(.utf8) { "episodes".utf8 })
 
         OneOf {
           Route(/Episodes.index)
@@ -56,7 +56,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
               Route(/Episode.show)
 
               Route(/Episode.comments) {
-                Path(FromUTF8View { "comments".utf8 })
+                Path(From(.utf8) { "comments".utf8 })
 
                 OneOf {
                   Route(/Comments.post) {

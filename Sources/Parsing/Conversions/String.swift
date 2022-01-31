@@ -42,6 +42,7 @@ extension Conversions {
       String(decoding: input, as: UTF8.self)
     }
 
+    @inlinable
     public func unapply(_ output: String) -> Input {
       .init(output.utf8)
     }

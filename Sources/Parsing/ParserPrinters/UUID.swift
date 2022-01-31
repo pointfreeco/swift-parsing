@@ -49,8 +49,8 @@ extension UUID {
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
-  ) -> FromUTF8View<Substring, Parsers.UUIDParser<Substring.UTF8View>> {
-    .init { Parsers.UUIDParser<Substring.UTF8View>() }
+  ) -> From<Conversions.SubstringToUTF8View, Parsers.UUIDParser<Substring.UTF8View>> {
+    From(.utf8) { Parsers.UUIDParser<Substring.UTF8View>() }
   }
 }
 
