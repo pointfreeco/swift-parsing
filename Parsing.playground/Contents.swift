@@ -17,11 +17,11 @@ struct User {
 let field = OneOf {
   Parse {
     "\""
-    Prefix { $0 != "\"" }.map(String.init)
+    Prefix { $0 != "\"" }
     "\""
   }
 
-  Prefix { $0 != "," }.map(String.init)
+  Prefix { $0 != "," }
 }
 
 let zeroOrOneSpace = OneOf {
@@ -29,7 +29,7 @@ let zeroOrOneSpace = OneOf {
   ""
 }
 
-let user = Parse(User.init(id:name:admin:)) {
+let user = Parse {
   Int.parser()
   Skip {
     ","
@@ -66,7 +66,7 @@ func print(users: [User]) -> String {
   users.map(print(user:)).joined(separator: "\n")
 }
 
-print(print(users: parsedUsers))
+//print(print(users: parsedUsers))
 
 
 protocol Printer {
@@ -267,9 +267,79 @@ extension Parsers.ZipVV: Printer where P0: Printer, P1: Printer {
 }
 
 
-
 extension Parsers.IntParser: Printer where Input == Substring.UTF8View {
   func print(_ output: Output, to input: inout Substring.UTF8View) throws {
-    input.append
+    var substring = Substring(input)
+    substring.append(contentsOf: String(output, radix: self.radix))
+    input = substring.utf8
   }
 }
+
+extension FromUTF8View: Printer where UTF8Parser: Printer {
+  func print(_ output: UTF8Parser.Output, to input: inout Input) throws {
+    var utf8Input = self.toUTF8(input)
+    defer { input = self.fromUTF8(utf8Input) }
+    try self.utf8Parser.print(output, to: &utf8Input)
+  }
+}
+
+
+input = ""
+try Parse { "Hello "; Int.parser(); "!" }
+  .print(42, to: &input)
+input // "Hello 42!"
+
+extension Parsers.BoolParser: Printer where Input == Substring.UTF8View {
+  func print(_ output: Bool, to input: inout Substring.UTF8View) throws {
+    var substring = Substring(input)
+    substring.append(contentsOf: String(output))
+    input = substring.utf8
+  }
+}
+
+extension Parsers.ZipOVOVO: Printer where P0: Printer, P1: Printer, P2: Printer, P3: Printer, P4: Printer {
+  func print(_ output: (P0.Output, P2.Output, P4.Output), to input: inout P0.Input) throws {
+    try self.p0.print(output.0, to: &input)
+    try self.p1.print((), to: &input)
+    try self.p2.print(output.1, to: &input)
+    try self.p3.print((), to: &input)
+    try self.p4.print(output.2, to: &input)
+  }
+}
+
+
+input = ""
+try user.print((id: 1, name: "Blob, Esq.", admin: true), to: &input)
+input // "1,"Blob, Esq.",true"
+
+
+
+extension Many: Printer
+where
+  Element: Printer,
+  Result == [Element.Output],
+  Separator: Printer,
+  Separator.Output == Void
+{
+  func print(_ output: [Element.Output], to input: inout Element.Input) throws {
+    var firstElement = true
+    for elementOutput in output {
+      defer { firstElement = false }
+      if firstElement {
+        try self.separator.print((), to: &input)
+      }
+      try self.element.print(elementOutput, to: &input)
+    }
+  }
+}
+
+
+input = ""
+try users.print(
+  [
+    (id: 1, name: "Blob", admin: true),
+    (id: 2, name: "Blob, Esq.", admin: true)
+  ],
+  to: &input
+)
+input // "1,Blob,true\n2,"Blob, Esq.",true\n"
