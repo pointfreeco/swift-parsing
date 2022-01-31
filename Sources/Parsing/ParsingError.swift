@@ -349,4 +349,3 @@ private func normalize(_ input: Any) -> Any {
     return input
   }
 }
-
