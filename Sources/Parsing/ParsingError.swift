@@ -209,11 +209,14 @@ func format(label: String, context: ParsingError.Context) -> String {
         }
       }
 
+      let offset = min(position.column, 20)
       let selectedLine = substring.base[
-        substring.base.index(substring.startIndex, offsetBy: -position.column)..<(
-          substring.base[substring.startIndex...].firstIndex(where: \.isNewline)
-          ?? substring.base.endIndex
-        )]
+        substring.base.index(substring.startIndex, offsetBy: -offset)...
+      ]
+      .prefix { !$0.isNewline }
+      let isStartTruncated = offset != position.column
+      let truncatedLine = selectedLine.prefix(80 - offset - 4 - (isStartTruncated ? 1 : 0))
+      let isEndTruncated = truncatedLine.endIndex != selectedLine.endIndex
 
       return formatError(
         summary: context.debugDescription,
@@ -226,8 +229,8 @@ func format(label: String, context: ParsingError.Context) -> String {
           """,
         prefix: "\(position.line + 1)",
         diagnostic: """
-        \(selectedLine)
-        \(String(repeating: " ", count: position.column))\
+        \(isStartTruncated ? "…" : "")\(truncatedLine)\(isEndTruncated ? "…" : "")
+        \(String(repeating: " ", count: offset + (isStartTruncated ? 1 : 0)))\
         \(String(repeating: "^", count: max(1, substring.count)))\
         \(label.isEmpty ? "" : " \(label)")
         """

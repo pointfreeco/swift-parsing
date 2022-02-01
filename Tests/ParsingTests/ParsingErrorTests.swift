@@ -20,4 +20,76 @@ class ParsingErrorTests: XCTestCase {
       )
     }
   }
+
+  func testAlignsLineNumber() {
+    let parser = Many(atLeast: 101) {
+      "Hello"
+    } separator: {
+      "\n"
+    }
+
+    XCTAssertThrowsError(
+      try parser.parse(String(repeating: "Hello\n", count: 100) + "World")
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+           --> input:100:6
+        100 | Hello
+            |      ^ expected 1 more value of "()"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
+  }
+
+  func testTruncatesLongLines() {
+    XCTAssertThrowsError(
+      try Many(atLeast: 101) { "hello" }.parse(
+        String(repeating: "hello", count: 100) + String(repeating: "world", count: 100)
+      )
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:501
+        1 | …hellohellohellohelloworldworldworldworldworldworldworld…
+          |                      ^ expected 1 more value of "()"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
+
+    XCTAssertThrowsError(
+      try Many(atLeast: 101) { "hello" }.parse(
+        String(repeating: "hello", count: 100) + "world"
+      )
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:501
+        1 | …hellohellohellohelloworld
+          |                      ^ expected 1 more value of "()"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
+
+    XCTAssertThrowsError(
+      try "hello".parse(
+        String(repeating: "world", count: 100)
+      )
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | worldworldworldworldworldworldworldworldworldworldworldworldworldworldworldw…
+          | ^ expected "hello"
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
+  }
 }
