@@ -5,11 +5,11 @@
 /// consume and return input through a particular subsequence.
 ///
 /// ```swift
-/// let lineParser = PrefixThrough<Substring>("\n")
+/// let lineParser = PrefixThrough("\n")
 ///
 /// var input = "Hello\nworld\n"[...]
-/// line.parse(&input) // "Hello\n"
-/// input // "world\n"
+/// try line.parse(&input)  // "Hello\n"
+/// input                   // "world\n"
 /// ```
 public struct PrefixThrough<Input>: Parser
 where

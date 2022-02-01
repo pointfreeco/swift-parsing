@@ -11,7 +11,7 @@ extension Parsers {
   ///   case member
   /// }
   ///
-  /// Parse {
+  /// let roleParser = Parse {
   ///   for role in Role.allCases {
   ///     status.rawValue.map { role }
   ///   }

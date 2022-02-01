@@ -28,8 +28,7 @@
 ///   readLine().map { ArraySlice($0.utf8) }
 /// }
 ///
-/// newlineSeparatedIntegers
-///   .parse(&stdin)
+/// try newlineSeparatedIntegers.parse(&stdin)
 /// ```
 public struct Stream<Parsers>: Parser
 where

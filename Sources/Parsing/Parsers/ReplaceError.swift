@@ -1,4 +1,18 @@
 extension Parser {
+  /// A parser that replaces its error with a provided output.
+  ///
+  /// ```swift
+  /// var input = "123 Hello"[...]
+  /// Int.parser().replaceError(with: 0).parse(input)  // 123
+  /// input                                            // " Hello"
+  ///
+  /// input = "Hello"[...]
+  /// Int.parser().replaceError(with: 0).parse(input)  // 0
+  /// input                                            // "Hello"
+  /// ```
+  ///
+  /// - Parameter output: An output to return should the upstream parser fail.
+  /// - Returns: A parser that never fails.
   @inlinable
   public func replaceError(with output: Output) -> Parsers.ReplaceError<Self> {
     .init(output: output, upstream: self)

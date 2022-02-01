@@ -162,7 +162,7 @@ extension ParsingError: CustomDebugStringConvertible {
           """
         )
       #endif
-      return format(label: "processed up to", context: context)
+      return format(label: "", context: context)
 
     case let .manyFailed(errors, _):
       let failures = errors

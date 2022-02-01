@@ -5,20 +5,21 @@
 ///
 /// ```swift
 /// let parser = Parse {
-///   Many {
-///     Int.parser()
-///   } separator: {
-///     ","
-///   }
-///
-///   End()  // All input should be consumed.
+///   "Hello, "
+///   Prefix { $0 != "!" }
+///   "!"
+///   End()  // NB: All input should be consumed.
 /// }
 ///
-/// var input = "1,2,3"[...]
-/// parser.parse(&input) // [1, 2, 3]
+/// var input = "Hello, Blob!"[...]
+/// try parser.parse(&input)  // "Blob"
 ///
-/// input = "1,2,3,hello"
-/// parser.parse(&input) // nil
+/// input = "Hello, Blob!!"
+/// try parser.parse(&input)
+/// // error: unexpected input
+/// //  ---> input:1:13
+/// // 1 | Hello, Blob!!
+/// //   |             ^ expected end of input
 /// ```
 public struct End<Input>: Parser where Input: Collection {
   @inlinable

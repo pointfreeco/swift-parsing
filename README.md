@@ -33,14 +33,14 @@ This library was designed over the course of many [episodes](https://www.pointfr
 Parsing is a surprisingly ubiquitous problem in programming. We can define parsing as trying to take a more nebulous blob of data and transform it into something more well-structured. The Swift standard library comes with a number of parsers that we reach for every day. For example, there are initializers on `Int`, `Double`, and even `Bool`, that attempt to parse numbers and booleans from strings:
 
 ```swift
-Int("42")         // 42
-Int("Hello")      // nil
+Int("42")          // 42
+Int("Hello")       // nil
 
-Double("123.45")  // 123.45
-Double("Goodbye") // nil
+Double("123.45")   // 123.45
+Double("Goodbye")  // nil
 
-Bool("true")      // true
-Bool("0")         // nil
+Bool("true")       // true
+Bool("0")          // nil
 ```
 
 And there are types like `JSONDecoder` and `PropertyListDecoder` that attempt to parse `Decodable`-conforming types from data:
@@ -105,8 +105,8 @@ let user = Parse {
 Already this can consume the beginning of the input:
 
 ```swift
-user.parse(&input) // => 1
-input // => "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
+try user.parse(&input)  // 1
+input                   // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
 Next we want to take everything up until the next comma for the user's name, and then consume the comma:
@@ -174,8 +174,8 @@ let user = Parse(User.init(id:name:isAdmin:)) {
 That is enough to parse a single user from the input string, leaving behind a newline and the final two users:
 
 ```swift
-user.parse(&input) // => User(id: 1, name: "Blob", isAdmin: true)
-input // => "\n2,Blob Jr.,false\n3,Blob Sr.,true"
+try user.parse(&input)  // User(id: 1, name: "Blob", isAdmin: true)
+input                   // "\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
 To parse multiple users from the input we can use the `Many` parser to run the user parser many times:
@@ -187,8 +187,8 @@ let users = Many {
   "\n"
 }
 
-users.parse(&input) // => [User(id: 1, name: "Blob", isAdmin: true), ...]
-input // => ""
+try users.parse(&input)  // [User(id: 1, name: "Blob", isAdmin: true), ...]
+input                    // ""
 ```
 
 Now this parser can process an entire document of users, and the code is simpler and more straightforward than the version that uses `.split` and `.compactMap`.
@@ -256,8 +256,8 @@ For example, to parse all the characters from the beginning of a substring until
 let parser = Prefix { $0 != "," }
 
 var input = "Hello,World"[...]
-parser.parse(&input) // => "Hello"
-input // => ",World"
+try parser.parse(&input)  // "Hello"
+input                     // ",World"
 ```
 
 The type of this parser is:
@@ -273,8 +273,8 @@ let parser = Prefix { $0 != "," }
   .map { $0 + "!!!" }
 
 var input = "Hello,World"[...]
-parser.parse(&input) // => "Hello!!!"
-input // => ",World"
+try parser.parse(&input)  // "Hello!!!"
+input                     // ",World"
 ```
 
 The type of this parser is now:
@@ -321,8 +321,8 @@ let accountingNumber = OneOf {
   .map { -$0 }
 }
 
-accountingNumber.parse("100")   // 100
-accountingNumber.parse("(100)") // -100
+try accountingNumber.parse("100")    // 100
+try accountingNumber.parse("(100)")  // -100
 ```
 
 ### Low-level versus high-level
@@ -355,8 +355,8 @@ let city = OneOf {
 }
 
 var input = "San José,123"
-city.parse(&input) // => City.sanJose
-input // => ",123"
+try city.parse(&input)  // City.sanJose
+input                   // ",123"
 ```
 
 However, we are incurring the cost of parsing `Substring` for this entire parser, even though only the "San José" case needs that power. We can refactor this parser so that "London" and "New York" are parsed on the `UTF8View` level, since they consist of only ASCII characters, and then parse "San José" as `Substring`:

@@ -10,8 +10,8 @@
 ///
 /// ```swift
 /// OneOf {
-///   "caf\u{00E9}".utf8  // LATIN SMALL LETTER E WITH ACUTE
-///   "cafe\u{0301}".utf8 // E + COMBINING ACUTE ACCENT
+///   "caf\u{00E9}".utf8   // LATIN SMALL LETTER E WITH ACUTE
+///   "cafe\u{0301}".utf8  // E + COMBINING ACUTE ACCENT
 /// }
 /// ```
 ///

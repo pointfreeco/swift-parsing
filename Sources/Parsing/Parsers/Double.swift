@@ -4,10 +4,9 @@ extension Double {
   /// A parser that consumes a double from the beginning of a collection of UTF-8 code units.
   ///
   /// ```swift
-  /// var input = "123.45 Hello world"[...].utf8
-  /// let output = Double.parser().parse(&input)
-  /// precondition(output == 123.45)
-  /// precondition(Substring(input) == " Hello world")
+  /// var input = "123.45 Hello world"[...]
+  /// try Double.parser().parse(&input)  // 123.45
+  /// input                              // " Hello world")
   /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
@@ -56,10 +55,9 @@ extension Float {
   /// A parser that consumes a float from the beginning of a collection of UTF-8 code units.
   ///
   /// ```swift
-  /// var input = "123.45 Hello world"[...].utf8
-  /// let output = Float.parser().parse(&input)
-  /// precondition(output == 123.45)
-  /// precondition(Substring(input) == " Hello world")
+  /// var input = "123.45 Hello world"[...]
+  /// try Float.parser().parse(&input)  // 123.45
+  /// input                             // " Hello world"
   /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
@@ -110,10 +108,9 @@ extension Float {
     /// collection of UTF-8 code units.
     ///
     /// ```swift
-    /// var input = "123.45 Hello world"[...].utf8
-    /// let output = Float80.parser().parse(&input)
-    /// precondition(output == 123.45)
-    /// precondition(Substring(input) == " Hello world")
+    /// var input = "123.45 Hello world"[...]
+    /// try Float80.parser().parse(&input)  // 123.45
+    /// input                               // " Hello world"
     /// ```
     ///
     /// - Parameter inputType: The collection type of UTF-8 code units to parse.

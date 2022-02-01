@@ -5,19 +5,22 @@ extension Bool {
   ///
   /// ```swift
   /// // Parses "true":
-  /// var input = "true Hello"[...].utf8
-  /// Bool.parser().parse(&input)  // true
-  /// input                        // " Hello"
+  /// var input = "true Hello"[...]
+  /// try Bool.parser().parse(&input)  // true
+  /// input                            // " Hello"
   ///
   /// // Parses "false":
-  /// input = "false Hello"[...].utf8
-  /// Bool.parser().parse(&input)  // false
-  /// input                        // " Hello"
+  /// input = "false Hello"[...]
+  /// try Bool.parser().parse(&input)  // false
+  /// input                            // " Hello"
   ///
   /// // Otherwise fails:
-  /// input = "1 Hello"[...].utf8
-  /// Bool.parser().parse(&input)  // nil
-  /// input                        // "1 Hello"
+  /// input = "1 Hello"[...]
+  /// try Bool.parser().parse(&input)
+  /// // error: unexpected input
+  /// //  --> input:1:1
+  /// // 1 | 1 Hello
+  /// //     ^ expected boolean
   /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.

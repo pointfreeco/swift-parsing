@@ -3,10 +3,9 @@ extension FixedWidthInteger {
   /// beginning of a collection of UTF-8 code units.
   ///
   /// ```swift
-  /// var input = "123 Hello world"[...].utf8
-  /// let output = Int.parser().parse(&input)
-  /// precondition(output == 123)
-  /// precondition(Substring(input) == " Hello world")
+  /// var input = "123 Hello world"[...]
+  /// try Int.parser().parse(&input)  // 123
+  /// input                           // " Hello world")
   /// ```
   ///
   /// - Parameters:

@@ -5,10 +5,9 @@ extension UUID {
   /// units.
   ///
   /// ```swift
-  /// var input = "deadbeef-dead-beef-dead-beefdeadbeef,"[...].utf8
-  /// let output = Int.parser().parse(&input)
-  /// precondition(output == UUID(uuidString: "deadbeef-dead-beef-dead-beefdeadbeef")!)
-  /// precondition(Substring(input) == ",")
+  /// var input = "deadbeef-dead-beef-dead-beefdeadbeef,"[...]
+  /// try UUID.parser().parse(&input)  // DEADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF
+  /// input                            // ","
   /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.

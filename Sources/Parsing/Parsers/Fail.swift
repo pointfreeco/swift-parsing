@@ -11,8 +11,11 @@
 ///   }
 /// }
 ///
-/// evens.parse("42")  // 42
-/// evens.parse("123") // nil
+/// try evens.parse("42")  // 42
+///
+/// try evens.parse("123")
+/// // error: failed
+/// //
 /// ```
 public struct Fail<Input, Output>: Parser {
   @usableFromInline
@@ -29,14 +32,7 @@ public struct Fail<Input, Output>: Parser {
     case is ParsingError:
       throw self.error
     default:
-      throw ParsingError.failed(
-        "",
-        .init(
-          remainingInput: input,
-          debugDescription: "failed",
-          underlyingError: self.error
-        )
-      )
+      throw ParsingError.wrap(self.error, at: input)
     }
   }
 }

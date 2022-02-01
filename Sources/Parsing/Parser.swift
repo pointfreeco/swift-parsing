@@ -14,14 +14,9 @@
 /// ```swift
 /// var input = "123 Hello world"[...]
 ///
-/// Int.parser().parse(&input) // 123
-///
-/// precondition(input == " Hello world")
+/// try Int.parser().parse(&input)  // 123
+/// input                           // " Hello world"
 /// ```
-///
-/// It is best practice for a parser to _not_ consume any of the input if it fails to produce an
-/// output. This allows for "backtracking", which means if a parser fails then another parser can
-/// try on the original input.
 @rethrows public protocol Parser {
   /// The kind of values this parser receives.
   associatedtype Input

@@ -8,16 +8,19 @@
 /// ```swift
 /// var input = "Hello, Blob!"[...]
 ///
-/// StartsWith("Hello, ").parse(&input) // ()
-/// input                               // "Blob!"
+/// StartsWith("Hello, ").parse(&input)  // ()
+/// input                                // "Blob!"
 /// ```
 ///
 /// If `false`, it fails and leaves input intact:
 ///
 /// ```swift
 /// var input = "Goodnight, Blob!"[...]
-/// StartsWith("Hello, ").parse(&input) // nil
-/// input                               // "Goodnight, Blob!"
+/// try StartsWith("Hello, ").parse(&input)
+/// // error: unexpected input
+/// //  --->
+/// // 1 | Goodnight, Blob!
+/// //   | ^ expected "Hello, "
 /// ```
 ///
 /// This parser returns `Void` and _not_ the sequence of elements it consumes because the sequence
@@ -31,8 +34,8 @@
 /// ```swift
 /// var input = "Hello, Blob!"[...]
 ///
-/// "Hello, ".parse(&input) // ()
-/// input                   // "Blob!"
+/// try "Hello, ".parse(&input)  // ()
+/// input                        // "Blob!"
 /// ```
 public struct StartsWith<Input>: Parser
 where

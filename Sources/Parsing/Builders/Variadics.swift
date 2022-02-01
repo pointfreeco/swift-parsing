@@ -18,10 +18,14 @@ extension Parsers {
       P0.Output,
       P1.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      return (o0, o1)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        return (o0, o1)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -51,10 +55,14 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      return (o0)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        return (o0)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -84,10 +92,14 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      return (o1)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        return (o1)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -118,10 +130,14 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
 
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      return ()
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        return ()
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -155,11 +171,15 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      return (o0, o1, o2)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        return (o0, o1, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -193,11 +213,15 @@ extension Parsers {
       P0.Output,
       P1.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      return (o0, o1)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        return (o0, o1)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -231,11 +255,15 @@ extension Parsers {
       P0.Output,
       P2.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      return (o0, o2)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        return (o0, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -269,11 +297,15 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      return (o0)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        return (o0)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -307,11 +339,15 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      return (o1, o2)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        return (o1, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -345,11 +381,15 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      return (o1)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        return (o1)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -383,11 +423,15 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      return (o2)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        return (o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -422,11 +466,15 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
 
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      return ()
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        return ()
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -464,12 +512,16 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      return (o0, o1, o2, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o0, o1, o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -507,12 +559,16 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      return (o0, o1, o2)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        return (o0, o1, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -550,12 +606,16 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      return (o0, o1, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o0, o1, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -593,12 +653,16 @@ extension Parsers {
       P0.Output,
       P1.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      return (o0, o1)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        return (o0, o1)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -636,12 +700,16 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      return (o0, o2, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o0, o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -679,12 +747,16 @@ extension Parsers {
       P0.Output,
       P2.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      return (o0, o2)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        return (o0, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -722,12 +794,16 @@ extension Parsers {
       P0.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      return (o0, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o0, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -765,12 +841,16 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      return (o0)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        return (o0)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -808,12 +888,16 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      return (o1, o2, o3)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o1, o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -851,12 +935,16 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      return (o1, o2)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        return (o1, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -894,12 +982,16 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      return (o1, o3)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o1, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -937,12 +1029,16 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      return (o1)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        return (o1)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -980,12 +1076,16 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      return (o2, o3)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1023,12 +1123,16 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      return (o2)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        return (o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1066,12 +1170,16 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P3.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      return (o3)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        return (o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1110,12 +1218,16 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
 
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      return ()
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        return ()
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1157,13 +1269,17 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o0, o1, o2, o3, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o1, o2, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1205,13 +1321,17 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      return (o0, o1, o2, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        return (o0, o1, o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1253,13 +1373,17 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o0, o1, o2, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o1, o2, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1301,13 +1425,17 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      return (o0, o1, o2)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        return (o0, o1, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1349,13 +1477,17 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o0, o1, o3, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o1, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1397,13 +1529,17 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      return (o0, o1, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        return (o0, o1, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1445,13 +1581,17 @@ extension Parsers {
       P1.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o0, o1, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o1, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1493,13 +1633,17 @@ extension Parsers {
       P0.Output,
       P1.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      return (o0, o1)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        return (o0, o1)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1541,13 +1685,17 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o0, o2, o3, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o2, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1589,13 +1737,17 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      return (o0, o2, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        return (o0, o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1637,13 +1789,17 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o0, o2, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o2, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1685,13 +1841,17 @@ extension Parsers {
       P0.Output,
       P2.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      return (o0, o2)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        return (o0, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1733,13 +1893,17 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o0, o3, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1781,13 +1945,17 @@ extension Parsers {
       P0.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      return (o0, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        return (o0, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1829,13 +1997,17 @@ extension Parsers {
       P0.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o0, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o0, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1877,13 +2049,17 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      return (o0)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        return (o0)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1925,13 +2101,17 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o1, o2, o3, o4)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o1, o2, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -1973,13 +2153,17 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      return (o1, o2, o3)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        return (o1, o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2021,13 +2205,17 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o1, o2, o4)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o1, o2, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2069,13 +2257,17 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      return (o1, o2)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        return (o1, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2117,13 +2309,17 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o1, o3, o4)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o1, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2165,13 +2361,17 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      return (o1, o3)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        return (o1, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2213,13 +2413,17 @@ extension Parsers {
       P1.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o1, o4)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o1, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2261,13 +2465,17 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      return (o1)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        return (o1)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2309,13 +2517,17 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o2, o3, o4)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o2, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2357,13 +2569,17 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      return (o2, o3)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        return (o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2405,13 +2621,17 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o2, o4)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o2, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2453,13 +2673,17 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      return (o2)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        return (o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2501,13 +2725,17 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o3, o4)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2549,13 +2777,17 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P3.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      return (o3)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        return (o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2597,13 +2829,17 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P4.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      return (o4)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        return (o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2646,13 +2882,17 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
 
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      return ()
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        return ()
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2698,14 +2938,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o1, o2, o3, o4, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o2, o3, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2751,14 +2995,18 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o1, o2, o3, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o1, o2, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2804,14 +3052,18 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o1, o2, o3, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o2, o3, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2857,14 +3109,18 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o1, o2, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o1, o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2910,14 +3166,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o1, o2, o4, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o2, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -2963,14 +3223,18 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o1, o2, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o1, o2, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3016,14 +3280,18 @@ extension Parsers {
       P2.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o1, o2, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o2, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3069,14 +3337,18 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o1, o2)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o1, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3122,14 +3394,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o1, o3, o4, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o3, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3175,14 +3451,18 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o1, o3, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o1, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3228,14 +3508,18 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o1, o3, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o3, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3281,14 +3565,18 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o1, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o1, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3334,14 +3622,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o1, o4, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3387,14 +3679,18 @@ extension Parsers {
       P1.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o1, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o1, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3440,14 +3736,18 @@ extension Parsers {
       P1.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o1, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o1, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3493,14 +3793,18 @@ extension Parsers {
       P0.Output,
       P1.Output
     ) {
-      let o0 = try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o1)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o1)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3546,14 +3850,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o2, o3, o4, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o2, o3, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3599,14 +3907,18 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o2, o3, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o2, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3652,14 +3964,18 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o2, o3, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o2, o3, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3705,14 +4021,18 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o2, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3758,14 +4078,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o2, o4, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o2, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3811,14 +4135,18 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o2, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o2, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3864,14 +4192,18 @@ extension Parsers {
       P2.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o2, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o2, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3917,14 +4249,18 @@ extension Parsers {
       P0.Output,
       P2.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o2)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -3970,14 +4306,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o3, o4, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o3, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4023,14 +4363,18 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o3, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4076,14 +4420,18 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o3, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o3, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4129,14 +4477,18 @@ extension Parsers {
       P0.Output,
       P3.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o3)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4182,14 +4534,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o4, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4235,14 +4591,18 @@ extension Parsers {
       P0.Output,
       P4.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0, o4)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4288,14 +4648,18 @@ extension Parsers {
       P0.Output,
       P5.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o0, o5)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o0, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4341,14 +4705,18 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P0.Output
     ) {
-      let o0 = try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o0)
-    }
+      do {
+        let o0 = try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o0)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4394,14 +4762,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o1, o2, o3, o4, o5)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o2, o3, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4447,14 +4819,18 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o1, o2, o3, o4)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o1, o2, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4500,14 +4876,18 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o1, o2, o3, o5)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o2, o3, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4553,14 +4933,18 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o1, o2, o3)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o1, o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4606,14 +4990,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o1, o2, o4, o5)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o2, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4659,14 +5047,18 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o1, o2, o4)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o1, o2, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4712,14 +5104,18 @@ extension Parsers {
       P2.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o1, o2, o5)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o2, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4765,14 +5161,18 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o1, o2)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o1, o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4818,14 +5218,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o1, o3, o4, o5)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o3, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4871,14 +5275,18 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o1, o3, o4)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o1, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4924,14 +5332,18 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o1, o3, o5)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o3, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -4977,14 +5389,18 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o1, o3)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o1, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5030,14 +5446,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o1, o4, o5)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5083,14 +5503,18 @@ extension Parsers {
       P1.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o1, o4)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o1, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5136,14 +5560,18 @@ extension Parsers {
       P1.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o1, o5)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o1, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5189,14 +5617,18 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P1.Output
     ) {
-      try p0.parse(&input)
-      let o1 = try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o1)
-    }
+      do {
+        try p0.parse(&input)
+        let o1 = try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o1)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5242,14 +5674,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o2, o3, o4, o5)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o2, o3, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5295,14 +5731,18 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o2, o3, o4)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o2, o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5348,14 +5788,18 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o2, o3, o5)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o2, o3, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5401,14 +5845,18 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o2, o3)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o2, o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5454,14 +5902,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o2, o4, o5)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o2, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5507,14 +5959,18 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o2, o4)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o2, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5560,14 +6016,18 @@ extension Parsers {
       P2.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o2, o5)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o2, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5613,14 +6073,18 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P2.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      let o2 = try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o2)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        let o2 = try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o2)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5666,14 +6130,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o3, o4, o5)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o3, o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5719,14 +6187,18 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o3, o4)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o3, o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5772,14 +6244,18 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o3, o5)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o3, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5825,14 +6301,18 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P3.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      let o3 = try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return (o3)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        let o3 = try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return (o3)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5878,14 +6358,18 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o4, o5)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o4, o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5931,14 +6415,18 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P4.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      let o4 = try p4.parse(&input)
-      try p5.parse(&input)
-      return (o4)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        let o4 = try p4.parse(&input)
+        try p5.parse(&input)
+        return (o4)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -5984,14 +6472,18 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       P5.Output
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      let o5 = try p5.parse(&input)
-      return (o5)
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        let o5 = try p5.parse(&input)
+        return (o5)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 
@@ -6038,14 +6530,18 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
 
     ) {
-      try p0.parse(&input)
-      try p1.parse(&input)
-      try p2.parse(&input)
-      try p3.parse(&input)
-      try p4.parse(&input)
-      try p5.parse(&input)
-      return ()
-    }
+      do {
+        try p0.parse(&input)
+        try p1.parse(&input)
+        try p2.parse(&input)
+        try p3.parse(&input)
+        try p4.parse(&input)
+        try p5.parse(&input)
+        return ()
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
+   }
   }
 }
 

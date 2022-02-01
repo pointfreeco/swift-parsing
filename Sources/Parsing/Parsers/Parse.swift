@@ -25,10 +25,6 @@ public struct Parse<Parsers>: Parser where Parsers: Parser {
 
   @inlinable
   public func parse(_ input: inout Parsers.Input) rethrows -> Parsers.Output {
-    do {
-      return try self.parsers.parse(&input)
-    } catch {
-      throw ParsingError.wrap(error, at: input)
-    }
+    try self.parsers.parse(&input)
   }
 }
