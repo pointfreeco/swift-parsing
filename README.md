@@ -410,7 +410,7 @@ Apple M1 Pro (10 cores, 8 performance and 2 efficiency)
 
 name                                         time            std        iterations
 ----------------------------------------------------------------------------------
-Arithmetic.Parser                                1000.000 ns ±  15.80 %    1000000
+Arithmetic.Parser                                 875.000 ns ±  13.88 %    1000000
 BinaryData.Parser                                 250.000 ns ±  34.95 %    1000000
 Bool.Bool.init                                      0.000 ns ±    inf %    1000000
 Bool.BoolParser                                    42.000 ns ±  60.93 %    1000000
@@ -421,7 +421,7 @@ CSV.Ad hoc mutating methods                    863479.000 ns ±   2.49 %       1
 Date.Parser                                      5875.000 ns ±   6.55 %     241380
 Date.DateFormatter                              24166.000 ns ±   3.50 %      56837
 Date.ISO8601DateFormatter                       32625.000 ns ±   3.53 %      42868
-HTTP.HTTP                                        4875.000 ns ±   5.85 %     286041
+HTTP.HTTP                                        4708.000 ns ±   9.73 %     295706
 JSON.Parser                                      5917.000 ns ±   3.99 %     224290
 JSON.JSONSerialization                           1708.000 ns ±  11.68 %     802207
 Numerics.Int.init                                  41.000 ns ±  69.46 %    1000000

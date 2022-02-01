@@ -10,35 +10,59 @@ import Parsing
 
 // MARK: - Parsers
 
-private let additionAndSubtraction = InfixOperator(
-  OneOfMany(
-    "+".utf8.map { (+) },
-    "-".utf8.map { (-) }
-  ),
-  associativity: .left,
-  lowerThan: multiplicationAndDivision
-)
+private struct AdditionAndSubtraction: Parser {
+  func parse(_ input: inout Substring.UTF8View) -> Double? {
+    InfixOperator(associativity: .left) {
+      OneOf {
+        "+".utf8.map { (+) }
+        "-".utf8.map { (-) }
+      }
+    } lowerThan: {
+      MultiplicationAndDivision()
+    }
+    .parse(&input)
+  }
+}
 
-private let multiplicationAndDivision = InfixOperator(
-  OneOfMany(
-    "*".utf8.map { (*) },
-    "/".utf8.map { (/) }
-  ),
-  associativity: .left,
-  lowerThan: exponent
-)
+private struct MultiplicationAndDivision: Parser {
+  func parse(_ input: inout Substring.UTF8View) -> Double? {
+    InfixOperator(associativity: .left) {
+      OneOf {
+        "*".utf8.map { (*) }
+        "/".utf8.map { (/) }
+      }
+    } lowerThan: {
+      Exponent()
+    }
+    .parse(&input)
+  }
+}
 
-private let exponent = InfixOperator(
-  "^".utf8.map { pow },
-  associativity: .left,
-  lowerThan: factor
-)
+private struct Exponent: Parser {
+  func parse(_ input: inout Substring.UTF8View) -> Double? {
+    InfixOperator(associativity: .left) {
+      "^".utf8.map { pow }
+    } lowerThan: {
+      Factor()
+    }
+    .parse(&input)
+  }
+}
 
-private let factor: AnyParser<Substring.UTF8View, Double> = "(".utf8
-  .take(Lazy { additionAndSubtraction })
-  .skip(")".utf8)
-  .orElse(Double.parser())
-  .eraseToAnyParser()
+private struct Factor: Parser {
+  func parse(_ input: inout Substring.UTF8View) -> Double? {
+    OneOf {
+      Parse {
+        "(".utf8
+        AdditionAndSubtraction()
+        ")".utf8
+      }
+
+      Double.parser()
+    }
+    .parse(&input)
+  }
+}
 
 // MARK: -
 
@@ -55,13 +79,13 @@ where
 
   @inlinable
   public init(
-    _ operator: Operator,
     associativity: Associativity,
-    lowerThan operand: Operand  // Should this be called `precedes operand:`?
+    @ParserBuilder _ operator: () -> Operator,
+    @ParserBuilder lowerThan operand: () -> Operand  // Should this be called `precedes operand:`?
   ) {
     self.associativity = `associativity`
-    self.operand = operand
-    self.operator = `operator`
+    self.operand = operand()
+    self.operator = `operator`()
   }
 
   @inlinable
@@ -105,10 +129,10 @@ public enum Associativity {
 // MARK: - Suite
 
 let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
-  let arithmetic = "1+2*3/4-5^2"
-
-  suite.benchmark("Parser") {
-    var arithmetic = arithmetic[...].utf8
-    precondition(additionAndSubtraction.parse(&arithmetic) == -22.5)
-  }
+  var output: Double!
+  suite.benchmark(
+    name: "Parser",
+    run: { output = AdditionAndSubtraction().parse("1+2*3/4-5^2") },
+    tearDown: { precondition(output == -22.5) }
+  )
 }

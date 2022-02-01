@@ -10,75 +10,62 @@ import Parsing
  */
 
 private struct Request: Equatable {
-  let method: String
-  let uri: String
-  let version: String
+  let method: Substring
+  let uri: Substring
+  let version: Substring
 }
 
 private struct Header: Equatable {
-  let name: String
-  let value: [String]
+  let name: Substring
+  let value: [Substring]
 }
 
-private func isToken(_ c: UTF8.CodeUnit) -> Bool {
-  switch c {
-  case 128...,
-    ...31,
-    .init(ascii: "("),
-    .init(ascii: ")"),
-    .init(ascii: "<"),
-    .init(ascii: ">"),
-    .init(ascii: "@"),
-    .init(ascii: ","),
-    .init(ascii: ";"),
-    .init(ascii: ":"),
-    .init(ascii: "\\"),
-    .init(ascii: "'"),
-    .init(ascii: "/"),
-    .init(ascii: "["),
-    .init(ascii: "]"),
-    .init(ascii: "?"),
-    .init(ascii: "="),
-    .init(ascii: "{"),
-    .init(ascii: "}"),
-    .init(ascii: " "):
-    return false
-  default:
-    return true
+private extension UTF8.CodeUnit {
+  var isToken: Bool {
+    switch self {
+    case 128...,
+      ...31,
+      .init(ascii: "("),
+      .init(ascii: ")"),
+      .init(ascii: "<"),
+      .init(ascii: ">"),
+      .init(ascii: "@"),
+      .init(ascii: ","),
+      .init(ascii: ";"),
+      .init(ascii: ":"),
+      .init(ascii: "\\"),
+      .init(ascii: "'"),
+      .init(ascii: "/"),
+      .init(ascii: "["),
+      .init(ascii: "]"),
+      .init(ascii: "?"),
+      .init(ascii: "="),
+      .init(ascii: "{"),
+      .init(ascii: "}"),
+      .init(ascii: " "):
+      return false
+    default:
+      return true
+    }
   }
-}
 
-private func notLineEnding(_ c: UTF8.CodeUnit) -> Bool {
-  c != .init(ascii: "\r") && c != .init(ascii: "\n")
-}
-
-private func isNotSpace(_ c: UTF8.CodeUnit) -> Bool {
-  c != .init(ascii: " ")
-}
-
-private func isHorizontalSpace(_ c: UTF8.CodeUnit) -> Bool {
-  c == .init(ascii: " ") || c == .init(ascii: "\t")
-}
-
-private func isVersion(_ c: UTF8.CodeUnit) -> Bool {
-  c >= .init(ascii: "0")
-    && c <= .init(ascii: "9")
-    || c == .init(ascii: ".")
+  var isVersion: Bool {
+    (.init(ascii: "0") ... .init(ascii: "9")).contains(self) || self == .init(ascii: ".")
+  }
 }
 
 // MARK: - Parsers
 
-private let method = Prefix(while: isToken)
-  .map { String(decoding: $0, as: UTF8.self) }
+private let method = Prefix { $0.isToken }
+  .map(Substring.init)
 
-private let uri = Prefix(while: isNotSpace)
-  .map { String(decoding: $0, as: UTF8.self) }
+private let uri = Prefix { $0 != .init(ascii: " ") }
+  .map(Substring.init)
 
 private let httpVersion = Parse {
   "HTTP/".utf8
-  Prefix(while: isVersion)
+  Prefix { $0.isVersion }.map(Substring.init)
 }
-.map { String(decoding: $0, as: UTF8.self) }
 
 private let requestLine = Parse(Request.init(method:uri:version:)) {
   method
@@ -91,20 +78,17 @@ private let requestLine = Parse(Request.init(method:uri:version:)) {
 
 private let headerValue = Parse {
   Skip {
-    OneOf {
-      " ".utf8
-      "\t".utf8
-    }
-    Prefix(while: isHorizontalSpace)
+    Prefix(1...) { $0 == .init(ascii: " ") || $0 == .init(ascii: "\t") }
   }
-  Prefix(while: notLineEnding).map { String(decoding: $0, as: UTF8.self) }
+  Prefix { $0 != .init(ascii: "\r") && $0 != .init(ascii: "\n") }
+    .map(Substring.init)
   Skip {
     Newline()
   }
 }
 
 private let header = Parse(Header.init(name:value:)) {
-  Prefix(while: isToken).map { String(decoding: $0, as: UTF8.self) }
+  Prefix { $0.isToken }.map(Substring.init)
   ":".utf8
   Many {
     headerValue
