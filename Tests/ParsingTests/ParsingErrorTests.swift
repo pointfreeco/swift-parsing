@@ -53,7 +53,7 @@ class ParsingErrorTests: XCTestCase {
         """
         error: unexpected input
          --> input:1:501
-        1 | …hellohellohellohelloworldworldworldworldworldworldworld…
+        1 | …hellohellohellohelloworldworldworldworldworldworldworldworldworldworldworl…
           |                      ^ expected 1 more value of "()"
         """,
         (error as? ParsingError)?.debugDescription ?? ""
@@ -85,7 +85,7 @@ class ParsingErrorTests: XCTestCase {
         """
         error: unexpected input
          --> input:1:1
-        1 | worldworldworldworldworldworldworldworldworldworldworldworldworldworldworldw…
+        1 | worldworldworldworldworldworldworldworldworldworldworldworldworldworldworld…
           | ^ expected "hello"
         """,
         (error as? ParsingError)?.debugDescription ?? ""
