@@ -9,16 +9,12 @@ import Parsing
 let xcodeLogsSuite = BenchmarkSuite(name: "Xcode Logs") { suite in
   var output: [TestResult]!
 
-  suite.benchmark(
-    name: "Parser",
-    run: {
-      var input = xcodeLogs[...].utf8
-      output = testResultsUtf8.parse(&input)!
-    },
-    tearDown: {
-      precondition(output.count == 284)
-    }
-  )
+  suite.benchmark("Parser") {
+    var input = xcodeLogs[...].utf8
+    output = testResultsUtf8.parse(&input)!
+  } tearDown: {
+    precondition(output.count == 284)
+  }
 }
 
 private let testCaseFinishedLine = Parse {

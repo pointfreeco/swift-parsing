@@ -438,7 +438,7 @@ Numerics.Comma separated: Scanner.scanDouble 54031625.000 ns ±   0.39 %        
 Numerics.Comma separated: String.split       18210792.000 ns ±   0.68 %         77
 PrefixUpTo.Parser                               13292.000 ns ±   3.85 %     104936
 PrefixUpTo.Scanner.scanUpToString               97500.000 ns ±   1.22 %      14267
-Race.Parser                                     27041.000 ns ±   3.84 %      51576
+Race.Parser                                     26417.000 ns ±   3.73 %      52874
 README Example.Parser: Substring                 2375.000 ns ±  11.91 %     583192
 README Example.Parser: UTF8                       875.000 ns ±  14.26 %    1000000
 README Example.Adhoc                             3334.000 ns ±   7.75 %     412681

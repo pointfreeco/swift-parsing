@@ -13,29 +13,29 @@ let boolSuite = BenchmarkSuite(name: "Bool") { suite in
   let expected = true
   var output: Bool!
 
-  suite.benchmark(
-    name: "Bool.init",
-    run: { output = Bool(input) },
-    tearDown: { precondition(output == expected) }
-  )
+  suite.benchmark("Bool.init") {
+    output = Bool(input)
+  } tearDown: {
+    precondition(output == expected)
+  }
 
-  suite.benchmark(
-    name: "BoolParser",
-    run: { output = Bool.parser(of: Substring.UTF8View.self).parse(input) },
-    tearDown: { precondition(output == expected) }
-  )
+  suite.benchmark("BoolParser") {
+    var input = input[...].utf8
+    output = Bool.parser().parse(&input)
+  } tearDown: {
+    precondition(output == expected)
+  }
 
   if #available(macOS 10.15, *) {
     let scanner = Scanner(string: input)
-    suite.benchmark(
-      name: "Scanner.scanBool",
-      setUp: { scanner.currentIndex = input.startIndex },
-      run: {
-        output =
-          scanner.scanString("true").map { _ in true }
-          ?? scanner.scanString("false").map { _ in false }
-      },
-      tearDown: { precondition(output == expected) }
-    )
+    suite.benchmark("Scanner.scanBool") {
+      output =
+        scanner.scanString("true").map { _ in true }
+        ?? scanner.scanString("false").map { _ in false }
+    } setUp: {
+      scanner.currentIndex = input.startIndex
+    } tearDown: {
+      precondition(output == expected)
+    }
   }
 }

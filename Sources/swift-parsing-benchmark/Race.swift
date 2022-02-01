@@ -171,9 +171,10 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     """
   var output: [Race]!
 
-  suite.benchmark(
-    name: "Parser",
-    run: { output = races.parse(input) },
-    tearDown: { precondition(output.count == 3) }
-  )
+  suite.benchmark("Parser") {
+    var input = input[...].utf8
+    output = races.parse(&input)
+  } tearDown: {
+    precondition(output.count == 3)
+  }
 }

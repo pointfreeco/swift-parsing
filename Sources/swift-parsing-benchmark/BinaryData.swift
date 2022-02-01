@@ -93,35 +93,31 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
   ])
   var output: DnsHeader!
   var rest: Data!
-  suite.benchmark(
-    name: "Parser",
-    run: {
-      var input = input
-      output = header.parse(&input)!
-      rest = input
-    },
-    tearDown: {
-      precondition(
-        output
-          == DnsHeader(
-            id: 36_394,
-            qr: .one,
-            opcode: .inverseQuery,
-            aa: .one,
-            tc: .zero,
-            rd: .one,
-            ra: .zero,
-            z: UInt3(uint8: 0)!,
-            rcode: .nameError,
-            qdcount: 128,
-            ancount: 51_300,
-            nscount: 510,
-            arcount: 32_896
-          )
+  suite.benchmark("Parser") {
+    var input = input
+    output = header.parse(&input)!
+    rest = input
+  } tearDown: {
+    precondition(
+      output
+      == DnsHeader(
+        id: 36_394,
+        qr: .one,
+        opcode: .inverseQuery,
+        aa: .one,
+        tc: .zero,
+        rd: .one,
+        ra: .zero,
+        z: UInt3(uint8: 0)!,
+        rcode: .nameError,
+        qdcount: 128,
+        ancount: 51_300,
+        nscount: 510,
+        arcount: 32_896
       )
-      precondition(rest == Data([0xDE, 0xAD, 0xBE, 0xEF]))
-    }
-  )
+    )
+    precondition(rest == Data([0xDE, 0xAD, 0xBE, 0xEF]))
+  }
 }
 
 struct Word16Parser: Parser {

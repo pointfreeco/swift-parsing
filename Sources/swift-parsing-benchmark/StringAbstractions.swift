@@ -26,7 +26,7 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
   suite.benchmark("Substring") {
     var input = input[...].utf8
     let output = Many {
-      Int.parser(of: Substring.UTF8View.self)
+      Int.parser()
     } separator: {
       FromSubstring { "\u{00E9}" }
     }

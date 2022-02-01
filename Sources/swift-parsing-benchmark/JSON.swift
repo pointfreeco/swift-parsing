@@ -177,44 +177,41 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
     }
     """#
   var jsonOutput: JSONValue!
-  suite.benchmark(
-    name: "Parser",
-    run: { jsonOutput = json.parse(input) },
-    tearDown: {
-      precondition(
-        jsonOutput
-          == .object([
-            "hello": .boolean(true),
-            "goodbye": .number(42.42),
-            "whatever": .null,
-            "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
-            "ys": .object([
-              "0": .number(2),
-              "1": .string("goodbye"),
-            ]),
-          ])
-      )
-    }
-  )
+  suite.benchmark("Parser") {
+    var input = input[...].utf8
+    jsonOutput = json.parse(&input)
+  } tearDown: {
+    precondition(
+      jsonOutput
+      == .object([
+        "hello": .boolean(true),
+        "goodbye": .number(42.42),
+        "whatever": .null,
+        "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
+        "ys": .object([
+          "0": .number(2),
+          "1": .string("goodbye"),
+        ]),
+      ])
+    )
+  }
 
   let dataInput = Data(input.utf8)
   var objectOutput: Any!
-  suite.benchmark(
-    name: "JSONSerialization",
-    run: { objectOutput = try JSONSerialization.jsonObject(with: dataInput, options: []) },
-    tearDown: {
-      precondition(
-        (objectOutput as! NSDictionary) == [
-          "hello": true,
-          "goodbye": 42.42,
-          "whatever": NSNull(),
-          "xs": [1, "hello", nil, false],
-          "ys": [
-            "0": 2,
-            "1": "goodbye",
-          ],
-        ]
-      )
-    }
-  )
+  suite.benchmark("JSONSerialization") {
+    objectOutput = try JSONSerialization.jsonObject(with: dataInput, options: [])
+  } tearDown: {
+    precondition(
+      (objectOutput as! NSDictionary) == [
+        "hello": true,
+        "goodbye": 42.42,
+        "whatever": NSNull(),
+        "xs": [1, "hello", nil, false],
+        "ys": [
+          "0": 2,
+          "1": "goodbye",
+        ],
+      ]
+    )
+  }
 }

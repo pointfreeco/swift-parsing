@@ -133,9 +133,10 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     ]
   )
   var output: (Request, [Header])!
-  suite.benchmark(
-    name: "HTTP",
-    run: { output = request.parse(input) },
-    tearDown: { precondition(output == expected) }
-  )
+  suite.benchmark("HTTP") {
+    var input = input[...].utf8
+    output = request.parse(&input)
+  } tearDown: {
+    precondition(output == expected)
+  }
 }

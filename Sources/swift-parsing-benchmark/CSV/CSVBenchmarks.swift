@@ -7,28 +7,20 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
   let columnCount = 5
   var output: [[String]] = []
 
-  suite.benchmark(
-    name: "Parser",
-    run: {
-      output = csv.parse(csvInput)!
-    },
-    tearDown: {
-      precondition(output.count == rowCount)
-      precondition(output.allSatisfy { $0.count == columnCount })
-    }
-  )
+  suite.benchmark("Parser") {
+    output = csv.parse(csvInput)!
+  } tearDown: {
+    precondition(output.count == rowCount)
+    precondition(output.allSatisfy { $0.count == columnCount })
+  }
 
-  suite.benchmark(
-    name: "Ad hoc mutating methods",
-    run: {
-      var input = csvInput[...].utf8
-      output = input.parseCsv()
-    },
-    tearDown: {
-      precondition(output.count == rowCount)
-      precondition(output.allSatisfy { $0.count == columnCount })
-    }
-  )
+  suite.benchmark("Ad hoc mutating methods") {
+    var input = csvInput[...].utf8
+    output = input.parseCsv()
+  } tearDown: {
+    precondition(output.count == rowCount)
+    precondition(output.allSatisfy { $0.count == columnCount })
+  }
 }
 
 // MARK: - Parser

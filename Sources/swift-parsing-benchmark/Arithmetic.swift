@@ -129,10 +129,12 @@ public enum Associativity {
 // MARK: - Suite
 
 let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
+  let input = "1+2*3/4-5^2"
   var output: Double!
-  suite.benchmark(
-    name: "Parser",
-    run: { output = AdditionAndSubtraction().parse("1+2*3/4-5^2") },
-    tearDown: { precondition(output == -22.5) }
-  )
+  suite.benchmark("Parser") {
+    var input = input[...].utf8
+    output = AdditionAndSubtraction().parse(&input)
+  } tearDown: {
+    precondition(output == -22.5)
+  }
 }

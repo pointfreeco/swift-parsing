@@ -7,15 +7,16 @@ let uuidSuite = BenchmarkSuite(name: "UUID") { suite in
   let expected = UUID(uuidString: "deadbeef-dead-beef-dead-beefdeadbeef")!
   var output: UUID!
 
-  suite.benchmark(
-    name: "UUID.init",
-    run: { output = UUID(uuidString: input) },
-    tearDown: { precondition(output == expected) }
-  )
+  suite.benchmark("UUID.init") {
+    output = UUID(uuidString: input)
+  } tearDown: {
+    precondition(output == expected)
+  }
 
-  suite.benchmark(
-    name: "UUIDParser",
-    run: { output = UUID.parser(of: Substring.UTF8View.self).parse(input) },
-    tearDown: { precondition(output == expected) }
-  )
+  suite.benchmark("UUIDParser") {
+    var input = input[...].utf8
+    output = UUID.parser().parse(&input)
+  } tearDown: {
+    precondition(output == expected)
+  }
 }

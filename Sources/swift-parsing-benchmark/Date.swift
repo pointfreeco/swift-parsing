@@ -134,29 +134,30 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
   var output: Date!
 
   let dateTimeParser = dateTime.compactMap(Calendar.current.date(from:))
-  suite.benchmark(
-    name: "Parser",
-    run: { output = dateTimeParser.parse(input) },
-    tearDown: { precondition(output == expected) }
-  )
+  suite.benchmark("Parser") {
+    var input = input[...].utf8
+    output = dateTimeParser.parse(&input)
+  } tearDown: {
+    precondition(output == expected)
+  }
 
   let dateFormatter = DateFormatter()
   dateFormatter.dateFormat = "yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"
   dateFormatter.locale = Locale(identifier: "en_US_POSIX")
   dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)!
-  suite.benchmark(
-    name: "DateFormatter",
-    run: { output = dateFormatter.date(from: input) },
-    tearDown: { precondition(output == expected) }
-  )
+  suite.benchmark("DateFormatter") {
+    output = dateFormatter.date(from: input)
+  } tearDown: {
+    precondition(output == expected)
+  }
 
   if #available(macOS 10.12, *) {
     let iso8601DateFormatter = ISO8601DateFormatter()
     iso8601DateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
-    suite.benchmark(
-      name: "ISO8601DateFormatter",
-      run: { output = iso8601DateFormatter.date(from: input) },
-      tearDown: { precondition(output == expected) }
-    )
+    suite.benchmark("ISO8601DateFormatter") {
+      output = iso8601DateFormatter.date(from: input)
+    } tearDown: {
+      precondition(output == expected)
+    }
   }
 }

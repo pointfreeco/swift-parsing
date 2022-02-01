@@ -22,9 +22,10 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
   let expected = Color(red: 0xFF, green: 0x00, blue: 0x00)
   var output: Color!
 
-  suite.benchmark(
-    name: "Parser",
-    run: { output = hexColor.parse(input) },
-    tearDown: { precondition(output == expected) }
-  )
+  suite.benchmark("Parser") {
+    var input = input[...].utf8
+    output = hexColor.parse(&input)
+  } tearDown: {
+    precondition(output == expected)
+  }
 }
