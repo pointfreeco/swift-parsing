@@ -9,158 +9,138 @@ import Parsing
  shortcut and use `Double.parser()`, which behaves accordingly).
  */
 
-private enum JSONValue: Equatable {
-  indirect case array([JSONValue])
-  case boolean(Bool)
-  case null
-  case number(Double)
-  indirect case object([String: JSONValue])
-  case string(String)
-}
+private struct JSONValue: Parser {
+  func parse(_ input: inout Substring.UTF8View) -> Output? {
+    Parse {
+      Skip {
+        Whitespace()
+      }
 
-private var json: AnyParser<Substring.UTF8View, JSONValue> {
-  Parse {
-    Skip {
-      Whitespace()
-    }
+      OneOf {
+        JSONObject().map(Output.object)
+        JSONArray().map(Output.array)
+        JSONString().map(Output.string)
+        Double.parser().map(Output.number)
+        Bool.parser().map(Output.boolean)
+        "null".utf8.map { Output.null }
+      }
 
-    OneOf {
-      object
-      array
-      string
-      number
-      boolean
-      null
+      Skip {
+        Whitespace()
+      }
     }
-
-    Skip {
-      Whitespace()
-    }
+    .parse(&input)
   }
-  .eraseToAnyParser()
-}
 
-// MARK: Object
-
-private let object = Parse(JSONValue.object) {
-  "{".utf8
-  Many(into: [String: JSONValue]()) { object, pair in
-    let (name, value) = pair
-    object[name] = value
-  } element: {
-    Skip {
-      Whitespace()
-    }
-    stringLiteral
-    Skip {
-      Whitespace()
-    }
-    ":".utf8
-    Lazy {
-      json
-    }
-  } separator: {
-    ",".utf8
-    Skip {
-      Whitespace()
-    }
-  }
-  "}".utf8
-}
-
-// MARK: Array
-
-private let array = Parse(JSONValue.array) {
-  "[".utf8
-  Many {
-    Lazy {
-      json
-    }
-  } separator: {
-    ",".utf8
-  }
-  "]".utf8
-}
-
-// MARK: String
-
-private let unicode = Prefix(4) {
-  (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
-    || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
-    || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
-}
-.compactMap {
-  UInt32(Substring($0), radix: 16)
-    .flatMap(UnicodeScalar.init)
-    .map(Character.init)
-}
-
-private let escape = Parse {
-  "\\".utf8
-
-  OneOf {
-    "\"".utf8.map { "\"" as Character }
-    "\\".utf8.map { "\\" as Character }
-    "/".utf8.map { "/" as Character }
-    "b".utf8.map { "\u{8}" as Character }
-    "f".utf8.map { "\u{c}" as Character }
-    "n".utf8.map { "\n" as Character }
-    "r".utf8.map { "\r" as Character }
-    "t".utf8.map { "\t" as Character }
-    unicode
+  enum Output: Equatable {
+    case array([Self])
+    case boolean(Bool)
+    case null
+    case number(Double)
+    case object([String: Self])
+    case string(String)
   }
 }
 
-private let literal = Prefix(1...) {
-  $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\")
-}
-.map { String(Substring($0)) }
-
-private enum StringFragment {
-  case escape(Character)
-  case literal(String)
-}
-
-private let fragment = OneOf {
-  literal.map(StringFragment.literal)
-  escape.map(StringFragment.escape)
-}
-
-private let stringLiteral = Parse {
-  "\"".utf8
-  Many(into: "") { string, fragment in
-    switch fragment {
-    case let .escape(character):
-      string.append(character)
-    case let .literal(other):
-      string.append(contentsOf: other)
+private struct JSONObject: Parser {
+  func parse(_ input: inout Substring.UTF8View) -> [String: JSONValue.Output]? {
+    Parse {
+      "{".utf8
+      Many(into: Output()) { object, pair in
+        let (name, value) = pair
+        object[name] = value
+      } element: {
+        Skip {
+          Whitespace()
+        }
+        JSONString()
+        Skip {
+          Whitespace()
+        }
+        ":".utf8
+        JSONValue()
+      } separator: {
+        ",".utf8
+        Skip {
+          Whitespace()
+        }
+      }
+      "}".utf8
     }
-  } element: {
-    fragment
+    .parse(&input)
   }
-  "\"".utf8
 }
 
-private let string = Parse(JSONValue.string) {
-  stringLiteral
+private struct JSONArray: Parser {
+  func parse(_ input: inout Substring.UTF8View) -> [JSONValue.Output]? {
+    Parse {
+      "[".utf8
+      Many {
+        JSONValue()
+      } separator: {
+        ",".utf8
+      }
+      "]".utf8
+    }
+    .parse(&input)
+  }
 }
 
-// MARK: Number
+private struct JSONString: Parser {
+  func parse(_ input: inout Substring.UTF8View) -> String? {
+    let unicode = Prefix(4) {
+      (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
+        || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
+        || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
+    }
+    .compactMap {
+      UInt32(Substring($0), radix: 16)
+        .flatMap(UnicodeScalar.init)
+        .map(Character.init)
+    }
 
-private let number = Parse(JSONValue.number) {
-  Double.parser(of: Substring.UTF8View.self)
-}
+    enum StringFragment {
+      case escape(Character)
+      case literal(String)
+    }
 
-// MARK: Boolean
+    return Parse {
+      "\"".utf8
+      Many(into: "") { string, fragment in
+        switch fragment {
+        case let .escape(character):
+          string.append(character)
+        case let .literal(other):
+          string.append(contentsOf: other)
+        }
+      } element: {
+        OneOf {
+          Parse(StringFragment.literal) {
+            Prefix(1...) { $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") }
+              .map { String(Substring($0)) }
+          }
 
-private let boolean = Parse(JSONValue.boolean) {
-  Bool.parser(of: Substring.UTF8View.self)
-}
+          Parse(StringFragment.escape) {
+            "\\".utf8
 
-// MARK: Null
-
-private let null = Parse(JSONValue.null) {
-  "null".utf8
+            OneOf {
+              "\"".utf8.map { "\"" as Character }
+              "\\".utf8.map { "\\" as Character }
+              "/".utf8.map { "/" as Character }
+              "b".utf8.map { "\u{8}" as Character }
+              "f".utf8.map { "\u{c}" as Character }
+              "n".utf8.map { "\n" as Character }
+              "r".utf8.map { "\r" as Character }
+              "t".utf8.map { "\t" as Character }
+              unicode
+            }
+          }
+        }
+      }
+      "\"".utf8
+    }
+    .parse(&input)
+  }
 }
 
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
@@ -176,10 +156,10 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       }
     }
     """#
-  var jsonOutput: JSONValue!
+  var jsonOutput: JSONValue.Output!
   suite.benchmark(
     name: "Parser",
-    run: { jsonOutput = json.parse(input) },
+    run: { jsonOutput = JSONValue().parse(input) },
     tearDown: {
       precondition(
         jsonOutput

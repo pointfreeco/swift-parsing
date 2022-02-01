@@ -422,7 +422,7 @@ Date.Parser                                      5875.000 ns ±   6.55 %     241
 Date.DateFormatter                              24166.000 ns ±   3.50 %      56837
 Date.ISO8601DateFormatter                       32625.000 ns ±   3.53 %      42868
 HTTP.HTTP                                        4875.000 ns ±   5.85 %     286041
-JSON.Parser                                      5917.000 ns ±   3.99 %     224290
+JSON.Parser                                      5125.000 ns ±   8.10 %     270564
 JSON.JSONSerialization                           1708.000 ns ±  11.68 %     802207
 Numerics.Int.init                                  41.000 ns ±  69.46 %    1000000
 Numerics.Int.parser                                42.000 ns ±  60.40 %    1000000
