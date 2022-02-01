@@ -291,8 +291,8 @@ private func formatError(_ error: Error) -> String {
     return error.debugDescription
   case let error as LocalizedError:
     return error.localizedDescription
-  case let error as CustomDebugStringConvertible:
-    return error.debugDescription
+  default:
+    return "\(error)"
   }
 }
 
