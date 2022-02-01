@@ -6,7 +6,7 @@ extension Double {
   /// ```swift
   /// var input = "123.45 Hello world"[...]
   /// try Double.parser().parse(&input)  // 123.45
-  /// input                              // " Hello world")
+  /// input                              // " Hello world"
   /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
