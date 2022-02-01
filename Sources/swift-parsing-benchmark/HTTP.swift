@@ -10,14 +10,15 @@ import Parsing
  */
 
 private struct Request: Equatable {
-  let method: String
-  let uri: String
-  let version: String
+  let method: Substring
+  let uri: Substring
+  let version: Substring
+  let headers: [Header]
 }
 
 private struct Header: Equatable {
-  let name: String
-  let value: [String]
+  let name: Substring
+  let value: [Substring]
 }
 
 private extension UTF8.CodeUnit {
@@ -52,52 +53,57 @@ private extension UTF8.CodeUnit {
 
 // MARK: - Parsers
 
-private let method = Prefix { $0.isToken }
-  .map { String(decoding: $0, as: UTF8.self) }
+extension Request {
+  init(string: String) throws {
+    let method = Prefix { $0.isToken }
+      .map(Substring.init)
 
-private let uri = Prefix { $0 != .init(ascii: " ") }
-  .map { String(decoding: $0, as: UTF8.self) }
+    let uri = Prefix { $0 != .init(ascii: " ") }
+      .map(Substring.init)
 
-private let httpVersion = Parse {
-  "HTTP/".utf8
-  Prefix { (.init(ascii: "0") ... .init(ascii: "9")).contains($0) || $0 == .init(ascii: ".") }
-}
-.map { String(decoding: $0, as: UTF8.self) }
+    let httpVersion = Parse {
+      "HTTP/".utf8
+      Prefix { (.init(ascii: "0") ... .init(ascii: "9")).contains($0) || $0 == .init(ascii: ".") }
+    }
+    .map(Substring.init)
 
-private let requestLine = Parse(Request.init(method:uri:version:)) {
-  method
-  " ".utf8
-  uri
-  " ".utf8
-  httpVersion
-  Newline()
-}
+    let headerValue = Parse {
+      Skip {
+        Prefix(1...) { $0 == .init(ascii: " ") || $0 == .init(ascii: "\t") }
+      }
+      Prefix { $0 != .init(ascii: "\r") && $0 != .init(ascii: "\n") }
+        .map(Substring.init)
+      Skip {
+        Newline()
+      }
+    }
 
-private let headerValue = Parse {
-  Skip {
-    Prefix(1...) { $0 == .init(ascii: " ") || $0 == .init(ascii: "\t") }
-  }
-  Prefix { $0 != .init(ascii: "\r") && $0 != .init(ascii: "\n") }
-    .map { String(decoding: $0, as: UTF8.self) }
-  Skip {
-    Newline()
-  }
-}
+    let header = Parse(Header.init(name:value:)) {
+      Prefix { $0.isToken }.map(Substring.init)
+      ":".utf8
+      Many {
+        headerValue
+      }
+    }
 
-private let header = Parse(Header.init(name:value:)) {
-  Prefix { $0.isToken }.map { String(decoding: $0, as: UTF8.self) }
-  ":".utf8
-  Many {
-    headerValue
-  }
-}
+    let request = Parse(Request.init(method:uri:version:headers:)) {
+      method
+      " ".utf8
+      uri
+      " ".utf8
+      httpVersion
 
-private let request = Parse {
-  requestLine
-  Many {
-    header
-  } terminator: {
-    End()
+      Parse {
+        Newline()
+        Many {
+          header
+        } terminator: {
+          End()
+        }
+      }
+    }
+
+    self = try request.parse(string)
   }
 }
 
@@ -112,9 +118,11 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     Connection: keep-alive
 
     """
-  let expected = (
-    Request(method: "GET", uri: "/", version: "1.1"),
-    [
+  let expected = Request(
+    method: "GET",
+    uri: "/",
+    version: "1.1",
+    headers: [
       Header(name: "Host", value: ["www.reddit.com"]),
       Header(
         name: "User-Agent",
@@ -131,10 +139,10 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
       Header(name: "Connection", value: ["keep-alive"]),
     ]
   )
-  var output: (Request, [Header])!
+  var output: Request!
   suite.benchmark(
     name: "HTTP",
-    run: { output = try request.parse(input) },
+    run: { output = try Request(string: input) },
     tearDown: { precondition(output == expected) }
   )
 }

@@ -423,7 +423,7 @@ CSV.Ad hoc mutating methods                    863812.500 ns ±   2.71 %       1
 Date.Parser                                      6333.000 ns ±   7.10 %     219042
 Date.DateFormatter                              25875.000 ns ±   2.99 %      53992
 Date.ISO8601DateFormatter                       35166.000 ns ±  45.76 %      40011
-HTTP.HTTP                                       13084.000 ns ±   4.49 %     101882
+HTTP.HTTP                                       10083.000 ns ±   7.29 %     136663
 JSON.Parser                                     33834.000 ns ±   3.23 %      40126
 JSON.JSONSerialization                           1833.000 ns ±  62.37 %     753948
 Numerics.Int.init                                  41.000 ns ±  66.80 %    1000000
