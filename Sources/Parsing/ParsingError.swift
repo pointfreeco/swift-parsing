@@ -57,7 +57,7 @@ enum ParsingError: Error {
     error as? ParsingError ?? .failed(
       "", .init(
         remainingInput: remainingInput,
-        debugDescription: error.localizedDescription,
+        debugDescription: formatError(error),
         underlyingError: error
       )
     )
@@ -166,7 +166,7 @@ extension ParsingError: CustomDebugStringConvertible {
 
     case let .manyFailed(errors, _):
       let failures = errors
-        .map { ($0 as? ParsingError)?.debugDescription ?? $0.localizedDescription }
+        .map(formatError)
         .joined(separator: "\n\n")
 
       return """
@@ -283,6 +283,17 @@ func format(label: String, context: ParsingError.Context) -> String {
   }
 
   return formatHelp(from: context.originalInput, to: context.remainingInput)
+}
+
+private func formatError(_ error: Error) -> String {
+  switch error {
+  case let error as ParsingError:
+    return error.debugDescription
+  case let error as LocalizedError:
+    return error.localizedDescription
+  case let error as CustomDebugStringConvertible:
+    return error.debugDescription
+  }
 }
 
 @usableFromInline

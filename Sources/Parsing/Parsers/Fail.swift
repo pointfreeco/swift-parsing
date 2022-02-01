@@ -44,9 +44,14 @@ extension Fail {
   }
 
   @usableFromInline
-  struct DefaultError: Error {
+  struct DefaultError: Error, CustomDebugStringConvertible {
     @usableFromInline
     init() {}
+
+    @usableFromInline
+    var debugDescription: String {
+      "failed"
+    }
   }
 }
 

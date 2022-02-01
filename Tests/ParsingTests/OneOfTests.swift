@@ -98,7 +98,11 @@ final class OneOfTests: XCTestCase {
          --> input:1:1
         1 | London, Hello!
           | ^ expected "New York"
-          |   expected "Berlin"
+
+        error: unexpected input
+         --> input:1:1
+        1 | London, Hello!
+          | ^ expected "Berlin"
         """,
         (error as? ParsingError)?.debugDescription ?? ""
       )
