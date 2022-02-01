@@ -410,8 +410,6 @@ Apple M1 Pro (10 cores, 8 performance and 2 efficiency)
 
 name                                         time            std        iterations
 ----------------------------------------------------------------------------------
-name                                         time            std        iterations
-----------------------------------------------------------------------------------
 Arithmetic.Parser                                7833.000 ns ±   6.51 %     176708
 BinaryData.Parser                                 208.000 ns ±  41.45 %    1000000
 Bool.Bool.init                                      0.000 ns ±    inf %    1000000
