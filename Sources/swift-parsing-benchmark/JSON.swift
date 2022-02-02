@@ -43,7 +43,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   let string = Parse {
     "\"".utf8
     Many(into: "") { string, fragment in
-      string.append(contentsOf: fragment)
+      string.append(contentsOf: fragment)  // FIXME: Escape unicode characters
     } iterator: { string in
       CollectionOfOne(string).makeIterator()
     } element: {
