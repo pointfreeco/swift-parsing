@@ -2,10 +2,10 @@ import Benchmark
 
 extension BenchmarkSuite {
   func benchmark(
-    name: String,
-    setUp: @escaping () -> Void = {},
+    _ name: String,
     run: @escaping () throws -> Void,
-    tearDown: @escaping () -> Void = {}
+    setUp: @escaping () -> Void = {},
+    tearDown: @escaping () -> Void
   ) {
     self.register(
       benchmark: Benchmarking(name: name, run: run, setUp: setUp, tearDown: tearDown)
