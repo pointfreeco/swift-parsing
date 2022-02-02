@@ -462,6 +462,7 @@ The latest documentation for swift-parsing is available [here](https://pointfree
 
 There are a few other parsing libraries in the Swift community that you might also be interested in:
 
+* [Consumer](https://github.com/nicklockwood/Consumer)
 * [Sparse](https://github.com/johnpatrickmorgan/Sparse)
 * [SwiftParsec](https://github.com/davedufresne/SwiftParsec)
 
