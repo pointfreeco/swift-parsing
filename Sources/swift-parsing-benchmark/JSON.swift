@@ -28,111 +28,77 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   .compactMap {
     UInt32(Substring($0), radix: 16)
       .flatMap(UnicodeScalar.init)
-      .map(Character.init)
+      .map(String.init)
   }
 
-  let escape = Parse {
-    "\\".utf8
-
-    OneOf {
-      "\"".utf8.map { "\"" as Character }
-      "\\".utf8.map { "\\" as Character }
-      "/".utf8.map { "/" as Character }
-      "b".utf8.map { "\u{8}" as Character }
-      "f".utf8.map { "\u{c}" as Character }
-      "n".utf8.map { "\n" as Character }
-      "r".utf8.map { "\r" as Character }
-      "t".utf8.map { "\t" as Character }
-      unicode
-    }
-  }
-
-  let literal = Prefix(1...) {
-    $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\")
-  }
-  .map { String(Substring($0)) }
-
-  enum StringFragment {
-    case escape(Character)
-    case literal(String)
-  }
-
-  let fragment = OneOf {
-    literal.map(StringFragment.literal)
-    escape.map(StringFragment.escape)
-  }
-
-  let stringLiteral = Parse {
+  let string = Parse {
     "\"".utf8
     Many(into: "") { string, fragment in
-      switch fragment {
-      case let .escape(character):
-        string.append(character)
-      case let .literal(other):
-        string.append(contentsOf: other)
-      }
+      string.append(contentsOf: fragment)
     } element: {
-      fragment
+      OneOf {
+        Prefix(1...) { $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") }
+          .map { String(Substring($0)) }
+
+        Parse {
+          "\\".utf8
+
+          OneOf {
+            "\"".utf8.map { "\"" }
+            "\\".utf8.map { "\\" }
+            "/".utf8.map { "/" }
+            "b".utf8.map { "\u{8}" }
+            "f".utf8.map { "\u{c}" }
+            "n".utf8.map { "\n" }
+            "r".utf8.map { "\r" }
+            "t".utf8.map { "\t" }
+            unicode
+          }
+        }
+      }
+    } terminator: {
+      "\"".utf8
     }
-    "\"".utf8
   }
 
-  let string = Parse(JSONValue.string) {
-    stringLiteral
-  }
-
-  let number = Parse(JSONValue.number) {
-    Double.parser(of: Substring.UTF8View.self)
-  }
-
-  let boolean = Parse(JSONValue.boolean) {
-    Bool.parser(of: Substring.UTF8View.self)
-  }
-
-  let null = Parse(JSONValue.null) {
-    "null".utf8
-  }
-
-  let object = Parse(JSONValue.object) {
+  let object = Parse {
     "{".utf8
     Many(into: [String: JSONValue]()) { object, pair in
       let (name, value) = pair
       object[name] = value
     } element: {
       Skip { Whitespace() }
-      stringLiteral
+      string
       Skip { Whitespace() }
       ":".utf8
-      Lazy {
-        json!
-      }
+      Lazy { json! }
     } separator: {
       ",".utf8
+    } terminator: {
+      "}".utf8
     }
-    "}".utf8
   }
 
-  let array = Parse(JSONValue.array) {
+  let array = Parse {
     "[".utf8
     Many {
-      Lazy {
-        json!
-      }
+      Lazy { json! }
     } separator: {
       ",".utf8
+    } terminator: {
+      "]".utf8
     }
-    "]".utf8
   }
 
   json = Parse {
     Skip { Whitespace() }
     OneOf {
-      object
-      array
-      string
-      number
-      boolean
-      null
+      object.map(JSONValue.object)
+      array.map(JSONValue.array)
+      string.map(JSONValue.string)
+      Double.parser().map(JSONValue.number)
+      Bool.parser().map(JSONValue.boolean)
+      "null".utf8.map { JSONValue.null }
     }
     Skip { Whitespace() }
   }
