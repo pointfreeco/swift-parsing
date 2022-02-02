@@ -43,9 +43,9 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   let string = Parse {
     "\"".utf8
     Many(into: "") { string, fragment in
-      string.append(contentsOf: fragment)  // FIXME: Escape unicode characters
+      string.append(contentsOf: fragment)
     } iterator: { string in
-      CollectionOfOne(string).makeIterator()
+      string.map(String.init).makeIterator()
     } element: {
       OneOf {
         Prefix(1...) { $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") }
@@ -78,7 +78,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       let (name, value) = pair
       object[name] = value
     } iterator: { object in
-      object.map { $0 }.makeIterator()
+      (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue)]).makeIterator()
     } element: {
       Whitespace().printing("".utf8)
       string
@@ -125,7 +125,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       "xs": [1, "hello", null, false],
       "ys": {
         "0": 2,
-        "1": "goodbye"
+        "1": "goodbye\n"
       }
     }
     """#
@@ -143,9 +143,21 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
         "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
         "ys": .object([
           "0": .number(2),
-          "1": .string("goodbye"),
+          "1": .string("goodbye\n"),
         ]),
       ])
+    )
+    precondition(
+      try! Substring(json.print(jsonOutput))
+      == """
+        {\
+        "goodbye":42.42,\
+        "hello":true,\
+        "whatever":null,\
+        "xs":[1.0,"hello",null,false],\
+        "ys":{"0":2.0,"1":"goodbye\\n"}\
+        }
+        """
     )
     precondition(try! json.parse(json.print(jsonOutput)) == jsonOutput)
   }
@@ -163,7 +175,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
         "xs": [1, "hello", nil, false],
         "ys": [
           "0": 2,
-          "1": "goodbye",
+          "1": "goodbye\n",
         ],
       ]
     )
