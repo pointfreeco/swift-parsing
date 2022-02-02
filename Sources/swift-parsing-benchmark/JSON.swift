@@ -20,26 +20,6 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
 
   var json: AnyParserPrinter<Substring.UTF8View, JSONValue>!
 
-  let unicode = Prefix(4) {
-    (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
-      || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
-      || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
-  }
-  .map(
-    AnyConversion<Substring.UTF8View, String>(
-      apply: {
-        UInt32(Substring($0), radix: 16)
-          .flatMap(UnicodeScalar.init)
-          .map(String.init)
-      },
-      unapply: {
-        $0.unicodeScalars.first
-          .map(UInt32.init)
-          .map { String($0, radix: 16)[...].utf8 }
-      }
-    )
-  )
-
   let string = Parse {
     "\"".utf8
     Many(into: "") { string, fragment in
@@ -63,7 +43,13 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
             "n".utf8.map(.exactly("\n"))
             "r".utf8.map(.exactly("\r"))
             "t".utf8.map(.exactly("\t"))
-            unicode
+
+            Prefix(4) {
+              (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
+                || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
+                || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
+            }
+            .map(.unicode)
           }
         }
       }
@@ -178,6 +164,22 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           "1": "goodbye\n",
         ],
       ]
+    )
+  }
+}
+
+private extension Conversion where Self == AnyConversion<Substring.UTF8View, String> {
+  static var unicode: Self {
+    Self(
+      apply: {
+        UInt32(Substring($0), radix: 16)
+          .flatMap(UnicodeScalar.init)
+          .map(String.init)
+      },
+      unapply: {
+        $0.unicodeScalars.first
+          .map { String(UInt32($0), radix: 16)[...].utf8 }
+      }
     )
   }
 }
