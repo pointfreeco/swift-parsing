@@ -447,7 +447,7 @@ Routing.Parser                                  41583.000 ns ±   4.37 %      32
 String Abstractions.Substring                  929229.500 ns ±   1.33 %       1500
 String Abstractions.UTF8                       160417.000 ns ±   1.63 %       8732
 UUID.UUID.init                                    209.000 ns ±  15.65 %    1000000
-UUID.UUIDParser                                   375.000 ns ±  20.10 %    1000000
+UUID.UUIDParser                                   166.000 ns ±  53.83 %    1000000
 Xcode Logs.Parser                             3794333.000 ns ±   1.10 %        369
 ```
 
