@@ -215,7 +215,6 @@ func format(label: String, context: ParsingError.Context) -> String {
       ]
       .prefix { !$0.isNewline }
       let isStartTruncated = offset != position.column
-      let prefix = "\(position.line + 1)"
       let truncatedLine = selectedLine.prefix(79 - 4 - (isStartTruncated ? 1 : 0))
       let isEndTruncated = truncatedLine.endIndex != selectedLine.endIndex
 
