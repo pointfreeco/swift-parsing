@@ -8,6 +8,10 @@ let package = Package(
     .library(
       name: "Parsing",
       targets: ["Parsing"]
+    ),
+    .library(
+      name: "_URLRouting",
+      targets: ["_URLRouting"]
     )
   ],
   dependencies: [
@@ -18,9 +22,7 @@ let package = Package(
   targets: [
     .target(
       name: "Parsing",
-      dependencies: [
-        .product(name: "CasePaths", package: "swift-case-paths"),
-      ]
+      dependencies: [.product(name: "CasePaths", package: "swift-case-paths")]
     ),
     .testTarget(
       name: "ParsingTests",
@@ -35,9 +37,10 @@ let package = Package(
     ),
     .executableTarget(
       name: "variadics-generator",
-      dependencies: [
-        .product(name: "ArgumentParser", package: "swift-argument-parser")
-      ]
+      dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]
+    ),
+    .target(
+      name: "_URLRouting", dependencies: ["Parsing"]
     ),
   ]
 )
