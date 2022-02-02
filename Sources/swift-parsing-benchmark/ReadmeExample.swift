@@ -2,9 +2,7 @@ import Benchmark
 import Foundation
 import Parsing
 
-/**
- This benchmark measures the performance of the examples given in the library's README.
- */
+/// This benchmark measures the performance of the examples given in the library's README.
 let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
   let input = """
     1,Blob,true

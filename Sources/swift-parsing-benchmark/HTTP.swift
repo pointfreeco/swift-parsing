@@ -1,13 +1,11 @@
 import Benchmark
 import Parsing
 
-/**
- This benchmark reproduces an HTTP parser from [a Rust parser benchmark suite][rust-parser].
-
- [rust-parser]: https://github.com/rust-bakery/parser_benchmarks/tree/master/http
-
- In particular, it benchmarks the same HTTP header as that defined in `one_test`.
- */
+/// This benchmark reproduces an HTTP parser from [a Rust parser benchmark suite][rust-parser].
+///
+/// [rust-parser]: https://github.com/rust-bakery/parser_benchmarks/tree/master/http
+///
+/// In particular, it benchmarks the same HTTP header as that defined in `one_test`.
 let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
   let method = Prefix { $0.isToken }
     .map(Substring.init)
@@ -105,8 +103,8 @@ private struct Header: Equatable {
   let value: [Substring]
 }
 
-private extension UTF8.CodeUnit {
-  var isToken: Bool {
+extension UTF8.CodeUnit {
+  fileprivate var isToken: Bool {
     switch self {
     case 128...,
       ...31,
@@ -134,7 +132,7 @@ private extension UTF8.CodeUnit {
     }
   }
 
-  var isVersion: Bool {
+  fileprivate var isVersion: Bool {
     (.init(ascii: "0") ... .init(ascii: "9")).contains(self) || self == .init(ascii: ".")
   }
 }

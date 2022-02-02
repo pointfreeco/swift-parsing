@@ -2,12 +2,10 @@ import Benchmark
 import Foundation
 import Parsing
 
-/**
- This benchmark shows how to create a naive JSON parser with combinators.
-
- It is mostly implemented according to the [spec](https://www.json.org/json-en.html) (we take a
- shortcut and use `Double.parser()`, which behaves accordingly).
- */
+/// This benchmark shows how to create a naive JSON parser with combinators.
+///
+/// It is mostly implemented according to the [spec](https://www.json.org/json-en.html) (we take a
+/// shortcut and use `Double.parser()`, which behaves accordingly).
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   enum JSONValue: Equatable {
     indirect case array([JSONValue])
@@ -170,16 +168,16 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   } tearDown: {
     precondition(
       jsonOutput
-      == .object([
-        "hello": .boolean(true),
-        "goodbye": .number(42.42),
-        "whatever": .null,
-        "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
-        "ys": .object([
-          "0": .number(2),
-          "1": .string("goodbye"),
-        ]),
-      ])
+        == .object([
+          "hello": .boolean(true),
+          "goodbye": .number(42.42),
+          "whatever": .null,
+          "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
+          "ys": .object([
+            "0": .number(2),
+            "1": .string("goodbye"),
+          ]),
+        ])
     )
   }
 

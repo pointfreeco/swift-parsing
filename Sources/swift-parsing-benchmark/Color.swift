@@ -1,11 +1,9 @@
 import Benchmark
 import Parsing
 
-/**
- This benchmark demonstrates how to parse a hexadecimal color.
-
- Compare to the Rust [example using nom](https://github.com/Geal/nom#example).
- */
+/// This benchmark demonstrates how to parse a hexadecimal color.
+///
+/// Compare to the Rust [example using nom](https://github.com/Geal/nom#example).
 let colorSuite = BenchmarkSuite(name: "Color") { suite in
   struct Color: Equatable {
     let red, green, blue: UInt8

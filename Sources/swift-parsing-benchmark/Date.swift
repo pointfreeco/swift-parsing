@@ -2,14 +2,12 @@ import Benchmark
 import Foundation
 import Parsing
 
-/**
- This benchmarks implements an [RFC-3339-compliant](https://www.ietf.org/rfc/rfc3339.txt) date
- parser in a relatively naive way and pits it against `DateFormatter` and `ISO8601DateFormatter`.
-
- Not only is the parser faster than both formatters, it is more flexible and accurate: it will parse
- parse fractional seconds and time zone offsets automatically, and it will parse to the nanosecond,
- while the formatters do not parse beyond the millisecond.
- */
+/// This benchmarks implements an [RFC-3339-compliant](https://www.ietf.org/rfc/rfc3339.txt) date
+/// parser in a relatively naive way and pits it against `DateFormatter` and `ISO8601DateFormatter`.
+///
+/// Not only is the parser faster than both formatters, it is more flexible and accurate: it will parse
+/// parse fractional seconds and time zone offsets automatically, and it will parse to the nanosecond,
+/// while the formatters do not parse beyond the millisecond.
 let dateSuite = BenchmarkSuite(name: "Date") { suite in
   let digits = { (n: Int) in
     Prefix<Substring.UTF8View>(n).pipe {
