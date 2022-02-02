@@ -31,6 +31,8 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
     line
   } separator: {
     "\n".utf8
+  } terminator: {
+    End()
   }
 
   let expectedRowCount = 1_000
