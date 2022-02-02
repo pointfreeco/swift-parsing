@@ -26,7 +26,8 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
   suite.benchmark("Substring") {
     var input = input[...].utf8
     let output = Many {
-      Int.parser()
+      // NB: omitting `of: Substring.UTF8View.self` causes a segfault in Xcode 12.5.1 (Swift 5.4.1)
+      Int.parser(of: Substring.UTF8View.self)
     } separator: {
       FromSubstring { "\u{00E9}" }
     }

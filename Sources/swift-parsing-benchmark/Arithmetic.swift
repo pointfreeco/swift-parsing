@@ -64,8 +64,6 @@ private struct Factor: Parser {
   }
 }
 
-// MARK: -
-
 public struct InfixOperator<Operator, Operand>: Parser
 where
   Operator: Parser,
