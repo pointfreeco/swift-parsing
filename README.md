@@ -199,7 +199,7 @@ Even better, it's more performant. We've written [benchmarks](Sources/swift-pars
 name                             time        std        iterations
 ------------------------------------------------------------------
 README Example.Parser: Substring 3426.000 ns ±  63.40 %     385395
-README Example.Adhoc             7631.000 ns ±  47.01 %     169332
+README Example.Ad hoc            7631.000 ns ±  47.01 %     169332
 Program ended with exit code: 0
 ```
 
@@ -210,7 +210,7 @@ name                             time        std        iterations
 ------------------------------------------------------------------
 README Example.Parser: Substring 3693.000 ns ±  81.76 %     349763
 README Example.Parser: UTF8      1272.000 ns ± 128.16 %     999150
-README Example.Adhoc             8504.000 ns ±  59.59 %     151417
+README Example.Ad hoc            8504.000 ns ±  59.59 %     151417
 ```
 
 We can also compare these times to a tool that Apple's Foundation gives us: `Scanner`. It's a type that allows you to consume from the beginning of strings in order to produce values, and provides a nicer API than using `.split`:
@@ -238,7 +238,7 @@ name                             time         std        iterations
 -------------------------------------------------------------------
 README Example.Parser: Substring  3481.000 ns ±  65.04 %     376525
 README Example.Parser: UTF8       1207.000 ns ± 110.96 %    1000000
-README Example.Adhoc              8029.000 ns ±  44.44 %     163719
+README Example.Ad hoc             8029.000 ns ±  44.44 %     163719
 README Example.Scanner           19786.000 ns ±  35.26 %      62125
 ```
 
@@ -391,14 +391,15 @@ This allows you to parse as much as possible on the more performant, low-level `
 
 This library comes with a benchmark executable that not only demonstrates the performance of the library, but also provides a wide variety of parsing examples:
 
-* [URL router](Sources/swift-parsing-benchmark/Routing.swift)
-* [Xcode test logs](Sources/swift-parsing-benchmark/XcodeLogs)
-* [Simplified CSV](Sources/swift-parsing-benchmark/CSV)
 * [Hex color](Sources/swift-parsing-benchmark/Color.swift)
+* [Simplified CSV](Sources/swift-parsing-benchmark/CSV.swift)
+* [Simplified JSON](Sources/swift-parsing-benchmark/JSON.swift)
 * [ISO8601 date](Sources/swift-parsing-benchmark/Date.swift)
 * [HTTP request](Sources/swift-parsing-benchmark/HTTP.swift)
-* [Simplified JSON](Sources/swift-parsing-benchmark/JSON.swift)
+* [DNS header](Sources/swift-parsing-benchmark/BinaryData.swift)
 * [Arithmetic grammar](Sources/swift-parsing-benchmark/Arithmetic.swift)
+* [URL router](Sources/swift-parsing-benchmark/Routing.swift)
+* [Xcode test logs](Sources/swift-parsing-benchmark/XCTestLogs.swift)
 * and more
 
 These are the times we currently get when running the benchmarks:
