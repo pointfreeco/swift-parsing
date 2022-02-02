@@ -1,4 +1,11 @@
-/// A parser that consumes everything to the end of the collection and returns it as its output.
+/// A parser that consumes everything to the end of the collection and returns this subsequence as
+/// its output.
+///
+/// ```swift
+/// var input = "Hello"[...]
+/// Rest().parse(&input)  // "Hello"
+/// input                 // ""
+/// ```
 public struct Rest<Input>: Parser
 where
   Input: Collection,

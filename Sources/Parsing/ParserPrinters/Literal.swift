@@ -19,7 +19,7 @@ extension String: ParserPrinter {
   @inlinable
   public func parse(_ input: inout Substring) throws {
     guard input.starts(with: self) else {
-      throw ParsingError.expectedInput(String(self).debugDescription, at: input)
+      throw ParsingError.expectedInput(self.debugDescription, at: input)
     }
     input.removeFirst(self.count)
   }

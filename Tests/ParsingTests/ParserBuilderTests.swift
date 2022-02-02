@@ -86,4 +86,56 @@ final class ParserBuilderTests: XCTestCase {
     XCTAssertEqual(nil, int)
     XCTAssertEqual("Blob", string)
   }
+
+  func testWrapsCustomErrors() {
+    struct MyParser: Parser {
+      func parse(_ input: inout Substring) throws {
+        struct MyError: LocalizedError {
+          var errorDescription: String? {
+            "whoops!"
+          }
+        }
+        throw MyError()
+      }
+    }
+
+    XCTAssertThrowsError(
+      try Parse {
+        Int.parser()
+        MyParser()
+      }
+      .parse("123 Blob")
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: whoops!
+         --> input:1:4
+        1 | 123 Blob
+          |    ^
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
+
+    func custom<P>(@ParserBuilder _ build: () -> P) -> P {
+      build()
+    }
+    XCTAssertThrowsError(
+      try custom {
+        Int.parser()
+        MyParser()
+      }
+      .parse("123 Blob")
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: whoops!
+         --> input:1:4
+        1 | 123 Blob
+          |    ^
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
+  }
 }

@@ -7,14 +7,15 @@ import Foundation
 /// integers:
 ///
 /// ```swift
-/// var input = "1,2,3"[...]
-/// let output = Many {
+/// let intsParser = Many {
 ///   Int.parser()
 /// } separator: {
 ///   ","
-/// }.parse(&input)
-/// precondition(input == "")
-/// precondition(output == [1, 2, 3])
+/// }
+///
+/// var input = "1,2,3"[...]
+/// try intsParser.parse(&input)  // [1, 2, 3]
+/// input                         // ""
 /// ```
 ///
 /// The most general version of `Many` takes a closure that can customize how outputs accumulate,
@@ -27,10 +28,10 @@ import Foundation
 /// } separator: {
 ///   ","
 /// }
+///
 /// var input = "1,2,3"[...]
-/// let output = Many(Int.parser(), into: 0, separator: ",").parse(&input)
-/// precondition(input == "")
-/// precondition(output == 6)
+/// try sumParser.parse(&input)  // 6
+/// input                        // ""
 /// ```
 public struct Many<Element, Result, Separator, Terminator, Printability>: Parser
 where

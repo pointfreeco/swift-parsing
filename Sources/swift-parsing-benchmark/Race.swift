@@ -1,108 +1,99 @@
 import Benchmark
 import Parsing
 
-/*
- This benchmark implements a parser for a custom format covered in a collection of episodes on
- Point-Free: https://www.pointfree.co/collections/parsing
+/**
+ This benchmark implements a parser for a custom format covered in
+ [a collection of episodes][parsing] on
+ Point-Free.
+
+ [parsing]: https://www.pointfree.co/collections/parsing
  */
-
-// MARK: - Parser
-
-private struct Coordinate {
-  let latitude: Double
-  let longitude: Double
-}
-
-private enum Currency { case eur, gbp, usd }
-
-private struct Money {
-  let currency: Currency
-  let dollars: Int
-}
-
-private struct Race {
-  let location: String
-  let entranceFee: Money
-  let path: [Coordinate]
-}
-
-private let northSouth = OneOf {
-  "N".utf8.map(.exactly(1.0))
-  "S".utf8.map(.exactly(-1.0))
-}
-
-private let eastWest = OneOf {
-  "E".utf8.map(.exactly(1.0))
-  "W".utf8.map(.exactly(-1.0))
-}
-
-private extension Conversion where Self == AnyConversion<(Double, Double), Double> {
-  static var multiply: Self {
-    .init(
-      apply: *,
-      unapply: { $0 < 0 ? (abs($0), -1) : ($0, 1) }
-    )
-  }
-}
-
-private let latitude = Parse(.multiply) {
-  Double.parser()
-  "° ".utf8
-  northSouth
-}
-
-private let longitude = Parse(.multiply) {
-  Double.parser()
-  "° ".utf8
-  eastWest
-}
-
-private let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }.printing(" ".utf8)
-
-private let coord = Parse(.destructure(Coordinate.init(latitude:longitude:))) {
-  latitude
-  ",".utf8
-  zeroOrMoreSpaces
-  longitude
-}
-
-private let currency = OneOf {
-  "€".utf8.map(.exactly(Currency.eur))
-  "£".utf8.map(.exactly(Currency.gbp))
-  "$".utf8.map(.exactly(Currency.usd))
-}
-
-private let money = Parse(.destructure(Money.init(currency:dollars:))) {
-  currency
-  Int.parser()
-}
-
-private let locationName = Parse(.string) { Prefix { $0 != .init(ascii: ",") } }
-
-private let race = Parse(.destructure(Race.init(location:entranceFee:path:))) {
-  locationName
-  ",".utf8
-  zeroOrMoreSpaces
-  money
-  "\n".utf8
-  Many {
-    coord
-  } separator: {
-    "\n".utf8
-  }
-}
-
-private let races = Many {
-  race
-} separator: {
-  "\n---\n".utf8
-} terminator: {
-  End()
-}
-
-// MARK: - Benchmarks
-
 let raceSuite = BenchmarkSuite(name: "Race") { suite in
+  struct Coordinate {
+    let latitude: Double
+    let longitude: Double
+  }
+
+  enum Currency { case eur, gbp, usd }
+
+  struct Money {
+    let currency: Currency
+    let dollars: Int
+  }
+
+  struct Race {
+    let location: String
+    let entranceFee: Money
+    let path: [Coordinate]
+  }
+
+  let northSouth = OneOf {
+    "N".utf8.map(.exactly(1.0))
+    "S".utf8.map(.exactly(-1.0))
+  }
+
+  let eastWest = OneOf {
+    "E".utf8.map(.exactly(1.0))
+    "W".utf8.map(.exactly(-1.0))
+  }
+
+  let latitude = Parse(.multiply) {
+    Double.parser()
+    "° ".utf8
+    northSouth
+  }
+
+  let longitude = Parse(.multiply) {
+    Double.parser()
+    "° ".utf8
+    eastWest
+  }
+
+  let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }.printing(" ".utf8)
+
+  let coord = Parse(.destructure(Coordinate.init(latitude:longitude:))) {
+    latitude
+    Skip {
+      ",".utf8
+      zeroOrMoreSpaces
+    }
+    longitude
+  }
+
+  let currency = OneOf {
+    "€".utf8.map(.exactly(Currency.eur))
+    "£".utf8.map(.exactly(Currency.gbp))
+    "$".utf8.map(.exactly(Currency.usd))
+  }
+
+  let money = Parse(.destructure(Money.init(currency:dollars:))) {
+    currency
+    Int.parser()
+  }
+
+  let locationName = Prefix { $0 != .init(ascii: ",") }.map(.string)
+
+  let race = Parse(.destructure(Race.init(location:entranceFee:path:))) {
+    locationName
+    Skip {
+      ",".utf8
+      zeroOrMoreSpaces
+    }
+    money
+    "\n".utf8
+    Many {
+      coord
+    } separator: {
+      "\n".utf8
+    }
+  }
+
+  let races = Many {
+    race
+  } separator: {
+    "\n---\n".utf8
+  }
+
   let input = """
     New York City, $300
     40.60248° N, 74.06433° W
@@ -178,12 +169,20 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     """
   var output: [Race]!
 
-  suite.benchmark(
-    name: "Parser",
-    run: { output = try races.parse(input) },
-    tearDown: {
-      precondition(output.count == 3)
-      precondition(try! races.print(output).elementsEqual(input.utf8) == true)
-    }
-  )
+  suite.benchmark("Parser") {
+    var input = input[...].utf8
+    output = try races.parse(&input)
+  } tearDown: {
+    precondition(output.count == 3)
+    precondition(try! races.print(output).elementsEqual(input.utf8) == true)
+  }
+}
+
+private extension Conversion where Self == AnyConversion<(Double, Double), Double> {
+  static var multiply: Self {
+    .init(
+      apply: *,
+      unapply: { $0 < 0 ? (abs($0), -1) : ($0, 1) }
+    )
+  }
 }

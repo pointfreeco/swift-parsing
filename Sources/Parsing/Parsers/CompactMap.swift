@@ -7,9 +7,10 @@ extension Parser {
   ///
   /// ```swift
   /// let evenParser = Int.parser().compactMap { $0.isMultiple(of: 2) }
-  /// var input = "124 hello world"[...].utf8
-  /// let output = evenParser.parse(&input) // 124
-  /// input // " hello world"
+  ///
+  /// var input = "124 hello world"[...]
+  /// try evenParser.parse(&input)  // 124
+  /// input                         // " hello world"
   /// ```
   ///
   /// - Parameter transform: A closure that accepts output of this parser as its argument and

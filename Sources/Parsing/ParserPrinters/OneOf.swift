@@ -11,7 +11,7 @@
 /// ```
 ///
 /// If you are optionally parsing input that should coalesce into some default, you can skip the
-/// optionality and instead use ``OneOf`` with an ``Always`` parser, given a default:
+/// optionality and instead use ``OneOf`` and ``replaceError(with:)``:
 ///
 /// ```swift
 /// enum Currency { case eur, gbp, usd, unknown }
@@ -20,8 +20,8 @@
 ///   "€".map { Currency.eur }
 ///   "£".map { Currency.gbp }
 ///   "$".map { Currency.usd }
-///   Always(Currency.unknown)
 /// }
+/// .replaceError(with: Currency.unknown)
 /// ```
 public struct OneOf<Parsers>: Parser where Parsers: Parser {
   public let parsers: Parsers

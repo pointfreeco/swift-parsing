@@ -53,6 +53,17 @@ enum ParsingError: Error {
   }
 
   @usableFromInline
+  static func wrap(_ error: Error, at remainingInput: Any) -> Self {
+    error as? ParsingError ?? .failed(
+      "", .init(
+        remainingInput: remainingInput,
+        debugDescription: formatError(error),
+        underlyingError: error
+      )
+    )
+  }
+
+  @usableFromInline
   func flattened() -> Self {
     func flatten(_ depth: Int = 0) -> (Error) -> [(depth: Int, error: Error)] {
       { error in
@@ -72,15 +83,11 @@ enum ParsingError: Error {
       return .manyFailed(
         errors.flatMap(flatten())
           .sorted {
-            guard $0.depth == $1.depth else { return $0.depth > $1.depth }
             switch ($0.error, $1.error) {
             case let (lhs as ParsingError, rhs as ParsingError):
-              return startIndexIsLessThan(lhs.context.remainingInput, rhs.context.remainingInput)
-                .map(!) ?? false
-            case (is ParsingError, _):
-              return true
+              return lhs.context > rhs.context
             default:
-              return false
+              return $0.depth > $1.depth
             }
           }
           .map { $0.error },
@@ -143,7 +150,7 @@ extension ParsingError: CustomDebugStringConvertible {
   var debugDescription: String {
     switch self.flattened() {
     case let .failed(label, context):
-      return format(label: label, context: context) ?? "FAIL"
+      return format(label: label, context: context)
 
     case let .manyFailed(errors, context) where errors.isEmpty:
       #if DEBUG
@@ -155,11 +162,11 @@ extension ParsingError: CustomDebugStringConvertible {
           """
         )
       #endif
-      return format(label: "processed up to", context: context) ?? "FAIL"
+      return format(label: "", context: context)
 
     case let .manyFailed(errors, _):
       let failures = errors
-        .map { ($0 as? ParsingError)?.debugDescription ?? $0.localizedDescription }
+        .map(formatError)
         .joined(separator: "\n\n")
 
       return """
@@ -172,16 +179,13 @@ extension ParsingError: CustomDebugStringConvertible {
 }
 
 @usableFromInline
-func format(label: String, context: ParsingError.Context) -> String? {
-  func formatHelp<Input>(from originalInput: Input, to remainingInput: Input) -> String? {
-    switch (originalInput, remainingInput) {
+func format(label: String, context: ParsingError.Context) -> String {
+  func formatHelp<Input>(from originalInput: Input, to remainingInput: Input) -> String {
+    switch (normalize(originalInput), normalize(remainingInput)) {
     case let (originalInput as Substring, remainingInput as Substring):
-      let input = originalInput.startIndex == remainingInput.startIndex
-      ? originalInput
-      : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
-      let substring = input.endIndex == input.base.endIndex
-      ? input[..<input.startIndex]
-      : input
+      let substring = originalInput.startIndex == remainingInput.startIndex
+        ? originalInput
+        : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
 
       let position = substring.base[..<substring.startIndex].reduce(
         into: (0, 0)
@@ -205,11 +209,14 @@ func format(label: String, context: ParsingError.Context) -> String? {
         }
       }
 
+      let offset = min(position.column, 20)
       let selectedLine = substring.base[
-        substring.base.index(substring.startIndex, offsetBy: -position.column)..<(
-          substring.base[substring.startIndex...].firstIndex(where: \.isNewline)
-          ?? substring.base.endIndex
-        )]
+        substring.base.index(substring.startIndex, offsetBy: -offset)...
+      ]
+      .prefix { !$0.isNewline }
+      let isStartTruncated = offset != position.column
+      let truncatedLine = selectedLine.prefix(79 - 4 - (isStartTruncated ? 1 : 0))
+      let isEndTruncated = truncatedLine.endIndex != selectedLine.endIndex
 
       return formatError(
         summary: context.debugDescription,
@@ -217,44 +224,33 @@ func format(label: String, context: ParsingError.Context) -> String? {
           input:\(position.line + 1):\(position.column + 1)\
           \(
             through.line == position.line
-              ? (through.column == position.column ? "" : "-\(through.column)")
-              : "-\(through.line):\(through.column)")
+              ? (through.column <= position.column + 1 ? "" : "-\(through.column)")
+              : "-\(through.line + 1):\(through.column + 1)")
           """,
         prefix: "\(position.line + 1)",
         diagnostic: """
-        \(selectedLine)
-        \(String(repeating: " ", count: position.column))\
+        \(isStartTruncated ? "…" : "")\(truncatedLine)\(isEndTruncated ? "…" : "")
+        \(String(repeating: " ", count: offset + (isStartTruncated ? 1 : 0)))\
         \(String(repeating: "^", count: max(1, substring.count)))\
         \(label.isEmpty ? "" : " \(label)")
         """
       )
 
-    case let (originalInput as Substring.UTF8View, remainingInput as Substring.UTF8View):
-      return formatHelp(from: Substring(originalInput), to: Substring(remainingInput))
-
     case let (originalInput as Slice<[Substring]>, remainingInput as Slice<[Substring]>):
-      let input = originalInput.startIndex == remainingInput.startIndex
-      ? originalInput
-      : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
-      let slice = input.endIndex == input.base.endIndex
-      ? input[..<input.startIndex]
-      : input
+      let slice = originalInput.startIndex == remainingInput.startIndex
+        ? originalInput
+        : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
 
       let expectation: String
       if
         let error = context.underlyingError as? ParsingError,
         case let .failed(elementLabel, elementContext) = error,
-        let originalInput = elementContext.originalInput as? Substring
-          ?? (elementContext.originalInput as? Substring.UTF8View).flatMap(Substring.init),
-        let remainingInput = elementContext.remainingInput as? Substring
-          ?? (elementContext.remainingInput as? Substring.UTF8View).flatMap(Substring.init)
+        let originalInput = normalize(elementContext.originalInput) as? Substring,
+        let remainingInput = normalize(elementContext.remainingInput) as? Substring
       {
-        let input = originalInput.startIndex == remainingInput.startIndex
+        let substring = originalInput.startIndex == remainingInput.startIndex
         ? originalInput
         : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
-        let substring = input.endIndex == input.base.endIndex
-        ? input[..<input.startIndex]
-        : input
         let indent = String(
           repeating: " ",
           count: substring.distance(
@@ -285,11 +281,22 @@ func format(label: String, context: ParsingError.Context) -> String? {
       )
 
     default:
-      return nil
+      return "error: \(context.debugDescription)"
     }
   }
 
   return formatHelp(from: context.originalInput, to: context.remainingInput)
+}
+
+private func formatError(_ error: Error) -> String {
+  switch error {
+  case let error as ParsingError:
+    return error.debugDescription
+  case let error as LocalizedError:
+    return error.localizedDescription
+  default:
+    return "\(error)"
+  }
 }
 
 @usableFromInline
@@ -329,22 +336,39 @@ private func formatError(
     """
 }
 
-private enum Box<T> {}
-
-protocol AnySequence {
-  static func startIndexIsLessThan(_ lhs: Any, _ rhs: Any) -> Bool
-}
-
-extension Box: AnySequence where T: Collection {
-  static func startIndexIsLessThan(_ lhs: Any, _ rhs: Any) -> Bool {
-    guard let lhs = lhs as? T, let rhs = rhs as? T else { return false }
-    return lhs.startIndex < rhs.startIndex
+private extension ParsingError.Context {
+  static func > (lhs: Self, rhs: Self) -> Bool {
+    switch (normalize(lhs.remainingInput), normalize(rhs.remainingInput)) {
+    case let (lhsInput as Substring, rhsInput as Substring):
+      return lhsInput.endIndex > rhsInput.endIndex
+    case let (lhsInput as Slice<[Substring]>, rhsInput as Slice<[Substring]>):
+      guard lhsInput.endIndex != rhsInput.endIndex else {
+        switch (lhs.underlyingError, rhs.underlyingError) {
+        case let (lhs as ParsingError, rhs as ParsingError):
+          return lhs.context > rhs.context
+        case (is ParsingError, _):
+          return true
+        default:
+          return false
+        }
+      }
+      return lhsInput.endIndex > rhsInput.endIndex
+    default:
+      return false
+    }
   }
 }
 
-private func startIndexIsLessThan(_ lhs: Any, _ rhs: Any) -> Bool? {
-  func open<LHS>(_: LHS.Type) -> Bool? {
-    (Box<LHS>.self as? AnySequence.Type)?.startIndexIsLessThan(lhs, rhs)
+private func normalize(_ input: Any) -> Any {
+  // TODO: Use `_openExistential` for `C: Collection where C == C.SubSequence` for index juggling?
+  switch input {
+  case let input as Substring:
+    return input.endIndex == input.base.endIndex ? input[..<input.startIndex] : input
+  case let input as Substring.UTF8View:
+    return normalize(Substring(input))
+  case let input as Slice<[Substring]>:
+    return input.endIndex == input.base.endIndex ? input[..<input.startIndex] : input
+  default:
+    return input
   }
-  return _openExistential(type(of: lhs), do: open)
 }

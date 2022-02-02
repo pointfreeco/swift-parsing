@@ -7,16 +7,19 @@
 ///
 /// ```swift
 /// var input = "Hello"[...]
-/// First().parse(&input) // "H"
-/// input                 // "ello"
+/// try First().parse(&input)  // "H"
+/// input                      // "ello"
 /// ```
 ///
 /// If the collection is empty, or if it has been consumed in its entirety, parsing will fail:
 ///
 /// ```swift
 /// input = ""
-/// First().parse(&input) // nil
-/// input                 // ""
+/// try First().parse(&input)
+/// // error: unexpected input
+/// //  ---> input:1:1
+/// // 1 |
+/// //   | ^ expected element
 /// ```
 public struct First<Input>: Parser
 where

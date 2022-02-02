@@ -3,9 +3,8 @@
 ///
 /// ```swift
 /// var input = "Hello"[...]
-/// let output = Always(1).parse(&hello)
-/// precondition(output == 1)
-/// precondition(input == "Hello")
+/// try Always(1).parse(&hello)  // 1
+/// input                        // "Hello"
 /// ```
 public struct Always<Input, Output>: ParserPrinter {
   public let output: Output

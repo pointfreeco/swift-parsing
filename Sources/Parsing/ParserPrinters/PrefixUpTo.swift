@@ -5,11 +5,11 @@
 /// consume and return input up to a particular subsequence.
 ///
 /// ```swift
-/// let lineParser = PrefixUpTo<Substring>("\n")
+/// let lineParser = PrefixUpTo("\n")
 ///
 /// var input = "Hello\nworld\n"[...]
-/// line.parse(&input) // "Hello"
-/// input // "\nworld\n"
+/// try line.parse(&input)  // "Hello"
+/// input                   // "\nworld\n"
 /// ```
 public struct PrefixUpTo<Input>: Parser
 where

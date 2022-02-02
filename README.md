@@ -33,14 +33,14 @@ This library was designed over the course of many [episodes](https://www.pointfr
 Parsing is a surprisingly ubiquitous problem in programming. We can define parsing as trying to take a more nebulous blob of data and transform it into something more well-structured. The Swift standard library comes with a number of parsers that we reach for every day. For example, there are initializers on `Int`, `Double`, and even `Bool`, that attempt to parse numbers and booleans from strings:
 
 ```swift
-Int("42")         // 42
-Int("Hello")      // nil
+Int("42")          // 42
+Int("Hello")       // nil
 
-Double("123.45")  // 123.45
-Double("Goodbye") // nil
+Double("123.45")   // 123.45
+Double("Goodbye")  // nil
 
-Bool("true")      // true
-Bool("0")         // nil
+Bool("true")       // true
+Bool("0")          // nil
 ```
 
 And there are types like `JSONDecoder` and `PropertyListDecoder` that attempt to parse `Decodable`-conforming types from data:
@@ -105,8 +105,8 @@ let user = Parse {
 Already this can consume the beginning of the input:
 
 ```swift
-user.parse(&input) // => 1
-input // => "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
+try user.parse(&input)  // 1
+input                   // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
 Next we want to take everything up until the next comma for the user's name, and then consume the comma:
@@ -174,8 +174,8 @@ let user = Parse(User.init(id:name:isAdmin:)) {
 That is enough to parse a single user from the input string, leaving behind a newline and the final two users:
 
 ```swift
-user.parse(&input) // => User(id: 1, name: "Blob", isAdmin: true)
-input // => "\n2,Blob Jr.,false\n3,Blob Sr.,true"
+try user.parse(&input)  // User(id: 1, name: "Blob", isAdmin: true)
+input                   // "\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
 To parse multiple users from the input we can use the `Many` parser to run the user parser many times:
@@ -187,8 +187,8 @@ let users = Many {
   "\n"
 }
 
-users.parse(&input) // => [User(id: 1, name: "Blob", isAdmin: true), ...]
-input // => ""
+try users.parse(&input)  // [User(id: 1, name: "Blob", isAdmin: true), ...]
+input                    // ""
 ```
 
 Now this parser can process an entire document of users, and the code is simpler and more straightforward than the version that uses `.split` and `.compactMap`.
@@ -199,7 +199,7 @@ Even better, it's more performant. We've written [benchmarks](Sources/swift-pars
 name                             time        std        iterations
 ------------------------------------------------------------------
 README Example.Parser: Substring 3426.000 ns ±  63.40 %     385395
-README Example.Adhoc             7631.000 ns ±  47.01 %     169332
+README Example.Ad hoc            7631.000 ns ±  47.01 %     169332
 Program ended with exit code: 0
 ```
 
@@ -210,7 +210,7 @@ name                             time        std        iterations
 ------------------------------------------------------------------
 README Example.Parser: Substring 3693.000 ns ±  81.76 %     349763
 README Example.Parser: UTF8      1272.000 ns ± 128.16 %     999150
-README Example.Adhoc             8504.000 ns ±  59.59 %     151417
+README Example.Ad hoc            8504.000 ns ±  59.59 %     151417
 ```
 
 We can also compare these times to a tool that Apple's Foundation gives us: `Scanner`. It's a type that allows you to consume from the beginning of strings in order to produce values, and provides a nicer API than using `.split`:
@@ -238,7 +238,7 @@ name                             time         std        iterations
 -------------------------------------------------------------------
 README Example.Parser: Substring  3481.000 ns ±  65.04 %     376525
 README Example.Parser: UTF8       1207.000 ns ± 110.96 %    1000000
-README Example.Adhoc              8029.000 ns ±  44.44 %     163719
+README Example.Ad hoc             8029.000 ns ±  44.44 %     163719
 README Example.Scanner           19786.000 ns ±  35.26 %      62125
 ```
 
@@ -256,8 +256,8 @@ For example, to parse all the characters from the beginning of a substring until
 let parser = Prefix { $0 != "," }
 
 var input = "Hello,World"[...]
-parser.parse(&input) // => "Hello"
-input // => ",World"
+try parser.parse(&input)  // "Hello"
+input                     // ",World"
 ```
 
 The type of this parser is:
@@ -273,8 +273,8 @@ let parser = Prefix { $0 != "," }
   .map { $0 + "!!!" }
 
 var input = "Hello,World"[...]
-parser.parse(&input) // => "Hello!!!"
-input // => ",World"
+try parser.parse(&input)  // "Hello!!!"
+input                     // ",World"
 ```
 
 The type of this parser is now:
@@ -321,8 +321,8 @@ let accountingNumber = OneOf {
   .map { -$0 }
 }
 
-accountingNumber.parse("100")   // 100
-accountingNumber.parse("(100)") // -100
+try accountingNumber.parse("100")    // 100
+try accountingNumber.parse("(100)")  // -100
 ```
 
 ### Low-level versus high-level
@@ -355,8 +355,8 @@ let city = OneOf {
 }
 
 var input = "San José,123"
-city.parse(&input) // => City.sanJose
-input // => ",123"
+try city.parse(&input)  // City.sanJose
+input                   // ",123"
 ```
 
 However, we are incurring the cost of parsing `Substring` for this entire parser, even though only the "San José" case needs that power. We can refactor this parser so that "London" and "New York" are parsed on the `UTF8View` level, since they consist of only ASCII characters, and then parse "San José" as `Substring`:
@@ -391,14 +391,15 @@ This allows you to parse as much as possible on the more performant, low-level `
 
 This library comes with a benchmark executable that not only demonstrates the performance of the library, but also provides a wide variety of parsing examples:
 
-* [URL router](Sources/swift-parsing-benchmark/Routing.swift)
-* [Xcode test logs](Sources/swift-parsing-benchmark/XcodeLogs)
-* [Simplified CSV](Sources/swift-parsing-benchmark/CSV)
 * [Hex color](Sources/swift-parsing-benchmark/Color.swift)
+* [Simplified CSV](Sources/swift-parsing-benchmark/CSV.swift)
+* [Simplified JSON](Sources/swift-parsing-benchmark/JSON.swift)
 * [ISO8601 date](Sources/swift-parsing-benchmark/Date.swift)
 * [HTTP request](Sources/swift-parsing-benchmark/HTTP.swift)
-* [Simplified JSON](Sources/swift-parsing-benchmark/JSON.swift)
+* [DNS header](Sources/swift-parsing-benchmark/BinaryData.swift)
 * [Arithmetic grammar](Sources/swift-parsing-benchmark/Arithmetic.swift)
+* [URL router](Sources/swift-parsing-benchmark/Routing.swift)
+* [Xcode test logs](Sources/swift-parsing-benchmark/XCTestLogs.swift)
 * and more
 
 These are the times we currently get when running the benchmarks:
@@ -410,45 +411,47 @@ Apple M1 Pro (10 cores, 8 performance and 2 efficiency)
 
 name                                         time            std        iterations
 ----------------------------------------------------------------------------------
-Arithmetic.Parser                                1000.000 ns ±  15.80 %    1000000
-BinaryData.Parser                                 250.000 ns ±  34.95 %    1000000
-Bool.Bool.init                                      0.000 ns ±    inf %    1000000
-Bool.BoolParser                                    42.000 ns ±  60.93 %    1000000
-Bool.Scanner.scanBool                             584.000 ns ±  16.36 %    1000000
-Color.Parser                                      208.000 ns ±  25.44 %    1000000
-CSV.Parser                                    1387958.000 ns ±   0.84 %        922
-CSV.Ad hoc mutating methods                    863479.000 ns ±   2.49 %       1656
-Date.Parser                                      5875.000 ns ±   6.55 %     241380
-Date.DateFormatter                              24166.000 ns ±   3.50 %      56837
-Date.ISO8601DateFormatter                       32625.000 ns ±   3.53 %      42868
-HTTP.HTTP                                        4875.000 ns ±   5.85 %     286041
-JSON.Parser                                      5917.000 ns ±   3.99 %     224290
-JSON.JSONSerialization                           1708.000 ns ±  11.68 %     802207
-Numerics.Int.init                                  41.000 ns ±  69.46 %    1000000
-Numerics.Int.parser                                42.000 ns ±  60.40 %    1000000
-Numerics.Scanner.scanInt                          125.000 ns ±  33.94 %    1000000
-Numerics.Comma separated: Int.parser          3279938.000 ns ±   0.75 %        279
-Numerics.Comma separated: Scanner.scanInt    52291583.000 ns ±   0.43 %         27
-Numerics.Comma separated: String.split       13989062.000 ns ±   0.86 %        100
-Numerics.Double.init                               42.000 ns ± 103.43 %    1000000
-Numerics.Double.parser                             84.000 ns ±  57.35 %    1000000
-Numerics.Scanner.scanDouble                       167.000 ns ±  30.26 %    1000000
-Numerics.Comma separated: Double.parser       9871333.500 ns ±   1.03 %        116
-Numerics.Comma separated: Scanner.scanDouble 54031625.000 ns ±   0.39 %         26
-Numerics.Comma separated: String.split       18210792.000 ns ±   0.68 %         77
-PrefixUpTo.Parser                               13292.000 ns ±   3.85 %     104936
-PrefixUpTo.Scanner.scanUpToString               97500.000 ns ±   1.22 %      14267
-Race.Parser                                     27041.000 ns ±   3.84 %      51576
-README Example.Parser: Substring                 2375.000 ns ±  11.91 %     583192
-README Example.Parser: UTF8                       875.000 ns ±  14.26 %    1000000
-README Example.Adhoc                             3334.000 ns ±   7.75 %     412681
-README Example.Scanner                          14708.000 ns ±   5.34 %      94978
-Routing.Parser                                   3375.000 ns ±   7.23 %     409775
-String Abstractions.Substring                  613292.000 ns ±   0.85 %       2273
-String Abstractions.UTF8                        35583.000 ns ±   1.78 %      23918
-UUID.UUID.init                                    209.000 ns ±  30.39 %    1000000
-UUID.UUIDParser                                   375.000 ns ±  20.14 %    1000000
-Xcode Logs.Parser                             3335583.000 ns ±   0.97 %        417
+Arithmetic.Parser                                8042.000 ns ±   5.91 %     174657
+BinaryData.Parser                                  42.000 ns ±  56.81 %    1000000
+Bool.Bool.init                                     41.000 ns ±  60.69 %    1000000
+Bool.Bool.parser                                   42.000 ns ±  57.28 %    1000000
+Bool.Scanner.scanBool                            1041.000 ns ±  25.98 %    1000000
+Color.Parser                                      209.000 ns ±  13.68 %    1000000
+CSV.Parser                                    4047750.000 ns ±   1.18 %        349
+CSV.Ad hoc mutating methods                    898604.000 ns ±   1.49 %       1596
+Date.Parser                                      6416.000 ns ±   2.56 %     219218
+Date.DateFormatter                              25625.000 ns ±   2.19 %      54110
+Date.ISO8601DateFormatter                       35125.000 ns ±   1.71 %      39758
+HTTP.HTTP                                        9709.000 ns ±   3.81 %     138868
+JSON.Parser                                     32292.000 ns ±   3.18 %      41890
+JSON.JSONSerialization                           1833.000 ns ±   8.58 %     764057
+Numerics.Int.init                                  41.000 ns ±  84.54 %    1000000
+Numerics.Int.parser                                42.000 ns ±  72.17 %    1000000
+Numerics.Scanner.scanInt                          125.000 ns ±  20.26 %    1000000
+Numerics.Comma separated: Int.parser          8096459.000 ns ±   0.44 %        173
+Numerics.Comma separated: Scanner.scanInt    49178770.500 ns ±   0.24 %         28
+Numerics.Comma separated: String.split       14922583.500 ns ±   0.67 %         94
+Numerics.Double.init                               42.000 ns ±  72.61 %    1000000
+Numerics.Double.parser                             84.000 ns ±  33.88 %    1000000
+Numerics.Scanner.scanDouble                       167.000 ns ±  18.84 %    1000000
+Numerics.Comma separated: Double.parser       9807500.000 ns ±   0.46 %        143
+Numerics.Comma separated: Scanner.scanDouble 50431521.000 ns ±   0.19 %         28
+Numerics.Comma separated: String.split       18744125.000 ns ±   0.46 %         75
+PrefixUpTo.Parser: Substring                   249958.000 ns ±   0.88 %       5595
+PrefixUpTo.Parser: UTF8                         13250.000 ns ±   2.96 %     105812
+PrefixUpTo.String.range(of:)                    43084.000 ns ±   1.57 %      32439
+PrefixUpTo.Scanner.scanUpToString               47500.000 ns ±   1.27 %      29444
+Race.Parser                                     34417.000 ns ±   2.73 %      40502
+README Example.Parser: Substring                 4000.000 ns ±   3.79 %     347868
+README Example.Parser: UTF8                      1125.000 ns ±   7.92 %    1000000
+README Example.Ad hoc                            3542.000 ns ±   4.13 %     394248
+README Example.Scanner                          14292.000 ns ±   2.82 %      97922
+Routing.Parser                                  21750.000 ns ±   3.23 %      64256
+String Abstractions.Substring                  934167.000 ns ±   0.60 %       1505
+String Abstractions.UTF8                       158750.000 ns ±   1.36 %       8816
+UUID.UUID.init                                    209.000 ns ±  15.02 %    1000000
+UUID.UUID.parser                                  208.000 ns ±  24.17 %    1000000
+Xcode Logs.Parser                             3768437.500 ns ±   0.56 %        372
 ```
 
 ## Documentation
@@ -459,6 +462,7 @@ The latest documentation for swift-parsing is available [here](https://pointfree
 
 There are a few other parsing libraries in the Swift community that you might also be interested in:
 
+* [Consumer](https://github.com/nicklockwood/Consumer)
 * [Sparse](https://github.com/johnpatrickmorgan/Sparse)
 * [SwiftParsec](https://github.com/davedufresne/SwiftParsec)
 

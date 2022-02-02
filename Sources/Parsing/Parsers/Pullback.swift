@@ -5,15 +5,14 @@ extension Parser {
   /// writable key path from `NewInput` to `Input`. Intuitively you can think of this as a way of
   /// transforming a parser on local data into one on more global data.
   ///
-  /// For example, the parser `Int.parser` parses `Substring.UTF8View` collections into integers,
+  /// For example, the parser `Int.parser()` parses `Substring.UTF8View` collections into integers,
   /// and there's a key path from `Substring.UTF8View` to `Substring`, and so we can
   /// ``pullback(_:)``:
   ///
   /// ```swift
   /// var input = "123 Hello world"[...]
-  /// let output = Int.parser.pullback(\.utf8).parse(&input)
-  /// precondition(output == 123)
-  /// precondition(input == "123 Hello world"
+  /// let output = try Int.parser().pullback(\.utf8).parse(&input)  // 123
+  /// input                                                         // " Hello world"
   /// ```
   ///
   /// This has allowed us to parse `Substring`s with something that is only defined on

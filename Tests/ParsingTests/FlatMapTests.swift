@@ -43,6 +43,6 @@ final class FlatMapTests: XCTestCase {
         (error as? ParsingError)?.debugDescription ?? ""
       )
     }
-    XCTAssertEqual("Hello, world!", Substring(input))
+    XCTAssertEqual("llo, world!", Substring(input))
   }
 }

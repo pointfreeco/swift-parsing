@@ -109,4 +109,58 @@ final class OneOfTests: XCTestCase {
     }
     XCTAssertEqual("London, Hello!", Substring(input))
   }
+
+  func testRanking() {
+    XCTAssertThrowsError(
+      try OneOf {
+        Int.parser()
+        Prefix(2).compactMap { _ in Int?.none }
+      }
+      .parse("Hello"[...].utf8)
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: failed to process "Int" from "He"
+         --> input:1:1-2
+        1 | Hello
+          | ^^
+
+        error: unexpected input
+         --> input:1:1
+        1 | Hello
+          | ^ expected integer
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
+  }
+
+  func testRanking_2() {
+    XCTAssertThrowsError(
+      try OneOf {
+        Int.parser()
+        Prefix(2).compactMap { _ in Int?.none }
+      }
+      .parse("Hello")
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: failed to process "Int" from "He"
+         --> input:1:1-2
+        1 | Hello
+          | ^^
+
+        error: unexpected input
+         --> input:1:1
+        1 | Hello
+          | ^ expected integer
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
+  }
 }
