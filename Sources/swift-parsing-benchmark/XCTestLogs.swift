@@ -1,7 +1,7 @@
 import Benchmark
 import Parsing
 
-/*
+/**
  This benchmark demonstrates how to build process a dump of Xcode test logs to transform them
  in an array of test failures and passes.
  */

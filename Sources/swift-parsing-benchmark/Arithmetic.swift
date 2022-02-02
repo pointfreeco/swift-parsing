@@ -2,65 +2,71 @@ import Benchmark
 import Foundation
 import Parsing
 
-#if canImport(Darwin)
-  import Darwin.C
-#elseif canImport(Glibc)
-  import Glibc
-#endif
+/**
+ This benchmark demonstrates how to parse a recursive grammar: arithmetic.
+ */
+let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
+  struct AdditionAndSubtraction: Parser {
+    func parse(_ input: inout Substring.UTF8View) -> Double? {
+      InfixOperator(associativity: .left) {
+        OneOf {
+          "+".utf8.map { (+) }
+          "-".utf8.map { (-) }
+        }
+      } lowerThan: {
+        MultiplicationAndDivision()
+      }
+      .parse(&input)
+    }
+  }
 
-// MARK: - Parsers
+  struct MultiplicationAndDivision: Parser {
+    func parse(_ input: inout Substring.UTF8View) -> Double? {
+      InfixOperator(associativity: .left) {
+        OneOf {
+          "*".utf8.map { (*) }
+          "/".utf8.map { (/) }
+        }
+      } lowerThan: {
+        Exponent()
+      }
+      .parse(&input)
+    }
+  }
 
-private struct AdditionAndSubtraction: Parser {
-  func parse(_ input: inout Substring.UTF8View) -> Double? {
-    InfixOperator(associativity: .left) {
+  struct Exponent: Parser {
+    func parse(_ input: inout Substring.UTF8View) -> Double? {
+      InfixOperator(associativity: .left) {
+        "^".utf8.map { pow }
+      } lowerThan: {
+        Factor()
+      }
+      .parse(&input)
+    }
+  }
+
+  struct Factor: Parser {
+    func parse(_ input: inout Substring.UTF8View) -> Double? {
       OneOf {
-        "+".utf8.map { (+) }
-        "-".utf8.map { (-) }
+        Parse {
+          "(".utf8
+          AdditionAndSubtraction()
+          ")".utf8
+        }
+
+        Double.parser()
       }
-    } lowerThan: {
-      MultiplicationAndDivision()
+      .parse(&input)
     }
-    .parse(&input)
   }
-}
 
-private struct MultiplicationAndDivision: Parser {
-  func parse(_ input: inout Substring.UTF8View) -> Double? {
-    InfixOperator(associativity: .left) {
-      OneOf {
-        "*".utf8.map { (*) }
-        "/".utf8.map { (/) }
-      }
-    } lowerThan: {
-      Exponent()
-    }
-    .parse(&input)
-  }
-}
-
-private struct Exponent: Parser {
-  func parse(_ input: inout Substring.UTF8View) -> Double? {
-    InfixOperator(associativity: .left) {
-      "^".utf8.map { pow }
-    } lowerThan: {
-      Factor()
-    }
-    .parse(&input)
-  }
-}
-
-private struct Factor: Parser {
-  func parse(_ input: inout Substring.UTF8View) -> Double? {
-    OneOf {
-      Parse {
-        "(".utf8
-        AdditionAndSubtraction()
-        ")".utf8
-      }
-
-      Double.parser()
-    }
-    .parse(&input)
+  let input = "1+2*3/4-5^2"
+  var output: Double!
+  suite.benchmark("Parser") {
+    var input = input[...].utf8
+    output = AdditionAndSubtraction().parse(&input)
+  } tearDown: {
+    precondition(output == -22.5)
   }
 }
 
@@ -122,17 +128,4 @@ where
 public enum Associativity {
   case left
   case right
-}
-
-// MARK: - Suite
-
-let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
-  let input = "1+2*3/4-5^2"
-  var output: Double!
-  suite.benchmark("Parser") {
-    var input = input[...].utf8
-    output = AdditionAndSubtraction().parse(&input)
-  } tearDown: {
-    precondition(output == -22.5)
-  }
 }

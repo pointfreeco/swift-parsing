@@ -2,6 +2,9 @@ import Benchmark
 import Foundation
 import Parsing
 
+/**
+ This benchmark measures the performance of the examples given in the library's README.
+ */
 let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
   let input = """
     1,Blob,true
@@ -65,7 +68,7 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
     }
   }
 
-  suite.benchmark("Adhoc") {
+  suite.benchmark("Ad hoc") {
     output =
       input
       .split(separator: "\n")
@@ -104,13 +107,5 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
     } tearDown: {
       precondition(output == expectedOutput)
     }
-  }
-}
-
-extension Scanner {
-  @available(macOS 10.15, *)
-  func scanBool() -> Bool? {
-    self.scanString("true").map { _ in true }
-      ?? self.scanString("false").map { _ in false }
   }
 }

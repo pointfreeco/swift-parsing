@@ -6,12 +6,11 @@ import Parsing
   import FoundationNetworking
 #endif
 
-/*
+/**
  This benchmark demonstrates how you can build a URL request router that can transform an input
  request into a more well-structured data type, such as an enum. We build a router that can
  recognize one of 5 routes for a website.
  */
-
 let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   #if compiler(>=5.5)
     enum AppRoute: Equatable {

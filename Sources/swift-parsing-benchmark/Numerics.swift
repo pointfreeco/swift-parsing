@@ -2,11 +2,10 @@ import Benchmark
 import Foundation
 import Parsing
 
-/*
+/**
  This benchmark demonstrates how the numeric parsers in the library compare to Apple's tools, such
  as initializers and `Scanner`.
  */
-
 let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
   do {
     let input = "123"

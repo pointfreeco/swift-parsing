@@ -2,6 +2,9 @@ import Benchmark
 import Foundation
 import Parsing
 
+/**
+ This benchmark demonstrates how the UUID parser compares to `UUID`'s initializer.
+ */
 let uuidSuite = BenchmarkSuite(name: "UUID") { suite in
   let input = "deadbeef-dead-beef-dead-beefdeadbeef"
   let expected = UUID(uuidString: "deadbeef-dead-beef-dead-beefdeadbeef")!
@@ -13,7 +16,7 @@ let uuidSuite = BenchmarkSuite(name: "UUID") { suite in
     precondition(output == expected)
   }
 
-  suite.benchmark("UUIDParser") {
+  suite.benchmark("UUID.parser") {
     var input = input[...].utf8
     output = UUID.parser().parse(&input)
   } tearDown: {
