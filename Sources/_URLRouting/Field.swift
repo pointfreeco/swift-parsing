@@ -1,43 +1,33 @@
-public struct Field<ValueParser>: Parser
+// TODO: Should this actually be `ValueParser`?
+
+public struct Field<ValueConversion>: ParserPrinter
 where
-  ValueParser: Parser,
-  ValueParser.Input == Substring
+  ValueConversion: Conversion,
+  ValueConversion.Input == Substring
 {
   @usableFromInline
-  let defaultValue: ValueParser.Output?
+  let defaultValue: ValueConversion.Output?
 
   @usableFromInline
   let name: String
 
   @usableFromInline
-  let valueParser: ValueParser
+  let valueConversion: ValueConversion
 
   @inlinable
   public init(
     _ name: String,
-    _ value: ValueParser,
-    default defaultValue: ValueParser.Output? = nil
+    _ value: ValueConversion,
+    default defaultValue: ValueConversion.Output? = nil
   ) {
     self.defaultValue = defaultValue
     self.name = name
-    self.valueParser = value
+    self.valueConversion = value
   }
 
   @inlinable
-  public init(
-    _ name: String,
-    default defaultValue: ValueParser.Output? = nil
-  ) where ValueParser == Rest<Substring> {
-    self.init(
-      name,
-      Rest(),
-      default: defaultValue
-    )
-  }
-
-  @inlinable
-  public func parse(_ input: inout URLRequestData.Fields) throws -> ValueParser.Output {
-    func defaultOrThrow() throws -> ValueParser.Output {
+  public func parse(_ input: inout URLRequestData.Fields) throws -> ValueConversion.Output {
+    func defaultOrThrow() throws -> ValueConversion.Output {
       guard let defaultValue = self.defaultValue
       else { throw RoutingError() }
 
@@ -46,10 +36,10 @@ where
 
     guard
       let wrapped = input[self.name]?.first,
-      var value = wrapped
+      let value = wrapped
     else { return try defaultOrThrow() }
 
-    let output = try self.valueParser.parse(&value)
+    let output = try self.valueConversion.apply(value)
 
     guard value.isEmpty
     else { return try defaultOrThrow() }
@@ -60,12 +50,10 @@ where
     }
     return output
   }
-}
 
-extension Field: Printer where ValueParser: Printer {
   @inlinable
-  public func print(_ output: ValueParser.Output, to input: inout URLRequestData.Fields) rethrows {
+  public func print(_ output: ValueConversion.Output, to input: inout URLRequestData.Fields) rethrows {
     if let defaultValue = self.defaultValue, isEqual(output, defaultValue) { return }
-    input[self.name, default: []].append(try valueParser.print(output))
+    input[self.name, default: []].append(try valueConversion.unapply(output))
   }
 }

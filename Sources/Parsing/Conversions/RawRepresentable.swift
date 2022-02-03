@@ -1,8 +1,9 @@
 extension Conversion {
   @inlinable
-  public static func represented<Output>(as _: Output.Type) -> Self
-  where Self == Conversions.RawRepresentableConversion<Output> {
-    .init()
+  public func represented<NewOutput>(
+    as _: NewOutput.Type
+  ) -> Conversions.Map<Self, Conversions.RawRepresentableConversion<NewOutput>> {
+    self.map(.init())
   }
 }
 
