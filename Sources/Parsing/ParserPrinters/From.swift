@@ -31,3 +31,28 @@ where
     input = try self.conversion.unapply(parserInput)
   }
 }
+
+extension Parsers {
+  public struct Identity<InputOutput>: ParserPrinter {
+    @usableFromInline
+    init() {}
+
+    @inlinable
+    public func parse(_ input: inout InputOutput) -> InputOutput {
+      input
+    }
+
+    @inlinable
+    public func print(_ output: InputOutput, to input: inout InputOutput) {
+      input = output
+    }
+  }
+}
+
+extension From {
+  @inlinable
+  public init(_ conversion: Upstream) where Downstream == Parsers.Identity<Upstream.Output> {
+    self.conversion = conversion
+    self.parser = .init()
+  }
+}

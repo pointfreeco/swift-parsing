@@ -11,6 +11,5 @@ public struct PathEnd: Parser {
 
 extension PathEnd: Printer {
   @inlinable
-  public func print(_ output: Void, to input: inout Input) {
-  }
+  public func print(_ output: Void, to input: inout Input) {}
 }
