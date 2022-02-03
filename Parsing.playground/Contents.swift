@@ -23,6 +23,7 @@ let field = OneOf {
 
   Prefix { $0 != "," }
 }
+  .map(apply: { String($0) }, unapply: { Substring($0) })
 
 let zeroOrOneSpace = OneOf {
   " "
@@ -42,6 +43,10 @@ let user = Parse {
   }
   Bool.parser()
 }
+  .map(
+    apply: User.init,
+    unapply: { ($0.id, $0.name, $0.admin) }
+  )
 
 let users = Many {
   user
@@ -130,7 +135,7 @@ input
 
 struct PrintingError: Error {}
 
-extension Prefix: Printer where Input == Substring {
+extension Prefix: Printer where Input: AppendableCollection {
   func print(_ output: Input, to input: inout Input) throws {
     guard output.allSatisfy(self.predicate!)
     else { throw PrintingError() }
@@ -138,6 +143,8 @@ extension Prefix: Printer where Input == Substring {
     input.append(contentsOf: output)
   }
 }
+
+1
 
 try Prefix
 { $0 != "," }.parse("Hello")
@@ -267,11 +274,9 @@ extension Parsers.ZipVV: Printer where P0: Printer, P1: Printer {
 }
 
 
-extension Parsers.IntParser: Printer where Input == Substring.UTF8View {
-  func print(_ output: Output, to input: inout Substring.UTF8View) throws {
-    var substring = Substring(input)
-    substring.append(contentsOf: String(output, radix: self.radix))
-    input = substring.utf8
+extension Parsers.IntParser: Printer where Input: AppendableCollection {
+  func print(_ output: Output, to input: inout Input) throws {
+    input.append(contentsOf: String(output, radix: self.radix).utf8)
   }
 }
 
@@ -289,11 +294,9 @@ try Parse { "Hello "; Int.parser(); "!" }
   .print(42, to: &input)
 input // "Hello 42!"
 
-extension Parsers.BoolParser: Printer where Input == Substring.UTF8View {
-  func print(_ output: Bool, to input: inout Substring.UTF8View) throws {
-    var substring = Substring(input)
-    substring.append(contentsOf: String(output))
-    input = substring.utf8
+extension Parsers.BoolParser: Printer where Input: AppendableCollection {
+  func print(_ output: Bool, to input: inout Input) throws {
+    input.append(contentsOf: String(output).utf8)
   }
 }
 
@@ -309,7 +312,7 @@ extension Parsers.ZipOVOVO: Printer where P0: Printer, P1: Printer, P2: Printer,
 
 
 input = ""
-try user.print((id: 1, name: "Blob, Esq.", admin: true), to: &input)
+try user.print(User(id: 1, name: "Blob, Esq.", admin: true), to: &input)
 input // "1,"Blob, Esq.",true"
 
 
@@ -325,7 +328,7 @@ where
     var firstElement = true
     for elementOutput in output {
       defer { firstElement = false }
-      if firstElement {
+      if !firstElement {
         try self.separator.print((), to: &input)
       }
       try self.element.print(elementOutput, to: &input)
@@ -337,9 +340,190 @@ where
 input = ""
 try users.print(
   [
-    (id: 1, name: "Blob", admin: true),
-    (id: 2, name: "Blob, Esq.", admin: true)
+    User(id: 1, name: "Blob", admin: true),
+    User(id: 2, name: "Blob, Esq.", admin: true)
   ],
   to: &input
 )
 input // "1,Blob,true\n2,"Blob, Esq.",true\n"
+
+
+protocol AppendableCollection: Collection {
+  mutating func append<S: Sequence>(contentsOf elements: S) where S.Element == Element
+}
+
+extension Substring.UTF8View: AppendableCollection {
+  public mutating func append<S>(contentsOf newElements: S)
+  where
+S: Sequence,
+  String.UTF8View.Element == S.Element
+  {
+    var result = Substring(self)
+    result.append(contentsOf: Substring(decoding: Array(newElements), as: UTF8.self))
+    self = result.utf8
+  }
+}
+
+import Foundation
+
+extension Substring: AppendableCollection {}
+extension ArraySlice: AppendableCollection {}
+extension Data: AppendableCollection {}
+extension Substring.UnicodeScalarView: AppendableCollection {}
+
+extension String.UTF8View: Printer {
+  func print(_ output: (), to input: inout Substring.UTF8View) throws {
+    input.append(contentsOf: self)
+  }
+}
+
+
+let fieldUtf8 = OneOf {
+  Parse {
+    "\"".utf8
+    Prefix { $0 != .init(ascii: "\"") }
+    "\"".utf8
+  }
+
+  Prefix { $0 != .init(ascii: ",") }
+}
+
+Substring(try fieldUtf8.parse("\"Blob, Esq.\"".utf8))
+
+var inputUtf8 = ""[...].utf8
+try fieldUtf8.print("Blob, Esq."[...].utf8, to: &inputUtf8)
+Substring(inputUtf8) // ""Blob, Esq.""
+
+
+
+
+let userUtf8 = Parse {
+  Int.parser()
+  ",".utf8
+  fieldUtf8
+  ",".utf8
+  Bool.parser()
+}
+
+inputUtf8 = ""[...].utf8
+try userUtf8.print((id: 1, name: "Blob"[...].utf8, true), to: &inputUtf8)
+Substring(inputUtf8) // "1,Blob,true"
+
+let usersUtf8 = Many {
+  userUtf8
+} separator: {
+  "\n".utf8
+} terminator: {
+  End()
+}
+
+inputUtf8 = ""[...].utf8
+try usersUtf8.print(
+  [
+    (id: 1, name: "Blob"[...].utf8, true),
+    (id: 2, name: "Blob Jr."[...].utf8, false),
+    (id: 3, name: "Blob, Esq."[...].utf8, true),
+  ],
+  to: &inputUtf8
+)
+Substring(inputUtf8) // "1,Blob,true\n2,Blob Jr.,false\n3,"Blob, Esq.",true"
+
+
+
+extension Parser {
+  func map<NewOutput>(
+    apply: @escaping (Output) -> NewOutput,
+    unapply: @escaping (NewOutput) -> Output
+  ) -> Parsers.MapConversion<Self, NewOutput> {
+    .init(upstream: self, apply: apply, unapply: unapply)
+  }
+}
+
+extension Parsers {
+  struct MapConversion<Upstream: Parser & Printer, NewOutput>: Parser, Printer {
+    let upstream: Upstream
+    let apply: (Upstream.Output) -> NewOutput
+    let unapply: (NewOutput) -> Upstream.Output
+
+    func parse(_ input: inout Upstream.Input) throws -> NewOutput {
+      self.apply(try self.upstream.parse(&input))
+    }
+    func print(_ output: NewOutput, to input: inout Upstream.Input) throws {
+      try self.upstream.print(self.unapply(output), to: &input)
+    }
+  }
+}
+
+
+let fieldString = OneOf {
+  Parse {
+    "\""
+    Prefix { $0 != "\"" }
+    "\""
+  }
+
+  Prefix { $0 != "," }
+}
+  .map(apply: { String($0) }, unapply: { Substring($0) })
+//  .map(String.init)
+
+input = ""
+try fieldString.print("Blob, Esq.", to: &input)
+input
+
+
+extension Parse {
+  init<Upstream, NewOutput>(
+    apply: @escaping (Upstream.Output) -> NewOutput,
+    unapply: @escaping (NewOutput) -> Upstream.Output,
+    @ParserBuilder with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.MapConversion<Upstream, NewOutput> {
+    self.init({ build().map(apply: apply, unapply: unapply) })
+  }
+  init<Upstream, NewOutput>(
+    _ conversion: Conversion<Upstream.Output, NewOutput>,
+    @ParserBuilder with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.MapConversion<Upstream, NewOutput> {
+    self.init({ build().map(apply: conversion.apply, unapply: conversion.unapply) })
+  }
+}
+
+
+struct Conversion<Input, Output> {
+  let apply: (Input) -> Output
+  let unapply: (Output) -> Input
+
+  static func destructure(
+    _ `init`: @escaping (Input) -> Output
+  ) -> Conversion<Input, Output> {
+    .init(
+      apply: `init`,
+      unapply: {
+        unsafeBitCast($0, to: Input.self)
+      }
+    )
+  }
+}
+
+
+let user_ = Parse(.destructure(User.init(id:name:admin:))) {
+  Int.parser()
+  Skip {
+    ","
+    zeroOrOneSpace
+  }
+  field
+  Skip {
+    ","
+    zeroOrOneSpace
+  }
+  Bool.parser()
+}
+
+
+//unsafeBitCast("Hello", to: Substring.self)
+
+
+
+1
+

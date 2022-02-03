@@ -52,3 +52,19 @@ extension Parsers {
     }
   }
 }
+
+//extension Parsers.Pipe: Printer
+//where
+//Upstream: Printer,
+//Downstream: Printer
+//{
+//  // Downstream<B, C>
+//  // Upstream<A, B>
+//  // Upstream.Output == Downstream.Input
+//
+//  public func print(_ output: Downstream.Output, to input: inout Upstream.Input) throws {
+//    var x: Downstream.Input!
+//    try self.downstream.print(output, to: &x)
+//    try self.upstream.print(x, to: &input)
+//  }
+//}
