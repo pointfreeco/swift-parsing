@@ -10,11 +10,11 @@ import Parsing
  */
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   enum JSONValue: Equatable {
-    indirect case array([JSONValue])
+    case array([Self])
     case boolean(Bool)
     case null
     case number(Double)
-    indirect case object([String: JSONValue])
+    case object([String: Self])
     case string(String)
   }
 
