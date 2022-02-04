@@ -3,8 +3,8 @@ public struct Method: Parser {
   let name: String
 
   public static let get = OneOf {
-    Self("GET")
     Self("HEAD")
+    Self("GET")
   }
 
   public static let post = Self("POST")
