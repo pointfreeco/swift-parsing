@@ -1,8 +1,6 @@
-extension Parser {
-  // FIXME: Symbol fails when referenced from `pointfreeco`/`isowords`
+extension Printer where Input == URLRequestData {
   @inlinable
-  public func print(_ output: Output) rethrows -> URLRequestData
-  where Self: Printer, Input == URLRequestData {
+  public func print(_ output: Output) rethrows -> URLRequestData {
     var request = URLRequestData()
     try self.print(output, to: &request)
     return request
