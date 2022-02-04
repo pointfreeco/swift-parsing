@@ -42,34 +42,34 @@
      }
  */
 
-public struct Field<ValueConversion>: ParserPrinter
+public struct Field<ValueParser>: Parser
 where
-  ValueConversion: Conversion,
-  ValueConversion.Input == Substring
+  ValueParser: Parser,
+  ValueParser.Input == Substring
 {
   @usableFromInline
-  let defaultValue: ValueConversion.Output?
+  let defaultValue: ValueParser.Output?
 
   @usableFromInline
   let name: String
 
   @usableFromInline
-  let valueConversion: ValueConversion
+  let valueParser: ValueParser
 
   @inlinable
   public init(
     _ name: String,
-    _ value: ValueConversion,
-    default defaultValue: ValueConversion.Output? = nil
+    _ value: ValueParser,
+    default defaultValue: ValueParser.Output? = nil
   ) {
     self.defaultValue = defaultValue
     self.name = name
-    self.valueConversion = value
+    self.valueParser = value
   }
 
   @inlinable
-  public func parse(_ input: inout URLRequestData.Fields) throws -> ValueConversion.Output {
-    func defaultOrThrow() throws -> ValueConversion.Output {
+  public func parse(_ input: inout URLRequestData.Fields) throws -> ValueParser.Output {
+    func defaultOrThrow() throws -> ValueParser.Output {
       guard let defaultValue = self.defaultValue
       else { throw RoutingError() }
 
@@ -78,10 +78,10 @@ where
 
     guard
       let wrapped = input[self.name]?.first,
-      let value = wrapped
+      var value = wrapped
     else { return try defaultOrThrow() }
 
-    let output = try self.valueConversion.apply(value)
+    let output = try self.valueParser.parse(&value)
 
     guard value.isEmpty
     else { return try defaultOrThrow() }
@@ -92,10 +92,12 @@ where
     }
     return output
   }
+}
 
+extension Field: Printer where ValueParser: Printer {
   @inlinable
-  public func print(_ output: ValueConversion.Output, to input: inout URLRequestData.Fields) rethrows {
+  public func print(_ output: ValueParser.Output, to input: inout URLRequestData.Fields) rethrows {
     if let defaultValue = self.defaultValue, isEqual(output, defaultValue) { return }
-    input[self.name, default: []].append(try valueConversion.unapply(output))
+    input[self.name, default: []].append(try valueParser.print(output))
   }
 }

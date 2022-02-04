@@ -1,16 +1,23 @@
 extension Conversion {
   @inlinable
-  public func converted<NewOutput>(
+  public static func losslessStringConvertible<NewOutput>(
     to _: NewOutput.Type
-  ) -> Conversions.Map<Self, Conversions.LosslessStringConvertibleConversion<NewOutput>> {
-    self.map(.init())
+  ) -> Self where Self == Conversions.LosslessStringConvertible<NewOutput> {
+    .init()
+  }
+
+  @inlinable
+  public func losslessStringConvertible<NewOutput>(
+    to _: NewOutput.Type
+  ) -> Conversions.Map<Self, Conversions.LosslessStringConvertible<NewOutput>> {
+    self.map(.losslessStringConvertible(to: NewOutput.self))
   }
 }
 
 extension Conversions {
-  public struct LosslessStringConvertibleConversion<Output>: Conversion
+  public struct LosslessStringConvertible<Output>: Conversion
   where
-    Output: LosslessStringConvertible
+    Output: Swift.LosslessStringConvertible
   {
     @usableFromInline
     init() {}

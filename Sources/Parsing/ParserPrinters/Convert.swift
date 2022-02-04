@@ -1,13 +1,10 @@
-// FIXME: `Component` is more generic than URL routing and should be renamed / moved into `Parsing`
-
-public struct Component<Downstream>: Parser
+public struct Convert<Downstream>: Parser
 where
   Downstream: Conversion,
   Downstream.Input: Collection,
   Downstream.Input.SubSequence == Downstream.Input
 {
-  @usableFromInline
-  let conversion: Downstream
+  public let conversion: Downstream
 
   @inlinable
   public init(_ conversion: Downstream) {
@@ -22,7 +19,7 @@ where
   }
 }
 
-extension Component: Printer where Downstream.Input: AppendableCollection {
+extension Convert: Printer where Downstream.Input: AppendableCollection {
   @inlinable
   public func print(_ output: Downstream.Output, to input: inout Downstream.Input) rethrows {
     input.append(contentsOf: try self.conversion.unapply(output))

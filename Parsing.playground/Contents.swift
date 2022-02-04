@@ -33,36 +33,71 @@ do {
 
 import _URLRouting
 
-struct Component<Downstream>: Parser
-where
-  Downstream: Conversion,
-  Downstream.Input: Collection,
-  Downstream.Input.SubSequence == Downstream.Input
-{
-  let conversion: Downstream
+struct EpisodeID: RawRepresentable {
+  var rawValue: Int
+}
 
-  init(_ conversion: Downstream) {
-    self.conversion = conversion
-  }
+enum EpisodeRoute {
+  case comments(page: Int, perPage: Int)
+}
 
-  func parse(_ input: inout Downstream.Input) rethrows -> Downstream.Output {
-    let output = try self.conversion.apply(input)
-    input = input[input.endIndex...]
-    return output
+enum AppRoute {
+  case episode(id: EpisodeID, route: EpisodeRoute)
+}
+
+let episodeRouter = Route(/EpisodeRoute.comments) {
+  Path { "comments" }
+  Query {
+    Field("page", Int.parser()).replaceError(with: 1)
+    Field("per-page", Int.parser()).replaceError(with: 10)
   }
 }
 
-extension Component: Printer where Downstream.Input: AppendableCollection {
-  func print(_ output: Downstream.Output, to input: inout Downstream.Input) rethrows {
-    input.append(contentsOf: try self.conversion.unapply(output))
+//let router = Route(/AppRoute.episode) {
+//  Path {
+//    "episodes"
+////    Parse(.rawRepresentable(as: EpisodeID.self)) { Int.parser() }
+//    Parse(.string.losslessStringConvertible(to: Int.self).rawRepresentable(as: EpisodeID.self)) {
+//      Rest()
+//    }
+//  }
+//
+//  episodeRouter
+//}
+
+let x = Path {
+  Int.parser().map(.rawRepresentable(as: EpisodeID.self))
+
+  Parse(.rawRepresentable(as: EpisodeID.self)) { Int.parser() }
+
+  Rest().map(.string.losslessStringConvertible(to: Int.self).rawRepresentable(as: EpisodeID.self))
+
+  // Should `Rest` be the default when this trailing closure is omitted?
+  Parse(.string.losslessStringConvertible(to: Int.self).rawRepresentable(as: EpisodeID.self)) {
+    Rest()
   }
+
+  // Or should there be a dedicated parser?
+  Convert(.string.losslessStringConvertible(to: Int.self).rawRepresentable(as: EpisodeID.self))
+
+  // Or can we reuse `From` somehow?
+  // From(.string.losslessStringConvertible(to: Int.self).rawRepresentable(as: EpisodeID.self))
+
+  // Should we flatten `string` and `losslessStringConvertible` and `rawRepresentable`?
+  // Convert(.to(EpisodeID.self))
+
+  // Should `Path` speak `Conversion` instead? What does that mean for dot syntax?
+  // Should `Query` speak `Conversion` instead?
+  // Should parser printers conform to `Conversion` whenever possible?
+  // Should conversions conform to `ParserPrinter` whenever possible?
 }
 
-dump(
-  try Path {
-    Int.parser()
-    Component(.string.converted(to: Int.self))
-    "Hello"
-  }
-  .parse(URLRequestData(string: "12/34/Hello/123")!)
-)
+struct Login: Codable {
+  var username: String
+  var password: String
+}
+
+import Foundation
+
+
+let y = Body { Convert(.data.json(Login.self)) }
