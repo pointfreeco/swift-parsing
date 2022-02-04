@@ -1,6 +1,6 @@
 extension Parser {
   // FIXME: Symbol fails when referenced from `pointfreeco`/`isowords`
-//  @inlinable
+  @inlinable
   public func print(_ output: Output) rethrows -> URLRequestData
   where Self: Printer, Input == URLRequestData {
     var request = URLRequestData()
