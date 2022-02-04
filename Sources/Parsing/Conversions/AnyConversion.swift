@@ -5,6 +5,7 @@ public struct AnyConversion<Input, Output>: Conversion {
   @usableFromInline
   let _unapply: (Output) throws -> Input
 
+  @_disfavoredOverload
   public init(
     apply: @escaping (Input) throws -> Output,
     unapply: @escaping (Output) throws -> Input
