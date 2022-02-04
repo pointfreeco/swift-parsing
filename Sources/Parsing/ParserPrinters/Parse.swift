@@ -32,6 +32,13 @@ public struct Parse<Parsers>: Parser where Parsers: Parser {
   }
 
   @inlinable
+  public init<Downstream>(
+    _ conversion: Downstream
+  ) where Parsers == Parsing.Parsers.MapConversion<Rest<Downstream.Input>, Downstream> {
+    self.parsers = Rest().map(conversion)
+  }
+
+  @inlinable
   public func parse(_ input: inout Parsers.Input) rethrows -> Parsers.Output {
     try self.parsers.parse(&input)
   }

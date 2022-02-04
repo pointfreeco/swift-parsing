@@ -3,6 +3,7 @@ where
   RouteParser: Parser,
   RouteParser.Input == URLRequestData
 {
+  // TODO: Generalize to any conversion.
   @usableFromInline
   let parser: Parsers.MapConversion<RouteParser, CasePath<Route, RouteParser.Output>>
 

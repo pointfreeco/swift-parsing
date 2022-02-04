@@ -66,25 +66,11 @@ let episodeRouter = Route(/EpisodeRoute.comments) {
 //}
 
 let x = Path {
-  Int.parser().map(.rawRepresentable(as: EpisodeID.self))
+  Int.parser().map(.rawValue(of: EpisodeID.self))
 
-  Parse(.rawRepresentable(as: EpisodeID.self)) { Int.parser() }
+  Parse(.rawValue(of: EpisodeID.self)) { Int.parser() }
 
-  Rest().map(.string.losslessStringConvertible(to: Int.self).rawRepresentable(as: EpisodeID.self))
-
-  // Should `Rest` be the default when this trailing closure is omitted?
-  Parse(.string.losslessStringConvertible(to: Int.self).rawRepresentable(as: EpisodeID.self)) {
-    Rest()
-  }
-
-  // Or should there be a dedicated parser?
-  Convert(.string.losslessStringConvertible(to: Int.self).rawRepresentable(as: EpisodeID.self))
-
-  // Or can we reuse `From` somehow?
-  // From(.string.losslessStringConvertible(to: Int.self).rawRepresentable(as: EpisodeID.self))
-
-  // Should we flatten `string` and `losslessStringConvertible` and `rawRepresentable`?
-  // Convert(.to(EpisodeID.self))
+  Parse(.string.losslessString(of: Int.self).rawValue(of: EpisodeID.self))
 
   // Should `Path` speak `Conversion` instead? What does that mean for dot syntax?
   // Should `Query` speak `Conversion` instead?
@@ -100,4 +86,4 @@ struct Login: Codable {
 import Foundation
 
 
-let y = Body { Convert(.data.json(Login.self)) }
+let y = Body { Parse(.data.json(Login.self)) }
