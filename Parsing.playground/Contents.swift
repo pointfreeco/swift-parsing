@@ -8,6 +8,37 @@ var input = """
 4,"Blob, Esq.",true
 """[...]
 
+struct Conversion<Input, Output> {
+  let apply: (Input) -> Output
+  let unapply: (Output) -> Input
+
+  static func destructure(
+    _ `init`: @escaping (Input) -> Output
+  ) -> Conversion<Input, Output> {
+    .init(
+      apply: `init`,
+      unapply: {
+        unsafeBitCast($0, to: Input.self)
+      }
+    )
+  }
+}
+extension Parser where Self: Printer {
+  func map<NewOutput>(
+    _ conversion: Conversion<Output, NewOutput>
+  ) -> AnyParserPrinter<Input, NewOutput> {
+    .init(
+      parse: { input in
+        try conversion.apply(self.parse(&input))
+      },
+      print: { newOutput, input in
+        try self.print(conversion.unapply(newOutput), to: &input)
+      }
+    )
+  }
+}
+
+
 struct User {
   var id: Int
   var name: String
@@ -23,7 +54,7 @@ let field = OneOf {
 
   Prefix { $0 != "," }
 }
-  .map(apply: { String($0) }, unapply: { Substring($0) })
+  .map(.init(apply: { String($0) }, unapply: { Substring($0) }))
 
 let zeroOrOneSpace = OneOf {
   " "
@@ -44,9 +75,17 @@ let user = Parse {
   Bool.parser()
 }
   .map(
-    apply: User.init,
-    unapply: { ($0.id, $0.name, $0.admin) }
+    .init(
+      apply: User.init(id:name:admin:),
+      unapply: { ($0.id, $0.name, $0.admin) }
+    )
   )
+//  .map(
+//    .init(
+//      apply: User.init,
+//      unapply: { ($0.id, $0.name, $0.admin) }
+//    )
+//  )
 
 let users = Many {
   user
@@ -60,6 +99,15 @@ let parsedUsers = try users.parse(&input)
 input
 1
 
+input = ""
+try users.print(
+  [
+    .init(id: 1, name: "Blob", admin: true),
+    .init(id: 2, name: "Blob, Esq.", admin: true),
+  ],
+  to: &input
+)
+input
 
 
 func print(user: User) -> String {
@@ -428,31 +476,28 @@ try usersUtf8.print(
 )
 Substring(inputUtf8) // "1,Blob,true\n2,Blob Jr.,false\n3,"Blob, Esq.",true"
 
-
-
-extension Parser {
-  func map<NewOutput>(
-    apply: @escaping (Output) -> NewOutput,
-    unapply: @escaping (NewOutput) -> Output
-  ) -> Parsers.MapConversion<Self, NewOutput> {
-    .init(upstream: self, apply: apply, unapply: unapply)
+struct AnyParserPrinter<Input, Output>: Parser, Printer {
+  let parse: (inout Input) throws -> Output
+  let print: (Output, inout Input) throws -> Void
+  func parse(_ input: inout Input) throws -> Output {
+    try self.parse(&input)
+  }
+  func print(_ output: Output, to input: inout Input) throws {
+    try self.print(output, &input)
   }
 }
 
-extension Parsers {
-  struct MapConversion<Upstream: Parser & Printer, NewOutput>: Parser, Printer {
-    let upstream: Upstream
-    let apply: (Upstream.Output) -> NewOutput
-    let unapply: (NewOutput) -> Upstream.Output
 
-    func parse(_ input: inout Upstream.Input) throws -> NewOutput {
-      self.apply(try self.upstream.parse(&input))
-    }
-    func print(_ output: NewOutput, to input: inout Upstream.Input) throws {
-      try self.upstream.print(self.unapply(output), to: &input)
-    }
-  }
+struct SomeError: Error {}
+let adHocQuotedField = AnyParser<Substring, Substring> { input in
+  guard input.removeFirst() == "\n"
+  else { throw SomeError() }
+  let field = input.prefix(while: { $0 != "\"" })
+  guard input.removeFirst() == "\n"
+  else { throw SomeError() }
+  return field
 }
+
 
 
 let fieldString = OneOf {
@@ -464,49 +509,34 @@ let fieldString = OneOf {
 
   Prefix { $0 != "," }
 }
-  .map(apply: { String($0) }, unapply: { Substring($0) })
-//  .map(String.init)
+//  .map(.init(apply: <#T##(Substring) -> String#>, unapply: <#T##(String) -> Substring#>))
+  .map(.init(apply: { String($0) }, unapply: { Substring($0) }))
 
 input = ""
 try fieldString.print("Blob, Esq.", to: &input)
 input
 
 
-extension Parse {
-  init<Upstream, NewOutput>(
-    apply: @escaping (Upstream.Output) -> NewOutput,
-    unapply: @escaping (NewOutput) -> Upstream.Output,
-    @ParserBuilder with build: () -> Upstream
-  ) where Parsers == Parsing.Parsers.MapConversion<Upstream, NewOutput> {
-    self.init({ build().map(apply: apply, unapply: unapply) })
-  }
-  init<Upstream, NewOutput>(
-    _ conversion: Conversion<Upstream.Output, NewOutput>,
-    @ParserBuilder with build: () -> Upstream
-  ) where Parsers == Parsing.Parsers.MapConversion<Upstream, NewOutput> {
-    self.init({ build().map(apply: conversion.apply, unapply: conversion.unapply) })
-  }
-}
+//extension Parse {
+//  init<Upstream, NewOutput>(
+//    apply: @escaping (Upstream.Output) -> NewOutput,
+//    unapply: @escaping (NewOutput) -> Upstream.Output,
+//    @ParserBuilder with build: () -> Upstream
+//  ) where Parsers == Parsing.Parsers.MapConversion<Upstream, NewOutput> {
+//    self.init({ build().map(apply: apply, unapply: unapply) })
+//  }
+//  init<Upstream, NewOutput>(
+//    _ conversion: Conversion<Upstream.Output, NewOutput>,
+//    @ParserBuilder with build: () -> Upstream
+//  ) where Parsers == Parsing.Parsers.MapConversion<Upstream, NewOutput> {
+//    self.init({ build().map(apply: conversion.apply, unapply: conversion.unapply) })
+//  }
+//}
 
 
-struct Conversion<Input, Output> {
-  let apply: (Input) -> Output
-  let unapply: (Output) -> Input
-
-  static func destructure(
-    _ `init`: @escaping (Input) -> Output
-  ) -> Conversion<Input, Output> {
-    .init(
-      apply: `init`,
-      unapply: {
-        unsafeBitCast($0, to: Input.self)
-      }
-    )
-  }
-}
 
 
-let user_ = Parse(.destructure(User.init(id:name:admin:))) {
+let user_ = Parse { // (.destructure(User.init(id:name:admin:)))
   Int.parser()
   Skip {
     ","
