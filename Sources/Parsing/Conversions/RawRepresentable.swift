@@ -1,27 +1,17 @@
 extension Conversion {
   @inlinable
-  public static func rawValue<NewOutput>(
-    of _: NewOutput.Type
+  public static func representing<NewOutput>(
+    _: NewOutput.Type
   ) -> Self where Self == Conversions.RawRepresentable<NewOutput> {
     .init()
   }
 
   @inlinable
-  public func rawValue<NewOutput>(
-    of _: NewOutput.Type
+  public func representing<NewOutput>(
+    _: NewOutput.Type
   ) -> Conversions.Map<Self, Conversions.RawRepresentable<NewOutput>> {
-    self.map(.rawValue(of: NewOutput.self))
+    self.map(.representing(NewOutput.self))
   }
-
-//  @inlinable
-//  public static func rawValue<NewOutput>(
-//    of _: NewOutput.Type
-//  ) -> Self
-//  where Self == Conversions.Map<
-//    Conversions.SubstringToString, Conversions.RawRepresentable<NewOutput>
-//  > {
-//    Conversions.SubstringToString().rawValue(of: NewOutput.self)
-//  }
 }
 
 extension Conversions {

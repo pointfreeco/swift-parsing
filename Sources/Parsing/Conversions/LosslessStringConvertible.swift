@@ -1,16 +1,16 @@
 extension Conversion {
   @inlinable
-  public static func losslessString<NewOutput>(
-    of _: NewOutput.Type
+  public static func lossless<NewOutput>(
+    _: NewOutput.Type
   ) -> Self where Self == Conversions.LosslessStringConvertible<NewOutput> {
     .init()
   }
 
   @inlinable
-  public func losslessString<NewOutput>(
-    of _: NewOutput.Type
+  public func lossless<NewOutput>(
+    _: NewOutput.Type
   ) -> Conversions.Map<Self, Conversions.LosslessStringConvertible<NewOutput>> {
-    self.map(.losslessString(of: NewOutput.self))
+    self.map(.lossless(NewOutput.self))
   }
 }
 
