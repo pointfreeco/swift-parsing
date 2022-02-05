@@ -50,12 +50,14 @@ extension Parsers.ReplaceError: Printer where Upstream: Printer {
   @inlinable
   public func print(_ output: Upstream.Output, to input: inout Upstream.Input) rethrows {
     let original = input
-    // TODO: Is this implementation correct?
     do {
       try self.upstream.print(output, to: &input)
+      var `default` = original
+      if (try? self.upstream.print(self.output, to: &`default`)) != nil, isEqual(input, `default`) {
+        input = original
+      }
     } catch {
       input = original
-      try self.upstream.print(self.output, to: &input)
     }
   }
 }
