@@ -48,7 +48,7 @@ extension Parsers {
 
 extension Parsers.ReplaceError: Printer where Upstream: Printer {
   @inlinable
-  public func print(_ output: Upstream.Output, to input: inout Upstream.Input) rethrows {
+  public func print(_ output: Upstream.Output, to input: inout Upstream.Input) {
     let original = input
     do {
       try self.upstream.print(output, to: &input)

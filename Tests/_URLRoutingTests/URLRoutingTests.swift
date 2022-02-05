@@ -85,11 +85,11 @@ class URLRoutingTests: XCTestCase {
     XCTAssertEqual([:], request.query)
 
     XCTAssertNoDifference(
-      try p.print(10),
+      p.print(10),
       URLRequestData(query: ["page": ["10"]])
     )
     XCTAssertNoDifference(
-      try p.print(1),
+      p.print(1),
       URLRequestData(query: [:])
     )
   }
