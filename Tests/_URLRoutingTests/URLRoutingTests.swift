@@ -56,7 +56,7 @@ class URLRoutingTests: XCTestCase {
 
   func testQueryDefault() throws {
     let p = Query {
-      Field("page", Int.parser().replaceError(with: 1))
+      Field("page", Int.parser()).replaceError(with: 1)
     }
 
     var request = URLRequestData(string: "/")!
