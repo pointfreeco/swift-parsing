@@ -56,27 +56,7 @@ class URLRoutingTests: XCTestCase {
 
   func testQueryDefault() throws {
     let p = Query {
-      Field("page", Int.parser(), default: 1)
-    }
-
-    var request = URLRequestData(string: "/")!
-    let page = try p.parse(&request)
-    XCTAssertEqual(1, page)
-    XCTAssertEqual([:], request.query)
-
-    XCTAssertNoDifference(
-      try p.print(10),
-      URLRequestData(query: ["page": ["10"]])
-    )
-    XCTAssertNoDifference(
-      try p.print(1),
-      URLRequestData(query: [:])
-    )
-  }
-
-  func testQueryDefault2() throws {
-    let p = Query {
-      Field("page", Int.parser()).replaceError(with: 1)
+      Field("page", Int.parser().replaceError(with: 1))
     }
 
     var request = URLRequestData(string: "/")!

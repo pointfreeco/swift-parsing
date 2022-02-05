@@ -22,7 +22,8 @@ public struct Method: Parser {
 
   @inlinable
   public func parse(_ input: inout URLRequestData) throws {
-    guard input.method?.uppercased() == self.name else { throw RoutingError() }
+    guard let method = input.method else { throw RoutingError() }
+    try Parse { self.name; End() }.parse(method)
     input.method = nil
   }
 }

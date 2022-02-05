@@ -4,8 +4,7 @@ public struct PathEnd: Parser {
 
   @inlinable
   public func parse(_ input: inout URLRequestData) throws {
-    guard input.path.isEmpty
-    else { throw RoutingError() }
+    try End().parse(input.path)
   }
 }
 

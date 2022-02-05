@@ -47,10 +47,6 @@ where
   ValueParser: Parser,
   ValueParser.Input == Substring
 {
-  // FIXME: We should probably just use `.replaceError(with:)` here? See `_URLRoutingTests`...
-  @usableFromInline
-  let defaultValue: ValueParser.Output?
-
   @usableFromInline
   let name: String
 
@@ -60,32 +56,20 @@ where
   @inlinable
   public init(
     _ name: String,
-    _ value: ValueParser,
-    default defaultValue: ValueParser.Output? = nil
+    _ value: ValueParser
   ) {
-    self.defaultValue = defaultValue
     self.name = name
     self.valueParser = value
   }
 
   @inlinable
   public func parse(_ input: inout URLRequestData.Fields) throws -> ValueParser.Output {
-    func defaultOrThrow() throws -> ValueParser.Output {
-      guard let defaultValue = self.defaultValue
-      else { throw RoutingError() }
-
-      return defaultValue
-    }
-
     guard
       let wrapped = input[self.name]?.first,
       var value = wrapped
-    else { return try defaultOrThrow() }
+    else { throw RoutingError() }
 
-    let output = try self.valueParser.parse(&value)
-
-    guard value.isEmpty
-    else { return try defaultOrThrow() }
+    let output = try Parse { self.valueParser; End() }.parse(&value)
 
     input[self.name]?.removeFirst()
     if input[self.name]?.isEmpty ?? true {
@@ -98,7 +82,6 @@ where
 extension Field: Printer where ValueParser: Printer {
   @inlinable
   public func print(_ output: ValueParser.Output, to input: inout URLRequestData.Fields) rethrows {
-    if let defaultValue = self.defaultValue, isEqual(output, defaultValue) { return }
     input[self.name, default: []].append(try valueParser.print(output))
   }
 }

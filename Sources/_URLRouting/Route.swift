@@ -26,16 +26,11 @@ where
 
   @inlinable
   public func parse(_ input: inout URLRequestData) throws -> Route {
-    let original = input
     let output = try self.parser.parse(&input)
-    guard
-      input.path.isEmpty,
-      input.method == nil || input.method == "GET"
-    else {
-      input = original
-      throw RoutingError()
+    if input.method != nil {
+      try Method.get.parse(&input)
     }
-    input.method = nil
+    try End().parse(input.path)
     return output
   }
 }
