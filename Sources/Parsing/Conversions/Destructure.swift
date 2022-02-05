@@ -1,8 +1,8 @@
 extension Conversion {
   @inlinable
-  public static func destructure<Values, Root>(_ initializer: @escaping (Values)
- -> Root) -> Self
-  where Self == Conversions.Destructure<Values, Root> {
+  public static func destructure<Values, Root>(
+    _ initializer: @escaping (Values) -> Root
+  ) -> Self where Self == Conversions.Destructure<Values, Root> {
     .init(initializer: initializer)
   }
 }

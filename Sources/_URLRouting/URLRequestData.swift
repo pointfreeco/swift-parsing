@@ -1,4 +1,3 @@
-import Parsing
 public struct URLRequestData: Equatable {
   public var body: ArraySlice<UInt8>?
   public var headers: Fields

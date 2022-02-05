@@ -2,9 +2,7 @@ import Foundation
 
 extension Conversion where Self == Conversions.BytesToData {
   @inlinable
-  public static var data: Self {
-    .init()
-  }
+  public static var data: Self { .init() }
 }
 
 extension Conversions {

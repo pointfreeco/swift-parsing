@@ -1,15 +1,11 @@
 extension Conversion where Self == Conversions.SubstringToString {
   @inlinable
-  public static var string: Self {
-    .init()
-  }
+  public static var string: Self { .init() }
 }
 
 extension Conversion where Self == Conversions.BytesToString<Substring.UTF8View> {
   @inlinable
-  public static var string: Self {
-    .init()
-  }
+  public static var string: Self { .init() }
 }
 
 extension Conversions {
