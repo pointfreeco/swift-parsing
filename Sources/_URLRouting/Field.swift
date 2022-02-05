@@ -1,46 +1,4 @@
-// TODO: Should this actually be `ValueParser`?
-// TODO: Should `ValueConversion.Input` already be `String`?
-// TODO: Can we use `.parsed(by: Parser)` to create a parser conversion?
-
-/*
- TODO: What about `Path`? `Conversion` vs. `Parser`???
-
- Currently:
-
-     Route(/Account.Invoices.show) {
-       Path {
-         "invoices"
-         Int.parser()
-         "show"
-       }
-     }
-
- With conversions:
-
-     Route(/Account.Invoices.show) {
-       Path(.parsed(by: "invoices"))
-       Path(.converted(to: Int.self))
-       Path(.parsed(by: "show"))
-     }
-
- Or could `Path` be created with either a conversion or a parser:
-
-     Route(/Account.Invoices.show) {
-       Path("invoices")
-       Path(.converted(to: Int.self))
-       Path("show")
-     }
-
- Is builder syntax possible via `buildExpression` and/or additional APIs?
-
-     Route(/Account.Invoices.show) {
-       Path {
-         "invoices"
-         Int.conversion()
-         "show"
-       }
-     }
- */
+// FIXME: Should there be a `NameParser`?
 
 public struct Field<ValueParser>: Parser
 where
