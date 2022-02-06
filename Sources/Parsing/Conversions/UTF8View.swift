@@ -10,8 +10,8 @@ extension Conversion where Output == Substring {
 
 extension Conversions {
   public struct SubstringToUTF8View: Conversion {
-    @usableFromInline
-    init() {}
+    @inlinable
+    public init() {}
 
     @inlinable
     public func apply(_ input: Substring) -> Substring.UTF8View {

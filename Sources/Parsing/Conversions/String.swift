@@ -3,9 +3,19 @@ extension Conversion where Self == Conversions.SubstringToString {
   public static var string: Self { .init() }
 }
 
+extension Conversion where Output == Substring {
+  @inlinable
+  public var string: Conversions.Map<Self, Conversions.SubstringToString> { self.map(.string) }
+}
+
 extension Conversion where Self == Conversions.BytesToString<Substring.UTF8View> {
   @inlinable
   public static var string: Self { .init() }
+}
+
+extension Conversion where Output == Substring.UTF8View {
+  @inlinable
+  public var string: Conversions.Map<Self, Conversions.BytesToString<Output>> { self.map(.string) }
 }
 
 extension Conversions {

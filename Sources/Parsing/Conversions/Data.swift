@@ -25,7 +25,6 @@ extension Conversion where Output == Substring.UTF8View {
 }
 
 extension Conversions {
-  // FIXME: Can this be more generic (on `Input` *and* `Output`)?
   public struct BytesToData<Input>: Conversion
   where
     Input: AppendableCollection,
