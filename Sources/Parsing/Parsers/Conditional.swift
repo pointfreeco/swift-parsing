@@ -27,10 +27,8 @@
 ///   }
 /// }
 /// ```
-public enum Conditional<First, Second>: Parser
+public enum Conditional<First: Parser, Second: Parser>: Parser
 where
-  First: Parser,
-  Second: Parser,
   First.Input == Second.Input,
   First.Output == Second.Output
 {

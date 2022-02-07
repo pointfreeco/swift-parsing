@@ -21,11 +21,7 @@
 /// // 1 |
 /// //   | ^ expected element
 /// ```
-public struct First<Input>: Parser
-where
-  Input: Collection,
-  Input.SubSequence == Input
-{
+public struct First<Input: Collection>: Parser where Input.SubSequence == Input {
   @inlinable
   public init() {}
 

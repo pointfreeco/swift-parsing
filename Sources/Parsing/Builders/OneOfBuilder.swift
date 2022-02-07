@@ -10,7 +10,7 @@ public enum OneOfBuilder {
   }
 
   @inlinable
-  static public func buildBlock<P>(_ parser: P) -> P where P: Parser {
+  static public func buildBlock<P: Parser>(_ parser: P) -> P {
     parser
   }
 
@@ -38,7 +38,7 @@ public enum OneOfBuilder {
     .init(wrapped: parser)
   }
 
-  public struct OptionalOneOf<Wrapped>: Parser where Wrapped: Parser {
+  public struct OptionalOneOf<Wrapped: Parser>: Parser {
     @usableFromInline
     let wrapped: Wrapped?
 

@@ -19,7 +19,7 @@ extension Parsers {
   /// A parser that filters the output of an upstream parser when it does not satisfy a predicate.
   ///
   /// Returned from the ``Parser/filter(_:)`` method.
-  public struct Filter<Upstream>: Parser where Upstream: Parser {
+  public struct Filter<Upstream: Parser>: Parser {
     public let upstream: Upstream
     public let predicate: (Upstream.Output) -> Bool
 

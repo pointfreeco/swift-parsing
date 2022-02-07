@@ -5,7 +5,7 @@
 @resultBuilder
 public enum ParserBuilder {
   @inlinable
-  public static func buildBlock<P>(_ parser: P) -> P where P: Parser {
+  public static func buildBlock<P: Parser>(_ parser: P) -> P {
     parser
   }
 
@@ -24,7 +24,7 @@ public enum ParserBuilder {
   }
 
   @inlinable
-  public static func buildIf<P>(_ parser: P?) -> P? where P: Parser {
+  public static func buildIf<P: Parser>(_ parser: P?) -> P? {
     parser
   }
 
@@ -34,7 +34,7 @@ public enum ParserBuilder {
   }
 
   @inlinable
-  public static func buildLimitedAvailability<P>(_ parser: P?) -> P? where P: Parser {
+  public static func buildLimitedAvailability<P: Parser>(_ parser: P?) -> P? {
     parser
   }
 

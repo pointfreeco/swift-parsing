@@ -6,8 +6,7 @@ extension Parser {
   /// transforming a parser on local data into one on more global data.
   ///
   /// For example, the parser `Int.parser()` parses `Substring.UTF8View` collections into integers,
-  /// and there's a key path from `Substring.UTF8View` to `Substring`, and so we can
-  /// ``pullback(_:)``:
+  /// and there's a key path from `Substring.UTF8View` to `Substring`, and so we can `pullback`:
   ///
   /// ```swift
   /// var input = "123 Hello world"[...]
@@ -34,7 +33,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/pullback(_:)`` operator, which constructs this type.
-  public struct Pullback<Downstream, Input>: Parser where Downstream: Parser {
+  public struct Pullback<Downstream: Parser, Input>: Parser {
     public let downstream: Downstream
     public let keyPath: WritableKeyPath<Input, Downstream.Input>
 

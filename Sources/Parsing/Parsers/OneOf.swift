@@ -23,7 +23,7 @@
 /// }
 /// .replaceError(with: Currency.unknown)
 /// ```
-public struct OneOf<Parsers>: Parser where Parsers: Parser {
+public struct OneOf<Parsers: Parser>: Parser {
   public let parsers: Parsers
 
   @inlinable

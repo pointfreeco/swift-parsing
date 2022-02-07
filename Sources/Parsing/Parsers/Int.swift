@@ -76,12 +76,10 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Int.parser()`, which constructs this type.
-  public struct IntParser<Input, Output>: Parser
+  public struct IntParser<Input: Collection, Output: FixedWidthInteger>: Parser
   where
-    Input: Collection,
     Input.SubSequence == Input,
-    Input.Element == UTF8.CodeUnit,
-    Output: FixedWidthInteger
+    Input.Element == UTF8.CodeUnit
   {
     /// If the parser will attempt to parse a leading `+` or `-` sign.
     public let isSigned: Bool

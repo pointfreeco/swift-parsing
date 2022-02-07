@@ -17,7 +17,7 @@
 ///
 /// ```swift
 /// var input = "No numbers here"[...]
-/// try Prefix(1...) { $0.isNumber }).parse(&input)
+/// try Prefix(1...) { $0.isNumber }.parse(&input)
 /// // error: unexpected input
 /// //  --> input:1:1
 /// // 1 | No numbers here
@@ -32,11 +32,7 @@
 /// try Prefix(2).parse(&input)  // "Lo"
 /// input                        // "rem ipsum dolor"
 /// ```
-public struct Prefix<Input>: Parser
-where
-  Input: Collection,
-  Input.SubSequence == Input
-{
+public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input {
   public let maxLength: Int?
   public let minLength: Int
   public let predicate: ((Input.Element) -> Bool)?

@@ -11,11 +11,7 @@
 /// try line.parse(&input)  // "Hello\n"
 /// input                   // "world\n"
 /// ```
-public struct PrefixThrough<Input>: Parser
-where
-  Input: Collection,
-  Input.SubSequence == Input
-{
+public struct PrefixThrough<Input: Collection>: Parser where Input.SubSequence == Input {
   public let possibleMatch: Input
   public let areEquivalent: (Input.Element, Input.Element) -> Bool
 

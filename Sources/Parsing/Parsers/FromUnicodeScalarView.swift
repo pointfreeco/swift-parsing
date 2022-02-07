@@ -1,10 +1,7 @@
 /// A parser that transforms a parser on `Substring.UnicodeScalarView` into a parser on another
 /// view.
-public struct FromUnicodeScalarView<Input, UnicodeScalarsParser>: Parser
-where
-  UnicodeScalarsParser: Parser,
-  UnicodeScalarsParser.Input == Substring.UnicodeScalarView
-{
+public struct FromUnicodeScalarView<Input, UnicodeScalarsParser: Parser>: Parser
+where UnicodeScalarsParser.Input == Substring.UnicodeScalarView {
   public let unicodeScalarsParser: UnicodeScalarsParser
   public let toUnicodeScalars: (Input) -> Substring.UnicodeScalarView
   public let fromUnicodeScalars: (Substring.UnicodeScalarView) -> Input

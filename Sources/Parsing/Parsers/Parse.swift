@@ -1,5 +1,5 @@
 /// A parser that attempts to run a number of parsers to accumulate their outputs.
-public struct Parse<Parsers>: Parser where Parsers: Parser {
+public struct Parse<Parsers: Parser>: Parser {
   public let parsers: Parsers
 
   @inlinable

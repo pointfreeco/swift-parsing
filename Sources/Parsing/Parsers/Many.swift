@@ -33,13 +33,10 @@ import Foundation
 /// try sumParser.parse(&input)  // 6
 /// input                        // ""
 /// ```
-public struct Many<Element, Result, Separator, Terminator>: Parser
+public struct Many<Element: Parser, Result, Separator: Parser, Terminator: Parser>: Parser
 where
-  Element: Parser,
-  Separator: Parser,
-  Terminator: Parser,
-  Element.Input == Separator.Input,
-  Element.Input == Terminator.Input
+  Separator.Input == Element.Input,
+  Terminator.Input == Element.Input
 {
   public let element: Element
   public let initialResult: Result

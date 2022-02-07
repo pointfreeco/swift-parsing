@@ -17,7 +17,7 @@ extension Parsers {
   ///   }
   /// }
   /// ```
-  public struct OneOfMany<Parsers>: Parser where Parsers: Parser {
+  public struct OneOfMany<Parsers: Parser>: Parser {
     public let parsers: [Parsers]
 
     @inlinable

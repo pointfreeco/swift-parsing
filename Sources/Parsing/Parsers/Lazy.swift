@@ -1,6 +1,6 @@
 /// A parser that waits for a call to its ``parse(_:)`` method before running the given closure to
 /// create a parser for the given input.
-public final class Lazy<LazyParser>: Parser where LazyParser: Parser {
+public final class Lazy<LazyParser: Parser>: Parser {
   @usableFromInline
   internal var lazyParser: LazyParser?
 

@@ -1,7 +1,6 @@
 /// A parser that consumes all ASCII whitespace from the beginning of the input.
-public struct Whitespace<Input>: Parser
+public struct Whitespace<Input: Collection>: Parser
 where
-  Input: Collection,
   Input.SubSequence == Input,
   Input.Element == UTF8.CodeUnit
 {

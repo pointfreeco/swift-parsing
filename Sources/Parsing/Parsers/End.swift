@@ -21,7 +21,7 @@
 /// // 1 | Hello, Blob!!
 /// //   |             ^ expected end of input
 /// ```
-public struct End<Input>: Parser where Input: Collection {
+public struct End<Input: Collection>: Parser {
   @inlinable
   public init() {}
 

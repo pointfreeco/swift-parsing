@@ -29,11 +29,8 @@
 ///   FromSubstring { "é" }
 /// }
 /// ```
-public struct FromSubstring<Input, SubstringParser>: Parser
-where
-  SubstringParser: Parser,
-  SubstringParser.Input == Substring
-{
+public struct FromSubstring<Input, SubstringParser: Parser>: Parser
+where SubstringParser.Input == Substring {
   public let substringParser: SubstringParser
   public let toSubstring: (Input) -> Substring
   public let fromSubstring: (Substring) -> Input

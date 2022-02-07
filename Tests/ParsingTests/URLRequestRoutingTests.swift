@@ -331,11 +331,7 @@ where
   }
 }
 
-struct Route<Parsers>: Parser
-where
-  Parsers: Parser,
-  Parsers.Input == URLRequestData
-{
+struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestData {
   let parsers: Parsers
 
   @inlinable
