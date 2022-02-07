@@ -17,7 +17,7 @@
 /// input = "Hello, Blob!!"
 /// try parser.parse(&input)
 /// // error: unexpected input
-/// //  ---> input:1:13
+/// //  --> input:1:13
 /// // 1 | Hello, Blob!!
 /// //   |             ^ expected end of input
 /// ```

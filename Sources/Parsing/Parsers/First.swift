@@ -17,7 +17,7 @@
 /// input = ""
 /// try First().parse(&input)
 /// // error: unexpected input
-/// //  ---> input:1:1
+/// //  --> input:1:1
 /// // 1 |
 /// //   | ^ expected element
 /// ```

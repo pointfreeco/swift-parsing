@@ -18,7 +18,7 @@
 /// var input = "Goodnight, Blob!"[...]
 /// try StartsWith("Hello, ").parse(&input)
 /// // error: unexpected input
-/// //  --->
+/// //  --> input:1:1
 /// // 1 | Goodnight, Blob!
 /// //   | ^ expected "Hello, "
 /// ```

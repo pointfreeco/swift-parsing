@@ -7,7 +7,7 @@
 ///   if $0.isMultiple(of: 2) {
 ///     Always($0)
 ///   } else {
-///     Fail()
+///     Fail<Substring, Int>()
 ///   }
 /// }
 ///
@@ -15,7 +15,9 @@
 ///
 /// try evens.parse("123")
 /// // error: failed
-/// //
+/// //  --> input:1:1-3
+/// // 1 | 123
+/// //   | ^^^
 /// ```
 public struct Fail<Input, Output>: Parser {
   @usableFromInline

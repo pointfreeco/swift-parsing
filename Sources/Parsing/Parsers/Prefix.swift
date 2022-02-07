@@ -66,7 +66,7 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
   ///
   /// try Prefix(2...4, while: \.isNumber).parse("1")
   /// // error: unexpected input
-  /// //  ---> input:1:1
+  /// //  --> input:1:1
   /// // 1 | 1
   /// //   |  ^ expected 1 more element satisfying predicate
   /// ```
@@ -94,7 +94,7 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
   ///
   /// try Prefix(4, while: \.isNumber).parse("123")
   /// // error: unexpected input
-  /// //  ---> input:1:1
+  /// //  --> input:1:1
   /// // 1 | 123
   /// //   |    ^ expected 1 more element satisfying predicate
   /// ```
@@ -121,7 +121,7 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
   ///
   /// try Prefix(4..., while: \.isNumber).parse("123")
   /// // error: unexpected input
-  /// //  ---> input:1:1
+  /// //  --> input:1:1
   /// // 1 | 123
   /// //   |    ^ expected 1 more element satisfying predicate
   /// ```
