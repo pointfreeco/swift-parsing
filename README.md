@@ -199,7 +199,7 @@ Even better, it's more performant. We've written [benchmarks](Sources/swift-pars
 name                             time        std        iterations
 ------------------------------------------------------------------
 README Example.Parser: Substring 3426.000 ns ±  63.40 %     385395
-README Example.Adhoc             7631.000 ns ±  47.01 %     169332
+README Example.Ad hoc            7631.000 ns ±  47.01 %     169332
 Program ended with exit code: 0
 ```
 
@@ -210,7 +210,7 @@ name                             time        std        iterations
 ------------------------------------------------------------------
 README Example.Parser: Substring 3693.000 ns ±  81.76 %     349763
 README Example.Parser: UTF8      1272.000 ns ± 128.16 %     999150
-README Example.Adhoc             8504.000 ns ±  59.59 %     151417
+README Example.Ad hoc            8504.000 ns ±  59.59 %     151417
 ```
 
 We can also compare these times to a tool that Apple's Foundation gives us: `Scanner`. It's a type that allows you to consume from the beginning of strings in order to produce values, and provides a nicer API than using `.split`:
@@ -238,7 +238,7 @@ name                             time         std        iterations
 -------------------------------------------------------------------
 README Example.Parser: Substring  3481.000 ns ±  65.04 %     376525
 README Example.Parser: UTF8       1207.000 ns ± 110.96 %    1000000
-README Example.Adhoc              8029.000 ns ±  44.44 %     163719
+README Example.Ad hoc             8029.000 ns ±  44.44 %     163719
 README Example.Scanner           19786.000 ns ±  35.26 %      62125
 ```
 
@@ -391,14 +391,15 @@ This allows you to parse as much as possible on the more performant, low-level `
 
 This library comes with a benchmark executable that not only demonstrates the performance of the library, but also provides a wide variety of parsing examples:
 
-* [URL router](Sources/swift-parsing-benchmark/Routing.swift)
-* [Xcode test logs](Sources/swift-parsing-benchmark/XcodeLogs)
-* [Simplified CSV](Sources/swift-parsing-benchmark/CSV)
 * [Hex color](Sources/swift-parsing-benchmark/Color.swift)
+* [Simplified CSV](Sources/swift-parsing-benchmark/CSV.swift)
+* [Simplified JSON](Sources/swift-parsing-benchmark/JSON.swift)
 * [ISO8601 date](Sources/swift-parsing-benchmark/Date.swift)
 * [HTTP request](Sources/swift-parsing-benchmark/HTTP.swift)
-* [Simplified JSON](Sources/swift-parsing-benchmark/JSON.swift)
+* [DNS header](Sources/swift-parsing-benchmark/BinaryData.swift)
 * [Arithmetic grammar](Sources/swift-parsing-benchmark/Arithmetic.swift)
+* [URL router](Sources/swift-parsing-benchmark/Routing.swift)
+* [Xcode test logs](Sources/swift-parsing-benchmark/XCTestLogs.swift)
 * and more
 
 These are the times we currently get when running the benchmarks:
@@ -410,45 +411,48 @@ Apple M1 Pro (10 cores, 8 performance and 2 efficiency)
 
 name                                         time            std        iterations
 ----------------------------------------------------------------------------------
-Arithmetic.Parser                                1000.000 ns ±  15.80 %    1000000
-BinaryData.Parser                                 250.000 ns ±  34.95 %    1000000
-Bool.Bool.init                                      0.000 ns ±    inf %    1000000
-Bool.BoolParser                                    42.000 ns ±  60.93 %    1000000
-Bool.Scanner.scanBool                             584.000 ns ±  16.36 %    1000000
-Color.Parser                                      208.000 ns ±  25.44 %    1000000
-CSV.Parser                                    1387958.000 ns ±   0.84 %        922
-CSV.Ad hoc mutating methods                    863479.000 ns ±   2.49 %       1656
-Date.Parser                                      5875.000 ns ±   6.55 %     241380
-Date.DateFormatter                              24166.000 ns ±   3.50 %      56837
-Date.ISO8601DateFormatter                       32625.000 ns ±   3.53 %      42868
-HTTP.HTTP                                        4875.000 ns ±   5.85 %     286041
-JSON.Parser                                      5917.000 ns ±   3.99 %     224290
-JSON.JSONSerialization                           1708.000 ns ±  11.68 %     802207
-Numerics.Int.init                                  41.000 ns ±  69.46 %    1000000
-Numerics.Int.parser                                42.000 ns ±  60.40 %    1000000
-Numerics.Scanner.scanInt                          125.000 ns ±  33.94 %    1000000
-Numerics.Comma separated: Int.parser          3279938.000 ns ±   0.75 %        279
-Numerics.Comma separated: Scanner.scanInt    52291583.000 ns ±   0.43 %         27
-Numerics.Comma separated: String.split       13989062.000 ns ±   0.86 %        100
-Numerics.Double.init                               42.000 ns ± 103.43 %    1000000
-Numerics.Double.parser                             84.000 ns ±  57.35 %    1000000
-Numerics.Scanner.scanDouble                       167.000 ns ±  30.26 %    1000000
-Numerics.Comma separated: Double.parser       9871333.500 ns ±   1.03 %        116
-Numerics.Comma separated: Scanner.scanDouble 54031625.000 ns ±   0.39 %         26
-Numerics.Comma separated: String.split       18210792.000 ns ±   0.68 %         77
-PrefixUpTo.Parser                               13292.000 ns ±   3.85 %     104936
-PrefixUpTo.Scanner.scanUpToString               97500.000 ns ±   1.22 %      14267
-Race.Parser                                     27041.000 ns ±   3.84 %      51576
-README Example.Parser: Substring                 2375.000 ns ±  11.91 %     583192
-README Example.Parser: UTF8                       875.000 ns ±  14.26 %    1000000
-README Example.Adhoc                             3334.000 ns ±   7.75 %     412681
-README Example.Scanner                          14708.000 ns ±   5.34 %      94978
-Routing.Parser                                   3375.000 ns ±   7.23 %     409775
-String Abstractions.Substring                  613292.000 ns ±   0.85 %       2273
-String Abstractions.UTF8                        35583.000 ns ±   1.78 %      23918
-UUID.UUID.init                                    209.000 ns ±  30.39 %    1000000
-UUID.UUIDParser                                   375.000 ns ±  20.14 %    1000000
-Xcode Logs.Parser                             3335583.000 ns ±   0.97 %        417
+Arithmetic.Parser                                 875.000 ns ±  14.28 %    1000000
+BinaryData.Parser                                  42.000 ns ±  49.90 %    1000000
+Bool.Bool.init                                     41.000 ns ±  69.81 %    1000000
+Bool.Bool.parser                                   42.000 ns ± 101.10 %    1000000
+Bool.Scanner.scanBool                            1041.000 ns ±  25.21 %    1000000
+Color.Parser                                      167.000 ns ±  30.96 %    1000000
+CSV.Parser                                    1523520.500 ns ±   1.04 %        936
+CSV.Ad hoc mutating methods                    884937.000 ns ±   2.66 %       1596
+Date.Parser                                      5916.000 ns ±   7.87 %     241818
+Date.DateFormatter                              25875.000 ns ±   4.64 %      53747
+Date.ISO8601DateFormatter                       35208.000 ns ±   3.84 %      39862
+HTTP.HTTP                                        4667.000 ns ±   5.52 %     293069
+JSON.Parser                                      5750.000 ns ±   5.47 %     241193
+JSON.JSONSerialization                           1792.000 ns ±   9.81 %     775360
+Numerics.Int.init                                  41.000 ns ±  79.50 %    1000000
+Numerics.Int.parser                                42.000 ns ± 114.44 %    1000000
+Numerics.Scanner.scanInt                          125.000 ns ±  30.24 %    1000000
+Numerics.Comma separated: Int.parser          3191125.000 ns ±   0.52 %        439
+Numerics.Comma separated: Scanner.scanInt    49040750.000 ns ±   0.31 %         29
+Numerics.Comma separated: String.split       14892750.000 ns ±   1.48 %         93
+Numerics.Double.init                               42.000 ns ±  50.32 %    1000000
+Numerics.Double.parser                             84.000 ns ±  32.73 %    1000000
+Numerics.Scanner.scanDouble                       167.000 ns ±  28.19 %    1000000
+Numerics.Comma separated: Double.parser       9773042.000 ns ±   0.37 %        143
+Numerics.Comma separated: Scanner.scanDouble 50911166.000 ns ±   0.25 %         27
+Numerics.Comma separated: String.split       18814187.500 ns ±   0.86 %         74
+PrefixUpTo.Parser: Substring                   232792.000 ns ±   1.35 %       6019
+PrefixUpTo.Parser: UTF8                         14333.000 ns ±   2.20 %      97942
+PrefixUpTo.String.range(of:)                    43084.000 ns ±   1.51 %      32462
+PrefixUpTo.Scanner.scanUpToString               47500.000 ns ±   1.35 %      29437
+Race.Parser                                     26167.000 ns ±   3.20 %      53718
+README Example.Parser: Substring                 3708.000 ns ±   5.99 %     374793
+README Example.Parser: UTF8                       917.000 ns ±  13.42 %    1000000
+README Example.Ad hoc                            3542.000 ns ±   8.50 %     389301
+README Example.Scanner                          14250.000 ns ±   3.49 %      98115
+Routing.Parser                                  14125.000 ns ±   4.03 %      98087
+String Abstractions.Substring                  892458.000 ns ±   1.21 %       1572
+String Abstractions.UTF8                        36916.000 ns ±   3.35 %      37882
+UUID.UUID.init                                    209.000 ns ±  24.03 %    1000000
+UUID.UUID.parser                                  375.000 ns ±   8.28 %    1000000
+Xcode Logs.Parser                             3512500.000 ns ±   0.58 %        395
+
 ```
 
 ## Documentation

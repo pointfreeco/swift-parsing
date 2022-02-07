@@ -1,124 +1,58 @@
 import Benchmark
 import Parsing
 
-/*
- This benchmark reproduces an HTTP parser from a Rust parser benchmark suite:
+/// This benchmark reproduces an HTTP parser from [a Rust parser benchmark suite][rust-parser].
+///
+/// [rust-parser]: https://github.com/rust-bakery/parser_benchmarks/tree/master/http
+///
+/// In particular, it benchmarks the same HTTP header as that defined in `one_test`.
+let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
+  let method = Prefix { $0.isToken }
+    .map(Substring.init)
 
- https://github.com/rust-bakery/parser_benchmarks/tree/master/http
+  let uri = Prefix { $0 != .init(ascii: " ") }
+    .map(Substring.init)
 
- In particular, it benchmarks the same HTTP header as that defined in `one_test`.
- */
-
-private struct Request: Equatable {
-  let method: String
-  let uri: String
-  let version: String
-}
-
-private struct Header: Equatable {
-  let name: String
-  let value: [String]
-}
-
-private func isToken(_ c: UTF8.CodeUnit) -> Bool {
-  switch c {
-  case 128...,
-    ...31,
-    .init(ascii: "("),
-    .init(ascii: ")"),
-    .init(ascii: "<"),
-    .init(ascii: ">"),
-    .init(ascii: "@"),
-    .init(ascii: ","),
-    .init(ascii: ";"),
-    .init(ascii: ":"),
-    .init(ascii: "\\"),
-    .init(ascii: "'"),
-    .init(ascii: "/"),
-    .init(ascii: "["),
-    .init(ascii: "]"),
-    .init(ascii: "?"),
-    .init(ascii: "="),
-    .init(ascii: "{"),
-    .init(ascii: "}"),
-    .init(ascii: " "):
-    return false
-  default:
-    return true
+  let httpVersion = Parse {
+    "HTTP/".utf8
+    Prefix { $0.isVersion }.map(Substring.init)
   }
-}
 
-private func notLineEnding(_ c: UTF8.CodeUnit) -> Bool {
-  c != .init(ascii: "\r") && c != .init(ascii: "\n")
-}
-
-private func isNotSpace(_ c: UTF8.CodeUnit) -> Bool {
-  c != .init(ascii: " ")
-}
-
-private func isHorizontalSpace(_ c: UTF8.CodeUnit) -> Bool {
-  c == .init(ascii: " ") || c == .init(ascii: "\t")
-}
-
-private func isVersion(_ c: UTF8.CodeUnit) -> Bool {
-  c >= .init(ascii: "0")
-    && c <= .init(ascii: "9")
-    || c == .init(ascii: ".")
-}
-
-// MARK: - Parsers
-
-private let method = Prefix(while: isToken)
-  .map { String(decoding: $0, as: UTF8.self) }
-
-private let uri = Prefix(while: isNotSpace)
-  .map { String(decoding: $0, as: UTF8.self) }
-
-private let httpVersion = Parse {
-  "HTTP/".utf8
-  Prefix(while: isVersion)
-}
-.map { String(decoding: $0, as: UTF8.self) }
-
-private let requestLine = Parse(Request.init(method:uri:version:)) {
-  method
-  " ".utf8
-  uri
-  " ".utf8
-  httpVersion
-  Newline()
-}
-
-private let headerValue = Parse {
-  Skip {
-    OneOf {
-      " ".utf8
-      "\t".utf8
-    }
-    Prefix(while: isHorizontalSpace)
-  }
-  Prefix(while: notLineEnding).map { String(decoding: $0, as: UTF8.self) }
-  Skip {
+  let requestLine = Parse(Request.init(method:uri:version:)) {
+    method
+    " ".utf8
+    uri
+    " ".utf8
+    httpVersion
     Newline()
   }
-}
 
-private let header = Parse(Header.init(name:value:)) {
-  Prefix(while: isToken).map { String(decoding: $0, as: UTF8.self) }
-  ":".utf8
-  Many {
-    headerValue
+  let headerValue = Parse {
+    Skip {
+      Prefix(1...) { $0 == .init(ascii: " ") || $0 == .init(ascii: "\t") }
+    }
+    Prefix { $0 != .init(ascii: "\r") && $0 != .init(ascii: "\n") }
+      .map(Substring.init)
+    Skip {
+      Newline()
+    }
   }
-}
 
-private let request = Parse {
-  requestLine
-  Many {
-    header
+  let header = Parse(Header.init(name:value:)) {
+    Prefix { $0.isToken }.map(Substring.init)
+    ":".utf8
+    Many {
+      headerValue
+    }
   }
-}
 
-let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
+  let request = Parse {
+    requestLine
+    Many {
+      header
+    }
+  }
+
   let input = """
     GET / HTTP/1.1
     Host: www.reddit.com
@@ -149,9 +83,56 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     ]
   )
   var output: (Request, [Header])!
-  suite.benchmark(
-    name: "HTTP",
-    run: { output = request.parse(input) },
-    tearDown: { precondition(output == expected) }
-  )
+
+  suite.benchmark("HTTP") {
+    var input = input[...].utf8
+    output = request.parse(&input)
+  } tearDown: {
+    precondition(output == expected)
+  }
+}
+
+private struct Request: Equatable {
+  let method: Substring
+  let uri: Substring
+  let version: Substring
+}
+
+private struct Header: Equatable {
+  let name: Substring
+  let value: [Substring]
+}
+
+extension UTF8.CodeUnit {
+  fileprivate var isToken: Bool {
+    switch self {
+    case 128...,
+      ...31,
+      .init(ascii: "("),
+      .init(ascii: ")"),
+      .init(ascii: "<"),
+      .init(ascii: ">"),
+      .init(ascii: "@"),
+      .init(ascii: ","),
+      .init(ascii: ";"),
+      .init(ascii: ":"),
+      .init(ascii: "\\"),
+      .init(ascii: "'"),
+      .init(ascii: "/"),
+      .init(ascii: "["),
+      .init(ascii: "]"),
+      .init(ascii: "?"),
+      .init(ascii: "="),
+      .init(ascii: "{"),
+      .init(ascii: "}"),
+      .init(ascii: " "):
+      return false
+    default:
+      return true
+    }
+  }
+
+  fileprivate var isVersion: Bool {
+    (.init(ascii: "0") ... .init(ascii: "9")).contains(self) || self == .init(ascii: ".")
+  }
 }

@@ -2,64 +2,54 @@ import Benchmark
 import Foundation
 import Parsing
 
+/// This benchmark demonstrates how to define a simple CSV parser with quoted fields and measures its
+/// performance against more a more ad hoc approach at the same level of abstraction.
 let csvSuite = BenchmarkSuite(name: "CSV") { suite in
-  let rowCount = 1_000
-  let columnCount = 5
+  let plainField = Prefix { $0 != .init(ascii: ",") && $0 != .init(ascii: "\n") }
+
+  let quotedField = Parse {
+    "\"".utf8
+    Prefix { $0 != .init(ascii: "\"") }
+    "\"".utf8
+  }
+
+  let field = OneOf {
+    quotedField
+    plainField
+  }
+  .map { String(Substring($0)) }
+
+  let line = Many {
+    field
+  } separator: {
+    ",".utf8
+  }
+
+  let csv = Many {
+    line
+  } separator: {
+    "\n".utf8
+  }
+
+  let expectedRowCount = 1_000
+  let expectedColumnCount = 5
   var output: [[String]] = []
 
-  suite.benchmark(
-    name: "Parser",
-    run: {
-      output = csv.parse(csvInput)!
-    },
-    tearDown: {
-      precondition(output.count == rowCount)
-      precondition(output.allSatisfy { $0.count == columnCount })
-    }
-  )
+  suite.benchmark("Parser") {
+    output = csv.parse(csvInput)!
+  } tearDown: {
+    precondition(output.count == expectedRowCount)
+    precondition(output.allSatisfy { $0.count == expectedColumnCount })
+  }
 
-  suite.benchmark(
-    name: "Ad hoc mutating methods",
-    run: {
-      var input = csvInput[...].utf8
-      output = input.parseCsv()
-    },
-    tearDown: {
-      precondition(output.count == rowCount)
-      precondition(output.allSatisfy { $0.count == columnCount })
-    }
-  )
+  suite.benchmark("Ad hoc mutating methods") {
+    var input = csvInput[...].utf8
+    output = input.parseCsv()
+  } tearDown: {
+    precondition(output.count == expectedRowCount)
+    precondition(output.allSatisfy { $0.count == expectedColumnCount })
+  }
 }
-
-// MARK: - Parser
-
-private let plainField = Prefix { $0 != .init(ascii: ",") && $0 != .init(ascii: "\n") }
-
-private let quotedField = Parse {
-  "\"".utf8
-  Prefix { $0 != .init(ascii: "\"") }
-  "\"".utf8
-}
-
-private let field = OneOf {
-  quotedField
-  plainField
-}
-.map { String(Substring($0)) }
-
-private let line = Many {
-  field
-} separator: {
-  ",".utf8
-}
-
-private let csv = Many {
-  line
-} separator: {
-  "\n".utf8
-}
-
-// MARK: - Ad hoc mutating methods
 
 extension Substring.UTF8View {
   fileprivate mutating func parseCsv() -> [[String]] {
