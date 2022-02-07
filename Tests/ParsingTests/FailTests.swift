@@ -17,4 +17,20 @@ final class FailTests: XCTestCase {
     }
     XCTAssertEqual("Hello, world!", input)
   }
+
+  func testCustomError() {
+    struct MyError: Error {}
+
+    XCTAssertThrowsError(try Fail<Substring, Int>(throwing: MyError()).parse("Hello")) { error in
+      XCTAssertEqual(
+        """
+        error: MyError()
+         --> input:1:1
+        1 | Hello
+          | ^
+        """,
+        (error as? ParsingError)?.debugDescription ?? ""
+      )
+    }
+  }
 }

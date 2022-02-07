@@ -2,6 +2,28 @@ extension Parser {
   /// Returns a parser that runs this parser, pipes its output into the given parser, and returns
   /// the output of the given parser.
   ///
+  /// For example, we can try to parse an integer of exactly 4 digits by piping the output of
+  /// ``Prefix`` into an `Int.parser()`:
+  ///
+  /// ```swift
+  /// let year = Prefix(4).pipe { Int.parser() }
+  ///
+  /// try year.parse("2022")  // 2022
+  /// try year.parse("0123")  // 1
+  ///
+  /// try year.parse("123")
+  /// // error: unexpected input
+  /// //  --> input:1:4
+  /// // 1 | 123
+  /// //   |    ^ expected 1 more element satisfying predicate
+  ///
+  /// try year.parse("fail!")
+  /// // error: unexpected input
+  /// //  --> input:1:1-4
+  /// // 1 | fail!
+  /// //   | ^^^^ pipe: expected integer
+  /// ```
+  ///
   /// - Parameter downstream: A parser that parses the output of this parser.
   /// - Returns: A parser that pipes this parser's output into another parser.  @inlinable
   public func pipe<Downstream>(

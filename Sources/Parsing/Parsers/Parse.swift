@@ -1,4 +1,25 @@
 /// A parser that attempts to run a number of parsers to accumulate their outputs.
+///
+/// A general entry point into ``ParserBuilder`` syntax, which can be used to build complex parsers
+/// from simpler ones.
+///
+/// ```swift
+/// let point = Parse {
+///   "("
+///   Int.parser()
+///   ","
+///   Int.parser()
+///   ")"
+/// }
+///
+/// try point.parse("(2,-4)")  // (2, -4)
+///
+/// try point.parse("(42,blob)")
+/// // error: unexpected input
+/// //  --> input:1:5
+/// // 1 | (42,blob)
+/// //   |     ^ expected integer
+/// ```
 public struct Parse<Parsers: Parser>: Parser {
   public let parsers: Parsers
 
