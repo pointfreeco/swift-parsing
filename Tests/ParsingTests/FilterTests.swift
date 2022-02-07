@@ -11,7 +11,7 @@ final class FilterTests: XCTestCase {
   func testFailure() {
     var input = "43 Hello, world!"[...].utf8
     XCTAssertEqual(nil, Int.parser().filter { $0.isMultiple(of: 2) }.parse(&input))
-    XCTAssertEqual("43 Hello, world!", Substring(input))
+    XCTAssertEqual(" Hello, world!", Substring(input))
   }
 
   func testOverloadArray() {

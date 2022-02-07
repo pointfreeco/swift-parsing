@@ -55,7 +55,7 @@ final class DoubleTests: XCTestCase {
 
     input = "-.123 Hello"[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
-    XCTAssertEqual("-.123 Hello", String(input))
+    XCTAssertEqual(".123 Hello", String(input))
 
     input = "Hello"[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
@@ -63,11 +63,11 @@ final class DoubleTests: XCTestCase {
 
     input = "- Hello"[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
-    XCTAssertEqual("- Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
 
     input = "+ Hello"[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
-    XCTAssertEqual("+ Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
   }
 
   func testFloat() {
@@ -128,7 +128,7 @@ final class DoubleTests: XCTestCase {
 
     input = "-.123 Hello"[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
-    XCTAssertEqual("-.123 Hello", String(input))
+    XCTAssertEqual(".123 Hello", String(input))
 
     input = "Hello"[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
@@ -136,11 +136,11 @@ final class DoubleTests: XCTestCase {
 
     input = "- Hello"[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
-    XCTAssertEqual("- Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
 
     input = "+ Hello"[...].utf8
     XCTAssertEqual(nil, parser.parse(&input))
-    XCTAssertEqual("+ Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
   }
 
   #if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))

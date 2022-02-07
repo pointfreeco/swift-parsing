@@ -45,7 +45,6 @@ class ManyTests: XCTestCase {
 
   func testMinimum() {
     var input = "1,2,3,4,5"[...].utf8
-
     XCTAssertEqual(
       Many(atLeast: 6) {
         Int.parser()
@@ -55,8 +54,9 @@ class ManyTests: XCTestCase {
       .parse(&input),
       nil
     )
-    XCTAssertEqual(Substring(input), "1,2,3,4,5")
+    XCTAssertEqual(Substring(input), "")
 
+    input = "1,2,3,4,5"[...].utf8
     XCTAssertEqual(
       Many(atLeast: 5) {
         Int.parser()

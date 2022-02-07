@@ -20,6 +20,6 @@ final class ConditionalTests: XCTestCase {
   func testSecond() {
     var input = "43 Hello, world!"[...]
     XCTAssertEqual(nil, parser.parse(&input))
-    XCTAssertEqual("43 Hello, world!", input)
+    XCTAssertEqual(" Hello, world!", input)
   }
 }

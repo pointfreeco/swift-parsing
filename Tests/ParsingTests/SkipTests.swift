@@ -17,7 +17,7 @@ final class SkipTests: XCTestCase {
   func testSkipFirstFailedSecond() {
     var input = "Hello, world!"[...].utf8
     XCTAssertEqual(nil, "Hello, ".utf8.take(Int.parser()).parse(&input))
-    XCTAssertEqual("Hello, world!", Substring(input))
+    XCTAssertEqual("world!", Substring(input))
   }
 
   func testSkipSecondSuccess() {
@@ -35,7 +35,7 @@ final class SkipTests: XCTestCase {
   func testSkipSecondFailedSecond() {
     var input = "42 Hello, world!"[...].utf8
     XCTAssertEqual(nil, Int.parser().skip(" Goodbye, ".utf8).parse(&input))
-    XCTAssertEqual("42 Hello, world!", Substring(input))
+    XCTAssertEqual(" Hello, world!", Substring(input))
   }
 
   func testSkipSuccess() {
