@@ -19,10 +19,41 @@
 /// precondition(input == " Hello world")
 /// ```
 ///
-/// Parsers may eagerly consume input, even if they fail to parse a value, and it is typically not
-/// necessary to implement additional logic to restore the input to its original state, a process
-/// often called "backtracking". Instead, one can rely on the behavior of ``OneOf``, backtracks to
-/// the input it starts with whenever one of its parsers fails.
+/// # Backtracking
+///
+/// Parsers may consume input even if they throw an error, and you should not depend on a parser
+/// restoring the input to the original value when failing. The process of restoring the input to the
+/// original value is known as "backtracking". Backtracking can be handy when wanting to try many parsers
+/// on the same input, and one usually does this by using the ``OneOf`` parser, which automatically backtracks
+/// when one of its parsers fails.
+///
+/// By not requiring backtracking of each individual parser we can greatly simply the logic of parsers and we
+/// can coalesce all backtracking logic into just a single parser, the ``OneOf`` parser. For example, the
+/// `.flatMap` operator allows one to sequence two parsers where the second parser can use the output of the
+/// first in order to customize its logic. If we required `.flatMap` to do its own backtracking we would be
+/// forced to insert logic after each step of the sequence. By not requiring backtracking we can replace 12
+/// lines of code with a single line of code:
+///
+/// ```swift
+/// public func parse(_ input: inout Upstream.Input) -> NewParser.Output? {
+///   // let original = input
+///   // guard let newParser = self.upstream.parse(&input).map(self.transform)
+///   // else {
+///   //   input = original
+///   //   return nil
+///   // }
+///   // guard let output = newParser.parse(&input)
+///   // else {
+///   //   input = original
+///   //   return nil
+///   // }
+///   // return output
+///   self.upstream.parse(&input).map(self.transform)?.parse(&input)
+/// }
+/// ```
+///
+/// If you really need backtracking capabilities then we recommend using the ``OneOf`` parser to control
+/// backtracking.
 public protocol Parser {
   /// The kind of values this parser receives.
   associatedtype Input
