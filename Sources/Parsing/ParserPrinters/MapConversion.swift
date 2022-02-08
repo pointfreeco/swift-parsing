@@ -6,9 +6,10 @@ extension Parser {
 }
 
 extension Parsers {
-  public struct MapConversion<Upstream, Downstream>: Parser
+  public struct MapConversion<Upstream, Downstream>: Parser, Printer
   where
     Upstream: Parser,
+    Upstream: Printer,
     Downstream: Conversion,
     Downstream.Input == Upstream.Output
   {
@@ -34,12 +35,10 @@ extension Parsers {
         throw error
       }
     }
-  }
-}
 
-extension Parsers.MapConversion: Printer where Upstream: Printer {
-  @inlinable
-  public func print(_ output: Downstream.Output, to input: inout Upstream.Input) rethrows {
-    try self.upstream.print(self.downstream.unapply(output), to: &input)
+    @inlinable
+    public func print(_ output: Downstream.Output, to input: inout Upstream.Input) rethrows {
+      try self.upstream.print(self.downstream.unapply(output), to: &input)
+    }
   }
 }
