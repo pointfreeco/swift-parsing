@@ -190,13 +190,21 @@ class ManyTests: XCTestCase {
     XCTAssertThrowsError(try intsParser.parse(&input)) { error in
       XCTAssertEqual(
         """
+        error: multiple failures occurred
+
         error: unexpected input
          --> input:1:6
         1 | 1,2,3-
           |      ^ expected ","
+
+        error: unexpected input
+         --> input:1:6
+        1 | 1,2,3-
+          |      ^ expected "---"
         """,
         "\(error)"
       )
     }
   }
 }
+
