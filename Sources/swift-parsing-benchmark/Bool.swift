@@ -2,12 +2,10 @@ import Benchmark
 import Foundation
 import Parsing
 
-/**
- This benchmark demonstrates how to parse a boolean from the front of an input and compares its
- performance against `Bool.init`, which does not incrementally parse, and Foundation's `Scanner`
- type. `Scanner` does not have a `scanBool` method, but we can emulate this functionality by calling
- `scanString` twice and mapping each result to a boolean.
- */
+/// This benchmark demonstrates how to parse a boolean from the front of an input and compares its
+/// performance against `Bool.init`, which does not incrementally parse, and Foundation's `Scanner`
+/// type. `Scanner` does not have a `scanBool` method, but we can emulate this functionality by calling
+/// `scanString` twice and mapping each result to a boolean.
 let boolSuite = BenchmarkSuite(name: "Bool") { suite in
   var input = "true"
   var expected = true

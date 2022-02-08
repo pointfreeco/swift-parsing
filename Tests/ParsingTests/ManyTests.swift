@@ -167,10 +167,17 @@ class ManyTests: XCTestCase {
     XCTAssertThrowsError(try users.parse(&input)) { error in
       XCTAssertEqual(
         """
+        error: multiple failures occurred
+
         error: unexpected input
          --> input:3:11
         3 | 3,Blob Jr,tru
           |           ^ expected "true" or "false"
+
+        error: unexpected input
+         --> input:2:16
+        2 | 2,Blob Sr,false
+          |                ^ expected end of input
         """,
         "\(error)"
       )
@@ -221,4 +228,3 @@ class ManyTests: XCTestCase {
     }
   }
 }
-

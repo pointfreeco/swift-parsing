@@ -126,8 +126,8 @@ struct VariadicsGenerator: ParsableCommand {
       }
       output("\n        return (")
       outputForEach(permutation.captureIndices, separator: ", ") { "o\($0)" }
-      output(")\n      } catch {\n        defer { input = original }\n        throw ParsingError.wrap(error, at: input)\n      }")
-      output("\n   }\n  }\n}\n\n")
+      output(")\n      } catch {\n        defer { input = original }\n        ")
+      output("throw ParsingError.wrap(error, at: input)\n      }\n   }\n  }\n}\n\n")
 
       // Emit builders.
       output("extension ParserBuilder {\n")
@@ -169,10 +169,10 @@ struct VariadicsGenerator: ParsableCommand {
     output("@inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {")
     output("\n      let original = input\n      ")
     outputForEach(0..<arity, separator: "\n      ") {
-      return """
-        \(String(repeating: "  ", count: $0))do { \($0 == 0 ? "" : "input = original; ")\
-        return try self.p\($0).parse(&input) } catch let e\($0) {
-        """
+      """
+      \(String(repeating: "  ", count: $0))do { \($0 == 0 ? "" : "input = original; ")\
+      return try self.p\($0).parse(&input) } catch let e\($0) {
+      """
     }
     output("\n      \(String(repeating: "  ", count: arity))throw ParsingError.manyFailed(")
     output("\n      \(String(repeating: "  ", count: arity + 1))[")
@@ -197,4 +197,3 @@ struct VariadicsGenerator: ParsableCommand {
     output(")\n  }\n}\n\n")
   }
 }
-
