@@ -337,7 +337,9 @@ Backtracking, which is the process of restoring the input to its original value 
 
 Instead, if backtracking is needed, one should use the `OneOf` parser, which can try many parsers one after another on a single input, backtracking after each failure and taking the first that succeeds.
 
-By not requiring backtracking of each individual parser we can greatly simply the logic of parsers and we can coalesce all backtracking logic into just a single parser, the ``OneOf`` parser. For example, the `.flatMap` operator allows one to sequence two parsers where the second parser can use the output of the first in order to customize its logic. If we required `.flatMap` to do its own backtracking we would be forced to insert logic after each step of the sequence. By not requiring backtracking we can replace 12 lines of code with a single line of code:
+By not requiring backtracking of each individual parser we can greatly simply the logic of parsers and we can coalesce all backtracking logic into just a single parser, the ``OneOf`` parser. 
+
+For example, the `.flatMap` operator allows one to sequence two parsers where the second parser can use the output of the first in order to customize its logic. If we required `.flatMap` to do its own backtracking we would be forced to insert logic after each step of the sequence. By not requiring backtracking we can replace 12 lines of code with a single line of code:
 
 ```swift
 public func parse(_ input: inout Upstream.Input) -> NewParser.Output? {
