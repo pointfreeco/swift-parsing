@@ -37,13 +37,13 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     "W".utf8.map { -1.0 }
   }
 
-  let latitude = Parse(.multiply) {
+  let latitude = Parse(.multiplySign) {
     Double.parser()
     "° ".utf8
     northSouth
   }
 
-  let longitude = Parse(.multiply) {
+  let longitude = Parse(.multiplySign) {
     Double.parser()
     "° ".utf8
     eastWest
@@ -51,7 +51,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
 
   let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }.printing(" ".utf8)
 
-  let coord = Parse(.destructure(Coordinate.init(latitude:longitude:))) {
+  let coord = Parse(.struct(Coordinate.init(latitude:longitude:))) {
     latitude
     Skip {
       ",".utf8
@@ -66,14 +66,14 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     "$".utf8.map { Currency.usd }
   }
 
-  let money = Parse(.destructure(Money.init(currency:dollars:))) {
+  let money = Parse(.struct(Money.init(currency:dollars:))) {
     currency
     Int.parser()
   }
 
   let locationName = Prefix { $0 != .init(ascii: ",") }.map(.string)
 
-  let race = Parse(.destructure(Race.init(location:entranceFee:path:))) {
+  let race = Parse(.struct(Race.init(location:entranceFee:path:))) {
     locationName
     Skip {
       ",".utf8
@@ -179,7 +179,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
 }
 
 private extension Conversion where Self == AnyConversion<(Double, Double), Double> {
-  static var multiply: Self {
+  static var multiplySign: Self {
     .init(
       apply: *,
       unapply: { $0 < 0 ? (abs($0), -1) : ($0, 1) }

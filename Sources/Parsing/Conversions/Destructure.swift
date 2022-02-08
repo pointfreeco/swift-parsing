@@ -1,14 +1,14 @@
 extension Conversion {
   @inlinable
-  public static func destructure<Values, Root>(
+  public static func `struct`<Values, Root>(
     _ initializer: @escaping (Values) -> Root
-  ) -> Self where Self == Conversions.Destructure<Values, Root> {
+  ) -> Self where Self == Conversions.Structure<Values, Root> {
     .init(initializer: initializer)
   }
 }
 
 extension Conversions {
-  public struct Destructure<Values, Root>: Conversion {
+  public struct Structure<Values, Root>: Conversion {
     @usableFromInline
     let initializer: (Values) -> Root
 
@@ -23,8 +23,10 @@ extension Conversions {
     }
 
     @inlinable
-    public func unapply(_ output: Root) -> Values {
-      unsafeBitCast(output, to: Values.self)
+    public func unapply(_ output: Root) throws -> Values {
+      guard MemoryLayout<Values>.size == MemoryLayout<Root>.size
+      else { throw ConvertingError() }
+      return unsafeBitCast(output, to: Values.self)
     }
   }
 }
