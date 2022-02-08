@@ -61,7 +61,7 @@ class ManyTests: XCTestCase {
         1 | 1,2,3,4,5
           |          ^ expected 1 more value of "Int"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(Substring(input), "")
@@ -172,7 +172,7 @@ class ManyTests: XCTestCase {
         3 | 3,Blob Jr,tru
           |           ^ expected boolean
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }

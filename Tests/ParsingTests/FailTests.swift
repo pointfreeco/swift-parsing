@@ -12,7 +12,7 @@ final class FailTests: XCTestCase {
         1 | Hello, world!
           | ^
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("Hello, world!", input)
@@ -29,7 +29,7 @@ final class FailTests: XCTestCase {
         1 | Hello
           | ^
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }

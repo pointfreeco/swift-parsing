@@ -37,7 +37,7 @@ final class AnyParserTests: XCTestCase {
         1 | Hello, world!
           |      ^ expected "Hello"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(", world!", input)
@@ -58,7 +58,7 @@ final class AnyParserTests: XCTestCase {
         1 | Hello, world!
           |      ^ expected "Hello"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(", world!", input)
@@ -79,7 +79,7 @@ final class AnyParserTests: XCTestCase {
         1 | Hello, world!
           |      ^ expected "Hello"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(", world!", input)

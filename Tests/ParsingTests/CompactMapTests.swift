@@ -23,7 +23,7 @@ final class CompactMapTests: XCTestCase {
         1 | ERRORS
           | ^^
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("RORS", Substring(input))

@@ -16,7 +16,7 @@ class ParsingErrorTests: XCTestCase {
         """
         error: MyError()
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }
@@ -38,7 +38,7 @@ class ParsingErrorTests: XCTestCase {
         100 | Hello
             |      ^ expected 1 more value of "()"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }
@@ -56,7 +56,7 @@ class ParsingErrorTests: XCTestCase {
         1 | …hellohellohellohelloworldworldworldworldworldworldworldworldworldworldworl…
           |                      ^ expected 1 more value of "()"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
 
@@ -72,7 +72,7 @@ class ParsingErrorTests: XCTestCase {
         1 | …hellohellohellohelloworld
           |                      ^ expected 1 more value of "()"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
 
@@ -88,7 +88,7 @@ class ParsingErrorTests: XCTestCase {
         1 | worldworldworldworldworldworldworldworldworldworldworldworldworldworldworld…
           | ^ expected "hello"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }

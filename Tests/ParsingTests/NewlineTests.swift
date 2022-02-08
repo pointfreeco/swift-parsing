@@ -18,7 +18,7 @@ final class NewlineTests: XCTestCase {
         4 |
           | ^ expected newline
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("\rHello, world!", Substring(input))

@@ -24,7 +24,7 @@ final class PrefixUpToTests: XCTestCase {
         1 |
           | ^ expected prefix up to ", "
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("", input)
@@ -40,7 +40,7 @@ final class PrefixUpToTests: XCTestCase {
         1 | Hello world!
           | ^ expected prefix up to ", "
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("Hello world!", input)

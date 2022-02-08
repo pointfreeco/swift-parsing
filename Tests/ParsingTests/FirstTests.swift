@@ -18,7 +18,7 @@ final class FirstTests: XCTestCase {
         1 |
           | ^ expected element
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("", input)

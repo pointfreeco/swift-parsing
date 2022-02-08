@@ -22,7 +22,7 @@ final class ParserBuilderTests: XCTestCase {
         1 | Hello world!
           |      ^ expected ","
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
 
@@ -45,7 +45,7 @@ final class ParserBuilderTests: XCTestCase {
         1 | Hello, world!
           |      ^ expected " "
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }
@@ -70,7 +70,7 @@ final class ParserBuilderTests: XCTestCase {
         1 | Blob
           | ^ expected integer
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
 
@@ -113,7 +113,7 @@ final class ParserBuilderTests: XCTestCase {
         1 | 123 Blob
           |    ^
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
 
@@ -134,7 +134,7 @@ final class ParserBuilderTests: XCTestCase {
         1 | 123 Blob
           |    ^
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }

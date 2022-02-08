@@ -27,7 +27,7 @@ final class ConditionalTests: XCTestCase {
         1 | 43 Hello, world!
           | ^^
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(" Hello, world!", input)

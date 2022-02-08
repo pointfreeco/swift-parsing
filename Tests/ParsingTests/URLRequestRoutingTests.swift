@@ -100,7 +100,7 @@ class URLRequestRoutingTests: XCTestCase {
         0 | ["episodes", "hello"]
           |  ^ expected end of path
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }

@@ -27,7 +27,7 @@ final class UUIDTests: XCTestCase {
         1 | DADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF Hello
           | ^ expected UUID
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("DADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF Hello", String(input))

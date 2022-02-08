@@ -16,6 +16,25 @@
 /// try Int.parser().parse(&input)  // 123
 /// input                           // " Hello world"
 /// ```
+///
+/// The error thrown by the parsers shipped with this library is internal and so should be considered
+/// opaque. To get a human-readable description of the error message you can stringify the error. For example,
+/// the following `UInt8` parser fails to parse a string that would cause it to overflow:
+///
+/// ```swift
+/// do {
+///   var input = "1234 Hello"[...]
+///   let number = UInt8.parser().parse(&input))
+/// } catch {
+///   print(error)
+///
+///   // error: failed to process "UInt8"
+///   //  --> input:1:1-4
+///   // 1 | 1234 Hello
+///   //   | ^^^^ overflowed 255
+/// }
+/// ```
+///
 @rethrows public protocol Parser {
   /// The kind of values this parser receives.
   associatedtype Input

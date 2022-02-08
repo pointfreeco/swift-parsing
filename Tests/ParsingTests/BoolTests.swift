@@ -24,7 +24,7 @@ final class BoolTests: XCTestCase {
         1 | Hello, world!
           | ^ expected boolean
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("Hello, world!", Substring(input))

@@ -24,7 +24,7 @@ final class PrefixTests: XCTestCase {
         1 | 42 Hi!
           |       ^ expected 4 more elements
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("42 Hi!", input)
@@ -58,7 +58,7 @@ final class PrefixTests: XCTestCase {
         1 | 42 Hello, world!
           |                 ^ expected 84 more elements satisfying predicate
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("42 Hello, world!", input)

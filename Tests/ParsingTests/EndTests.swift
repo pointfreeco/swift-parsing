@@ -18,7 +18,7 @@ final class EndTests: XCTestCase {
         1 | Hello, world!
           | ^ expected end of input
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("Hello, world!", input)
