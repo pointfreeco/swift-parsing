@@ -12,13 +12,19 @@ A library for turning nebulous data into well-structured data, with a focus on c
 
 * **Generality**: Ability to parse _any_ kind of input into _any_ kind of output. This allows you to choose which abstraction levels you want to work on based on how much performance you need or how much correctness you want guaranteed. For example, you can write a highly tuned parser on collections of UTF-8 code units, and it will automatically plug into parsers of strings, arrays, unsafe buffer pointers and more.
 
-[Motivation](#motivation)<br>
-[Getting started](#getting-started)<br>
-[Design](#design)<br>
-[Benchmarks](#benchmarks)<br>
-[Documentation](#documentation)<br>
-[Other libraries](#other-libraries)<br>
-[License](#license)<br>
+---
+
+* [Motivation](#motivation)
+* [Getting started](#getting-started)
+* [Design](#design)
+  * [Protocol](#protocol)
+  * [Result builders](#result-builders)
+  * [Backtracking](#backtracking)
+  * [Low-level versus high-level](#low-level-versus-high-level)
+* [Benchmarks](#benchmarks)
+* [Documentation](#documentation)
+* [Other libraries](#other-libraries)
+* [License](#license)
 
 ## Learn More
 
@@ -325,6 +331,51 @@ accountingNumber.parse("100")   // 100
 accountingNumber.parse("(100)") // -100
 ```
 
+### Backtracking
+
+Backtracking, which is the process of restoring the input to its original value when a parser fails, is very useful, but can lead to performance issues and cause parsers' logic to be more complicated than necessary. For this reason parsers are not required to backtrack.
+
+Instead, if backtracking is needed, one should use the `OneOf` parser, which can try many parsers one after another on a single input, backtracking after each failure and taking the first that succeeds.
+
+By not requiring backtracking of each individual parser we can greatly simply the logic of parsers and we can coalesce all backtracking logic into just a single parser, the ``OneOf`` parser. For example, the `.flatMap` operator allows one to sequence two parsers where the second parser can use the output of the first in order to customize its logic. If we required `.flatMap` to do its own backtracking we would be forced to insert logic after each step of the sequence. By not requiring backtracking we can replace 12 lines of code with a single line of code:
+
+```swift
+public func parse(_ input: inout Upstream.Input) -> NewParser.Output? {
+  // let original = input
+  // guard let newParser = self.upstream.parse(&input).map(self.transform)
+  // else {
+  //   input = original
+  //   return nil
+  // }
+  // guard let output = newParser.parse(&input)
+  // else {
+  //   input = original
+  //   return nil
+  // }
+  // return output
+  self.upstream.parse(&input).map(self.transform)?.parse(&input)
+}
+```
+
+If used naively, backtracking can lead to less performant parsing code. For example, if we wanted to parse two integers from a string that were separated by either a dash "-" or slash "/", then we could write this as:
+
+```swift
+OneOf {
+  Parser { Int.parser(); "-"; Int.parser() } // 1️⃣
+  Parser { Int.parser(); "/"; Int.parser() } // 2️⃣
+}
+```
+
+However, parsing slash-separated integers is not going to be performant because it will first run the entire 1️⃣ parser until it fails, then backtrack to the beginning, and run the 2️⃣ parser. In particular, the first integer will get parsed twice, unnecessarily repeating that work. On the other hand, we can factor out the common work of the parser and localize the backtracking `OneOf` work to make a much more performant parser:
+
+```swift
+Parse {
+  Int.parser()
+  OneOf { "-"; "/" }
+  Int.parser()
+}
+```
+
 ### Low-level versus high-level
 
 The library makes it easy to choose which abstraction level you want to work on. Both low-level and high-level have their pros and cons.
@@ -354,7 +405,7 @@ let city = OneOf {
   "San José".map { City.sanJose }
 }
 
-var input = "San José,123"
+var input = "San José,123"[...]
 city.parse(&input) // => City.sanJose
 input // => ",123"
 ```
@@ -365,8 +416,9 @@ However, we are incurring the cost of parsing `Substring` for this entire parser
 let city = OneOf {
   "London".utf8.map { City.london }
   "New York".utf8.map { City.newYork }
-  FromSubstring { "San José" }
-    .map { City.sanJose }
+  FromSubstring { 
+    "San José".map { City.sanJose }
+  }  
 }
 ```
 
