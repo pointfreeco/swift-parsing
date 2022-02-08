@@ -195,7 +195,7 @@ final class DoubleTests: XCTestCase {
       XCTAssertEqual(123, parser.parse(&input))
       XCTAssertEqual(" Hello", String(input))
 
-      input = "-.123 Hello"[...].utf8
+      input = ".123 Hello"[...].utf8
       XCTAssertEqual(nil, parser.parse(&input))
       XCTAssertEqual("-.123 Hello", String(input))
 
@@ -203,11 +203,11 @@ final class DoubleTests: XCTestCase {
       XCTAssertEqual(nil, parser.parse(&input))
       XCTAssertEqual("Hello", String(input))
 
-      input = "- Hello"[...].utf8
+      input = " Hello"[...].utf8
       XCTAssertEqual(nil, parser.parse(&input))
       XCTAssertEqual("- Hello", String(input))
 
-      input = "+ Hello"[...].utf8
+      input = " Hello"[...].utf8
       XCTAssertEqual(nil, parser.parse(&input))
       XCTAssertEqual("+ Hello", String(input))
     }
