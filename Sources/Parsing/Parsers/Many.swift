@@ -18,11 +18,29 @@ import Foundation
 /// input                         // ""
 /// ```
 ///
-/// The most general version of `Many` takes a closure that can customize how outputs accumulate,
-/// much like `Sequence.reduce(into:_)`. We could, for example, sum the numbers as we parse them
-/// instead of accumulating each value in an array:
+/// In addition to an element and separator parser, a "terminator" parser that is run after the element
+/// parser has run as many times as possible. This can be useful for proving that the `Many` parser has
+/// consumed everything you expect:
 ///
+/// ```swift
+/// let intsParser = Many {
+///   Int.parser()
+/// } separator: {
+///   ","
+/// } terminator: {
+///   "---"
+/// }
+///
+/// var input = "1,2,3---"[...]
+/// try intsParser.parse(&input)  // [1, 2, 3]
+/// input                         // ""
 /// ```
+///
+/// The outputs of the element parser do not need to be accumulated in an array. More generally one can
+/// specify a closure that customizes how outputs are accumulated, much like `Sequence.reduce(into:_)`. We
+/// could, for example, sum the numbers as we parse them instead of accumulating each value in an array:
+///
+/// ```swift
 /// let sumParser = Many(into: 0, +=) {
 ///   Int.parser()
 /// } separator: {
@@ -32,6 +50,26 @@ import Foundation
 /// var input = "1,2,3"[...]
 /// try sumParser.parse(&input)  // 6
 /// input                        // ""
+/// ```
+///
+/// This parser fails if the terminator parser fails. For example, if we required our comma-separated
+/// integer parser to be terminated by `"---"`, but we parsed a list that contained a non-integer we would
+/// get an error:
+///
+/// ```swift
+/// let intsParser = Many {
+///   Int.parser()
+/// } separator: {
+///   ","
+/// } terminator: {
+///   "---"
+/// }
+/// var input = "1,2,Hello---"[...]
+/// try intsParser.parse(&input)
+/// // error: unexpected input
+/// //  --> input:1:5
+/// // 1 | 1,2,Hello---
+/// //   |     ^ expected integer
 /// ```
 public struct Many<Element: Parser, Result, Separator: Parser, Terminator: Parser>: Parser
 where

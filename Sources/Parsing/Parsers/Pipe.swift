@@ -9,13 +9,17 @@ extension Parser {
   /// let year = Prefix(4).pipe { Int.parser() }
   ///
   /// try year.parse("2022")  // 2022
-  /// try year.parse("0123")  // 1
+  /// try year.parse("0123")  // 123
+  /// ```
   ///
+  /// This parser fails if either the upstream or downstream parser fails. For example:
+  ///
+  /// ```swift
   /// try year.parse("123")
   /// // error: unexpected input
   /// //  --> input:1:4
   /// // 1 | 123
-  /// //   |    ^ expected 1 more element satisfying predicate
+  /// //   |    ^ expected 1 more element
   ///
   /// try year.parse("fail!")
   /// // error: unexpected input

@@ -5,6 +5,18 @@ extension Parser {
   /// This method is similar to `Sequence.filter` in the Swift standard library, as well as
   /// `Publisher.filter` in the Combine framework.
   ///
+  /// This parser fails if the predicate is not satisfied on the output of the upstream parser. For example,
+  /// the following parser consumes only even integers and so fails when an odd integer is used:
+  ///
+  /// ```swift
+  /// var input = "43 Hello, world!"[...]
+  /// let number = try Int.parser().filter { $0.isMultiple(of: 2) }.parse(&input)
+  /// // error: processed value 43 failed to satisfy predicate
+  /// //  --> input:1:1-2
+  /// // 1 | 43 Hello, world!
+  /// //   | ^^ processed input
+  /// ```
+  ///
   /// - Parameter predicate: A closure that takes an output from this parser and returns a Boolean
   ///   value indicating whether the output should be returned.
   /// - Returns: A parser that filters its output.

@@ -13,6 +13,19 @@ extension Parser {
   /// input                         // " hello world"
   /// ```
   ///
+  /// This parser fails when the provided closure returns `nil`. For example, the following parser tries
+  /// to convert two characters into a hex digit, but fails to do so because `"GG"` is not a valid
+  /// hex number:
+  ///
+  /// ```swift
+  /// var input = "GG0000"[...]
+  /// let hex = try Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
+  /// // error: failed to process "Int" from "GG"
+  /// //  --> input:1:1-2
+  /// // 1 | GG0000
+  /// //   | ^^
+  /// ```
+  ///
   /// - Parameter transform: A closure that accepts output of this parser as its argument and
   ///   returns an optional value.
   /// - Returns: A parser that outputs the non-`nil` result of calling the given transformation

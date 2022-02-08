@@ -11,7 +11,7 @@
 /// input                      // "ello"
 /// ```
 ///
-/// If the collection is empty, or if it has been consumed in its entirety, parsing will fail:
+/// This parser fails if the input collection is empty:
 ///
 /// ```swift
 /// input = ""

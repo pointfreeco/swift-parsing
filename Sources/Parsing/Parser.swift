@@ -24,7 +24,7 @@
 /// ```swift
 /// do {
 ///   var input = "1234 Hello"[...]
-///   let number = UInt8.parser().parse(&input))
+///   let number = try UInt8.parser().parse(&input))
 /// } catch {
 ///   print(error)
 ///

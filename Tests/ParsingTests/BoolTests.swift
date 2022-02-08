@@ -22,7 +22,7 @@ final class BoolTests: XCTestCase {
         error: unexpected input
          --> input:1:1
         1 | Hello, world!
-          | ^ expected boolean
+          | ^ expected "true" or "false"
         """,
         "\(error)"
       )

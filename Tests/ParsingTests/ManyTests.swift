@@ -170,7 +170,30 @@ class ManyTests: XCTestCase {
         error: unexpected input
          --> input:3:11
         3 | 3,Blob Jr,tru
-          |           ^ expected boolean
+          |           ^ expected "true" or "false"
+        """,
+        "\(error)"
+      )
+    }
+  }
+
+  func testTerminatorFails() throws {
+    let intsParser = Many {
+      Int.parser()
+    } separator: {
+      ","
+    } terminator: {
+      "---"
+    }
+
+    var input = "1,2,3-"[...]
+    XCTAssertThrowsError(try intsParser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:6
+        1 | 1,2,3-
+          |      ^ expected ","
         """,
         "\(error)"
       )

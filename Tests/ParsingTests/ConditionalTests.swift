@@ -7,7 +7,7 @@ final class ConditionalTests: XCTestCase {
       if n.isMultiple(of: 2) {
         Always(true)
       } else {
-        Fail<Substring, Bool>()
+        Fail<Substring, Bool>(throwing: OddNumberError())
       }
     }
 
@@ -22,7 +22,7 @@ final class ConditionalTests: XCTestCase {
     XCTAssertThrowsError(try parser.parse(&input)) { error in
       XCTAssertEqual(
         """
-        error: failed
+        error: OddNumberError()
          --> input:1:1-2
         1 | 43 Hello, world!
           | ^^
@@ -33,3 +33,5 @@ final class ConditionalTests: XCTestCase {
     XCTAssertEqual(" Hello, world!", input)
   }
 }
+
+private struct OddNumberError: Error {}

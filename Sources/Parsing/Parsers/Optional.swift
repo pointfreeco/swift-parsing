@@ -34,7 +34,7 @@ extension Parsers {
       guard let wrapped = self.wrapped
       else { return }
 
-      return try wrapped.parse(&input)
+      try wrapped.parse(&input)
     }
   }
 }

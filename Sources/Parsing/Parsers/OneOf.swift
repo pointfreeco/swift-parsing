@@ -32,6 +32,25 @@
 /// currency.parse("$")  // Currency.usd
 /// currency.parse("฿")  // Currency.unknown
 /// ```
+///
+/// This parser fails if every parser inside fails:
+///
+/// ```swift
+///  var input = "London, Hello!"[...]
+///  try OneOf { "New York"; "Berlin" }.parse(&input)
+///
+///  // error: multiple failures occurred
+///  //
+///  // error: unexpected input
+///  //  --> input:1:1
+///  // 1 | London, Hello!
+///  //   | ^ expected "New York"
+///  //
+///  // error: unexpected input
+///  //  --> input:1:1
+///  // 1 | London, Hello!
+///  //   | ^ expected "Berlin"
+/// ```
 public struct OneOf<Parsers: Parser>: Parser {
   public let parsers: Parsers
 

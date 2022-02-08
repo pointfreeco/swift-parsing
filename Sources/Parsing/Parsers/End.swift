@@ -13,7 +13,11 @@
 ///
 /// var input = "Hello, Blob!"[...]
 /// try parser.parse(&input)  // "Blob"
+/// ```
 ///
+/// This parser will fail if there are input elements that have not been consumed:
+///
+/// ```swift
 /// input = "Hello, Blob!!"
 /// try parser.parse(&input)
 /// // error: unexpected input
