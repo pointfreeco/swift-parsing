@@ -151,7 +151,11 @@ where
     do {
       _ = try self.terminator.parse(&input)
     } catch {
-      throw loopError ?? error
+      if let loopError = loopError {
+        throw ParsingError.manyFailed([loopError, error], at: input)
+      } else {
+        throw error
+      }
     }
     guard count >= self.minimum else {
       let atLeast = self.minimum - count
