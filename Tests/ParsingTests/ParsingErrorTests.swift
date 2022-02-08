@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 class ParsingErrorTests: XCTestCase {

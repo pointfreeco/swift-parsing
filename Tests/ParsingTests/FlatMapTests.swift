@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class FlatMapTests: XCTestCase {
