@@ -24,7 +24,9 @@ extension Conversions {
 
     @inlinable
     public func unapply(_ output: Root) throws -> Values {
-      guard MemoryLayout<Values>.size == MemoryLayout<Root>.size
+      guard
+        MemoryLayout<Values>.alignment == MemoryLayout<Root>.alignment,
+        MemoryLayout<Values>.size == MemoryLayout<Root>.size
       else { throw ConvertingError() }
       return unsafeBitCast(output, to: Values.self)
     }
