@@ -12,6 +12,8 @@ A library for turning nebulous data into well-structured data, with a focus on c
 
 * **Generality**: Ability to parse _any_ kind of input into _any_ kind of output. This allows you to choose which abstraction levels you want to work on based on how much performance you need or how much correctness you want guaranteed. For example, you can write a highly tuned parser on collections of UTF-8 code units, and it will automatically plug into parsers of strings, arrays, unsafe buffer pointers and more.
 
+* **Ergonomics**: Accomplish all of the above in a simple, fluent API that can succinctly describe your parsing problem.
+
 ---
 
 * [Motivation](#motivation)
