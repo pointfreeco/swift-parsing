@@ -18,12 +18,10 @@ extension Parsers {
       P0.Output,
       P1.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1)
@@ -57,12 +55,10 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P0.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0)
@@ -96,12 +92,10 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P1.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1)
@@ -136,12 +130,10 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
 
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input)
       else {
-        input = original
         return nil
       }
       return ()
@@ -179,13 +171,11 @@ extension Parsers {
       P1.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
         let o2 = p2.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2)
@@ -223,13 +213,11 @@ extension Parsers {
       P0.Output,
       P1.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
         let _ = p2.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1)
@@ -267,13 +255,11 @@ extension Parsers {
       P0.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
         let o2 = p2.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2)
@@ -311,13 +297,11 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P0.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
         let _ = p2.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0)
@@ -355,13 +339,11 @@ extension Parsers {
       P1.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
         let o2 = p2.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2)
@@ -399,13 +381,11 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P1.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
         let _ = p2.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1)
@@ -443,13 +423,11 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P2.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
         let o2 = p2.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2)
@@ -488,13 +466,11 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
 
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
         let _ = p2.parse(&input)
       else {
-        input = original
         return nil
       }
       return ()
@@ -536,14 +512,12 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
         let o2 = p2.parse(&input),
         let o3 = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2, o3)
@@ -585,14 +559,12 @@ extension Parsers {
       P1.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
         let o2 = p2.parse(&input),
         let _ = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2)
@@ -634,14 +606,12 @@ extension Parsers {
       P1.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
         let _ = p2.parse(&input),
         let o3 = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o3)
@@ -683,14 +653,12 @@ extension Parsers {
       P0.Output,
       P1.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
         let _ = p2.parse(&input),
         let _ = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1)
@@ -732,14 +700,12 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
         let o2 = p2.parse(&input),
         let o3 = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2, o3)
@@ -781,14 +747,12 @@ extension Parsers {
       P0.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
         let o2 = p2.parse(&input),
         let _ = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2)
@@ -830,14 +794,12 @@ extension Parsers {
       P0.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
         let _ = p2.parse(&input),
         let o3 = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o3)
@@ -879,14 +841,12 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P0.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
         let _ = p2.parse(&input),
         let _ = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0)
@@ -928,14 +888,12 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
         let o2 = p2.parse(&input),
         let o3 = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2, o3)
@@ -977,14 +935,12 @@ extension Parsers {
       P1.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
         let o2 = p2.parse(&input),
         let _ = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2)
@@ -1026,14 +982,12 @@ extension Parsers {
       P1.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
         let _ = p2.parse(&input),
         let o3 = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o3)
@@ -1075,14 +1029,12 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P1.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
         let _ = p2.parse(&input),
         let _ = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1)
@@ -1124,14 +1076,12 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
         let o2 = p2.parse(&input),
         let o3 = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2, o3)
@@ -1173,14 +1123,12 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P2.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
         let o2 = p2.parse(&input),
         let _ = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2)
@@ -1222,14 +1170,12 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
         let _ = p2.parse(&input),
         let o3 = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o3)
@@ -1272,14 +1218,12 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
 
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
         let _ = p2.parse(&input),
         let _ = p3.parse(&input)
       else {
-        input = original
         return nil
       }
       return ()
@@ -1325,7 +1269,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -1333,7 +1276,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2, o3, o4)
@@ -1379,7 +1321,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -1387,7 +1328,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2, o3)
@@ -1433,7 +1373,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -1441,7 +1380,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2, o4)
@@ -1487,7 +1425,6 @@ extension Parsers {
       P1.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -1495,7 +1432,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2)
@@ -1541,7 +1477,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -1549,7 +1484,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o3, o4)
@@ -1595,7 +1529,6 @@ extension Parsers {
       P1.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -1603,7 +1536,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o3)
@@ -1649,7 +1581,6 @@ extension Parsers {
       P1.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -1657,7 +1588,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o4)
@@ -1703,7 +1633,6 @@ extension Parsers {
       P0.Output,
       P1.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -1711,7 +1640,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1)
@@ -1757,7 +1685,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -1765,7 +1692,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2, o3, o4)
@@ -1811,7 +1737,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -1819,7 +1744,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2, o3)
@@ -1865,7 +1789,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -1873,7 +1796,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2, o4)
@@ -1919,7 +1841,6 @@ extension Parsers {
       P0.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -1927,7 +1848,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2)
@@ -1973,7 +1893,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -1981,7 +1900,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o3, o4)
@@ -2027,7 +1945,6 @@ extension Parsers {
       P0.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -2035,7 +1952,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o3)
@@ -2081,7 +1997,6 @@ extension Parsers {
       P0.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -2089,7 +2004,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o4)
@@ -2135,7 +2049,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P0.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -2143,7 +2056,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0)
@@ -2189,7 +2101,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -2197,7 +2108,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2, o3, o4)
@@ -2243,7 +2153,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -2251,7 +2160,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2, o3)
@@ -2297,7 +2205,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -2305,7 +2212,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2, o4)
@@ -2351,7 +2257,6 @@ extension Parsers {
       P1.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -2359,7 +2264,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2)
@@ -2405,7 +2309,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -2413,7 +2316,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o3, o4)
@@ -2459,7 +2361,6 @@ extension Parsers {
       P1.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -2467,7 +2368,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o3)
@@ -2513,7 +2413,6 @@ extension Parsers {
       P1.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -2521,7 +2420,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o4)
@@ -2567,7 +2465,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P1.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -2575,7 +2472,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1)
@@ -2621,7 +2517,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -2629,7 +2524,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2, o3, o4)
@@ -2675,7 +2569,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -2683,7 +2576,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2, o3)
@@ -2729,7 +2621,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -2737,7 +2628,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2, o4)
@@ -2783,7 +2673,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P2.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -2791,7 +2680,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2)
@@ -2837,7 +2725,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -2845,7 +2732,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o3, o4)
@@ -2891,7 +2777,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -2899,7 +2784,6 @@ extension Parsers {
         let o3 = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o3)
@@ -2945,7 +2829,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -2953,7 +2836,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let o4 = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o4)
@@ -3000,7 +2882,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
 
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -3008,7 +2889,6 @@ extension Parsers {
         let _ = p3.parse(&input),
         let _ = p4.parse(&input)
       else {
-        input = original
         return nil
       }
       return ()
@@ -3058,7 +2938,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3067,7 +2946,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2, o3, o4, o5)
@@ -3117,7 +2995,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3126,7 +3003,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2, o3, o4)
@@ -3176,7 +3052,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3185,7 +3060,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2, o3, o5)
@@ -3235,7 +3109,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3244,7 +3117,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2, o3)
@@ -3294,7 +3166,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3303,7 +3174,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2, o4, o5)
@@ -3353,7 +3223,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3362,7 +3231,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2, o4)
@@ -3412,7 +3280,6 @@ extension Parsers {
       P2.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3421,7 +3288,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2, o5)
@@ -3471,7 +3337,6 @@ extension Parsers {
       P1.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3480,7 +3345,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o2)
@@ -3530,7 +3394,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3539,7 +3402,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o3, o4, o5)
@@ -3589,7 +3451,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3598,7 +3459,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o3, o4)
@@ -3648,7 +3508,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3657,7 +3516,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o3, o5)
@@ -3707,7 +3565,6 @@ extension Parsers {
       P1.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3716,7 +3573,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o3)
@@ -3766,7 +3622,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3775,7 +3630,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o4, o5)
@@ -3825,7 +3679,6 @@ extension Parsers {
       P1.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3834,7 +3687,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o4)
@@ -3884,7 +3736,6 @@ extension Parsers {
       P1.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3893,7 +3744,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1, o5)
@@ -3943,7 +3793,6 @@ extension Parsers {
       P0.Output,
       P1.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -3952,7 +3801,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o1)
@@ -4002,7 +3850,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4011,7 +3858,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2, o3, o4, o5)
@@ -4061,7 +3907,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4070,7 +3915,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2, o3, o4)
@@ -4120,7 +3964,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4129,7 +3972,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2, o3, o5)
@@ -4179,7 +4021,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4188,7 +4029,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2, o3)
@@ -4238,7 +4078,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4247,7 +4086,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2, o4, o5)
@@ -4297,7 +4135,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4306,7 +4143,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2, o4)
@@ -4356,7 +4192,6 @@ extension Parsers {
       P2.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4365,7 +4200,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2, o5)
@@ -4415,7 +4249,6 @@ extension Parsers {
       P0.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4424,7 +4257,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o2)
@@ -4474,7 +4306,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4483,7 +4314,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o3, o4, o5)
@@ -4533,7 +4363,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4542,7 +4371,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o3, o4)
@@ -4592,7 +4420,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4601,7 +4428,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o3, o5)
@@ -4651,7 +4477,6 @@ extension Parsers {
       P0.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4660,7 +4485,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o3)
@@ -4710,7 +4534,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4719,7 +4542,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o4, o5)
@@ -4769,7 +4591,6 @@ extension Parsers {
       P0.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4778,7 +4599,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o4)
@@ -4828,7 +4648,6 @@ extension Parsers {
       P0.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4837,7 +4656,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0, o5)
@@ -4887,7 +4705,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P0.Output
     )? {
-      let original = input
       guard
         let o0 = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -4896,7 +4713,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o0)
@@ -4946,7 +4762,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -4955,7 +4770,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2, o3, o4, o5)
@@ -5005,7 +4819,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5014,7 +4827,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2, o3, o4)
@@ -5064,7 +4876,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5073,7 +4884,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2, o3, o5)
@@ -5123,7 +4933,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5132,7 +4941,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2, o3)
@@ -5182,7 +4990,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5191,7 +4998,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2, o4, o5)
@@ -5241,7 +5047,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5250,7 +5055,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2, o4)
@@ -5300,7 +5104,6 @@ extension Parsers {
       P2.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5309,7 +5112,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2, o5)
@@ -5359,7 +5161,6 @@ extension Parsers {
       P1.Output,
       P2.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5368,7 +5169,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o2)
@@ -5418,7 +5218,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5427,7 +5226,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o3, o4, o5)
@@ -5477,7 +5275,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5486,7 +5283,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o3, o4)
@@ -5536,7 +5332,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5545,7 +5340,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o3, o5)
@@ -5595,7 +5389,6 @@ extension Parsers {
       P1.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5604,7 +5397,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o3)
@@ -5654,7 +5446,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5663,7 +5454,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o4, o5)
@@ -5713,7 +5503,6 @@ extension Parsers {
       P1.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5722,7 +5511,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o4)
@@ -5772,7 +5560,6 @@ extension Parsers {
       P1.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5781,7 +5568,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1, o5)
@@ -5831,7 +5617,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P1.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let o1 = p1.parse(&input),
@@ -5840,7 +5625,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o1)
@@ -5890,7 +5674,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -5899,7 +5682,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2, o3, o4, o5)
@@ -5949,7 +5731,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -5958,7 +5739,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2, o3, o4)
@@ -6008,7 +5788,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6017,7 +5796,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2, o3, o5)
@@ -6067,7 +5845,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6076,7 +5853,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2, o3)
@@ -6126,7 +5902,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6135,7 +5910,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2, o4, o5)
@@ -6185,7 +5959,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6194,7 +5967,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2, o4)
@@ -6244,7 +6016,6 @@ extension Parsers {
       P2.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6253,7 +6024,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2, o5)
@@ -6303,7 +6073,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P2.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6312,7 +6081,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o2)
@@ -6362,7 +6130,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6371,7 +6138,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o3, o4, o5)
@@ -6421,7 +6187,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6430,7 +6195,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o3, o4)
@@ -6480,7 +6244,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6489,7 +6252,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o3, o5)
@@ -6539,7 +6301,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P3.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6548,7 +6309,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o3)
@@ -6598,7 +6358,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6607,7 +6366,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o4, o5)
@@ -6657,7 +6415,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P4.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6666,7 +6423,6 @@ extension Parsers {
         let o4 = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o4)
@@ -6716,7 +6472,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
       P5.Output
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6725,7 +6480,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let o5 = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return (o5)
@@ -6776,7 +6530,6 @@ extension Parsers {
     @inlinable public func parse(_ input: inout P0.Input) -> (
 
     )? {
-      let original = input
       guard
         let _ = p0.parse(&input),
         let _ = p1.parse(&input),
@@ -6785,7 +6538,6 @@ extension Parsers {
         let _ = p4.parse(&input),
         let _ = p5.parse(&input)
       else {
-        input = original
         return nil
       }
       return ()
@@ -6817,8 +6569,16 @@ extension Parsers {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
+      var i0 = input
+      if let output = self.p0.parse(&i0) {
+        input = i0
+        return output
+      }
+      var i1 = input
+      if let output = self.p1.parse(&i1) {
+        input = i1
+        return output
+      }
       return nil
     }
   }
@@ -6852,9 +6612,21 @@ extension Parsers {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
+      var i0 = input
+      if let output = self.p0.parse(&i0) {
+        input = i0
+        return output
+      }
+      var i1 = input
+      if let output = self.p1.parse(&i1) {
+        input = i1
+        return output
+      }
+      var i2 = input
+      if let output = self.p2.parse(&i2) {
+        input = i2
+        return output
+      }
       return nil
     }
   }
@@ -6892,10 +6664,26 @@ extension Parsers {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
+      var i0 = input
+      if let output = self.p0.parse(&i0) {
+        input = i0
+        return output
+      }
+      var i1 = input
+      if let output = self.p1.parse(&i1) {
+        input = i1
+        return output
+      }
+      var i2 = input
+      if let output = self.p2.parse(&i2) {
+        input = i2
+        return output
+      }
+      var i3 = input
+      if let output = self.p3.parse(&i3) {
+        input = i3
+        return output
+      }
       return nil
     }
   }
@@ -6937,11 +6725,31 @@ extension Parsers {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
+      var i0 = input
+      if let output = self.p0.parse(&i0) {
+        input = i0
+        return output
+      }
+      var i1 = input
+      if let output = self.p1.parse(&i1) {
+        input = i1
+        return output
+      }
+      var i2 = input
+      if let output = self.p2.parse(&i2) {
+        input = i2
+        return output
+      }
+      var i3 = input
+      if let output = self.p3.parse(&i3) {
+        input = i3
+        return output
+      }
+      var i4 = input
+      if let output = self.p4.parse(&i4) {
+        input = i4
+        return output
+      }
       return nil
     }
   }
@@ -6987,12 +6795,36 @@ extension Parsers {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
-      if let output = self.p5.parse(&input) { return output }
+      var i0 = input
+      if let output = self.p0.parse(&i0) {
+        input = i0
+        return output
+      }
+      var i1 = input
+      if let output = self.p1.parse(&i1) {
+        input = i1
+        return output
+      }
+      var i2 = input
+      if let output = self.p2.parse(&i2) {
+        input = i2
+        return output
+      }
+      var i3 = input
+      if let output = self.p3.parse(&i3) {
+        input = i3
+        return output
+      }
+      var i4 = input
+      if let output = self.p4.parse(&i4) {
+        input = i4
+        return output
+      }
+      var i5 = input
+      if let output = self.p5.parse(&i5) {
+        input = i5
+        return output
+      }
       return nil
     }
   }
@@ -7042,13 +6874,41 @@ extension Parsers {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
-      if let output = self.p5.parse(&input) { return output }
-      if let output = self.p6.parse(&input) { return output }
+      var i0 = input
+      if let output = self.p0.parse(&i0) {
+        input = i0
+        return output
+      }
+      var i1 = input
+      if let output = self.p1.parse(&i1) {
+        input = i1
+        return output
+      }
+      var i2 = input
+      if let output = self.p2.parse(&i2) {
+        input = i2
+        return output
+      }
+      var i3 = input
+      if let output = self.p3.parse(&i3) {
+        input = i3
+        return output
+      }
+      var i4 = input
+      if let output = self.p4.parse(&i4) {
+        input = i4
+        return output
+      }
+      var i5 = input
+      if let output = self.p5.parse(&i5) {
+        input = i5
+        return output
+      }
+      var i6 = input
+      if let output = self.p6.parse(&i6) {
+        input = i6
+        return output
+      }
       return nil
     }
   }
@@ -7090,9 +6950,7 @@ extension Parsers {
   {
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -7104,14 +6962,46 @@ extension Parsers {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
-      if let output = self.p5.parse(&input) { return output }
-      if let output = self.p6.parse(&input) { return output }
-      if let output = self.p7.parse(&input) { return output }
+      var i0 = input
+      if let output = self.p0.parse(&i0) {
+        input = i0
+        return output
+      }
+      var i1 = input
+      if let output = self.p1.parse(&i1) {
+        input = i1
+        return output
+      }
+      var i2 = input
+      if let output = self.p2.parse(&i2) {
+        input = i2
+        return output
+      }
+      var i3 = input
+      if let output = self.p3.parse(&i3) {
+        input = i3
+        return output
+      }
+      var i4 = input
+      if let output = self.p4.parse(&i4) {
+        input = i4
+        return output
+      }
+      var i5 = input
+      if let output = self.p5.parse(&i5) {
+        input = i5
+        return output
+      }
+      var i6 = input
+      if let output = self.p6.parse(&i6) {
+        input = i6
+        return output
+      }
+      var i7 = input
+      if let output = self.p7.parse(&i7) {
+        input = i7
+        return output
+      }
       return nil
     }
   }
@@ -7156,9 +7046,7 @@ extension Parsers {
   {
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -7171,15 +7059,51 @@ extension Parsers {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
-      if let output = self.p5.parse(&input) { return output }
-      if let output = self.p6.parse(&input) { return output }
-      if let output = self.p7.parse(&input) { return output }
-      if let output = self.p8.parse(&input) { return output }
+      var i0 = input
+      if let output = self.p0.parse(&i0) {
+        input = i0
+        return output
+      }
+      var i1 = input
+      if let output = self.p1.parse(&i1) {
+        input = i1
+        return output
+      }
+      var i2 = input
+      if let output = self.p2.parse(&i2) {
+        input = i2
+        return output
+      }
+      var i3 = input
+      if let output = self.p3.parse(&i3) {
+        input = i3
+        return output
+      }
+      var i4 = input
+      if let output = self.p4.parse(&i4) {
+        input = i4
+        return output
+      }
+      var i5 = input
+      if let output = self.p5.parse(&i5) {
+        input = i5
+        return output
+      }
+      var i6 = input
+      if let output = self.p6.parse(&i6) {
+        input = i6
+        return output
+      }
+      var i7 = input
+      if let output = self.p7.parse(&i7) {
+        input = i7
+        return output
+      }
+      var i8 = input
+      if let output = self.p8.parse(&i8) {
+        input = i8
+        return output
+      }
       return nil
     }
   }
@@ -7227,10 +7151,7 @@ extension Parsers {
   {
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8,
-      _ p9: P9
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8, _ p9: P9) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -7244,16 +7165,56 @@ extension Parsers {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) -> P0.Output? {
-      if let output = self.p0.parse(&input) { return output }
-      if let output = self.p1.parse(&input) { return output }
-      if let output = self.p2.parse(&input) { return output }
-      if let output = self.p3.parse(&input) { return output }
-      if let output = self.p4.parse(&input) { return output }
-      if let output = self.p5.parse(&input) { return output }
-      if let output = self.p6.parse(&input) { return output }
-      if let output = self.p7.parse(&input) { return output }
-      if let output = self.p8.parse(&input) { return output }
-      if let output = self.p9.parse(&input) { return output }
+      var i0 = input
+      if let output = self.p0.parse(&i0) {
+        input = i0
+        return output
+      }
+      var i1 = input
+      if let output = self.p1.parse(&i1) {
+        input = i1
+        return output
+      }
+      var i2 = input
+      if let output = self.p2.parse(&i2) {
+        input = i2
+        return output
+      }
+      var i3 = input
+      if let output = self.p3.parse(&i3) {
+        input = i3
+        return output
+      }
+      var i4 = input
+      if let output = self.p4.parse(&i4) {
+        input = i4
+        return output
+      }
+      var i5 = input
+      if let output = self.p5.parse(&i5) {
+        input = i5
+        return output
+      }
+      var i6 = input
+      if let output = self.p6.parse(&i6) {
+        input = i6
+        return output
+      }
+      var i7 = input
+      if let output = self.p7.parse(&i7) {
+        input = i7
+        return output
+      }
+      var i8 = input
+      if let output = self.p8.parse(&i8) {
+        input = i8
+        return output
+      }
+      var i9 = input
+      if let output = self.p9.parse(&i9) {
+        input = i9
+        return output
+      }
       return nil
     }
   }
@@ -7261,8 +7222,7 @@ extension Parsers {
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8,
-    _ p9: P9
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8, _ p9: P9
   ) -> Parsers.OneOf10<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> {
     Parsers.OneOf10(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)
   }

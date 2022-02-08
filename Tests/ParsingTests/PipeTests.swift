@@ -17,7 +17,7 @@ final class PipeTests: XCTestCase {
       }
       .parse(&input)
     )
-    XCTAssertEqual("true Hello, world!", Substring(input))
+    XCTAssertEqual("Hello, world!", Substring(input))
   }
 
   func testFailureInput() {

@@ -66,8 +66,10 @@ struct TestCaseBody: Parser {
 
     input.removeFirst(filePathPrefix.count)
     guard
-      var failure = PrefixUpTo(filePathPrefix).parse(&input)
-        ?? PrefixUpTo("Test Case '-[".utf8).parse(&input)
+      var failure = OneOf({
+        PrefixUpTo(filePathPrefix)
+        PrefixUpTo("Test Case '-[".utf8)
+      }).parse(&input)
     else {
       input = original
       return nil

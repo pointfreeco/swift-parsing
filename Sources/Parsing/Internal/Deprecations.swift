@@ -271,17 +271,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout A.Input) -> B.Output? {
-      let original = input
-
-      guard self.a.parse(&input) != nil
+      guard
+        self.a.parse(&input) != nil,
+        let b = self.b.parse(&input)
       else { return nil }
-
-      guard let b = self.b.parse(&input)
-      else {
-        input = original
-        return nil
-      }
-
       return b
     }
   }
@@ -304,17 +297,10 @@ extension Parsers {
     @inlinable
     @inline(__always)
     public func parse(_ input: inout A.Input) -> A.Output? {
-      let original = input
-
-      guard let a = self.a.parse(&input)
+      guard
+        let a = self.a.parse(&input),
+        self.b.parse(&input) != nil
       else { return nil }
-
-      guard self.b.parse(&input) != nil
-      else {
-        input = original
-        return nil
-      }
-
       return a
     }
   }
@@ -617,14 +603,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout A.Input) -> (A.Output, B.Output)? {
-      let original = input
-      guard let a = self.a.parse(&input)
+      guard
+        let a = self.a.parse(&input),
+        let b = self.b.parse(&input)
       else { return nil }
-      guard let b = self.b.parse(&input)
-      else {
-        input = original
-        return nil
-      }
       return (a, b)
     }
   }
@@ -655,14 +637,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout AB.Input) -> (A, B, C.Output)? {
-      let original = input
-      guard let (a, b) = self.ab.parse(&input)
+      guard
+        let (a, b) = self.ab.parse(&input),
+        let c = self.c.parse(&input)
       else { return nil }
-      guard let c = self.c.parse(&input)
-      else {
-        input = original
-        return nil
-      }
       return (a, b, c)
     }
   }
@@ -693,14 +671,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout ABC.Input) -> (A, B, C, D.Output)? {
-      let original = input
-      guard let (a, b, c) = self.abc.parse(&input)
+      guard
+        let (a, b, c) = self.abc.parse(&input),
+        let d = self.d.parse(&input)
       else { return nil }
-      guard let d = self.d.parse(&input)
-      else {
-        input = original
-        return nil
-      }
       return (a, b, c, d)
     }
   }
@@ -731,14 +705,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout ABCD.Input) -> (A, B, C, D, E.Output)? {
-      let original = input
-      guard let (a, b, c, d) = self.abcd.parse(&input)
+      guard
+        let (a, b, c, d) = self.abcd.parse(&input),
+        let e = self.e.parse(&input)
       else { return nil }
-      guard let e = self.e.parse(&input)
-      else {
-        input = original
-        return nil
-      }
       return (a, b, c, d, e)
     }
   }
@@ -769,14 +739,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout ABCDE.Input) -> (A, B, C, D, E, F.Output)? {
-      let original = input
-      guard let (a, b, c, d, e) = self.abcde.parse(&input)
+      guard
+        let (a, b, c, d, e) = self.abcde.parse(&input),
+        let f = self.f.parse(&input)
       else { return nil }
-      guard let f = self.f.parse(&input)
-      else {
-        input = original
-        return nil
-      }
       return (a, b, c, d, e, f)
     }
   }
@@ -807,14 +773,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout ABCDEF.Input) -> (A, B, C, D, E, F, G.Output)? {
-      let original = input
-      guard let (a, b, c, d, e, f) = self.abcdef.parse(&input)
+      guard
+        let (a, b, c, d, e, f) = self.abcdef.parse(&input),
+        let g = self.g.parse(&input)
       else { return nil }
-      guard let g = self.g.parse(&input)
-      else {
-        input = original
-        return nil
-      }
       return (a, b, c, d, e, f, g)
     }
   }
@@ -845,14 +807,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout ABCDEFG.Input) -> (A, B, C, D, E, F, G, H.Output)? {
-      let original = input
-      guard let (a, b, c, d, e, f, g) = self.abcdefg.parse(&input)
+      guard
+        let (a, b, c, d, e, f, g) = self.abcdefg.parse(&input),
+        let h = self.h.parse(&input)
       else { return nil }
-      guard let h = self.h.parse(&input)
-      else {
-        input = original
-        return nil
-      }
       return (a, b, c, d, e, f, g, h)
     }
   }
@@ -883,14 +841,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout ABCDEFGH.Input) -> (A, B, C, D, E, F, G, H, I.Output)? {
-      let original = input
-      guard let (a, b, c, d, e, f, g, h) = self.abcdefgh.parse(&input)
+      guard
+        let (a, b, c, d, e, f, g, h) = self.abcdefgh.parse(&input),
+        let i = self.i.parse(&input)
       else { return nil }
-      guard let i = self.i.parse(&input)
-      else {
-        input = original
-        return nil
-      }
       return (a, b, c, d, e, f, g, h, i)
     }
   }
@@ -921,14 +875,10 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout ABCDEFGHI.Input) -> (A, B, C, D, E, F, G, H, I, J.Output)? {
-      let original = input
-      guard let (a, b, c, d, e, f, g, h, i) = self.abcdefghi.parse(&input)
+      guard
+        let (a, b, c, d, e, f, g, h, i) = self.abcdefghi.parse(&input),
+        let j = self.j.parse(&input)
       else { return nil }
-      guard let j = self.j.parse(&input)
-      else {
-        input = original
-        return nil
-      }
       return (a, b, c, d, e, f, g, h, i, j)
     }
   }
@@ -960,14 +910,10 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout ABCDEFGHIJ.Input) -> (A, B, C, D, E, F, G, H, I, J, K.Output)?
     {
-      let original = input
-      guard let (a, b, c, d, e, f, g, h, i, j) = self.abcdefghij.parse(&input)
+      guard
+        let (a, b, c, d, e, f, g, h, i, j) = self.abcdefghij.parse(&input),
+        let k = self.k.parse(&input)
       else { return nil }
-      guard let k = self.k.parse(&input)
-      else {
-        input = original
-        return nil
-      }
       return (a, b, c, d, e, f, g, h, i, j, k)
     }
   }

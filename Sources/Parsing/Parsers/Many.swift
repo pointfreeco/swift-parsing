@@ -76,7 +76,6 @@ where
 
   @inlinable
   public func parse(_ input: inout Element.Input) -> Result? {
-    let original = input
     var rest = input
     #if DEBUG
       var previous = input
@@ -118,10 +117,8 @@ where
         }
       #endif
     }
-    guard count >= self.minimum else {
-      input = original
-      return nil
-    }
+    guard count >= self.minimum
+    else { return nil }
     input = rest
     return result
   }
