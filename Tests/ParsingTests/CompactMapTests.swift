@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class CompactMapTests: XCTestCase {
@@ -12,21 +12,21 @@ final class CompactMapTests: XCTestCase {
   }
 
   func testFailure() {
-    var input = "ERRORS"[...]
+    var input = "GG0000"[...]
     XCTAssertThrowsError(
       try Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
     ) { error in
       XCTAssertEqual(
         """
-        error: failed to process "Int" from "ER"
+        error: failed to process "Int" from "GG"
          --> input:1:1-2
-        1 | ERRORS
+        1 | GG0000
           | ^^
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
-    XCTAssertEqual("RORS", Substring(input))
+    XCTAssertEqual("0000", Substring(input))
   }
 
   func testOverloadArray() {

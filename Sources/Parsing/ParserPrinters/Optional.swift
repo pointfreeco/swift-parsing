@@ -17,7 +17,7 @@ extension Parsers {
   /// A parser that attempts to run a given void parser, succeeding with void.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// `if` statements in a builder block:
+  /// `if` statements in parser builder blocks:
   ///
   /// ```swift
   /// Parse {
@@ -29,7 +29,7 @@ extension Parsers {
   ///   Rest()
   /// }
   /// ```
-  public struct OptionalVoid<Wrapped>: Parser where Wrapped: Parser, Wrapped.Output == Void {
+  public struct OptionalVoid<Wrapped: Parser>: Parser where Wrapped.Output == Void {
     let wrapped: Wrapped?
 
     public init(wrapped: Wrapped?) {
@@ -40,7 +40,7 @@ extension Parsers {
       guard let wrapped = self.wrapped
       else { return }
 
-      return try wrapped.parse(&input)
+      try wrapped.parse(&input)
     }
   }
 }

@@ -139,14 +139,14 @@ struct VariadicsGenerator: ParsableCommand {
       outputForEach(0..<arity, separator: "\n      ") { "self.p\($0) = p\($0)" }
       output("\n    }\n\n    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (\n")
       outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
-      output("\n    ) {\n      do {\n        ")
+      output("\n    ) {\n      let original = input\n      do {\n        ")
       outputForEach(0..<arity, separator: "\n        ") {
         "\(permutation.isCaptureless(at: $0) ? "" : "let o\($0) = ")try p\($0).parse(&input)"
       }
       output("\n        return (")
       outputForEach(permutation.captureIndices, separator: ", ") { "o\($0)" }
-      output(")\n      } catch {\n        throw ParsingError.wrap(error, at: input)\n      }")
-      output("\n   }\n  }\n}\n\n")
+      output(")\n      } catch {\n        defer { input = original }\n        ")
+      output("throw ParsingError.wrap(error, at: input)\n      }\n   }\n  }\n}\n\n")
 
       // Emit printer extension.
       output("extension Parsers.\(typeName): Printer\nwhere\n  ")
@@ -213,10 +213,10 @@ struct VariadicsGenerator: ParsableCommand {
     output("@inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {")
     output("\n      let original = input\n      ")
     outputForEach(0..<arity, separator: "\n      ") {
-      return """
-        \(String(repeating: "  ", count: $0))do { \($0 == 0 ? "" : "input = original; ")\
-        return try self.p\($0).parse(&input) } catch let e\($0) {
-        """
+      """
+      \(String(repeating: "  ", count: $0))do { \($0 == 0 ? "" : "input = original; ")\
+      return try self.p\($0).parse(&input) } catch let e\($0) {
+      """
     }
     output("\n      \(String(repeating: "  ", count: arity))throw ParsingError.manyFailed(")
     output("\n      \(String(repeating: "  ", count: arity + 1))[")
@@ -275,6 +275,7 @@ struct VariadicsGenerator: ParsableCommand {
     outputForEach(0..<arity, separator: ", ") { "p\($0)" }
     output(")\n  }\n}\n\n")
   }
+<<<<<<< HEAD
 
   func emitPathZipDeclarations(arity: Int) {
     for permutation in Permutations(arity: arity) {
@@ -346,4 +347,6 @@ struct VariadicsGenerator: ParsableCommand {
       output(")\n  }\n}\n\n")
     }
   }
+=======
+>>>>>>> parser-builder-throws-2
 }

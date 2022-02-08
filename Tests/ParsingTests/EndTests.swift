@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class EndTests: XCTestCase {
@@ -18,7 +18,7 @@ final class EndTests: XCTestCase {
         1 | Hello, world!
           | ^ expected end of input
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("Hello, world!", input)

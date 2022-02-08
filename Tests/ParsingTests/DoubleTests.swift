@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class DoubleTests: XCTestCase {
@@ -62,7 +62,7 @@ final class DoubleTests: XCTestCase {
         1 | -.123 Hello
           |  ^ expected double
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(".123 Hello", String(input))
@@ -76,7 +76,7 @@ final class DoubleTests: XCTestCase {
         1 | Hello
           | ^ expected double
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("Hello", String(input))
@@ -90,7 +90,7 @@ final class DoubleTests: XCTestCase {
         1 | - Hello
           |  ^ expected double
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(" Hello", String(input))
@@ -104,7 +104,7 @@ final class DoubleTests: XCTestCase {
         1 | + Hello
           |  ^ expected double
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(" Hello", String(input))
@@ -175,7 +175,7 @@ final class DoubleTests: XCTestCase {
         1 | -.123 Hello
           |  ^ expected float
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(".123 Hello", String(input))
@@ -189,7 +189,7 @@ final class DoubleTests: XCTestCase {
         1 | Hello
           | ^ expected float
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("Hello", String(input))
@@ -203,7 +203,7 @@ final class DoubleTests: XCTestCase {
         1 | - Hello
           |  ^ expected float
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(" Hello", String(input))
@@ -217,7 +217,7 @@ final class DoubleTests: XCTestCase {
         1 | + Hello
           |  ^ expected float
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(" Hello", String(input))
@@ -287,7 +287,7 @@ final class DoubleTests: XCTestCase {
           1 | -.123 Hello
             |  ^ expected extended-precision float
           """,
-          (error as? ParsingError)?.debugDescription ?? ""
+          "\(error)"
         )
       }
       XCTAssertEqual("-.123 Hello", String(input))
@@ -301,7 +301,7 @@ final class DoubleTests: XCTestCase {
           1 | Hello
             | ^ expected extended-precision float
           """,
-          (error as? ParsingError)?.debugDescription ?? ""
+          "\(error)"
         )
       }
       XCTAssertEqual("Hello", String(input))
@@ -315,7 +315,7 @@ final class DoubleTests: XCTestCase {
           1 | - Hello
             |  ^ expected extended-precision float
           """,
-          (error as? ParsingError)?.debugDescription ?? ""
+          "\(error)"
         )
       }
       XCTAssertEqual("- Hello", String(input))
@@ -329,7 +329,7 @@ final class DoubleTests: XCTestCase {
           1 | + Hello
             |  ^ expected extended-precision float
           """,
-          (error as? ParsingError)?.debugDescription ?? ""
+          "\(error)"
         )
       }
       XCTAssertEqual("+ Hello", String(input))

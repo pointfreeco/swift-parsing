@@ -153,15 +153,6 @@ extension ParsingError: CustomDebugStringConvertible {
       return format(label: label, context: context)
 
     case let .manyFailed(errors, context) where errors.isEmpty:
-      #if DEBUG
-        breakpoint(
-          """
-          ---
-          "ParsingError.manyFailed" was thrown with no errors.
-          ---
-          """
-        )
-      #endif
       return format(label: "", context: context)
 
     case let .manyFailed(errors, _):

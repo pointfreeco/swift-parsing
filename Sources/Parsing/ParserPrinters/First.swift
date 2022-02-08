@@ -11,21 +11,17 @@
 /// input                      // "ello"
 /// ```
 ///
-/// If the collection is empty, or if it has been consumed in its entirety, parsing will fail:
+/// This parser fails if the input collection is empty:
 ///
 /// ```swift
 /// input = ""
 /// try First().parse(&input)
 /// // error: unexpected input
-/// //  ---> input:1:1
+/// //  --> input:1:1
 /// // 1 |
 /// //   | ^ expected element
 /// ```
-public struct First<Input>: Parser
-where
-  Input: Collection,
-  Input.SubSequence == Input
-{
+public struct First<Input: Collection>: Parser where Input.SubSequence == Input {
   @inlinable
   public init() {}
 

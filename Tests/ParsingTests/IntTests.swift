@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class IntTests: XCTestCase {
@@ -34,7 +34,7 @@ final class IntTests: XCTestCase {
         1 | Hello
           | ^ expected integer
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("Hello", String(input))
@@ -48,7 +48,7 @@ final class IntTests: XCTestCase {
         1 | - Hello
           |  ^ expected integer
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(" Hello", String(input))
@@ -62,7 +62,7 @@ final class IntTests: XCTestCase {
         1 | + Hello
           |  ^ expected integer
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(" Hello", String(input))
@@ -78,7 +78,7 @@ final class IntTests: XCTestCase {
         1 | 1234 Hello
           | ^^^^ overflowed 255
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(" Hello", String(input))

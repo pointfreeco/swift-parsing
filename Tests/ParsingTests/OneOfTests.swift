@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class OneOfTests: XCTestCase {
@@ -49,7 +49,7 @@ final class OneOfTests: XCTestCase {
         1 | London, Hello!
           | ^ expected "Berlin"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("London, Hello!", Substring(input))
@@ -104,7 +104,7 @@ final class OneOfTests: XCTestCase {
         1 | London, Hello!
           | ^ expected "Berlin"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("London, Hello!", Substring(input))
@@ -132,7 +132,7 @@ final class OneOfTests: XCTestCase {
         1 | Hello
           | ^ expected integer
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }
@@ -159,7 +159,7 @@ final class OneOfTests: XCTestCase {
         1 | Hello
           | ^ expected integer
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }

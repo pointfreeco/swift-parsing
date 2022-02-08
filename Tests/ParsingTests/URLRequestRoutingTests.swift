@@ -100,7 +100,7 @@ class URLRequestRoutingTests: XCTestCase {
         0 | ["episodes", "hello"]
           |  ^ expected end of path
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }
@@ -331,11 +331,7 @@ where
   }
 }
 
-struct Route<Parsers>: Parser
-where
-  Parsers: Parser,
-  Parsers.Input == URLRequestData
-{
+struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestData {
   let parsers: Parsers
 
   @inlinable

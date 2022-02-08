@@ -166,6 +166,12 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Double.parser()`, which constructs this type.
+  ///
+  /// ```swift
+  /// var input = "123.45 Hello world"[...]
+  /// try Double.parser().parse(&input)  // 123.45
+  /// input                              // " Hello world"
+  /// ```
   public struct DoubleParser<Input>: Parser
   where
     Input: Collection,
@@ -195,6 +201,12 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Float.parser()`, which constructs this type.
+  ///
+  /// ```swift
+  /// var input = "123.45 Hello world"[...]
+  /// try Float.parser().parse(&input)  // 123.45
+  /// input                              // " Hello world"
+  /// ```
   public struct FloatParser<Input>: Parser
   where
     Input: Collection,
@@ -225,6 +237,12 @@ extension Parsers {
     ///
     /// You will not typically need to interact with this type directly. Instead you will usually
     /// use `Float80.parser()`, which constructs this type.
+    ///
+    /// ```swift
+    /// var input = "123.45 Hello world"[...]
+    /// try Float80.parser().parse(&input)  // 123.45
+    /// input                              // " Hello world"
+    /// ```
     public struct Float80Parser<Input>: Parser
     where
       Input: Collection,

@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class OneOfBuilderTests: XCTestCase {
@@ -38,7 +38,7 @@ final class OneOfBuilderTests: XCTestCase {
         1 | president
           | ^ expected "member"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }
@@ -76,7 +76,7 @@ final class OneOfBuilderTests: XCTestCase {
         1 | admin
           | ^ expected "member"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
 
@@ -111,7 +111,7 @@ final class OneOfBuilderTests: XCTestCase {
         1 | president
           | ^ expected "member"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
   }

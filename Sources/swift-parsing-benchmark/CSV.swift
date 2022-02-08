@@ -2,10 +2,8 @@ import Benchmark
 import Foundation
 import Parsing
 
-/**
- This benchmark demonstrates how to define a simple CSV parser with quoted fields and measures its
- performance against more a more ad hoc approach at the same level of abstraction.
- */
+/// This benchmark demonstrates how to define a simple CSV parser with quoted fields and measures its
+/// performance against more a more ad hoc approach at the same level of abstraction.
 let csvSuite = BenchmarkSuite(name: "CSV") { suite in
   let plainField = Prefix { $0 != .init(ascii: ",") && $0 != .init(ascii: "\n") }
 
@@ -56,8 +54,8 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
   }
 }
 
-private extension Substring.UTF8View {
-  mutating func parseCsv() -> [[String]] {
+extension Substring.UTF8View {
+  fileprivate mutating func parseCsv() -> [[String]] {
     var results: [[String]] = []
     while !self.isEmpty {
       results.append(self.parseLine())
@@ -65,7 +63,7 @@ private extension Substring.UTF8View {
     return results
   }
 
-  mutating func parseLine() -> [String] {
+  fileprivate mutating func parseLine() -> [String] {
     var row: [String] = []
     while !self.isEmpty {
       row.append(self.parseField())
@@ -80,7 +78,7 @@ private extension Substring.UTF8View {
     return row
   }
 
-  mutating func parseField() -> String {
+  fileprivate mutating func parseField() -> String {
     if self.first == UTF8.CodeUnit(ascii: "\"") {
       return String(Substring(self.parseQuotedField()))
     } else {
@@ -88,18 +86,18 @@ private extension Substring.UTF8View {
     }
   }
 
-  mutating func parseQuotedField() -> Substring.UTF8View {
+  fileprivate mutating func parseQuotedField() -> Substring.UTF8View {
     self.removeFirst()
     let field = self.remove(while: { $0 != UTF8.CodeUnit(ascii: "\"") })
     self.removeFirst()
     return field
   }
 
-  mutating func parsePlainField() -> Substring.UTF8View {
+  fileprivate mutating func parsePlainField() -> Substring.UTF8View {
     self.remove(while: { $0 != UTF8.CodeUnit(ascii: "\n") && $0 != UTF8.CodeUnit(ascii: ",") })
   }
 
-  mutating func remove(
+  fileprivate mutating func remove(
     while condition: (Substring.UTF8View.Element) -> Bool
   ) -> Substring.UTF8View {
     let prefix = self.prefix(while: condition)

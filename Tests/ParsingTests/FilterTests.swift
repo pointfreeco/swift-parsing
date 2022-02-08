@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class FilterTests: XCTestCase {
@@ -18,7 +18,7 @@ final class FilterTests: XCTestCase {
         1 | 43 Hello, world!
           | ^^ processed input
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual(" Hello, world!", Substring(input))

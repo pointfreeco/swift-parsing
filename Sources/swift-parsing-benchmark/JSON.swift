@@ -2,12 +2,10 @@ import Benchmark
 import Foundation
 import Parsing
 
-/**
- This benchmark shows how to create a naive JSON parser with combinators.
-
- It is mostly implemented according to the [spec](https://www.json.org/json-en.html) (we take a
- shortcut and use `Double.parser()`, which behaves accordingly).
- */
+/// This benchmark shows how to create a naive JSON parser with combinators.
+///
+/// It is mostly implemented according to the [spec](https://www.json.org/json-en.html) (we take a
+/// shortcut and use `Double.parser()`, which behaves accordingly).
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   enum JSONValue: Equatable {
     case array([Self])

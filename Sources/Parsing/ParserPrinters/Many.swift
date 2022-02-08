@@ -18,11 +18,29 @@ import Foundation
 /// input                         // ""
 /// ```
 ///
-/// The most general version of `Many` takes a closure that can customize how outputs accumulate,
-/// much like `Sequence.reduce(into:_)`. We could, for example, sum the numbers as we parse them
-/// instead of accumulating each value in an array:
+/// In addition to an element and separator parser, a "terminator" parser that is run after the element
+/// parser has run as many times as possible. This can be useful for proving that the `Many` parser has
+/// consumed everything you expect:
 ///
+/// ```swift
+/// let intsParser = Many {
+///   Int.parser()
+/// } separator: {
+///   ","
+/// } terminator: {
+///   "---"
+/// }
+///
+/// var input = "1,2,3---"[...]
+/// try intsParser.parse(&input)  // [1, 2, 3]
+/// input                         // ""
 /// ```
+///
+/// The outputs of the element parser do not need to be accumulated in an array. More generally one can
+/// specify a closure that customizes how outputs are accumulated, much like `Sequence.reduce(into:_)`. We
+/// could, for example, sum the numbers as we parse them instead of accumulating each value in an array:
+///
+/// ```swift
 /// let sumParser = Many(into: 0, +=) {
 ///   Int.parser()
 /// } separator: {
@@ -33,13 +51,32 @@ import Foundation
 /// try sumParser.parse(&input)  // 6
 /// input                        // ""
 /// ```
-public struct Many<Element, Result, Separator, Terminator, Printability>: Parser
+///
+/// This parser fails if the terminator parser fails. For example, if we required our comma-separated
+/// integer parser to be terminated by `"---"`, but we parsed a list that contained a non-integer we would
+/// get an error:
+///
+/// ```swift
+/// let intsParser = Many {
+///   Int.parser()
+/// } separator: {
+///   ","
+/// } terminator: {
+///   "---"
+/// }
+/// var input = "1,2,Hello---"[...]
+/// try intsParser.parse(&input)
+/// // error: unexpected input
+/// //  --> input:1:5
+/// // 1 | 1,2,Hello---
+/// //   |     ^ expected integer
+/// ```
+public struct Many<
+  Element: Parser, Result, Separator: Parser, Terminator: Parser, Printability
+>: Parser
 where
-  Element: Parser,
-  Separator: Parser,
-  Terminator: Parser,
-  Element.Input == Separator.Input,
-  Element.Input == Terminator.Input
+  Separator.Input == Element.Input,
+  Terminator.Input == Element.Input
 {
   public let element: Element
   public let initialResult: Result
@@ -53,9 +90,7 @@ where
   @inlinable
   public func parse(_ input: inout Element.Input) throws -> Result {
     var rest = input
-    #if DEBUG
-      var previous = input
-    #endif
+    var previous = input
     var result = self.initialResult
     var count = 0
     var loopError: Error?
@@ -67,9 +102,7 @@ where
         loopError = error
         break
       }
-      #if DEBUG
-        defer { previous = input }
-      #endif
+      defer { previous = input }
       count += 1
       self.updateAccumulatingResult(&result, output)
       rest = input
@@ -79,34 +112,22 @@ where
         loopError = error
         break
       }
-      #if DEBUG
-        if memcmp(&input, &previous, MemoryLayout<Element.Input>.size) == 0 {
-          var description = ""
-          debugPrint(output, terminator: "", to: &description)
-          breakpoint(
-            """
-            ---
-            A "Many" parser succeeded in parsing a value of "\(Element.Output.self)" \
-            (\(description)), but no input was consumed.
-
-            This is considered a logic error that leads to an infinite loop, and is typically \
-            introduced by parsers that always succeed, even though they don't consume any input. \
-            This includes "Prefix" and "CharacterSet" parsers, which return an empty string when \
-            their predicate immediately fails.
-
-            To work around the problem, require that some input is consumed (for example, use \
-            "Prefix(minLength: 1)"), or introduce a "separator" parser to "Many".
-            ---
-            """
-          )
-        }
-      #endif
+      if memcmp(&input, &previous, MemoryLayout<Element.Input>.size) == 0 {
+        throw ParsingError.failed(
+          "expected input to be consumed",
+          .init(remainingInput: input, debugDescription: "infinite loop", underlyingError: nil)
+        )
+      }
     }
     input = rest
     do {
       _ = try self.terminator.parse(&input)
     } catch {
-      throw loopError ?? error
+      if let loopError = loopError {
+        throw ParsingError.manyFailed([loopError, error], at: input)
+      } else {
+        throw error
+      }
     }
     guard count >= self.minimum else {
       let atLeast = self.minimum - count

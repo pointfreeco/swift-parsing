@@ -6,11 +6,7 @@
 /// Rest().parse(&input)  // "Hello"
 /// input                 // ""
 /// ```
-public struct Rest<Input>: Parser
-where
-  Input: Collection,
-  Input.SubSequence == Input
-{
+public struct Rest<Input: Collection>: Parser where Input.SubSequence == Input {
   @inlinable
   public init() {}
 

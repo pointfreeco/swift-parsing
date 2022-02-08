@@ -11,7 +11,7 @@
 ///
 /// This will check the input doesn't start with `"//"`, and if it doesn't, it will return the whole
 /// input up to the first newline.
-public struct Not<Upstream>: Parser where Upstream: Parser {
+public struct Not<Upstream: Parser>: Parser {
   public let upstream: Upstream
 
   /// Creates a parser that succeeds if the given parser fails, and does not consume any input.

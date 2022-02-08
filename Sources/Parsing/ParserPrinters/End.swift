@@ -13,15 +13,19 @@
 ///
 /// var input = "Hello, Blob!"[...]
 /// try parser.parse(&input)  // "Blob"
+/// ```
 ///
+/// This parser will fail if there are input elements that have not been consumed:
+///
+/// ```swift
 /// input = "Hello, Blob!!"
 /// try parser.parse(&input)
 /// // error: unexpected input
-/// //  ---> input:1:13
+/// //  --> input:1:13
 /// // 1 | Hello, Blob!!
 /// //   |             ^ expected end of input
 /// ```
-public struct End<Input>: Parser where Input: Collection {
+public struct End<Input: Collection>: Parser {
   @inlinable
   public init() {}
 

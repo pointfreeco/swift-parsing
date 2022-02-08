@@ -8,6 +8,29 @@ extension FixedWidthInteger {
   /// input                           // " Hello world")
   /// ```
   ///
+  /// This parser fails when it does not find an integer at the beginning of the collection:
+  ///
+  /// ```swift
+  /// var input = "+Hello"[...]
+  /// let number = try Int.parser().parse(&input))
+  /// // error: unexpected input
+  /// //  --> input:1:2
+  /// // 1 | +Hello
+  /// //   |  ^ expected integer
+  /// ```
+  ///
+  /// And it fails when the digits extracted from the beginning of the collection would cause the integer
+  /// type to overflow:
+  ///
+  /// ```swift
+  /// var input = "9999999999999999999 Hello"[...]
+  /// let number = try Int.parser().parse(&input))
+  /// // error: failed to process "Int"
+  /// //  --> input:1:1-19
+  /// // 1 | 9999999999999999999 Hello
+  /// //   | ^^^^^^^^^^^^^^^^^^^ overflowed 9223372036854775807
+  /// ```
+  ///
   /// - Parameters:
   ///   - inputType: The collection type of UTF-8 code units to parse.
   ///   - isSigned: If the parser will attempt to parse a leading `+` or `-` sign.
@@ -74,14 +97,13 @@ extension Parsers {
   /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
   /// beginning of a collection of UTF8 code units.
   ///
-  /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// `Int.parser()`, which constructs this type.
-  public struct IntParser<Input, Output>: Parser
+  /// You will not typically need to interact with this type directly. Instead you will usually use the
+  /// static `parser()` method on the `FixedWidthInteger` of your choice, e.g. `Int.parser()`,
+  /// `UInt8.parser()`, etc, all of which construct this type.
+  public struct IntParser<Input: Collection, Output: FixedWidthInteger>: Parser
   where
-    Input: Collection,
     Input.SubSequence == Input,
-    Input.Element == UTF8.CodeUnit,
-    Output: FixedWidthInteger
+    Input.Element == UTF8.CodeUnit
   {
     /// If the parser will attempt to parse a leading `+` or `-` sign.
     public let isSigned: Bool

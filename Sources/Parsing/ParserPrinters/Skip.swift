@@ -1,5 +1,5 @@
 /// A parser that discards the output of another parser.
-public struct Skip<Parsers>: Parser where Parsers: Parser {
+public struct Skip<Parsers: Parser>: Parser {
   /// The parser from which this parser receives output.
   public let parsers: Parsers
 

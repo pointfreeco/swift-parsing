@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class BoolTests: XCTestCase {
@@ -22,9 +22,9 @@ final class BoolTests: XCTestCase {
         error: unexpected input
          --> input:1:1
         1 | Hello, world!
-          | ^ expected boolean
+          | ^ expected "true" or "false"
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("Hello, world!", Substring(input))

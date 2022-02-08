@@ -2,29 +2,27 @@ import Benchmark
 import Foundation
 import Parsing
 
-/**
- This benchmark demonstrates how to parse raw data, which is just a collection of `UInt8` values
- (bytes).
-
- The data format we parse is the header for DNS packets, as specified
- [here](https://tools.ietf.org/html/rfc1035#page-26). It consists of 12 bytes, and contains
- information for 13 fields:
-
-     0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
-     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-     |                      ID                       |
-     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-     |QR|   Opcode  |AA|TC|RD|RA|   Z    |   RCODE   |
-     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-     |                    QDCOUNT                    |
-     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-     |                    ANCOUNT                    |
-     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-     |                    NSCOUNT                    |
-     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-     |                    ARCOUNT                    |
-     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
-*/
+/// This benchmark demonstrates how to parse raw data, which is just a collection of `UInt8` values
+/// (bytes).
+///
+/// The data format we parse is the header for DNS packets, as specified
+/// [here](https://tools.ietf.org/html/rfc1035#page-26). It consists of 12 bytes, and contains
+/// information for 13 fields:
+///
+///     0  1  2  3  4  5  6  7  8  9  10 11 12 13 14 15
+///     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+///     |                      ID                       |
+///     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+///     |QR|   Opcode  |AA|TC|RD|RA|   Z    |   RCODE   |
+///     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+///     |                    QDCOUNT                    |
+///     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+///     |                    ANCOUNT                    |
+///     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+///     |                    NSCOUNT                    |
+///     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
+///     |                    ARCOUNT                    |
+///     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
 let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
   struct Word16Parser: Parser {
     func parse(_ input: inout ArraySlice<UInt8>) throws -> UInt16 {
@@ -113,21 +111,21 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
   } tearDown: {
     precondition(
       output
-      == DnsHeader(
-        id: 36_394,
-        qr: .one,
-        opcode: .inverseQuery,
-        aa: .one,
-        tc: .zero,
-        rd: .one,
-        ra: .zero,
-        z: UInt3(uint8: 0)!,
-        rcode: .nameError,
-        qdcount: 128,
-        ancount: 51_300,
-        nscount: 510,
-        arcount: 32_896
-      )
+        == DnsHeader(
+          id: 36_394,
+          qr: .one,
+          opcode: .inverseQuery,
+          aa: .one,
+          tc: .zero,
+          rd: .one,
+          ra: .zero,
+          z: UInt3(uint8: 0)!,
+          rcode: .nameError,
+          qdcount: 128,
+          ancount: 51_300,
+          nscount: 510,
+          arcount: 32_896
+        )
     )
     precondition(rest == [0xDE, 0xAD, 0xBE, 0xEF])
   }

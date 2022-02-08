@@ -282,14 +282,12 @@
     @inlinable
     func parse(_ input: inout URLRequestData) throws -> Parsers.Output {
       let output = try self.parsers.parse(&input)
-
       guard
         input.method == nil || (try? Method.get.parse(&input)) != nil,
         input.path.isEmpty
       else {
         throw ParsingError()
       }
-
       return output
     }
   }

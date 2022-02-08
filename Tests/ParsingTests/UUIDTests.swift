@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class UUIDTests: XCTestCase {
@@ -27,7 +27,7 @@ final class UUIDTests: XCTestCase {
         1 | DADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF Hello
           | ^ expected UUID
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("DADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF Hello", String(input))

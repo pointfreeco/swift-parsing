@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class FlatMapTests: XCTestCase {
@@ -22,7 +22,7 @@ final class FlatMapTests: XCTestCase {
         1 | Hello, world!
           | ^ expected integer
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("Hello, world!", Substring(input))
@@ -40,7 +40,7 @@ final class FlatMapTests: XCTestCase {
         1 | Hello, world!
           | ^^ expected integer
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("llo, world!", Substring(input))

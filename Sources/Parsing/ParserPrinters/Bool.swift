@@ -20,7 +20,7 @@ extension Bool {
   /// // error: unexpected input
   /// //  --> input:1:1
   /// // 1 | 1 Hello
-  /// //     ^ expected boolean
+  /// //     ^ expected "true" or "false"
   /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
@@ -69,9 +69,8 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Bool.parser()`, which constructs this type.
-  public struct BoolParser<Input>: Parser
+  public struct BoolParser<Input: Collection>: Parser
   where
-    Input: Collection,
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit
   {
@@ -87,7 +86,7 @@ extension Parsers {
         input.removeFirst(5)
         return false
       }
-      throw ParsingError.expectedInput("boolean", at: input)
+      throw ParsingError.expectedInput("\"true\" or \"false\"", at: input)
     }
   }
 }

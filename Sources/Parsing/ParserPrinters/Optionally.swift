@@ -14,7 +14,7 @@
 /// Int.parser()
 ///   .replaceError(with: 0)
 /// ```
-public struct Optionally<Wrapped>: Parser where Wrapped: Parser {
+public struct Optionally<Wrapped: Parser>: Parser {
   public let wrapped: Wrapped
 
   @inlinable

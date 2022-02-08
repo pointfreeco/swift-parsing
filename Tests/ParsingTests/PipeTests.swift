@@ -1,4 +1,4 @@
-@testable import Parsing
+import Parsing
 import XCTest
 
 final class PipeTests: XCTestCase {
@@ -24,7 +24,7 @@ final class PipeTests: XCTestCase {
         1 | true Hello, world!
           | ^^^^^ pipe: expected end of input
         """,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("Hello, world!", Substring(input))
@@ -45,7 +45,7 @@ final class PipeTests: XCTestCase {
         1 | true
           | ^ expected prefix up to "\n"
         """#,
-        (error as? ParsingError)?.debugDescription ?? ""
+        "\(error)"
       )
     }
     XCTAssertEqual("true", Substring(input))

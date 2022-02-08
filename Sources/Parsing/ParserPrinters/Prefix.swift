@@ -17,7 +17,7 @@
 ///
 /// ```swift
 /// var input = "No numbers here"[...]
-/// try Prefix(1...) { $0.isNumber }).parse(&input)
+/// try Prefix(1...) { $0.isNumber }.parse(&input)
 /// // error: unexpected input
 /// //  --> input:1:1
 /// // 1 | No numbers here
@@ -32,11 +32,7 @@
 /// try Prefix(2).parse(&input)  // "Lo"
 /// input                        // "rem ipsum dolor"
 /// ```
-public struct Prefix<Input>: Parser
-where
-  Input: Collection,
-  Input.SubSequence == Input
-{
+public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input {
   public let maxLength: Int?
   public let minLength: Int
   public let predicate: ((Input.Element) -> Bool)?
@@ -70,7 +66,7 @@ where
   ///
   /// try Prefix(2...4, while: \.isNumber).parse("1")
   /// // error: unexpected input
-  /// //  ---> input:1:1
+  /// //  --> input:1:1
   /// // 1 | 1
   /// //   |  ^ expected 1 more element satisfying predicate
   /// ```
@@ -98,7 +94,7 @@ where
   ///
   /// try Prefix(4, while: \.isNumber).parse("123")
   /// // error: unexpected input
-  /// //  ---> input:1:1
+  /// //  --> input:1:1
   /// // 1 | 123
   /// //   |    ^ expected 1 more element satisfying predicate
   /// ```
@@ -125,7 +121,7 @@ where
   ///
   /// try Prefix(4..., while: \.isNumber).parse("123")
   /// // error: unexpected input
-  /// //  ---> input:1:1
+  /// //  --> input:1:1
   /// // 1 | 123
   /// //   |    ^ expected 1 more element satisfying predicate
   /// ```

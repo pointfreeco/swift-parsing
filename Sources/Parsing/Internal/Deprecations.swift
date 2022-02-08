@@ -1,3 +1,5 @@
+// NB: Deprecated after 0.6.0
+
 @available(*, deprecated, message: "Use 'From(.substring)' instead.")
 public struct FromSubstring<Input, SubstringParser>: Parser
 where
@@ -161,3 +163,6 @@ extension FromUTF8View where Input == Substring.UnicodeScalarView {
     self.fromUTF8 = { Substring($0).unicodeScalars }
   }
 }
+
+@available(*, deprecated, renamed: "Parsers.Conditional")
+public typealias Conditional = Parsers.Conditional

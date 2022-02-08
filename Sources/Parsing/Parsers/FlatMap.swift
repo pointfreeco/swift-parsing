@@ -20,12 +20,8 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/flatMap(_:)`` operation, which constructs this type.
-  public struct FlatMap<NewParser, Upstream>: Parser
-  where
-    NewParser: Parser,
-    Upstream: Parser,
-    NewParser.Input == Upstream.Input
-  {
+  public struct FlatMap<NewParser: Parser, Upstream: Parser>: Parser
+  where NewParser.Input == Upstream.Input {
     public let upstream: Upstream
     public let transform: (Upstream.Output) -> NewParser
 
