@@ -1,8 +1,10 @@
-//
-//  File.swift
-//  
-//
-//  Created by Brandon Williams on 2/8/22.
-//
+import Parsing
 
-import Foundation
+extension Parse {
+  @inlinable
+  public init<Downstream>(
+    _ conversion: Downstream
+  ) where Parsers == Parsing.Parsers.MapConversion<Rest<Downstream.Input>, Downstream> {
+    self.init { Rest().map(conversion) }
+  }
+}
