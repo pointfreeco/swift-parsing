@@ -118,9 +118,7 @@ where
   @inlinable
   public func parse(_ input: inout Element.Input) throws -> Result {
     var rest = input
-    #if DEBUG
-      var previous = input
-    #endif
+    var previous = input
     var result = self.initialResult
     var count = 0
     var loopError: Error?
@@ -132,9 +130,7 @@ where
         loopError = error
         break
       }
-      #if DEBUG
-        defer { previous = input }
-      #endif
+      defer { previous = input }
       count += 1
       self.updateAccumulatingResult(&result, output)
       rest = input
@@ -144,28 +140,12 @@ where
         loopError = error
         break
       }
-      #if DEBUG
-        if memcmp(&input, &previous, MemoryLayout<Element.Input>.size) == 0 {
-          var description = ""
-          debugPrint(output, terminator: "", to: &description)
-          breakpoint(
-            """
-            ---
-            A "Many" parser succeeded in parsing a value of "\(Element.Output.self)" \
-            (\(description)), but no input was consumed.
-
-            This is considered a logic error that leads to an infinite loop, and is typically \
-            introduced by parsers that always succeed, even though they don't consume any input. \
-            This includes "Prefix" and "CharacterSet" parsers, which return an empty string when \
-            their predicate immediately fails.
-
-            To work around the problem, require that some input is consumed (for example, use \
-            "Prefix(minLength: 1)"), or introduce a "separator" parser to "Many".
-            ---
-            """
-          )
-        }
-      #endif
+      if memcmp(&input, &previous, MemoryLayout<Element.Input>.size) == 0 {
+        throw ParsingError.failed(
+          "expected input to be consumed",
+          .init(remainingInput: input, debugDescription: "infinite loop", underlyingError: nil)
+        )
+      }
     }
     input = rest
     do {

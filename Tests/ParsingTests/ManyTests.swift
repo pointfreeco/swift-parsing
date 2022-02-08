@@ -177,7 +177,7 @@ class ManyTests: XCTestCase {
     }
   }
 
-  func testTerminatorFails() throws {
+  func testTerminatorFails() {
     let intsParser = Many {
       Int.parser()
     } separator: {
@@ -194,6 +194,20 @@ class ManyTests: XCTestCase {
          --> input:1:6
         1 | 1,2,3-
           |      ^ expected ","
+        """,
+        "\(error)"
+      )
+    }
+  }
+
+  func testInfiniteLoop() {
+    XCTAssertThrowsError(try Many { Prefix(while: \.isNumber) }.parse("Hello world!")) { error in
+      XCTAssertEqual(
+        """
+        error: infinite loop
+         --> input:1:1
+        1 | Hello world!
+          | ^ expected input to be consumed
         """,
         "\(error)"
       )
