@@ -120,13 +120,13 @@ struct VariadicsGenerator: ParsableCommand {
       outputForEach(0..<arity, separator: "\n      ") { "self.p\($0) = p\($0)" }
       output("\n    }\n\n    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (\n")
       outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
-      output("\n    ) {\n      do {\n        ")
+      output("\n    ) {\n      let original = input\n      do {\n        ")
       outputForEach(0..<arity, separator: "\n        ") {
         "\(permutation.isCaptureless(at: $0) ? "" : "let o\($0) = ")try p\($0).parse(&input)"
       }
       output("\n        return (")
       outputForEach(permutation.captureIndices, separator: ", ") { "o\($0)" }
-      output(")\n      } catch {\n        throw ParsingError.wrap(error, at: input)\n      }")
+      output(")\n      } catch {\n        defer { input = original }\n        throw ParsingError.wrap(error, at: input)\n      }")
       output("\n   }\n  }\n}\n\n")
 
       // Emit builders.
