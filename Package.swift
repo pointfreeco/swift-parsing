@@ -33,6 +33,7 @@ let package = Package(
       name: "swift-parsing-benchmark",
       dependencies: [
         "Parsing",
+        "_URLRouting",
         .product(name: "Benchmark", package: "Benchmark"),
       ]
     ),

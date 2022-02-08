@@ -1,6 +1,6 @@
-public struct Route<RouteParser, Route>: Parser
+public struct Route<RouteParser, Route>: ParserPrinter
 where
-  RouteParser: Parser,
+  RouteParser: ParserPrinter,
   RouteParser.Input == URLRequestData
 {
   // TODO: Generalize to any conversion.
@@ -33,9 +33,7 @@ where
     try End().parse(input.path)
     return output
   }
-}
 
-extension Route: Printer where RouteParser: Printer {
   @inlinable
   public func print(_ output: Route, to input: inout URLRequestData) rethrows {
     try self.parser.print(output, to: &input)

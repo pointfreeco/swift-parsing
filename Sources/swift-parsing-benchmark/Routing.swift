@@ -1,6 +1,7 @@
 import Benchmark
 import Foundation
 import Parsing
+import _URLRouting
 
 #if canImport(FoundationNetworking)
   import FoundationNetworking
@@ -37,34 +38,36 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       Route(/AppRoute.home)
 
       Route(/AppRoute.contactUs) {
-        Path(From(.utf8) { "contact-us".utf8 })
+        Path { From(.utf8) { "contact-us".utf8 } }
       }
 
       Route(/AppRoute.episodes) {
-        Path(From(.utf8) { "episodes".utf8 })
+        Path { From(.utf8) { "episodes".utf8 } }
 
         OneOf {
           Route(/Episodes.index)
 
           Route(/Episodes.episode) {
-            Path(Int.parser())
+            Path { Int.parser() }
 
             OneOf {
               Route(/Episode.show)
 
               Route(/Episode.comments) {
-                Path(From(.utf8) { "comments".utf8 })
+                Path { From(.utf8) { "comments".utf8 } }
 
                 OneOf {
                   Route(/Comments.post) {
                     Method.post
                     Body {
-                      JSON(Comment.self)
+                      Parse(.data.json(Comment.self))
                     }
                   }
 
                   Route(/Comments.show) {
-                    Query("count", Int.parser(), default: 10)
+                    Query {
+                      Field("count", Int.parser()).replaceError(with: 10)
+                    }
                   }
                 }
               }
