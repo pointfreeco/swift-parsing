@@ -19,9 +19,10 @@
 /// precondition(input == " Hello world")
 /// ```
 ///
-/// It is best practice for a parser to _not_ consume any of the input if it fails to produce an
-/// output. This allows for "backtracking", which means if a parser fails then another parser can
-/// try on the original input.
+/// Parsers may eagerly consume input, even if they fail to parse a value, and it is typically not
+/// necessary to implement additional logic to restore the input to its original state, a process
+/// often called "backtracking". Instead, one can rely on the behavior of ``OneOf``, backtracks to
+/// the input it starts with whenever one of its parsers fails.
 public protocol Parser {
   /// The kind of values this parser receives.
   associatedtype Input
