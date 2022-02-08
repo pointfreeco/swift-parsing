@@ -557,3 +557,34 @@ let user_ = Parse { // (.destructure(User.init(id:name:admin:)))
 
 1
 
+
+extension Parsers {
+  struct ReversibleMap<Upstream, Output>: Parser, Printer where Upstream: Parser, Upstream: Printer {
+    public let upstream: Upstream
+    public let transform: (Upstream.Output) -> Output
+    public let untransform: (Output) -> Upstream.Output
+
+    func parse(_ input: inout Upstream.Input) throws -> Output {
+      self.transform(try self.upstream.parse(&input))
+    }
+
+    func print(_ output: Output, to input: inout Upstream.Input) throws {
+      try self.upstream.print(self.untransform(output), to: &input)
+    }
+  }
+}
+
+extension Parser {
+  func map<NewOutput>(
+    transform: @escaping (Output) -> NewOutput,
+    untransform: @escaping (NewOutput) -> Output
+  ) -> Parsers.ReversibleMap<Self, NewOutput> {
+    .init(upstream: self, transform: transform, untransform: untransform)
+  }
+
+  func map<NewOutput>(
+    _ conversion: Conversion<Output, NewOutput>
+  ) -> Parsers.ReversibleMap<Self, NewOutput> {
+    .init(upstream: self, transform: conversion.apply, untransform: conversion.unapply)
+  }
+}
