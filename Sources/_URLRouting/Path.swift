@@ -1,8 +1,5 @@
-public struct Path<ComponentParsers>: Parser
-where
-  ComponentParsers: Parser,
-  ComponentParsers.Input == URLRequestData
-{
+public struct Path<ComponentParsers: Parser>: Parser
+where ComponentParsers.Input == URLRequestData {
   @usableFromInline
   let componentParsers: ComponentParsers
 

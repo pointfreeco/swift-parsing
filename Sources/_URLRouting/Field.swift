@@ -1,31 +1,40 @@
 // FIXME: Should there be a `NameParser`?
 
-public struct Field<ValueParser>: Parser
+public struct Field<Value>: Parser
 where
-  ValueParser: Parser,
-  ValueParser.Input == Substring
+  Value: Parser,
+  Value.Input == Substring
 {
+  @usableFromInline
+  let defaultValue: Value.Output?
+
   @usableFromInline
   let name: String
 
   @usableFromInline
-  let valueParser: ValueParser
+  let valueParser: Value
 
   @inlinable
   public init(
     _ name: String,
-    _ value: ValueParser
+    _ value: Value,
+    default defaultValue: Value.Output? = nil
   ) {
+    self.defaultValue = defaultValue
     self.name = name
     self.valueParser = value
   }
 
   @inlinable
-  public func parse(_ input: inout URLRequestData.Fields) throws -> ValueParser.Output {
+  public func parse(_ input: inout URLRequestData.Fields) throws -> Value.Output {
     guard
       let wrapped = input[self.name]?.first,
       var value = wrapped
-    else { throw RoutingError() }
+    else {
+      guard let defaultValue = self.defaultValue
+      else { throw RoutingError() }
+      return defaultValue
+    }
 
     let output = try Parse { self.valueParser; End() }.parse(&value)
 
@@ -37,9 +46,10 @@ where
   }
 }
 
-extension Field: Printer where ValueParser: Printer {
+extension Field: Printer where Value: Printer {
   @inlinable
-  public func print(_ output: ValueParser.Output, to input: inout URLRequestData.Fields) rethrows {
+  public func print(_ output: Value.Output, to input: inout URLRequestData.Fields) rethrows {
+    if let defaultValue = self.defaultValue, isEqual(output, defaultValue) { return }
     input[self.name, default: []].append(try valueParser.print(output))
   }
 }

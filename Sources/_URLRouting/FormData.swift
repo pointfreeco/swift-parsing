@@ -2,11 +2,8 @@ import Foundation
 
 // FIXME: Should this be a `Conversion`?
 
-public struct FormData<FieldParsers>: Parser
-where
-  FieldParsers: Parser,
-  FieldParsers.Input == URLRequestData.Fields
-{
+public struct FormData<FieldParsers: Parser>: Parser
+where FieldParsers.Input == URLRequestData.Fields {
   @usableFromInline
   let fieldParsers: FieldParsers
 

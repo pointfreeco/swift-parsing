@@ -1,31 +1,27 @@
-public struct Body<BodyParser>: Parser
-where
-  BodyParser: Parser,
-  BodyParser.Input == ArraySlice<UInt8>
-{
+public struct Body<Bytes: Parser>: Parser where Bytes.Input == ArraySlice<UInt8> {
   @usableFromInline
-  let bodyParser: BodyParser
+  let bytesParser: Bytes
 
   @inlinable
-  public init(@ParserBuilder _ bodyParser: () -> BodyParser) {
-    self.bodyParser = bodyParser()
+  public init(@ParserBuilder _ bytesParser: () -> Bytes) {
+    self.bytesParser = bytesParser()
   }
 
   @inlinable
-  public func parse(_ input: inout URLRequestData) throws -> BodyParser.Output {
+  public func parse(_ input: inout URLRequestData) throws -> Bytes.Output {
     guard var body = input.body
     else { throw RoutingError() }
 
-    let output = try self.bodyParser.parse(&body)
+    let output = try self.bytesParser.parse(&body)
     input.body = body
 
     return output
   }
 }
 
-extension Body: Printer where BodyParser: Printer {
+extension Body: Printer where Bytes: Printer {
   @inlinable
-  public func print(_ output: BodyParser.Output, to input: inout URLRequestData) rethrows {
-    input.body = try self.bodyParser.print(output)
+  public func print(_ output: Bytes.Output, to input: inout URLRequestData) rethrows {
+    input.body = try self.bytesParser.print(output)
   }
 }

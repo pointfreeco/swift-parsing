@@ -1,8 +1,5 @@
-public struct Query<FieldParsers>: Parser
-where
-  FieldParsers: Parser,
-  FieldParsers.Input == URLRequestData.Fields
-{
+public struct Query<FieldParsers: Parser>: Parser
+where FieldParsers.Input == URLRequestData.Fields {
   @usableFromInline
   let fieldParsers: FieldParsers
 
