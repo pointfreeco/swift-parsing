@@ -28,13 +28,13 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   }
 
   let northSouth = OneOf {
-    "N".utf8.map(.exactly(1.0))
-    "S".utf8.map(.exactly(-1.0))
+    "N".utf8.map { 1.0 }
+    "S".utf8.map { -1.0 }
   }
 
   let eastWest = OneOf {
-    "E".utf8.map(.exactly(1.0))
-    "W".utf8.map(.exactly(-1.0))
+    "E".utf8.map { 1.0 }
+    "W".utf8.map { -1.0 }
   }
 
   let latitude = Parse(.multiply) {
@@ -61,9 +61,9 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   }
 
   let currency = OneOf {
-    "€".utf8.map(.exactly(Currency.eur))
-    "£".utf8.map(.exactly(Currency.gbp))
-    "$".utf8.map(.exactly(Currency.usd))
+    "€".utf8.map { Currency.eur }
+    "£".utf8.map { Currency.gbp }
+    "$".utf8.map { Currency.usd }
   }
 
   let money = Parse(.destructure(Money.init(currency:dollars:))) {

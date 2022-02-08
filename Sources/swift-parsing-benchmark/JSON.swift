@@ -35,14 +35,14 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           "\\".utf8
 
           OneOf {
-            "\"".utf8.map(.exactly("\""))
-            "\\".utf8.map(.exactly("\\"))
-            "/".utf8.map(.exactly("/"))
-            "b".utf8.map(.exactly("\u{8}"))
-            "f".utf8.map(.exactly("\u{c}"))
-            "n".utf8.map(.exactly("\n"))
-            "r".utf8.map(.exactly("\r"))
-            "t".utf8.map(.exactly("\t"))
+            "\"".utf8.map { "\"" }
+            "\\".utf8.map { "\\" }
+            "/".utf8.map { "/" }
+            "b".utf8.map { "\u{8}" }
+            "f".utf8.map { "\u{c}" }
+            "n".utf8.map { "\n" }
+            "r".utf8.map { "\r" }
+            "t".utf8.map { "\t" }
 
             Prefix(4) {
               (.init(ascii: "0") ... .init(ascii: "9")).contains($0)

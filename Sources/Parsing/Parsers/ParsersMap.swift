@@ -40,3 +40,10 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.Map: Printer where Upstream: Printer, Upstream.Output == Void, Output: Equatable {
+  public func print(_ output: Output, to input: inout Upstream.Input) throws {
+    guard output == self.transform(()) else { throw PrintingError() }
+    try self.upstream.print((), to: &input)
+  }
+}
