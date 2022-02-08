@@ -387,6 +387,10 @@ let city = OneOf {
 
 This allows you to parse as much as possible on the more performant, low-level `UTF8View`, while still allowing you to parse on the more correct, high-level `Substring` when necessary.
 
+### Error messages
+
+All parsers and operators that ship with this library provide 
+
 ## Benchmarks
 
 This library comes with a benchmark executable that not only demonstrates the performance of the library, but also provides a wide variety of parsing examples:
