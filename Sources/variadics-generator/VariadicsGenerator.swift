@@ -99,10 +99,8 @@ struct VariadicsGenerator: ParsableCommand {
       // Emit type declaration.
       let typeName = "Zip\(permutation.identifier)"
       output("extension Parsers {\n  public struct \(typeName)<")
-      outputForEach(0..<arity, separator: ", ") { "P\($0)" }
+      outputForEach(0..<arity, separator: ", ") { "P\($0): Parser" }
       output(">: Parser\n  where\n    ")
-      outputForEach(0..<arity, separator: ",\n    ") { "P\($0): Parser" }
-      output(",\n    ")
       outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n    ") {
         "P\($0).Input == P\($1).Input"
       }
@@ -148,10 +146,8 @@ struct VariadicsGenerator: ParsableCommand {
     // Emit type declaration.
     let typeName = "OneOf\(arity)"
     output("extension Parsers {\n  public struct \(typeName)<")
-    outputForEach(0..<arity, separator: ", ") { "P\($0)" }
+    outputForEach(0..<arity, separator: ", ") { "P\($0): Parser" }
     output(">: Parser\n  where\n    ")
-    outputForEach(0..<arity, separator: ",\n    ") { "P\($0): Parser" }
-    output(",\n    ")
     outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n    ") {
       "P\($0).Input == P\($1).Input"
     }
