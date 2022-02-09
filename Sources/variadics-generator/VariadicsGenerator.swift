@@ -64,12 +64,12 @@ struct Permutations: Sequence {
   }
 }
 
-func list<C>(
-  _ sequence: C,
+func list<S>(
+  _ sequence: S,
   separator: String = ", ",
   terminator: String = "",
-  @StringBuilder _ component: @escaping (C.Element) -> String
-) -> String where C: Sequence {
+  @StringBuilder _ component: @escaping (S.Element) -> String
+) -> String where S: Sequence {
   sequence.map(component).joined(separator: separator) + terminator
 }
 
