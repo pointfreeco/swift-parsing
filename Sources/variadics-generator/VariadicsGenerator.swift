@@ -99,7 +99,7 @@ struct VariadicsGenerator: ParsableCommand {
         String.build {
           // Emit type declarations.
           "extension Parsers {"
-          "  public struct \(typeName)<\(list(0..<arity){ "P\($0)" })>: Parser"
+          "  public struct \(typeName)<" + list(0..<arity){ "P\($0)" } + ">: Parser"
           "  where"
           for i in 0..<arity {
             "    P\(i): Parser,"
@@ -118,7 +118,7 @@ struct VariadicsGenerator: ParsableCommand {
           "  {"
           "    public let " + list(0..<arity) { "p\($0): P\($0)" }
           ""
-          "    @inlinable public init(\(list(0..<arity) { "_ p\($0): P\($0)"})) {"
+          "    @inlinable public init(" + list(0..<arity) { "_ p\($0): P\($0)" } + ") {"
           for i in 0..<arity {
             "      self.p\(i) = p\(i)"
           }
@@ -136,17 +136,17 @@ struct VariadicsGenerator: ParsableCommand {
           "      else {"
           "        return nil"
           "      }"
-          "      return (\(list(permutation.captureIndices){"o\($0)"}))"
+          "      return (" + list(permutation.captureIndices){ "o\($0)" } + ")"
           "    }"
           "  }"
           "}"
           ""
           // Emit builders.
           "extension ParserBuilder {"
-          "  @inlinable public static func buildBlock<\(list(0..<arity){ "P\($0)" })>("
+          "  @inlinable public static func buildBlock<" + list(0..<arity){ "P\($0)" } + ">("
           "    " + list(0..<arity) { "_ p\($0): P\($0)" }
-          "  ) -> Parsers.\(typeName)<\(list(0..<arity){ "P\($0)" })> {"
-          "    Parsers.\(typeName)(\(list(0..<arity){ "p\($0)" }))"
+          "  ) -> Parsers.\(typeName)<" + list(0..<arity){ "P\($0)" } + "> {"
+          "    Parsers.\(typeName)(" + list(0..<arity){ "p\($0)" } + ")"
           "  }"
           "}"
           ""
@@ -160,7 +160,7 @@ struct VariadicsGenerator: ParsableCommand {
     output.append(
       String.build {
         // Emit type declarations.
-        "extension Parsers {\n  public struct \(typeName)<\(list(0..<arity, { "P\($0)" }))>: Parser"
+        "extension Parsers {\n  public struct \(typeName)<" + list(0..<arity) { "P\($0)" } + ">: Parser"
         "  where"
         for i in 0..<arity {
           "    P\(i): Parser,"
@@ -195,10 +195,10 @@ struct VariadicsGenerator: ParsableCommand {
         ""
         // Emit type declarations.
         "extension OneOfBuilder {"
-        "  @inlinable public static func buildBlock<\(list(0..<arity){ "P\($0)" })>("
+        "  @inlinable public static func buildBlock<" + list(0..<arity){ "P\($0)" } + ">("
         "    " + list(0..<arity) { "_ p\($0): P\($0)" }
-        "  ) -> Parsers.\(typeName)<\(list(0..<arity){ "P\($0)" })> {"
-        "    Parsers.\(typeName)(\(list(0..<arity){ "p\($0)" }))"
+        "  ) -> Parsers.\(typeName)<" + list(0..<arity){ "P\($0)" } + "> {"
+        "    Parsers.\(typeName)(" + list(0..<arity){ "p\($0)" } + ")"
         "  }"
         "}"
         ""
