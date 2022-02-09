@@ -290,7 +290,7 @@ final class DoubleTests: XCTestCase {
           "\(error)"
         )
       }
-      XCTAssertEqual("-.123 Hello", String(input))
+      XCTAssertEqual(".123 Hello", String(input))
 
       input = "Hello"[...].utf8
       XCTAssertThrowsError(try parser.parse(&input)) { error in
@@ -318,7 +318,7 @@ final class DoubleTests: XCTestCase {
           "\(error)"
         )
       }
-      XCTAssertEqual("- Hello", String(input))
+      XCTAssertEqual(" Hello", String(input))
 
       input = "+ Hello"[...].utf8
       XCTAssertThrowsError(try parser.parse(&input)) { error in
@@ -332,7 +332,7 @@ final class DoubleTests: XCTestCase {
           "\(error)"
         )
       }
-      XCTAssertEqual("+ Hello", String(input))
+      XCTAssertEqual(" Hello", String(input))
     }
   #endif
 }
