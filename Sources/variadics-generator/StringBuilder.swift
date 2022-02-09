@@ -30,7 +30,7 @@ enum StringBuilder {
 }
 
 extension String {
-  // Using String.init is a little too much for the compiler.
+  // Overloading String.init is a little too much for the compiler.
   static func build(
     @StringBuilder lines: () -> String
   ) -> String {
