@@ -116,16 +116,32 @@ struct VariadicsGenerator: ParsableCommand {
       outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
       output(") {\n      ")
       outputForEach(0..<arity, separator: "\n      ") { "self.p\($0) = p\($0)" }
-      output("\n    }\n\n    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (\n")
-      outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
-      output("\n    ) {\n      let original = input\n      do {\n        ")
+      output("\n    }\n\n    @inlinable public func parse(_ input: inout P0.Input) rethrows ")
+      switch permutation.captureIndices.count {
+      case 0:
+        break
+      case 1:
+        output("-> P\(permutation.captureIndices[0]).Output ")
+      default:
+        output("-> (\n")
+        outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
+        output("\n    ) ")
+      }
+      output("{\n      do {\n        ")
       outputForEach(0..<arity, separator: "\n        ") {
         "\(permutation.isCaptureless(at: $0) ? "" : "let o\($0) = ")try p\($0).parse(&input)"
       }
-      output("\n        return (")
-      outputForEach(permutation.captureIndices, separator: ", ") { "o\($0)" }
-      output(")\n      } catch {\n        defer { input = original }\n        ")
-      output("throw ParsingError.wrap(error, at: input)\n      }\n   }\n  }\n}\n\n")
+      switch permutation.captureIndices.count {
+      case 0:
+        break
+      case 1:
+        output("\n        return o\(permutation.captureIndices[0])")
+      default:
+        output("\n        return (")
+        outputForEach(permutation.captureIndices, separator: ", ") { "o\($0)" }
+        output(")")
+      }
+      output("\n      } catch { throw ParsingError.wrap(error, at: input) }\n    }\n  }\n}\n\n")
 
       // Emit builders.
       output("extension ParserBuilder {\n")
