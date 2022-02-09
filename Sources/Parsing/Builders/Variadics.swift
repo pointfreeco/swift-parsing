@@ -11386,13 +11386,12 @@ where
   P0.Output == P1.Output
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
-    do {
-      try self.p1.print(output, to: &input)
-    } catch {
-      do {
-        try self.p0.print(output, to: &input)
-      } catch {
-        throw PrintingError()
+    let original = input
+    do { try self.p1.print(output, to: &input) } catch let e1 {
+      do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+        throw PrintingError.manyFailed(
+          [e0, e1], at: input
+        )
       }
     }
   }
@@ -11451,16 +11450,13 @@ where
   P1.Output == P2.Output
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
-    do {
-      try self.p2.print(output, to: &input)
-    } catch {
-      do {
-        try self.p1.print(output, to: &input)
-      } catch {
-        do {
-          try self.p0.print(output, to: &input)
-        } catch {
-          throw PrintingError()
+    let original = input
+    do { try self.p2.print(output, to: &input) } catch let e2 {
+      do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
+        do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+          throw PrintingError.manyFailed(
+            [e0, e1, e2], at: input
+          )
         }
       }
     }
@@ -11529,19 +11525,14 @@ where
   P2.Output == P3.Output
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
-    do {
-      try self.p3.print(output, to: &input)
-    } catch {
-      do {
-        try self.p2.print(output, to: &input)
-      } catch {
-        do {
-          try self.p1.print(output, to: &input)
-        } catch {
-          do {
-            try self.p0.print(output, to: &input)
-          } catch {
-            throw PrintingError()
+    let original = input
+    do { try self.p3.print(output, to: &input) } catch let e3 {
+      do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
+        do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
+          do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+            throw PrintingError.manyFailed(
+              [e0, e1, e2, e3], at: input
+            )
           }
         }
       }
@@ -11620,22 +11611,15 @@ where
   P3.Output == P4.Output
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
-    do {
-      try self.p4.print(output, to: &input)
-    } catch {
-      do {
-        try self.p3.print(output, to: &input)
-      } catch {
-        do {
-          try self.p2.print(output, to: &input)
-        } catch {
-          do {
-            try self.p1.print(output, to: &input)
-          } catch {
-            do {
-              try self.p0.print(output, to: &input)
-            } catch {
-              throw PrintingError()
+    let original = input
+    do { try self.p4.print(output, to: &input) } catch let e4 {
+      do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
+        do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
+          do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
+            do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+              throw PrintingError.manyFailed(
+                [e0, e1, e2, e3, e4], at: input
+              )
             }
           }
         }
@@ -11724,25 +11708,16 @@ where
   P4.Output == P5.Output
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
-    do {
-      try self.p5.print(output, to: &input)
-    } catch {
-      do {
-        try self.p4.print(output, to: &input)
-      } catch {
-        do {
-          try self.p3.print(output, to: &input)
-        } catch {
-          do {
-            try self.p2.print(output, to: &input)
-          } catch {
-            do {
-              try self.p1.print(output, to: &input)
-            } catch {
-              do {
-                try self.p0.print(output, to: &input)
-              } catch {
-                throw PrintingError()
+    let original = input
+    do { try self.p5.print(output, to: &input) } catch let e5 {
+      do { input = original; try self.p4.print(output, to: &input) } catch let e4 {
+        do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
+          do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
+            do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
+              do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+                throw PrintingError.manyFailed(
+                  [e0, e1, e2, e3, e4, e5], at: input
+                )
               }
             }
           }
@@ -11841,28 +11816,17 @@ where
   P5.Output == P6.Output
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
-    do {
-      try self.p6.print(output, to: &input)
-    } catch {
-      do {
-        try self.p5.print(output, to: &input)
-      } catch {
-        do {
-          try self.p4.print(output, to: &input)
-        } catch {
-          do {
-            try self.p3.print(output, to: &input)
-          } catch {
-            do {
-              try self.p2.print(output, to: &input)
-            } catch {
-              do {
-                try self.p1.print(output, to: &input)
-              } catch {
-                do {
-                  try self.p0.print(output, to: &input)
-                } catch {
-                  throw PrintingError()
+    let original = input
+    do { try self.p6.print(output, to: &input) } catch let e6 {
+      do { input = original; try self.p5.print(output, to: &input) } catch let e5 {
+        do { input = original; try self.p4.print(output, to: &input) } catch let e4 {
+          do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
+            do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
+              do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
+                do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+                  throw PrintingError.manyFailed(
+                    [e0, e1, e2, e3, e4, e5, e6], at: input
+                  )
                 }
               }
             }
@@ -11971,31 +11935,18 @@ where
   P6.Output == P7.Output
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
-    do {
-      try self.p7.print(output, to: &input)
-    } catch {
-      do {
-        try self.p6.print(output, to: &input)
-      } catch {
-        do {
-          try self.p5.print(output, to: &input)
-        } catch {
-          do {
-            try self.p4.print(output, to: &input)
-          } catch {
-            do {
-              try self.p3.print(output, to: &input)
-            } catch {
-              do {
-                try self.p2.print(output, to: &input)
-              } catch {
-                do {
-                  try self.p1.print(output, to: &input)
-                } catch {
-                  do {
-                    try self.p0.print(output, to: &input)
-                  } catch {
-                    throw PrintingError()
+    let original = input
+    do { try self.p7.print(output, to: &input) } catch let e7 {
+      do { input = original; try self.p6.print(output, to: &input) } catch let e6 {
+        do { input = original; try self.p5.print(output, to: &input) } catch let e5 {
+          do { input = original; try self.p4.print(output, to: &input) } catch let e4 {
+            do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
+              do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
+                do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
+                  do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+                    throw PrintingError.manyFailed(
+                      [e0, e1, e2, e3, e4, e5, e6, e7], at: input
+                    )
                   }
                 }
               }
@@ -12114,34 +12065,19 @@ where
   P7.Output == P8.Output
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
-    do {
-      try self.p8.print(output, to: &input)
-    } catch {
-      do {
-        try self.p7.print(output, to: &input)
-      } catch {
-        do {
-          try self.p6.print(output, to: &input)
-        } catch {
-          do {
-            try self.p5.print(output, to: &input)
-          } catch {
-            do {
-              try self.p4.print(output, to: &input)
-            } catch {
-              do {
-                try self.p3.print(output, to: &input)
-              } catch {
-                do {
-                  try self.p2.print(output, to: &input)
-                } catch {
-                  do {
-                    try self.p1.print(output, to: &input)
-                  } catch {
-                    do {
-                      try self.p0.print(output, to: &input)
-                    } catch {
-                      throw PrintingError()
+    let original = input
+    do { try self.p8.print(output, to: &input) } catch let e8 {
+      do { input = original; try self.p7.print(output, to: &input) } catch let e7 {
+        do { input = original; try self.p6.print(output, to: &input) } catch let e6 {
+          do { input = original; try self.p5.print(output, to: &input) } catch let e5 {
+            do { input = original; try self.p4.print(output, to: &input) } catch let e4 {
+              do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
+                do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
+                  do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
+                    do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+                      throw PrintingError.manyFailed(
+                        [e0, e1, e2, e3, e4, e5, e6, e7, e8], at: input
+                      )
                     }
                   }
                 }
@@ -12270,37 +12206,20 @@ where
   P8.Output == P9.Output
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
-    do {
-      try self.p9.print(output, to: &input)
-    } catch {
-      do {
-        try self.p8.print(output, to: &input)
-      } catch {
-        do {
-          try self.p7.print(output, to: &input)
-        } catch {
-          do {
-            try self.p6.print(output, to: &input)
-          } catch {
-            do {
-              try self.p5.print(output, to: &input)
-            } catch {
-              do {
-                try self.p4.print(output, to: &input)
-              } catch {
-                do {
-                  try self.p3.print(output, to: &input)
-                } catch {
-                  do {
-                    try self.p2.print(output, to: &input)
-                  } catch {
-                    do {
-                      try self.p1.print(output, to: &input)
-                    } catch {
-                      do {
-                        try self.p0.print(output, to: &input)
-                      } catch {
-                        throw PrintingError()
+    let original = input
+    do { try self.p9.print(output, to: &input) } catch let e9 {
+      do { input = original; try self.p8.print(output, to: &input) } catch let e8 {
+        do { input = original; try self.p7.print(output, to: &input) } catch let e7 {
+          do { input = original; try self.p6.print(output, to: &input) } catch let e6 {
+            do { input = original; try self.p5.print(output, to: &input) } catch let e5 {
+              do { input = original; try self.p4.print(output, to: &input) } catch let e4 {
+                do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
+                  do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
+                    do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
+                      do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+                        throw PrintingError.manyFailed(
+                          [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9], at: input
+                        )
                       }
                     }
                   }

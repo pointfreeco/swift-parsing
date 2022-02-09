@@ -240,22 +240,18 @@ struct VariadicsGenerator: ParsableCommand {
     }
     output("\n{\n  ")
     output("@inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {")
-    output("\n")
+    output("\n    let original = input\n")
     outputForEach(Array(zip((0..<arity).reversed(), 0..<arity)), separator: "\n") {
-      let indent = String(repeating: "  ", count: $1)
-      // TODO: Accumulate errors
-//      return """
-//            \(indent)do {
-//            \(indent)  try self.p\($0).print(output, to: &input)
-//            \(indent)} catch let e\($0) {
-//        """
-      return """
-            \(indent)do {
-            \(indent)  try self.p\($0).print(output, to: &input)
-            \(indent)} catch {
-        """
+      """
+          \(String(repeating: "  ", count: $1))\
+      do { \($0 == arity - 1 ? "" : "input = original; ")\
+      try self.p\($0).print(output, to: &input) } catch let e\($0) {
+      """
     }
-    output("\n    \(String(repeating: "  ", count: arity))throw PrintingError()\n")
+    output("\n    \(String(repeating: "  ", count: arity))throw PrintingError.manyFailed(")
+    output("\n    \(String(repeating: "  ", count: arity + 1))[")
+    outputForEach(0..<arity, separator: ", ") { "e\($0)" }
+    output("], at: input\n    \(String(repeating: "  ", count: arity)))\n")
     outputForEach((0..<arity).reversed(), separator: "\n") {
       let indent = String(repeating: "  ", count: $0)
       return "    \(indent)}"
@@ -275,7 +271,6 @@ struct VariadicsGenerator: ParsableCommand {
     outputForEach(0..<arity, separator: ", ") { "p\($0)" }
     output(")\n  }\n}\n\n")
   }
-<<<<<<< HEAD
 
   func emitPathZipDeclarations(arity: Int) {
     for permutation in Permutations(arity: arity) {
@@ -347,6 +342,4 @@ struct VariadicsGenerator: ParsableCommand {
       output(")\n  }\n}\n\n")
     }
   }
-=======
->>>>>>> parser-builder-throws-2
 }
