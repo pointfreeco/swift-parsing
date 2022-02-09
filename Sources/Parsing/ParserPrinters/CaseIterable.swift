@@ -1,40 +1,24 @@
-extension Parser
-where
-  Input == Substring,
-  Output: CaseIterable & RawRepresentable,
-  Output.RawValue == String
-{
+extension CaseIterable where Self: RawRepresentable, RawValue == String {
   static func parser(
     of inputType: Substring.Type = Substring.self
-  ) -> Parsers.CaseIterableRawRepresentableParser<Substring, Output> {
+  ) -> Parsers.CaseIterableRawRepresentableParser<Substring, Self> {
     .init(toInput: { $0[...] }, areEquivalent: ==)
   }
-}
 
-extension Parser
-where
-  Input == Substring.UTF8View,
-  Output: CaseIterable & RawRepresentable,
-  Output.RawValue == String
-{
   static func parser(
     of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
-  ) -> Parsers.CaseIterableRawRepresentableParser<Substring.UTF8View, Output> {
-    .init(toInput: { $0.utf8[...] }, areEquivalent: ==)
+  ) -> Parsers.CaseIterableRawRepresentableParser<Substring.UTF8View, Self> {
+    .init(toInput: { $0[...].utf8 }, areEquivalent: ==)
   }
-}
 
-extension Parser
-where
-  Input: AppendableCollection,
-  Input.SubSequence == Input,
-  Input.Element == UTF8.CodeUnit,
-  Output: CaseIterable & RawRepresentable,
-  Output.RawValue == String
-{
-  static func parser(
+  static func parser<Input>(
     of inputType: Input.Type = Input.self
-  ) -> Parsers.CaseIterableRawRepresentableParser<Input, Output> {
+  ) -> Parsers.CaseIterableRawRepresentableParser<Input, Self>
+  where
+    Input: AppendableCollection,
+    Input.SubSequence == Input,
+    Input.Element == UTF8.CodeUnit
+  {
     .init(toInput: { Input($0.utf8) }, areEquivalent: ==)
   }
 }
