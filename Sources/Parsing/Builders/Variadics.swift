@@ -10197,7 +10197,7 @@ where
     do { try self.p1.print(output, to: &input) } catch let e1 {
       do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
         throw PrintingError.manyFailed(
-          [e0, e1], at: input
+          [e1, e0], at: input
         )
       }
     }
@@ -10259,7 +10259,7 @@ where
       do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
         do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
           throw PrintingError.manyFailed(
-            [e0, e1, e2], at: input
+            [e2, e1, e0], at: input
           )
         }
       }
@@ -10331,7 +10331,7 @@ where
         do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
           do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
             throw PrintingError.manyFailed(
-              [e0, e1, e2, e3], at: input
+              [e3, e2, e1, e0], at: input
             )
           }
         }
@@ -10413,7 +10413,7 @@ where
           do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
             do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
               throw PrintingError.manyFailed(
-                [e0, e1, e2, e3, e4], at: input
+                [e4, e3, e2, e1, e0], at: input
               )
             }
           }
@@ -10505,7 +10505,7 @@ where
             do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
               do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
                 throw PrintingError.manyFailed(
-                  [e0, e1, e2, e3, e4, e5], at: input
+                  [e5, e4, e3, e2, e1, e0], at: input
                 )
               }
             }
@@ -10607,7 +10607,7 @@ where
               do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
                 do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
                   throw PrintingError.manyFailed(
-                    [e0, e1, e2, e3, e4, e5, e6], at: input
+                    [e6, e5, e4, e3, e2, e1, e0], at: input
                   )
                 }
               }
@@ -10719,7 +10719,7 @@ where
                 do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
                   do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
                     throw PrintingError.manyFailed(
-                      [e0, e1, e2, e3, e4, e5, e6, e7], at: input
+                      [e7, e6, e5, e4, e3, e2, e1, e0], at: input
                     )
                   }
                 }
@@ -10841,7 +10841,7 @@ where
                   do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
                     do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
                       throw PrintingError.manyFailed(
-                        [e0, e1, e2, e3, e4, e5, e6, e7, e8], at: input
+                        [e8, e7, e6, e5, e4, e3, e2, e1, e0], at: input
                       )
                     }
                   }
@@ -10973,7 +10973,7 @@ where
                     do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
                       do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
                         throw PrintingError.manyFailed(
-                          [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9], at: input
+                          [e9, e8, e7, e6, e5, e4, e3, e2, e1, e0], at: input
                         )
                       }
                     }

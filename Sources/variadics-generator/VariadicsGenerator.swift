@@ -262,7 +262,7 @@ struct VariadicsGenerator: ParsableCommand {
     }
     output("\n    \(String(repeating: "  ", count: arity))throw PrintingError.manyFailed(")
     output("\n    \(String(repeating: "  ", count: arity + 1))[")
-    outputForEach(0..<arity, separator: ", ") { "e\($0)" }
+    outputForEach((0..<arity).reversed(), separator: ", ") { "e\($0)" }
     output("], at: input\n    \(String(repeating: "  ", count: arity)))\n")
     outputForEach((0..<arity).reversed(), separator: "\n") {
       let indent = String(repeating: "  ", count: $0)
