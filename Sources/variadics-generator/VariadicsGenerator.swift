@@ -125,7 +125,9 @@ struct VariadicsGenerator: ParsableCommand {
           "    }"
           ""
           "    @inlinable public func parse(_ input: inout P0.Input) -> ("
-          list(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
+          list(permutation.captureIndices, separator: ",\n") {
+            "      P\($0).Output"
+          }
           "    )? {"
           "      guard "
           list(0..<arity, separator: ",\n") {
