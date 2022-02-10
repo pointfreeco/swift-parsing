@@ -46,7 +46,7 @@ extension Parsers {
           )
         )
       } catch {
-        throw error // TODO: wrap in `ParsingError`
+        throw ParsingError.wrap(error, at: input)
       }
     }
   }
