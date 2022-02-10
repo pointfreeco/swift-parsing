@@ -36,21 +36,43 @@ private let eastWest = OneOf {
   "W".utf8.map { -1.0 }
 }
 
-private let latitude = Parse(*) {
+let multiplySign = Conversion<(Double, Double), Double>(
+  apply: { magitude, sign in magitude * sign },
+  unapply: { value in
+    value < 0 ? (-value, -1) : (value, 1) 
+  }
+)
+
+extension Parsers.DoubleParser: Printer where Input: AppendableCollection {
+  public func print(_ output: Double, to input: inout Input) throws {
+    input.append(contentsOf: String(output).utf8)
+  }
+}
+
+private let latitude = ParsePrint(multiplySign) {
   Double.parser()
   "° ".utf8
   northSouth
 }
 
-private let longitude = Parse(*) {
+func foo() {
+//  coord.print(<#T##output: Coordinate##Coordinate#>, to: &<#T##Substring.UTF8View#>)
+//  currency.print(<#T##output: Currency##Currency#>, to: &<#T##Substring.UTF8View#>)
+//  money.print(<#T##output: Money##Money#>, to: &<#T##Substring.UTF8View#>)
+//  locationName.print(<#T##output: Substring.UTF8View##Substring.UTF8View#>, to: &<#T##Substring.UTF8View#>)
+//  race.print(<#T##output: Race##Race#>, to: &<#T##Substring.UTF8View#>)
+//  races.print(<#T##output: [Race]##[Race]#>, to: &<#T##Substring.UTF8View#>)
+}
+
+private let longitude = ParsePrint(multiplySign) {
   Double.parser()
   "° ".utf8
   eastWest
 }
 
-private let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }
+private let zeroOrMoreSpaces = Skip { Prefix { $0 == .init(ascii: " ") } }.printing(" "[...].utf8)
 
-private let coord = Parse(Coordinate.init(latitude:longitude:)) {
+private let coord = ParsePrint(.struct(Coordinate.init(latitude:longitude:))) {
   latitude
   Skip {
     ",".utf8
@@ -65,15 +87,15 @@ private let currency = OneOf {
   "$".utf8.map { Currency.usd }
 }
 
-private let money = Parse(Money.init(currency:dollars:)) {
+private let money = ParsePrint(.struct(Money.init(currency:dollars:))) {
   currency
   Int.parser()
 }
 
 private let locationName = Prefix { $0 != .init(ascii: ",") }
 
-private let race = Parse(Race.init(location:entranceFee:path:)) {
-  locationName.map { String(decoding: $0, as: UTF8.self) }
+private let race = ParsePrint(.struct(Race.init(location:entranceFee:path:))) {
+  locationName.map(.string)
   Skip {
     ",".utf8
     zeroOrMoreSpaces
@@ -94,11 +116,11 @@ private let races = Many {
 } terminator: {
   End()
 }
-
+ 
 // MARK: - Benchmarks
 
 let raceSuite = BenchmarkSuite(name: "Race") { suite in
-  let input = """
+  let originalInput = """
     New York City, $300
     40.60248° N, 74.06433° W
     40.61807° N, 74.02966° W
@@ -175,7 +197,19 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
 
   suite.benchmark(
     name: "Parser",
-    run: { output = try races.parse(input) },
+    run: { output = try races.parse(originalInput) },
     tearDown: { precondition(output.count == 3) }
+  )
+
+  var input = ""[...].utf8
+  suite.benchmark(
+    name: "Printer",
+    setUp: { input = ""[...].utf8 },
+    run: {
+      try races.print(output, to: &input)
+    },
+    tearDown: {
+      precondition(String(Substring(input)) == originalInput)
+    }
   )
 }
