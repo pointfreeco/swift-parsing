@@ -32,9 +32,11 @@
 ///
 /// # String abstraction levels
 ///
-/// It is possible to seamlessly parse on different abstraction levels of strings. Working on high-level and low-level `String` abstractions each have their pros and cons.
+/// It is possible to seamlessly parse on different abstraction levels of strings. Working on high-level and
+/// low-level `String` abstractions each have their pros and cons.
 ///
-/// Parsing low-level abstractions, such as `UTF8View`s or collections of UTF-8 code units, has better performance but at the cost of potentially losing correctness. The most canonical example of this is
+/// Parsing low-level abstractions, such as `UTF8View`s or collections of UTF-8 code units, has better
+/// performance but at the cost of potentially losing correctness. The most canonical example of this is
 /// trying to parse the character "é", which can be represented in code units as `[233]` or `[101, 769]`.
 /// If you don't remember to always parse both representations you may have a bug where you accidentally
 /// fail your parser when it encounters a code unit sequence you don't support.
