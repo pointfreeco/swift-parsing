@@ -7,7 +7,7 @@ import Parsing
 let csvSuite = BenchmarkSuite(name: "CSV") { suite in
   let plainField = Prefix { $0 != .init(ascii: ",") && $0 != .init(ascii: "\n") }
 
-  let quotedField = Parse {
+  let quotedField = ParsePrint {
     "\"".utf8
     Prefix { $0 != .init(ascii: "\"") }
     "\"".utf8

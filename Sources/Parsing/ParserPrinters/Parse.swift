@@ -64,3 +64,5 @@ extension Parse: Printer where Parsers: Printer {
     try self.parsers.print(output, to: &input)
   }
 }
+
+public typealias ParsePrint<P> = Parse<P> where P: ParserPrinter

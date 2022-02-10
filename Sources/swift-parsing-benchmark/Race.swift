@@ -35,13 +35,13 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     "W".utf8.map { -1.0 }
   }
 
-  let latitude = Parse(.multiplySign) {
+  let latitude = ParsePrint(.multiplySign) {
     Double.parser()
     "° ".utf8
     northSouth
   }
 
-  let longitude = Parse(.multiplySign) {
+  let longitude = ParsePrint(.multiplySign) {
     Double.parser()
     "° ".utf8
     eastWest
@@ -49,7 +49,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
 
   let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }.printing(" ".utf8)
 
-  let coord = Parse(.struct(Coordinate.init(latitude:longitude:))) {
+  let coord = ParsePrint(.struct(Coordinate.init(latitude:longitude:))) {
     latitude
     Skip {
       ",".utf8
@@ -64,14 +64,14 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     "$".utf8.map { Currency.usd }
   }
 
-  let money = Parse(.struct(Money.init(currency:dollars:))) {
+  let money = ParsePrint(.struct(Money.init(currency:dollars:))) {
     currency
     Int.parser()
   }
 
   let locationName = Prefix { $0 != .init(ascii: ",") }.map(.string)
 
-  let race = Parse(.struct(Race.init(location:entranceFee:path:))) {
+  let race = ParsePrint(.struct(Race.init(location:entranceFee:path:))) {
     locationName
     Skip {
       ",".utf8

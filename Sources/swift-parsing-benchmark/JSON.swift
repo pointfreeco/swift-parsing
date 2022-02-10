@@ -18,7 +18,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
 
   var json: AnyParserPrinter<Substring.UTF8View, JSONValue>!
 
-  let string = Parse {
+  let string = ParsePrint {
     "\"".utf8
     Many(into: "") { string, fragment in
       string.append(contentsOf: fragment)
@@ -56,7 +56,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
     }
   }
 
-  let object = Parse {
+  let object = ParsePrint {
     "{".utf8
     Many(into: [String: JSONValue]()) { object, pair in
       let (name, value) = pair
@@ -76,7 +76,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
     }
   }
 
-  let array = Parse {
+  let array = ParsePrint {
     "[".utf8
     Many {
       Lazy { json! }
@@ -87,7 +87,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
     }
   }
 
-  json = Parse {
+  json = ParsePrint {
     Whitespace().printing("".utf8)
     OneOf {
       object.map(/JSONValue.object)

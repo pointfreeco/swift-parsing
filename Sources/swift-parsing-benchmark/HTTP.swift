@@ -7,16 +7,16 @@ import Parsing
 ///
 /// In particular, it benchmarks the same HTTP header as that defined in `one_test`.
 let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
-  let method = Parse(.substring) { Prefix { $0.isToken } }
+  let method = ParsePrint(.substring) { Prefix { $0.isToken } }
 
-  let uri = Parse(.substring) { Prefix { $0 != .init(ascii: " ") } }
+  let uri = ParsePrint(.substring) { Prefix { $0 != .init(ascii: " ") } }
 
-  let httpVersion = Parse(.substring) {
+  let httpVersion = ParsePrint(.substring) {
     "HTTP/".utf8
     Prefix { $0.isVersion }
   }
 
-  let requestLine = Parse(.struct(Request.init(method:uri:version:))) {
+  let requestLine = ParsePrint(.struct(Request.init(method:uri:version:))) {
     method
     " ".utf8
     uri
@@ -25,13 +25,13 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     Newline()
   }
 
-  let headerValue = Parse(.substring) {
+  let headerValue = ParsePrint(.substring) {
     Prefix(1...) { $0 == .init(ascii: " ") || $0 == .init(ascii: "\t") }.printing(" ".utf8)
     Prefix { $0 != .init(ascii: "\r") && $0 != .init(ascii: "\n") }
     Newline()
   }
 
-  let header = Parse(.struct(Header.init(name:value:))) {
+  let header = ParsePrint(.struct(Header.init(name:value:))) {
     Prefix { $0.isToken }.map(.substring)
     ":".utf8
     Many {
@@ -39,7 +39,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     }
   }
 
-  let request = Parse {
+  let request = ParsePrint {
     requestLine
     Many {
       header
