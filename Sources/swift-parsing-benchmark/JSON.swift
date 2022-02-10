@@ -97,22 +97,15 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       let (name, value) = pair
       object[name] = value
     } element: {
-      Skip {
-        Whitespace()
-      }
+      ASCIIWhitespace()
       stringLiteral
-      Skip {
-        Whitespace()
-      }
+      ASCIIWhitespace()
       ":".utf8
       Lazy {
         json!
       }
     } separator: {
       ",".utf8
-      Skip {
-        Whitespace()
-      }
     }
     "}".utf8
   }
@@ -130,10 +123,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   }
 
   json = Parse {
-    Skip {
-      Whitespace()
-    }
-
+    ASCIIWhitespace()
     OneOf {
       object
       array
@@ -142,10 +132,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       boolean
       null
     }
-
-    Skip {
-      Whitespace()
-    }
+    ASCIIWhitespace()
   }
   .eraseToAnyParser()
 
