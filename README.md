@@ -113,7 +113,7 @@ let user = Parse {
 Already this can consume the beginning of the input:
 
 ```swift
-// Use a mutable substring to verify what it consumed
+// Use a mutable substring to verify what is consumed
 var input = input[...]
 
 user.parse(&input) // => 1
