@@ -35,7 +35,7 @@
 /// It is possible to seamlessly parse on different abstraction levels of strings. Working on high-level and
 /// low-level `String` abstractions each have their pros and cons.
 ///
-/// Parsing low-level abstractions, such as `UTF8View`s or collections of UTF-8 code units, has better
+/// Parsing low-level abstractions, such as `UTF8View` or a collection of UTF-8 code units, has better
 /// performance but at the cost of potentially losing correctness. The most canonical example of this is
 /// trying to parse the character "é", which can be represented in code units as `[233]` or `[101, 769]`.
 /// If you don't remember to always parse both representations you may have a bug where you accidentally
@@ -139,7 +139,7 @@
 /// when one of its parsers fails.
 ///
 /// By not requiring backtracking of each individual parser we can greatly simply the logic of parsers and we
-/// can coalesce all backtracking logic into just a single parser, the ``OneOf`` parser. For example, the
+/// can coalesce all backtracking logic into just a single parser,  ``OneOf``. For example, the
 /// `.flatMap` operator allows one to sequence two parsers where the second parser can use the output of the
 /// first in order to customize its logic. If we required `.flatMap` to do its own backtracking we would be
 /// forced to insert logic after each step of the sequence. By not requiring backtracking we can replace 12
