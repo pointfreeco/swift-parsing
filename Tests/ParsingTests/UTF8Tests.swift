@@ -11,25 +11,36 @@ final class UTF8Tests: XCTestCase {
     XCTAssertEqual("e\u{0341} Hello, world", Substring(input))
     XCTAssertNoThrow(try parser.parse(&input))
     XCTAssertEqual(" Hello, world", Substring(input))
-    XCTAssertThrowsError(try parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:4
+        1 | ééé Hello, world
+          |    ^ expected "é"
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertEqual(" Hello, world", Substring(input))
   }
 
   func testUnicodeScalars() {
     var input = "🇺🇸 Hello, world"[...].unicodeScalars
-    let parser = StartsWith<Substring.UnicodeScalarView>("🇺".unicodeScalars)
+    let parser = "🇺".unicodeScalars
     XCTAssertNoThrow(try parser.parse(&input))
     XCTAssertEqual("🇸 Hello, world", Substring(input))
-    XCTAssertThrowsError(try parser.parse(&input))
-    XCTAssertEqual("🇸 Hello, world", Substring(input))
-  }
-
-  func testUTF8() {
-    var input = "🇺🇸 Hello, world"[...].utf8
-    let parser = StartsWith<Substring.UTF8View>("🇺".utf8)
-    XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertEqual("🇸 Hello, world", Substring(input))
-    XCTAssertThrowsError(try parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | 🇺🇸 Hello, world
+          | ^ expected "🇺"
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertEqual("🇸 Hello, world", Substring(input))
   }
 }

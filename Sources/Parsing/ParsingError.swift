@@ -283,8 +283,10 @@ private func formatError(_ error: Error) -> String {
   switch error {
   case let error as ParsingError:
     return error.debugDescription
+
   case let error as LocalizedError:
     return error.localizedDescription
+
   default:
     return "\(error)"
   }
@@ -298,8 +300,8 @@ func formatValue<Input>(
   case let input as String:
     return input.debugDescription
 
-//  case let input as String.UnicodeScalarView:
-//    return String(input).debugDescription
+  case let input as String.UnicodeScalarView:
+    return String(input).debugDescription
 
   case let input as String.UTF8View:
     return String(input).debugDescription
@@ -307,8 +309,8 @@ func formatValue<Input>(
   case let input as Substring:
     return input.debugDescription
 
-//  case let input as Substring.UnicodeScalarView:
-//    return Substring(input).debugDescription
+  case let input as Substring.UnicodeScalarView:
+    return Substring(input).debugDescription
 
   case let input as Substring.UTF8View:
     return Substring(input).debugDescription
@@ -342,6 +344,7 @@ private extension ParsingError.Context {
     switch (normalize(lhs.remainingInput), normalize(rhs.remainingInput)) {
     case let (lhsInput as Substring, rhsInput as Substring):
       return lhsInput.endIndex > rhsInput.endIndex
+
     case let (lhsInput as Slice<[Substring]>, rhsInput as Slice<[Substring]>):
       guard lhsInput.endIndex != rhsInput.endIndex else {
         switch (lhs.underlyingError, rhs.underlyingError) {
@@ -354,6 +357,7 @@ private extension ParsingError.Context {
         }
       }
       return lhsInput.endIndex > rhsInput.endIndex
+      
     default:
       return false
     }
