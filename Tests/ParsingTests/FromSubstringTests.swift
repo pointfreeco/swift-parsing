@@ -16,19 +16,4 @@ final class FromSubstringTests: XCTestCase {
     XCTAssertNotNil(p.parse(&input))
     XCTAssert(input.isEmpty)
   }
-
-  func testUnicodeScalarView() {
-    let p = Parse {
-      "caf".unicodeScalars
-      FromSubstring { "é" }
-    }
-
-    var input = "caf\u{00E9}"[...].unicodeScalars
-    XCTAssertNotNil(p.parse(&input))
-    XCTAssert(input.isEmpty)
-
-    input = "cafe\u{0301}"[...].unicodeScalars
-    XCTAssertNotNil(p.parse(&input))
-    XCTAssert(input.isEmpty)
-  }
 }
