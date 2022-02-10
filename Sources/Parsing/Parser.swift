@@ -5,7 +5,7 @@
 /// * [Error messages](#Error-messages)
 /// * [Backtracking](#Backtracking)
 ///
-/// # Getting started
+/// ## Getting started
 ///
 /// A parser attempts to parse a nebulous piece of data, represented by the `Input` associated type,
 /// into something more well-structured, represented by the `Output` associated type. The parser
@@ -30,7 +30,7 @@
 /// strings because they simply move the start and end indices, whereas their implementation on strings must
 /// make a copy of the string with the characters removed.
 ///
-/// # String abstraction levels
+/// ## String abstraction levels
 ///
 /// It is possible to seamlessly parse on different abstraction levels of strings. Working on high-level and
 /// low-level `String` abstractions each have their pros and cons.
@@ -109,7 +109,7 @@
 /// This allows you to parse as much as possible on the more performant, low-level `UTF8View`, while still
 /// allowing you to parse on the more correct, high-level `Substring` when necessary.
 ///
-/// # Error messages
+/// ## Error messages
 ///
 /// When a parser fails it throws an error containing information about what went wrong. The actual error
 /// thrown by the parsers shipped with this library is internal, and so should be considered opaque. To get
@@ -130,7 +130,7 @@
 /// }
 /// ```
 ///
-/// # Backtracking
+/// ## Backtracking
 ///
 /// Parsers may consume input even if they throw an error, and you should not depend on a parser
 /// restoring the input to the original value when failing. The process of restoring the input to the
