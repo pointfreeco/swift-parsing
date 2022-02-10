@@ -3,7 +3,7 @@ import XCTest
 
 final class CaseIterableTests: XCTestCase {
   func testCaseIterableParser() throws {
-    enum Person: String, CaseIterable, Equatable {
+    enum Person: String, CaseIterable {
       case blob = "Blob"
       case blobJr = "Blob Jr"
     }
