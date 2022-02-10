@@ -18,11 +18,6 @@ where
   let toBytes: (Input) -> Bytes
 
   @inlinable
-  public init() where Input.Element == UTF8.CodeUnit, Bytes == Input {
-    self.toBytes = { $0 }
-  }
-
-  @inlinable
   public func parse(_ input: inout Input) -> Void? {
     let bytes = self.toBytes(input)
     if bytes.first == .init(ascii: "\n") {
@@ -33,6 +28,13 @@ where
       return ()
     }
     return nil
+  }
+}
+
+extension Newline where Input.Element == UTF8.CodeUnit, Bytes == Input {
+  @inlinable
+  public init()  {
+    self.toBytes = { $0 }
   }
 }
 

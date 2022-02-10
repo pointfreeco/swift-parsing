@@ -20,12 +20,6 @@ where
   let fromBytes: (Bytes) -> Input
 
   @inlinable
-  public init() where Input.Element == UTF8.CodeUnit, Bytes == Input {
-    self.toBytes = { $0 }
-    self.fromBytes = { $0 }
-  }
-
-  @inlinable
   public func parse(_ input: inout Input) -> Input? {
     let output = self.toBytes(input).prefix(while: { (byte: UTF8.CodeUnit) in
       byte == .init(ascii: " ")
@@ -35,6 +29,14 @@ where
     })
     input.removeFirst(output.count)
     return self.fromBytes(output)
+  }
+}
+
+extension Whitespace where Input.Element == UTF8.CodeUnit, Bytes == Input {
+  @inlinable
+  public init()  {
+    self.toBytes = { $0 }
+    self.fromBytes = { $0 }
   }
 }
 
