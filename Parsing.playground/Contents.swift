@@ -9,40 +9,76 @@ var input = """
 """[...]
 
 struct Conversion<Input, Output> {
-  let apply: (Input) -> Output
-  let unapply: (Output) -> Input
+  let apply: (Input) throws -> Output
+  let unapply: (Output) throws -> Input
+}
 
-  static func destructure(
-    _ `init`: @escaping (Input) -> Output
-  ) -> Conversion<Input, Output> {
+enum Role {
+  case admin, guest, member
+}
+
+
+extension Parsers.Map: Printer
+where
+  Upstream: Printer,
+  Upstream.Output == Void,
+  Output: Equatable
+{
+  func print(_ output: Output, to input: inout Upstream.Input) throws {
+    guard self.transform(()) == output
+    else {
+      throw PrintingError()
+    }
+    try self.upstream.print((), to: &input)
+  }
+}
+
+extension Parsers.OneOf3: Printer where P0: Printer, P1: Printer, P2: Printer {
+  func print(_ output: P0.Output, to input: inout P0.Input) throws {
+    do {
+      try self.p2.print(output, to: &input)
+    } catch {
+      do {
+        try self.p1.print(output, to: &input)
+      } catch {
+        try self.p0.print(output, to: &input)
+      }
+    }
+  }
+}
+
+struct ConversionError: Error {}
+
+extension Conversion where Input == Void, Output: Equatable {
+  static func exactly(_ output: Output) -> Self {
     .init(
-      apply: `init`,
+      apply: { output },
       unapply: {
-        unsafeBitCast($0, to: Input.self)
-      }
-    )
-  }
-}
-extension Parser where Self: Printer {
-  func map<NewOutput>(
-    _ conversion: Conversion<Output, NewOutput>
-  ) -> AnyParserPrinter<Input, NewOutput> {
-    .init(
-      parse: { input in
-        try conversion.apply(self.parse(&input))
-      },
-      print: { newOutput, input in
-        try self.print(conversion.unapply(newOutput), to: &input)
+        guard $0 == output
+        else { throw ConversionError() }
       }
     )
   }
 }
 
+Substring.UnicodeScalarView.init
+
+let role = OneOf {
+  "admin".map { Role.admin }
+  "guest".map { Role.guest }
+  "member".map { Role.member }
+}
+
+role.print
+input = "admin"
+try role.parse(&input)
+try role.print(Role.admin, to: &input)
+input
 
 struct User {
   var id: Int
   var name: String
-  var admin: Bool
+  var role: Role
 }
 
 let field = OneOf {
@@ -54,14 +90,84 @@ let field = OneOf {
 
   Prefix { $0 != "," }
 }
-  .map(.init(apply: { String($0) }, unapply: { Substring($0) }))
+  .map(.string)
+
+extension Parsers {
+  struct Printing<Upstream: Parser>: Parser, Printer where Upstream.Input: AppendableCollection {
+    let upstream: Upstream
+    let input: Upstream.Input
+
+    func parse(_ input: inout Upstream.Input) throws -> Upstream.Output {
+      try self.upstream.parse(&input)
+    }
+
+    func print(_ output: Upstream.Output, to input: inout Upstream.Input) {
+      input.append(contentsOf: self.input)
+    }
+  }
+}
+
+extension Parser {
+  func printing(_ input: Input) -> Parsers.Printing<Self> where Input: AppendableCollection {
+    .init(upstream: self, input: input)
+  }
+}
 
 let zeroOrOneSpace = OneOf {
   " "
   ""
 }
+  .printing(" ")
 
-let user = Parse {
+//extension Conversion where Input == (Int, String, Role), Output == User {
+//  static let user = Self(
+//    apply: User.init(id:name:role:),
+//    unapply: { unsafeBitCast($0, to: Input.self) }
+//  )
+//}
+
+"dog".starts(with: "")
+"cat".starts(with: "")
+"".starts(with: "")
+
+extension Conversion {
+  static func `struct`(_ `init`: @escaping (Input) -> Output) -> Self {
+    .init(
+      apply: `init`,
+      unapply: {
+//        guard
+//          MemoryLayout<Input>.size == MemoryLayout<Output>.size,
+//          MemoryLayout<Input>.stride == MemoryLayout<Output>.stride,
+//          MemoryLayout<Input>.alignment == MemoryLayout<Output>.alignment,
+//          MemoryLayout<Input>.offset(of: <#T##PartialKeyPath<Input>#>)
+//        else {
+//          throw ...
+//        }
+
+        unsafeBitCast($0, to: Input.self)
+      }
+    )
+  }
+}
+
+MemoryLayout<(String, String)>.size
+MemoryLayout<(String, String, String)>.size
+MemoryLayout<(String, String)>.stride
+MemoryLayout<(String, String, String)>.stride
+MemoryLayout<(String, String)>.alignment
+MemoryLayout<(String, String, String)>.alignment
+
+
+extension Parse {
+  init<Upstream, NewOutput>(
+    _ conversion: Conversion<Upstream.Output, NewOutput>,
+    @ParserBuilder with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.ReversibleMap<Upstream, NewOutput> {
+    self.init { build().map(conversion) }
+  }
+}
+
+let user = Parse(.struct(User.init)) {
   Int.parser()
   Skip {
     ","
@@ -72,20 +178,28 @@ let user = Parse {
     ","
     zeroOrOneSpace
   }
-  Bool.parser()
+//  Bool.parser()
+  role
 }
-  .map(
-    .init(
-      apply: User.init(id:name:admin:),
-      unapply: { ($0.id, $0.name, $0.admin) }
-    )
-  )
+
+//  .map(.struct(User.init))
+
+//  .map(.user)
+
 //  .map(
 //    .init(
 //      apply: User.init,
 //      unapply: { ($0.id, $0.name, $0.admin) }
 //    )
 //  )
+
+input = ""
+try user.print(
+  User(id: 1, name: "Blob", role: .member),
+  to: &input
+)
+input // "1,Blob,true"
+1
 
 let users = Many {
   user
@@ -102,8 +216,8 @@ input
 input = ""
 try users.print(
   [
-    .init(id: 1, name: "Blob", admin: true),
-    .init(id: 2, name: "Blob, Esq.", admin: true),
+    User(id: 1, name: "Blob", role: .member),
+    User(id: 2, name: "Blob, Esq.", role: .admin),
   ],
   to: &input
 )
@@ -113,7 +227,7 @@ input
 func print(user: User) -> String {
   "\(user.id), "
   + (user.name.contains(",") ? "\"\(user.name)\"" : user.name)
-  + ", \(user.admin)"
+  + ", \(user.role)"
 }
 func print(users: [User]) -> String {
   users.map(print(user:)).joined(separator: "\n")
@@ -136,7 +250,7 @@ struct UserPrinter: Printer {
     } else {
       input.append(contentsOf: user.name)
     }
-    input.append(contentsOf: ", \(user.admin)")
+    input.append(contentsOf: ", \(user.role)")
   }
 }
 
@@ -154,9 +268,9 @@ struct UsersPrinter: Printer {
 var inputString = ""
 UsersPrinter().print(
   [
-    .init(id: 1, name: "Blob", admin: true),
-    .init(id: 2, name: "Blob jr", admin: false),
-    .init(id: 3, name: "Blob, Esq.", admin: true),
+    .init(id: 1, name: "Blob", role: .member),
+    .init(id: 2, name: "Blob jr", role: .guest),
+    .init(id: 3, name: "Blob, Esq.", role: .admin),
   ],
   to: &inputString
 )
@@ -183,6 +297,13 @@ input
 
 struct PrintingError: Error {}
 
+//extension Prefix: Printer where Input: AppendableCollection {
+//  func print(_ output: Input, to input: inout Input) throws {
+//    input.append(contentsOf: output)
+//  }
+//}
+
+
 extension Prefix: Printer where Input: AppendableCollection {
   func print(_ output: Input, to input: inout Input) throws {
     guard output.allSatisfy(self.predicate!)
@@ -191,6 +312,18 @@ extension Prefix: Printer where Input: AppendableCollection {
     input.append(contentsOf: output)
   }
 }
+
+//input = ""
+//try Prefix
+//{ $0 != "," }.print("Blob,", to: &input)
+//input
+//
+//try Prefix
+//{ $0 != "," }.parse(&input)
+//input
+
+
+1
 
 1
 
@@ -360,7 +493,7 @@ extension Parsers.ZipOVOVO: Printer where P0: Printer, P1: Printer, P2: Printer,
 
 
 input = ""
-try user.print(User(id: 1, name: "Blob, Esq.", admin: true), to: &input)
+try user.print(User(id: 1, name: "Blob, Esq.", role: .admin), to: &input)
 input // "1,"Blob, Esq.",true"
 
 
@@ -388,8 +521,8 @@ where
 input = ""
 try users.print(
   [
-    User(id: 1, name: "Blob", admin: true),
-    User(id: 2, name: "Blob, Esq.", admin: true)
+    User(id: 1, name: "Blob", role: .member),
+    User(id: 2, name: "Blob, Esq.", role: .guest)
   ],
   to: &input
 )
@@ -476,16 +609,7 @@ try usersUtf8.print(
 )
 Substring(inputUtf8) // "1,Blob,true\n2,Blob Jr.,false\n3,"Blob, Esq.",true"
 
-struct AnyParserPrinter<Input, Output>: Parser, Printer {
-  let parse: (inout Input) throws -> Output
-  let print: (Output, inout Input) throws -> Void
-  func parse(_ input: inout Input) throws -> Output {
-    try self.parse(&input)
-  }
-  func print(_ output: Output, to input: inout Input) throws {
-    try self.print(output, &input)
-  }
-}
+
 
 
 struct SomeError: Error {}
@@ -561,11 +685,11 @@ let user_ = Parse { // (.destructure(User.init(id:name:admin:)))
 extension Parsers {
   struct ReversibleMap<Upstream, Output>: Parser, Printer where Upstream: Parser, Upstream: Printer {
     public let upstream: Upstream
-    public let transform: (Upstream.Output) -> Output
-    public let untransform: (Output) -> Upstream.Output
+    public let transform: (Upstream.Output) throws -> Output
+    public let untransform: (Output) throws -> Upstream.Output
 
     func parse(_ input: inout Upstream.Input) throws -> Output {
-      self.transform(try self.upstream.parse(&input))
+      try self.transform(self.upstream.parse(&input))
     }
 
     func print(_ output: Output, to input: inout Upstream.Input) throws {
@@ -576,8 +700,8 @@ extension Parsers {
 
 extension Parser {
   func map<NewOutput>(
-    transform: @escaping (Output) -> NewOutput,
-    untransform: @escaping (NewOutput) -> Output
+    transform: @escaping (Output) throws -> NewOutput,
+    untransform: @escaping (NewOutput) throws -> Output
   ) -> Parsers.ReversibleMap<Self, NewOutput> {
     .init(upstream: self, transform: transform, untransform: untransform)
   }
@@ -588,3 +712,73 @@ extension Parser {
     .init(upstream: self, transform: conversion.apply, untransform: conversion.unapply)
   }
 }
+
+
+1
+
+
+
+unsafeBitCast((1, "Blob", true), to: User.self)
+
+
+struct Private {
+  let value: Int
+  private init(value: Int) {
+    self.value = value
+  }
+}
+
+//Private(value: 10)
+// 'Private' initializer is inaccessible due to 'private' protection level
+
+unsafeBitCast(1, to: Private.self)
+
+extension Conversion where Input == Substring, Output == String {
+  static let string = Self(
+    apply: { String($0) },
+    unapply: { Substring($0) }
+  )
+}
+
+extension Parsers.ZipOVO: Printer where P0: Printer, P1: Printer, P2: Printer {
+  func print(_ output: (P0.Output, P2.Output), to input: inout P0.Input) throws {
+    try self.p0.print(output.0, to: &input)
+    try self.p1.print((), to: &input)
+    try self.p2.print(output.1, to: &input)
+  }
+}
+
+struct Person {
+  let firstName, lastName: String
+  let bio: String
+  init(lastName: String, firstName: String) {
+    self.firstName = firstName
+    self.lastName = lastName
+    self.bio = ""
+  }
+}
+1
+
+
+let person = Parse(.struct(Person.init)) {
+  Prefix { $0 != " " }.map(.string)
+  " "
+  Prefix { $0 != " " }.map(.string)
+}
+
+input = "Blob McBlob"
+let p = try person.parse(&input)
+print(p)
+//try person.print(p, to: &input)
+input
+
+//unsafeBitCast(("A", "B"), to: (String, String, String).self)
+
+
+
+//MemoryLayout<(Int, String)>.alignment == MemoryLayout<(String, Int)>.alignment
+//MemoryLayout<(Int, String)>.size == MemoryLayout<(String, Int)>.size
+//MemoryLayout<(Int, String)>.offset(of: <#T##PartialKeyPath<(Int, String)>#>)stride == MemoryLayout<(String, Int)>.stride
+
+
+//unsafeBitCast((1, ""), to: (String, Int).self)
