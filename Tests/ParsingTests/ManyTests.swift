@@ -186,7 +186,7 @@ class ManyTests: XCTestCase {
 
   func testTerminatorFails() {
     let intsParser = Many {
-      Int.parser()
+      FromUTF8View { Int.parser() }
     } separator: {
       ","
     } terminator: {

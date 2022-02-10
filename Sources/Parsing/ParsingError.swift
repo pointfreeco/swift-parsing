@@ -174,9 +174,13 @@ func format(label: String, context: ParsingError.Context) -> String {
   func formatHelp<Input>(from originalInput: Input, to remainingInput: Input) -> String {
     switch (normalize(originalInput), normalize(remainingInput)) {
     case let (originalInput as Substring, remainingInput as Substring):
-      let substring = originalInput.startIndex == remainingInput.startIndex
+      var substring = originalInput.startIndex == remainingInput.startIndex
         ? originalInput
         : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
+
+//      if let i = substring.base.indices.last(where: { $0 < substring.startIndex }) {
+//        substring = normalize(substring.base[i...]) as! Substring
+//      }
 
       let position = substring.base[..<substring.startIndex].reduce(
         into: (0, 0)
@@ -297,12 +301,22 @@ func formatValue<Input>(
   switch input {
   case let input as String:
     return input.debugDescription
+
+//  case let input as String.UnicodeScalarView:
+//    return String(input).debugDescription
+
   case let input as String.UTF8View:
     return String(input).debugDescription
+
   case let input as Substring:
     return input.debugDescription
+
+//  case let input as Substring.UnicodeScalarView:
+//    return Substring(input).debugDescription
+
   case let input as Substring.UTF8View:
     return Substring(input).debugDescription
+
   default:
     return "\(input)"
   }
@@ -355,10 +369,16 @@ private func normalize(_ input: Any) -> Any {
   switch input {
   case let input as Substring:
     return input.endIndex == input.base.endIndex ? input[..<input.startIndex] : input
+
+  case let input as Substring.UnicodeScalarView:
+    return normalize(Substring(input))
+
   case let input as Substring.UTF8View:
     return normalize(Substring(input))
+
   case let input as Slice<[Substring]>:
     return input.endIndex == input.base.endIndex ? input[..<input.startIndex] : input
+
   default:
     return input
   }

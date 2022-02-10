@@ -23,4 +23,13 @@ final class UTF8Tests: XCTestCase {
     XCTAssertThrowsError(try parser.parse(&input))
     XCTAssertEqual("🇸 Hello, world", Substring(input))
   }
+
+  func testUTF8() {
+    var input = "🇺🇸 Hello, world"[...].utf8
+    let parser = StartsWith<Substring.UTF8View>("🇺".utf8)
+    XCTAssertNoThrow(try parser.parse(&input))
+    XCTAssertEqual("🇸 Hello, world", Substring(input))
+    XCTAssertThrowsError(try parser.parse(&input))
+    XCTAssertEqual("🇸 Hello, world", Substring(input))
+  }
 }
