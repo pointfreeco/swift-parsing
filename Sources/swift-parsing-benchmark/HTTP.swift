@@ -24,7 +24,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     uri
     " ".utf8
     httpVersion
-    ASCIINewline()
+    Newline()
   }
 
   let headerValue = Parse {
@@ -34,7 +34,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     Prefix { $0 != .init(ascii: "\r") && $0 != .init(ascii: "\n") }
       .map(Substring.init)
     Skip {
-      ASCIINewline()
+      Newline()
     }
   }
 

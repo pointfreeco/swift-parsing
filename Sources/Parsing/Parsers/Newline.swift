@@ -9,7 +9,7 @@
 ///   Prefix(1) { $0.isNewline }
 ///   ```
 /// It will consume both line feeds (`"\n"`) and carriage returns with line feeds (`"\r\n"`).
-public struct ASCIINewline<Input: Collection, Bytes: Collection>: Parser
+public struct Newline<Input: Collection, Bytes: Collection>: Parser
 where
   Input.SubSequence == Input,
   Bytes.Element == UTF8.CodeUnit
@@ -36,24 +36,24 @@ where
   }
 }
 
-extension ASCIINewline where Input == Substring, Bytes == Substring.UTF8View {
+extension Newline where Input == Substring, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
   public init() { self.toBytes = { $0.utf8 } }
 }
 
-extension ASCIINewline where Input == Substring.UTF8View, Bytes == Input {
+extension Newline where Input == Substring.UTF8View, Bytes == Input {
   @_disfavoredOverload
   @inlinable
   public init() { self.init() }
 }
 
-extension ASCIINewline where Input == ArraySlice<UTF8.CodeUnit>, Bytes == Input {
+extension Newline where Input == ArraySlice<UTF8.CodeUnit>, Bytes == Input {
   @_disfavoredOverload
   @inlinable
   public init() { self.init() }
 }
 
 extension Parsers {
-  public typealias Newline = Parsing.ASCIINewline  // NB: Convenience type alias for discovery
+  public typealias Newline = Parsing.Newline  // NB: Convenience type alias for discovery
 }

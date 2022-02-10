@@ -7,21 +7,26 @@
 ///   ```swift
 ///   Prefix { $0.isWhitespace }
 ///   ```
-public struct ASCIIWhitespace<Input: Collection, Bytes: Collection>: Parser
+public struct Whitespace<Input: Collection, Bytes: Collection>: Parser
 where
   Input.SubSequence == Input,
+  Bytes.SubSequence == Bytes,
   Bytes.Element == UTF8.CodeUnit
 {
   @usableFromInline
   let toBytes: (Input) -> Bytes
 
+  @usableFromInline
+  let fromBytes: (Bytes) -> Input
+
   @inlinable
   public init() where Input.Element == UTF8.CodeUnit, Bytes == Input {
     self.toBytes = { $0 }
+    self.fromBytes = { $0 }
   }
 
   @inlinable
-  public func parse(_ input: inout Input) -> Void? {
+  public func parse(_ input: inout Input) -> Input? {
     let output = self.toBytes(input).prefix(while: { (byte: UTF8.CodeUnit) in
       byte == .init(ascii: " ")
         || byte == .init(ascii: "\n")
@@ -29,28 +34,31 @@ where
         || byte == .init(ascii: "\t")
     })
     input.removeFirst(output.count)
-    return ()
+    return self.fromBytes(output)
   }
 }
 
-extension ASCIIWhitespace where Input == Substring, Bytes == Substring.UTF8View {
+extension Whitespace where Input == Substring, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init() { self.toBytes = { $0.utf8 } }
+  public init() {
+    self.toBytes = { $0.utf8 }
+    self.fromBytes = Substring.init
+  }
 }
 
-extension ASCIIWhitespace where Input == Substring.UTF8View, Bytes == Input {
+extension Whitespace where Input == Substring.UTF8View, Bytes == Input {
   @_disfavoredOverload
   @inlinable
   public init() { self.init() }
 }
 
-extension ASCIIWhitespace where Input == ArraySlice<UTF8.CodeUnit>, Bytes == Input {
+extension Whitespace where Input == ArraySlice<UTF8.CodeUnit>, Bytes == Input {
   @_disfavoredOverload
   @inlinable
   public init() { self.init() }
 }
 
 extension Parsers {
-  public typealias Whitespace = Parsing.ASCIIWhitespace  // NB: Convenience type alias for discovery
+  public typealias Whitespace = Parsing.Whitespace  // NB: Convenience type alias for discovery
 }

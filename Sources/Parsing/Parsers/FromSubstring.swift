@@ -56,6 +56,7 @@ extension FromSubstring where Input == ArraySlice<UInt8> {
 }
 
 extension FromSubstring where Input == Substring.UnicodeScalarView {
+  @_disfavoredOverload
   @inlinable
   public init(@ParserBuilder _ build: () -> SubstringParser) {
     self.substringParser = build()
