@@ -27,8 +27,8 @@
 /// Note that this parser works on `Substring` rather than `String` because substrings expose efficient ways
 /// of removing characters from its beginning. Substrings are "views" into a string, specificed by start and
 /// end indices. Operations like `removeFirst`, `removeLast` and others can be implemented efficiently on
-/// strings because they simply move the start and end indices, whereas their implementation on strings must
-/// make a copy of the string with the characters removed.
+/// substrings because they simply move the start and end indices, whereas their implementation on strings
+/// must make a copy of the string with the characters removed.
 ///
 /// ## String abstraction levels
 ///
