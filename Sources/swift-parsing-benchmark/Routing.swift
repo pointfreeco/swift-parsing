@@ -11,6 +11,36 @@ import Parsing
 /// recognize one of 5 routes for a website.
 let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   #if compiler(>=5.5)
+
+  /*
+   Rails.application.routes.draw do
+     get "/users/:user_id/books/:book_id" => "books#fetch"
+   end
+
+   users_books_path true, "123"
+
+
+   app.get('/users/:userId/books/:bookId', function (req, res) {
+     ...
+   })
+
+
+   app.get("users", ":userID", "books", ":bookID") { req in
+     ...
+   }
+
+
+   <a href="/users/42/books/123">Blob Autobiography</a>
+   <a href="/users/42/books/321">Blobbed around the world</a>
+   ...
+
+   "/users/\(user.id)/books/\(book.id)"
+
+
+   router.print(.user(id: user.id, .book(id: book.id))) // "/users/42/books/123"
+   */
+
+
     enum AppRoute: Equatable {
       case home
       case contactUs
