@@ -181,6 +181,7 @@ extension Parsers.ZipOVOVO: Printer where P0: Printer, P1: Printer, P2: Printer,
     try self.p4.print(output.2, to: &input)
   }
 }
+
 extension Many: Printer
 where
 Element: Printer,
@@ -200,6 +201,10 @@ Separator.Output == Void
   }
 }
 
+extension Always: Printer {
+  public func print(_ output: Output, to input: inout Input) throws {
+  }
+}
 
 
 public protocol AppendableCollection: Collection {
@@ -318,5 +323,11 @@ extension Parsers.ZipOO: Printer where P0: Printer, P1: Printer {
   public func print(_ output: (P0.Output, P1.Output), to input: inout P0.Input) throws {
     try self.p0.print(output.0, to: &input)
     try self.p1.print(output.1, to: &input)
+  }
+}
+
+extension Parsers.DoubleParser: Printer where Input: AppendableCollection {
+  public func print(_ output: Double, to input: inout Input) throws {
+    input.append(contentsOf: String(output).utf8)
   }
 }

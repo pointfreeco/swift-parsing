@@ -1,11 +1,27 @@
 
 import Parsing
 
+
+struct CharacterCounter: Parser, Printer {
+  let character: Character
+
+  func parse(_ input: inout Substring) throws -> Int {
+    try Prefix { $0 == character }.map(Conversion(apply: \.count, unapply: { Substring(repeating: character, count: $0)}))
+      .parse(&input)
+  }
+  func print(_ output: Int, to input: inout Substring) throws {
+    try Prefix { $0 == character }.map(Conversion(apply: \.count, unapply: { Substring(repeating: character, count: $0)}))
+      .print(output, to: &input)
+  }
+}
+
+
+
 var input = """
-1,Blob,true
-2,Blob Jr,false
-3,Blob Sr,true
-4,"Blob, Esq.",true
+1,Blob,true,⭐️
+2,Blob Jr,false,⭐️⭐️
+3,Blob Sr,true,⭐️⭐️⭐️⭐️
+4,"Blob, Esq.",true,⭐️⭐️⭐️
 """[...]
 
 enum Role {
@@ -83,6 +99,8 @@ let user = Parse(.struct(User.init)) {
   }
 //  Bool.parser()
   role
+  ","
+  CharacterCounter(character: "⭐️")
 }
 
 //  .map(.struct(User.init))
