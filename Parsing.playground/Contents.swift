@@ -25,8 +25,32 @@ extension Prefix: Printer where Input == Substring {
   }
 }
 
+extension Parse: Printer where Parsers: Printer {
+  func print(_ output: Parsers.Output, to input: inout Parsers.Input) throws {
+    try self.parsers.print(output, to: &input)
+  }
+}
+
+extension Parsers.ZipVOV: Printer
+where P0: Printer, P1: Printer, P2: Printer
+{
+  func print(
+    _ output: P1.Output,
+    to input: inout P0.Input
+  ) throws {
+    try self.p0.print((), to: &input)
+    try self.p1.print(output, to: &input)
+    try self.p2.print((), to: &input)
+  }
+}
+
+typealias ParsePrint<P: Parser & Printer> = Parse<P>
+
 input = ""
-try Prefix { $0 != "\"" }.print("Blob, Esq.", to: &input)
+try Parse {
+  Prefix { $0 != "\"" }
+}
+.print("Blob, Esq.", to: &input)
 input
 
 try Prefix
@@ -74,13 +98,18 @@ struct User: Equatable {
 //}
 //.map(f)
 
-let quotedField = Parse {
+let quotedField = ParsePrint {
   "\""
   Prefix { $0 != "\"" }
   "\""
 }
 
-//quotedField.print("Blob, Esq.", to: &input)
+input = ""
+try quotedField.print("Blob, Esq.", to: &input)
+input
+let parsedQuotedField = try quotedField.parse(&input)
+try quotedField.print(parsedQuotedField, to: &input)
+input
 
 let field = OneOf {
   quotedField
