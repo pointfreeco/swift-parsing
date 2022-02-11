@@ -64,6 +64,68 @@ extension Parsers.OneOf2: Printer where P0: Printer, P1: Printer {
   }
 }
 
+extension Skip: Printer where Parsers: Printer, Parsers.Output == Void {
+  func print(
+    _ output: (),
+    to input: inout Parsers.Input
+  ) throws {
+    try self.parsers.print((), to: &input)
+  }
+}
+
+extension Parsers.ZipVV: Printer where P0: Printer, P1: Printer {
+  func print(_ output: (), to input: inout P0.Input) throws {
+    try self.p0.print((), to: &input)
+    try self.p1.print((), to: &input)
+  }
+}
+
+extension Parsers.IntParser: Printer where Input == Substring.UTF8View {
+  func print(_ output: Output, to input: inout Input) {
+    var substring = Substring(input)
+    substring.append(contentsOf: String(output))
+    input = substring.utf8
+  }
+}
+
+extension FromUTF8View: Printer where UTF8Parser: Printer {
+  func print(
+    _ output: UTF8Parser.Output,
+    to input: inout Input
+  ) throws {
+    var utf8 = self.toUTF8(input)
+    defer { input = self.fromUTF8(utf8) }
+    try self.utf8Parser.print(output, to: &utf8)
+  }
+}
+
+extension Parsers.BoolParser: Printer where Input == Substring.UTF8View {
+  func print(
+    _ output: Bool,
+    to input: inout Substring.UTF8View
+  ) throws {
+    var substring = Substring(input)
+    substring.append(contentsOf: String(output))
+    input = substring.utf8
+  }
+}
+
+try Parse
+{
+  "Hello "
+  FromUTF8View { Int.parser() }
+  "!"
+}
+.parse("Hello 42!")
+
+input = ""
+try Parse { "Hello "; Int.parser(); "!" }
+.print(42, to: &input)
+input
+
+//Skip { Prefix { $0 != "," } }.print(<#T##output: ()##()#>, to: &<#T##_#>)
+
+
 //extension Parsers.Map: Printer where Upstream: Printer {
 //  func print(_ output: NewOutput, to input: inout Upstream.Input) throws {
 //    self.tran
@@ -142,14 +204,6 @@ let field = OneOf {
   Prefix { $0 != "," }
 }
 
-let _field = OneOf {
-  Prefix { $0 != "," }
-
-  quotedField
-}
-
-try _field.parse("\"Blob, Esq.\"")
-
 input = ""
 try field.print("Blob, Esq.", to: &input)
 input
@@ -162,6 +216,14 @@ let zeroOrOneSpace = OneOf {
   " "
   ""
 }
+
+input = ""
+try Skip {
+  ","
+  zeroOrOneSpace
+}
+.print((), to: &input)
+input
 
 let user = Parse(User.init(id:name:admin:)) {
   Int.parser()
