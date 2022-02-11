@@ -166,7 +166,8 @@
 ///   Int.parser()
 /// }
 /// ```
-@rethrows public protocol Parser {
+@rethrows
+public protocol Parser {
   /// The kind of values this parser receives.
   associatedtype Input
 
