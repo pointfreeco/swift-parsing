@@ -1,10 +1,40 @@
 import Parsing
 
+var input = ""[...]
+
 protocol Printer {
   associatedtype Input
   associatedtype Output
   func print(_ output: Output, to input: inout Input) throws
 }
+
+extension String: Printer {
+  func print(_ output: (), to input: inout Substring) {
+    input.append(contentsOf: self)
+  }
+}
+
+struct PrintingError: Error {}
+
+extension Prefix: Printer where Input == Substring {
+  func print(_ output: Input, to input: inout Input) throws {
+    guard output.allSatisfy(self.predicate!)
+    else { throw PrintingError() }
+
+    input.append(contentsOf: output)
+  }
+}
+
+input = ""
+try Prefix { $0 != "\"" }.print("Blob, Esq.", to: &input)
+input
+
+try Prefix
+{ $0 != "\"" }.parse(&input)
+
+input = ""
+"Hello".print((), to: &input)
+try "Hello".parse(&input) // ()
 
 //print(<#T##items: Any...##Any#>, to: &<#T##TextOutputStream#>)
 
@@ -44,12 +74,16 @@ struct User: Equatable {
 //}
 //.map(f)
 
+let quotedField = Parse {
+  "\""
+  Prefix { $0 != "\"" }
+  "\""
+}
+
+//quotedField.print("Blob, Esq.", to: &input)
+
 let field = OneOf {
-  Parse {
-    "\""
-    Prefix { $0 != "\"" }
-    "\""
-  }
+  quotedField
 
   Prefix { $0 != "," }
 }
@@ -82,7 +116,7 @@ let users = Many {
   End()
 }
 
-var input = usersCsv[...]
+input = usersCsv[...]
 let output = try users.parse(&input)
 input
 
@@ -122,7 +156,7 @@ struct UsersPrinter: Printer {
 }
 
 input = ""
-users.print(output, to: &input)
+//users.print(output, to: &input)
 
 print(users: output)
 
