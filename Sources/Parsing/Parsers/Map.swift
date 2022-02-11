@@ -9,7 +9,7 @@ extension Parser {
   @_disfavoredOverload
   @inlinable
   public func map<NewOutput>(
-    _ transform: @escaping (Output) -> NewOutput
+    _ transform: @escaping (Output) throws -> NewOutput
   ) -> Parsers.Map<Self, NewOutput> {
     .init(upstream: self, transform: transform)
   }
@@ -25,18 +25,18 @@ extension Parsers {
     public let upstream: Upstream
 
     /// The closure that transforms output from the upstream parser.
-    public let transform: (Upstream.Output) -> NewOutput
+    public let transform: (Upstream.Output) throws -> NewOutput
 
     @inlinable
-    public init(upstream: Upstream, transform: @escaping (Upstream.Output) -> NewOutput) {
+    public init(upstream: Upstream, transform: @escaping (Upstream.Output) throws -> NewOutput) {
       self.upstream = upstream
       self.transform = transform
     }
 
     @inlinable
     @inline(__always)
-    public func parse(_ input: inout Upstream.Input) rethrows -> NewOutput {
-      self.transform(try self.upstream.parse(&input))
+    public func parse(_ input: inout Upstream.Input) throws -> NewOutput {
+      try self.transform(self.upstream.parse(&input))
     }
   }
 }

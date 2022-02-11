@@ -7,6 +7,18 @@ final class MapTests: XCTestCase {
     XCTAssertEqual("42", try Int.parser().map(String.init).parse(&input))
     XCTAssertEqual(" Hello, world!", Substring(input))
   }
+    
+  func testFail() {
+    enum MyError: String, Error, Equatable {
+      case fails
+    }
+    
+    var input = "42 Hello, world!"[...].utf8
+    XCTAssertThrowsError(try Int.parser().map { _ in throw MyError.fails }.parse(&input)) { error in
+      XCTAssertEqual(error as? MyError, MyError.fails)
+    }
+    XCTAssertEqual(Substring(input), " Hello, world!"[...])
+  }
 
   func testOverloadArray() {
     let array = [1].map { "\($0)" }
