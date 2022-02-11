@@ -11,7 +11,7 @@ extension Parsers {
   ///   case member
   /// }
   ///
-  /// let roleParser = Parse {
+  /// let roleParser = OneOf {
   ///   for role in Role.allCases {
   ///     status.rawValue.map { role }
   ///   }
@@ -29,9 +29,13 @@ extension Parsers {
     @inline(__always)
     public func parse(_ input: inout Parsers.Input) throws -> Parsers.Output {
       var errors: [Error] = []
+      errors.reserveCapacity(self.parsers.count)
       for parser in self.parsers {
         do {
-          return try parser.parse(&input)
+          var i = input
+          let output = try parser.parse(&i)
+          input = i
+          return output
         } catch {
           errors.append(error)
         }

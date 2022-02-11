@@ -1,10 +1,8 @@
 // BEGIN AUTO-GENERATED CONTENT
 
 extension Parsers {
-  public struct ZipOO<P0, P1>: Parser
+  public struct ZipOO<P0: Parser, P1: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
     P0.Input == P1.Input
   {
     public let p0: P0, p1: P1
@@ -18,16 +16,12 @@ extension Parsers {
       P0.Output,
       P1.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
         return (o0, o1)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -40,10 +34,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOV<P0, P1>: Parser
+  public struct ZipOV<P0: Parser, P1: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
     P0.Input == P1.Input,
     P1.Output == Void
   {
@@ -54,19 +46,13 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P0.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
-        return (o0)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o0
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -79,10 +65,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVO<P0, P1>: Parser
+  public struct ZipVO<P0: Parser, P1: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
     P0.Input == P1.Input,
     P0.Output == Void
   {
@@ -93,19 +77,13 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P1.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P1.Output {
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
-        return (o1)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o1
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -118,10 +96,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVV<P0, P1>: Parser
+  public struct ZipVV<P0: Parser, P1: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
     P0.Input == P1.Input,
     P0.Output == Void,
     P1.Output == Void
@@ -133,19 +109,12 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
-        return ()
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -158,11 +127,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOO<P0, P1, P2>: Parser
+  public struct ZipOOO<P0: Parser, P1: Parser, P2: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input
   {
@@ -179,17 +145,13 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
         let o2 = try p2.parse(&input)
         return (o0, o1, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -202,11 +164,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOV<P0, P1, P2>: Parser
+  public struct ZipOOV<P0: Parser, P1: Parser, P2: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Output == Void
@@ -223,17 +182,13 @@ extension Parsers {
       P0.Output,
       P1.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
         try p2.parse(&input)
         return (o0, o1)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -246,11 +201,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVO<P0, P1, P2>: Parser
+  public struct ZipOVO<P0: Parser, P1: Parser, P2: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P1.Output == Void
@@ -267,17 +219,13 @@ extension Parsers {
       P0.Output,
       P2.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
         let o2 = try p2.parse(&input)
         return (o0, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -290,11 +238,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVV<P0, P1, P2>: Parser
+  public struct ZipOVV<P0: Parser, P1: Parser, P2: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P1.Output == Void,
@@ -308,20 +253,14 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P0.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
         try p2.parse(&input)
-        return (o0)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o0
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -334,11 +273,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOO<P0, P1, P2>: Parser
+  public struct ZipVOO<P0: Parser, P1: Parser, P2: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P0.Output == Void
@@ -355,17 +291,13 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
         let o2 = try p2.parse(&input)
         return (o1, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -378,11 +310,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOV<P0, P1, P2>: Parser
+  public struct ZipVOV<P0: Parser, P1: Parser, P2: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P0.Output == Void,
@@ -396,20 +325,14 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P1.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P1.Output {
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
         try p2.parse(&input)
-        return (o1)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o1
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -422,11 +345,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVO<P0, P1, P2>: Parser
+  public struct ZipVVO<P0: Parser, P1: Parser, P2: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P0.Output == Void,
@@ -440,20 +360,14 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P2.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P2.Output {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
         let o2 = try p2.parse(&input)
-        return (o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o2
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -466,11 +380,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVV<P0, P1, P2>: Parser
+  public struct ZipVVV<P0: Parser, P1: Parser, P2: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P0.Output == Void,
@@ -485,20 +396,13 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
         try p2.parse(&input)
-        return ()
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -511,12 +415,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOO<P0, P1, P2, P3>: Parser
+  public struct ZipOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input
@@ -536,18 +436,14 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
         let o2 = try p2.parse(&input)
         let o3 = try p3.parse(&input)
         return (o0, o1, o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -560,12 +456,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOV<P0, P1, P2, P3>: Parser
+  public struct ZipOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -585,18 +477,14 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
         let o2 = try p2.parse(&input)
         try p3.parse(&input)
         return (o0, o1, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -609,12 +497,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVO<P0, P1, P2, P3>: Parser
+  public struct ZipOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -634,18 +518,14 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
         try p2.parse(&input)
         let o3 = try p3.parse(&input)
         return (o0, o1, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -658,12 +538,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVV<P0, P1, P2, P3>: Parser
+  public struct ZipOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -683,18 +559,14 @@ extension Parsers {
       P0.Output,
       P1.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
         try p2.parse(&input)
         try p3.parse(&input)
         return (o0, o1)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -707,12 +579,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOO<P0, P1, P2, P3>: Parser
+  public struct ZipOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -732,18 +600,14 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
         let o2 = try p2.parse(&input)
         let o3 = try p3.parse(&input)
         return (o0, o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -756,12 +620,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOV<P0, P1, P2, P3>: Parser
+  public struct ZipOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -781,18 +641,14 @@ extension Parsers {
       P0.Output,
       P2.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
         let o2 = try p2.parse(&input)
         try p3.parse(&input)
         return (o0, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -805,12 +661,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVO<P0, P1, P2, P3>: Parser
+  public struct ZipOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -830,18 +682,14 @@ extension Parsers {
       P0.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
         try p2.parse(&input)
         let o3 = try p3.parse(&input)
         return (o0, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -854,12 +702,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVV<P0, P1, P2, P3>: Parser
+  public struct ZipOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -876,21 +720,15 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P0.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
         try p2.parse(&input)
         try p3.parse(&input)
-        return (o0)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o0
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -903,12 +741,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOO<P0, P1, P2, P3>: Parser
+  public struct ZipVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -928,18 +762,14 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
         let o2 = try p2.parse(&input)
         let o3 = try p3.parse(&input)
         return (o1, o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -952,12 +782,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOV<P0, P1, P2, P3>: Parser
+  public struct ZipVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -977,18 +803,14 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
         let o2 = try p2.parse(&input)
         try p3.parse(&input)
         return (o1, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1001,12 +823,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVO<P0, P1, P2, P3>: Parser
+  public struct ZipVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1026,18 +844,14 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
         try p2.parse(&input)
         let o3 = try p3.parse(&input)
         return (o1, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1050,12 +864,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVV<P0, P1, P2, P3>: Parser
+  public struct ZipVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1072,21 +882,15 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P1.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P1.Output {
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
         try p2.parse(&input)
         try p3.parse(&input)
-        return (o1)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o1
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1099,12 +903,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOO<P0, P1, P2, P3>: Parser
+  public struct ZipVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1124,18 +924,14 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
         let o2 = try p2.parse(&input)
         let o3 = try p3.parse(&input)
         return (o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1148,12 +944,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOV<P0, P1, P2, P3>: Parser
+  public struct ZipVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1170,21 +962,15 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P2.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P2.Output {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
         let o2 = try p2.parse(&input)
         try p3.parse(&input)
-        return (o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o2
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1197,12 +983,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVO<P0, P1, P2, P3>: Parser
+  public struct ZipVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1219,21 +1001,15 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P3.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P3.Output {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
         try p2.parse(&input)
         let o3 = try p3.parse(&input)
-        return (o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o3
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1246,12 +1022,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVV<P0, P1, P2, P3>: Parser
+  public struct ZipVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1269,21 +1041,14 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
         try p2.parse(&input)
         try p3.parse(&input)
-        return ()
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1296,13 +1061,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1325,7 +1085,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -1333,11 +1092,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o0, o1, o2, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1350,13 +1106,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1379,7 +1130,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -1387,11 +1137,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         try p4.parse(&input)
         return (o0, o1, o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1404,13 +1151,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1433,7 +1175,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -1441,11 +1182,8 @@ extension Parsers {
         try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o0, o1, o2, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1458,13 +1196,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1487,7 +1220,6 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -1495,11 +1227,8 @@ extension Parsers {
         try p3.parse(&input)
         try p4.parse(&input)
         return (o0, o1, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1512,13 +1241,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1541,7 +1265,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -1549,11 +1272,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o0, o1, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1566,13 +1286,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1595,7 +1310,6 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -1603,11 +1317,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         try p4.parse(&input)
         return (o0, o1, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1620,13 +1331,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1649,7 +1355,6 @@ extension Parsers {
       P1.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -1657,11 +1362,8 @@ extension Parsers {
         try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o0, o1, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1674,13 +1376,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1703,7 +1400,6 @@ extension Parsers {
       P0.Output,
       P1.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -1711,11 +1407,8 @@ extension Parsers {
         try p3.parse(&input)
         try p4.parse(&input)
         return (o0, o1)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1728,13 +1421,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1757,7 +1445,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -1765,11 +1452,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o0, o2, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1782,13 +1466,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1811,7 +1490,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -1819,11 +1497,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         try p4.parse(&input)
         return (o0, o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1836,13 +1511,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1865,7 +1535,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -1873,11 +1542,8 @@ extension Parsers {
         try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o0, o2, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1890,13 +1556,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1919,7 +1580,6 @@ extension Parsers {
       P0.Output,
       P2.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -1927,11 +1587,8 @@ extension Parsers {
         try p3.parse(&input)
         try p4.parse(&input)
         return (o0, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1944,13 +1601,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -1973,7 +1625,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -1981,11 +1632,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o0, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -1998,13 +1646,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2027,7 +1670,6 @@ extension Parsers {
       P0.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -2035,11 +1677,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         try p4.parse(&input)
         return (o0, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2052,13 +1691,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2081,7 +1715,6 @@ extension Parsers {
       P0.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -2089,11 +1722,8 @@ extension Parsers {
         try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o0, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2106,13 +1736,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2132,22 +1757,16 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P0.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
         try p2.parse(&input)
         try p3.parse(&input)
         try p4.parse(&input)
-        return (o0)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o0
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2160,13 +1779,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2189,7 +1803,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -2197,11 +1810,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o1, o2, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2214,13 +1824,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2243,7 +1848,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -2251,11 +1855,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         try p4.parse(&input)
         return (o1, o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2268,13 +1869,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2297,7 +1893,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -2305,11 +1900,8 @@ extension Parsers {
         try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o1, o2, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2322,13 +1914,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2351,7 +1938,6 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -2359,11 +1945,8 @@ extension Parsers {
         try p3.parse(&input)
         try p4.parse(&input)
         return (o1, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2376,13 +1959,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2405,7 +1983,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -2413,11 +1990,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o1, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2430,13 +2004,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2459,7 +2028,6 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -2467,11 +2035,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         try p4.parse(&input)
         return (o1, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2484,13 +2049,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2513,7 +2073,6 @@ extension Parsers {
       P1.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -2521,11 +2080,8 @@ extension Parsers {
         try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o1, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2538,13 +2094,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2564,22 +2115,16 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P1.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P1.Output {
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
         try p2.parse(&input)
         try p3.parse(&input)
         try p4.parse(&input)
-        return (o1)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o1
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2592,13 +2137,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2621,7 +2161,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -2629,11 +2168,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o2, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2646,13 +2182,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2675,7 +2206,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -2683,11 +2213,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         try p4.parse(&input)
         return (o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2700,13 +2227,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2729,7 +2251,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -2737,11 +2258,8 @@ extension Parsers {
         try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o2, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2754,13 +2272,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2780,22 +2293,16 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P2.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P2.Output {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
         let o2 = try p2.parse(&input)
         try p3.parse(&input)
         try p4.parse(&input)
-        return (o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o2
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2808,13 +2315,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2837,7 +2339,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -2845,11 +2346,8 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         let o4 = try p4.parse(&input)
         return (o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2862,13 +2360,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2888,22 +2381,16 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P3.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P3.Output {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
         try p2.parse(&input)
         let o3 = try p3.parse(&input)
         try p4.parse(&input)
-        return (o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o3
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2916,13 +2403,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVO<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2942,22 +2424,16 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P4.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P4.Output {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
         try p2.parse(&input)
         try p3.parse(&input)
         let o4 = try p4.parse(&input)
-        return (o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o4
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -2970,13 +2446,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVV<P0, P1, P2, P3, P4>: Parser
+  public struct ZipVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -2997,22 +2468,15 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
         try p2.parse(&input)
         try p3.parse(&input)
         try p4.parse(&input)
-        return ()
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3025,14 +2489,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3058,7 +2516,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3067,11 +2524,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o1, o2, o3, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3084,14 +2538,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3117,7 +2565,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3126,11 +2573,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o1, o2, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3143,14 +2587,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3176,7 +2614,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3185,11 +2622,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o1, o2, o3, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3202,14 +2636,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3235,7 +2663,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3244,11 +2671,8 @@ extension Parsers {
         try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o1, o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3261,14 +2685,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3294,7 +2712,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3303,11 +2720,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o1, o2, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3320,14 +2734,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3353,7 +2761,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3362,11 +2769,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o1, o2, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3379,14 +2783,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3412,7 +2810,6 @@ extension Parsers {
       P2.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3421,11 +2818,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o1, o2, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3438,14 +2832,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3471,7 +2859,6 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3480,11 +2867,8 @@ extension Parsers {
         try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o1, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3497,14 +2881,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3530,7 +2908,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3539,11 +2916,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o1, o3, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3556,14 +2930,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3589,7 +2957,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3598,11 +2965,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o1, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3615,14 +2979,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3648,7 +3006,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3657,11 +3014,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o1, o3, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3674,14 +3028,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3707,7 +3055,6 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3716,11 +3063,8 @@ extension Parsers {
         try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o1, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3733,14 +3077,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3766,7 +3104,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3775,11 +3112,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o1, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3792,14 +3126,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3825,7 +3153,6 @@ extension Parsers {
       P1.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3834,11 +3161,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o1, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3851,14 +3175,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3884,7 +3202,6 @@ extension Parsers {
       P1.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3893,11 +3210,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o1, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3910,14 +3224,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -3943,7 +3251,6 @@ extension Parsers {
       P0.Output,
       P1.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -3952,11 +3259,8 @@ extension Parsers {
         try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o1)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -3969,14 +3273,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4002,7 +3300,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4011,11 +3308,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o2, o3, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4028,14 +3322,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4061,7 +3349,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4070,11 +3357,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o2, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4087,14 +3371,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4120,7 +3398,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4129,11 +3406,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o2, o3, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4146,14 +3420,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4179,7 +3447,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4188,11 +3455,8 @@ extension Parsers {
         try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4205,14 +3469,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4238,7 +3496,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4247,11 +3504,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o2, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4264,14 +3518,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4297,7 +3545,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4306,11 +3553,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o2, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4323,14 +3567,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4356,7 +3594,6 @@ extension Parsers {
       P2.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4365,11 +3602,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o2, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4382,14 +3616,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4415,7 +3643,6 @@ extension Parsers {
       P0.Output,
       P2.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4424,11 +3651,8 @@ extension Parsers {
         try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4441,14 +3665,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4474,7 +3692,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4483,11 +3700,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o3, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4500,14 +3714,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4533,7 +3741,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4542,11 +3749,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4559,14 +3763,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4592,7 +3790,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4601,11 +3798,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o3, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4618,14 +3812,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4651,7 +3839,6 @@ extension Parsers {
       P0.Output,
       P3.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4660,11 +3847,8 @@ extension Parsers {
         try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4677,14 +3861,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4710,7 +3888,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4719,11 +3896,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4736,14 +3910,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4769,7 +3937,6 @@ extension Parsers {
       P0.Output,
       P4.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4778,11 +3945,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o0, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4795,14 +3959,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4828,7 +3986,6 @@ extension Parsers {
       P0.Output,
       P5.Output
     ) {
-      let original = input
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4837,11 +3994,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o0, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4854,14 +4008,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipOVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4884,10 +4032,7 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P0.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       do {
         let o0 = try p0.parse(&input)
         try p1.parse(&input)
@@ -4895,12 +4040,9 @@ extension Parsers {
         try p3.parse(&input)
         try p4.parse(&input)
         try p5.parse(&input)
-        return (o0)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o0
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4913,14 +4055,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -4946,7 +4082,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -4955,11 +4090,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o1, o2, o3, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -4972,14 +4104,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5005,7 +4131,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5014,11 +4139,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o1, o2, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5031,14 +4153,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5064,7 +4180,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5073,11 +4188,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o1, o2, o3, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5090,14 +4202,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5123,7 +4229,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5132,11 +4237,8 @@ extension Parsers {
         try p4.parse(&input)
         try p5.parse(&input)
         return (o1, o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5149,14 +4251,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5182,7 +4278,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5191,11 +4286,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o1, o2, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5208,14 +4300,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5241,7 +4327,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5250,11 +4335,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o1, o2, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5267,14 +4349,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5300,7 +4376,6 @@ extension Parsers {
       P2.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5309,11 +4384,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o1, o2, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5326,14 +4398,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5359,7 +4425,6 @@ extension Parsers {
       P1.Output,
       P2.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5368,11 +4433,8 @@ extension Parsers {
         try p4.parse(&input)
         try p5.parse(&input)
         return (o1, o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5385,14 +4447,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5418,7 +4474,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5427,11 +4482,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o1, o3, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5444,14 +4496,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5477,7 +4523,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5486,11 +4531,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o1, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5503,14 +4545,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5536,7 +4572,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5545,11 +4580,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o1, o3, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5562,14 +4594,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5595,7 +4621,6 @@ extension Parsers {
       P1.Output,
       P3.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5604,11 +4629,8 @@ extension Parsers {
         try p4.parse(&input)
         try p5.parse(&input)
         return (o1, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5621,14 +4643,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5654,7 +4670,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5663,11 +4678,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o1, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5680,14 +4692,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5713,7 +4719,6 @@ extension Parsers {
       P1.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5722,11 +4727,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o1, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5739,14 +4741,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5772,7 +4768,6 @@ extension Parsers {
       P1.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5781,11 +4776,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o1, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5798,14 +4790,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5828,10 +4814,7 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P1.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P1.Output {
       do {
         try p0.parse(&input)
         let o1 = try p1.parse(&input)
@@ -5839,12 +4822,9 @@ extension Parsers {
         try p3.parse(&input)
         try p4.parse(&input)
         try p5.parse(&input)
-        return (o1)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o1
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5857,14 +4837,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5890,7 +4864,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -5899,11 +4872,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o2, o3, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5916,14 +4886,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -5949,7 +4913,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -5958,11 +4921,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o2, o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -5975,14 +4935,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6008,7 +4962,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6017,11 +4970,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o2, o3, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6034,14 +4984,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6067,7 +5011,6 @@ extension Parsers {
       P2.Output,
       P3.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6076,11 +5019,8 @@ extension Parsers {
         try p4.parse(&input)
         try p5.parse(&input)
         return (o2, o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6093,14 +5033,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6126,7 +5060,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6135,11 +5068,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o2, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6152,14 +5082,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6185,7 +5109,6 @@ extension Parsers {
       P2.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6194,11 +5117,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o2, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6211,14 +5131,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6244,7 +5158,6 @@ extension Parsers {
       P2.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6253,11 +5166,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o2, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6270,14 +5180,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6300,10 +5204,7 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P2.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P2.Output {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6311,12 +5212,9 @@ extension Parsers {
         try p3.parse(&input)
         try p4.parse(&input)
         try p5.parse(&input)
-        return (o2)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o2
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6329,14 +5227,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6362,7 +5254,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6371,11 +5262,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o3, o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6388,14 +5276,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6421,7 +5303,6 @@ extension Parsers {
       P3.Output,
       P4.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6430,11 +5311,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
         return (o3, o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6447,14 +5325,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6480,7 +5352,6 @@ extension Parsers {
       P3.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6489,11 +5360,8 @@ extension Parsers {
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o3, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6506,14 +5374,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6536,10 +5398,7 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P3.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P3.Output {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6547,12 +5406,9 @@ extension Parsers {
         let o3 = try p3.parse(&input)
         try p4.parse(&input)
         try p5.parse(&input)
-        return (o3)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o3
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6565,14 +5421,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVOO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6598,7 +5448,6 @@ extension Parsers {
       P4.Output,
       P5.Output
     ) {
-      let original = input
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6607,11 +5456,8 @@ extension Parsers {
         let o4 = try p4.parse(&input)
         let o5 = try p5.parse(&input)
         return (o4, o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6624,14 +5470,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVOV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6654,10 +5494,7 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P4.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P4.Output {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6665,12 +5502,9 @@ extension Parsers {
         try p3.parse(&input)
         let o4 = try p4.parse(&input)
         try p5.parse(&input)
-        return (o4)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o4
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6683,14 +5517,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVVO<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6713,10 +5541,7 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      P5.Output
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P5.Output {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6724,12 +5549,9 @@ extension Parsers {
         try p3.parse(&input)
         try p4.parse(&input)
         let o5 = try p5.parse(&input)
-        return (o5)
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+        return o5
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6742,14 +5564,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVVV<P0, P1, P2, P3, P4, P5>: Parser
+  public struct ZipVVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6773,10 +5589,7 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-
-    ) {
-      let original = input
+    @inlinable public func parse(_ input: inout P0.Input) rethrows {
       do {
         try p0.parse(&input)
         try p1.parse(&input)
@@ -6784,12 +5597,8 @@ extension Parsers {
         try p3.parse(&input)
         try p4.parse(&input)
         try p5.parse(&input)
-        return ()
-      } catch {
-        defer { input = original }
-        throw ParsingError.wrap(error, at: input)
-      }
-   }
+      } catch { throw ParsingError.wrap(error, at: input) }
+    }
   }
 }
 
@@ -6802,10 +5611,8 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct OneOf2<P0, P1>: Parser
+  public struct OneOf2<P0: Parser, P1: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
     P0.Input == P1.Input,
     P0.Output == P1.Output
   {
@@ -6838,11 +5645,8 @@ extension OneOfBuilder {
 }
 
 extension Parsers {
-  public struct OneOf3<P0, P1, P2>: Parser
+  public struct OneOf3<P0: Parser, P1: Parser, P2: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P0.Output == P1.Output,
@@ -6880,12 +5684,8 @@ extension OneOfBuilder {
 }
 
 extension Parsers {
-  public struct OneOf4<P0, P1, P2, P3>: Parser
+  public struct OneOf4<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6928,13 +5728,8 @@ extension OneOfBuilder {
 }
 
 extension Parsers {
-  public struct OneOf5<P0, P1, P2, P3, P4>: Parser
+  public struct OneOf5<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -6982,14 +5777,8 @@ extension OneOfBuilder {
 }
 
 extension Parsers {
-  public struct OneOf6<P0, P1, P2, P3, P4, P5>: Parser
+  public struct OneOf6<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -7042,15 +5831,8 @@ extension OneOfBuilder {
 }
 
 extension Parsers {
-  public struct OneOf7<P0, P1, P2, P3, P4, P5, P6>: Parser
+  public struct OneOf7<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
-    P6: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -7108,16 +5890,8 @@ extension OneOfBuilder {
 }
 
 extension Parsers {
-  public struct OneOf8<P0, P1, P2, P3, P4, P5, P6, P7>: Parser
+  public struct OneOf8<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser, P7: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
-    P6: Parser,
-    P7: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -7180,17 +5954,8 @@ extension OneOfBuilder {
 }
 
 extension Parsers {
-  public struct OneOf9<P0, P1, P2, P3, P4, P5, P6, P7, P8>: Parser
+  public struct OneOf9<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser, P7: Parser, P8: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
-    P6: Parser,
-    P7: Parser,
-    P8: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
@@ -7258,18 +6023,8 @@ extension OneOfBuilder {
 }
 
 extension Parsers {
-  public struct OneOf10<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9>: Parser
+  public struct OneOf10<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser, P7: Parser, P8: Parser, P9: Parser>: Parser
   where
-    P0: Parser,
-    P1: Parser,
-    P2: Parser,
-    P3: Parser,
-    P4: Parser,
-    P5: Parser,
-    P6: Parser,
-    P7: Parser,
-    P8: Parser,
-    P9: Parser,
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,

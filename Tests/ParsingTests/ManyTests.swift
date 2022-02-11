@@ -167,19 +167,26 @@ class ManyTests: XCTestCase {
     XCTAssertThrowsError(try users.parse(&input)) { error in
       XCTAssertEqual(
         """
+        error: multiple failures occurred
+
         error: unexpected input
          --> input:3:11
         3 | 3,Blob Jr,tru
           |           ^ expected "true" or "false"
+
+        error: unexpected input
+         --> input:2:16
+        2 | 2,Blob Sr,false
+          |                ^ expected end of input
         """,
         "\(error)"
       )
     }
   }
 
-  func testTerminatorFails() throws {
+  func testTerminatorFails() {
     let intsParser = Many {
-      Int.parser()
+      FromUTF8View { Int.parser() }
     } separator: {
       ","
     } terminator: {
@@ -190,10 +197,31 @@ class ManyTests: XCTestCase {
     XCTAssertThrowsError(try intsParser.parse(&input)) { error in
       XCTAssertEqual(
         """
+        error: multiple failures occurred
+
         error: unexpected input
          --> input:1:6
         1 | 1,2,3-
           |      ^ expected ","
+
+        error: unexpected input
+         --> input:1:6
+        1 | 1,2,3-
+          |      ^ expected "---"
+        """,
+        "\(error)"
+      )
+    }
+  }
+
+  func testInfiniteLoop() {
+    XCTAssertThrowsError(try Many { Prefix(while: \.isNumber) }.parse("Hello world!")) { error in
+      XCTAssertEqual(
+        """
+        error: infinite loop
+         --> input:1:1
+        1 | Hello world!
+          | ^ expected input to be consumed
         """,
         "\(error)"
       )

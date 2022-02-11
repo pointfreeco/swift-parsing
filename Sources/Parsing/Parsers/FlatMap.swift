@@ -45,8 +45,6 @@ extension Parsers {
             underlyingError: ParsingError.failed(reason, context)
           )
         )
-      } catch {
-        throw error // TODO: wrap in `ParsingError`
       }
     }
   }

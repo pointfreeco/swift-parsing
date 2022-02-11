@@ -2,9 +2,7 @@ import Benchmark
 import Foundation
 import Parsing
 
-/**
- This benchmark demonstrates how to parse a recursive grammar: arithmetic.
- */
+/// This benchmark demonstrates how to parse a recursive grammar: arithmetic.
 let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   struct AdditionAndSubtraction: Parser {
     func parse(_ input: inout Substring.UTF8View) throws -> Double {

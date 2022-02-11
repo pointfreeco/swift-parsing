@@ -29,7 +29,7 @@ final class ParserBuilderTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual(input, "Hello world!"[...])
+    XCTAssertEqual(input, " world!"[...])
 
     parseComma = false
     parser = Parse {
@@ -57,7 +57,7 @@ final class ParserBuilderTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual(input, "Hello, world!"[...])
+    XCTAssertEqual(input, ", world!"[...])
   }
 
   func testBuildIfOutput() throws {
@@ -134,7 +134,7 @@ final class ParserBuilderTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual(input, "123 Blob"[...])
+    XCTAssertEqual(input, " Blob"[...])
 
     input = "123 Blob"[...]
     func custom<P>(@ParserBuilder _ build: () -> P) -> P {
@@ -157,6 +157,6 @@ final class ParserBuilderTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual(input, "123 Blob"[...])
+    XCTAssertEqual(input, " Blob"[...])
   }
 }
