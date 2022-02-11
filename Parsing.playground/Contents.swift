@@ -46,6 +46,31 @@ where P0: Printer, P1: Printer, P2: Printer
 
 typealias ParsePrint<P: Parser & Printer> = Parse<P>
 
+extension OneOf: Printer where Parsers: Printer {
+  func print(_ output: Parsers.Output, to input: inout Parsers.Input) throws {
+    try self.parsers.print(output, to: &input)
+  }
+}
+
+extension Parsers.OneOf2: Printer where P0: Printer, P1: Printer {
+  func print(_ output: P0.Output, to input: inout P0.Input) throws {
+    let original = input
+    do {
+      try self.p1.print(output, to: &input)
+    } catch {
+      input = original
+      try self.p0.print(output, to: &input)
+    }
+  }
+}
+
+//extension Parsers.Map: Printer where Upstream: Printer {
+//  func print(_ output: NewOutput, to input: inout Upstream.Input) throws {
+//    self.tran
+//    self.upstream.print(<#T##output: Upstream.Output##Upstream.Output#>, to: &<#T##Upstream.Input#>)
+//  }
+//}
+
 input = ""
 try Parse {
   Prefix { $0 != "\"" }
@@ -116,7 +141,22 @@ let field = OneOf {
 
   Prefix { $0 != "," }
 }
-.map(String.init)
+
+let _field = OneOf {
+  Prefix { $0 != "," }
+
+  quotedField
+}
+
+try _field.parse("\"Blob, Esq.\"")
+
+input = ""
+try field.print("Blob, Esq.", to: &input)
+input
+
+input = ""
+try field.print("Blob Jr.", to: &input)
+input
 
 let zeroOrOneSpace = OneOf {
   " "
@@ -130,6 +170,7 @@ let user = Parse(User.init(id:name:admin:)) {
     zeroOrOneSpace
   }
   field
+    .map(String.init)
   Skip {
     ","
     zeroOrOneSpace
