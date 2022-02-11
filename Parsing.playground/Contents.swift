@@ -1,32 +1,89 @@
 import Parsing
 
-struct Color {
-  let red, green, blue: UInt8
+let usersCsv = """
+1, Blob, true
+2, Blob Jr, false
+3, Blob Sr, true
+4, "Blob, Esq.", true
+"""
+
+struct User: Equatable {
+  var id: Int
+  var name: String
+  var admin: Bool
 }
 
-let hexPrimary = Prefix(2)
-  .compactMap { UInt8($0, radix: 16) }
+//OneOf {
+//  a.map(f)
+//  b.map(f)
+//  c.map(f)
+//}
+//==
+//OneOf {
+//  a
+//  b
+//  c
+//}
+//.map(f)
 
-let hexColor = Parse(Color.init(red:green:blue:)) {
-  "#"
-  hexPrimary
-  hexPrimary
-  hexPrimary
+let field = OneOf {
+  Parse {
+    "\""
+    Prefix { $0 != "\"" }
+    "\""
+  }
+
+  Prefix { $0 != "," }
+}
+.map(String.init)
+
+let zeroOrOneSpace = OneOf {
+  " "
+  ""
 }
 
-do {
-  var hex = "#000000"[...]
-  print(hex.debugDescription, "->", try hexColor.parse(&hex), terminator: "\n ...\n\n")
+let user = Parse(User.init(id:name:admin:)) {
+  Int.parser()
+  Skip {
+    ","
+    zeroOrOneSpace
+  }
+  field
+  Skip {
+    ","
+    zeroOrOneSpace
+  }
+  Bool.parser()
 }
 
-do {
-  var hex = "#FF0000"[...]
-  print(hex.debugDescription, "->", try hexColor.parse(&hex), terminator: "\n ...\n\n")
+let users = Many {
+  user
+} separator: {
+  "\n"
+} terminator: {
+  End()
 }
 
-do {
-  var bad = "#BADHEX"[...]
-  try hexColor.parse(&bad)
-} catch {
-  print(error)
+var input = usersCsv[...]
+let output = try users.parse(&input)
+input
+
+"，" == ","
+
+func print(user: User) -> String {
+  "\(user.id), \(user.name.contains(",") ? "\"\(user.name)\"" : "\(user.name)"), \(user.admin)"
 }
+
+print(user: .init(id: 42, name: "Blob", admin: true))
+
+func print(users: [User]) -> String {
+  users.map(print(user:)).joined(separator: "\n")
+}
+
+//users.print(output)
+
+print(users: output)
+
+input = usersCsv[...]
+try print(users: users.parse(input)) == input
+try users.parse(print(users: output)) == output
