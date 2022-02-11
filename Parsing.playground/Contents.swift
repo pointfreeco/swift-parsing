@@ -110,6 +110,42 @@ extension Parsers.BoolParser: Printer where Input == Substring.UTF8View {
   }
 }
 
+extension Parsers.ZipOVOVO: Printer
+where
+  P0: Printer,
+  P1: Printer,
+  P2: Printer,
+  P3: Printer,
+  P4: Printer
+{
+  func print(_ output: (P0.Output, P2.Output, P4.Output), to input: inout P0.Input) throws {
+    try self.p0.print(output.0, to: &input)
+    try self.p1.print((), to: &input)
+    try self.p2.print(output.1, to: &input)
+    try self.p3.print((), to: &input)
+    try self.p4.print(output.2, to: &input)
+  }
+}
+
+extension Many: Printer
+where
+  Element: Printer,
+  Separator: Printer,
+  Separator.Output == Void,
+  Result == [Element.Output]
+{
+  func print(_ output: [Element.Output], to input: inout Element.Input) throws {
+    var firstElement = true
+    for elementOutput in output {
+      defer { firstElement = false }
+      if !firstElement {
+        try self.separator.print((), to: &input)
+      }
+      try self.element.print(elementOutput, to: &input)
+    }
+  }
+}
+
 try Parse
 {
   "Hello "
@@ -225,20 +261,23 @@ try Skip {
 .print((), to: &input)
 input
 
-let user = Parse(User.init(id:name:admin:)) {
+let user = Parse {
   Int.parser()
   Skip {
     ","
     zeroOrOneSpace
   }
   field
-    .map(String.init)
   Skip {
     ","
     zeroOrOneSpace
   }
   Bool.parser()
 }
+
+input = ""
+try user.print((42, "Blob, Esq.", true), to: &input)
+input
 
 let users = Many {
   user
@@ -247,6 +286,17 @@ let users = Many {
 } terminator: {
   End()
 }
+
+input = ""
+try users.print([
+  (1, "Blob", true),
+  (2, "Blob, Esq.", false),
+], to: &input)
+input
+
+input = "A,A,A,B"
+try Many { "A" } separator: { "," }.parse(&input)
+input
 
 input = usersCsv[...]
 let output = try users.parse(&input)
@@ -290,12 +340,12 @@ struct UsersPrinter: Printer {
 input = ""
 //users.print(output, to: &input)
 
-print(users: output)
-
-input = usersCsv[...]
-try print(users: users.parse(input)) == input
-try users.parse(print(users: output)) == output
-
-var inputString = ""
-UsersPrinter().print(output, to: &inputString)
-inputString
+//print(users: output)
+//
+//input = usersCsv[...]
+//try print(users: users.parse(input)) == input
+//try users.parse(print(users: output)) == output
+//
+//var inputString = ""
+//UsersPrinter().print(output, to: &inputString)
+//inputString
