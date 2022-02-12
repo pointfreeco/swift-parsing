@@ -4,8 +4,6 @@
 /// See ``Parse`` for an entry point into this builder.
 @resultBuilder
 public class ParserBuilder {
-  internal init() {}
-  
   @inlinable
   public static func buildBlock<P>(_ parser: P) -> P where P: Parser {
     parser
@@ -51,7 +49,5 @@ public class ParserBuilder {
 /// See ``ParserBuilder`` for more information about this type, and the ``Parse`` parser `separated`
 /// overloads for an entry point into this builder.
 @resultBuilder
-public final class SeparatedParserBuilder<Separator>: ParserBuilder where Separator: Parser {
-  internal override init() { super.init() }
-}
+public final class SeparatedParserBuilder<Separator>: ParserBuilder where Separator: Parser {}
 
