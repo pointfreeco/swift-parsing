@@ -56,4 +56,21 @@ final class ParserBuilderTests: XCTestCase {
     XCTAssertEqual(nil, int)
     XCTAssertEqual("Blob", string)
   }
+  
+  func testSeparatedBuilder() throws {
+    let parser = Parse {
+      Int.parser()
+      Double.parser()
+      CharacterSet.letters
+    } separator: {
+      ";"
+    }
+    
+    var input = "1;2.0;abc"[...]
+    let (int, double, chars) = try XCTUnwrap(parser.parse(&input))
+    XCTAssertEqual(int, 1)
+    XCTAssertEqual(double, 2.0)
+    XCTAssertEqual(chars, "abc")
+    XCTAssertEqual(input, "")
+  }
 }

@@ -91,6 +91,10 @@ struct VariadicsGenerator: ParsableCommand {
       emitOneOfDeclaration(arity: arity)
     }
 
+    for arity in 2...6 {
+      emitSeparatedBuilders(arity: arity)
+    }
+
     output("// END AUTO-GENERATED CONTENT\n")
   }
 
@@ -190,5 +194,37 @@ struct VariadicsGenerator: ParsableCommand {
     output("    Parsers.\(typeName)(")
     outputForEach(0..<arity, separator: ", ") { "p\($0)" }
     output(")\n  }\n}\n\n")
+  }
+  
+  func emitSeparatedBuilders(arity: Int) {
+    for permutation in Permutations(arity: arity) {
+      // Emit builders.
+      let typeName = "Zip\(permutation.identifier)"
+    
+      output("extension SeparatedParserBuilder {\n")
+      output("  @inlinable public static func buildFinalResult<")
+      outputForEach(0..<arity, separator: ", ", { "P\($0)" })
+      output(">(\n    _ component: Parsers.\(typeName)<")
+      outputForEach(0..<arity, separator: ", ", { "P\($0)" })
+      output(">\n  )\n    -> (Separator) -> Parsers.\(typeName)<\n")
+      outputForEach(0..<arity, separator: ",\n") { i in
+        if i < arity - 1 {
+          return "      Parsers.ZipOV<P\(i), Skip<Separator>>"
+        } else {
+          return "      P\(i)"
+        }
+      }
+      output("\n    >\n  {\n    {\n")
+      output("      Parsers.\(typeName)(\n")
+      outputForEach(0..<arity, separator: ",\n") { i in
+        if i < arity - 1 {
+          return "        Parsers.ZipOV(component.p\(i), Skip($0))"
+        } else {
+          return "        component.p\(i)"
+        }
+      }
+      output("\n      )\n    }\n  }")
+      output("\n}\n\n")
+    }
   }
 }
