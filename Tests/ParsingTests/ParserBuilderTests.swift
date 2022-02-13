@@ -57,7 +57,8 @@ final class ParserBuilderTests: XCTestCase {
     XCTAssertEqual("Blob", string)
   }
   
-  func testSeparatedBuilder() throws {
+  func testFlatSeparatedBuilder() throws {
+    // N == 3 -> Requires Zip_5 => A flat Zip<OVOVO> is used
     let parser = Parse {
       Int.parser()
       Double.parser()
@@ -71,6 +72,26 @@ final class ParserBuilderTests: XCTestCase {
     XCTAssertEqual(int, 1)
     XCTAssertEqual(double, 2.0)
     XCTAssertEqual(chars, "abc")
+    XCTAssertEqual(input, "")
+  }
+  
+  func testNestedSeparatedBuilder() throws {
+    // N == 4 -> Requires Zip_7 => Nested as Zip_4<Zip<OV>…>
+    let parser = Parse {
+      Int.parser()
+      Double.parser()
+      CharacterSet.letters
+      Double.parser()
+    } separator: {
+      ";"
+    }
+    
+    var input = "1;2.0;abc;3.0"[...]
+    let (int, double1, chars, double2) = try XCTUnwrap(parser.parse(&input))
+    XCTAssertEqual(int, 1)
+    XCTAssertEqual(double1, 2.0)
+    XCTAssertEqual(chars, "abc")
+    XCTAssertEqual(double2, 3.0)
     XCTAssertEqual(input, "")
   }
 }

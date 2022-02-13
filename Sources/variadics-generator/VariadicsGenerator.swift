@@ -92,7 +92,7 @@ struct VariadicsGenerator: ParsableCommand {
     }
 
     for arity in 2...6 {
-      emitSeparatedBuilders(arity: arity)
+      emitSeparatedBuilders(arity: arity, flattenUpToZipArity: 6)
     }
 
     output("// END AUTO-GENERATED CONTENT\n")
@@ -196,31 +196,64 @@ struct VariadicsGenerator: ParsableCommand {
     output(")\n  }\n}\n\n")
   }
   
-  func emitSeparatedBuilders(arity: Int) {
+  func emitSeparatedBuilders(arity: Int, flattenUpToZipArity maxZipArity: Int) {
     for permutation in Permutations(arity: arity) {
       // Emit builders.
       let typeName = "Zip\(permutation.identifier)"
-    
+      
+      let shouldUseFlatRepresentation = arity <= maxZipArity / 2
+      var destinationTypeName = typeName
+      if shouldUseFlatRepresentation {
+        destinationTypeName = "Zip"
+        for i in 0..<arity {
+          if i < arity - 1 {
+            if permutation.isCaptureless(at: i) {
+              destinationTypeName += "VV"
+            } else {
+              destinationTypeName += "OV"
+            }
+          } else {
+            destinationTypeName += permutation.isCaptureless(at: i) ? "V" : "O"
+          }
+        }
+      }
+      
       output("extension SeparatedParserBuilder {\n")
       output("  @inlinable public static func buildFinalResult<")
       outputForEach(0..<arity, separator: ", ", { "P\($0)" })
       output(">(\n    _ component: Parsers.\(typeName)<")
       outputForEach(0..<arity, separator: ", ", { "P\($0)" })
-      output(">\n  )\n    -> (Separator) -> Parsers.\(typeName)<\n")
+      output(">\n  )\n    -> (Separator) -> Parsers.\(destinationTypeName)<\n")
       outputForEach(0..<arity, separator: ",\n") { i in
-        if i < arity - 1 {
-          return "      Parsers.ZipOV<P\(i), Skip<Separator>>"
+        if shouldUseFlatRepresentation {
+          if i < arity - 1 {
+            return "      P\(i), Skip<Separator>"
+          } else {
+            return "      P\(i)"
+          }
         } else {
-          return "      P\(i)"
+          if i < arity - 1 {
+            return "      Parsers.ZipOV<P\(i), Skip<Separator>>"
+          } else {
+            return "      P\(i)"
+          }
         }
       }
       output("\n    >\n  {\n    {\n")
-      output("      Parsers.\(typeName)(\n")
+      output("      Parsers.\(destinationTypeName)(\n")
       outputForEach(0..<arity, separator: ",\n") { i in
-        if i < arity - 1 {
-          return "        Parsers.ZipOV(component.p\(i), Skip($0))"
+        if shouldUseFlatRepresentation {
+          if i < arity - 1 {
+            return "        component.p\(i), Skip($0)"
+          } else {
+            return "        component.p\(i)"
+          }
         } else {
-          return "        component.p\(i)"
+          if i < arity - 1 {
+            return "        Parsers.ZipOV(component.p\(i), Skip($0))"
+          } else {
+            return "        component.p\(i)"
+          }
         }
       }
       output("\n      )\n    }\n  }")

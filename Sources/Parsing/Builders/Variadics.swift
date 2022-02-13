@@ -6950,9 +6950,7 @@ extension Parsers {
   {
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -7048,9 +7046,7 @@ extension Parsers {
   {
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -7155,10 +7151,7 @@ extension Parsers {
   {
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8,
-      _ p9: P9
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8, _ p9: P9) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -7229,8 +7222,7 @@ extension Parsers {
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8,
-    _ p9: P9
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8, _ p9: P9
   ) -> Parsers.OneOf10<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> {
     Parsers.OneOf10(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)
   }
@@ -7240,14 +7232,14 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1>(
     _ component: Parsers.ZipOO<P0, P1>
   )
-    -> (Separator) -> Parsers.ZipOO<
-      Parsers.ZipOV<P0, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipOVO<
+      P0, Skip<Separator>,
       P1
     >
   {
     {
-      Parsers.ZipOO(
-        Parsers.ZipOV(component.p0, Skip($0)),
+      Parsers.ZipOVO(
+        component.p0, Skip($0),
         component.p1
       )
     }
@@ -7258,14 +7250,14 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1>(
     _ component: Parsers.ZipOV<P0, P1>
   )
-    -> (Separator) -> Parsers.ZipOV<
-      Parsers.ZipOV<P0, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipOVV<
+      P0, Skip<Separator>,
       P1
     >
   {
     {
-      Parsers.ZipOV(
-        Parsers.ZipOV(component.p0, Skip($0)),
+      Parsers.ZipOVV(
+        component.p0, Skip($0),
         component.p1
       )
     }
@@ -7276,14 +7268,14 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1>(
     _ component: Parsers.ZipVO<P0, P1>
   )
-    -> (Separator) -> Parsers.ZipVO<
-      Parsers.ZipOV<P0, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipVVO<
+      P0, Skip<Separator>,
       P1
     >
   {
     {
-      Parsers.ZipVO(
-        Parsers.ZipOV(component.p0, Skip($0)),
+      Parsers.ZipVVO(
+        component.p0, Skip($0),
         component.p1
       )
     }
@@ -7294,14 +7286,14 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1>(
     _ component: Parsers.ZipVV<P0, P1>
   )
-    -> (Separator) -> Parsers.ZipVV<
-      Parsers.ZipOV<P0, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipVVV<
+      P0, Skip<Separator>,
       P1
     >
   {
     {
-      Parsers.ZipVV(
-        Parsers.ZipOV(component.p0, Skip($0)),
+      Parsers.ZipVVV(
+        component.p0, Skip($0),
         component.p1
       )
     }
@@ -7312,16 +7304,16 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1, P2>(
     _ component: Parsers.ZipOOO<P0, P1, P2>
   )
-    -> (Separator) -> Parsers.ZipOOO<
-      Parsers.ZipOV<P0, Skip<Separator>>,
-      Parsers.ZipOV<P1, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipOVOVO<
+      P0, Skip<Separator>,
+      P1, Skip<Separator>,
       P2
     >
   {
     {
-      Parsers.ZipOOO(
-        Parsers.ZipOV(component.p0, Skip($0)),
-        Parsers.ZipOV(component.p1, Skip($0)),
+      Parsers.ZipOVOVO(
+        component.p0, Skip($0),
+        component.p1, Skip($0),
         component.p2
       )
     }
@@ -7332,16 +7324,16 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1, P2>(
     _ component: Parsers.ZipOOV<P0, P1, P2>
   )
-    -> (Separator) -> Parsers.ZipOOV<
-      Parsers.ZipOV<P0, Skip<Separator>>,
-      Parsers.ZipOV<P1, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipOVOVV<
+      P0, Skip<Separator>,
+      P1, Skip<Separator>,
       P2
     >
   {
     {
-      Parsers.ZipOOV(
-        Parsers.ZipOV(component.p0, Skip($0)),
-        Parsers.ZipOV(component.p1, Skip($0)),
+      Parsers.ZipOVOVV(
+        component.p0, Skip($0),
+        component.p1, Skip($0),
         component.p2
       )
     }
@@ -7352,16 +7344,16 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1, P2>(
     _ component: Parsers.ZipOVO<P0, P1, P2>
   )
-    -> (Separator) -> Parsers.ZipOVO<
-      Parsers.ZipOV<P0, Skip<Separator>>,
-      Parsers.ZipOV<P1, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipOVVVO<
+      P0, Skip<Separator>,
+      P1, Skip<Separator>,
       P2
     >
   {
     {
-      Parsers.ZipOVO(
-        Parsers.ZipOV(component.p0, Skip($0)),
-        Parsers.ZipOV(component.p1, Skip($0)),
+      Parsers.ZipOVVVO(
+        component.p0, Skip($0),
+        component.p1, Skip($0),
         component.p2
       )
     }
@@ -7372,16 +7364,16 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1, P2>(
     _ component: Parsers.ZipOVV<P0, P1, P2>
   )
-    -> (Separator) -> Parsers.ZipOVV<
-      Parsers.ZipOV<P0, Skip<Separator>>,
-      Parsers.ZipOV<P1, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipOVVVV<
+      P0, Skip<Separator>,
+      P1, Skip<Separator>,
       P2
     >
   {
     {
-      Parsers.ZipOVV(
-        Parsers.ZipOV(component.p0, Skip($0)),
-        Parsers.ZipOV(component.p1, Skip($0)),
+      Parsers.ZipOVVVV(
+        component.p0, Skip($0),
+        component.p1, Skip($0),
         component.p2
       )
     }
@@ -7392,16 +7384,16 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1, P2>(
     _ component: Parsers.ZipVOO<P0, P1, P2>
   )
-    -> (Separator) -> Parsers.ZipVOO<
-      Parsers.ZipOV<P0, Skip<Separator>>,
-      Parsers.ZipOV<P1, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipVVOVO<
+      P0, Skip<Separator>,
+      P1, Skip<Separator>,
       P2
     >
   {
     {
-      Parsers.ZipVOO(
-        Parsers.ZipOV(component.p0, Skip($0)),
-        Parsers.ZipOV(component.p1, Skip($0)),
+      Parsers.ZipVVOVO(
+        component.p0, Skip($0),
+        component.p1, Skip($0),
         component.p2
       )
     }
@@ -7412,16 +7404,16 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1, P2>(
     _ component: Parsers.ZipVOV<P0, P1, P2>
   )
-    -> (Separator) -> Parsers.ZipVOV<
-      Parsers.ZipOV<P0, Skip<Separator>>,
-      Parsers.ZipOV<P1, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipVVOVV<
+      P0, Skip<Separator>,
+      P1, Skip<Separator>,
       P2
     >
   {
     {
-      Parsers.ZipVOV(
-        Parsers.ZipOV(component.p0, Skip($0)),
-        Parsers.ZipOV(component.p1, Skip($0)),
+      Parsers.ZipVVOVV(
+        component.p0, Skip($0),
+        component.p1, Skip($0),
         component.p2
       )
     }
@@ -7432,16 +7424,16 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1, P2>(
     _ component: Parsers.ZipVVO<P0, P1, P2>
   )
-    -> (Separator) -> Parsers.ZipVVO<
-      Parsers.ZipOV<P0, Skip<Separator>>,
-      Parsers.ZipOV<P1, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipVVVVO<
+      P0, Skip<Separator>,
+      P1, Skip<Separator>,
       P2
     >
   {
     {
-      Parsers.ZipVVO(
-        Parsers.ZipOV(component.p0, Skip($0)),
-        Parsers.ZipOV(component.p1, Skip($0)),
+      Parsers.ZipVVVVO(
+        component.p0, Skip($0),
+        component.p1, Skip($0),
         component.p2
       )
     }
@@ -7452,16 +7444,16 @@ extension SeparatedParserBuilder {
   @inlinable public static func buildFinalResult<P0, P1, P2>(
     _ component: Parsers.ZipVVV<P0, P1, P2>
   )
-    -> (Separator) -> Parsers.ZipVVV<
-      Parsers.ZipOV<P0, Skip<Separator>>,
-      Parsers.ZipOV<P1, Skip<Separator>>,
+    -> (Separator) -> Parsers.ZipVVVVV<
+      P0, Skip<Separator>,
+      P1, Skip<Separator>,
       P2
     >
   {
     {
-      Parsers.ZipVVV(
-        Parsers.ZipOV(component.p0, Skip($0)),
-        Parsers.ZipOV(component.p1, Skip($0)),
+      Parsers.ZipVVVVV(
+        component.p0, Skip($0),
+        component.p1, Skip($0),
         component.p2
       )
     }
