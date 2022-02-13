@@ -92,7 +92,7 @@ struct VariadicsGenerator: ParsableCommand {
     }
 
     for arity in 2...6 {
-      emitSeparatedBuilders(arity: arity, flattenUpToZipArity: 6)
+      emitSeparatedBuilders(arity: arity, maxZipArity: 6)
     }
 
     output("// END AUTO-GENERATED CONTENT\n")
@@ -196,24 +196,20 @@ struct VariadicsGenerator: ParsableCommand {
     output(")\n  }\n}\n\n")
   }
   
-  func emitSeparatedBuilders(arity: Int, flattenUpToZipArity maxZipArity: Int) {
+  func emitSeparatedBuilders(arity: Int,  maxZipArity: Int) {
     for permutation in Permutations(arity: arity) {
       // Emit builders.
       let typeName = "Zip\(permutation.identifier)"
       
       let shouldUseFlatRepresentation = arity <= maxZipArity / 2
-      var destinationTypeName = typeName
+      var outputTypeName = typeName
       if shouldUseFlatRepresentation {
-        destinationTypeName = "Zip"
+        outputTypeName = "Zip"
         for i in 0..<arity {
           if i < arity - 1 {
-            if permutation.isCaptureless(at: i) {
-              destinationTypeName += "VV"
-            } else {
-              destinationTypeName += "OV"
-            }
+            outputTypeName += permutation.isCaptureless(at: i) ? "VV" : "OV"
           } else {
-            destinationTypeName += permutation.isCaptureless(at: i) ? "V" : "O"
+            outputTypeName += permutation.isCaptureless(at: i) ? "V" : "O"
           }
         }
       }
@@ -223,7 +219,7 @@ struct VariadicsGenerator: ParsableCommand {
       outputForEach(0..<arity, separator: ", ", { "P\($0)" })
       output(">(\n    _ component: Parsers.\(typeName)<")
       outputForEach(0..<arity, separator: ", ", { "P\($0)" })
-      output(">\n  )\n    -> (Separator) -> Parsers.\(destinationTypeName)<\n")
+      output(">\n  )\n    -> (Separator) -> Parsers.\(outputTypeName)<\n")
       outputForEach(0..<arity, separator: ",\n") { i in
         if shouldUseFlatRepresentation {
           if i < arity - 1 {
@@ -240,7 +236,7 @@ struct VariadicsGenerator: ParsableCommand {
         }
       }
       output("\n    >\n  {\n    {\n")
-      output("      Parsers.\(destinationTypeName)(\n")
+      output("      Parsers.\(outputTypeName)(\n")
       outputForEach(0..<arity, separator: ",\n") { i in
         if shouldUseFlatRepresentation {
           if i < arity - 1 {
