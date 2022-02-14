@@ -66,6 +66,7 @@ let zeroOrOneSpace = OneOf {
 }
   .printing(" ")
 
+
 //extension Conversion where Input == (Int, String, Role), Output == User {
 //  static let user = Self(
 //    apply: User.init(id:name:role:),

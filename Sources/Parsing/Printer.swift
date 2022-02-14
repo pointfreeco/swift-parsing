@@ -17,6 +17,29 @@ public struct Conversion<Input, Output> {
   }
 }
 
+struct VoidMap<Upstream, NewOutput>: Parser & Printer
+where
+  Upstream: Parser & Printer,
+  Upstream.Output == Void,
+  NewOutput: Equatable
+{
+  let upstream: Upstream
+  let transform: () -> NewOutput
+
+  func parse(_ input: inout Upstream.Input) throws -> NewOutput {
+    try self.upstream.parse(&input)
+    return self.transform()
+  }
+
+  func print(_ output: NewOutput, to input: inout Upstream.Input) throws {
+    guard self.transform() == output
+    else {
+      throw PrintingError()
+    }
+    try self.upstream.print((), to: &input)
+  }
+}
+
 extension Parsers.Map: Printer
 where
 Upstream: Printer,
@@ -65,11 +88,11 @@ extension Parsers {
     let upstream: Upstream
     let input: Upstream.Input
 
-    public func parse(_ input: inout Upstream.Input) throws -> Upstream.Output {
-      try self.upstream.parse(&input)
+    public func parse(_ input: inout Upstream.Input) throws {
+      _ = try self.upstream.parse(&input)
     }
 
-    public func print(_ output: Upstream.Output, to input: inout Upstream.Input) {
+    public func print(_ output: Void, to input: inout Upstream.Input) {
       input.append(contentsOf: self.input)
     }
   }
@@ -265,6 +288,12 @@ extension Parser {
   ) -> Parsers.ReversibleMap<Self, NewOutput> {
     .init(upstream: self, transform: conversion.apply, untransform: conversion.unapply)
   }
+
+  func map<NewOutput>(
+    _ transform: @escaping () -> NewOutput
+  ) -> VoidMap<Self, NewOutput> {
+    .init(upstream: self, transform: transform)
+  }
 }
 
 extension Conversion where Input == Substring, Output == String {
@@ -317,6 +346,15 @@ extension Parsers.ZipOV: Printer where P0: Printer, P1: Printer {
     var i = input
     try self.p0.print(output, to: &i)
     try self.p1.print((), to: &i)
+    input = i
+  }
+}
+
+extension Parsers.ZipVO: Printer where P0: Printer, P1: Printer, P0.Output == Void {
+  public func print(_ output: (P1.Output), to input: inout P0.Input) throws {
+    var i = input
+    try self.p0.print((), to: &i)
+    try self.p1.print(output, to: &i)
     input = i
   }
 }
