@@ -56,3 +56,9 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.Pullback: Printer where Downstream: Printer {
+  public func print(_ output: Downstream.Output, to input: inout Input) throws {
+    try self.downstream.print(output, to: &input[keyPath: self.keyPath])
+  }
+}
