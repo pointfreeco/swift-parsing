@@ -37,19 +37,19 @@ public struct Parse<Parsers: Parser>: Parser {
   }
 
   @inlinable
+  public init<Upstream, NewOutput>(
+    _ output: NewOutput,
+    @ParserBuilder with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.MapConstant<Upstream, NewOutput> {
+    self.parsers = build().map { output }
+  }
+
+  @inlinable
   public init<Upstream, Downstream>(
     _ conversion: Downstream,
     @ParserBuilder with build: () -> Upstream
   ) where Parsers == Parsing.Parsers.MapConversion<Upstream, Downstream> {
     self.parsers = build().map(conversion)
-  }
-
-  @inlinable
-  public init<Upstream, NewOutput>(
-    _ output: NewOutput,
-    @ParserBuilder with build: () -> Upstream
-  ) where Upstream.Output == Void, Parsers == Parsing.Parsers.Map<Upstream, NewOutput> {
-    self.parsers = build().map { output }
   }
 
   @inlinable
