@@ -18,7 +18,7 @@ extension Parser {
   @inlinable
   public func map<NewOutput>(
     _ transform: @escaping () -> NewOutput
-  ) -> Parsers.VoidMap<Self, NewOutput> {
+  ) -> Parsers.MapConstant<Self, NewOutput> {
     .init(upstream: self, transform: transform)
   }
 }
@@ -50,7 +50,7 @@ extension Parsers {
 }
 
 extension Parsers {
-  public struct VoidMap<Upstream: Parser, Output>: Parser where Upstream.Output == Void {
+  public struct MapConstant<Upstream: Parser, Output>: Parser where Upstream.Output == Void {
     public let upstream: Upstream
     public let transform: () -> Output
 
@@ -69,7 +69,7 @@ extension Parsers {
   }
 }
 
-extension Parsers.VoidMap: Printer where Upstream: Printer, Output: Equatable {
+extension Parsers.MapConstant: Printer where Upstream: Printer, Output: Equatable {
   public func print(_ output: Output, to input: inout Upstream.Input) throws {
     guard output == self.transform() else { throw PrintingError() }
     try self.upstream.print((), to: &input)
