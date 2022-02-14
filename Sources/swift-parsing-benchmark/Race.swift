@@ -1,143 +1,99 @@
 import Benchmark
 import Parsing
 
-/*
- This benchmark implements a parser for a custom format covered in a collection of episodes on
- Point-Free: https://www.pointfree.co/collections/parsing
- */
-
-// MARK: - Parser
-
-private struct Coordinate {
-  let latitude: Double
-  let longitude: Double
-}
-
-private enum Currency { case eur, gbp, usd }
-
-private struct Money {
-  let currency: Currency
-  let dollars: Int
-}
-
-private struct Race {
-  let location: String
-  let entranceFee: Money
-  let difficulty: Int
-  let path: [Coordinate]
-}
-
-private let northSouth = OneOf {
-  "N".utf8.map { 1.0 }
-  "S".utf8.map { -1.0 }
-}
-
-private let eastWest = OneOf {
-  "E".utf8.map { 1.0 }
-  "W".utf8.map { -1.0 }
-}
-
-let multiplySign = Conversion<(Double, Double), Double>(
-  apply: { magitude, sign in magitude * sign },
-  unapply: { value in
-    value < 0 ? (-value, -1) : (value, 1) 
-  }
-)
-
-private let latitude = ParsePrint(multiplySign) {
-  Double.parser()
-  "° ".utf8
-  northSouth
-}
-
-func foo() {
-//  coord.print(<#T##output: Coordinate##Coordinate#>, to: &<#T##Substring.UTF8View#>)
-//  currency.print(<#T##output: Currency##Currency#>, to: &<#T##Substring.UTF8View#>)
-//  money.print(<#T##output: Money##Money#>, to: &<#T##Substring.UTF8View#>)
-//  locationName.print(<#T##output: Substring.UTF8View##Substring.UTF8View#>, to: &<#T##Substring.UTF8View#>)
-//  race.print(<#T##output: Race##Race#>, to: &<#T##Substring.UTF8View#>)
-//  races.print(<#T##output: [Race]##[Race]#>, to: &<#T##Substring.UTF8View#>)
-}
-
-private let longitude = ParsePrint(multiplySign) {
-  Double.parser()
-  "° ".utf8
-  eastWest
-}
-
-private let zeroOrMoreSpaces = Skip { Prefix { $0 == .init(ascii: " ") } }.printing(" "[...].utf8)
-
-private let coord = ParsePrint(.struct(Coordinate.init(latitude:longitude:))) {
-  latitude
-  Skip {
-    ",".utf8
-    zeroOrMoreSpaces
-  }
-  longitude
-}
-
-private let currency = OneOf {
-  "€".utf8.map { Currency.eur }
-  "£".utf8.map { Currency.gbp }
-  "$".utf8.map { Currency.usd }
-}
-
-let count = Conversion<[Void], Int>(
-  apply: \.count,
-  unapply: { .init(repeating: (), count: $0) }
-)
-
-let difficulty = Many { "🥵".utf8 }.map(Conversion<[Void], Int>(
-  apply: \.count,
-  unapply: { .init(repeating: (), count: $0) }
-))
-
-private let money = ParsePrint(.struct(Money.init(currency:dollars:))) {
-  currency
-  Int.parser()
-}
-
-private let locationName = Prefix { $0 != .init(ascii: ",") }
-
-private let race = ParsePrint(.struct(Race.init)) {
-  ParsePrint {
-    locationName.map(.string)
-    Skip {
-      ",".utf8
-      zeroOrMoreSpaces
-    }
-  }
-  ParsePrint {
-    money
-    Skip {
-      ",".utf8
-      zeroOrMoreSpaces
-    }
-  }
-  ParsePrint {
-    difficulty
-    "\n".utf8
-  }
-  Many {
-    coord
-  } separator: {
-    "\n".utf8
-  }
-}
-
-private let races = Many {
-  race
-} separator: {
-  "\n---\n".utf8
-} terminator: {
-  End()
-}
- 
-// MARK: - Benchmarks
-
+/// This benchmark implements a parser for a custom format covered in
+/// [a collection of episodes][parsing] on
+/// Point-Free.
+///
+/// [parsing]: https://www.pointfree.co/collections/parsing
 let raceSuite = BenchmarkSuite(name: "Race") { suite in
-  let originalInput = """
-    New York City, $300, 🥵🥵🥵🥵
+  struct Coordinate {
+    let latitude: Double
+    let longitude: Double
+  }
+
+  enum Currency { case eur, gbp, usd }
+
+  struct Money {
+    let currency: Currency
+    let dollars: Int
+  }
+
+  struct Race {
+    let location: String
+    let entranceFee: Money
+    let path: [Coordinate]
+  }
+
+  let northSouth = OneOf {
+    "N".utf8.map { 1.0 }
+    "S".utf8.map { -1.0 }
+  }
+
+  let eastWest = OneOf {
+    "E".utf8.map { 1.0 }
+    "W".utf8.map { -1.0 }
+  }
+
+  let latitude = Parse(*) {
+    Double.parser()
+    "° ".utf8
+    northSouth
+  }
+
+  let longitude = Parse(*) {
+    Double.parser()
+    "° ".utf8
+    eastWest
+  }
+
+  let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }
+
+  let coord = Parse(Coordinate.init(latitude:longitude:)) {
+    latitude
+    Skip {
+      ",".utf8
+      zeroOrMoreSpaces
+    }
+    longitude
+  }
+
+  let currency = OneOf {
+    "€".utf8.map { Currency.eur }
+    "£".utf8.map { Currency.gbp }
+    "$".utf8.map { Currency.usd }
+  }
+
+  let money = Parse(Money.init(currency:dollars:)) {
+    currency
+    Int.parser()
+  }
+
+  let locationName = Prefix { $0 != .init(ascii: ",") }
+
+  let race = Parse(Race.init(location:entranceFee:path:)) {
+    locationName.map { String(decoding: $0, as: UTF8.self) }
+    Skip {
+      ",".utf8
+      zeroOrMoreSpaces
+    }
+    money
+    "\n".utf8
+    Many {
+      coord
+    } separator: {
+      "\n".utf8
+    }
+  }
+
+  let races = Many {
+    race
+  } separator: {
+    "\n---\n".utf8
+  }
+
+  let input = """
+    New York City, $300
     40.60248° N, 74.06433° W
     40.61807° N, 74.02966° W
     40.64953° N, 74.00929° W
@@ -155,7 +111,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     40.77392° N, 73.96917° W
     40.77293° N, 73.97671° W
     ---
-    Berlin, €100, 🥵🥵🥵
+    Berlin, €100
     13.36015° N, 52.51516° E
     13.33999° N, 52.51381° E
     13.32539° N, 52.51797° E
@@ -180,7 +136,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     13.39155° N, 52.51046° E
     13.37256° N, 52.51598° E
     ---
-    London, £500, 🥵🥵
+    London, £500
     51.48205° N, 0.04283° E
     51.47439° N, 0.0217° E
     51.47618° N, 0.02199° E
@@ -211,21 +167,10 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     """
   var output: [Race]!
 
-  suite.benchmark(
-    name: "Parser",
-    run: { output = try races.parse(originalInput) },
-    tearDown: { precondition(output.count == 3) }
-  )
-
-  var input = ""[...].utf8
-  suite.benchmark(
-    name: "Printer",
-    setUp: { input = ""[...].utf8 },
-    run: {
-      try races.print(output, to: &input)
-    },
-    tearDown: {
-      precondition(String(Substring(input)) == originalInput)
-    }
-  )
+  suite.benchmark("Parser") {
+    var input = input[...].utf8
+    output = try races.parse(&input)
+  } tearDown: {
+    precondition(output.count == 3)
+  }
 }
