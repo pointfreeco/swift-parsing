@@ -5,17 +5,13 @@
 /// consume and return input through a particular subsequence.
 ///
 /// ```swift
-/// let lineParser = PrefixThrough<Substring>("\n")
+/// let lineParser = PrefixThrough("\n")
 ///
 /// var input = "Hello\nworld\n"[...]
-/// line.parse(&input) // "Hello\n"
-/// input // "world\n"
+/// try line.parse(&input)  // "Hello\n"
+/// input                   // "world\n"
 /// ```
-public struct PrefixThrough<Input>: Parser
-where
-  Input: Collection,
-  Input.SubSequence == Input
-{
+public struct PrefixThrough<Input: Collection>: Parser where Input.SubSequence == Input {
   public let possibleMatch: Input
   public let areEquivalent: (Input.Element, Input.Element) -> Bool
 
@@ -30,7 +26,7 @@ where
 
   @inlinable
   @inline(__always)
-  public func parse(_ input: inout Input) -> Input? {
+  public func parse(_ input: inout Input) throws -> Input {
     guard let first = self.possibleMatch.first else { return self.possibleMatch }
     let count = self.possibleMatch.count
     let original = input
@@ -45,7 +41,7 @@ where
       }
       input.removeFirst()
     }
-    return nil
+    throw ParsingError.expectedInput("prefix through \(formatValue(self.possibleMatch))", at: input)
   }
 }
 

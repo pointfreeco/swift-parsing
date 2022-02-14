@@ -5,15 +5,13 @@ extension Parser {
   /// writable key path from `NewInput` to `Input`. Intuitively you can think of this as a way of
   /// transforming a parser on local data into one on more global data.
   ///
-  /// For example, the parser `Int.parser` parses `Substring.UTF8View` collections into integers,
-  /// and there's a key path from `Substring.UTF8View` to `Substring`, and so we can
-  /// ``pullback(_:)``:
+  /// For example, the parser `Int.parser()` parses `Substring.UTF8View` collections into integers,
+  /// and there's a key path from `Substring.UTF8View` to `Substring`, and so we can `pullback`:
   ///
   /// ```swift
   /// var input = "123 Hello world"[...]
-  /// let output = Int.parser.pullback(\.utf8).parse(&input)
-  /// precondition(output == 123)
-  /// precondition(input == "123 Hello world"
+  /// let output = try Int.parser().pullback(\.utf8).parse(&input)  // 123
+  /// input                                                         // " Hello world"
   /// ```
   ///
   /// This has allowed us to parse `Substring`s with something that is only defined on
@@ -35,7 +33,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/pullback(_:)`` operator, which constructs this type.
-  public struct Pullback<Downstream, Input>: Parser where Downstream: Parser {
+  public struct Pullback<Downstream: Parser, Input>: Parser {
     public let downstream: Downstream
     public let keyPath: WritableKeyPath<Input, Downstream.Input>
 
@@ -46,8 +44,8 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Input) -> Downstream.Output? {
-      self.downstream.parse(&input[keyPath: self.keyPath])
+    public func parse(_ input: inout Input) rethrows -> Downstream.Output {
+      try self.downstream.parse(&input[keyPath: self.keyPath])
     }
 
     @inlinable

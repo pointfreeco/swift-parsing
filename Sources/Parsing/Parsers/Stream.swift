@@ -28,30 +28,23 @@
 ///   readLine().map { ArraySlice($0.utf8) }
 /// }
 ///
-/// newlineSeparatedIntegers
-///   .parse(&stdin)
+/// try newlineSeparatedIntegers.parse(&stdin)
 /// ```
-public struct Stream<Parsers>: Parser
-where
-  Parsers: Parser,
-  Parsers.Input: RangeReplaceableCollection
-{
+public struct Stream<Parsers: Parser>: Parser where Parsers.Input: RangeReplaceableCollection {
   public let parsers: Parsers
 
   @inlinable
   public init(@ParserBuilder build: () -> Parsers) {
     self.parsers = build()
   }
-
+  
   @inlinable
-  public func parse(_ input: inout AnyIterator<Parsers.Input>) -> [Parsers.Output]? {
+  public func parse(_ input: inout AnyIterator<Parsers.Input>) rethrows -> [Parsers.Output] {
     var buffer = Parsers.Input()
     var outputs: Output = []
     while let chunk = input.next() {
       buffer.append(contentsOf: chunk)
-      while let output = self.parsers.parse(&buffer) {
-        outputs.append(output)
-      }
+      outputs.append(try self.parsers.parse(&buffer))
     }
     return outputs
   }

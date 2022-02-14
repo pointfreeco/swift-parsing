@@ -15,7 +15,6 @@ jobs:
     strategy:
       matrix:
         xcode:
-          - "12.5.1" # Swift 5.4
           - "13.2.1" # Swift 5.5
         command:
           - test
@@ -49,3 +48,5 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: MaxDesiatov/swift-windows-action@v1
+        with:
+          swift-version: "5.5.1"

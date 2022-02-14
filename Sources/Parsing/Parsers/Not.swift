@@ -11,7 +11,7 @@
 ///
 /// This will check the input doesn't start with `"//"`, and if it doesn't, it will return the whole
 /// input up to the first newline.
-public struct Not<Upstream>: Parser where Upstream: Parser {
+public struct Not<Upstream: Parser>: Parser {
   public let upstream: Upstream
 
   /// Creates a parser that succeeds if the given parser fails, and does not consume any input.
@@ -24,12 +24,14 @@ public struct Not<Upstream>: Parser where Upstream: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout Upstream.Input) -> Void? {
+  public func parse(_ input: inout Upstream.Input) throws {
     let original = input
-    if self.upstream.parse(&input) != nil {
-      input = original
-      return nil
+    defer { input = original }
+    do {
+      _ = try self.upstream.parse(&input)
+    } catch {
+      return
     }
-    return ()
+    throw ParsingError.expectedInput("not to be processed", from: original, to: input)
   }
 }

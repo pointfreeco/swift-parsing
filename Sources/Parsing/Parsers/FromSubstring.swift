@@ -10,8 +10,8 @@
 ///
 /// ```swift
 /// OneOf {
-///   "caf\u{00E9}".utf8  // LATIN SMALL LETTER E WITH ACUTE
-///   "cafe\u{0301}".utf8 // E + COMBINING ACUTE ACCENT
+///   "caf\u{00E9}".utf8   // LATIN SMALL LETTER E WITH ACUTE
+///   "cafe\u{0301}".utf8  // E + COMBINING ACUTE ACCENT
 /// }
 /// ```
 ///
@@ -29,20 +29,17 @@
 ///   FromSubstring { "é" }
 /// }
 /// ```
-public struct FromSubstring<Input, SubstringParser>: Parser
-where
-  SubstringParser: Parser,
-  SubstringParser.Input == Substring
-{
+public struct FromSubstring<Input, SubstringParser: Parser>: Parser
+where SubstringParser.Input == Substring {
   public let substringParser: SubstringParser
   public let toSubstring: (Input) -> Substring
   public let fromSubstring: (Substring) -> Input
 
   @inlinable
-  public func parse(_ input: inout Input) -> SubstringParser.Output? {
+  public func parse(_ input: inout Input) rethrows -> SubstringParser.Output {
     var substring = self.toSubstring(input)
     defer { input = self.fromSubstring(substring) }
-    return self.substringParser.parse(&substring)
+    return try self.substringParser.parse(&substring)
   }
 }
 

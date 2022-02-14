@@ -16,7 +16,7 @@ let uuidSuite = BenchmarkSuite(name: "UUID") { suite in
 
   suite.benchmark("UUID.parser") {
     var input = input[...].utf8
-    output = UUID.parser().parse(&input)
+    output = try UUID.parser().parse(&input)
   } tearDown: {
     precondition(output == expected)
   }

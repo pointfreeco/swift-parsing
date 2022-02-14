@@ -6,18 +6,27 @@ final class CompactMapTests: XCTestCase {
     var input = "FF0000"[...]
     XCTAssertEqual(
       0xFF,
-      Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
+      try Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
     )
     XCTAssertEqual("0000", Substring(input))
   }
 
   func testFailure() {
-    var input = "ERRORS"[...]
-    XCTAssertEqual(
-      nil,
-      Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
-    )
-    XCTAssertEqual("ERRORS", Substring(input))
+    var input = "GG0000"[...]
+    XCTAssertThrowsError(
+      try Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: failed to process "Int" from "GG"
+         --> input:1:1-2
+        1 | GG0000
+          | ^^
+        """,
+        "\(error)"
+      )
+    }
+    XCTAssertEqual("0000", Substring(input))
   }
 
   func testOverloadArray() {

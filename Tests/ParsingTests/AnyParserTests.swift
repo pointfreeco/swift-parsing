@@ -3,17 +3,22 @@ import XCTest
 
 final class AnyParserTests: XCTestCase {
   func testClosureInitializer() {
+    struct CustomError: Equatable, Error {}
+
     let parser = AnyParser<Substring, Void> { input in
-      guard input.starts(with: "Hello") else { return nil }
+      guard input.starts(with: "Hello") else {
+        throw CustomError()
+      }
       input.removeFirst(5)
-      return ()
     }
 
     var input = "Hello, world!"[...]
-    XCTAssertNotNil(parser.parse(&input))
+    XCTAssertNoThrow(try parser.parse(&input))
     XCTAssertEqual(", world!", input)
 
-    XCTAssertNil(parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(error as? CustomError, CustomError())
+    }
     XCTAssertEqual(", world!", input)
   }
 
@@ -21,10 +26,20 @@ final class AnyParserTests: XCTestCase {
     let parser = AnyParser("Hello")
 
     var input = "Hello, world!"[...]
-    XCTAssertNotNil(parser.parse(&input))
+    XCTAssertNoThrow(try parser.parse(&input))
     XCTAssertEqual(", world!", input)
 
-    XCTAssertNil(parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:6
+        1 | Hello, world!
+          |      ^ expected "Hello"
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertEqual(", world!", input)
   }
 
@@ -32,10 +47,20 @@ final class AnyParserTests: XCTestCase {
     let parser = "Hello".eraseToAnyParser()
 
     var input = "Hello, world!"[...]
-    XCTAssertNotNil(parser.parse(&input))
+    XCTAssertNoThrow(try parser.parse(&input))
     XCTAssertEqual(", world!", input)
 
-    XCTAssertNil(parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:6
+        1 | Hello, world!
+          |      ^ expected "Hello"
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertEqual(", world!", input)
   }
 
@@ -43,10 +68,20 @@ final class AnyParserTests: XCTestCase {
     let parser = "Hello".eraseToAnyParser().eraseToAnyParser()
 
     var input = "Hello, world!"[...]
-    XCTAssertNotNil(parser.parse(&input))
+    XCTAssertNoThrow(try parser.parse(&input))
     XCTAssertEqual(", world!", input)
 
-    XCTAssertNil(parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:6
+        1 | Hello, world!
+          |      ^ expected "Hello"
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertEqual(", world!", input)
   }
 }

@@ -4,8 +4,8 @@ import XCTest
 class ManyTests: XCTestCase {
   func testNoSeparator() {
     var input = "         Hello world"[...].utf8
-    XCTAssertNotNil(
-      Many {
+    XCTAssertNoThrow(
+      try Many {
         " ".utf8
       }
       .parse(&input)
@@ -17,7 +17,7 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      Many {
+      try Many {
         Int.parser()
       } separator: {
         ",".utf8
@@ -32,7 +32,7 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5,"[...].utf8
 
     XCTAssertEqual(
-      Many {
+      try Many {
         Int.parser()
       } separator: {
         ",".utf8
@@ -45,20 +45,30 @@ class ManyTests: XCTestCase {
 
   func testMinimum() {
     var input = "1,2,3,4,5"[...].utf8
-    XCTAssertEqual(
-      Many(atLeast: 6) {
+
+    XCTAssertThrowsError(
+      try Many(atLeast: 6) {
         Int.parser()
       } separator: {
         ",".utf8
       }
-      .parse(&input),
-      nil
-    )
+      .parse(&input)
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:10
+        1 | 1,2,3,4,5
+          |          ^ expected 1 more value of "Int"
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertEqual(Substring(input), "")
 
     input = "1,2,3,4,5"[...].utf8
     XCTAssertEqual(
-      Many(atLeast: 5) {
+      try Many(atLeast: 5) {
         Int.parser()
       } separator: {
         ",".utf8
@@ -73,7 +83,7 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      Many(atMost: 3) {
+      try Many(atMost: 3) {
         Int.parser()
       } separator: {
         ",".utf8
@@ -88,7 +98,7 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      Many(into: 0, +=) {
+      try Many(into: 0, +=) {
         Int.parser()
       } separator: {
         ",".utf8
@@ -102,7 +112,7 @@ class ManyTests: XCTestCase {
   func testEmptyComponents() {
     var input = "2001:db8::2:1"[...]
     XCTAssertEqual(
-      Many {
+      try Many {
         Prefix(while: \.isHexDigit)
       } separator: {
         ":"
@@ -110,5 +120,111 @@ class ManyTests: XCTestCase {
       .parse(&input),
       ["2001", "db8", "", "2", "1"]
     )
+  }
+
+  func testTerminator() {
+    struct User: Equatable {
+      var id: Int
+      var name: String
+      var isAdmin: Bool
+    }
+
+    let user = Parse(User.init) {
+      Int.parser()
+      ","
+      Prefix { $0 != "," }.map(String.init)
+      ","
+      Bool.parser()
+    }
+
+    let users = Many {
+      user
+    } separator: {
+      "\n"
+    } terminator: {
+      End()
+    }
+
+    var input = """
+      1,Blob,true
+      2,Blob Sr,false
+      3,Blob Jr,true
+      """[...]
+    XCTAssertEqual(
+      [
+        User(id: 1, name: "Blob", isAdmin: true),
+        User(id: 2, name: "Blob Sr", isAdmin: false),
+        User(id: 3, name: "Blob Jr", isAdmin: true),
+      ],
+      try users.parse(&input)
+    )
+
+    input = """
+      1,Blob,true
+      2,Blob Sr,false
+      3,Blob Jr,tru
+      """
+    XCTAssertThrowsError(try users.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:3:11
+        3 | 3,Blob Jr,tru
+          |           ^ expected "true" or "false"
+
+        error: unexpected input
+         --> input:2:16
+        2 | 2,Blob Sr,false
+          |                ^ expected end of input
+        """,
+        "\(error)"
+      )
+    }
+  }
+
+  func testTerminatorFails() {
+    let intsParser = Many {
+      FromUTF8View { Int.parser() }
+    } separator: {
+      ","
+    } terminator: {
+      "---"
+    }
+
+    var input = "1,2,3-"[...]
+    XCTAssertThrowsError(try intsParser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:6
+        1 | 1,2,3-
+          |      ^ expected ","
+
+        error: unexpected input
+         --> input:1:6
+        1 | 1,2,3-
+          |      ^ expected "---"
+        """,
+        "\(error)"
+      )
+    }
+  }
+
+  func testInfiniteLoop() {
+    XCTAssertThrowsError(try Many { Prefix(while: \.isNumber) }.parse("Hello world!")) { error in
+      XCTAssertEqual(
+        """
+        error: infinite loop
+         --> input:1:1
+        1 | Hello world!
+          | ^ expected input to be consumed
+        """,
+        "\(error)"
+      )
+    }
   }
 }

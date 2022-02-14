@@ -4,10 +4,9 @@ extension Double {
   /// A parser that consumes a double from the beginning of a collection of UTF-8 code units.
   ///
   /// ```swift
-  /// var input = "123.45 Hello world"[...].utf8
-  /// let output = Double.parser().parse(&input)
-  /// precondition(output == 123.45)
-  /// precondition(Substring(input) == " Hello world")
+  /// var input = "123.45 Hello world"[...]
+  /// try Double.parser().parse(&input)  // 123.45
+  /// input                              // " Hello world"
   /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
@@ -56,10 +55,9 @@ extension Float {
   /// A parser that consumes a float from the beginning of a collection of UTF-8 code units.
   ///
   /// ```swift
-  /// var input = "123.45 Hello world"[...].utf8
-  /// let output = Float.parser().parse(&input)
-  /// precondition(output == 123.45)
-  /// precondition(Substring(input) == " Hello world")
+  /// var input = "123.45 Hello world"[...]
+  /// try Float.parser().parse(&input)  // 123.45
+  /// input                             // " Hello world"
   /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
@@ -110,10 +108,9 @@ extension Float {
     /// collection of UTF-8 code units.
     ///
     /// ```swift
-    /// var input = "123.45 Hello world"[...].utf8
-    /// let output = Float80.parser().parse(&input)
-    /// precondition(output == 123.45)
-    /// precondition(Substring(input) == " Hello world")
+    /// var input = "123.45 Hello world"[...]
+    /// try Float80.parser().parse(&input)  // 123.45
+    /// input                               // " Hello world"
     /// ```
     ///
     /// - Parameter inputType: The collection type of UTF-8 code units to parse.
@@ -169,6 +166,12 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Double.parser()`, which constructs this type.
+  ///
+  /// ```swift
+  /// var input = "123.45 Hello world"[...]
+  /// try Double.parser().parse(&input)  // 123.45
+  /// input                              // " Hello world"
+  /// ```
   public struct DoubleParser<Input>: Parser
   where
     Input: Collection,
@@ -179,11 +182,17 @@ extension Parsers {
     public init() {}
 
     @inlinable
-    public func parse(_ input: inout Input) -> Double? {
-      guard
-        let s = input.parseFloat(),
-        let n = Double(String(decoding: s, as: UTF8.self))
-      else { return nil }
+    public func parse(_ input: inout Input) throws -> Double {
+      let original = input
+      let s = try input.parseFloat("double")
+      guard let n = Double(String(decoding: s, as: UTF8.self))
+      else {
+        throw ParsingError.failed(
+          summary: "failed to process double from \(formatValue(s))",
+          from: original,
+          to: input
+        )
+      }
       return n
     }
   }
@@ -192,6 +201,12 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Float.parser()`, which constructs this type.
+  ///
+  /// ```swift
+  /// var input = "123.45 Hello world"[...]
+  /// try Float.parser().parse(&input)  // 123.45
+  /// input                              // " Hello world"
+  /// ```
   public struct FloatParser<Input>: Parser
   where
     Input: Collection,
@@ -202,11 +217,17 @@ extension Parsers {
     public init() {}
 
     @inlinable
-    public func parse(_ input: inout Input) -> Float? {
-      guard
-        let s = input.parseFloat(),
-        let n = Float(String(decoding: s, as: UTF8.self))
-      else { return nil }
+    public func parse(_ input: inout Input) throws -> Float {
+      let original = input
+      let s = try input.parseFloat("float")
+      guard let n = Float(String(decoding: s, as: UTF8.self))
+      else {
+        throw ParsingError.failed(
+          summary: "failed to process float from \(formatValue(s))",
+          from: original,
+          to: input
+        )
+      }
       return n
     }
   }
@@ -216,6 +237,12 @@ extension Parsers {
     ///
     /// You will not typically need to interact with this type directly. Instead you will usually
     /// use `Float80.parser()`, which constructs this type.
+    ///
+    /// ```swift
+    /// var input = "123.45 Hello world"[...]
+    /// try Float80.parser().parse(&input)  // 123.45
+    /// input                              // " Hello world"
+    /// ```
     public struct Float80Parser<Input>: Parser
     where
       Input: Collection,
@@ -226,11 +253,17 @@ extension Parsers {
       public init() {}
 
       @inlinable
-      public func parse(_ input: inout Input) -> Float80? {
-        guard
-          let s = input.parseFloat(),
-          let n = Float80(String(decoding: s, as: UTF8.self))
-        else { return nil }
+      public func parse(_ input: inout Input) throws -> Float80 {
+        let original = input
+        let s = try input.parseFloat("extended-precision float")
+        guard let n = Float80(String(decoding: s, as: UTF8.self))
+        else {
+          throw ParsingError.failed(
+            summary: "failed to process extended-precision float from \(formatValue(s))",
+            from: original,
+            to: input
+          )
+        }
         return n
       }
     }
@@ -240,13 +273,13 @@ extension Parsers {
 extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
   @inlinable
   @inline(__always)
-  mutating func parseFloat() -> SubSequence? {
+  mutating func parseFloat(_ label: String) throws -> SubSequence {
     let original = self
     if self.first == .init(ascii: "-") || self.first == .init(ascii: "+") {
       self.removeFirst()
     }
     let integer = self.prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
-    guard !integer.isEmpty else { return nil }
+    guard !integer.isEmpty else { throw ParsingError.expectedInput(label, at: self) }
     self.removeFirst(integer.count)
     if self.first == .init(ascii: ".") {
       let fractional =

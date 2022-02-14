@@ -102,9 +102,9 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       .episodes(.episode(id: 1, route: .comments(.post(.init(commenter: "Blob", message: "Hi!"))))),
     ]
     suite.benchmark("Parser") {
-      output = requests.map {
+      output = try requests.map {
         var input = $0
-        return router.parse(&input)!
+        return try router.parse(&input)
       }
     } tearDown: {
       precondition(output == expectedOutput)

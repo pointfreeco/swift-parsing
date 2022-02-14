@@ -64,8 +64,12 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
 
     """
   let expected = (
-    Request(method: "GET", uri: "/", version: "1.1"),
-    [
+    Request(
+      method: "GET",
+      uri: "/",
+      version: "1.1"
+    ),
+    headers: [
       Header(name: "Host", value: ["www.reddit.com"]),
       Header(
         name: "User-Agent",
@@ -86,7 +90,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
 
   suite.benchmark("HTTP") {
     var input = input[...].utf8
-    output = request.parse(&input)
+    output = try request.parse(&input)
   } tearDown: {
     precondition(output == expected)
   }

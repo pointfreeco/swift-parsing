@@ -10,7 +10,7 @@ let prefixUpToSuite = BenchmarkSuite(name: "PrefixUpTo") { suite in
     var output: Substring!
     suite.benchmark("Parser: Substring") {
       var input = input[...]
-      output = PrefixUpTo("Hello").parse(&input)
+      output = try PrefixUpTo("Hello").parse(&input)
     } tearDown: {
       precondition(output.count == 10_000)
     }
@@ -20,7 +20,7 @@ let prefixUpToSuite = BenchmarkSuite(name: "PrefixUpTo") { suite in
     var output: Substring.UTF8View!
     suite.benchmark("Parser: UTF8") {
       var input = input[...].utf8
-      output = PrefixUpTo("Hello".utf8).parse(&input)
+      output = try PrefixUpTo("Hello".utf8).parse(&input)
     } tearDown: {
       precondition(output.count == 10_000)
     }

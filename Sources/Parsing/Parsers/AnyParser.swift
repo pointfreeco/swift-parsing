@@ -26,7 +26,7 @@ extension Parser {
 /// underlying parser over time without affecting existing clients.
 public struct AnyParser<Input, Output>: Parser {
   @usableFromInline
-  let parser: (inout Input) -> Output?
+  let parser: (inout Input) throws -> Output
 
   /// Creates a type-erasing parser to wrap the given parser.
   ///
@@ -34,7 +34,7 @@ public struct AnyParser<Input, Output>: Parser {
   ///
   /// - Parameter parser: A parser to wrap with a type eraser.
   @inlinable
-  public init<P>(_ parser: P) where P: Parser, P.Input == Input, P.Output == Output {
+  public init<P: Parser>(_ parser: P) where P.Input == Input, P.Output == Output {
     self.init(parser.parse)
   }
 
@@ -43,13 +43,13 @@ public struct AnyParser<Input, Output>: Parser {
   /// - Parameter parse: A closure that attempts to parse an output from an input. `parse` is
   ///   executed each time the ``parse(_:)`` method is called on the resulting parser.
   @inlinable
-  public init(_ parse: @escaping (inout Input) -> Output?) {
+  public init(_ parse: @escaping (inout Input) throws -> Output) {
     self.parser = parse
   }
 
   @inlinable
-  public func parse(_ input: inout Input) -> Output? {
-    self.parser(&input)
+  public func parse(_ input: inout Input) throws -> Output {
+    try self.parser(&input)
   }
 
   @inlinable

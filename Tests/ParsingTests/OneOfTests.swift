@@ -4,8 +4,8 @@ import XCTest
 final class OneOfTests: XCTestCase {
   func testOneOfFirstSuccess() {
     var input = "New York, Hello!"[...]
-    XCTAssertNotNil(
-      OneOf {
+    XCTAssertNoThrow(
+      try OneOf {
         "New York"
         "Berlin"
       }
@@ -16,8 +16,8 @@ final class OneOfTests: XCTestCase {
 
   func testOneOfSecondSuccess() {
     var input = "Berlin, Hello!"[...]
-    XCTAssertNotNil(
-      OneOf {
+    XCTAssertNoThrow(
+      try OneOf {
         "New York"
         "Berlin"
       }
@@ -28,19 +28,37 @@ final class OneOfTests: XCTestCase {
 
   func testOneOfFailure() {
     var input = "London, Hello!"[...]
-    XCTAssertNil(
-      OneOf {
+    XCTAssertThrowsError(
+      try OneOf {
         "New York"
         "Berlin"
       }
-      .parse(&input))
+      .parse(&input)
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:1
+        1 | London, Hello!
+          | ^ expected "New York"
+
+        error: unexpected input
+         --> input:1:1
+        1 | London, Hello!
+          | ^ expected "Berlin"
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertEqual("London, Hello!", Substring(input))
   }
 
   func testOneOfManyFirstSuccess() {
     var input = "New York, Hello!"[...]
-    XCTAssertNotNil(
-      OneOf {
+    XCTAssertNoThrow(
+      try OneOf {
         for city in ["New York", "Berlin"] {
           city
         }
@@ -52,8 +70,8 @@ final class OneOfTests: XCTestCase {
 
   func testOneOfManyLastSuccess() {
     var input = "Berlin, Hello!"[...]
-    XCTAssertNotNil(
-      OneOf {
+    XCTAssertNoThrow(
+      try OneOf {
         for city in ["New York", "Berlin"] {
           city
         }
@@ -65,13 +83,84 @@ final class OneOfTests: XCTestCase {
 
   func testOneOfManyFailure() {
     var input = "London, Hello!"[...]
-    XCTAssertNil(
-      OneOf {
+    XCTAssertThrowsError(
+      try OneOf {
         "New York"
         "Berlin"
       }
       .parse(&input)
-    )
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:1
+        1 | London, Hello!
+          | ^ expected "New York"
+
+        error: unexpected input
+         --> input:1:1
+        1 | London, Hello!
+          | ^ expected "Berlin"
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertEqual("London, Hello!", Substring(input))
+  }
+
+  func testRanking() {
+    XCTAssertThrowsError(
+      try OneOf {
+        Int.parser()
+        Prefix(2).compactMap { _ in Int?.none }
+      }
+      .parse("Hello"[...].utf8)
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: failed to process "Int" from "He"
+         --> input:1:1-2
+        1 | Hello
+          | ^^
+
+        error: unexpected input
+         --> input:1:1
+        1 | Hello
+          | ^ expected integer
+        """,
+        "\(error)"
+      )
+    }
+  }
+
+  func testRanking_2() {
+    XCTAssertThrowsError(
+      try OneOf {
+        Int.parser()
+        Prefix(2).compactMap { _ in Int?.none }
+      }
+      .parse("Hello")
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: failed to process "Int" from "He"
+         --> input:1:1-2
+        1 | Hello
+          | ^^
+
+        error: unexpected input
+         --> input:1:1
+        1 | Hello
+          | ^ expected integer
+        """,
+        "\(error)"
+      )
+    }
   }
 }

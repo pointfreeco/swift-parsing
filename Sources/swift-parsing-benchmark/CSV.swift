@@ -29,6 +29,8 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
     line
   } separator: {
     "\n".utf8
+  } terminator: {
+    End()
   }
 
   let expectedRowCount = 1_000
@@ -36,7 +38,7 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
   var output: [[String]] = []
 
   suite.benchmark("Parser") {
-    output = csv.parse(csvInput)!
+    output = try csv.parse(csvInput)
   } tearDown: {
     precondition(output.count == expectedRowCount)
     precondition(output.allSatisfy { $0.count == expectedColumnCount })

@@ -7,28 +7,29 @@
 ///
 /// ```swift
 /// var input = "Hello"[...]
-/// First().parse(&input) // "H"
-/// input                 // "ello"
+/// try First().parse(&input)  // "H"
+/// input                      // "ello"
 /// ```
 ///
-/// If the collection is empty, or if it has been consumed in its entirety, parsing will fail:
+/// This parser fails if the input collection is empty:
 ///
 /// ```swift
 /// input = ""
-/// First().parse(&input) // nil
-/// input                 // ""
+/// try First().parse(&input)
+/// // error: unexpected input
+/// //  --> input:1:1
+/// // 1 |
+/// //   | ^ expected element
 /// ```
-public struct First<Input>: Parser
-where
-  Input: Collection,
-  Input.SubSequence == Input
-{
+public struct First<Input: Collection>: Parser where Input.SubSequence == Input {
   @inlinable
   public init() {}
 
   @inlinable
-  public func parse(_ input: inout Input) -> Input.Element? {
-    guard let first = input.first else { return nil }
+  public func parse(_ input: inout Input) throws -> Input.Element {
+    guard let first = input.first else {
+      throw ParsingError.expectedInput("element", at: input)
+    }
     input.removeFirst()
     return first
   }
