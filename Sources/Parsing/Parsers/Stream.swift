@@ -37,7 +37,7 @@ public struct Stream<Parsers: Parser>: Parser where Parsers.Input: RangeReplacea
   public init(@ParserBuilder build: () -> Parsers) {
     self.parsers = build()
   }
-  
+
   @inlinable
   public func parse(_ input: inout AnyIterator<Parsers.Input>) rethrows -> [Parsers.Output] {
     var buffer = Parsers.Input()
