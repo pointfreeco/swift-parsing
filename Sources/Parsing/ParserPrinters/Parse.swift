@@ -23,11 +23,58 @@
 public struct Parse<Parsers: Parser>: Parser {
   public let parsers: Parsers
 
+  /// An entry point into ``ParserBuilder`` syntax.
+  ///
+  /// Used to combine the non-void outputs from multiple parsers into a single output by running
+  /// each parser in sequence and bundling the results up into a tuple.
+  ///
+  /// For example, the following parser parses a double, skips a comma, and then parses another
+  /// double before returning a tuple of each double.
+  ///
+  /// ```swift
+  /// let coordinate = Parse {
+  ///   Double.parser()
+  ///   ","
+  ///   Double.parser()
+  /// }
+  ///
+  /// try coordinate.parse("1,2")  // (1.0, 2.0)
+  /// ```
+  ///
+  /// - Parameter with: A parser builder that will accumulate non-void outputs in a tuple.
   @inlinable
-  public init(@ParserBuilder _ build: () -> Parsers) {
+  public init(@ParserBuilder with build: () -> Parsers) {
     self.parsers = build()
   }
 
+  /// A parser builder that bakes in a transformation of the tuple output.
+  ///
+  /// Equivalent to calling ``Parser/map(_:)-4hsj5`` on the result of a ``Parse/init(_:)`` builder.
+  ///
+  /// For example, the following parser:
+  ///
+  /// ```swift
+  /// Parse {
+  ///   Double.parser()
+  ///   ","
+  ///   Double.parser()
+  /// }
+  /// .map(Coordinate.init(x:y:))
+  /// ```
+  ///
+  /// Can be rewritten as:
+  ///
+  /// ```swift
+  /// Parse(Coordinate.init(x:y:)) {
+  ///   Double.parser()
+  ///   ","
+  ///   Double.parser()
+  /// }
+  /// ```
+  ///
+  /// - Parameters:
+  ///   - transform: A transform to apply to the output of the parser builder.
+  ///   - with: A parser builder that will accumulate non-void outputs in a tuple.
   @inlinable
   public init<Upstream, NewOutput>(
     _ transform: @escaping (Upstream.Output) -> NewOutput,
@@ -36,6 +83,21 @@ public struct Parse<Parsers: Parser>: Parser {
     self.parsers = build().map(transform)
   }
 
+  /// A parser builder that replaces a void output with a given value.
+  ///
+  /// Equivalent to calling ``Parser/map(_:)-2e6si`` on the result of a ``Parse/init(_:)`` builder.
+  ///
+  /// For example, the following parser:
+  ///
+  /// ```swift
+  /// Parse { "admin" }.map { Role.admin }
+  /// ```
+  ///
+  /// Can be rewritten as:
+  ///
+  /// ```swift
+  /// Parse(Role.admin) { "admin" }
+  /// ```
   @inlinable
   public init<Upstream, NewOutput>(
     _ output: NewOutput,
@@ -44,6 +106,34 @@ public struct Parse<Parsers: Parser>: Parser {
     self.parsers = build().map { output }
   }
 
+  /// A parser builder that bakes in a conversion of the tuple output.
+  ///
+  /// Equivalent to calling ``Parser/map(_:)-2sblf`` on the result of a ``Parse/init(_:)`` builder.
+  ///
+  /// For example, the following parser:
+  ///
+  /// ```swift
+  /// ParsePrint {
+  ///   Double.parser()
+  ///   ","
+  ///   Double.parser()
+  /// }
+  /// .map(.struct(Coordinate.init(x:y:)))
+  /// ```
+  ///
+  /// Can be rewritten as:
+  ///
+  /// ```swift
+  /// ParsePrint(.struct(Coordinate.init(x:y:))) {
+  ///   Double.parser()
+  ///   ","
+  ///   Double.parser()
+  /// }
+  /// ```
+  ///
+  /// - Parameters:
+  ///   - conversion: A conversion to apply to the output of the parser builder.
+  ///   - with: A parser builder that will accumulate non-void outputs in a tuple.
   @inlinable
   public init<Upstream, Downstream>(
     _ conversion: Downstream,
@@ -65,4 +155,8 @@ extension Parse: Printer where Parsers: Printer {
   }
 }
 
-public typealias ParsePrint<P> = Parse<P> where P: ParserPrinter
+/// An entry to ``ParserBuilder`` syntax that requires the builder to be a printer.
+///
+/// `ParsePrint` is a type alias for the ``Parse`` parser with its underlying parser constrained to
+/// ``ParserPrinter``.
+public typealias ParsePrint<ParserPrinters: ParserPrinter> = Parse<ParserPrinters>

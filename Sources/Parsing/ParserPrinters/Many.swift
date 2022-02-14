@@ -226,7 +226,6 @@ where
 {
   @inlinable
   public func print(_ output: Result, to input: inout Element.Input) throws {
-    let original = input
     let iterator = self.iterator(output)
     guard let first = iterator.next() else {
       guard self.minimum == 0 else { throw PrintingError() }
