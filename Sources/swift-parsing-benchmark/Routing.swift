@@ -70,7 +70,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 
                     Route(/Comments.show) {
                       Query {
-                        Field("count", Int.parser()).replaceError(with: 10)
+                        Field("count", Int.parser(), default: 10)
                       }
                     }
                   }

@@ -18,9 +18,19 @@ where
   public init(
     _ name: String,
     _ value: Value,
-    default defaultValue: Value.Output? = nil
+    default defaultValue: Value.Output
   ) {
     self.defaultValue = defaultValue
+    self.name = name
+    self.valueParser = value
+  }
+
+  @inlinable
+  public init(
+    _ name: String,
+    _ value: Value
+  ) {
+    self.defaultValue = nil
     self.name = name
     self.valueParser = value
   }

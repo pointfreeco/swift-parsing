@@ -14,12 +14,19 @@ extension Parser {
     .init(upstream: self, transform: transform)
   }
 
+  /// Returns a parser that replaces the `Void` output of this parser with the output of a given
+  /// closure.
+  ///
+  /// A printer-friendly version of ``map(_:)-4hsj5``.
+  ///
+  /// - Parameter transform: A closure that returns an output.
+  /// - Returns: A parser of outputs.
   @_disfavoredOverload
   @inlinable
   public func map<NewOutput>(
-    _ transform: @escaping () -> NewOutput
+    _ transform: () -> NewOutput
   ) -> Parsers.MapConstant<Self, NewOutput> {
-    .init(upstream: self, transform: transform)
+    .init(upstream: self, output: transform())
   }
 }
 
@@ -27,7 +34,7 @@ extension Parsers {
   /// A parser that transforms the output of another parser with a given closure.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``Parser/map(_:)`` operation, which constructs this type.
+  /// the ``Parser/map(_:)-4hsj5`` operation, which constructs this type.
   public struct Map<Upstream: Parser, NewOutput>: Parser {
     /// The parser from which this parser receives output.
     public let upstream: Upstream
@@ -47,31 +54,34 @@ extension Parsers {
       self.transform(try self.upstream.parse(&input))
     }
   }
-}
 
-extension Parsers {
+  /// A parser that replaces another parser's `Void` output with some new output.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Parser/map(_:)-2a01g`` operation, which constructs this type.
   public struct MapConstant<Upstream: Parser, Output>: Parser where Upstream.Output == Void {
     public let upstream: Upstream
-    public let transform: () -> Output
+    public let output: Output
 
     @inlinable
-    public init(upstream: Upstream, transform: @escaping () -> Output) {
+    public init(upstream: Upstream, output: Output) {
       self.upstream = upstream
-      self.transform = transform
+      self.output = output
     }
 
     @inlinable
     @inline(__always)
     public func parse(_ input: inout Upstream.Input) rethrows -> Output {
       try self.upstream.parse(&input)
-      return self.transform()
+      return self.output
     }
   }
 }
 
 extension Parsers.MapConstant: Printer where Upstream: Printer, Output: Equatable {
+  @inlinable
   public func print(_ output: Output, to input: inout Upstream.Input) throws {
-    guard output == self.transform() else { throw PrintingError() }
+    guard output == self.output else { throw PrintingError() }
     try self.upstream.print((), to: &input)
   }
 }
