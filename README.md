@@ -381,23 +381,6 @@ Parse {
 }
 ```
 
-### Error messages
-
-When a parser fails it throws an error containing information about what went wrong. The actual error thrown by the parsers shipped with this library is internal, and so should be considered opaque. To get a human-readable description of the error message you can stringify the error. For example, the following `UInt8` parser fails to parse a string that would cause it to overflow:
-
-```swift
-do {
-  var input = "1234 Hello"[...]
-  let number = try UInt8.parser().parse(&input))
-} catch {
-  print(error)
-  // error: failed to process "UInt8"
-  //  --> input:1:1-4
-  // 1 | 1234 Hello
-  //   | ^^^^ overflowed 255
-}
-``` 
-
 ### Low-level versus high-level
 
 The library makes it easy to choose which abstraction level you want to work on. Both low-level and high-level have their pros and cons.
