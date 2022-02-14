@@ -23,6 +23,7 @@ private struct Money {
 private struct Race {
   let location: String
   let entranceFee: Money
+  let difficulty: Int
   let path: [Coordinate]
 }
 
@@ -86,21 +87,10 @@ let count = Conversion<[Void], Int>(
   unapply: { .init(repeating: (), count: $0) }
 )
 
-//Always<Substring, Void>.init(()).print(<#T##output: Void##Void#>, to: &<#T##Substring#>)
-
-func foo1() throws {
-  var input = ""[...]
-  let tmp = try Many { "$" }
-//  tmp.print(<#T##output: [()]##[()]#>, to: &<#T##Substring#>)
-    //.print([()], to: &input)
-
-}
-
-private let _money = OneOf {
-  Many { "€" }.map(count).map(Conversion(apply: { Money(currency: .eur, dollars: $0 * 100)}, unapply: { $0.dollars / 100 }))
-  Many { "£" }.map(count).map(Conversion(apply: { Money(currency: .gbp, dollars: $0 * 100)}, unapply: { $0.dollars / 100 }))
-  Many { "$" }.map(count).map(Conversion(apply: { Money(currency: .usd, dollars: $0 * 100)}, unapply: { $0.dollars / 100 }))
-}
+let difficulty = Many { "🥵".utf8 }.map(Conversion<[Void], Int>(
+  apply: \.count,
+  unapply: { .init(repeating: (), count: $0) }
+))
 
 private let money = ParsePrint(.struct(Money.init(currency:dollars:))) {
   currency
@@ -109,14 +99,25 @@ private let money = ParsePrint(.struct(Money.init(currency:dollars:))) {
 
 private let locationName = Prefix { $0 != .init(ascii: ",") }
 
-private let race = ParsePrint(.struct(Race.init(location:entranceFee:path:))) {
-  locationName.map(.string)
-  Skip {
-    ",".utf8
-    zeroOrMoreSpaces
+private let race = ParsePrint(.struct(Race.init)) {
+  ParsePrint {
+    locationName.map(.string)
+    Skip {
+      ",".utf8
+      zeroOrMoreSpaces
+    }
   }
-  money
-  "\n".utf8
+  ParsePrint {
+    money
+    Skip {
+      ",".utf8
+      zeroOrMoreSpaces
+    }
+  }
+  ParsePrint {
+    difficulty
+    "\n".utf8
+  }
   Many {
     coord
   } separator: {
@@ -136,7 +137,7 @@ private let races = Many {
 
 let raceSuite = BenchmarkSuite(name: "Race") { suite in
   let originalInput = """
-    New York City, $300🥵
+    New York City, $300, 🥵🥵🥵🥵
     40.60248° N, 74.06433° W
     40.61807° N, 74.02966° W
     40.64953° N, 74.00929° W
@@ -154,7 +155,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     40.77392° N, 73.96917° W
     40.77293° N, 73.97671° W
     ---
-    Berlin, €
+    Berlin, €100, 🥵🥵🥵
     13.36015° N, 52.51516° E
     13.33999° N, 52.51381° E
     13.32539° N, 52.51797° E
@@ -179,7 +180,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     13.39155° N, 52.51046° E
     13.37256° N, 52.51598° E
     ---
-    London, £££££
+    London, £500, 🥵🥵
     51.48205° N, 0.04283° E
     51.47439° N, 0.0217° E
     51.47618° N, 0.02199° E

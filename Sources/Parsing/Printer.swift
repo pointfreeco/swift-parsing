@@ -290,6 +290,37 @@ extension Parsers.ZipOVO: Printer where P0: Printer, P1: Printer, P2: Printer {
   }
 }
 
+extension Parsers.ZipOOVO: Printer where P0: Printer, P1: Printer, P2: Printer, P3: Printer {
+  public func print(_ output: (P0.Output, P1.Output, P3.Output), to input: inout P0.Input) throws {
+    var i = input
+    try self.p0.print(output.0, to: &i)
+    try self.p1.print(output.1, to: &i)
+    try self.p2.print((), to: &i)
+    try self.p3.print(output.2, to: &i)
+    input = i
+  }
+}
+
+extension Parsers.ZipOOOO: Printer where P0: Printer, P1: Printer, P2: Printer, P3: Printer {
+  public func print(_ output: (P0.Output, P1.Output, P2.Output, P3.Output), to input: inout P0.Input) throws {
+    var i = input
+    try self.p0.print(output.0, to: &i)
+    try self.p1.print(output.1, to: &i)
+    try self.p2.print(output.2, to: &i)
+    try self.p3.print(output.3, to: &i)
+    input = i
+  }
+}
+
+extension Parsers.ZipOV: Printer where P0: Printer, P1: Printer {
+  public func print(_ output: (P0.Output), to input: inout P0.Input) throws {
+    var i = input
+    try self.p0.print(output, to: &i)
+    try self.p1.print((), to: &i)
+    input = i
+  }
+}
+
 extension String: Printer {
   public func print(_ output: (), to input: inout Substring) {
     input.append(contentsOf: self)
