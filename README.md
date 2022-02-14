@@ -341,26 +341,6 @@ Instead, if backtracking is needed, one should use the `OneOf` parser, which can
 
 By not requiring backtracking of each individual parser we can greatly simply the logic of parsers and we can coalesce all backtracking logic into just a single parser, the ``OneOf`` parser. 
 
-For example, the `.flatMap` operator allows one to sequence two parsers where the second parser can use the output of the first in order to customize its logic. If we required `.flatMap` to do its own backtracking we would be forced to insert logic after each step of the sequence. By not requiring backtracking we can replace 12 lines of code with a single line of code:
-
-```swift
-public func parse(_ input: inout Upstream.Input) -> NewParser.Output? {
-  // let original = input
-  // guard let newParser = self.upstream.parse(&input).map(self.transform)
-  // else {
-  //   input = original
-  //   return nil
-  // }
-  // guard let output = newParser.parse(&input)
-  // else {
-  //   input = original
-  //   return nil
-  // }
-  // return output
-  self.upstream.parse(&input).map(self.transform)?.parse(&input)
-}
-```
-
 If used naively, backtracking can lead to less performant parsing code. For example, if we wanted to parse two integers from a string that were separated by either a dash "-" or slash "/", then we could write this as:
 
 ```swift
