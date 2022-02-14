@@ -1,6 +1,16 @@
+/// Declares a type that can incrementally "print" an `Output` value into an `Input` value.
 @rethrows public protocol Printer {
+  /// The type of values this printer prints into.
   associatedtype Input
+
+  /// The type of values this printer prints.
   associatedtype Output
+
+  /// Attempts to print a well-structured piece of data into something more nebulous.
+  ///
+  /// - Parameters
+  ///   - output: A well-structured value to be printed to the given input.
+  ///   - input: A nebulous, mutable piece of data to be incrementally printed to.
   func print(_ output: Output, to input: inout Input) throws
 }
 

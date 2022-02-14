@@ -1,4 +1,4 @@
-/// Declares a type that can parse an `Input` value into an `Output` value.
+/// Declares a type that can incrementally parse an `Output` value from an `Input` value.
 ///
 /// * [Getting started](#Getting-started)
 /// * [String abstraction levels](#String-abstraction-levels)
@@ -172,10 +172,10 @@
 /// }
 /// ```
 @rethrows public protocol Parser {
-  /// The kind of values this parser receives.
+  /// The type of values this parser parses from.
   associatedtype Input
 
-  /// The kind of values parsed by this parser.
+  /// The type of values parsed by this parser.
   associatedtype Output
 
   /// Attempts to parse a nebulous piece of data into something more well-structured.
