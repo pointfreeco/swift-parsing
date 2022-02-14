@@ -1,6 +1,9 @@
 import Benchmark
 import Parsing
 
+
+
+
 /// This benchmark implements a parser for a custom format covered in
 /// [a collection of episodes][parsing] on
 /// Point-Free.
@@ -22,6 +25,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   struct Race {
     let location: String
     let entranceFee: Money
+    let difficulty: Int
     let path: [Coordinate]
   }
 
@@ -34,6 +38,13 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     "E".utf8.map { 1.0 }
     "W".utf8.map { -1.0 }
   }
+
+  let difficulty = Many { "🥵".utf8 }.map(
+    AnyConversion<[Void], Int>(
+      apply: \.count,
+      unapply: { Array(repeating: (), count: $0) }
+    )
+  )
 
   let latitude = ParsePrint(.multiplySign) {
     Double.parser()
@@ -71,14 +82,25 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
 
   let locationName = Prefix { $0 != .init(ascii: ",") }.map(.string)
 
-  let race = ParsePrint(.struct(Race.init(location:entranceFee:path:))) {
-    locationName
-    Skip {
-      ",".utf8
-      zeroOrMoreSpaces
+  let race = ParsePrint(.struct(Race.init)) {
+    ParsePrint {
+      locationName
+      Skip {
+        ",".utf8
+        zeroOrMoreSpaces
+      }
     }
-    money
-    "\n".utf8
+    ParsePrint {
+      money
+      Skip {
+        ",".utf8
+        zeroOrMoreSpaces
+      }
+    }
+    ParsePrint {
+      difficulty
+      "\n".utf8
+    }
     Many {
       coord
     } separator: {
@@ -90,10 +112,12 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     race
   } separator: {
     "\n---\n".utf8
+  } terminator: {
+    End()
   }
 
   let input = """
-    New York City, $300
+    New York City, $300, 🥵🥵🥵🥵
     40.60248° N, 74.06433° W
     40.61807° N, 74.02966° W
     40.64953° N, 74.00929° W
@@ -111,7 +135,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     40.77392° N, 73.96917° W
     40.77293° N, 73.97671° W
     ---
-    Berlin, €100
+    Berlin, €100, 🥵🥵🥵
     13.36015° N, 52.51516° E
     13.33999° N, 52.51381° E
     13.32539° N, 52.51797° E
@@ -136,7 +160,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     13.39155° N, 52.51046° E
     13.37256° N, 52.51598° E
     ---
-    London, £500
+    London, £500, 🥵🥵
     51.48205° N, 0.04283° E
     51.47439° N, 0.0217° E
     51.47618° N, 0.02199° E

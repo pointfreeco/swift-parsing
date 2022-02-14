@@ -13,6 +13,14 @@ extension Parser {
   ) -> Parsers.Map<Self, NewOutput> {
     .init(upstream: self, transform: transform)
   }
+
+  @_disfavoredOverload
+  @inlinable
+  public func map<NewOutput>(
+    _ transform: @escaping () -> NewOutput
+  ) -> Parsers.VoidMap<Self, NewOutput> {
+    .init(upstream: self, transform: transform)
+  }
 }
 
 extension Parsers {
@@ -41,9 +49,29 @@ extension Parsers {
   }
 }
 
-extension Parsers.Map: Printer where Upstream: Printer, Upstream.Output == Void, Output: Equatable {
+extension Parsers {
+  public struct VoidMap<Upstream: Parser, Output>: Parser where Upstream.Output == Void {
+    public let upstream: Upstream
+    public let transform: () -> Output
+
+    @inlinable
+    public init(upstream: Upstream, transform: @escaping () -> Output) {
+      self.upstream = upstream
+      self.transform = transform
+    }
+
+    @inlinable
+    @inline(__always)
+    public func parse(_ input: inout Upstream.Input) rethrows -> Output {
+      try self.upstream.parse(&input)
+      return self.transform()
+    }
+  }
+}
+
+extension Parsers.VoidMap: Printer where Upstream: Printer, Output: Equatable {
   public func print(_ output: Output, to input: inout Upstream.Input) throws {
-    guard output == self.transform(()) else { throw PrintingError() }
+    guard output == self.transform() else { throw PrintingError() }
     try self.upstream.print((), to: &input)
   }
 }
