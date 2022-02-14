@@ -1,5 +1,8 @@
 /// Declares a type that can transform an `Input` value into an `Output` value *and* transform an
 /// `Output` value back into an `Input` value.
+///
+/// Useful in transforming the output of a parser-printer into some new type while preserving
+/// printability.
 @rethrows public protocol Conversion {
   // The type of values this conversion converts from.
   associatedtype Input
