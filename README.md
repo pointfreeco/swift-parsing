@@ -21,6 +21,7 @@ A library for turning nebulous data into well-structured data, with a focus on c
 * [Design](#design)
   * [Protocol](#protocol)
   * [Result builders](#result-builders)
+  * [Error messages](#error-messages)
   * [Backtracking](#backtracking)
   * [Low-level versus high-level](#low-level-versus-high-level)
 * [Benchmarks](#benchmarks)
@@ -336,6 +337,23 @@ try accountingNumber.parse("100")    // 100
 try accountingNumber.parse("(100)")  // -100
 ```
 
+### Error messages
+
+When a parser fails it throws an error containing information about what went wrong. The actual error thrown by the parsers shipped with this library is internal, and so should be considered opaque. To get a human-readable description of the error message you can stringify the error. For example, the following `UInt8` parser fails to parse a string that would cause it to overflow:
+
+```swift
+do {
+  var input = "1234 Hello"[...]
+  let number = try UInt8.parser().parse(&input))
+} catch {
+  print(error)
+  // error: failed to process "UInt8"
+  //  --> input:1:1-4
+  // 1 | 1234 Hello
+  //   | ^^^^ overflowed 255
+}
+``` 
+
 ### Backtracking
 
 Backtracking, which is the process of restoring the input to its original value when a parser fails, is very useful, but can lead to performance issues and cause parsers' logic to be more complicated than necessary. For this reason parsers are not required to backtrack.
@@ -425,23 +443,6 @@ let city = OneOf {
 ```
 
 This allows you to parse as much as possible on the more performant, low-level `UTF8View`, while still allowing you to parse on the more correct, high-level `Substring` when necessary.
-
-### Error messages
-
-When a parser fails it throws an error containing information about what went wrong. The actual error thrown by the parsers shipped with this library is internal, and so should be considered opaque. To get a human-readable description of the error message you can stringify the error. For example, the following `UInt8` parser fails to parse a string that would cause it to overflow:
-
-```swift
-do {
-  var input = "1234 Hello"[...]
-  let number = try UInt8.parser().parse(&input))
-} catch {
-  print(error)
-  // error: failed to process "UInt8"
-  //  --> input:1:1-4
-  // 1 | 1234 Hello
-  //   | ^^^^ overflowed 255
-}
-``` 
 
 ## Benchmarks
 
