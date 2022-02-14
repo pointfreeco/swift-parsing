@@ -47,8 +47,11 @@ import Foundation
 ///
 /// extension Digits: Printer where Input: AppendableCollection {
 ///   func print(_ output: Int, into input: inout Input) {
-///     // Convert `Int` to string and pass UTF-8 bytes along to `append(contentsOf:)`.
-///     input.append(contentsOf: String(output).utf8)
+  ///   // Convert `Int` to string's underlying bytes
+///     let bytes = String(output).utf8
+///
+///     // Append bytes using `AppendableCollection` conformance.
+///     input.append(contentsOf: bytes)
 ///   }
 /// }
 /// ```
