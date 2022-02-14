@@ -240,13 +240,11 @@ where
       count += 1
       guard count <= self.maximum
       else {
-        input = original
         throw PrintingError()
       }
     }
     guard count >= self.minimum
     else {
-      input = original
       throw PrintingError()
     }
     try self.terminator.print(to: &input)
