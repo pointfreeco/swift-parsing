@@ -38,14 +38,8 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
   }
 }
 
@@ -88,19 +82,11 @@ where
   P1.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P0.Output
-    ),
+    _ output: P0.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output, to: &input)
-      try p1.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output, to: &input)
+    try p1.print(to: &input)
   }
 }
 
@@ -143,19 +129,11 @@ where
   P0.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P1.Output
-    ),
+    _ output: P1.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output, to: &input)
   }
 }
 
@@ -199,19 +177,11 @@ where
   P1.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-
-    ),
+    _ output: Void,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
   }
 }
 
@@ -268,15 +238,9 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
   }
 }
 
@@ -333,15 +297,9 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
   }
 }
 
@@ -398,15 +356,9 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
   }
 }
 
@@ -456,20 +408,12 @@ where
   P2.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P0.Output
-    ),
+    _ output: P0.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
   }
 }
 
@@ -526,15 +470,9 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
   }
 }
 
@@ -584,20 +522,12 @@ where
   P2.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P1.Output
-    ),
+    _ output: P1.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output, to: &input)
-      try p2.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output, to: &input)
+    try p2.print(to: &input)
   }
 }
 
@@ -647,20 +577,12 @@ where
   P1.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P2.Output
-    ),
+    _ output: P2.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output, to: &input)
   }
 }
 
@@ -711,20 +633,12 @@ where
   P2.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-
-    ),
+    _ output: Void,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
   }
 }
 
@@ -788,16 +702,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(output.3, to: &input)
   }
 }
 
@@ -861,16 +769,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(to: &input)
   }
 }
 
@@ -934,16 +836,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.2, to: &input)
   }
 }
 
@@ -1007,16 +903,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
   }
 }
 
@@ -1080,16 +970,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
   }
 }
 
@@ -1153,16 +1037,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
   }
 }
 
@@ -1226,16 +1104,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
   }
 }
 
@@ -1292,21 +1164,13 @@ where
   P3.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P0.Output
-    ),
+    _ output: P0.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
   }
 }
 
@@ -1370,16 +1234,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
   }
 }
 
@@ -1443,16 +1301,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
   }
 }
 
@@ -1516,16 +1368,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
   }
 }
 
@@ -1582,21 +1428,13 @@ where
   P3.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P1.Output
-    ),
+    _ output: P1.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
   }
 }
 
@@ -1660,16 +1498,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.0, to: &input)
-      try p3.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.0, to: &input)
+    try p3.print(output.1, to: &input)
   }
 }
 
@@ -1726,21 +1558,13 @@ where
   P3.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P2.Output
-    ),
+    _ output: P2.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output, to: &input)
-      try p3.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output, to: &input)
+    try p3.print(to: &input)
   }
 }
 
@@ -1797,21 +1621,13 @@ where
   P2.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P3.Output
-    ),
+    _ output: P3.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output, to: &input)
   }
 }
 
@@ -1869,21 +1685,13 @@ where
   P3.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-
-    ),
+    _ output: Void,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
   }
 }
 
@@ -1954,17 +1762,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(output.3, to: &input)
-      try p4.print(output.4, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(output.3, to: &input)
+    try p4.print(output.4, to: &input)
   }
 }
 
@@ -2035,17 +1837,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(output.3, to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(output.3, to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -2116,17 +1912,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.3, to: &input)
   }
 }
 
@@ -2197,17 +1987,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -2278,17 +2062,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(output.3, to: &input)
   }
 }
 
@@ -2359,17 +2137,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -2440,17 +2212,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.2, to: &input)
   }
 }
 
@@ -2521,17 +2287,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -2602,17 +2362,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(output.3, to: &input)
   }
 }
 
@@ -2683,17 +2437,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -2764,17 +2512,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.2, to: &input)
   }
 }
 
@@ -2845,17 +2587,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -2926,17 +2662,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(output.2, to: &input)
   }
 }
 
@@ -3007,17 +2737,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -3088,17 +2812,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.1, to: &input)
   }
 }
 
@@ -3162,22 +2880,14 @@ where
   P4.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P0.Output
-    ),
+    _ output: P0.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -3248,17 +2958,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(output.3, to: &input)
   }
 }
 
@@ -3329,17 +3033,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -3410,17 +3108,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.2, to: &input)
   }
 }
 
@@ -3491,17 +3183,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -3572,17 +3258,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(output.2, to: &input)
   }
 }
 
@@ -3653,17 +3333,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -3734,17 +3408,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.1, to: &input)
   }
 }
 
@@ -3808,22 +3476,14 @@ where
   P4.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P1.Output
-    ),
+    _ output: P1.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -3894,17 +3554,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.0, to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.0, to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(output.2, to: &input)
   }
 }
 
@@ -3975,17 +3629,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.0, to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.0, to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -4056,17 +3704,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.0, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.0, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.1, to: &input)
   }
 }
 
@@ -4130,22 +3772,14 @@ where
   P4.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P2.Output
-    ),
+    _ output: P2.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -4216,17 +3850,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.0, to: &input)
-      try p4.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.0, to: &input)
+    try p4.print(output.1, to: &input)
   }
 }
 
@@ -4290,22 +3918,14 @@ where
   P4.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P3.Output
-    ),
+    _ output: P3.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output, to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output, to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -4369,22 +3989,14 @@ where
   P3.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P4.Output
-    ),
+    _ output: P4.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output, to: &input)
   }
 }
 
@@ -4449,22 +4061,14 @@ where
   P4.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-
-    ),
+    _ output: Void,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
   }
 }
 
@@ -4542,18 +4146,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(output.3, to: &input)
-      try p4.print(output.4, to: &input)
-      try p5.print(output.5, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(output.3, to: &input)
+    try p4.print(output.4, to: &input)
+    try p5.print(output.5, to: &input)
   }
 }
 
@@ -4631,18 +4229,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(output.3, to: &input)
-      try p4.print(output.4, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(output.3, to: &input)
+    try p4.print(output.4, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -4720,18 +4312,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(output.3, to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.4, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(output.3, to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.4, to: &input)
   }
 }
 
@@ -4809,18 +4395,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(output.3, to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(output.3, to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -4898,18 +4478,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.3, to: &input)
-      try p5.print(output.4, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.3, to: &input)
+    try p5.print(output.4, to: &input)
   }
 }
 
@@ -4987,18 +4561,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.3, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.3, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -5076,18 +4644,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.3, to: &input)
   }
 }
 
@@ -5165,18 +4727,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(output.2, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(output.2, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -5254,18 +4810,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(output.3, to: &input)
-      try p5.print(output.4, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(output.3, to: &input)
+    try p5.print(output.4, to: &input)
   }
 }
 
@@ -5343,18 +4893,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(output.3, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(output.3, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -5432,18 +4976,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.3, to: &input)
   }
 }
 
@@ -5521,18 +5059,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -5610,18 +5142,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(output.3, to: &input)
   }
 }
 
@@ -5699,18 +5225,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -5788,18 +5308,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.2, to: &input)
   }
 }
 
@@ -5877,18 +5391,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(output.1, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -5966,18 +5474,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(output.3, to: &input)
-      try p5.print(output.4, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(output.3, to: &input)
+    try p5.print(output.4, to: &input)
   }
 }
 
@@ -6055,18 +5557,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(output.3, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(output.3, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -6144,18 +5640,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.3, to: &input)
   }
 }
 
@@ -6233,18 +5723,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -6322,18 +5806,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(output.3, to: &input)
   }
 }
 
@@ -6411,18 +5889,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -6500,18 +5972,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.2, to: &input)
   }
 }
 
@@ -6589,18 +6055,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -6678,18 +6138,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(output.3, to: &input)
   }
 }
 
@@ -6767,18 +6221,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -6856,18 +6304,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.2, to: &input)
   }
 }
 
@@ -6945,18 +6387,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -7034,18 +6470,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.1, to: &input)
-      try p5.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.1, to: &input)
+    try p5.print(output.2, to: &input)
   }
 }
 
@@ -7123,18 +6553,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.1, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.1, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -7212,18 +6636,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output.0, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output.0, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.1, to: &input)
   }
 }
 
@@ -7294,23 +6712,15 @@ where
   P5.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P0.Output
-    ),
+    _ output: P0.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(output, to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(output, to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -7388,18 +6798,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(output.3, to: &input)
-      try p5.print(output.4, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(output.3, to: &input)
+    try p5.print(output.4, to: &input)
   }
 }
 
@@ -7477,18 +6881,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(output.3, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(output.3, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -7566,18 +6964,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.3, to: &input)
   }
 }
 
@@ -7655,18 +7047,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(output.2, to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(output.2, to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -7744,18 +7130,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(output.3, to: &input)
   }
 }
 
@@ -7833,18 +7213,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -7922,18 +7296,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.2, to: &input)
   }
 }
 
@@ -8011,18 +7379,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(output.1, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(output.1, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -8100,18 +7462,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(output.3, to: &input)
   }
 }
 
@@ -8189,18 +7545,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -8278,18 +7628,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.2, to: &input)
   }
 }
 
@@ -8367,18 +7711,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -8456,18 +7794,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.1, to: &input)
-      try p5.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.1, to: &input)
+    try p5.print(output.2, to: &input)
   }
 }
 
@@ -8545,18 +7877,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.1, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.1, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -8634,18 +7960,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output.0, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output.0, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.1, to: &input)
   }
 }
 
@@ -8716,23 +8036,15 @@ where
   P5.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P1.Output
-    ),
+    _ output: P1.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(output, to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(output, to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -8810,18 +8122,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.0, to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(output.3, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.0, to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(output.3, to: &input)
   }
 }
 
@@ -8899,18 +8205,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.0, to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(output.2, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.0, to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(output.2, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -8988,18 +8288,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.0, to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.0, to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.2, to: &input)
   }
 }
 
@@ -9077,18 +8371,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.0, to: &input)
-      try p3.print(output.1, to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.0, to: &input)
+    try p3.print(output.1, to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -9166,18 +8454,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.0, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.1, to: &input)
-      try p5.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.0, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.1, to: &input)
+    try p5.print(output.2, to: &input)
   }
 }
 
@@ -9255,18 +8537,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.0, to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.1, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.0, to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.1, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -9344,18 +8620,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output.0, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output.0, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.1, to: &input)
   }
 }
 
@@ -9426,23 +8696,15 @@ where
   P5.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P2.Output
-    ),
+    _ output: P2.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(output, to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(output, to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -9520,18 +8782,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.0, to: &input)
-      try p4.print(output.1, to: &input)
-      try p5.print(output.2, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.0, to: &input)
+    try p4.print(output.1, to: &input)
+    try p5.print(output.2, to: &input)
   }
 }
 
@@ -9609,18 +8865,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.0, to: &input)
-      try p4.print(output.1, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.0, to: &input)
+    try p4.print(output.1, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -9698,18 +8948,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output.0, to: &input)
-      try p4.print(to: &input)
-      try p5.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output.0, to: &input)
+    try p4.print(to: &input)
+    try p5.print(output.1, to: &input)
   }
 }
 
@@ -9780,23 +9024,15 @@ where
   P5.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P3.Output
-    ),
+    _ output: P3.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(output, to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(output, to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -9874,18 +9110,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output.0, to: &input)
-      try p5.print(output.1, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output.0, to: &input)
+    try p5.print(output.1, to: &input)
   }
 }
 
@@ -9956,23 +9186,15 @@ where
   P5.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P4.Output
-    ),
+    _ output: P4.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(output, to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(output, to: &input)
+    try p5.print(to: &input)
   }
 }
 
@@ -10043,23 +9265,15 @@ where
   P4.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-      P5.Output
-    ),
+    _ output: P5.Output,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(output, to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(output, to: &input)
   }
 }
 
@@ -10131,23 +9345,15 @@ where
   P5.Output == Void
 {
   @inlinable public func print(
-    _ output: (
-
-    ),
+    _ output: Void,
     to input: inout P0.Input
   ) rethrows {
-    let original = input
-    do {
-      try p0.print(to: &input)
-      try p1.print(to: &input)
-      try p2.print(to: &input)
-      try p3.print(to: &input)
-      try p4.print(to: &input)
-      try p5.print(to: &input)
-    } catch {
-      input = original
-      throw error
-    }
+    try p0.print(to: &input)
+    try p1.print(to: &input)
+    try p2.print(to: &input)
+    try p3.print(to: &input)
+    try p4.print(to: &input)
+    try p5.print(to: &input)
   }
 }
 

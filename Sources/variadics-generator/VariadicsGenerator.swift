@@ -175,17 +175,25 @@ struct VariadicsGenerator: ParsableCommand {
           "P\($0).Output == Void"
         }
       }
-      output("\n{\n  @inlinable public func print(\n    _ output: (\n")
-      outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
-      output("\n    ),\n    to input: inout P0.Input\n  ) rethrows {\n    let original = input")
-      output("\n    do {\n      ")
-      outputForEach(0..<arity, separator: "\n      ") {
+      output("\n{\n  @inlinable public func print(\n    _ output: ")
+      switch permutation.captureIndices.count {
+      case 0:
+        output("Void")
+      case 1:
+        output("P\(permutation.captureIndices[0]).Output")
+      default:
+        output("(\n")
+        outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
+        output("\n    )")
+      }
+      output(",\n    to input: inout P0.Input\n  ) rethrows {\n    ")
+      outputForEach(0..<arity, separator: "\n    ") {
         let output = permutation.isCaptureless(at: $0) ? ""
           : permutation.captureIndices.count == 1 ? "output, "
           : "output.\(permutation.captureIndices.firstIndex(of: $0)!), "
         return "try p\($0).print(\(output)to: &input)"
       }
-      output("\n    } catch {\n      input = original\n      throw error\n    }\n  }\n}\n\n")
+      output("\n  }\n}\n\n")
 
       // Emit builders.
       output("extension ParserBuilder {\n")
