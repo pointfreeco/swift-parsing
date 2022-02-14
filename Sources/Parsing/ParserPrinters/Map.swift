@@ -20,22 +20,22 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/map(_:)`` operation, which constructs this type.
-  public struct Map<Upstream: Parser, Output>: Parser {
+  public struct Map<Upstream: Parser, NewOutput>: Parser {
     /// The parser from which this parser receives output.
     public let upstream: Upstream
 
     /// The closure that transforms output from the upstream parser.
-    public let transform: (Upstream.Output) -> Output
+    public let transform: (Upstream.Output) -> NewOutput
 
     @inlinable
-    public init(upstream: Upstream, transform: @escaping (Upstream.Output) -> Output) {
+    public init(upstream: Upstream, transform: @escaping (Upstream.Output) -> NewOutput) {
       self.upstream = upstream
       self.transform = transform
     }
 
     @inlinable
     @inline(__always)
-    public func parse(_ input: inout Upstream.Input) rethrows -> Output {
+    public func parse(_ input: inout Upstream.Input) rethrows -> NewOutput {
       self.transform(try self.upstream.parse(&input))
     }
   }

@@ -11,7 +11,12 @@ class ParsingErrorTests: XCTestCase {
         throw MyError()
       }
     }
-    XCTAssertThrowsError(try Parse { MyParser(); MyParser() }.parse(MyInput())) { error in
+    XCTAssertThrowsError(
+      try Parse {
+        MyParser()
+        MyParser()
+      }.parse(MyInput())
+    ) { error in
       XCTAssertEqual(
         """
         error: MyError()

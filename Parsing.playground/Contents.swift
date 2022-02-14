@@ -22,6 +22,16 @@ do {
 do {
   var hex = "#FF0000"[...]
   print(hex.debugDescription, "->", try hexColor.parse(&hex), terminator: "\n ...\n\n")
+<<<<<<< HEAD
+=======
+}
+
+do {
+  var bad = "#BADHEX"[...]
+  try hexColor.parse(&bad)
+} catch {
+  print(error)
+>>>>>>> main
 }
 
 do {

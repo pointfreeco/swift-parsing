@@ -21,6 +21,7 @@ A library for turning nebulous data into well-structured data, with a focus on c
 * [Design](#design)
   * [Protocol](#protocol)
   * [Result builders](#result-builders)
+  * [Error messages](#error-messages)
   * [Backtracking](#backtracking)
   * [Low-level versus high-level](#low-level-versus-high-level)
 * [Benchmarks](#benchmarks)
@@ -113,6 +114,12 @@ let user = Parse {
 Already this can consume the beginning of the input:
 
 ```swift
+<<<<<<< HEAD
+=======
+// Use a mutable substring to verify what is consumed
+var input = input[...]
+
+>>>>>>> main
 try user.parse(&input)  // 1
 input                   // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
@@ -333,6 +340,23 @@ try accountingNumber.parse("100")    // 100
 try accountingNumber.parse("(100)")  // -100
 ```
 
+### Error messages
+
+When a parser fails it throws an error containing information about what went wrong. The actual error thrown by the parsers shipped with this library is internal, and so should be considered opaque. To get a human-readable description of the error message you can stringify the error. For example, the following `UInt8` parser fails to parse a string that would cause it to overflow:
+
+```swift
+do {
+  var input = "1234 Hello"[...]
+  let number = try UInt8.parser().parse(&input))
+} catch {
+  print(error)
+  // error: failed to process "UInt8"
+  //  --> input:1:1-4
+  // 1 | 1234 Hello
+  //   | ^^^^ overflowed 255
+}
+``` 
+
 ### Backtracking
 
 Backtracking, which is the process of restoring the input to its original value when a parser fails, is very useful, but can lead to performance issues and cause parsers' logic to be more complicated than necessary. For this reason parsers are not required to backtrack.
@@ -340,26 +364,6 @@ Backtracking, which is the process of restoring the input to its original value 
 Instead, if backtracking is needed, one should use the `OneOf` parser, which can try many parsers one after another on a single input, backtracking after each failure and taking the first that succeeds.
 
 By not requiring backtracking of each individual parser we can greatly simply the logic of parsers and we can coalesce all backtracking logic into just a single parser, the ``OneOf`` parser. 
-
-For example, the `.flatMap` operator allows one to sequence two parsers where the second parser can use the output of the first in order to customize its logic. If we required `.flatMap` to do its own backtracking we would be forced to insert logic after each step of the sequence. By not requiring backtracking we can replace 12 lines of code with a single line of code:
-
-```swift
-public func parse(_ input: inout Upstream.Input) -> NewParser.Output? {
-  // let original = input
-  // guard let newParser = self.upstream.parse(&input).map(self.transform)
-  // else {
-  //   input = original
-  //   return nil
-  // }
-  // guard let output = newParser.parse(&input)
-  // else {
-  //   input = original
-  //   return nil
-  // }
-  // return output
-  self.upstream.parse(&input).map(self.transform)?.parse(&input)
-}
-```
 
 If used naively, backtracking can lead to less performant parsing code. For example, if we wanted to parse two integers from a string that were separated by either a dash "-" or slash "/", then we could write this as:
 

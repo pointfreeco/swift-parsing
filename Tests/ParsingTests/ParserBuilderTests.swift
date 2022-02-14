@@ -16,7 +16,7 @@ final class ParserBuilderTests: XCTestCase {
     var input = "Hello, world!"[...]
     XCTAssertEqual("world", try parser.parse(&input))
     XCTAssertEqual(input, ""[...])
-    
+
     input = "Hello world!"[...]
     XCTAssertThrowsError(try parser.parse(&input)) { error in
       XCTAssertEqual(
@@ -44,7 +44,7 @@ final class ParserBuilderTests: XCTestCase {
     input = "Hello world!"
     XCTAssertEqual("world", try parser.parse(&input))
     XCTAssertEqual(input, ""[...])
-    
+
     input = "Hello, world!"
     XCTAssertThrowsError(try parser.parse(&input)) { error in
       XCTAssertEqual(
@@ -74,7 +74,7 @@ final class ParserBuilderTests: XCTestCase {
     XCTAssertEqual(42, int)
     XCTAssertEqual("Blob", string)
     XCTAssertEqual(input, ""[...])
-    
+
     input = "Blob"
     XCTAssertThrowsError(try parser.parse(&input)) { error in
       XCTAssertEqual(
