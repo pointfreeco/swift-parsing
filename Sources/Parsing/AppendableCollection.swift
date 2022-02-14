@@ -18,6 +18,40 @@ import Foundation
 /// `AppendableCollection` by validating and appending the given UTF-8 bytes to its underlying
 /// substring. So in order to write a parser against generic sequences of UTF-8 bytes, you would
 /// constrain its input against `AppendableCollection`.
+///
+/// For example the following `Digits` parser is generic over an `Collection` of bytes, and its
+/// printer conformance further constraints its input to be appendable.
+///
+/// ```swift
+/// struct Digits<Input: Collection>: Parser
+/// where
+///   Input.Element == UTF8.CodeUnit,  // Required for working with a collection of bytes (`UInt8`)
+///   Input.SubSequence == Input       // Required for the parser to consume from input
+/// {
+///   func parse(_ input: inout Input) throws -> Int {
+///     // Collect all bytes between ASCII "0" and "9"
+///     let prefix = input.prefix(while: { $0 >= .init(ascii: "0") && $0 <= .init(ascii: "9") })
+///
+///     // Attempt to convert to an `Int`
+///     guard let int = Int(prefix) else {
+///       struct ParseError: Error {}
+///       throw ParseError()
+///     }
+///
+///     // Incrementally consume bytes from input
+///     input.removeFirst(prefix.count)
+///
+///     return int
+///   }
+/// }
+///
+/// extension Digits: Printer where Input: AppendableCollection {
+///   func print(_ output: Int, into input: inout Input) {
+///     // Convert `Int` to string and pass UTF-8 bytes along to `append(contentsOf:)`.
+///     input.append(contentsOf: String(output).utf8)
+///   }
+/// }
+/// ```
 public protocol AppendableCollection: Collection {
   /// Creates a new, empty collection.
   init()
