@@ -14,28 +14,31 @@
 ///
 /// ```swift
 /// Prefix { $0.isNumber }
-///   .map(.string)
-///   .map(AnyConversion(apply: Int.init, unapply: String.init))
+///   .map(
+///     AnyConversion(
+///       apply: { Int(String($0)) },
+///       unapply: { String($0)[...] {
+///     )
+///   )
 ///
 /// // vs.
 ///
-/// struct StringToInt: Conversion {
+/// struct SubstringToInt: Conversion {
 ///   func apply(_ input: Substring) throws -> Int {
-///     guard let int = Int(Substring) else {
+///     guard let int = Int(String(input)) else {
 ///       struct ConvertingError: Error {}
 ///       throw ConvertingError()
 ///     }
 ///     return int
 ///   }
 ///
-///   func unapply(_ output: Int) -> String {
-///     String(output)
+///   func unapply(_ output: Int) -> Substring {
+///     String(output)[...]
 ///   }
 /// }
 ///
 /// Prefix { $0.isNumber }
-///   .map(.string)
-///   .map(StringToInt())
+///   .map(SubstringToInt())
 /// ```
 ///
 /// If performance is a consideration of your parser-printer, you should avoid `AnyConversion` and

@@ -1,8 +1,39 @@
 extension Conversion {
   /// A conversion from a given raw representable type's raw value to itself.
   ///
+  /// This conversion is useful for mapping the output of a more primitive parser-printer into a
+  /// raw representable value.
+  ///
+  /// For example, you may have a raw representable type that wraps a more primitive type for the
+  /// purpose of strengthening type requirements in your APIs. One example is an identifier type
+  /// that wraps an integer:
+  ///
+  /// ```swift
+  /// struct UserID: RawRepresentable {
+  ///   var rawValue: Int
+  /// }
+  /// ```
+  ///
+  /// You can transform an `Int` parser into a `UserID` parser by invoking ``Parser/map(_:)-2sblf``
+  /// with this conversion:
+  ///
+  /// ```swift
+  /// let userID = Int.parser().map(.representing(UserID.self))
+  /// ```
+  ///
   /// See ``Conversion/representing(_:)-swift.method`` for a fluent version of this interface that
-  /// transforms an existing conversion.
+  /// transforms an existing conversion. This fluent API is particularly useful when mapping string
+  /// raw values directly from parsers of substrings and UTF-8 views, which require first
+  /// transforming the parsed substring or UTF-8 view into a string via the ``Conversion/string-swift.type.property-9owth`` and
+  /// ``Conversion/string-swift.type.property-3u2b5`` conversions.
+  ///
+  /// ```swift
+  /// struct EmailAddress: RawRepresentable {
+  ///   var rawValue: String
+  /// }
+  ///
+  /// let emailAddress = Parse(.string.representing(EmailAddress.self))
+  /// ```
   ///
   /// - Parameter type: A type that conforms to `RawRepresentable`.
   /// - Returns: A conversion from a raw value to the given type.
