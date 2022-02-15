@@ -22,7 +22,7 @@ extension Parser where Self: ParserPrinter {
 /// underlying parser-printer having the same `Input` and `Output` types, hiding the specifics of
 /// the underlying ``ParserPrinter``.
 ///
-/// Use ``AnyParserPrinter`` to wrap a parser whose type has details you don't want to expose across
+/// Use `AnyParserPrinter` to wrap a parser whose type has details you don't want to expose across
 /// API boundaries, such as different modules. When you use type erasure this way, you can change
 /// the underlying parser over time without affecting existing clients.
 public struct AnyParserPrinter<Input, Output>: ParserPrinter {
