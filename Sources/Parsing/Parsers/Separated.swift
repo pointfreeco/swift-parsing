@@ -5,23 +5,7 @@ where Initiator.Input == Parsers.Input, Separator.Input == Parsers.Input, Termin
   public let initiator: Initiator?
   public let separator: Separator?
   public let terminator: Terminator?
-  
-  @inlinable
-  public init(
-    @ParserBuilder _ build: () -> Parsers
-  )
-  where
-    Parsers: SeparableParser,
-    Separator == Always<Parsers.Input, Void>,
-    Terminator == Always<Parsers.Input, Void>,
-    Initiator == Always<Parsers.Input, Void>
-  {
-    self.parsers = build()
-    self.initiator = nil
-    self.separator = nil
-    self.terminator = nil
-  }
-  
+    
   @inlinable
   public init(
     @ParserBuilder _ build: () -> Parsers,
@@ -83,22 +67,6 @@ where Initiator.Input == Parsers.Input, Separator.Input == Parsers.Input, Termin
     self.parsers = build()
     self.initiator = delimiter()
     self.separator = separator()
-    self.terminator = delimiter()
-  }
-  
-  @inlinable
-  public init(
-    @ParserBuilder _ build: () -> Parsers,
-    @ParserBuilder delimiter: () -> Terminator
-  )
-  where
-    Parsers: SeparableParser,
-    Separator == Always<Parsers.Input, Void>,
-    Initiator == Terminator
-  {
-    self.parsers = build()
-    self.initiator = delimiter()
-    self.separator = nil
     self.terminator = delimiter()
   }
 
