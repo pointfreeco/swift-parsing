@@ -37,16 +37,10 @@ final class OneOfTests: XCTestCase {
     ) { error in
       XCTAssertEqual(
         """
-        error: multiple failures occurred
-
         error: unexpected input
          --> input:1:1
         1 | London, Hello!
           | ^ expected "New York"
-
-        error: unexpected input
-         --> input:1:1
-        1 | London, Hello!
           | ^ expected "Berlin"
         """,
         "\(error)"
@@ -92,16 +86,10 @@ final class OneOfTests: XCTestCase {
     ) { error in
       XCTAssertEqual(
         """
-        error: multiple failures occurred
-
         error: unexpected input
          --> input:1:1
         1 | London, Hello!
           | ^ expected "New York"
-
-        error: unexpected input
-         --> input:1:1
-        1 | London, Hello!
           | ^ expected "Berlin"
         """,
         "\(error)"
@@ -282,35 +270,15 @@ final class OneOfTests: XCTestCase {
          --> input:6:4
         6 |   "ys": {
           |    ^ expected ","
-
-        error: unexpected input
-         --> input:6:4
-        6 |   "ys": {
           |    ^ expected "]"
 
         error: unexpected input
          --> input:5:9
         5 |   "xs": [1, "hello, null, false],
           |         ^ expected "{"
-
-        error: unexpected input
-         --> input:5:9
-        5 |   "xs": [1, "hello, null, false],
           |         ^ expected "\""
-
-        error: unexpected input
-         --> input:5:9
-        5 |   "xs": [1, "hello, null, false],
           |         ^ expected double
-
-        error: unexpected input
-         --> input:5:9
-        5 |   "xs": [1, "hello, null, false],
           |         ^ expected "true" or "false"
-
-        error: unexpected input
-         --> input:5:9
-        5 |   "xs": [1, "hello, null, false],
           |         ^ expected "null"
 
         error: unexpected input
@@ -322,25 +290,9 @@ final class OneOfTests: XCTestCase {
          --> input:1:1
         1 | {
           | ^ expected "["
-
-        error: unexpected input
-         --> input:1:1
-        1 | {
           | ^ expected "\""
-
-        error: unexpected input
-         --> input:1:1
-        1 | {
           | ^ expected double
-
-        error: unexpected input
-         --> input:1:1
-        1 | {
           | ^ expected "true" or "false"
-
-        error: unexpected input
-         --> input:1:1
-        1 | {
           | ^ expected "null"
         """#,
         "\(error)"
