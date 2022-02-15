@@ -98,7 +98,7 @@ class ParsingErrorTests: XCTestCase {
     }
   }
 
-  func testEOLContext() {
+  func testComplexStringLiteralParserError() {
     let stringLiteral = Parse {
       "\""
       Many(into: "") {
