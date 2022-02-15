@@ -87,9 +87,9 @@ struct VariadicsGenerator: ParsableCommand {
       emitZipDeclarations(arity: arity)
     }
 
-//    for arity in 2...10 {
-//      emitOneOfDeclaration(arity: arity)
-//    }
+    for arity in 2...10 {
+      emitOneOfDeclaration(arity: arity)
+    }
 
     output("// END AUTO-GENERATED CONTENT\n")
   }
