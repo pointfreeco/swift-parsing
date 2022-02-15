@@ -74,9 +74,9 @@ where Initiator.Input == Parsers.Input, Separator.Input == Parsers.Input, Termin
   public func parse(_ input: inout Parsers.Input) rethrows -> Parsers.Output {
     try parsers.parse(
       &input,
-      initiator: Parsing.Parsers.Delimiter(.initiator, initiator),
-      separator: Parsing.Parsers.Delimiter(.separator, separator),
-      terminator: Parsing.Parsers.Delimiter(.terminator, terminator)
+      initiator: initiator.map { Parsing.Parsers.Delimiter(.initiator, $0) },
+      separator: separator.map { Parsing.Parsers.Delimiter(.separator, $0) },
+      terminator: terminator.map { Parsing.Parsers.Delimiter(.terminator, $0) }
     )
   }
 }
@@ -122,8 +122,7 @@ extension Parsers {
     public let parser: Upstream
     
     @usableFromInline
-    init?(_ kind: Parsers.Delimiter<Upstream>.Kind, _ parser: Upstream?) {
-      guard let parser = parser else { return nil }
+    init(_ kind: Parsers.Delimiter<Upstream>.Kind, _ parser: Upstream) {
       self.kind = kind
       self.parser = parser
     }
