@@ -11,6 +11,13 @@
 ///
 /// This will check the input doesn't start with `"//"`, and if it doesn't, it will return the whole
 /// input up to the first newline.
+///
+/// ## Printability
+///
+/// `Not` is _not_ printable.
+///
+/// If you are building a parser-printer, avoid uses of `Not` and instead prefer the use of
+/// ``map(_:)-2sblf`` with conversions that preserve printability.
 public struct Not<Upstream: Parser>: Parser {
   public let upstream: Upstream
 

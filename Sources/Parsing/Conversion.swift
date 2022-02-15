@@ -2,7 +2,7 @@
 /// `Output` value back into an `Input` value.
 ///
 /// Useful in transforming the output of a parser-printer into some new type while preserving
-/// printability.
+/// printability via ``Parser/map(_:)-2sblf``.
 @rethrows public protocol Conversion {
   // The type of values this conversion converts from.
   associatedtype Input

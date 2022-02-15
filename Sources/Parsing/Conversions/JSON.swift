@@ -3,8 +3,8 @@ import Foundation
 extension Conversion {
   /// A conversion from `Data` to the given codable type.
   ///
-  /// See ``Conversion/json(_:decoder:encoder:)-swift.method`` for a fluent version of this
-  /// interface that transforms an existing conversion.
+  /// See ``json(_:decoder:encoder:)-swift.method`` for a fluent version of this interface that
+  /// transforms an existing conversion.
   ///
   /// - Parameters:
   ///   - type: A type that conforms to `Codable`.
@@ -22,8 +22,8 @@ extension Conversion {
 
   /// Transforms this conversion to `Data` into a conversion to the given codable type.
   ///
-  /// A fluent version of ``Conversion/json(_:decoder:encoder:)-swift.type.method``. Equivalent to
-  /// calling `Conversion.map(.json(Value.self)).
+  /// A fluent version of ``json(_:decoder:encoder:)-swift.type.method``. Equivalent to calling
+  /// `Conversion.map(.json(Value.self)).
   ///
   /// - Parameters:
   ///   - type: A type that conforms to `Codable`.

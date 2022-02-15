@@ -1,14 +1,16 @@
-public struct URLRequestData: Equatable {
+public struct URLRequestData: Equatable, EmptyInitializable {
   public var body: ArraySlice<UInt8>?
-  public var headers: Fields
+  public var headers: Fields = [:]
   public var host: Substring?
   public var method: String?
   public var password: String?
-  public var path: ArraySlice<Substring>
+  public var path: ArraySlice<Substring> = []
   public var port: Int?
-  public var query: Fields
+  public var query: Fields = [:]
   public var scheme: String?
   public var user: String?
+
+  public init() {}
 
   public init(
     method: String? = nil,

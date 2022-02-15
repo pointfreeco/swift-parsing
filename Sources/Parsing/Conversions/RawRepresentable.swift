@@ -21,11 +21,11 @@ extension Conversion {
   /// let userID = Int.parser().map(.representing(UserID.self))
   /// ```
   ///
-  /// See ``Conversion/representing(_:)-swift.method`` for a fluent version of this interface that
-  /// transforms an existing conversion. This fluent API is particularly useful when mapping string
-  /// raw values directly from parsers of substrings and UTF-8 views, which require first
-  /// transforming the parsed substring or UTF-8 view into a string via the ``Conversion/string-swift.type.property-9owth`` and
-  /// ``Conversion/string-swift.type.property-3u2b5`` conversions.
+  /// See ``representing(_:)-swift.method`` for a fluent version of this interface that transforms
+  /// an existing conversion. This fluent API is particularly useful when mapping string raw values
+  /// directly from parsers of substrings and UTF-8 views, which require first transforming the
+  /// parsed substring or UTF-8 view into a string via the ``string-swift.type.property-9owth`` and
+  /// ``string-swift.type.property-3u2b5`` conversions.
   ///
   /// ```swift
   /// struct EmailAddress: RawRepresentable {

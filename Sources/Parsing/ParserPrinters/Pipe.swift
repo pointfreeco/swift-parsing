@@ -74,3 +74,15 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.Pipe: Printer
+where
+  Upstream: Printer,
+  Downstream: Printer,
+  Upstream.Output: EmptyInitializable
+{
+  @inlinable
+  public func print(_ output: Downstream.Output, to input: inout Upstream.Input) rethrows {
+    try self.upstream.print(self.downstream.print(output), to: &input)
+  }
+}

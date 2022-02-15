@@ -4,6 +4,14 @@ extension Parser {
   /// This method is similar to `Sequence.flatMap`, `Optional.flatMap`, and `Result.flatMap` in the
   /// Swift standard library, as well as `Publisher.flatMap` in the Combine framework.
   ///
+  /// ## Printability
+  ///
+  /// `Parser.flatMap` is _not_ printable, as the logic contained inside its transform operation to
+  /// some new parser is not reversible.
+  ///
+  /// If you are building a parser-printer, avoid uses of `flatMap` and instead prefer the use of
+  /// ``map(_:)-2sblf`` with conversions that preserve printability.
+  ///
   /// - Parameter transform: A closure that transforms values of this parser's output and returns a
   ///   new parser.
   /// - Returns: A parser that transforms output from an upstream parser into a new parser.

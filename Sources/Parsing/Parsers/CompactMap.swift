@@ -6,7 +6,7 @@ extension Parser {
   /// `Publisher.compactMap` in the Combine framework.
   ///
   /// ```swift
-  /// let evenParser = Int.parser().compactMap { $0.isMultiple(of: 2) }
+  /// let evenParser = Int.parser().compactMap { $0.isMultiple(of: 2) ? $0 : nil }
   ///
   /// var input = "124 hello world"[...]
   /// try evenParser.parse(&input)  // 124
@@ -25,6 +25,15 @@ extension Parser {
   /// // 1 | GG0000
   /// //   | ^^
   /// ```
+  ///
+  /// ## Printability
+  ///
+  /// `Parser.compactMap` is _not_ printable, as a failable transform operation to some new output
+  /// does not provide enough information to perform a transformation from that new output back to
+  /// the old.
+  ///
+  /// If you are building a parser-printer, avoid uses of `compactMap` and instead use
+  /// ``map(_:)-2sblf`` with a failable conversion.
   ///
   /// - Parameter transform: A closure that accepts output of this parser as its argument and
   ///   returns an optional value.

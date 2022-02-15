@@ -55,10 +55,7 @@ import Foundation
 ///   }
 /// }
 /// ```
-public protocol AppendableCollection: Collection {
-  /// Creates a new, empty collection.
-  init()
-  
+public protocol AppendableCollection: Collection, EmptyInitializable {
   /// Adds the elements of a sequence or collection to the end of this collection.
   ///
   /// The collection being appended to allocates any additional necessary storage to hold the new
@@ -93,7 +90,7 @@ extension Array: AppendableCollection {}
 extension ArraySlice: AppendableCollection {}
 extension ContiguousArray: AppendableCollection {}
 extension Data: AppendableCollection {}
-extension Slice: AppendableCollection where Base: RangeReplaceableCollection {}
+extension Slice: AppendableCollection, EmptyInitializable where Base: RangeReplaceableCollection {}
 extension String: AppendableCollection {}
 extension String.UnicodeScalarView: AppendableCollection {}
 extension Substring: AppendableCollection {}

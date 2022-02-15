@@ -1,8 +1,8 @@
 extension Conversion {
   /// A conversion from a string to a lossless string-convertible type.
   ///
-  /// See ``Conversion/lossless(_:)-swift.method`` for a fluent version of this interface that
-  /// transforms an existing conversion.
+  /// See ``lossless(_:)-swift.method`` for a fluent version of this interface that transforms an
+  /// existing conversion.
   ///
   /// - Parameter type: A type that conforms to `LosslessStringConvertible`.
   /// - Returns: A conversion from a string to the given type.
@@ -16,7 +16,7 @@ extension Conversion {
   /// Transforms this conversion to a string into a conversion to the given lossless
   /// string-convertible type.
   ///
-  /// A fluent version of ``Conversion/lossless(_:)-swift.type.method``. Equivalent to calling
+  /// A fluent version of ``lossless(_:)-swift.type.method``. Equivalent to calling
   /// `Conversion.map(.lossless(NewOutput.self)).
   ///
   /// - Parameter type: A type that conforms to `LosslessStringConvertible`.

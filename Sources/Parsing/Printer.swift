@@ -14,7 +14,7 @@
   func print(_ output: Output, to input: inout Input) throws
 }
 
-extension Printer where Input: AppendableCollection {
+extension Printer where Input: EmptyInitializable {
   /// Attempts to print a well-structured piece of data to something more nebulous.
   ///
   /// - Parameter output: A well-structured piece of data to be printed.
@@ -37,7 +37,7 @@ extension Printer where Output == Void {
   }
 }
 
-extension Printer where Input: AppendableCollection, Output == Void {
+extension Printer where Input: EmptyInitializable, Output == Void {
   /// Attempts to print a nebulous piece of data.
   ///
   /// - Returns: A nebulous value.
