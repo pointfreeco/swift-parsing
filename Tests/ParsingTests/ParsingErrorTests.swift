@@ -97,4 +97,58 @@ class ParsingErrorTests: XCTestCase {
       )
     }
   }
+
+  func testComplexStringLiteralParserError() {
+    let stringLiteral = Parse {
+      "\""
+      Many(into: "") {
+        $0.append(contentsOf: $1)
+      } element: {
+        OneOf {
+          Prefix(1...) { $0 != "\"" && $0 >= " " }.map(String.init)
+          Parse {
+            "\\"
+            OneOf {
+              "\n".map { "\n" }
+              "\r".map { "\r" }
+              "\t".map { "\t" }
+            }
+          }
+        }
+      } terminator: {
+        "\""
+      }
+    }
+
+    XCTAssertThrowsError(
+      try stringLiteral.parse(
+        """
+        "Hello
+        world"
+        """
+      )
+    ) { error in
+      XCTAssertEqual(
+        #"""
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:7
+        1 | "Hello
+          |       ^ expected 1 element satisfying predicate
+
+        error: unexpected input
+         --> input:1:7
+        1 | "Hello
+          |       ^ expected "\\"
+
+        error: unexpected input
+         --> input:1:7
+        1 | "Hello
+          |       ^ expected "\""
+        """#,
+        "\(error)"
+      )
+    }
+  }
 }
