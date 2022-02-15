@@ -59,7 +59,7 @@ extension Parser {
   /// conversion's ``Conversion/apply(_:)`` method, and prints using the conversion's
   /// ``Conversion/unapply(_:)`` method.
   ///
-  /// - Parameter transform: A closure that returns an output.
+  /// - Parameter conversion: A conversion that transforms the output of this parser.
   /// - Returns: A parser of outputs.
   @inlinable
   public func map<C>(_ conversion: C) -> Parsers.MapConversion<Self, C>  {

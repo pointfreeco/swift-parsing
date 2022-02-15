@@ -1,6 +1,16 @@
 import Foundation
 
 extension Conversion {
+  /// A conversion from `Data` to the given codable type.
+  ///
+  /// See ``Conversion/json(_:decoder:encoder:)-swift.method`` for a fluent version of this
+  /// interface that transforms an existing conversion.
+  ///
+  /// - Parameters:
+  ///   - type: A type that conforms to `Codable`.
+  ///   - decoder: An optional JSON decoder.
+  ///   - encoder: An optional JSON encoder.
+  /// - Returns: A conversion from `Data` to the given codable type.
   @inlinable
   public static func json<Value>(
     _ type: Value.Type,
@@ -10,6 +20,16 @@ extension Conversion {
     .init(type, decoder: decoder, encoder: encoder)
   }
 
+  /// Transforms this conversion to `Data` into a conversion to the given codable type.
+  ///
+  /// A fluent version of ``Conversion/json(_:decoder:encoder:)-swift.type.method``. Equivalent to
+  /// calling `Conversion.map(.json(Value.self)).
+  ///
+  /// - Parameters:
+  ///   - type: A type that conforms to `Codable`.
+  ///   - decoder: An optional JSON decoder.
+  ///   - encoder: An optional JSON encoder.
+  /// - Returns: A conversion from this conversion's input to the given codable type.
   @inlinable
   public func json<Value>(
     _ type: Value.Type,
@@ -21,6 +41,11 @@ extension Conversion {
 }
 
 extension Conversions {
+  /// A conversion from `Data` to some codable type.
+  ///
+  /// You will not typically need to interact with this type directly. Instead you will usually use
+  /// the ``Conversion/json(_:decoder:encoder:)-swift.type.method`` and ``Conversion/json(_:decoder:encoder:)-swift.method`` operations, which construct this type
+  /// under the hood.
   public struct JSON<Value>: Conversion  // FIXME: Should this be generic over `Input`?
   where
     Value: Codable  // FIXME: Can/should we support types that are simply `Decodable`?
