@@ -1,10 +1,16 @@
 // BEGIN AUTO-GENERATED CONTENT
 
 extension Parsers {
-  public struct ZipOO<P0: Parser, P1: Parser>: Parser
+  public struct ZipOO<P0: Parser, P1: Parser>: SeparableParser
   where
     P0.Input == P1.Input
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output
+    )
+
     public let p0: P0, p1: P1
 
     @inlinable public init(_ p0: P0, _ p1: P1) {
@@ -12,13 +18,23 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -34,11 +50,14 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOV<P0: Parser, P1: Parser>: Parser
+  public struct ZipOV<P0: Parser, P1: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1
 
     @inlinable public init(_ p0: P0, _ p1: P1) {
@@ -46,10 +65,20 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P0.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try terminator?.parse(&input)
         return o0
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -65,11 +94,14 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVO<P0: Parser, P1: Parser>: Parser
+  public struct ZipVO<P0: Parser, P1: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P0.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P1.Output
+
     public let p0: P0, p1: P1
 
     @inlinable public init(_ p0: P0, _ p1: P1) {
@@ -77,10 +109,20 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P1.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P1.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try terminator?.parse(&input)
         return o1
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -96,12 +138,15 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVV<P0: Parser, P1: Parser>: Parser
+  public struct ZipVV<P0: Parser, P1: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P0.Output == Void,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = Void
+
     public let p0: P0, p1: P1
 
     @inlinable public init(_ p0: P0, _ p1: P1) {
@@ -109,10 +154,20 @@ extension Parsers {
       self.p1 = p1
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try terminator?.parse(&input)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
@@ -127,11 +182,18 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOO<P0: Parser, P1: Parser, P2: Parser>: Parser
+  public struct ZipOOO<P0: Parser, P1: Parser, P2: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -140,15 +202,26 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -164,12 +237,18 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOV<P0: Parser, P1: Parser, P2: Parser>: Parser
+  public struct ZipOOV<P0: Parser, P1: Parser, P2: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -178,14 +257,25 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -201,12 +291,18 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVO<P0: Parser, P1: Parser, P2: Parser>: Parser
+  public struct ZipOVO<P0: Parser, P1: Parser, P2: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -215,14 +311,25 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -238,13 +345,16 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVV<P0: Parser, P1: Parser, P2: Parser>: Parser
+  public struct ZipOVV<P0: Parser, P1: Parser, P2: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -253,11 +363,22 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P0.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try terminator?.parse(&input)
         return o0
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -273,12 +394,18 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOO<P0: Parser, P1: Parser, P2: Parser>: Parser
+  public struct ZipVOO<P0: Parser, P1: Parser, P2: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P0.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -287,14 +414,25 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -310,13 +448,16 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOV<P0: Parser, P1: Parser, P2: Parser>: Parser
+  public struct ZipVOV<P0: Parser, P1: Parser, P2: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P0.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P1.Output
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -325,11 +466,22 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P1.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P1.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try terminator?.parse(&input)
         return o1
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -345,13 +497,16 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVO<P0: Parser, P1: Parser, P2: Parser>: Parser
+  public struct ZipVVO<P0: Parser, P1: Parser, P2: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P0.Output == Void,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P2.Output
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -360,11 +515,22 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P2.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P2.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try terminator?.parse(&input)
         return o2
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -380,7 +546,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVV<P0: Parser, P1: Parser, P2: Parser>: Parser
+  public struct ZipVVV<P0: Parser, P1: Parser, P2: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -388,6 +554,9 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = Void
+
     public let p0: P0, p1: P1, p2: P2
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2) {
@@ -396,11 +565,22 @@ extension Parsers {
       self.p2 = p2
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try terminator?.parse(&input)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
@@ -415,12 +595,20 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -430,17 +618,29 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -456,13 +656,20 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -472,16 +679,28 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -497,13 +716,20 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -513,16 +739,28 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -538,7 +776,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -546,6 +784,12 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -555,15 +799,27 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -579,13 +835,20 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -595,16 +858,28 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -620,7 +895,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -628,6 +903,12 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -637,15 +918,27 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -661,7 +954,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -669,6 +962,12 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -678,15 +977,27 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -702,7 +1013,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -711,6 +1022,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -720,12 +1034,24 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P0.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return o0
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -741,13 +1067,20 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
     P0.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -757,16 +1090,28 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -782,7 +1127,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -790,6 +1135,12 @@ extension Parsers {
     P0.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -799,15 +1150,27 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -823,7 +1186,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -831,6 +1194,12 @@ extension Parsers {
     P0.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -840,15 +1209,27 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -864,7 +1245,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -873,6 +1254,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P1.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -882,12 +1266,24 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P1.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P1.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return o1
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -903,7 +1299,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -911,6 +1307,12 @@ extension Parsers {
     P0.Output == Void,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -920,15 +1322,27 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -944,7 +1358,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -953,6 +1367,9 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P2.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -962,12 +1379,24 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P2.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P2.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return o2
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -983,7 +1412,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -992,6 +1421,9 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P3.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -1001,12 +1433,24 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P3.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P3.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try terminator?.parse(&input)
         return o3
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1022,7 +1466,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
+  public struct ZipVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1032,6 +1476,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = Void
+
     public let p0: P0, p1: P1, p2: P2, p3: P3
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3) {
@@ -1041,12 +1488,24 @@ extension Parsers {
       self.p3 = p3
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try terminator?.parse(&input)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
@@ -1061,13 +1520,22 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
     P2.Input == P3.Input,
     P3.Input == P4.Input
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1078,19 +1546,32 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1106,7 +1587,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1114,6 +1595,14 @@ extension Parsers {
     P3.Input == P4.Input,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1124,18 +1613,31 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1151,7 +1653,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1159,6 +1661,14 @@ extension Parsers {
     P3.Input == P4.Input,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1169,18 +1679,31 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1196,7 +1719,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1205,6 +1728,13 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1215,17 +1745,30 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1241,7 +1784,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1249,6 +1792,14 @@ extension Parsers {
     P3.Input == P4.Input,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1259,18 +1810,31 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1286,7 +1850,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1295,6 +1859,13 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1305,17 +1876,30 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1331,7 +1915,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1340,6 +1924,13 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1350,17 +1941,30 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1376,7 +1980,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1386,6 +1990,12 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1396,16 +2006,29 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1421,7 +2044,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1429,6 +2052,14 @@ extension Parsers {
     P3.Input == P4.Input,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1439,18 +2070,31 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1466,7 +2110,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1475,6 +2119,13 @@ extension Parsers {
     P1.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1485,17 +2136,30 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1511,7 +2175,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1520,6 +2184,13 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1530,17 +2201,30 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1556,7 +2240,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1566,6 +2250,12 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1576,16 +2266,29 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1601,7 +2304,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1610,6 +2313,13 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1620,17 +2330,30 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1646,7 +2369,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1656,6 +2379,12 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1666,16 +2395,29 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1691,7 +2433,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1701,6 +2443,12 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1711,16 +2459,29 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1736,7 +2497,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1747,6 +2508,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1757,13 +2521,26 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P0.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return o0
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1779,7 +2556,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1787,6 +2564,14 @@ extension Parsers {
     P3.Input == P4.Input,
     P0.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1797,18 +2582,31 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1824,7 +2622,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1833,6 +2631,13 @@ extension Parsers {
     P0.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1843,17 +2648,30 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1869,7 +2687,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1878,6 +2696,13 @@ extension Parsers {
     P0.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1888,17 +2713,30 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1914,7 +2752,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1924,6 +2762,12 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1934,16 +2778,29 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -1959,7 +2816,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -1968,6 +2825,13 @@ extension Parsers {
     P0.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -1978,17 +2842,30 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2004,7 +2881,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2014,6 +2891,12 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2024,16 +2907,29 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2049,7 +2945,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2059,6 +2955,12 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2069,16 +2971,29 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2094,7 +3009,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2105,6 +3020,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P1.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2115,13 +3033,26 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P1.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P1.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return o1
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2137,7 +3068,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2146,6 +3077,13 @@ extension Parsers {
     P0.Output == Void,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2156,17 +3094,30 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P2.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2182,7 +3133,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2192,6 +3143,12 @@ extension Parsers {
     P1.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2202,16 +3159,29 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2227,7 +3197,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2237,6 +3207,12 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P2.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2247,16 +3223,29 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P2.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2272,7 +3261,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2283,6 +3272,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P2.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2293,13 +3285,26 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P2.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P2.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return o2
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2315,7 +3320,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2325,6 +3330,12 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2335,16 +3346,29 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2360,7 +3384,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2371,6 +3395,9 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P3.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2381,13 +3408,26 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P3.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P3.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return o3
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2403,7 +3443,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2414,6 +3454,9 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P4.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2424,13 +3467,26 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P4.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P4.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try terminator?.parse(&input)
         return o4
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2446,7 +3502,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
+  public struct ZipVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2458,6 +3514,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = Void
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4) {
@@ -2468,13 +3527,26 @@ extension Parsers {
       self.p4 = p4
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try terminator?.parse(&input)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
@@ -2489,8 +3561,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2498,6 +3569,16 @@ extension Parsers {
     P3.Input == P4.Input,
     P4.Input == P5.Input
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -2509,21 +3590,35 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2, o3, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2539,8 +3634,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2549,6 +3643,15 @@ extension Parsers {
     P4.Input == P5.Input,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -2560,20 +3663,34 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2589,8 +3706,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2599,6 +3715,15 @@ extension Parsers {
     P4.Input == P5.Input,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -2610,20 +3735,34 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2, o3, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2639,8 +3778,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2650,6 +3788,14 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -2661,19 +3807,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2689,8 +3849,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2699,6 +3858,15 @@ extension Parsers {
     P4.Input == P5.Input,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -2710,20 +3878,34 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2739,8 +3921,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2750,6 +3931,14 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -2761,19 +3950,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2789,8 +3992,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2800,6 +4002,14 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -2811,19 +4021,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2839,8 +4063,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2851,6 +4074,13 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -2862,18 +4092,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2889,8 +4133,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2899,6 +4142,15 @@ extension Parsers {
     P4.Input == P5.Input,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -2910,20 +4162,34 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o3, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2939,8 +4205,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -2950,6 +4215,14 @@ extension Parsers {
     P2.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -2961,19 +4234,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -2989,8 +4276,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3000,6 +4286,14 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3011,19 +4305,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o3, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3039,8 +4347,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3051,6 +4358,13 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3062,18 +4376,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3089,8 +4417,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3100,6 +4427,14 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3111,19 +4446,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3139,8 +4488,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3151,6 +4499,13 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3162,18 +4517,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3189,8 +4558,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3201,6 +4569,13 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3212,18 +4587,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3239,8 +4628,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3252,6 +4640,12 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P1.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3263,17 +4657,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P1.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o1)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3289,8 +4697,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3299,6 +4706,15 @@ extension Parsers {
     P4.Input == P5.Input,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3310,20 +4726,34 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2, o3, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3339,8 +4769,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3350,6 +4779,14 @@ extension Parsers {
     P1.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3361,19 +4798,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3389,8 +4840,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3400,6 +4850,14 @@ extension Parsers {
     P1.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3411,19 +4869,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2, o3, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3439,8 +4911,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3451,6 +4922,13 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3462,18 +4940,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3489,8 +4981,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3500,6 +4991,14 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3511,19 +5010,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3539,8 +5052,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3551,6 +5063,13 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3562,18 +5081,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3589,8 +5122,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3601,6 +5133,13 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3612,18 +5151,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3639,8 +5192,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3652,6 +5204,12 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3663,17 +5221,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3689,8 +5261,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3700,6 +5271,14 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3711,19 +5290,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o3, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3739,8 +5332,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3751,6 +5343,13 @@ extension Parsers {
     P2.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3762,18 +5361,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3789,8 +5402,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3801,6 +5413,13 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P3.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3812,18 +5431,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P3.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o3, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3839,8 +5472,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3852,6 +5484,12 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3863,17 +5501,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3889,8 +5541,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3901,6 +5552,13 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3912,18 +5570,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3939,8 +5611,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -3952,6 +5623,12 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -3963,17 +5640,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -3989,8 +5680,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4002,6 +5692,12 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P0.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4013,17 +5709,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P0.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o0, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4039,8 +5749,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipOVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4053,6 +5762,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P0.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4064,14 +5776,28 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P0.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         let o0 = try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return o0
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4087,8 +5813,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4097,6 +5822,15 @@ extension Parsers {
     P4.Input == P5.Input,
     P0.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4108,20 +5842,34 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2, o3, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4137,8 +5885,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4148,6 +5895,14 @@ extension Parsers {
     P0.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4159,19 +5914,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4187,8 +5956,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4198,6 +5966,14 @@ extension Parsers {
     P0.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4209,19 +5985,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2, o3, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4237,8 +6027,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4249,6 +6038,13 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4260,18 +6056,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4287,8 +6097,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4298,6 +6107,14 @@ extension Parsers {
     P0.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4309,19 +6126,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4337,8 +6168,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4349,6 +6179,13 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4360,18 +6197,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4387,8 +6238,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4399,6 +6249,13 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4410,18 +6267,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4437,8 +6308,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4450,6 +6320,12 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P2.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4461,17 +6337,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P2.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4487,8 +6377,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4498,6 +6387,14 @@ extension Parsers {
     P0.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4509,19 +6406,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o3, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4537,8 +6448,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4549,6 +6459,13 @@ extension Parsers {
     P2.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4560,18 +6477,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4587,8 +6518,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4599,6 +6529,13 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P3.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4610,18 +6547,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P3.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o3, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4637,8 +6588,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4650,6 +6600,12 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4661,17 +6617,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4687,8 +6657,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4699,6 +6668,13 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4710,18 +6686,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4737,8 +6727,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4750,6 +6739,12 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4761,17 +6756,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4787,8 +6796,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4800,6 +6808,12 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P1.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4811,17 +6825,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P1.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o1, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4837,8 +6865,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4851,6 +6878,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P1.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4862,14 +6892,28 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P1.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P1.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         let o1 = try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return o1
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4885,8 +6929,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4896,6 +6939,14 @@ extension Parsers {
     P0.Output == Void,
     P1.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4907,19 +6958,33 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P2.Output,
       P3.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o2, o3, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4935,8 +7000,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4947,6 +7011,13 @@ extension Parsers {
     P1.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P2.Output,
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -4958,18 +7029,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P2.Output,
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -4985,8 +7070,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4997,6 +7081,13 @@ extension Parsers {
     P1.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P2.Output,
+      P3.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5008,18 +7099,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P2.Output,
       P3.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o2, o3, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5035,8 +7140,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5048,6 +7152,12 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P2.Output,
+      P3.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5059,17 +7169,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P2.Output,
       P3.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5085,8 +7209,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5097,6 +7220,13 @@ extension Parsers {
     P1.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P2.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5108,18 +7238,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P2.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o2, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5135,8 +7279,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5148,6 +7291,12 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P2.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5159,17 +7308,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P2.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5185,8 +7348,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5198,6 +7360,12 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P2.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5209,17 +7377,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P2.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o2, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5235,8 +7417,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5249,6 +7430,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P2.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5260,14 +7444,28 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P2.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P2.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         let o2 = try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return o2
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5283,8 +7481,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5295,6 +7492,13 @@ extension Parsers {
     P1.Output == Void,
     P2.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P3.Output,
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5306,18 +7510,32 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P3.Output,
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o3, o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5333,8 +7551,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5346,6 +7563,12 @@ extension Parsers {
     P2.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P3.Output,
+      P4.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5357,17 +7580,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P3.Output,
       P4.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5383,8 +7620,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5396,6 +7632,12 @@ extension Parsers {
     P2.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P3.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5407,17 +7649,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P3.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o3, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5433,8 +7689,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5447,6 +7702,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P3.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5458,14 +7716,28 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P3.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P3.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         let o3 = try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return o3
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5481,8 +7753,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5494,6 +7765,12 @@ extension Parsers {
     P2.Output == Void,
     P3.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = (
+      P4.Output,
+      P5.Output
+    )
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5505,17 +7782,31 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> (
       P4.Output,
       P5.Output
-    ) {
+    )
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return (o4, o5)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5531,8 +7822,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5545,6 +7835,9 @@ extension Parsers {
     P3.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P4.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5556,14 +7849,28 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P4.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P4.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         let o4 = try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return o4
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5579,8 +7886,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5593,6 +7899,9 @@ extension Parsers {
     P3.Output == Void,
     P4.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = P5.Output
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5604,14 +7913,28 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> P5.Output {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows -> P5.Output
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         let o5 = try p5.parse(&input)
+        _ = try terminator?.parse(&input)
         return o5
       } catch { throw ParsingError.wrap(error, at: input) }
     }
@@ -5627,8 +7950,7 @@ extension ParserBuilder {
 }
 
 extension Parsers {
-  public struct ZipVVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: SeparableParser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5642,6 +7964,9 @@ extension Parsers {
     P4.Output == Void,
     P5.Output == Void
   {
+    public typealias Input = P0.Input
+    public typealias Output = Void
+
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5
 
     @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5) {
@@ -5653,14 +7978,28 @@ extension Parsers {
       self.p5 = p5
     }
 
-    @inlinable public func parse(_ input: inout P0.Input) rethrows {
+    @inlinable public func parse<Initiator, Separator, Terminator>(
+      _ input: inout P0.Input,
+      initiator: Initiator?, separator: Separator?, terminator: Terminator?
+    ) rethrows
+    where
+      Initiator: Parser, Separator: Parser, Terminator: Parser,
+      Initiator.Input == Input, Separator.Input == Input, Terminator.Input == Input
+    {
       do {
+        _ = try initiator?.parse(&input)
         try p0.parse(&input)
+        _ = try separator?.parse(&input)
         try p1.parse(&input)
+        _ = try separator?.parse(&input)
         try p2.parse(&input)
+        _ = try separator?.parse(&input)
         try p3.parse(&input)
+        _ = try separator?.parse(&input)
         try p4.parse(&input)
+        _ = try separator?.parse(&input)
         try p5.parse(&input)
+        _ = try terminator?.parse(&input)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
