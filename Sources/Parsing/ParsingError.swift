@@ -190,8 +190,7 @@ extension ParsingError: CustomDebugStringConvertible {
       }
 
       var labels = [firstLabel]
-      while
-        case .some((let label, let context)) = errors.first.flatMap({ failed($0) }),
+      while case .some((let label, let context)) = errors.first.flatMap({ failed($0) }),
         firstContext.canGroup(with: context)
       {
         errors.removeFirst()
@@ -228,11 +227,10 @@ extension ParsingError.Context {
       }
     }
 
-    return (
-      areSame(self.remainingInput, other.remainingInput)
+    return
+      (areSame(self.remainingInput, other.remainingInput)
       && areSame(self.originalInput, other.originalInput)
-      && self.underlyingError == nil && other.underlyingError == nil
-    )
+      && self.underlyingError == nil && other.underlyingError == nil)
   }
 }
 
@@ -288,16 +286,15 @@ func format(labels: [String], context: ParsingError.Context) -> String {
       let truncatedLine = selectedLine.prefix(79 - 4 - (isStartTruncated ? 1 : 0))
       let isEndTruncated = truncatedLine.endIndex != selectedLine.endIndex
 
-      let diagnostic = (
-        "\(isStartTruncated ? "…" : "")\(truncatedLine)\(isEndTruncated ? "…" : "")\n" +
-        labels.map { label in
-          """
+      let diagnostic =
+        ("\(isStartTruncated ? "…" : "")\(truncatedLine)\(isEndTruncated ? "…" : "")\n"
+          + labels.map { label in
+            """
             \(String(repeating: " ", count: offset + (isStartTruncated ? 1 : 0)))\
             \(String(repeating: "^", count: max(1, substring.count)))\
             \(label.isEmpty ? "" : " \(label)")
             """
-        }.joined(separator: "\n")
-      )
+          }.joined(separator: "\n"))
 
       return formatError(
         summary: context.debugDescription,
@@ -343,8 +340,8 @@ func format(labels: [String], context: ParsingError.Context) -> String {
         let count = slice.map(formatValue).joined(separator: ", ").count
         expectation = labels.map { label in
           """
-            \(String(repeating: "^", count: max(1, count)))\(label.isEmpty ? "" : " \(label)")
-            """
+          \(String(repeating: "^", count: max(1, count)))\(label.isEmpty ? "" : " \(label)")
+          """
         }.joined(separator: "\n")
       }
 

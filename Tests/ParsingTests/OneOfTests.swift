@@ -166,14 +166,14 @@ final class OneOfTests: XCTestCase {
 
     let unicode = Prefix(4) {
       (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
-      || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
-      || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
+        || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
+        || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
     }
-      .compactMap {
-        UInt32(Substring($0), radix: 16)
-          .flatMap(UnicodeScalar.init)
-          .map(String.init)
-      }
+    .compactMap {
+      UInt32(Substring($0), radix: 16)
+        .flatMap(UnicodeScalar.init)
+        .map(String.init)
+    }
 
     let string = Parse {
       "\"".utf8
@@ -182,7 +182,7 @@ final class OneOfTests: XCTestCase {
       } element: {
         OneOf {
           Prefix(1...) { $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") }
-          .map { String(Substring($0)) }
+            .map { String(Substring($0)) }
 
           Parse {
             "\\".utf8
