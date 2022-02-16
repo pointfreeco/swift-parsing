@@ -37,7 +37,7 @@ where
 
 extension Newline where Bytes == Input {
   @inlinable
-  public init() where Bytes == Input {
+  public init() {
     self.toBytes = { $0 }
     self.fromBytes = { $0 }
   }
