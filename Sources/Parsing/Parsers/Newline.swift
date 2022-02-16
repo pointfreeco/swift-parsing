@@ -12,34 +12,44 @@
 public struct Newline<Input: Collection, Bytes: Collection>: Parser
 where
   Input.SubSequence == Input,
+  Bytes.SubSequence == Bytes,
   Bytes.Element == UTF8.CodeUnit
 {
   @usableFromInline
   let toBytes: (Input) -> Bytes
 
+  @usableFromInline
+  let fromBytes: (Bytes) -> Input
+
   @inlinable
   public func parse(_ input: inout Input) throws {
-    let bytes = self.toBytes(input)
+    var bytes = self.toBytes(input)
     if bytes.first == .init(ascii: "\n") {
-      input.removeFirst()
-      return ()
+      bytes.removeFirst()
     } else if bytes.first == .init(ascii: "\r"), bytes.dropFirst().first == .init(ascii: "\n") {
-      input.removeFirst(2)
-      return
+      bytes.removeFirst(2)
+    } else {
+      throw ParsingError.expectedInput("newline", at: input)
     }
-    throw ParsingError.expectedInput("newline", at: input)
+    input = self.fromBytes(bytes)
   }
+}
 
+extension Newline where Bytes == Input {
   @inlinable
   public init() where Bytes == Input {
     self.toBytes = { $0 }
+    self.fromBytes = { $0 }
   }
 }
 
 extension Newline where Input == Substring, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init() { self.toBytes = { $0.utf8 } }
+  public init() {
+    self.toBytes = { $0.utf8 }
+    self.fromBytes = Substring.init
+  }
 }
 
 extension Newline where Input == Substring.UTF8View, Bytes == Input {
