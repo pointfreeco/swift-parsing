@@ -29,31 +29,29 @@ where
     }
     throw ParsingError.expectedInput("newline", at: input)
   }
-}
 
-extension Newline where Input.Element == UTF8.CodeUnit, Bytes == Input {
   @inlinable
-  public init()  {
+  public init() where Input.Element == UTF8.CodeUnit, Bytes == Input {
     self.toBytes = { $0 }
   }
-}
 
-extension Newline where Input == Substring, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init() { self.toBytes = { $0.utf8 } }
-}
+  public init() where Input == Substring, Bytes == Substring.UTF8View {
+    self.toBytes = { $0.utf8 }
+  }
 
-extension Newline where Input == Substring.UTF8View, Bytes == Input {
   @_disfavoredOverload
   @inlinable
-  public init() { self.init() }
-}
+  public init() where Input == Substring.UTF8View, Bytes == Input {
+    self.init()
+  }
 
-extension Newline where Input == ArraySlice<UTF8.CodeUnit>, Bytes == Input {
   @_disfavoredOverload
   @inlinable
-  public init() { self.init() }
+  public init() where Input == ArraySlice<UTF8.CodeUnit>, Bytes == Input {
+    self.init()
+  }
 }
 
 extension Parsers {

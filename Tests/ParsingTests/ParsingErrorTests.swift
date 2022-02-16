@@ -130,21 +130,11 @@ class ParsingErrorTests: XCTestCase {
     ) { error in
       XCTAssertEqual(
         #"""
-        error: multiple failures occurred
-
         error: unexpected input
          --> input:1:7
         1 | "Hello
           |       ^ expected 1 element satisfying predicate
-
-        error: unexpected input
-         --> input:1:7
-        1 | "Hello
           |       ^ expected "\\"
-
-        error: unexpected input
-         --> input:1:7
-        1 | "Hello
           |       ^ expected "\""
         """#,
         "\(error)"
