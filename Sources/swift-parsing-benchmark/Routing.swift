@@ -38,6 +38,41 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       let encoder = JSONEncoder()
       encoder.outputFormatting = .sortedKeys
 
+      let commentsRouter = OneOf {
+        Route(.case(Comments.post)) {
+          Method.post
+          Body {
+            Parse(.data.json(Comment.self, encoder: encoder))
+          }
+        }
+
+        Route(.case(Comments.show)) {
+          Query {
+            Field("count", Int.parser(), default: 10)
+          }
+        }
+      }
+
+      let episodeRouter = OneOf {
+        Route(Episode.show)
+
+        Route(.case(Episode.comments)) {
+          Path { From(.utf8) { "comments".utf8 } }
+
+          commentsRouter
+        }
+      }
+
+      let episodesRouter = OneOf {
+        Route(Episodes.index)
+
+        Route(.case(Episodes.episode)) {
+          Path { Int.parser() }
+
+          episodeRouter
+        }
+      }
+
       let router = OneOf {
         Route(AppRoute.home)
 
@@ -48,36 +83,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
         Route(.case(AppRoute.episodes)) {
           Path { From(.utf8) { "episodes".utf8 } }
 
-          OneOf {
-            Route(Episodes.index)
-
-            Route(.case(Episodes.episode)) {
-              Path { Int.parser() }
-
-              OneOf {
-                Route(Episode.show)
-
-                Route(.case(Episode.comments)) {
-                  Path { From(.utf8) { "comments".utf8 } }
-
-                  OneOf {
-                    Route(.case(Comments.post)) {
-                      Method.post
-                      Body {
-                        Parse(.data.json(Comment.self, encoder: encoder))
-                      }
-                    }
-
-                    Route(.case(Comments.show)) {
-                      Query {
-                        Field("count", Int.parser(), default: 10)
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+          episodesRouter
         }
       }
 

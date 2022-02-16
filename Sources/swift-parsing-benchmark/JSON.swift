@@ -42,12 +42,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
             "r".utf8.map { "\r" }
             "t".utf8.map { "\t" }
 
-            Prefix(4) {
-              (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
-                || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
-                || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
-            }
-            .map(.unicode)
+            Prefix(4) { $0.isHexDigit }.map(.unicode)
           }
         }
       }
@@ -163,6 +158,14 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
         ],
       ]
     )
+  }
+}
+
+private extension UTF8.CodeUnit {
+  var isHexDigit: Bool {
+    (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
+      || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
+      || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
   }
 }
 

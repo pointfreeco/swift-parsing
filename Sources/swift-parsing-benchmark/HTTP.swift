@@ -27,10 +27,10 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
 
   let headerValue = ParsePrint(.substring) {
     Skip {
-      Prefix(1...) { $0 == .init(ascii: " ") || $0 == .init(ascii: "\t") }
+      Prefix(1...) { $0.isHorizontalSpace }
     }
     .printing(" ".utf8)
-    Prefix { $0 != .init(ascii: "\r") && $0 != .init(ascii: "\n") }
+    Prefix { $0.isNewline }
     Newline()
   }
 
@@ -104,8 +104,16 @@ private struct Header: Equatable {
   let value: [Substring]
 }
 
-extension UTF8.CodeUnit {
-  fileprivate var isToken: Bool {
+private extension UTF8.CodeUnit {
+  var isHorizontalSpace: Bool {
+    self == .init(ascii: " ") || self == .init(ascii: "\t")
+  }
+
+  var isNewline: Bool {
+    self == .init(ascii: "\n") || self == .init(ascii: "\r")
+  }
+
+  var isToken: Bool {
     switch self {
     case 128...,
       ...31,
@@ -133,7 +141,7 @@ extension UTF8.CodeUnit {
     }
   }
 
-  fileprivate var isVersion: Bool {
+  var isVersion: Bool {
     (.init(ascii: "0") ... .init(ascii: "9")).contains(self) || self == .init(ascii: ".")
   }
 }
