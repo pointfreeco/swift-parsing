@@ -35,7 +35,7 @@ where
   }
 }
 
-extension Newline where Bytes == Input {
+extension Newline where Bytes == Input, Input.SubSequence == Bytes.SubSequence {
   @inlinable
   public init() {
     self.toBytes = { $0 }
