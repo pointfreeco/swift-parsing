@@ -33,7 +33,7 @@ extension Parsers {
   public struct Printing<Parser: Parsing.Parser, Printer: Parsing.Printer>: ParserPrinter
   where
     Parser.Input == Printer.Input,
-    Printer.Output == Void
+    Parser.Output == Printer.Output
   {
     public let parser: Parser
     public let printer: Printer
@@ -48,13 +48,13 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Parser.Input) rethrows {
-      _ = try self.parser.parse(&input)
+    public func parse(_ input: inout Parser.Input) rethrows -> Parser.Output {
+      try self.parser.parse(&input)
     }
 
     @inlinable
-    public func print(_ output: (), to input: inout Parser.Input) rethrows {
-      try self.printer.print(to: &input)
+    public func print(_ output: Parser.Output, to input: inout Parser.Input) rethrows {
+      try self.printer.print(output, to: &input)
     }
   }
 }
