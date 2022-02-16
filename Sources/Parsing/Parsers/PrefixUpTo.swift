@@ -5,17 +5,13 @@
 /// consume and return input up to a particular subsequence.
 ///
 /// ```swift
-/// let lineParser = PrefixUpTo<Substring>("\n")
+/// let lineParser = PrefixUpTo("\n")
 ///
 /// var input = "Hello\nworld\n"[...]
-/// line.parse(&input) // "Hello"
-/// input // "\nworld\n"
+/// try line.parse(&input)  // "Hello"
+/// input                   // "\nworld\n"
 /// ```
-public struct PrefixUpTo<Input>: Parser
-where
-  Input: Collection,
-  Input.SubSequence == Input
-{
+public struct PrefixUpTo<Input: Collection>: Parser where Input.SubSequence == Input {
   public let possibleMatch: Input
   public let areEquivalent: (Input.Element, Input.Element) -> Bool
 
@@ -30,7 +26,7 @@ where
 
   @inlinable
   @inline(__always)
-  public func parse(_ input: inout Input) -> Input? {
+  public func parse(_ input: inout Input) throws -> Input {
     guard let first = self.possibleMatch.first else { return self.possibleMatch }
     let count = self.possibleMatch.count
     let original = input
@@ -43,7 +39,7 @@ where
       }
       input.removeFirst()
     }
-    return nil
+    throw ParsingError.expectedInput("prefix up to \(formatValue(self.possibleMatch))", at: input)
   }
 }
 

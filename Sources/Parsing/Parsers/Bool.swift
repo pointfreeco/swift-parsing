@@ -5,19 +5,22 @@ extension Bool {
   ///
   /// ```swift
   /// // Parses "true":
-  /// var input = "true Hello"[...].utf8
-  /// Bool.parser().parse(&input)  // true
-  /// input                        // " Hello"
+  /// var input = "true Hello"[...]
+  /// try Bool.parser().parse(&input)  // true
+  /// input                            // " Hello"
   ///
   /// // Parses "false":
-  /// input = "false Hello"[...].utf8
-  /// Bool.parser().parse(&input)  // false
-  /// input                        // " Hello"
+  /// input = "false Hello"[...]
+  /// try Bool.parser().parse(&input)  // false
+  /// input                            // " Hello"
   ///
   /// // Otherwise fails:
-  /// input = "1 Hello"[...].utf8
-  /// Bool.parser().parse(&input)  // nil
-  /// input                        // "1 Hello"
+  /// input = "1 Hello"[...]
+  /// try Bool.parser().parse(&input)
+  /// // error: unexpected input
+  /// //  --> input:1:1
+  /// // 1 | 1 Hello
+  /// //     ^ expected "true" or "false"
   /// ```
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
@@ -66,9 +69,8 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Bool.parser()`, which constructs this type.
-  public struct BoolParser<Input>: Parser
+  public struct BoolParser<Input: Collection>: Parser
   where
-    Input: Collection,
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit
   {
@@ -76,7 +78,7 @@ extension Parsers {
     public init() {}
 
     @inlinable
-    public func parse(_ input: inout Input) -> Bool? {
+    public func parse(_ input: inout Input) throws -> Bool {
       if input.starts(with: [116, 114, 117, 101] /*"true".utf8*/) {
         input.removeFirst(4)
         return true
@@ -84,7 +86,7 @@ extension Parsers {
         input.removeFirst(5)
         return false
       }
-      return nil
+      throw ParsingError.expectedInput("\"true\" or \"false\"", at: input)
     }
   }
 }

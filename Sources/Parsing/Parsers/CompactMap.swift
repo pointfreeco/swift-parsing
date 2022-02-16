@@ -7,9 +7,23 @@ extension Parser {
   ///
   /// ```swift
   /// let evenParser = Int.parser().compactMap { $0.isMultiple(of: 2) }
-  /// var input = "124 hello world"[...].utf8
-  /// let output = evenParser.parse(&input) // 124
-  /// input // " hello world"
+  ///
+  /// var input = "124 hello world"[...]
+  /// try evenParser.parse(&input)  // 124
+  /// input                         // " hello world"
+  /// ```
+  ///
+  /// This parser fails when the provided closure returns `nil`. For example, the following parser tries
+  /// to convert two characters into a hex digit, but fails to do so because `"GG"` is not a valid
+  /// hex number:
+  ///
+  /// ```swift
+  /// var input = "GG0000"[...]
+  /// let hex = try Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
+  /// // error: failed to process "Int" from "GG"
+  /// //  --> input:1:1-2
+  /// // 1 | GG0000
+  /// //   | ^^
   /// ```
   ///
   /// - Parameter transform: A closure that accepts output of this parser as its argument and
@@ -31,7 +45,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/compactMap(_:)`` operation, which constructs this type.
-  public struct CompactMap<Upstream, Output>: Parser where Upstream: Parser {
+  public struct CompactMap<Upstream: Parser, Output>: Parser {
     public let upstream: Upstream
     public let transform: (Upstream.Output) -> Output?
 
@@ -45,12 +59,18 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> Output? {
+    public func parse(_ input: inout Upstream.Input) throws -> Output {
       let original = input
-      guard let newOutput = self.upstream.parse(&input).flatMap(self.transform)
+      let output = try self.upstream.parse(&input)
+      guard let newOutput = self.transform(output)
       else {
-        input = original
-        return nil
+        throw ParsingError.failed(
+          summary: """
+            failed to process "\(Output.self)" from \(formatValue(output))
+            """,
+          from: original,
+          to: input
+        )
       }
       return newOutput
     }

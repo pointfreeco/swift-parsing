@@ -3,10 +3,32 @@ extension FixedWidthInteger {
   /// beginning of a collection of UTF-8 code units.
   ///
   /// ```swift
-  /// var input = "123 Hello world"[...].utf8
-  /// let output = Int.parser().parse(&input)
-  /// precondition(output == 123)
-  /// precondition(Substring(input) == " Hello world")
+  /// var input = "123 Hello world"[...]
+  /// try Int.parser().parse(&input)  // 123
+  /// input                           // " Hello world")
+  /// ```
+  ///
+  /// This parser fails when it does not find an integer at the beginning of the collection:
+  ///
+  /// ```swift
+  /// var input = "+Hello"[...]
+  /// let number = try Int.parser().parse(&input)
+  /// // error: unexpected input
+  /// //  --> input:1:2
+  /// // 1 | +Hello
+  /// //   |  ^ expected integer
+  /// ```
+  ///
+  /// And it fails when the digits extracted from the beginning of the collection would cause the
+  /// integer type to overflow:
+  ///
+  /// ```swift
+  /// var input = "9999999999999999999 Hello"[...]
+  /// let number = try Int.parser().parse(&input)
+  /// // error: failed to process "Int"
+  /// //  --> input:1:1-19
+  /// // 1 | 9999999999999999999 Hello
+  /// //   | ^^^^^^^^^^^^^^^^^^^ overflowed 9223372036854775807
   /// ```
   ///
   /// - Parameters:
@@ -76,13 +98,12 @@ extension Parsers {
   /// beginning of a collection of UTF8 code units.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// `Int.parser()`, which constructs this type.
-  public struct IntParser<Input, Output>: Parser
+  /// the static `parser()` method on the `FixedWidthInteger` of your choice, e.g. `Int.parser()`,
+  /// `UInt8.parser()`, etc., all of which construct this type.
+  public struct IntParser<Input: Collection, Output: FixedWidthInteger>: Parser
   where
-    Input: Collection,
     Input.SubSequence == Input,
-    Input.Element == UTF8.CodeUnit,
-    Output: FixedWidthInteger
+    Input.Element == UTF8.CodeUnit
   {
     /// If the parser will attempt to parse a leading `+` or `-` sign.
     public let isSigned: Bool
@@ -98,7 +119,7 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Input) -> Output? {
+    public func parse(_ input: inout Input) throws -> Output {
       @inline(__always)
       func digit(for n: UTF8.CodeUnit) -> Output? {
         let output: Output
@@ -116,7 +137,9 @@ extension Parsers {
       }
       var length = 0
       var iterator = input.makeIterator()
-      guard let first = iterator.next() else { return nil }
+      guard let first = iterator.next() else {
+        throw ParsingError.expectedInput("integer", at: input)
+      }
       let isPositive: Bool
       let parsedSign: Bool
       var overflow = false
@@ -131,26 +154,40 @@ extension Parsers {
         isPositive = true
         output = 0
       case let (_, n):
-        guard let n = digit(for: n) else { return nil }
+        guard let n = digit(for: n) else {
+          throw ParsingError.expectedInput("integer", at: input)
+        }
         parsedSign = false
         isPositive = true
         output = n
       }
+      let original = input
+      input.removeFirst()
       length += 1
       let radix = Output(self.radix)
       while let next = iterator.next(), let n = digit(for: next) {
+        input.removeFirst()
         (output, overflow) = output.multipliedReportingOverflow(by: radix)
-        guard !overflow else { return nil }
+        func overflowError() -> Error {
+          ParsingError.failed(
+            summary: "failed to process \"\(Output.self)\"",
+            label: "overflowed \(Output.max)",
+            from: original,
+            to: input
+          )
+        }
+        guard !overflow else { throw overflowError() }
         (output, overflow) =
           isPositive
           ? output.addingReportingOverflow(n)
           : output.subtractingReportingOverflow(n)
-        guard !overflow else { return nil }
+        guard !overflow else { throw overflowError() }
         length += 1
       }
       guard length > (parsedSign ? 1 : 0)
-      else { return nil }
-      input.removeFirst(length)
+      else {
+        throw ParsingError.expectedInput("integer", at: input)
+      }
       return output
     }
   }

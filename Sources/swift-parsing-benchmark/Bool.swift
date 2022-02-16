@@ -19,7 +19,7 @@ let boolSuite = BenchmarkSuite(name: "Bool") { suite in
 
   suite.benchmark("Bool.parser") {
     var input = input[...].utf8
-    output = Bool.parser().parse(&input)
+    output = try Bool.parser().parse(&input)
   } tearDown: {
     tearDown()
   }

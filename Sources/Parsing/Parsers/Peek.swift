@@ -17,7 +17,7 @@
 ///   Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
 /// }
 /// ```
-public struct Peek<Upstream>: Parser where Upstream: Parser {
+public struct Peek<Upstream: Parser>: Parser {
   public let upstream: Upstream
 
   /// Construct a parser that runs the given parser, but does not consume any input.
@@ -29,12 +29,9 @@ public struct Peek<Upstream>: Parser where Upstream: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout Upstream.Input) -> Upstream.Output? {
+  public func parse(_ input: inout Upstream.Input) rethrows -> Upstream.Output {
     let original = input
-    if let result = self.upstream.parse(&input) {
-      input = original
-      return result
-    }
-    return nil
+    defer { input = original }
+    return try self.upstream.parse(&input)
   }
 }

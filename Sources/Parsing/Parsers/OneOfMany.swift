@@ -11,13 +11,13 @@ extension Parsers {
   ///   case member
   /// }
   ///
-  /// Parse {
+  /// let roleParser = OneOf {
   ///   for role in Role.allCases {
   ///     status.rawValue.map { role }
   ///   }
   /// }
   /// ```
-  public struct OneOfMany<Parsers>: Parser where Parsers: Parser {
+  public struct OneOfMany<Parsers: Parser>: Parser {
     public let parsers: [Parsers]
 
     @inlinable
@@ -27,15 +27,20 @@ extension Parsers {
 
     @inlinable
     @inline(__always)
-    public func parse(_ input: inout Parsers.Input) -> Parsers.Output? {
+    public func parse(_ input: inout Parsers.Input) throws -> Parsers.Output {
+      var errors: [Error] = []
+      errors.reserveCapacity(self.parsers.count)
       for parser in self.parsers {
-        var i = input
-        if let output = parser.parse(&i) {
+        do {
+          var i = input
+          let output = try parser.parse(&i)
           input = i
           return output
+        } catch {
+          errors.append(error)
         }
       }
-      return nil
+      throw ParsingError.manyFailed(errors, at: input)
     }
   }
 }

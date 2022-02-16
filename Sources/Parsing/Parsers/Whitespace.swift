@@ -20,8 +20,8 @@ where
   let fromBytes: (Bytes) -> Input
 
   @inlinable
-  public func parse(_ input: inout Input) -> Input? {
-    let output = self.toBytes(input).prefix(while: { (byte: UTF8.CodeUnit) in
+  public func parse(_ input: inout Input) -> Input {
+    let output = input.prefix(while: { (byte: UTF8.CodeUnit) in
       byte == .init(ascii: " ")
         || byte == .init(ascii: "\n")
         || byte == .init(ascii: "\r")

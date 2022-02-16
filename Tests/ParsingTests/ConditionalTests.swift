@@ -7,19 +7,31 @@ final class ConditionalTests: XCTestCase {
       if n.isMultiple(of: 2) {
         Always(true)
       } else {
-        Fail<Substring, Bool>()
+        Fail<Substring, Bool>(throwing: OddNumberError())
       }
     }
 
   func testFirst() {
     var input = "42 Hello, world!"[...]
-    XCTAssertEqual(true, parser.parse(&input))
+    XCTAssertEqual(true, try parser.parse(&input))
     XCTAssertEqual(" Hello, world!", input)
   }
 
   func testSecond() {
     var input = "43 Hello, world!"[...]
-    XCTAssertEqual(nil, parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: OddNumberError()
+         --> input:1:1-2
+        1 | 43 Hello, world!
+          | ^^
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertEqual(" Hello, world!", input)
   }
 }
+
+private struct OddNumberError: Error {}

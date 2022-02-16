@@ -8,8 +8,8 @@
 ///
 /// ```swift
 /// var input = "123 hello world"[...]
-/// Prefix { $0.isNumber }.parse(&input) // "123"
-/// input // " Hello world"
+/// try Prefix { $0.isNumber }.parse(&input)  // "123"
+/// input                                     // " Hello world"
 /// ```
 ///
 /// If you wanted this parser to fail if _no_ numbers are consumed, you could introduce a minimum
@@ -17,8 +17,11 @@
 ///
 /// ```swift
 /// var input = "No numbers here"[...]
-/// Prefix(1...) { $0.isNumber }).parse(&input) // nil
-/// input // "No numbers here"
+/// try Prefix(1...) { $0.isNumber }.parse(&input)
+/// // error: unexpected input
+/// //  --> input:1:1
+/// // 1 | No numbers here
+/// //   | ^ expected 1 element satisfying predicate
 /// ```
 ///
 /// If a predicate is not provided, the parser will simply consume the prefix within the minimum and
@@ -26,14 +29,10 @@
 ///
 /// ```swift
 /// var input = "Lorem ipsum dolor"[...]
-/// Prefix(2).parse(&input) // "Lo"
-/// input // "rem ipsum dolor"
+/// try Prefix(2).parse(&input)  // "Lo"
+/// input                        // "rem ipsum dolor"
 /// ```
-public struct Prefix<Input>: Parser
-where
-  Input: Collection,
-  Input.SubSequence == Input
-{
+public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input {
   public let maxLength: Int?
   public let minLength: Int
   public let predicate: ((Input.Element) -> Bool)?
@@ -62,9 +61,14 @@ where
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
   /// ```swift
-  /// Prefix(2...4, while: { $0.isNumber }).parse("123456") // "1234"
-  /// Prefix(2...4, while: { $0.isNumber }).parse("123")    // "123"
-  /// Prefix(2...4, while: { $0.isNumber }).parse("1")      // nil
+  /// try Prefix(2...4, while: \.isNumber).parse("123456")  // "1234"
+  /// try Prefix(2...4, while: \.isNumber).parse("123")     // "123"
+  ///
+  /// try Prefix(2...4, while: \.isNumber).parse("1")
+  /// // error: unexpected input
+  /// //  --> input:1:1
+  /// // 1 | 1
+  /// //   |  ^ expected 1 more element satisfying predicate
   /// ```
   ///
   /// - Parameters:
@@ -85,8 +89,15 @@ where
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
-  ///     Prefix(4, while: { $0.isNumber }).parse("123456") // "1234"
-  ///     Prefix(4, while: { $0.isNumber }).parse("123")    // nil
+  /// ```swift
+  /// try Prefix(4, while: \.isNumber).parse("123456")  // "1234"
+  ///
+  /// try Prefix(4, while: \.isNumber).parse("123")
+  /// // error: unexpected input
+  /// //  --> input:1:1
+  /// // 1 | 123
+  /// //   |    ^ expected 1 more element satisfying predicate
+  /// ```
   ///
   /// - Parameters:
   ///   - length: An exact number of elements to consume for parsing to be considered successful.
@@ -105,8 +116,15 @@ where
 
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
-  ///     Prefix(4..., while: { $0.isNumber }).parse("123456") // "123456"
-  ///     Prefix(4..., while: { $0.isNumber }).parse("123")    // nil
+  /// ``` swift
+  /// try Prefix(4..., while: \.isNumber).parse("123456")  // "123456"
+  ///
+  /// try Prefix(4..., while: \.isNumber).parse("123")
+  /// // error: unexpected input
+  /// //  --> input:1:1
+  /// // 1 | 123
+  /// //   |    ^ expected 1 more element satisfying predicate
+  /// ```
   ///
   /// - Parameters:
   ///   - length: A partial range that provides a minimum number of elements to consume for
@@ -127,8 +145,8 @@ where
   /// Initializes a parser that consumes a subsequence from the beginning of its input.
   ///
   /// ```swift
-  /// Prefix(...4, while: { $0.isNumber }).parse("123456") // "1234"
-  /// Prefix(...4, while: { $0.isNumber }).parse("123")    // "123"
+  /// try Prefix(...4, while: \.isNumber).parse("123456")  // "1234"
+  /// try Prefix(...4, while: \.isNumber).parse("123")     // "123"
   /// ```
   ///
   /// - Parameters:
@@ -148,12 +166,21 @@ where
 
   @inlinable
   @inline(__always)
-  public func parse(_ input: inout Input) -> Input? {
+  public func parse(_ input: inout Input) throws -> Input {
     var prefix = maxLength.map(input.prefix) ?? input
     prefix = predicate.map { prefix.prefix(while: $0) } ?? prefix
     let count = prefix.count
-    guard count >= self.minLength else { return nil }
     input.removeFirst(count)
+    guard count >= self.minLength else {
+      let atLeast = self.minLength - count
+      throw ParsingError.expectedInput(
+        """
+        \(self.minLength - count) \(count == 0 ? "" : "more ")element\(atLeast == 1 ? "" : "s")\
+        \(predicate == nil ? "" : " satisfying predicate")
+        """,
+        at: input
+      )
+    }
     return prefix
   }
 }

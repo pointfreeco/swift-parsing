@@ -8,37 +8,35 @@
 /// ```swift
 /// var input = "Hello, Blob!"[...]
 ///
-/// StartsWith("Hello, ").parse(&input) // ()
-/// input                               // "Blob!"
+/// StartsWith("Hello, ").parse(&input)  // ()
+/// input                                // "Blob!"
 /// ```
 ///
 /// If `false`, it fails and leaves input intact:
 ///
 /// ```swift
 /// var input = "Goodnight, Blob!"[...]
-/// StartsWith("Hello, ").parse(&input) // nil
-/// input                               // "Goodnight, Blob!"
+/// try StartsWith("Hello, ").parse(&input)
+/// // error: unexpected input
+/// //  --> input:1:1
+/// // 1 | Goodnight, Blob!
+/// //   | ^ expected "Hello, "
 /// ```
 ///
 /// This parser returns `Void` and _not_ the sequence of elements it consumes because the sequence
 /// is already known at the time the parser is created (it is the value quite literally passed to
-/// ``StartsWith/init(_:)``). This means `StartsWith` plays nicely when chained into the
-/// ``Parser/take(_:)-1fw8y`` operation, which will discard the `Void` output.
+/// ``StartsWith/init(_:)``).
 ///
-/// In many circumstances you can elide the `StartsWith` parser entirely and just use the collection
+/// In many circumstances you can omit the `StartsWith` parser entirely and just use the collection
 /// as the parser. For example:
 ///
 /// ```swift
 /// var input = "Hello, Blob!"[...]
 ///
-/// "Hello, ".parse(&input) // ()
-/// input                   // "Blob!"
+/// try "Hello, ".parse(&input)  // ()
+/// input                        // "Blob!"
 /// ```
-public struct StartsWith<Input>: Parser
-where
-  Input: Collection,
-  Input.SubSequence == Input
-{
+public struct StartsWith<Input: Collection>: Parser where Input.SubSequence == Input {
   public let count: Int
   public let possiblePrefix: AnyCollection<Input.Element>
   public let startsWith: (Input) -> Bool
@@ -66,12 +64,11 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout Input) -> Void? {
-    guard self.startsWith(input)
-    else { return nil }
-
+  public func parse(_ input: inout Input) throws {
+    guard self.startsWith(input) else {
+      throw ParsingError.expectedInput(formatValue(self.possiblePrefix), at: input)
+    }
     input.removeFirst(self.count)
-    return ()
   }
 }
 

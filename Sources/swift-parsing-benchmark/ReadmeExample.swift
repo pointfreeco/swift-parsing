@@ -34,11 +34,13 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
       user
     } separator: {
       "\n"
+    } terminator: {
+      End()
     }
 
     suite.benchmark("Parser: Substring") {
       var input = input[...]
-      output = users.parse(&input)!
+      output = try users.parse(&input)
     } tearDown: {
       precondition(output == expectedOutput)
     }
@@ -56,11 +58,13 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
       user
     } separator: {
       "\n".utf8
+    } terminator: {
+      End()
     }
 
     suite.benchmark("Parser: UTF8") {
       var input = input[...].utf8
-      output = users.parse(&input)!
+      output = try users.parse(&input)
     } tearDown: {
       precondition(output == expectedOutput)
     }

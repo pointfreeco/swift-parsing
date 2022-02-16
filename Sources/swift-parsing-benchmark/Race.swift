@@ -25,12 +25,12 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     let path: [Coordinate]
   }
 
-  let northSouth = OneOf {
+  let northSouthSign = OneOf {
     "N".utf8.map { 1.0 }
     "S".utf8.map { -1.0 }
   }
 
-  let eastWest = OneOf {
+  let eastWestSign = OneOf {
     "E".utf8.map { 1.0 }
     "W".utf8.map { -1.0 }
   }
@@ -38,13 +38,13 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   let latitude = Parse(*) {
     Double.parser()
     "° ".utf8
-    northSouth
+    northSouthSign
   }
 
   let longitude = Parse(*) {
     Double.parser()
     "° ".utf8
-    eastWest
+    eastWestSign
   }
 
   let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }
@@ -72,7 +72,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   let locationName = Prefix { $0 != .init(ascii: ",") }
 
   let race = Parse(Race.init(location:entranceFee:path:)) {
-    locationName.map { String(decoding: $0, as: UTF8.self) }
+    locationName.map { String(Substring($0)) }
     Skip {
       ",".utf8
       zeroOrMoreSpaces
@@ -169,7 +169,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
 
   suite.benchmark("Parser") {
     var input = input[...].utf8
-    output = races.parse(&input)
+    output = try races.parse(&input)
   } tearDown: {
     precondition(output.count == 3)
   }

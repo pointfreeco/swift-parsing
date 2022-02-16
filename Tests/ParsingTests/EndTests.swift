@@ -4,13 +4,23 @@ import XCTest
 final class EndTests: XCTestCase {
   func testSuccess() {
     var input = ""[...]
-    XCTAssertNotNil(End().parse(&input))
+    XCTAssertNoThrow(try End().parse(&input))
     XCTAssertEqual("", input)
   }
 
   func testFailure() {
     var input = "Hello, world!"[...]
-    XCTAssertNil(End().parse(&input))
+    XCTAssertThrowsError(try End().parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | Hello, world!
+          | ^ expected end of input
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertEqual("Hello, world!", input)
   }
 }

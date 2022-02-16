@@ -18,7 +18,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
 
     suite.benchmark("Int.parser") {
       var input = input[...].utf8
-      output = Int.parser().parse(&input)
+      output = try Int.parser().parse(&input)
     } tearDown: {
       precondition(output == expected)
     }
@@ -42,7 +42,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
 
     suite.benchmark("Comma separated: Int.parser") {
       var input = input[...].utf8
-      output = Many {
+      output = try Many {
         Int.parser()
       } separator: {
         ",".utf8
@@ -91,7 +91,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
 
     suite.benchmark("Double.parser") {
       var input = input[...].utf8
-      output = Double.parser().parse(&input)
+      output = try Double.parser().parse(&input)
     } tearDown: {
       precondition(output == expected)
     }
@@ -115,7 +115,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
 
     suite.benchmark("Comma separated: Double.parser") {
       var input = input[...].utf8
-      output = Many {
+      output = try Many {
         Double.parser()
       } separator: {
         ",".utf8

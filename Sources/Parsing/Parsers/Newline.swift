@@ -18,16 +18,16 @@ where
   let toBytes: (Input) -> Bytes
 
   @inlinable
-  public func parse(_ input: inout Input) -> Void? {
+  public func parse(_ input: inout Input) throws {
     let bytes = self.toBytes(input)
     if bytes.first == .init(ascii: "\n") {
       input.removeFirst()
       return ()
     } else if bytes.first == .init(ascii: "\r"), bytes.dropFirst().first == .init(ascii: "\n") {
       input.removeFirst(2)
-      return ()
+      return
     }
-    return nil
+    throw ParsingError.expectedInput("newline", at: input)
   }
 }
 

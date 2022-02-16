@@ -20,21 +20,23 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
     }
     .dropLast()
 
+  var output: [Int]!
   suite.benchmark("Substring") {
     var input = input[...].utf8
-    let output = Many {
+    output = try Many {
       // NB: omitting `of: Substring.UTF8View.self` causes a segfault in Xcode 12.5.1 (Swift 5.4.1)
       Int.parser(of: Substring.UTF8View.self)
     } separator: {
       FromSubstring { "\u{00E9}" }
     }
     .parse(&input)
-    precondition(output?.count == count)
+  } tearDown: {
+    precondition(output.count == count)
   }
 
   suite.benchmark("UTF8") {
     var input = input[...].utf8
-    let output = Many {
+    output = try Many {
       Int.parser()
     } separator: {
       OneOf {
@@ -43,6 +45,7 @@ let stringAbstractionsSuite = BenchmarkSuite(name: "String Abstractions") { suit
       }
     }
     .parse(&input)
-    precondition(output?.count == count)
+  } tearDown: {
+    precondition(output.count == count)
   }
 }

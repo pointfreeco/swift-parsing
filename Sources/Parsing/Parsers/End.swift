@@ -5,29 +5,35 @@
 ///
 /// ```swift
 /// let parser = Parse {
-///   Many {
-///     Int.parser()
-///   } separator: {
-///     ","
-///   }
-///
-///   End()  // All input should be consumed.
+///   "Hello, "
+///   Prefix { $0 != "!" }
+///   "!"
+///   End()  // NB: All input should be consumed.
 /// }
 ///
-/// var input = "1,2,3"[...]
-/// parser.parse(&input) // [1, 2, 3]
-///
-/// input = "1,2,3,hello"
-/// parser.parse(&input) // nil
+/// var input = "Hello, Blob!"[...]
+/// try parser.parse(&input)  // "Blob"
 /// ```
-public struct End<Input>: Parser where Input: Collection {
+///
+/// This parser will fail if there are input elements that have not been consumed:
+///
+/// ```swift
+/// input = "Hello, Blob!!"
+/// try parser.parse(&input)
+/// // error: unexpected input
+/// //  --> input:1:13
+/// // 1 | Hello, Blob!!
+/// //   |             ^ expected end of input
+/// ```
+public struct End<Input: Collection>: Parser {
   @inlinable
   public init() {}
 
   @inlinable
-  public func parse(_ input: inout Input) -> Void? {
-    guard input.isEmpty else { return nil }
-    return ()
+  public func parse(_ input: inout Input) throws {
+    guard input.isEmpty else {
+      throw ParsingError.expectedInput("end of input", at: input)
+    }
   }
 }
 

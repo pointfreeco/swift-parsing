@@ -16,9 +16,21 @@ final class OneOfBuilderTests: XCTestCase {
     }
 
     for role in Role.allCases {
-      XCTAssertEqual(role, parser.parse(role.rawValue))
+      XCTAssertEqual(role, try parser.parse(role.rawValue))
     }
-    XCTAssertNil(parser.parse("president"))
+    XCTAssertThrowsError(try parser.parse("president")) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | president
+          | ^ expected "admin"
+          | ^ expected "guest"
+          | ^ expected "member"
+        """,
+        "\(error)"
+      )
+    }
   }
 
   func testBuildIf() {
@@ -38,8 +50,19 @@ final class OneOfBuilderTests: XCTestCase {
       "member".map { Role.member }
     }
 
-    XCTAssertEqual(.guest, parser.parse("guest"))
-    XCTAssertEqual(nil, parser.parse("admin"))
+    XCTAssertEqual(.guest, try parser.parse("guest"))
+    XCTAssertThrowsError(try parser.parse("admin")) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | admin
+          | ^ expected "guest"
+          | ^ expected "member"
+        """,
+        "\(error)"
+      )
+    }
 
     parseAdmins = true
     parser = OneOf {
@@ -50,7 +73,20 @@ final class OneOfBuilderTests: XCTestCase {
       "guest".map { Role.guest }
       "member".map { Role.member }
     }
-    XCTAssertEqual(.guest, parser.parse("guest"))
-    XCTAssertEqual(.admin, parser.parse("admin"))
+    XCTAssertEqual(.guest, try parser.parse("guest"))
+    XCTAssertEqual(.admin, try parser.parse("admin"))
+    XCTAssertThrowsError(try parser.parse("president")) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | president
+          | ^ expected "admin"
+          | ^ expected "guest"
+          | ^ expected "member"
+        """,
+        "\(error)"
+      )
+    }
   }
 }

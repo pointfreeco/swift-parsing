@@ -20,12 +20,8 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/flatMap(_:)`` operation, which constructs this type.
-  public struct FlatMap<NewParser, Upstream>: Parser
-  where
-    NewParser: Parser,
-    Upstream: Parser,
-    NewParser.Input == Upstream.Input
-  {
+  public struct FlatMap<NewParser: Parser, Upstream: Parser>: Parser
+  where NewParser.Input == Upstream.Input {
     public let upstream: Upstream
     public let transform: (Upstream.Output) -> NewParser
 
@@ -36,8 +32,21 @@ extension Parsers {
     }
 
     @inlinable
-    public func parse(_ input: inout Upstream.Input) -> NewParser.Output? {
-      self.upstream.parse(&input).map(self.transform)?.parse(&input)
+    public func parse(_ input: inout Upstream.Input) rethrows -> NewParser.Output {
+      let original = input
+      do {
+        return try self.transform(self.upstream.parse(&input)).parse(&input)
+      } catch let ParsingError.failed(reason, context) {
+        throw ParsingError.failed(
+          reason,
+          .init(
+            originalInput: original,
+            remainingInput: input,
+            debugDescription: context.debugDescription,
+            underlyingError: ParsingError.failed(reason, context)
+          )
+        )
+      }
     }
   }
 }
