@@ -74,7 +74,9 @@ That's the basics of parsing a simple string format, but there's a lot more oper
 
 * <doc:GettingStarted>
 * <doc:Design>
+
+### Advanced
+
 * <doc:StringAbstractions>
 * <doc:ErrorMessages>
 * <doc:Backtracking>
-* ``Parser``
