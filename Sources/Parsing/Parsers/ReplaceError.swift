@@ -39,11 +39,9 @@ extension Parser {
   
   /// A parser that replaces its error with a provided output.
   ///
-  /// You can parametrize the ouput value according to the error
-  ///
   /// See ``replaceError(with:)-1wzc1`` for more information.
   ///
-  /// - Parameter output: A function that returns an `Output` value when the parser fails and throws
+  /// - Parameter output: A closure that returns an `Output` value when the parser fails and throws
   /// the error provided as argument.
   /// - Returns: A parser that never fails.
   @inlinable
