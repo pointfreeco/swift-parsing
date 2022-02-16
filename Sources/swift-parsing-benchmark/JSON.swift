@@ -90,12 +90,12 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   json = ParsePrint {
     Skip { Whitespace() }.printing("".utf8)
     OneOf {
-      object.map(/JSONValue.object)
-      array.map(/JSONValue.array)
-      string.map(/JSONValue.string)
-      Double.parser().map(/JSONValue.number)
-      Bool.parser().map(/JSONValue.boolean)
-      "null".utf8.map(/JSONValue.null)
+      object.map(.case(JSONValue.object))
+      array.map(.case(JSONValue.array))
+      string.map(.case(JSONValue.string))
+      Double.parser().map(.case(JSONValue.number))
+      Bool.parser().map(.case(JSONValue.boolean))
+      "null".utf8.map { JSONValue.null }
     }
     Skip { Whitespace() }.printing("".utf8)
   }

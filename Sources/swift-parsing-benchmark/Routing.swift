@@ -39,36 +39,36 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       encoder.outputFormatting = .sortedKeys
 
       let router = OneOf {
-        Route(/AppRoute.home)
+        Route(AppRoute.home)
 
-        Route(/AppRoute.contactUs) {
+        Route(AppRoute.contactUs) {
           Path { From(.utf8) { "contact-us".utf8 } }
         }
 
-        Route(/AppRoute.episodes) {
+        Route(.case(AppRoute.episodes)) {
           Path { From(.utf8) { "episodes".utf8 } }
 
           OneOf {
-            Route(/Episodes.index)
+            Route(Episodes.index)
 
-            Route(/Episodes.episode) {
+            Route(.case(Episodes.episode)) {
               Path { Int.parser() }
 
               OneOf {
-                Route(/Episode.show)
+                Route(Episode.show)
 
-                Route(/Episode.comments) {
+                Route(.case(Episode.comments)) {
                   Path { From(.utf8) { "comments".utf8 } }
 
                   OneOf {
-                    Route(/Comments.post) {
+                    Route(.case(Comments.post)) {
                       Method.post
                       Body {
                         Parse(.data.json(Comment.self, encoder: encoder))
                       }
                     }
 
-                    Route(/Comments.show) {
+                    Route(.case(Comments.show)) {
                       Query {
                         Field("count", Int.parser(), default: 10)
                       }

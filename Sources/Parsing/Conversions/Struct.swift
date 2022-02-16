@@ -27,35 +27,35 @@ extension Conversion {
   /// - Returns: A conversion that can embed a tuple of values into a struct, and destructure a
   ///   struct back into a tuple of values.
   @inlinable
-  public static func `struct`<Values, Root>(
-    _ initializer: @escaping (Values) -> Root
-  ) -> Self where Self == Conversions.Structure<Values, Root> {
+  public static func `struct`<Values, Struct>(
+    _ initializer: @escaping (Values) -> Struct
+  ) -> Self where Self == Conversions.Structure<Values, Struct> {
     .init(initializer: initializer)
   }
 }
 
 extension Conversions {
-  public struct Structure<Values, Root>: Conversion {
+  public struct Structure<Values, Struct>: Conversion {
     @usableFromInline
-    let initializer: (Values) -> Root
+    let initializer: (Values) -> Struct
 
     @usableFromInline
-    init(initializer: @escaping (Values) -> Root) {
+    init(initializer: @escaping (Values) -> Struct) {
       self.initializer = initializer
     }
 
     @inlinable
-    public func apply(_ input: Values) -> Root {
+    public func apply(_ input: Values) -> Struct {
       self.initializer(input)
     }
 
     @inlinable
-    public func unapply(_ output: Root) throws -> Values {
-      // TODO: Use runtime to determine if `Root` is a struct
-      // TODO: Use runtime to iterate over `Root` and `Values` to compare memory layout
+    public func unapply(_ output: Struct) throws -> Values {
+      // TODO: Use runtime to determine if `Struct` is a struct
+      // TODO: Use runtime to iterate over `Struct` and `Values` to compare memory layout
       guard
-        MemoryLayout<Values>.alignment == MemoryLayout<Root>.alignment,
-        MemoryLayout<Values>.size == MemoryLayout<Root>.size
+        MemoryLayout<Struct>.alignment == MemoryLayout<Struct>.alignment,
+        MemoryLayout<Struct>.size == MemoryLayout<Struct>.size
       else { throw ConvertingError() }
       return unsafeBitCast(output, to: Values.self)
     }

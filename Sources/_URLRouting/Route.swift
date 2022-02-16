@@ -1,27 +1,38 @@
 public struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestData {
   @usableFromInline
-  let parser: Parsers
-
-  // TODO: Parser initializers
+  let parsers: Parsers
 
   @inlinable
-  public func parse(_ input: inout URLRequestData) throws -> Parsers.Output {
-    let output = try self.parser.parse(&input)
-    if input.method != nil {
-      try Method.get.parse(&input)
-    }
-    try End().parse(input.path)
-    return output
+  public init<Upstream, NewOutput>(
+    _ transform: @escaping (Upstream.Output) -> NewOutput,
+    @ParserBuilder with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.Map<Upstream, NewOutput> {
+    self.parsers = build().map(transform)
   }
-}
 
-extension Route: Printer where Parsers: Printer {
+  @inlinable
+  public init<Upstream, NewOutput>(
+    _ output: NewOutput,
+    @ParserBuilder with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.MapConstant<Upstream, NewOutput> {
+    self.parsers = build().map { output }
+  }
+
+  @inlinable
+  public init<NewOutput>(
+    _ output: NewOutput
+  ) where Parsers == Parsing.Parsers.MapConstant<Always<URLRequestData, Void>, NewOutput> {
+    self.init(output) {
+      Always<URLRequestData, Void>(())
+    }
+  }
+
   @inlinable
   public init<C: Conversion, P: Parser>(
     _ conversion: C,
-    @ParserBuilder to parser: () -> P
+    @ParserBuilder to parsers: () -> P
   ) where Parsers == Parsing.Parsers.MapConversion<P, C> {
-    self.parser = parser().map(conversion)
+    self.parsers = parsers().map(conversion)
   }
 
   @inlinable
@@ -34,7 +45,19 @@ extension Route: Printer where Parsers: Printer {
   }
 
   @inlinable
+  public func parse(_ input: inout URLRequestData) throws -> Parsers.Output {
+    let output = try self.parsers.parse(&input)
+    if input.method != nil {
+      try Method.get.parse(&input)
+    }
+    try End().parse(input.path)
+    return output
+  }
+}
+
+extension Route: Printer where Parsers: Printer {
+  @inlinable
   public func print(_ output: Parsers.Output, to input: inout URLRequestData) rethrows {
-    try self.parser.print(output, to: &input)
+    try self.parsers.print(output, to: &input)
   }
 }
