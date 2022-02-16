@@ -54,8 +54,6 @@ var input = """
 
 try users.parse(&input)
 
-// error: multiple failures occurred
-// 
 // error: unexpected input
 //  --> input:3:11
 // 3 | 3,Blob Jr,tru
