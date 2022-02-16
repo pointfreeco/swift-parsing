@@ -64,9 +64,9 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
     } iterator: { object in
       (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue)]).makeIterator()
     } element: {
-      Whitespace().printing("".utf8)
+      Skip { Whitespace() }.printing("".utf8)
       string
-      Whitespace().printing("".utf8)
+      Skip { Whitespace() }.printing("".utf8)
       ":".utf8
       Lazy { json! }
     } separator: {
@@ -88,7 +88,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   }
 
   json = ParsePrint {
-    Whitespace().printing("".utf8)
+    Skip { Whitespace() }.printing("".utf8)
     OneOf {
       object.map(/JSONValue.object)
       array.map(/JSONValue.array)
@@ -97,7 +97,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       Bool.parser().map(/JSONValue.boolean)
       "null".utf8.map(/JSONValue.null)
     }
-    Whitespace().printing("".utf8)
+    Skip { Whitespace() }.printing("".utf8)
   }
   .eraseToAnyParserPrinter()
 

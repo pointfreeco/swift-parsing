@@ -26,7 +26,10 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
   }
 
   let headerValue = ParsePrint(.substring) {
-    Prefix(1...) { $0 == .init(ascii: " ") || $0 == .init(ascii: "\t") }.printing(" ".utf8)
+    Skip {
+      Prefix(1...) { $0 == .init(ascii: " ") || $0 == .init(ascii: "\t") }
+    }
+    .printing(" ".utf8)
     Prefix { $0 != .init(ascii: "\r") && $0 != .init(ascii: "\n") }
     Newline()
   }

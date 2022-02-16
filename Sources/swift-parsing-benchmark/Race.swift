@@ -29,6 +29,21 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     let path: [Coordinate]
   }
 
+  let locationName = Prefix { $0 != .init(ascii: ",") }.map(.string)
+
+  let currency = OneOf {
+    "€".utf8.map { Currency.eur }
+    "£".utf8.map { Currency.gbp }
+    "$".utf8.map { Currency.usd }
+  }
+
+  let money = ParsePrint(.struct(Money.init(currency:dollars:))) {
+    currency
+    Int.parser()
+  }
+
+  let difficulty = Many { "🥵".utf8 }.map(.count)
+
   let northSouth = OneOf {
     "N".utf8.map { 1.0 }
     "S".utf8.map { -1.0 }
@@ -38,13 +53,6 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     "E".utf8.map { 1.0 }
     "W".utf8.map { -1.0 }
   }
-
-  let difficulty = Many { "🥵".utf8 }.map(
-    AnyConversion<[Void], Int>(
-      apply: \.count,
-      unapply: { Array(repeating: (), count: $0) }
-    )
-  )
 
   let latitude = ParsePrint(.multiplySign) {
     Double.parser()
@@ -58,7 +66,10 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     eastWest
   }
 
-  let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }.printing(" ".utf8)
+  let zeroOrMoreSpaces = Skip {
+    Prefix { $0 == .init(ascii: " ") }
+  }
+  .printing(" ".utf8)
 
   let coord = ParsePrint(.struct(Coordinate.init(latitude:longitude:))) {
     latitude
@@ -68,19 +79,6 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     }
     longitude
   }
-
-  let currency = OneOf {
-    "€".utf8.map { Currency.eur }
-    "£".utf8.map { Currency.gbp }
-    "$".utf8.map { Currency.usd }
-  }
-
-  let money = ParsePrint(.struct(Money.init(currency:dollars:))) {
-    currency
-    Int.parser()
-  }
-
-  let locationName = Prefix { $0 != .init(ascii: ",") }.map(.string)
 
   let race = ParsePrint(.struct(Race.init)) {
     ParsePrint {
@@ -205,6 +203,15 @@ private extension Conversion where Self == AnyConversion<(Double, Double), Doubl
     .init(
       apply: *,
       unapply: { $0 < 0 ? (abs($0), -1) : ($0, 1) }
+    )
+  }
+}
+
+private extension Conversion where Self == AnyConversion<[Void], Int> {
+  static var count: Self {
+    .init(
+      apply: \.count,
+      unapply: { Array(repeating: (), count: $0) }
     )
   }
 }
