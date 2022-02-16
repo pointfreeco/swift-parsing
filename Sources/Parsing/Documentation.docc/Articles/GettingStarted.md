@@ -1,6 +1,6 @@
 # Getting Started
 
-Learn to set up and customize your first parser.
+Learn how to integrate Parsing into your project and write your first parser.
 
 ## Adding Parsing as a dependency
 
