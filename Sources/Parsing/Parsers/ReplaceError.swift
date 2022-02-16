@@ -33,8 +33,9 @@ extension Parser {
   /// - Parameter output: An output to return should the upstream parser fail.
   /// - Returns: A parser that never fails.
   @inlinable
-  public func replaceError(with output: Output) -> Parsers.ReplaceError<Self> {
-    .init(output: { _ in output }, upstream: self)
+  public func replaceError(with output: @autoclosure @escaping () -> Output)
+    -> Parsers.ReplaceError<Self> {
+    .init(output: { _ in output() }, upstream: self)
   }
   
   /// A parser that replaces its error with a provided output.
