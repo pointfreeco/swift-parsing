@@ -29,12 +29,13 @@ where
     } else if bytes.first == .init(ascii: "\r"), bytes.dropFirst().first == .init(ascii: "\n") {
       bytes.removeFirst(2)
     } else {
-      throw ParsingError.expectedInput("newline", at: input)
+      throw ParsingError.expectedInput(#""\n" or "\r\n""#, at: input)
     }
     input = self.fromBytes(bytes)
   }
 }
 
+// NB: Swift 5.5.2 on Linux and Windows fails to build with a simpler `Bytes == Input` constraint
 extension Newline where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
   @inlinable
   public init() {
