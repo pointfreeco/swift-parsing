@@ -32,7 +32,7 @@ where
   }
 }
 
-extension Whitespace where Input.Element == UTF8.CodeUnit, Bytes == Input {
+extension Whitespace where Bytes == Input {
   @inlinable
   public init()  {
     self.toBytes = { $0 }
