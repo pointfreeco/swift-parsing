@@ -11,7 +11,7 @@ final class PrefixTests: XCTestCase {
   func testPrefixUnder() {
     var input = "42 Hi!"[...]
     XCTAssertThrowsError(try Prefix(8).parse(&input))
-    XCTAssertEqual("42 Hi!", input)
+    XCTAssertEqual("", input)
   }
 
   func testPrefixOver() {
@@ -27,7 +27,7 @@ final class PrefixTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual("42 Hi!", input)
+    XCTAssertEqual("", input)
   }
 
   func testPrefixWhile() {
@@ -61,7 +61,7 @@ final class PrefixTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual("42 Hello, world!", input)
+    XCTAssertEqual("", input)
   }
 
   func testPrefixRangeFromWhileSuccess() {

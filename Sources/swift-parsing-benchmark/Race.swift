@@ -40,12 +40,12 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
 
   let difficulty = Many { "🥵".utf8 }.map(.count)
 
-  let northSouth = OneOf {
+  let northSouthSign = OneOf {
     "N".utf8.map { 1.0 }
     "S".utf8.map { -1.0 }
   }
 
-  let eastWest = OneOf {
+  let eastWestSign = OneOf {
     "E".utf8.map { 1.0 }
     "W".utf8.map { -1.0 }
   }
@@ -53,13 +53,13 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   let latitude = ParsePrint(.multiplySign) {
     Double.parser()
     "° ".utf8
-    northSouth
+    northSouthSign
   }
 
   let longitude = ParsePrint(.multiplySign) {
     Double.parser()
     "° ".utf8
-    eastWest
+    eastWestSign
   }
 
   let zeroOrMoreSpaces = Skip {

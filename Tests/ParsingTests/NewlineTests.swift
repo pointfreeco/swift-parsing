@@ -12,12 +12,12 @@ final class NewlineTests: XCTestCase {
     XCTAssertEqual("\rHello, world!", Substring(input))
     XCTAssertThrowsError(try Newline().parse(&input)) { error in
       XCTAssertEqual(
-        """
+        #"""
         error: unexpected input
          --> input:4:1
         4 |
-          | ^ expected newline
-        """,
+          | ^ expected "\n" or "\r\n"
+        """#,
         "\(error)"
       )
     }

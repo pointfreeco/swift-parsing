@@ -26,8 +26,10 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       string.map(String.init).makeIterator()
     } element: {
       OneOf {
-        Prefix(1...) { $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") }
-          .map(.string)
+        Prefix(1...) {
+          $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") && $0 >= .init(ascii: " ")
+        }
+        .map(.string)
 
         Parse {
           "\\".utf8
