@@ -32,7 +32,7 @@ where
   }
 }
 
-extension Whitespace  {
+extension Whitespace {
   @inlinable
   public init() where Bytes == Input {
     self.toBytes = { $0 }
