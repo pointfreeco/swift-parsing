@@ -1,12 +1,8 @@
 import Benchmark
 import Parsing
 
-
-
-
 /// This benchmark implements a parser for a custom format covered in
-/// [a collection of episodes][parsing] on
-/// Point-Free.
+/// [a collection of episodes][parsing] on Point-Free.
 ///
 /// [parsing]: https://www.pointfree.co/collections/parsing
 let raceSuite = BenchmarkSuite(name: "Race") { suite in
