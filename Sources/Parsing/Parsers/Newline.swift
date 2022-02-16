@@ -29,11 +29,9 @@ where
     }
     throw ParsingError.expectedInput("newline", at: input)
   }
-}
 
-extension Newline where Bytes == Input {
   @inlinable
-  public init()  {
+  public init() where Bytes == Input {
     self.toBytes = { $0 }
   }
 }
