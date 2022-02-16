@@ -7,7 +7,7 @@ extension Parser {
   /// a single space:
   ///
   /// ```swift
-  /// let spaces = Prefix { $0.isWhitespace }.printing(" ")
+  /// let spaces = Skip { Prefix { $0.isWhitespace } }.printing(" ")
   ///
   /// var input = "     123"[...]
   /// try spaces.parse(&input)  // ()
