@@ -204,6 +204,16 @@ extension Parsers.ZipOVOVO: Printer where P0: Printer, P1: Printer, P2: Printer,
     try self.p4.print(output.2, to: &input)
   }
 }
+//extension Parsers.ZipOVOVOO: Printer where P0: Printer, P1: Printer, P2: Printer, P3: Printer, P4: Printer, P5: Printer {
+//  public func print(_ output: (P0.Output, P2.Output, P4.Output, P5.Output), to input: inout P0.Input) throws {
+//    try self.p0.print(output.0, to: &input)
+//    try self.p1.print((), to: &input)
+//    try self.p2.print(output.1, to: &input)
+//    try self.p3.print((), to: &input)
+//    try self.p4.print(output.2, to: &input)
+//    try self.p5.print(output.3, to: &input)
+//  }
+//}
 
 extension Many: Printer
 where

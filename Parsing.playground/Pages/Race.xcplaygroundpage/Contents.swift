@@ -15,6 +15,7 @@ struct Money {
 struct Race {
   let location: String
   let entranceFee: Money
+  let difficulty: Int
   let path: [Coordinate]
 }
 
@@ -117,14 +118,37 @@ Substring(input)
 
 let locationName = Prefix { $0 != .init(ascii: ",") }
 
-let race = ParsePrint(.struct(Race.init(location:entranceFee:path:))) {
+let count = Conversion<[Void], Int>(
+  apply: \.count,
+  unapply: { count in Array(repeating: (), count: count) }
+)
+
+let difficulty = Many { "🥵".utf8 }.map(count)
+
+try difficulty.parse("🥵🥵🥵🥵".utf8) // 4
+
+input = ""[...].utf8
+try difficulty.print(5, to: &input) // "🥵🥵🥵🥵🥵"
+Substring(input)
+
+//Many { "🥵".utf8 }.print(<#T##output: [()]##[()]#>, to: &<#T##Substring.UTF8View#>)
+
+
+let race = ParsePrint(.struct(Race.init(location:entranceFee:difficulty:path:))) {
   locationName.map(.string)
   Skip {
     ",".utf8
     zeroOrMoreSpaces
   }
   money
-  "\n".utf8
+  Skip {
+    ",".utf8
+    zeroOrMoreSpaces
+  }
+  ParsePrint {
+    difficulty
+    "\n".utf8
+  }
   Many {
     coord
   } separator: {
@@ -137,6 +161,7 @@ try race.print(
   .init(
     location: "New York",
     entranceFee: .init(currency: .usd, dollars: 300),
+    difficulty: 3,
     path: [
       .init(latitude: 42, longitude: -10)
     ]
@@ -157,6 +182,7 @@ try races.print(
     .init(
       location: "New York",
       entranceFee: .init(currency: .usd, dollars: 300),
+      difficulty: 3,
       path: [
         .init(latitude: 42, longitude: -10)
       ]
@@ -164,6 +190,7 @@ try races.print(
     .init(
       location: "New York",
       entranceFee: .init(currency: .usd, dollars: 300),
+      difficulty: 3,
       path: [
         .init(latitude: 42, longitude: -10)
       ]
@@ -172,3 +199,10 @@ try races.print(
   to: &input
 )
 Substring(input) // "New York, $300\n42.0° N, 10.0° W\n---\nNew York, $300\n42.0° N, 10.0° W"
+
+
+func print(coordinate: Coordinate) -> String {
+  "\(abs(coordinate.latitude))° \(coordinate.latitude < 0 ? "S" : "N"), \(abs(coordinate.longitude))° \(coordinate.longitude < 0 ? "E" : "W")"
+}
+
+
