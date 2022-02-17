@@ -1,11 +1,12 @@
+import CustomDump
 import Parsing
 import XCTest
 
 final class PipeTests: XCTestCase {
   func testSuccess() {
     var input = "true Hello, world!"[...].utf8
-    XCTAssertEqual(true, try Prefix(5).pipe { Bool.parser() }.parse(&input))
-    XCTAssertEqual("Hello, world!", Substring(input))
+    XCTAssertNoDifference(true, try Prefix(5).pipe { Bool.parser() }.parse(&input))
+    XCTAssertNoDifference("Hello, world!", Substring(input))
   }
 
   func testFailureOutput() {
@@ -17,7 +18,7 @@ final class PipeTests: XCTestCase {
       }
       .parse(&input)
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:1-5
@@ -27,7 +28,7 @@ final class PipeTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual("Hello, world!", Substring(input))
+    XCTAssertNoDifference("Hello, world!", Substring(input))
   }
 
   func testFailureInput() {
@@ -38,7 +39,7 @@ final class PipeTests: XCTestCase {
       }
       .parse(&input)
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         #"""
         error: unexpected input
          --> input:1:1
@@ -48,6 +49,6 @@ final class PipeTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual("true", Substring(input))
+    XCTAssertNoDifference("true", Substring(input))
   }
 }

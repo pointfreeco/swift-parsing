@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -10,13 +11,13 @@ class ManyTests: XCTestCase {
       }
       .parse(&input)
     )
-    XCTAssertEqual(Substring(input), "Hello world")
+    XCTAssertNoDifference(Substring(input), "Hello world")
   }
 
   func testSeparator() {
     var input = "1,2,3,4,5"[...].utf8
 
-    XCTAssertEqual(
+    XCTAssertNoDifference(
       try Many {
         Int.parser()
       } separator: {
@@ -25,13 +26,13 @@ class ManyTests: XCTestCase {
       .parse(&input),
       [1, 2, 3, 4, 5]
     )
-    XCTAssertEqual(Substring(input), "")
+    XCTAssertNoDifference(Substring(input), "")
   }
 
   func testTrailingSeparator() {
     var input = "1,2,3,4,5,"[...].utf8
 
-    XCTAssertEqual(
+    XCTAssertNoDifference(
       try Many {
         Int.parser()
       } separator: {
@@ -40,7 +41,7 @@ class ManyTests: XCTestCase {
       .parse(&input),
       [1, 2, 3, 4, 5]
     )
-    XCTAssertEqual(Substring(input), ",")
+    XCTAssertNoDifference(Substring(input), ",")
   }
 
   func testMinimum() {
@@ -54,7 +55,7 @@ class ManyTests: XCTestCase {
       }
       .parse(&input)
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:10
@@ -64,10 +65,10 @@ class ManyTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual(Substring(input), "")
+    XCTAssertNoDifference(Substring(input), "")
 
     input = "1,2,3,4,5"[...].utf8
-    XCTAssertEqual(
+    XCTAssertNoDifference(
       try Many(atLeast: 5) {
         Int.parser()
       } separator: {
@@ -76,13 +77,13 @@ class ManyTests: XCTestCase {
       .parse(&input),
       [1, 2, 3, 4, 5]
     )
-    XCTAssertEqual(Substring(input), "")
+    XCTAssertNoDifference(Substring(input), "")
   }
 
   func testMaximum() {
     var input = "1,2,3,4,5"[...].utf8
 
-    XCTAssertEqual(
+    XCTAssertNoDifference(
       try Many(atMost: 3) {
         Int.parser()
       } separator: {
@@ -91,13 +92,13 @@ class ManyTests: XCTestCase {
       .parse(&input),
       [1, 2, 3]
     )
-    XCTAssertEqual(Substring(input), ",4,5")
+    XCTAssertNoDifference(Substring(input), ",4,5")
   }
 
   func testReduce() {
     var input = "1,2,3,4,5"[...].utf8
 
-    XCTAssertEqual(
+    XCTAssertNoDifference(
       try Many(into: 0, +=) {
         Int.parser()
       } separator: {
@@ -106,12 +107,12 @@ class ManyTests: XCTestCase {
       .parse(&input),
       15
     )
-    XCTAssertEqual(Substring(input), "")
+    XCTAssertNoDifference(Substring(input), "")
   }
 
   func testEmptyComponents() {
     var input = "2001:db8::2:1"[...]
-    XCTAssertEqual(
+    XCTAssertNoDifference(
       try Many {
         Prefix(while: \.isHexDigit)
       } separator: {
@@ -150,7 +151,7 @@ class ManyTests: XCTestCase {
       2,Blob Sr,false
       3,Blob Jr,true
       """[...]
-    XCTAssertEqual(
+    XCTAssertNoDifference(
       [
         User(id: 1, name: "Blob", isAdmin: true),
         User(id: 2, name: "Blob Sr", isAdmin: false),
@@ -165,7 +166,7 @@ class ManyTests: XCTestCase {
       3,Blob Jr,tru
       """
     XCTAssertThrowsError(try users.parse(&input)) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: multiple failures occurred
 
@@ -195,7 +196,7 @@ class ManyTests: XCTestCase {
 
     var input = "1,2,3-"[...]
     XCTAssertThrowsError(try intsParser.parse(&input)) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:6
@@ -210,7 +211,7 @@ class ManyTests: XCTestCase {
 
   func testInfiniteLoop() {
     XCTAssertThrowsError(try Many { Prefix(while: \.isNumber) }.parse("Hello world!")) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: infinite loop
          --> input:1:1

@@ -1,23 +1,24 @@
+import CustomDump
 import Parsing
 import XCTest
 
 final class BoolTests: XCTestCase {
   func testParsesTrue() {
     var input = "true Hello, world!"[...].utf8
-    XCTAssertEqual(true, try Bool.parser().parse(&input))
-    XCTAssertEqual(" Hello, world!", Substring(input))
+    XCTAssertNoDifference(true, try Bool.parser().parse(&input))
+    XCTAssertNoDifference(" Hello, world!", Substring(input))
   }
 
   func testParsesFalse() {
     var input = "false Hello, world!"[...].utf8
-    XCTAssertEqual(false, try Bool.parser().parse(&input))
-    XCTAssertEqual(" Hello, world!", Substring(input))
+    XCTAssertNoDifference(false, try Bool.parser().parse(&input))
+    XCTAssertNoDifference(" Hello, world!", Substring(input))
   }
 
   func testParseFailure() {
     var input = "Hello, world!"[...].utf8
     XCTAssertThrowsError(try Bool.parser().parse(&input)) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:1
@@ -27,6 +28,6 @@ final class BoolTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual("Hello, world!", Substring(input))
+    XCTAssertNoDifference("Hello, world!", Substring(input))
   }
 }

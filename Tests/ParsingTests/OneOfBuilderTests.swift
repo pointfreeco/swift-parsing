@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -16,10 +17,10 @@ final class OneOfBuilderTests: XCTestCase {
     }
 
     for role in Role.allCases {
-      XCTAssertEqual(role, try parser.parse(role.rawValue))
+      XCTAssertNoDifference(role, try parser.parse(role.rawValue))
     }
     XCTAssertThrowsError(try parser.parse("president")) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:1
@@ -50,9 +51,9 @@ final class OneOfBuilderTests: XCTestCase {
       "member".map { Role.member }
     }
 
-    XCTAssertEqual(.guest, try parser.parse("guest"))
+    XCTAssertNoDifference(.guest, try parser.parse("guest"))
     XCTAssertThrowsError(try parser.parse("admin")) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:1
@@ -73,10 +74,10 @@ final class OneOfBuilderTests: XCTestCase {
       "guest".map { Role.guest }
       "member".map { Role.member }
     }
-    XCTAssertEqual(.guest, try parser.parse("guest"))
-    XCTAssertEqual(.admin, try parser.parse("admin"))
+    XCTAssertNoDifference(.guest, try parser.parse("guest"))
+    XCTAssertNoDifference(.admin, try parser.parse("admin"))
     XCTAssertThrowsError(try parser.parse("president")) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:1

@@ -1,21 +1,22 @@
+import CustomDump
 import Parsing
 import XCTest
 
 final class FlatMapTests: XCTestCase {
   func testSuccess() {
     var input = "42 Hello, world!"[...].utf8
-    XCTAssertEqual(43, try Int.parser().flatMap { Always($0 + 1) }.parse(&input))
-    XCTAssertEqual(" Hello, world!", Substring(input))
+    XCTAssertNoDifference(43, try Int.parser().flatMap { Always($0 + 1) }.parse(&input))
+    XCTAssertNoDifference(" Hello, world!", Substring(input))
 
     input = "42 Hello, world!"[...].utf8
-    XCTAssertEqual(43, try Int.parser().flatMap { return Always($0 + 1) }.parse(&input))
-    XCTAssertEqual(" Hello, world!", Substring(input))
+    XCTAssertNoDifference(43, try Int.parser().flatMap { return Always($0 + 1) }.parse(&input))
+    XCTAssertNoDifference(" Hello, world!", Substring(input))
   }
 
   func testUpstreamFailure() {
     var input = "Hello, world!"[...].utf8
     XCTAssertThrowsError(try Int.parser().flatMap { Always($0 + 1) }.parse(&input)) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:1
@@ -25,7 +26,7 @@ final class FlatMapTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual("Hello, world!", Substring(input))
+    XCTAssertNoDifference("Hello, world!", Substring(input))
   }
 
   func testDownstreamFailure() {
@@ -33,7 +34,7 @@ final class FlatMapTests: XCTestCase {
     XCTAssertThrowsError(
       try Prefix(2).flatMap { _ in Int.parser() }.parse(&input)
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:1-2
@@ -43,6 +44,6 @@ final class FlatMapTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual("llo, world!", Substring(input))
+    XCTAssertNoDifference("llo, world!", Substring(input))
   }
 }

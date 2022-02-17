@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -11,7 +12,7 @@ final class OneOfTests: XCTestCase {
       }
       .parse(&input)
     )
-    XCTAssertEqual(", Hello!", Substring(input))
+    XCTAssertNoDifference(", Hello!", Substring(input))
   }
 
   func testOneOfSecondSuccess() {
@@ -23,7 +24,7 @@ final class OneOfTests: XCTestCase {
       }
       .parse(&input)
     )
-    XCTAssertEqual(", Hello!", Substring(input))
+    XCTAssertNoDifference(", Hello!", Substring(input))
   }
 
   func testOneOfFailure() {
@@ -35,7 +36,7 @@ final class OneOfTests: XCTestCase {
       }
       .parse(&input)
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:1
@@ -46,7 +47,7 @@ final class OneOfTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual("London, Hello!", Substring(input))
+    XCTAssertNoDifference("London, Hello!", Substring(input))
   }
 
   func testOneOfManyFirstSuccess() {
@@ -59,7 +60,7 @@ final class OneOfTests: XCTestCase {
       }
       .parse(&input)
     )
-    XCTAssertEqual(", Hello!", Substring(input))
+    XCTAssertNoDifference(", Hello!", Substring(input))
   }
 
   func testOneOfManyLastSuccess() {
@@ -72,7 +73,7 @@ final class OneOfTests: XCTestCase {
       }
       .parse(&input)
     )
-    XCTAssertEqual(", Hello!", Substring(input))
+    XCTAssertNoDifference(", Hello!", Substring(input))
   }
 
   func testOneOfManyFailure() {
@@ -84,7 +85,7 @@ final class OneOfTests: XCTestCase {
       }
       .parse(&input)
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:1
@@ -95,7 +96,7 @@ final class OneOfTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual("London, Hello!", Substring(input))
+    XCTAssertNoDifference("London, Hello!", Substring(input))
   }
 
   func testRanking() {
@@ -106,7 +107,7 @@ final class OneOfTests: XCTestCase {
       }
       .parse("Hello"[...].utf8)
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: multiple failures occurred
 
@@ -133,7 +134,7 @@ final class OneOfTests: XCTestCase {
       }
       .parse("Hello")
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: multiple failures occurred
 
@@ -262,7 +263,7 @@ final class OneOfTests: XCTestCase {
       """#
 
     XCTAssertThrowsError(try json.parse(input)) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         #"""
         error: multiple failures occurred
 

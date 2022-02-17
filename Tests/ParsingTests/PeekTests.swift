@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -12,9 +13,9 @@ class PeekTests: XCTestCase {
 
     let result = duplicator.parse(&input)
 
-    XCTAssertEqual(result.0, "foobar")
-    XCTAssertEqual(result.1, "foobar")
-    XCTAssertEqual(input, "")
+    XCTAssertNoDifference(result.0, "foobar")
+    XCTAssertNoDifference(result.1, "foobar")
+    XCTAssertNoDifference(input, "")
   }
 
   func testPeekMatches() throws {
@@ -29,8 +30,8 @@ class PeekTests: XCTestCase {
 
     let result = try identifier.parse(&input)
 
-    XCTAssertEqual(result, "_foo1")
-    XCTAssertEqual(input, " = nil")
+    XCTAssertNoDifference(result, "_foo1")
+    XCTAssertNoDifference(input, " = nil")
   }
 
   func testPeekFails() throws {
@@ -46,6 +47,6 @@ class PeekTests: XCTestCase {
     }
 
     XCTAssertThrowsError(try identifier.parse(&input))
-    XCTAssertEqual(input, "1foo = nil")
+    XCTAssertNoDifference(input, "1foo = nil")
   }
 }

@@ -1,8 +1,9 @@
+import CustomDump
 import Parsing
 import XCTest
 
 class NotTests: XCTestCase {
-  func testNotUpstreamFails() throws {
+  func testNotUpstreamFails() {
     var input = """
       let foo = true
       let bar = false
@@ -17,11 +18,11 @@ class NotTests: XCTestCase {
       }
     }
 
-    XCTAssertEqual(try uncommentedLine.parse(&input), "let foo = true")
-    XCTAssertEqual(input, "let bar = false")
+    XCTAssertNoDifference(try uncommentedLine.parse(&input), "let foo = true")
+    XCTAssertNoDifference(input, "let bar = false")
   }
 
-  func testNotUpstreamParses() throws {
+  func testNotUpstreamParses() {
     var input = """
       // a comment
       let foo = true
@@ -33,7 +34,7 @@ class NotTests: XCTestCase {
     }
 
     XCTAssertThrowsError(try uncommentedLine.parse(&input))
-    XCTAssertEqual(
+    XCTAssertNoDifference(
       input,
       """
       // a comment

@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -15,9 +16,10 @@ class ParsingErrorTests: XCTestCase {
       try Parse {
         MyParser()
         MyParser()
-      }.parse(MyInput())
+      }
+      .parse(MyInput())
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: MyError()
         """,
@@ -36,7 +38,7 @@ class ParsingErrorTests: XCTestCase {
     XCTAssertThrowsError(
       try parser.parse(String(repeating: "Hello\n", count: 100) + "World")
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
            --> input:100:6
@@ -54,7 +56,7 @@ class ParsingErrorTests: XCTestCase {
         String(repeating: "hello", count: 100) + String(repeating: "world", count: 100)
       )
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:501
@@ -70,7 +72,7 @@ class ParsingErrorTests: XCTestCase {
         String(repeating: "hello", count: 100) + "world"
       )
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:501
@@ -86,7 +88,7 @@ class ParsingErrorTests: XCTestCase {
         String(repeating: "world", count: 100)
       )
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:1
@@ -128,7 +130,7 @@ class ParsingErrorTests: XCTestCase {
         """
       )
     ) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         #"""
         error: unexpected input
          --> input:1:7

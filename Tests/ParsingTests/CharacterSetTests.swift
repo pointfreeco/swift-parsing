@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -8,8 +9,8 @@ final class CharacterSetTests: XCTestCase {
     var input = "42abc"[...]
 
     let output = characterSet.parse(&input)
-    XCTAssertEqual(output, "42")
-    XCTAssertEqual(input, "abc")
+    XCTAssertNoDifference(output, "42")
+    XCTAssertNoDifference(input, "abc")
   }
 
   func testAlphanumerics() {
@@ -18,8 +19,8 @@ final class CharacterSetTests: XCTestCase {
     var input = "42abc;."[...]
 
     let output = characterSet.parse(&input)
-    XCTAssertEqual(output, "42abc")
-    XCTAssertEqual(input, ";.")
+    XCTAssertNoDifference(output, "42abc")
+    XCTAssertNoDifference(input, ";.")
   }
 
   func testCustom() {
@@ -28,8 +29,8 @@ final class CharacterSetTests: XCTestCase {
     var input = "23456789abcdef"[...]
 
     let output = characterSet.parse(&input)
-    XCTAssertEqual(output, "23")
-    XCTAssertEqual(input, "456789abcdef")
+    XCTAssertNoDifference(output, "23")
+    XCTAssertNoDifference(input, "456789abcdef")
   }
 
   func testCompletion() throws {
@@ -40,7 +41,7 @@ final class CharacterSetTests: XCTestCase {
     let firstOutput = try XCTUnwrap(characterSet.parse(&input))
     let secondOutput = try XCTUnwrap(characterSet.parse(&input))
 
-    XCTAssertEqual(firstOutput, "123")
+    XCTAssertNoDifference(firstOutput, "123")
     XCTAssertTrue(secondOutput.isEmpty)
   }
 }

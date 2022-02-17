@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -6,7 +7,7 @@ final class ParseableFormatStyleTests: XCTestCase {
   func testDate() {
     let parser = Rest<Substring>().map(.string.formatted(.iso8601))
 
-    XCTAssertEqual(try parser.parse("1970-01-01T00:00:00Z"), Date(timeIntervalSince1970: 0))
-    XCTAssertEqual(try parser.print(Date(timeIntervalSince1970: 0)), "1970-01-01T00:00:00Z")
+    XCTAssertNoDifference(try parser.parse("1970-01-01T00:00:00Z"), Date(timeIntervalSince1970: 0))
+    XCTAssertNoDifference(try parser.print(Date(timeIntervalSince1970: 0)), "1970-01-01T00:00:00Z")
   }
 }

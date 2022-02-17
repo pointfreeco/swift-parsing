@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -5,13 +6,13 @@ final class EndTests: XCTestCase {
   func testSuccess() {
     var input = ""[...]
     XCTAssertNoThrow(try End().parse(&input))
-    XCTAssertEqual("", input)
+    XCTAssertNoDifference("", input)
   }
 
   func testFailure() {
     var input = "Hello, world!"[...]
     XCTAssertThrowsError(try End().parse(&input)) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:1
@@ -21,6 +22,6 @@ final class EndTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual("Hello, world!", input)
+    XCTAssertNoDifference("Hello, world!", input)
   }
 }

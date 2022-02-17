@@ -1,3 +1,4 @@
+import CustomDump
 import Parsing
 import XCTest
 
@@ -17,14 +18,14 @@ final class CaseIterableTests: XCTestCase {
     }
 
     var input = "Blob,Blob Jr"[...].utf8
-    XCTAssertEqual(try peopleParser.parse(&input), [.blob, .blobJr])
+    XCTAssertNoDifference(try peopleParser.parse(&input), [.blob, .blobJr])
 
     input = "Blob Jr,Blob"[...].utf8
-    XCTAssertEqual(try peopleParser.parse(&input), [.blobJr, .blob])
+    XCTAssertNoDifference(try peopleParser.parse(&input), [.blobJr, .blob])
 
     input = "Blob,Mr Blob"[...].utf8
     XCTAssertThrowsError(try peopleParser.parse(&input)) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: multiple failures occurred
 
