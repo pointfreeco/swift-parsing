@@ -23,6 +23,20 @@ extension Parser {
   public func printing<P>(_ printer: P) -> Parsers.Printing<Self, P> {
     .init(parser: self, printer: printer)
   }
+
+  @inlinable
+  public func printing(
+    _ printer: @escaping (Output, inout Input) -> Void
+  ) -> Parsers.Printing<Self, Printers.NonThrowingPrinter<Input, Output>> {
+    .init(parser: self, printer: .init(printer))
+  }
+
+  @inlinable
+  public func printing(
+    _ printer: @escaping (Output, inout Input) throws -> Void
+  ) -> Parsers.Printing<Self, AnyPrinter<Input, Output>> {
+    .init(parser: self, printer: .init(printer))
+  }
 }
 
 extension Parsers {
