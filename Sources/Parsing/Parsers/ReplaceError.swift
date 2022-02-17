@@ -35,18 +35,6 @@ extension Parser {
   @inlinable
   public func replaceError(with output: @autoclosure @escaping () -> Output)
     -> Parsers.ReplaceError<Self> {
-    .init(output: { _ in output() }, upstream: self)
-  }
-  
-  /// A parser that replaces its error with a provided output.
-  ///
-  /// See ``replaceError(with:)-1wzc1`` for more information.
-  ///
-  /// - Parameter output: A closure that returns an `Output` value when the parser fails and throws
-  /// the error provided as argument.
-  /// - Returns: A parser that never fails.
-  @inlinable
-  public func replaceError(with output: @escaping (Error) -> Output) -> Parsers.ReplaceError<Self> {
     .init(output: output, upstream: self)
   }
 }
@@ -58,14 +46,14 @@ extension Parsers {
   /// the ``Parser/replaceError(with:)`` operation, which constructs this type.
   public struct ReplaceError<Upstream: Parser>: Parser {
     @usableFromInline
-    let output: (Error) -> Upstream.Output
+    let output: OutputValue
 
     @usableFromInline
     let upstream: Upstream
 
     @usableFromInline
-    init(output: @escaping (Error) -> Upstream.Output, upstream: Upstream) {
-      self.output = output
+    init(output: @escaping () -> Upstream.Output, upstream: Upstream) {
+      self.output = OutputValue(output)
       self.upstream = upstream
     }
 
@@ -76,8 +64,22 @@ extension Parsers {
         return try self.upstream.parse(&input)
       } catch {
         input = original
-        return self.output(error)
+        return self.output.value
+      }
+    }
+    
+    @usableFromInline
+    final class OutputValue {
+      @usableFromInline
+      lazy var value: Upstream.Output = block()
+      @usableFromInline
+      let block: () -> Upstream.Output
+      @inlinable
+      init(_ block: @escaping () -> Upstream.Output) {
+        self.block = block
       }
     }
   }
 }
+
+
