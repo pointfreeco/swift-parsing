@@ -1,12 +1,10 @@
 import Foundation
 
-@usableFromInline
-enum ParsingError: Error {
+public enum ParsingError: Error {
   case failed(String, Context)
   case manyFailed([Error], Context)
 
-  @usableFromInline
-  static func expectedInput(_ description: String, at remainingInput: Any) -> Self {
+  public static func expectedInput(_ description: String, at remainingInput: Any) -> Self {
     .failed(
       summary: "unexpected input",
       label: "expected \(description)",
@@ -14,8 +12,7 @@ enum ParsingError: Error {
     )
   }
 
-  @usableFromInline
-  static func expectedInput(
+  public static func expectedInput(
     _ description: String,
     from originalInput: Any,
     to remainingInput: Any
@@ -28,13 +25,11 @@ enum ParsingError: Error {
     )
   }
 
-  @usableFromInline
-  static func failed(summary: String, label: String = "", at remainingInput: Any) -> Self {
+  public static func failed(summary: String, label: String = "", at remainingInput: Any) -> Self {
     .failed(label, .init(remainingInput: remainingInput, debugDescription: summary))
   }
 
-  @usableFromInline
-  static func failed(
+  public static func failed(
     summary: String, label: String = "", from originalInput: Any, to remainingInput: Any
   ) -> Self {
     .failed(
@@ -47,13 +42,11 @@ enum ParsingError: Error {
     )
   }
 
-  @usableFromInline
-  static func manyFailed(_ errors: [Error], at remainingInput: Any) -> Self {
+  public static func manyFailed(_ errors: [Error], at remainingInput: Any) -> Self {
     .manyFailed(errors, .init(remainingInput: remainingInput, debugDescription: ""))
   }
 
-  @usableFromInline
-  static func wrap(_ error: Error, at remainingInput: Any) -> Self {
+  public static func wrap(_ error: Error, at remainingInput: Any) -> Self {
     error as? ParsingError
       ?? .failed(
         "",
@@ -106,8 +99,7 @@ enum ParsingError: Error {
     }
   }
 
-  @usableFromInline
-  struct Context {
+  public struct Context {
     @usableFromInline
     var debugDescription: String
 
@@ -120,8 +112,7 @@ enum ParsingError: Error {
     @usableFromInline
     var underlyingError: Error?
 
-    @usableFromInline
-    init(
+    public init(
       originalInput: Any,
       remainingInput: Any,
       debugDescription: String,
@@ -133,8 +124,7 @@ enum ParsingError: Error {
       self.underlyingError = underlyingError
     }
 
-    @usableFromInline
-    init(
+    public init(
       remainingInput: Any,
       debugDescription: String,
       underlyingError: Error? = nil
@@ -148,8 +138,7 @@ enum ParsingError: Error {
 }
 
 extension ParsingError: CustomDebugStringConvertible {
-  @usableFromInline
-  var debugDescription: String {
+  public var debugDescription: String {
     switch self.flattened() {
     case let .failed(label, context):
       return format(labels: [label], context: context)
