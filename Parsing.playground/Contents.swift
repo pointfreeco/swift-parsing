@@ -16,7 +16,7 @@ extension String: Printer {
 
 struct PrintingError: Error {}
 
-extension Prefix: Printer where Input == Substring {
+extension Prefix: Printer where Input: RangeReplaceableCollection {
   func print(_ output: Input, to input: inout Input) throws {
     guard output.allSatisfy(self.predicate!)
     else { throw PrintingError() }
@@ -225,6 +225,12 @@ let quotedField = ParsePrint {
   "\""
   Prefix { $0 != "\"" }
   "\""
+}
+
+let _quotedField = ParsePrint {
+  "\"".utf8
+  Prefix { $0 != .init(ascii: "\"") }
+  "\"".utf8
 }
 
 input = ""

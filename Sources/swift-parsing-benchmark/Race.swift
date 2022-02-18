@@ -72,7 +72,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   let locationName = Prefix { $0 != .init(ascii: ",") }
 
   let race = Parse(Race.init(location:entranceFee:path:)) {
-    locationName.map { String(decoding: $0, as: UTF8.self) }
+    locationName.map { String(Substring($0)) }
     Skip {
       ",".utf8
       zeroOrMoreSpaces
@@ -168,8 +168,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   var output: [Race]!
 
   suite.benchmark("Parser") {
-    var input = input[...].utf8
-    output = try races.parse(&input)
+    output = try races.parse(input)
   } tearDown: {
     precondition(output.count == 3)
   }
