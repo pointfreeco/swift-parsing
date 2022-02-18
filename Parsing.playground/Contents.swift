@@ -2,6 +2,37 @@ import Parsing
 
 var input = ""[...]
 
+protocol AppendableCollection: Collection {
+  mutating func append<S>(contentsOf newElements: S) where S : Sequence, Self.Element == S.Element
+}
+
+import Foundation
+
+extension Substring: AppendableCollection {}
+extension ArraySlice: AppendableCollection {}
+extension Data: AppendableCollection {}
+extension Substring.UnicodeScalarView: AppendableCollection {}
+
+extension Substring.UTF8View: AppendableCollection {
+  mutating func append<S>(contentsOf newElements: S) where S : Sequence, String.UTF8View.Element == S.Element {
+    var result = Substring(self)
+    switch newElements {
+    case let newElements as Substring.UTF8View:
+      result.append(contentsOf: Substring(newElements))
+    default:
+      result.append(contentsOf: Substring(decoding: Array(newElements), as: UTF8.self))
+    }
+    self = result.utf8
+  }
+}
+
+//let _quotedField = ParsePrint {
+//  "\"".utf8
+//  Prefix { $0 != .init(ascii: "\"") }
+//  "\"".utf8
+//}
+
+
 protocol Printer {
   associatedtype Input
   associatedtype Output
@@ -14,9 +45,15 @@ extension String: Printer {
   }
 }
 
+extension String.UTF8View: Printer {
+  func print(_ output: (), to input: inout Substring.UTF8View) {
+    input.append(contentsOf: self)
+  }
+}
+
 struct PrintingError: Error {}
 
-extension Prefix: Printer where Input: RangeReplaceableCollection {
+extension Prefix: Printer where Input: AppendableCollection {
   func print(_ output: Input, to input: inout Input) throws {
     guard output.allSatisfy(self.predicate!)
     else { throw PrintingError() }
@@ -80,11 +117,12 @@ extension Parsers.ZipVV: Printer where P0: Printer, P1: Printer {
   }
 }
 
-extension Parsers.IntParser: Printer where Input == Substring.UTF8View {
+extension Parsers.IntParser: Printer where Input: AppendableCollection {
   func print(_ output: Output, to input: inout Input) {
-    var substring = Substring(input)
-    substring.append(contentsOf: String(output))
-    input = substring.utf8
+//    var substring = Substring(input)
+//    substring.append(contentsOf: String(output))
+//    input = substring.utf8
+    input.append(contentsOf: String(output).utf8)
   }
 }
 
@@ -99,14 +137,12 @@ extension FromUTF8View: Printer where UTF8Parser: Printer {
   }
 }
 
-extension Parsers.BoolParser: Printer where Input == Substring.UTF8View {
+extension Parsers.BoolParser: Printer where Input: AppendableCollection {
   func print(
     _ output: Bool,
-    to input: inout Substring.UTF8View
+    to input: inout Input
   ) throws {
-    var substring = Substring(input)
-    substring.append(contentsOf: String(output))
-    input = substring.utf8
+    input.append(contentsOf: String(output).utf8)
   }
 }
 
@@ -221,16 +257,19 @@ struct User: Equatable {
 //}
 //.map(f)
 
+let quotedFieldUtf8 = ParsePrint {
+  "\"".utf8
+  Prefix { $0 != .init(ascii: "\"") }
+  "\"".utf8
+}
+var inputUtf8 = ""[...].utf8
+try quotedFieldUtf8.print("Blob, Esq"[...].utf8, to: &inputUtf8)
+Substring(inputUtf8)
+
 let quotedField = ParsePrint {
   "\""
   Prefix { $0 != "\"" }
   "\""
-}
-
-let _quotedField = ParsePrint {
-  "\"".utf8
-  Prefix { $0 != .init(ascii: "\"") }
-  "\"".utf8
 }
 
 input = ""
@@ -239,6 +278,12 @@ input
 let parsedQuotedField = try quotedField.parse(&input)
 try quotedField.print(parsedQuotedField, to: &input)
 input
+
+let fieldUtf8 = OneOf {
+  quotedFieldUtf8
+
+  Prefix { $0 != .init(ascii: ",") }
+}
 
 let field = OneOf {
   quotedField
@@ -254,6 +299,11 @@ input = ""
 try field.print("Blob Jr.", to: &input)
 input
 
+let zeroOrOneSpaceUtf8 = OneOf {
+  " ".utf8
+  "".utf8
+}
+
 let zeroOrOneSpace = OneOf {
   " "
   ""
@@ -266,6 +316,20 @@ try Skip {
 }
 .print((), to: &input)
 input
+
+let userUtf8 = Parse {
+  Int.parser()
+  Skip {
+    ",".utf8
+    zeroOrOneSpaceUtf8
+  }
+  fieldUtf8
+  Skip {
+    ",".utf8
+    zeroOrOneSpaceUtf8
+  }
+  Bool.parser()
+}
 
 let user = Parse {
   Int.parser()
@@ -285,6 +349,14 @@ input = ""
 try user.print((42, "Blob, Esq.", true), to: &input)
 input
 
+let usersUtf8 = Many {
+  userUtf8
+} separator: {
+  "\n".utf8
+} terminator: {
+  End()
+}
+
 let users = Many {
   user
 } separator: {
@@ -292,6 +364,13 @@ let users = Many {
 } terminator: {
   End()
 }
+
+inputUtf8 = ""[...].utf8
+try usersUtf8.print([
+  (1, "Blob"[...].utf8, true),
+  (2, "Blob, Esq."[...].utf8, false),
+], to: &inputUtf8)
+Substring(inputUtf8)
 
 input = ""
 try users.print([
@@ -355,3 +434,25 @@ input = ""
 //var inputString = ""
 //UsersPrinter().print(output, to: &inputString)
 //inputString
+
+
+
+
+"🇺🇸".count
+"🇺🇸".unicodeScalars.count
+Array("🇺🇸".unicodeScalars)
+String.UnicodeScalarView([.init(127482)!])
+String.UnicodeScalarView([.init(127480)!])
+
+"🇺🇸".utf8.count
+Array("🇺🇸".utf8)
+
+String(decoding: [240, 159, 135, 186, 240, 159, 135, 184], as: UTF8.self)
+String(decoding: [240, 159, 135, 186], as: UTF8.self)
+String(decoding: [240, 159, 135, 184], as: UTF8.self)
+
+String(decoding: [240, 159], as: UTF8.self)
+String(decoding: [135, 186, 240, 159, 135, 184], as: UTF8.self)
+
+var utf8 = "🇺🇸".utf8
+//utf8.replaceSubrange(0...0, with: [241])
