@@ -217,6 +217,13 @@ struct Conversion<A, B> {
   let unapply: (B) -> A
 }
 
+extension Conversion where A == Substring, B == String {
+  static let string = Self(
+    apply: { String($0) },
+    unapply: { Substring($0) }
+  )
+}
+
 extension Parser where Self: Printer {
   func map<NewOutput>(
     _ conversion: Conversion<Output, NewOutput>
@@ -250,6 +257,23 @@ extension Parsers {
     func print(_ output: NewOutput, to input: inout Upstream.Input) throws {
       try self.upstream.print(self.untransform(output), to: &input)
     }
+  }
+}
+
+extension Parse {
+  init<Upstream, NewOutput>(
+    _ conversion: Conversion<Upstream.Output, NewOutput>,
+    @ParserBuilder with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.InvertibleMap<Upstream, NewOutput> {
+    self.init { build().map(conversion) }
+  }
+}
+
+extension Parsers.ZipOVO: Printer where P0: Printer, P1: Printer, P2: Printer {
+  func print(_ output: (P0.Output, P2.Output), to input: inout P0.Input) throws {
+    try self.p0.print(output.0, to: &input)
+    try self.p1.print((), to: &input)
+    try self.p2.print(output.1, to: &input)
   }
 }
 
@@ -332,21 +356,21 @@ let fieldUtf8 = OneOf {
 
   Prefix { $0 != .init(ascii: ",") }
 }
-  .map { String(Substring($0)) }
+//  .map { String(Substring($0)) }
 
 let field = OneOf {
   quotedField
 
   Prefix { $0 != "," }
 }
-  .map { String($0) }
+.map(.string)
 
 input = ""
-try field.print("Blob, Esq.", to: &input)
+try field.print("Blob, Esq." as String, to: &input)
 input
 
 input = ""
-try field.print("Blob Jr.", to: &input)
+try field.print("Blob Jr." as String, to: &input)
 input
 
 let zeroOrOneSpaceUtf8 = OneOf {
@@ -381,7 +405,68 @@ let userUtf8 = Parse {
   Bool.parser()
 }
 
-let user = Parse {
+unsafeBitCast((1, "Blob", true), to: User.self)
+unsafeBitCast(User(id: 1, name: "Blob", admin: true), to: (Int, String, Bool).self)
+
+
+struct Private {
+  private let value: Int
+//  private let other: Int = 1
+  private init(value: Int) {
+    self.value = value
+  }
+}
+
+//Never
+
+//Private(value: 42)
+let `private` = unsafeBitCast(42, to: Private.self)
+unsafeBitCast(`private`, to: Int.self)
+
+extension Conversion where A == (Int, String, Bool), B == User {
+  static let user = Self(
+    apply: B.init,
+    unapply: { unsafeBitCast($0, to: A.self) }
+  )
+}
+
+extension Conversion {
+  static func `struct`(_ `init`: @escaping (A) -> B) -> Self {
+    Self(
+      apply: `init`,
+      unapply: { unsafeBitCast($0, to: A.self) }
+    )
+  }
+}
+
+
+struct Person {
+  let firstName, lastName: String
+  var bio: String = ""
+
+  init(lastName: String, firstName: String) {
+    self.firstName = firstName
+    self.lastName = lastName
+  }
+}
+
+MemoryLayout<(String, String)>.size
+MemoryLayout<Person>.size
+
+let person = ParsePrint(.struct(Person.init)) {
+  Prefix { $0 != " " }.map(.string)
+  " "
+  Prefix { $0 != " " }.map(.string)
+}
+
+input = "Blob McBlob"
+let p = try person.parse(&input)
+input
+try person.print(p, to: &input)
+input
+
+
+let user = ParsePrint(.struct(User.init)) {
   Int.parser()
   Skip {
     ","
@@ -394,9 +479,11 @@ let user = Parse {
   }
   Bool.parser()
 }
+//.map(User.init)
+//.map(.struct(User.init))
 
 input = ""
-try user.print((42, "Blob, Esq.", true), to: &input)
+try user.print(User(id: 42, name: "Blob, Esq.", admin: true), to: &input)
 input
 
 let usersUtf8 = Many {
@@ -424,8 +511,8 @@ Substring(inputUtf8)
 
 input = ""
 try users.print([
-  (1, "Blob", true),
-  (2, "Blob, Esq.", false),
+  User(id: 1, name: "Blob", admin: true),
+  User(id: 2, name: "Blob, Esq.", admin: false),
 ], to: &input)
 input
 
