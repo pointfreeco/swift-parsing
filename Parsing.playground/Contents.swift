@@ -101,6 +101,23 @@ extension Parsers.OneOf2: Printer where P0: Printer, P1: Printer {
   }
 }
 
+extension Parsers.OneOf3: Printer where P0: Printer, P1: Printer, P2: Printer {
+  func print(_ output: P0.Output, to input: inout P0.Input) throws {
+    let original = input
+    do {
+      try self.p2.print(output, to: &input)
+    } catch {
+      input = original
+      do {
+        try self.p1.print(output, to: &input)
+      } catch {
+        input = original
+        try self.p0.print(output, to: &input)
+      }
+    }
+  }
+}
+
 extension Skip: Printer where Parsers: Printer, Parsers.Output == Void {
   func print(
     _ output: (),
@@ -203,18 +220,27 @@ input
 // parse: (inout Input) throws -> Output
 // print: (Output, inout Input) throws -> Void
 
-//extension Parsers.Map: Printer where Upstream: Printer {
-//  func print(_ output: NewOutput, to input: inout Upstream.Input) throws {
-//    self.transform
-//    self.upstream.print(<#T##output: Upstream.Output##Upstream.Output#>, to: &<#T##Upstream.Input#>)
-//  }
-//}
+// .map { Role.admin }
+
+extension Parsers.Map: Printer where
+  Upstream: Printer,
+  Upstream.Output == Void,
+  NewOutput: Equatable
+{
+  func print(_ output: NewOutput, to input: inout Upstream.Input) throws {
+    guard self.transform(()) == output
+    else {
+      throw PrintingError()
+    }
+    try self.upstream.print((), to: &input)
+  }
+}
 
 typealias ParserPrinter = Parser & Printer
 
 struct Conversion<A, B> {
-  let apply: (A) -> B
-  let unapply: (B) -> A
+  let apply: (A) throws -> B
+  let unapply: (B) throws -> A
 }
 
 extension Conversion where A == Substring, B == String {
@@ -247,8 +273,8 @@ extension Parser where Self: Printer {
 extension Parsers {
   struct InvertibleMap<Upstream: ParserPrinter, NewOutput>: ParserPrinter {
     let upstream: Upstream
-    let transform: (Upstream.Output) -> NewOutput
-    let untransform: (NewOutput) -> Upstream.Output
+    let transform: (Upstream.Output) throws -> NewOutput
+    let untransform: (NewOutput) throws -> Upstream.Output
 
     func parse(_ input: inout Upstream.Input) throws -> NewOutput {
       try self.transform(self.upstream.parse(&input))
@@ -274,6 +300,27 @@ extension Parsers.ZipOVO: Printer where P0: Printer, P1: Printer, P2: Printer {
     try self.p0.print(output.0, to: &input)
     try self.p1.print((), to: &input)
     try self.p2.print(output.1, to: &input)
+  }
+}
+
+extension Parser {
+  func printing(_ input: Input) -> Parsers.Printing<Self> where Input: AppendableCollection {
+    .init(upstream: self, input: input)
+  }
+}
+
+extension Parsers {
+  struct Printing<Upstream: Parser>: ParserPrinter where Upstream.Input: AppendableCollection {
+    let upstream: Upstream
+    let input: Upstream.Input
+
+    func parse(_ input: inout Upstream.Input) throws -> Upstream.Output {
+      try self.upstream.parse(&input)
+    }
+
+    func print(_ output: Upstream.Output, to input: inout Upstream.Input) throws {
+      input.append(contentsOf: self.input)
+    }
   }
 }
 
@@ -310,11 +357,43 @@ let usersCsv = """
 4, "Blob, Esq.", true
 """
 
+enum Role {
+  case admin, guest, member
+}
+
 struct User: Equatable {
   var id: Int
   var name: String
-  var admin: Bool
+  var role: Role
 }
+
+struct ConvertingError: Error {}
+
+extension Conversion where A == Void, B: Equatable {
+  static func exactly(_ output: B) -> Self {
+    .init(apply: { output }, unapply: {
+      guard $0 == output
+      else { throw ConvertingError() }
+    })
+  }
+}
+
+let role = OneOf {
+  "admin".map { Role.admin }
+  "guest".map { Role.guest }
+  "member".map { Role.member }
+}
+
+input = ""
+try role.print(.guest, to: &input)
+input
+input = ""
+try role.print(.admin, to: &input)
+input
+input = ""
+try role.print(.member, to: &input)
+input
+
 
 //OneOf {
 //  a.map(f)
@@ -382,6 +461,7 @@ let zeroOrOneSpace = OneOf {
   " "
   ""
 }
+.printing(" ")
 
 input = ""
 try Skip {
@@ -406,7 +486,7 @@ let userUtf8 = Parse {
 }
 
 unsafeBitCast((1, "Blob", true), to: User.self)
-unsafeBitCast(User(id: 1, name: "Blob", admin: true), to: (Int, String, Bool).self)
+unsafeBitCast(User(id: 1, name: "Blob", role: .admin), to: (Int, String, Bool).self)
 
 
 struct Private {
@@ -423,7 +503,7 @@ struct Private {
 let `private` = unsafeBitCast(42, to: Private.self)
 unsafeBitCast(`private`, to: Int.self)
 
-extension Conversion where A == (Int, String, Bool), B == User {
+extension Conversion where A == (Int, String, Role), B == User {
   static let user = Self(
     apply: B.init,
     unapply: { unsafeBitCast($0, to: A.self) }
@@ -462,7 +542,7 @@ let person = ParsePrint(.struct(Person.init)) {
 input = "Blob McBlob"
 let p = try person.parse(&input)
 input
-try person.print(p, to: &input)
+//try person.print(p, to: &input)
 input
 
 
@@ -477,13 +557,13 @@ let user = ParsePrint(.struct(User.init)) {
     ","
     zeroOrOneSpace
   }
-  Bool.parser()
+  role
 }
 //.map(User.init)
 //.map(.struct(User.init))
 
 input = ""
-try user.print(User(id: 42, name: "Blob, Esq.", admin: true), to: &input)
+try user.print(User(id: 42, name: "Blob, Esq.", role: .admin), to: &input)
 input
 
 let usersUtf8 = Many {
@@ -511,8 +591,8 @@ Substring(inputUtf8)
 
 input = ""
 try users.print([
-  User(id: 1, name: "Blob", admin: true),
-  User(id: 2, name: "Blob, Esq.", admin: false),
+  User(id: 1, name: "Blob", role: .admin),
+  User(id: 2, name: "Blob, Esq.", role: .member),
 ], to: &input)
 input
 
@@ -527,7 +607,7 @@ input
 "，" == ","
 
 func print(user: User) -> String {
-  "\(user.id), \(user.name.contains(",") ? "\"\(user.name)\"" : "\(user.name)"), \(user.admin)"
+  "\(user.id), \(user.name.contains(",") ? "\"\(user.name)\"" : "\(user.name)"), \(user.role)"
 }
 struct UserPrinter: Printer {
   func print(_ user: User, to input: inout String) {
@@ -537,11 +617,11 @@ struct UserPrinter: Printer {
     } else {
       input.append(contentsOf: user.name)
     }
-    input.append(contentsOf: ",\(user.admin)")
+    input.append(contentsOf: ",\(user.role)")
   }
 }
 
-print(user: .init(id: 42, name: "Blob", admin: true))
+print(user: .init(id: 42, name: "Blob", role: .admin))
 
 func print(users: [User]) -> String {
   users.map(print(user:)).joined(separator: "\n")
