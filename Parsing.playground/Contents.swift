@@ -198,12 +198,60 @@ input
 //Skip { Prefix { $0 != "," } }.print(<#T##output: ()##()#>, to: &<#T##_#>)
 
 
+// f: (A) -> B
+
+// parse: (inout Input) throws -> Output
+// print: (Output, inout Input) throws -> Void
+
 //extension Parsers.Map: Printer where Upstream: Printer {
 //  func print(_ output: NewOutput, to input: inout Upstream.Input) throws {
-//    self.tran
+//    self.transform
 //    self.upstream.print(<#T##output: Upstream.Output##Upstream.Output#>, to: &<#T##Upstream.Input#>)
 //  }
 //}
+
+typealias ParserPrinter = Parser & Printer
+
+struct Conversion<A, B> {
+  let apply: (A) -> B
+  let unapply: (B) -> A
+}
+
+extension Parser where Self: Printer {
+  func map<NewOutput>(
+    _ conversion: Conversion<Output, NewOutput>
+  ) -> Parsers.InvertibleMap<Self, NewOutput> {
+    .init(upstream: self, transform: conversion.apply, untransform: conversion.unapply)
+  }
+}
+
+// map: ((A) -> B) -> (F<A>) -> F<B>
+// map: ((A) -> B) -> (Array<A>) -> Array<B>
+// map: ((A) -> B) -> (Optional<A>) -> Optional<B>
+// map: ((A) -> B) -> (Result<A, _>) -> Result<B, _>
+// map: ((A) -> B) -> (Dictionary<_, A>) -> Dictionary<_, B>
+//...
+// map: (Conversion<A, B>) -> (ParserPrinter<_, A>) -> ParserPrinter<_, B>
+
+// pullback: (KeyPath<A, B>) -> (Reducer<B, _, _>) -> Reducer<A, _, _>
+// pullback: (CasePath<A, B>) -> (Reducer<_, B, _>) -> Reducer<_, A, _>
+
+
+extension Parsers {
+  struct InvertibleMap<Upstream: ParserPrinter, NewOutput>: ParserPrinter {
+    let upstream: Upstream
+    let transform: (Upstream.Output) -> NewOutput
+    let untransform: (NewOutput) -> Upstream.Output
+
+    func parse(_ input: inout Upstream.Input) throws -> NewOutput {
+      try self.transform(self.upstream.parse(&input))
+    }
+
+    func print(_ output: NewOutput, to input: inout Upstream.Input) throws {
+      try self.upstream.print(self.untransform(output), to: &input)
+    }
+  }
+}
 
 input = ""
 try Parse {
@@ -284,12 +332,14 @@ let fieldUtf8 = OneOf {
 
   Prefix { $0 != .init(ascii: ",") }
 }
+  .map { String(Substring($0)) }
 
 let field = OneOf {
   quotedField
 
   Prefix { $0 != "," }
 }
+  .map { String($0) }
 
 input = ""
 try field.print("Blob, Esq.", to: &input)
