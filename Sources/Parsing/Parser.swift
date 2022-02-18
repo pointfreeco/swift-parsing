@@ -198,7 +198,10 @@ extension Parser {
   @inlinable
   public func parse<C: Collection>(_ input: C) rethrows -> Output
   where Input == C.SubSequence {
-    try Parse { self; End<Input>() }.parse(input[...])
+    try Parse {
+      self
+      End<Input>()
+    }.parse(input[...])
   }
 
   /// Attempts to parse a nebulous collection of data into something more well-structured.
@@ -209,6 +212,9 @@ extension Parser {
   @inlinable
   public func parse<S: StringProtocol>(_ input: S) rethrows -> Output
   where Input == S.SubSequence.UTF8View {
-    try Parse { self; End<Input>() }.parse(input[...].utf8)
+    try Parse {
+      self
+      End<Input>()
+    }.parse(input[...].utf8)
   }
 }
