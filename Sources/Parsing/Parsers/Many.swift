@@ -137,7 +137,9 @@ where
       } catch {
         throw ParsingError.failed(
           "",
-          .init(originalInput: previous, remainingInput: input, debugDescription: "\(error)", underlyingError: error)
+          .init(
+            originalInput: previous, remainingInput: input, debugDescription: "\(error)",
+            underlyingError: error)
         )
       }
       rest = input
