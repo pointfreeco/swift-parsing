@@ -72,7 +72,7 @@ class NotTests: XCTestCase {
     )
   }
   
-  func testPrintComplextParserFails() {
+  func testPrintComplexParserFails() {
     var input = ""[...]
 
     let uncommentedLine = Parse {
