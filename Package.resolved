@@ -32,9 +32,9 @@
         "package": "swift-custom-dump",
         "repositoryURL": "https://github.com/pointfreeco/swift-custom-dump",
         "state": {
-          "branch": null,
-          "revision": "e9205f159983984511d86faa8f4bc3eaca475269",
-          "version": "0.4.0"
+          "branch": "main",
+          "revision": "1c384565cf4ea432649aa7ad84c726e7e9934512",
+          "version": null
         }
       },
       {
