@@ -30,4 +30,16 @@ final class BoolTests: XCTestCase {
     }
     XCTAssertNoDifference("Hello, world!", Substring(input))
   }
+    
+  func testPrintsTrue() {
+    var input = "!"[...]
+    XCTAssertNoThrow(try Bool.parser().print(true, to: &input))
+    XCTAssertEqual(input, "true!"[...])
+  }
+  
+  func testPrintsFalse() {
+    var input = "!"[...]
+    XCTAssertNoThrow(try Bool.parser().print(false, to: &input))
+    XCTAssertEqual(input, "false!"[...])
+  }
 }

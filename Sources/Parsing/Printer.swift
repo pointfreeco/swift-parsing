@@ -1,4 +1,8 @@
 /// Declares a type that can incrementally "print" an `Output` value into an `Input` value.
+///
+/// Note: Printing is the reverse operation of parsing, so the `Input` is essentially built up in reverse.
+/// As such, new values should be prepended to the front of the input. This allows parsers to check that
+/// the already-printed values match what is expected for any given ``Parser``.
 @rethrows public protocol Printer {
   /// The type of values this printer prints into.
   associatedtype Input
@@ -10,7 +14,7 @@
   ///
   /// - Parameters
   ///   - output: A well-structured value to be printed to the given input.
-  ///   - input: A nebulous, mutable piece of data to be incrementally printed to.
+  ///   - input: A nebulous, mutable piece of data to be incrementally printed to the beginning of.
   func print(_ output: Output, to input: inout Input) throws
 }
 

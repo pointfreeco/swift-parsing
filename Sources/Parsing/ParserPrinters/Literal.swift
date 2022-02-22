@@ -11,7 +11,7 @@ extension Array: Parser where Element: Equatable {
 extension Array: Printer {
   @inlinable
   public func print(_ output: Void, to input: inout SubSequence) {
-    input.append(contentsOf: self)
+    input.insert(contentsOf: self, at: startIndex)
   }
 }
 
@@ -26,7 +26,7 @@ extension String: ParserPrinter {
 
   @inlinable
   public func print(_ output: Void, to input: inout SubSequence) {
-    input.append(contentsOf: self)
+    input.insert(contentsOf: self, at: startIndex)
   }
 }
 
@@ -41,7 +41,7 @@ extension String.UnicodeScalarView: ParserPrinter {
 
   @inlinable
   public func print(_ output: Void, to input: inout SubSequence) {
-    input.append(contentsOf: self)
+    input.insert(contentsOf: self, at: startIndex)
   }
 }
 
@@ -56,6 +56,6 @@ extension String.UTF8View: ParserPrinter {
 
   @inlinable
   public func print(_ output: Void, to input: inout SubSequence) {
-    input.append(contentsOf: self)
+    input.prepend(contentsOf: self)
   }
 }

@@ -185,7 +185,7 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
   }
 }
 
-extension Prefix: Printer where Input: AppendableCollection {
+extension Prefix: Printer where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Input, to input: inout Input) throws {
     let count = output.count
@@ -194,7 +194,7 @@ extension Prefix: Printer where Input: AppendableCollection {
       self.maxLength.map({ count <= $0 }) ?? true,
       self.predicate.map({ output.allSatisfy($0) }) ?? true
     else { throw PrintingError() }
-    input.append(contentsOf: output)
+    input.prepend(contentsOf: output)
   }
 }
 

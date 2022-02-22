@@ -226,7 +226,7 @@ where
 {
   @inlinable
   public func print(_ output: Result, to input: inout Element.Input) throws {
-    let iterator = self.iterator(output)
+    var iterator = self.iterator(output).lazy.reversed().makeIterator() // TODO: more efficient way to get this?
     guard let first = iterator.next() else {
       guard self.minimum == 0 else { throw PrintingError() }
       return

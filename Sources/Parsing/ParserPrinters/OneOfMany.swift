@@ -49,12 +49,12 @@ extension Parsers.OneOfMany: Printer where Parsers: Printer {
   @inlinable
   public func print(_ output: Parsers.Output, to input: inout Parsers.Input) throws {
     var errors: [Error] = []
-    for parser in self.parsers.reversed() {
+    for parser in self.parsers.lazy.reversed() {
       do {
         try parser.print(output, to: &input)
         return
       } catch {
-        errors.append(error)
+        errors.insert(error, at: errors.startIndex)
       }
     }
     throw PrintingError()

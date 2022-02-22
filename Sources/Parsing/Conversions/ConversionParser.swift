@@ -18,7 +18,7 @@ extension Conversions {
   public struct Parser<Upstream>: Conversion
   where
     Upstream: ParserPrinter,
-    Upstream.Input: AppendableCollection
+    Upstream.Input: PrependableCollection
   {
     public let parser: Upstream
 

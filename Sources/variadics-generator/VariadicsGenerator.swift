@@ -187,7 +187,7 @@ struct VariadicsGenerator: ParsableCommand {
         output("\n    )")
       }
       output(",\n    to input: inout P0.Input\n  ) rethrows {\n    ")
-      outputForEach(0..<arity, separator: "\n    ") {
+      outputForEach((0..<arity).reversed(), separator: "\n    ") {
         let output = permutation.isCaptureless(at: $0) ? ""
           : permutation.captureIndices.count == 1 ? "output, "
           : "output.\(permutation.captureIndices.firstIndex(of: $0)!), "

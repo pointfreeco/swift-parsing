@@ -11,14 +11,7 @@
 ///
 /// This will check the input doesn't start with `"//"`, and if it doesn't, it will return the whole
 /// input up to the first newline.
-///
-/// ## Printability
-///
-/// `Not` is _not_ printable.
-///
-/// If you are building a parser-printer, avoid uses of `Not` and instead prefer the use of
-/// ``map(_:)-2sblf`` with conversions that preserve printability.
-public struct Not<Upstream: Parser>: Parser {
+public struct Not<Upstream: Parser>: ParserPrinter {
   public let upstream: Upstream
 
   /// Creates a parser that succeeds if the given parser fails, and does not consume any input.
@@ -40,5 +33,17 @@ public struct Not<Upstream: Parser>: Parser {
       return
     }
     throw ParsingError.expectedInput("not to be processed", from: original, to: input)
+  }
+
+  @inlinable
+  public func print(_ output: Void, to input: inout Upstream.Input) throws {
+    do {
+      var i = input
+      _ = try upstream.parse(&i)
+    } catch {
+        return
+    }
+    //      throw PrintingError.expected("not to be \(result)", at: i)
+    throw PrintingError()
   }
 }

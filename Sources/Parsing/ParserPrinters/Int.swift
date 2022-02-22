@@ -193,9 +193,9 @@ extension Parsers {
   }
 }
 
-extension Parsers.IntParser: Printer where Input: AppendableCollection {
+extension Parsers.IntParser: Printer where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Output, to input: inout Input) {
-    input.append(contentsOf: String(output, radix: self.radix).utf8)
+    input.prepend(contentsOf: String(output, radix: self.radix).utf8)
   }
 }
