@@ -11,7 +11,11 @@ public struct Rest<Input: Collection>: Parser where Input.SubSequence == Input {
   public init() {}
 
   @inlinable
-  public func parse(_ input: inout Input) -> Input {
+  public func parse(_ input: inout Input) throws -> Input {
+    guard !input.isEmpty
+    else {
+      throw ParsingError.expectedInput("not to be empty", at: input)
+    }
     let output = input
     input.removeFirst(input.count)
     return output

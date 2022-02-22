@@ -594,3 +594,31 @@ let output = try races.parse(&input)
 Substring(input)
 try races.print(output, to: &input)
 Substring(input) == racesInput
+
+
+
+extension End: Printer {
+  func print(_ output: (), to input: inout Input) throws {
+    // ???
+  }
+}
+
+extension Rest: Printer where Input: AppendableCollection {
+  func print(_ output: Input, to input: inout Input) throws {
+    input.append(contentsOf: output)
+  }
+}
+
+let pp = Parse {
+  Rest<Substring>()
+  Rest<Substring>()
+}
+
+var inputSubstring = ""[...]
+pp.parse("Hello World")
+try pp.print(("!!!", "Hello World"), to: &inputSubstring)
+inputSubstring
+
+1
+
+
