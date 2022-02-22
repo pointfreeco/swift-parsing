@@ -64,7 +64,7 @@ class NotTests: XCTestCase {
       Not { "//" }
       Rest()
     }
-
+    
     XCTAssertNoThrow(try uncommentedLine.print("uncommented line"[...], to: &input))
     XCTAssertNoDifference(
       input,
