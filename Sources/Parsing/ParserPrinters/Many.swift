@@ -231,6 +231,7 @@ where
       guard self.minimum == 0 else { throw PrintingError() }
       return
     }
+    try self.terminator.print(to: &input)
     try self.element.print(first, to: &input)
     var count = 1
     while let element = iterator.next() {
@@ -246,7 +247,6 @@ where
     else {
       throw PrintingError()
     }
-    try self.terminator.print(to: &input)
   }
 }
 

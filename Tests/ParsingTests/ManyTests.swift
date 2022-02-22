@@ -222,4 +222,45 @@ class ManyTests: XCTestCase {
       )
     }
   }
+  
+  func testPrintSingleItem() {
+    let intsParser = Many {
+      Int.parser()
+    } separator: {
+      ","
+    }
+    
+    var input = ""[...]
+    
+    XCTAssertNoThrow(try intsParser.print([1], to: &input))
+    XCTAssertNoDifference(input, "1")
+  }
+  
+  func testPrintMultipleItems() {
+    let intsParser = Many {
+      Int.parser()
+    } separator: {
+      ","
+    }
+    
+    var input = ""[...]
+    
+    XCTAssertNoThrow(try intsParser.print([1, 2, 3], to: &input))
+    XCTAssertNoDifference(input, "1,2,3"[...])
+  }
+  
+  func testPrintWithTerminator() {
+    let intsParser = Many {
+      Int.parser()
+    } separator: {
+      ","
+    } terminator: {
+      "---"
+    }
+    
+    var input = ""[...]
+    
+    XCTAssertNoThrow(try intsParser.print([1,2,3], to: &input))
+    XCTAssertNoDifference(input, "1,2,3---"[...])
+  }
 }
