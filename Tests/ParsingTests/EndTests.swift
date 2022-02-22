@@ -24,4 +24,16 @@ final class EndTests: XCTestCase {
     }
     XCTAssertNoDifference("Hello, world!", input)
   }
+    
+  func testPrintSuccess() {
+    var input = ""[...]
+    XCTAssertNoThrow(try End().print(to: &input))
+    XCTAssertNoDifference(input, ""[...])
+  }
+  
+  func testPrintFailure() {
+    var input = "Hello, world!"[...]
+    XCTAssertThrowsError(try End().print(to: &input))
+    XCTAssertNoDifference(input, "Hello, world!"[...])
+  }
 }
