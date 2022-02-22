@@ -20,7 +20,7 @@
 ///
 /// If you want to allow for the possibility of an empty remaining input you can use the
 /// ``Optionally`` parser to parse an optional output value, or the ``replaceError(with:)`` method
-/// to coalesce any error into an output value.
+/// to coalesce the error into an output value.
 public struct Rest<Input: Collection>: Parser where Input.SubSequence == Input {
   @inlinable
   public init() {}
