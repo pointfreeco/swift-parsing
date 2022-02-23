@@ -57,6 +57,6 @@ extension Parsers.OneOfMany: Printer where Parsers: Printer {
         errors.insert(error, at: errors.startIndex)
       }
     }
-    throw PrintingError()
+    throw PrintingError.manyFailed(errors.reversed(), at: input)
   }
 }
