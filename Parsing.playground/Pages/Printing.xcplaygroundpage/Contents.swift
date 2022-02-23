@@ -582,6 +582,12 @@ let users = Many {
   End()
 }
 
+try users.parse("""
+1,Blob,admin
+2,Blob Jr.,true
+""")
+
+
 inputUtf8 = ""[...].utf8
 try usersUtf8.print([
   (1, "Blob"[...].utf8, true),
