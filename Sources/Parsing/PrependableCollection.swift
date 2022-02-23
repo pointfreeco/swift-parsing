@@ -1,7 +1,7 @@
 import Foundation
 
-/// A collection that supports empty initialization and the ability to append itself with a sequence
-/// of elements.
+/// A collection that supports empty initialization and the ability to prepend a sequence
+/// of elements to itself.
 ///
 /// A partial conformance of `RangeReplaceableCollection`, and any `RangeReplaceableCollection` can
 /// get a conformance for free:
@@ -87,55 +87,88 @@ extension PrependableCollection {
 }
 
 extension Array: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Collection, Element == S.Element {
-    insert(contentsOf: newElements, at: startIndex)
+  public mutating func prepend(contentsOf newElements: Self) {
+    var newSelf = newElements
+    newSelf.append(contentsOf: self)
+    self = newSelf
+  }
+  
+  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Element == S.Element {
+    var newSelf = Self()
+    newSelf.append(contentsOf: newElements)
+    newSelf.append(contentsOf: self)
+    self = newSelf
   }
 }
 
 extension ArraySlice: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Collection, Element == S.Element {
-    insert(contentsOf: newElements, at: startIndex)
+  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Element == S.Element {
+    var newSelf = Self()
+    newSelf.append(contentsOf: newElements)
+    newSelf.append(contentsOf: self)
+    self = newSelf
   }
 }
 
 extension ContiguousArray: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Collection, Element == S.Element {
-    insert(contentsOf: newElements, at: startIndex)
+  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Element == S.Element {
+    var newSelf = Self()
+    newSelf.append(contentsOf: newElements)
+    newSelf.append(contentsOf: self)
+    self = newSelf
   }
 }
 
 extension Data: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Collection, UInt8 == S.Element {
-    insert(contentsOf: newElements, at: startIndex)
+  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, UInt8 == S.Element {
+    var newSelf = Self()
+    newSelf.append(contentsOf: newElements)
+    newSelf.append(contentsOf: self)
+    self = newSelf
   }
 }
 
 extension Slice: PrependableCollection, EmptyInitializable where Base: RangeReplaceableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Collection, Base.Element == S.Element {
-    insert(contentsOf: newElements, at: startIndex    )
+  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Base.Element == S.Element {
+    var newSelf = Self()
+    newSelf.append(contentsOf: newElements)
+    newSelf.append(contentsOf: self)
+    self = newSelf
   }
 }
 
 extension String: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Collection, Character == S.Element {
-    insert(contentsOf: newElements, at: startIndex)
+  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Character == S.Element {
+    var newSelf = Self()
+    newSelf.append(contentsOf: newElements)
+    newSelf.append(contentsOf: self)
+    self = newSelf
   }
 }
   
 extension String.UnicodeScalarView: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Collection, Unicode.Scalar == S.Element {
-    insert(contentsOf: newElements, at: startIndex  )
+  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Unicode.Scalar == S.Element {
+    var newSelf = Self()
+    newSelf.append(contentsOf: newElements)
+    newSelf.append(contentsOf: self)
+    self = newSelf
   }
 }
 extension Substring: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Collection, Character == S.Element {
-    insert(contentsOf: newElements, at: startIndex)
+  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Character == S.Element {
+    var newSelf = Self()
+    newSelf.append(contentsOf: newElements)
+    newSelf.append(contentsOf: self)
+    self = newSelf
   }
 }
   
 extension Substring.UnicodeScalarView: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Collection, String.UnicodeScalarView.Element == S.Element {
-    insert(contentsOf: newElements, at: startIndex)
+  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, String.UnicodeScalarView.Element == S.Element {
+    var newSelf = Self()
+    newSelf.append(contentsOf: newElements)
+    newSelf.append(contentsOf: self)
+    self = newSelf
   }
 }
 
@@ -146,7 +179,7 @@ extension Substring.UTF8View: PrependableCollection {
   }
 
   @inlinable
-  public mutating func prepend<S>(contentsOf elements: S) where S : Collection, String.UTF8View.Element == S.Element {
+  public mutating func prepend<S>(contentsOf elements: S) where S : Sequence, String.UTF8View.Element == S.Element {
     var str = Substring(self)
     defer { self = str.utf8 }
 
