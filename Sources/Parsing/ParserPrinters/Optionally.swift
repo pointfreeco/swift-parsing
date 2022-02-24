@@ -24,7 +24,13 @@ public struct Optionally<Wrapped: Parser>: Parser {
 
   @inlinable
   public func parse(_ input: inout Wrapped.Input) -> Wrapped.Output? {
-    try? self.wrapped.parse(&input)
+    let original = input
+    do {
+      return try self.wrapped.parse(&input)
+    } catch {
+      input = original
+      return nil
+    }
   }
 }
 
@@ -32,6 +38,6 @@ extension Optionally: Printer where Wrapped: Printer {
   @inlinable
   public func print(_ output: Wrapped.Output?, to input: inout Wrapped.Input) rethrows {
     guard let output = output else { return }
-    try? self.wrapped.print(output, to: &input) // TODO: Should this fail?
+    try self.wrapped.print(output, to: &input)
   }
 }
