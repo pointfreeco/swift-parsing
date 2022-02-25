@@ -85,7 +85,7 @@ where
   public let minimum: Int
   public let separator: Separator
   public let terminator: Terminator
-  public let updateAccumulatingResult: (inout Result, Element.Output) -> Void
+  public let updateAccumulatingResult: (inout Result, Element.Output) throws -> Void
 
   @inlinable
   public func parse(_ input: inout Element.Input) throws -> Result {
@@ -104,7 +104,16 @@ where
       }
       defer { previous = input }
       count += 1
-      self.updateAccumulatingResult(&result, output)
+      do {
+        try self.updateAccumulatingResult(&result, output)
+      } catch {
+        throw ParsingError.failed(
+          "",
+          .init(
+            originalInput: previous, remainingInput: input, debugDescription: "\(error)",
+            underlyingError: error)
+        )
+      }
       rest = input
       do {
         _ = try self.separator.parse(&input)
@@ -199,7 +208,7 @@ extension Many where Printability == Never {
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator,
     @ParserBuilder terminator: () -> Terminator
@@ -392,7 +401,7 @@ extension Many where Terminator == Always<Input, Void>, Printability == Never {
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) {
