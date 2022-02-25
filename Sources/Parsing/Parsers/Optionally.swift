@@ -1,4 +1,4 @@
-/// A parser that runs the given parser and succeeds with `nil` if it fails.
+/// A parser that runs the given parser and succeeds with `nil` if it fails, backtracking the `input` in that case.
 ///
 /// Use this parser when you are parsing into an output data model that contains `nil`.
 ///
@@ -24,6 +24,12 @@ public struct Optionally<Wrapped: Parser>: Parser {
 
   @inlinable
   public func parse(_ input: inout Wrapped.Input) -> Wrapped.Output? {
-    try? self.wrapped.parse(&input)
+    let original = input
+    do {
+     return try self.wrapped.parse(&input)
+    } catch {
+     input = original
+     return nil
+    }
   }
 }

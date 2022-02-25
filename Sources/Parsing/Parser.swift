@@ -132,15 +132,39 @@
 ///
 /// ## Backtracking
 ///
-/// Parsers may consume input even if they throw an error, and you should not depend on a parser
-/// restoring the input to the original value when failing. The process of restoring the input to the
-/// original value is known as "backtracking". Backtracking can be handy when wanting to try many parsers
-/// on the same input, and one usually does this by using the ``OneOf`` parser, which automatically backtracks
-/// when one of its parsers fails.
+/// Backtracking, which is the process of restoring the input to its original value when a parser fails,
+/// is very useful, but can lead to performance issues and cause parsers' logic to be more complicated
+/// than necessary. For this reason most parsers are not required to backtrack.
 ///
-/// By not requiring backtracking of each individual parser we can greatly simply the logic of parsers and we
-/// can coalesce all backtracking logic into just a single parser, the ``OneOf`` parser. If you really need
-/// backtracking capabilities then we recommend using the ``OneOf`` parser to control backtracking.
+/// However, if a parser catches an error and may not throw its own error, it should backtrack so that
+/// parsers further down the line can continue parsing without having part of the input consumed if the
+/// parser fails.
+///
+/// For example, the `OneOf` parser backtracks, because it will attempt to parse multiple internal parsers,
+/// returning the result of the first one which doesn't fail.
+///
+/// `Optionally` also backtracks, since a the wrapped parser may partially consume the input before failing,
+/// but `Optionally` will just return `nil`, allowing parsing to continue. Additionally, `Optionally` is
+/// essentially syntactic sugar for `OneOf`:
+///
+/// ```swift
+/// Optionally { p }
+///
+/// // vs
+///
+/// OneOf {
+///   p.map(Optional.some)
+///   Always(nil)
+/// }
+/// ```
+///
+/// Internally, the `Many` parser backtracks when checking the `separator` parser, because it is expected
+/// to fail at some point to signal the end of the loop, in which case it continues successfully. However
+/// if the main body or the `terminator` fails, it is not backtracked. If your parser has a similar internal
+/// "checking" parser like `separator`, consider backtracking in that context.
+///
+/// In most cases, if backtracking is needed, one should use the `OneOf` parser, which can try many parsers one
+/// after another on a single input, backtracking after each failure and taking the first that succeeds.
 ///
 /// If used naively, backtracking can lead to less performant parsing code. For example, if we wanted to
 /// parse two integers from a string that were separated by either a dash "-" or slash "/", then we could
