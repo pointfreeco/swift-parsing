@@ -1,4 +1,4 @@
-/// A parser that runs the given parser and succeeds with `nil` if it fails.
+/// A parser that runs the given parser and succeeds with `nil` if it fails, backtracking the `input` in that case.
 ///
 /// Use this parser when you are parsing into an output data model that contains `nil`.
 ///
