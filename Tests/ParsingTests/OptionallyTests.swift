@@ -16,11 +16,16 @@ final class OptionalTests: XCTestCase {
   }
     
   func testBacktracking() {
-    var input = "Hello, world!"[...]
-    XCTAssertNoDifference(.none, Optionally {
-      "Hello, "
-      Bool.parser()
-    }.parse(&input))
-    XCTAssertNoDifference("Hello, world!", input)
+    let parser = Parse {
+      "Hello,"
+      Optionally {
+        " "
+        Bool.parser()
+      }
+      " world!"
+    }
+    
+    XCTAssertNoDifference(.some(true), try parser.parse("Hello, true world!"))
+    XCTAssertNoDifference(.none, try parser.parse("Hello, world!"))
   }
 }
