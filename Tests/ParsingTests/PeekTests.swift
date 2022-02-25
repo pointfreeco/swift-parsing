@@ -122,7 +122,7 @@ class PeekTests: XCTestCase {
     XCTAssertNoDifference(input, "foo!")
   }
   
-  func testPrintSkippedPeekFails() {
+  func testPrintSkippedPeekSucceedsUnexpectedly() {
     var input = "!"[...]
 
     let identifier = Parse {
@@ -135,8 +135,9 @@ class PeekTests: XCTestCase {
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
 
-    // Should fail because '1' is not allowed for the first character, checked by the `Peek`
-    XCTAssertThrowsError(try identifier.print("1foo"[...], to: &input))
+    // Should fail because '1' is not allowed for the first character, checked by the `Peek`,
+    // but parses because of `.printing("")` statement bypasses the `Peek`.
+    XCTAssertNoThrow(try identifier.print("1foo"[...], to: &input))
     XCTAssertNoDifference(input, "1foo!")
   }
 }
