@@ -27,10 +27,6 @@
 /// //  --> input:1:1
 /// // 1 | London, Hello!
 /// //   | ^ expected "New York"
-/// //
-/// // error: unexpected input
-/// //  --> input:1:1
-/// // 1 | London, Hello!
 /// //   | ^ expected "Berlin"
 /// ```
 ///
@@ -83,6 +79,8 @@
 ///   Int.parser()
 /// }
 /// ```
+///
+/// For more information, see the article <doc:Backtracking>.
 public struct OneOf<Parsers>: Parser where Parsers: Parser {
   public let parsers: Parsers
 

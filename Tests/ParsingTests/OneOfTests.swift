@@ -299,4 +299,67 @@ final class OneOfTests: XCTestCase {
       )
     }
   }
+
+  func testNormalization() {
+    enum City {
+      case losAngeles
+      case newYork
+      case sanJose
+    }
+
+    let city = OneOf {
+      "Los Angeles".utf8.map { City.losAngeles }
+      "New York".utf8.map { City.newYork }
+      "San José".utf8.map { City.sanJose }
+    }
+
+    XCTAssertThrowsError(try city.parse("San José")) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | San José
+          | ^ expected "Los Angeles"
+          | ^ expected "New York"
+          | ^ expected "San José"
+        """,
+        "\(error)"
+      )
+    }
+  }
+
+  func testFailure1() throws {
+    let accountingNumber = OneOf {
+      Int.parser(isSigned: false)
+
+      Parse {
+        "("
+        Int.parser(isSigned: false)
+        ")"
+      }
+      .map { -$0 }
+    }
+
+    _ = try accountingNumber.parse("100")
+    _ = try accountingNumber.parse("(100)")
+
+    XCTAssertThrowsError(try accountingNumber.parse("(100]")) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:5
+        1 | (100]
+          |     ^ expected ")"
+
+        error: unexpected input
+         --> input:1:1
+        1 | (100]
+          | ^ expected integer
+        """,
+        "\(error)"
+      )
+    }
+  }
 }

@@ -3,7 +3,7 @@
 Learn what backtracking is, how it affects the performance of your parsers, and how to avoid it 
 when unnecessary.
 
-## Backtracking
+## Overview
 
 Backtracking is the process of restoring an input to its original value when parsing fails. It can 
 be very useful, but doing it can cause parsers' logic to be more complicated than necessary, and
