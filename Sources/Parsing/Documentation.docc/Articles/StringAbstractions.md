@@ -140,7 +140,8 @@ from you.
 However, there's no need to parse everything on the level of `Substring` just because this one
 parser needs to in order to maintain correctness. We can parse everything on the level of 
 `UTF8View` and then parse just "San José" on the level of `Substring`. We do this by using the
-``FromSubstring`` parser, which allows us to temporarily leave the `UTF8View` world to work on the `Substring` world:
+``FromSubstring`` parser, which allows us to temporarily leave the `UTF8View` world to work on the 
+`Substring` world:
 
 ```swift
 let city = OneOf {
