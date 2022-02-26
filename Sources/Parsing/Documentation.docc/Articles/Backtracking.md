@@ -11,12 +11,18 @@ backtracking too much can cause performance issues. For this reason, most parser
 to backtrack, and can therefore fail _and_ still consume from the input.
 
 The primary way to make use of backtracking in your parsers is through the `OneOf` parser, which
-tries many parsers on an input choosing the first that succeeds.
+tries many parsers on an input choosing the first that succeeds. This allows you to try many parsers
+on the same input, regardless of how much each parser consumes:
 
+```swift
+enum Currency { case eur, gbp, usd }
 
-
-, and the `Optionally` parser, which
-tries a parser and coalesces any failures into a `nil` output. Both of these parsers backtrack 
+let currency = OneOf {
+  "€".map { Currency.eur }
+  "£".map { Currency.gbp }
+  "$".map { Currency.usd }
+}
+```
 
 ## Performance
 
@@ -43,4 +49,37 @@ Parse {
   OneOf { "-"; "/" }
   Int.parser()
 }
+```
+
+We can even write a benchmark to measure the performance difference:
+
+```swift
+let first = OneOf {
+  Parse { Int.parser(); "-"; Int.parser() }
+  Parse { Int.parser(); "/"; Int.parser() }
+}
+benchmark("First") {
+  precondition(try! first.parse("100/200") == (100, 200))
+}
+let second = Parse {
+  Int.parser()
+  OneOf { "-"; "/" }
+  Int.parser()
+}
+benchmark("Second") {
+  precondition(try! second.parse("100/200") == (100, 200))
+}
+```
+
+Running this produces the following results:
+
+```
+running First... done! (1527.00 ms)
+running Second... done! (1075.69 ms)
+
+name   time        std        iterations
+----------------------------------------
+First  1500.000 ns ±  19.75 %     856753
+Second  917.000 ns ±  15.89 %    1000000
+Program ended with exit code: 0
 ```
