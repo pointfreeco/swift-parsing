@@ -83,3 +83,5 @@ First  1500.000 ns ±  19.75 %     856753
 Second  917.000 ns ±  15.89 %    1000000
 Program ended with exit code: 0
 ```
+
+The second parser takes only 60% of the time to run that the first parser does.

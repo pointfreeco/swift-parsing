@@ -48,39 +48,108 @@
 /// currency.parse("฿")  // Currency.unknown
 /// ```
 ///
-/// # Backtracking
+/// ## Specificity
 ///
-/// `OneOf` will automatically revert any changes made to input when one of its parsers fails. This
-/// process is often called "backtracking", and simplifies the logic of other parsers by not forcing
-/// them to be responsible for their own backtracking when they fail.
+/// The order of the parsers in the above `OneOf` does not matter because each of "€", "£" and "$"
+/// are mutually exclusive, i.e. at most one will succeed on any given input.
 ///
-/// If used naively, backtracking can lead to less performant parsing code. For example, if we
-/// wanted to parse two integers from a string that were separated by either a dash "-" or slash
-/// "/", then we could write this as:
+/// However, that is not always true, and when the parsers are not mutually exclusive (i.e. multiple
+/// can succeed on a given input) you must order them from most specific to least specific. That is,
+/// the first parser should succeed on the fewest number of inputs and the last parser should
+/// succeed on the most number of inputs.
+///
+/// For example, suppose you wanted to parse a simple CSV format into a doubly-nested array of
+/// strings, and the fields in the CSV are allowed to contain quotes:
 ///
 /// ```swift
-/// OneOf {
-///   Parser { Int.parser(); "-"; Int.parser() } // 1️⃣
-///   Parser { Int.parser(); "/"; Int.parser() } // 2️⃣
+/// let input = #"""
+/// lastName,firstName
+/// McBlob,Blob
+/// "McBlob, Esq.",Blob Jr.
+/// "McBlob, MD",Blob Sr.
+/// """#
+/// ```
+///
+/// Here we have a list of last and first names separated by a comma, and some of the last names are
+/// quoted because they contain commas.
+///
+/// In order to safely parse this we must first try parsing a field as a quoted field, and then only
+/// if that fails we can parse a plain field that takes everything up until the next comma or
+/// newline:
+///
+/// ```swift
+/// let quotedField = Parse {
+///   "\""
+///   Prefix { $0 != "\"" }
+///   "\""
+/// }
+/// let plainField = Prefix { $0 != "," && $0 != "\n" }
+///
+/// let field = OneOf {
+///   quotedField
+///   plainField
 /// }
 /// ```
 ///
-/// However, parsing slash-separated integers is not going to be performant because it will first
-/// run the entire 1️⃣ parser until it fails, then backtrack to the beginning, and run the 2️⃣ parser.
-/// In particular, the first integer will get parsed twice, unnecessarily repeating that work.
-///
-/// On the other hand, we can factor out the common work of the parser and localize the backtracking
-/// `OneOf` work to make a much more performant parser:
+/// Then we can parse many fields to form an array of fields making up a line, and then parse many
+/// lines to make up a full, doubly-nested array for the CSV:
 ///
 /// ```swift
-/// Parse {
-///   Int.parser()
-///   OneOf { "-"; "/" }
-///   Int.parser()
+/// let line = Many { field } separator: { "," }
+/// let csv = Many { line } separator: { "\n" }
+/// ```
+///
+/// Running this parser on the input shows that it properly isolates each field of the CSV, even
+/// fields that are quoted and contain a comma:
+///
+/// ```swift
+/// XCTAssertEqual(
+///   try csv.parse(input),
+///   [
+///     ["lastName", "firstName"],
+///     ["McBlob", "Blob"],
+///     ["McBlob, Esq.", "Blob Jr."],
+///     ["McBlob, MD", "Blob Sr."],
+///   ]
+/// )
+/// // ✅
+/// ```
+///
+/// The reason this parser works is because the `quotedField` and `plainField` parsers are listed in
+/// a very specific order inside the `OneOf`:
+///
+/// ```swift
+/// let field = OneOf {
+///   quotedField
+///   plainField
 /// }
 /// ```
 ///
-/// For more information, see the article <doc:Backtracking>.
+/// The `quotedField` parser is a _more_ specific parser, in that it will succeed on fewer inputs
+/// than the `plainField` parser does. For example:
+///
+/// ```swift
+/// try quotedField.parse("Blob Jr.") // ❌
+/// try plainField.parse("Blob Jr.")  // ✅
+/// ```
+///
+/// Whereas the `plainField` parser will happily succeed on anything the `quotedField` parser will
+/// succeed on:
+///
+/// ```swift
+/// try quotedField.parse("\"Blob, Esq\"") // ✅
+/// try plainField.parse("\"Blob, Esq\"")  // ✅
+/// ```
+///
+/// For this reason the `quotedField` parser must be listed first so that it can try its logic
+/// first, which succeeds less frequently, before then trying the `plainField` parser, which
+/// succeeds more often.
+///
+/// ## Backtracking
+///
+/// The ``OneOf`` parser is the primary tool for introducing backtracking into your parsers,
+/// which means to undo the consumption of a parser when it fails. For more information, see the
+/// article <doc:Backtracking>.
 public struct OneOf<Parsers>: Parser where Parsers: Parser {
   public let parsers: Parsers
 
