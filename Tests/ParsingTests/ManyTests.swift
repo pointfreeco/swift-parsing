@@ -222,27 +222,28 @@ class ManyTests: XCTestCase {
     }
   }
 
-  func testFoo() throws {
-    try user.parse("1,Blob, Esq,true")
+  func testThrowingAccumulator() {
+    let parser = Many(into: [Int]()) { (xs, x) throws in
+      struct UniqueIntegerError: Error {}
+      guard !xs.contains(x)
+      else { throw UniqueIntegerError() }
+      xs.append(x)
+    } element: {
+      Int.parser()
+    } separator: {
+      ","
+    }
+
+    XCTAssertThrowsError(try parser.parse("1,2,3,1,2,3")) { error in
+      XCTAssertEqual(
+        """
+        error: UniqueIntegerError()
+         --> input:1:7
+        1 | 1,2,3,1,2,3
+          |       ^
+        """,
+        "\(error)"
+      )
+    }
   }
-}
-
-
-struct User {
-  var id: Int
-  var name: String
-  var isAdmin: Bool
-}
-
-let user = Parse(User.init(id:name:isAdmin:)) {
-  Int.parser()
-  ","
-  Prefix { $0 != "," }.map(String.init)
-  ","
-  Bool.parser()
-}
-let users = Many {
-  user
-} separator: {
-  "\n"
 }

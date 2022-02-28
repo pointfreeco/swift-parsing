@@ -82,7 +82,7 @@ where
   public let minimum: Int
   public let separator: Separator
   public let terminator: Terminator
-  public let updateAccumulatingResult: (inout Result, Element.Output) -> Void
+  public let updateAccumulatingResult: (inout Result, Element.Output) throws -> Void
 
   /// Initializes a parser that attempts to run the given parser at least and at most the given
   /// number of times, accumulating the outputs into a result with a given closure.
@@ -101,7 +101,7 @@ where
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator,
     @ParserBuilder terminator: () -> Terminator
@@ -132,7 +132,16 @@ where
       }
       defer { previous = input }
       count += 1
-      self.updateAccumulatingResult(&result, output)
+      do {
+        try self.updateAccumulatingResult(&result, output)
+      } catch {
+        throw ParsingError.failed(
+          "",
+          .init(
+            originalInput: previous, remainingInput: input, debugDescription: "\(error)",
+            underlyingError: error)
+        )
+      }
       rest = input
       do {
         _ = try self.separator.parse(&input)
@@ -188,7 +197,7 @@ extension Many where Separator == Always<Input, Void>, Terminator == Always<Inpu
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element
   ) {
     self.element = element()
@@ -207,7 +216,7 @@ extension Many where Separator == Always<Input, Void> {
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
     @ParserBuilder terminator: () -> Terminator
   ) {
@@ -227,7 +236,7 @@ extension Many where Terminator == Always<Input, Void> {
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) {
