@@ -185,7 +185,8 @@ For example, suppose we wanted a parser that only parsed the digits 0-9 from the
 string and transformed it into an integer. This is subtly different from `Int.parser()` which allows 
 for negative numbers.
 
-Constructing a `Digits` parser is easy enough, and we can introduce a custom struct error for customizing the message displayed:
+Constructing a `Digits` parser is easy enough, and we can introduce a custom struct error for 
+customizing the message displayed:
 
 ```swift
 struct DigitsError: Error {
