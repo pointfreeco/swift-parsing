@@ -306,14 +306,14 @@ final class OneOfTests: XCTestCase {
       case newYork
       case sanJose
     }
-
+    
     let city = OneOf {
       "Los Angeles".utf8.map { City.losAngeles }
       "New York".utf8.map { City.newYork }
-      "San José".utf8.map { City.sanJose }
+      "San Jos\u{00E9}".utf8.map { City.sanJose }
     }
 
-    XCTAssertThrowsError(try city.parse("San José")) { error in
+    XCTAssertThrowsError(try city.parse("San Jose\u{0301}")) { error in
       XCTAssertEqual(
         """
         error: unexpected input
