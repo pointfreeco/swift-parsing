@@ -5,11 +5,12 @@ trade performance for correctness where needed.
 
 ## Levels of abstraction
 
-Nearly none of the parsers in the library work on `String`s directly, and instead operate on
+The parsers in the library do not work on `String`s directly, and instead operate on
 _views_ into a string, such as `Substring`, `UnicodeScalarView` and `UTF8View`. Each of these
 types represents a particular kind of "view" into some subset of a string, which means they are
 cheap to copy around, and it makes consuming elements from the beginning and end of the string very
-efficient since only their start and end index need to be moved.
+efficient since only their start and end index need to be mutated to point to different parts of the
+string.
 
 However, there are tradeoffs to using each type:
 
@@ -90,7 +91,7 @@ let city = OneOf {
 }
 ```
 
-For the most part this parse could work on the level of UTF8 because it is mostly dealing with
+For the most part this parser could work on the level of UTF8 because it is mostly dealing with
 plain ASCII characters for which there are not multiple ways of representing the same visual 
 character. The only exception is "San José", which has an accented "e" that can be represented 
 by two different sequences of bytes.
@@ -169,6 +170,6 @@ let city = OneOf {
 }
 ```
 
-We don't recommend doing this, at least not without benchmarking to make sure it is worth it,
-but it does demonstrate how you can be very precise with which abstraction levels you want
-to work on.
+We don't necessarily recommend being this pedantic in general, at least not without benchmarking to 
+make sure it is worth it. But it does demonstrate how you can be very precise with which abstraction 
+levels you want to work on.

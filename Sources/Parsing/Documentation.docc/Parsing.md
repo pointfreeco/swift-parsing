@@ -27,7 +27,7 @@ A parser can be constructed for transforming the input string into an array of u
 and fluent API:
 
 ```swift
-let user = Parse(User.init(id:name:isAdmin:)) {
+let user = Parse(User.init) {
   Int.parser()
   ","
   Prefix { $0 != "," }.map(String.init)

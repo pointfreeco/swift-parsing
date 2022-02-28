@@ -2,7 +2,7 @@
 ///
 /// Use this parser to list out a number of parsers in a ``OneOfBuilder`` result builder block.
 ///
-/// The following example uses `OneOf` to parse an enum value. To do so, it spells out a list of
+/// The following example uses ``OneOf`` to parse an enum value. To do so, it spells out a list of
 /// parsers to `OneOf`, one for each case:
 ///
 /// ```swift
@@ -50,7 +50,7 @@
 ///
 /// ## Specificity
 ///
-/// The order of the parsers in the above `OneOf` does not matter because each of "€", "£" and "$"
+/// The order of the parsers in the above ``OneOf`` does not matter because each of "€", "£" and "$"
 /// are mutually exclusive, i.e. at most one will succeed on any given input.
 ///
 /// However, that is not always true, and when the parsers are not mutually exclusive (i.e. multiple

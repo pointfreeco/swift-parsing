@@ -221,4 +221,28 @@ class ManyTests: XCTestCase {
       )
     }
   }
+
+  func testFoo() throws {
+    try user.parse("1,Blob, Esq,true")
+  }
+}
+
+
+struct User {
+  var id: Int
+  var name: String
+  var isAdmin: Bool
+}
+
+let user = Parse(User.init(id:name:isAdmin:)) {
+  Int.parser()
+  ","
+  Prefix { $0 != "," }.map(String.init)
+  ","
+  Bool.parser()
+}
+let users = Many {
+  user
+} separator: {
+  "\n"
 }

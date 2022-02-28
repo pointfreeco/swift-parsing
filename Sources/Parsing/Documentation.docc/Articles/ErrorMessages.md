@@ -70,7 +70,9 @@ do {
 
 ## Improving error messages
 
+- [ ] `compactMap` vs `Not`
+- [ ] `Many` with terminator
 
+## Throwing your own errors
 
-* `compactMap` vs `Not`
-* `Many` with terminator
+- [ ] more
