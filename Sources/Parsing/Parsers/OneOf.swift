@@ -59,7 +59,8 @@
 /// succeed on the most number of inputs.
 ///
 /// For example, suppose you wanted to parse a simple CSV format into a doubly-nested array of
-/// strings, and the fields in the CSV are allowed to contain quotes:
+/// strings, and the fields in the CSV are allowed to contain commas themselves as long as they
+/// are quoted:
 ///
 /// ```swift
 /// let input = #"""
@@ -125,7 +126,7 @@
 /// }
 /// ```
 ///
-/// The `quotedField` parser is a _more_ specific parser, in that it will succeed on fewer inputs
+/// The `quotedField` parser is a _more_ specific parser in that it will succeed on fewer inputs
 /// than the `plainField` parser does. For example:
 ///
 /// ```swift
