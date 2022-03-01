@@ -99,6 +99,18 @@ final class DoubleTests: XCTestCase {
     }
     XCTAssertEqual(" Hello", String(input))
 
+    input = "2837.5e-2 Hello"[...].utf8
+    XCTAssertEqual(28.375, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "0x1c.6 Hello"[...].utf8
+    XCTAssertEqual(28.375, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "0x1.c6p4 Hello"[...].utf8
+    XCTAssertEqual(28.375, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
     input = "1.23e-9999 Hello"[...].utf8
     XCTAssertEqual(0, try parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
@@ -260,6 +272,18 @@ final class DoubleTests: XCTestCase {
     }
     XCTAssertEqual(" Hello", String(input))
 
+    input = "2837.5e-2 Hello"[...].utf8
+    XCTAssertEqual(28.375, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "0x1c.6 Hello"[...].utf8
+    XCTAssertEqual(28.375, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "0x1.c6p4 Hello"[...].utf8
+    XCTAssertEqual(28.375, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
     input = "1.23e-9999 Hello"[...].utf8
     XCTAssertEqual(0, try parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
@@ -418,6 +442,18 @@ final class DoubleTests: XCTestCase {
           "\(error)"
         )
       }
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "2837.5e-2 Hello"[...].utf8
+      XCTAssertEqual(28.375, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "0x1c.6 Hello"[...].utf8
+      XCTAssertEqual(28.375, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "0x1.c6p4 Hello"[...].utf8
+      XCTAssertEqual(28.375, try parser.parse(&input))
       XCTAssertEqual(" Hello", String(input))
 
       input = "1.23e-9999 Hello"[...].utf8

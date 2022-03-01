@@ -283,49 +283,48 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
     if self.first?.isSign == true {
       self.removeFirst()
     }
-    if self.first?.isDigit == true {
-      if self.first == .init(ascii: "0") && (
-        self.dropFirst().first == .init(ascii: "x") || self.dropFirst().first == .init(ascii: "X")
-      ) {
-        let integer = self.prefix(while: { $0.isHexDigit })
-        self.removeFirst(integer.count)
-        if self.first == .init(ascii: ".") {
-          let fractional =
-          self
-            .dropFirst()
-            .prefix(while: { $0.isHexDigit })
-          self.removeFirst(1 + fractional.count)
-        }
-        if self.first == .init(ascii: "p") || self.first == .init(ascii: "P") {
-          var n = 1
-          if self.dropFirst().first?.isSign == true { n += 1 }
-          let exponent =
-          self
-            .dropFirst(n)
-            .prefix(while: { $0.isHexDigit })
-          guard !exponent.isEmpty else { return original[..<self.startIndex] }
-          self.removeFirst(n + exponent.count)
-        }
-      } else {
-        let integer = self.prefix(while: { $0.isDigit })
-        self.removeFirst(integer.count)
-        if self.first == .init(ascii: ".") {
-          let fractional =
-          self
-            .dropFirst()
-            .prefix(while: { $0.isDigit })
-          self.removeFirst(1 + fractional.count)
-        }
-        if self.first == .init(ascii: "e") || self.first == .init(ascii: "E") {
-          var n = 1
-          if self.dropFirst().first?.isSign == true { n += 1 }
-          let exponent =
-          self
-            .dropFirst(n)
-            .prefix(while: { $0.isDigit })
-          guard !exponent.isEmpty else { return original[..<self.startIndex] }
-          self.removeFirst(n + exponent.count)
-        }
+    if self.first == .init(ascii: "0") && (
+      self.dropFirst().first == .init(ascii: "x") || self.dropFirst().first == .init(ascii: "X")
+    ) {
+      self.removeFirst(2)
+      let integer = self.prefix(while: { $0.isHexDigit })
+      self.removeFirst(integer.count)
+      if self.first == .init(ascii: ".") {
+        let fractional =
+        self
+          .dropFirst()
+          .prefix(while: { $0.isHexDigit })
+        self.removeFirst(1 + fractional.count)
+      }
+      if self.first == .init(ascii: "p") || self.first == .init(ascii: "P") {
+        var n = 1
+        if self.dropFirst().first?.isSign == true { n += 1 }
+        let exponent =
+        self
+          .dropFirst(n)
+          .prefix(while: { $0.isHexDigit })
+        guard !exponent.isEmpty else { return original[..<self.startIndex] }
+        self.removeFirst(n + exponent.count)
+      }
+    } else if self.first?.isDigit == true || self.first == .init(ascii: ".") {
+      let integer = self.prefix(while: { $0.isDigit })
+      self.removeFirst(integer.count)
+      if self.first == .init(ascii: ".") {
+        let fractional =
+        self
+          .dropFirst()
+          .prefix(while: { $0.isDigit })
+        self.removeFirst(1 + fractional.count)
+      }
+      if self.first == .init(ascii: "e") || self.first == .init(ascii: "E") {
+        var n = 1
+        if self.dropFirst().first?.isSign == true { n += 1 }
+        let exponent =
+        self
+          .dropFirst(n)
+          .prefix(while: { $0.isDigit })
+        guard !exponent.isEmpty else { return original[..<self.startIndex] }
+        self.removeFirst(n + exponent.count)
       }
     } else if self.prefix(8).caseInsensitiveElementsEqualLowercase("infinity".utf8) {
       self.removeFirst(8)
