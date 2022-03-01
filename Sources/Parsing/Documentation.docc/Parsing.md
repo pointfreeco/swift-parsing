@@ -1,4 +1,4 @@
-# Parsing
+# ``Parsing``
 
 A library for turning nebulous data into well-structured data, with a focus on composition, 
 performance, generality, and ergonomics.
