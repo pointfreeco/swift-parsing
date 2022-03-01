@@ -56,6 +56,8 @@ extension Double {
 extension Float {
   /// A parser that consumes a float from the beginning of a collection of UTF-8 code units.
   ///
+  /// Parses the same format parsed by `Float.init(_:)`.
+  ///
   /// ```swift
   /// var input = "123.45 Hello world"[...]
   /// try Float.parser().parse(&input)  // 123.45
@@ -108,6 +110,8 @@ extension Float {
   extension Float80 {
     /// A parser that consumes an extended-precision, floating-point value from the beginning of a
     /// collection of UTF-8 code units.
+    ///
+    /// Parses the same format parsed by `Float80.init(_:)`.
     ///
     /// ```swift
     /// var input = "123.45 Hello world"[...]
