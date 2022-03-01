@@ -6,7 +6,7 @@ on:
       - published
   push:
     branches:
-      - docc
+      - main
   workflow_dispatch:
 
 jobs:
@@ -61,14 +61,12 @@ jobs:
 
       - name: Build documentation
         run: >
-          ls Sources/Parsing;
-
           rm -rf docs-out/.git;
           rm -rf docs-out/main;
 
           for tag in $(echo "main"; git tag);
           do
-            echo "⚠️ Generating documentation for "$tag" release.";
+            echo "⏳ Generating documentation for "$tag" release.";
             
             if [ -d "docs-out/$tag" ] 
             then 
