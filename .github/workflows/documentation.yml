@@ -86,18 +86,17 @@ jobs:
                   -Xswiftc \
                   -emit-symbol-graph-dir \
                   -Xswiftc \
-                  .build/symbol-graphs;
-
-                export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist";
-                swift-docc/.build/release/docc convert Sources/Parsing/Documentation.docc \
-                  --fallback-display-name Parsing \
-                  --fallback-bundle-identifier co.pointfree.Parsing \
-                  --fallback-bundle-version 0.0.0 \
-                  --additional-symbol-graph-dir \
-                  .build/symbol-graphs \
-                  --transform-for-static-hosting \
-                  --hosting-base-path /swift-parsing/"$tag" \
-                  --output-path docs-out/"$tag";
+                  .build/symbol-graphs
+                  && export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist"
+                  && swift-docc/.build/release/docc convert Sources/Parsing/Documentation.docc \
+                    --fallback-display-name Parsing \
+                    --fallback-bundle-identifier co.pointfree.Parsing \
+                    --fallback-bundle-version 0.0.0 \
+                    --additional-symbol-graph-dir \
+                    .build/symbol-graphs \
+                    --transform-for-static-hosting \
+                    --hosting-base-path /swift-parsing/"$tag" \
+                    --output-path docs-out/"$tag" || echo "⚠️ Documentation skipped for "$tag".";
 
                 echo "✅ Documentation generated for "$tag" release.";
             fi;
