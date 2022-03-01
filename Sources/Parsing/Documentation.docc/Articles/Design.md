@@ -4,12 +4,12 @@ Learn how the library is designed, including its use of protocols, result builde
 
 ## Protocol
 
-The design of the library is largely inspired by the Swift standard library and Apple's Combine 
+The design of the library is largely inspired by the Swift standard library and Apple's Combine
 framework. A parser is represented as a protocol that many types conform to, and then parser
-transformations (also known as "combinators") are methods that return concrete types conforming to 
+transformations (also known as "combinators") are methods that return concrete types conforming to
 the parser protocol.
 
-For example, to parse all the characters from the beginning of a substring until you encounter a 
+For example, to parse all the characters from the beginning of a substring until you encounter a
 comma you can use the `Prefix` parser:
 
 ```swift
@@ -26,7 +26,7 @@ The type of this parser is:
 Prefix<Substring>
 ```
 
-We can `.map` on this parser in order to transform its output, which in this case is the string 
+We can `.map` on this parser in order to transform its output, which in this case is the string
 "Hello":
 
 ```swift
@@ -44,8 +44,8 @@ The type of this parser is now:
 Parsers.Map<Prefix<Substring>, Substring>
 ```
 
-Notice that the type of the parser encodes the operations that we performed. This adds a bit of 
-complexity when using these types, but comes with some performance benefits because Swift can 
+Notice that the type of the parser encodes the operations that we performed. This adds a bit of
+complexity when using these types, but comes with some performance benefits because Swift can
 usually inline and optimize away the creation of those nested types.
 
 ## Result Builders
@@ -60,7 +60,7 @@ Parse {
 }
 ```
 
-In this builder block you can specify parsers that will be run one after another. For example, if 
+In this builder block you can specify parsers that will be run one after another. For example, if
 you wanted to parse an integer, then a comma, and then a boolean from a string, you can simply do:
 
 ```swift
@@ -71,10 +71,10 @@ Parse {
 }
 ```
 
-Note that the `String` type conforms to the ``Parser`` protocol, and represents a parser that 
+Note that the `String` type conforms to the ``Parser`` protocol, and represents a parser that
 consumes that exact string from the beginning of an input if it matches, and otherwise fails.
 
-Many of the parsers and operators that come with the library are configured with parser builders 
+Many of the parsers and operators that come with the library are configured with parser builders
 to maximize readability of the parsers. For example, to parse accounting syntax of numbers, where
 parenthesized numbers are negative, we can use the ``OneOf`` parser builder:
 
@@ -96,7 +96,7 @@ try accountingNumber.parse("(100)")  // -100
 
 ## Operators
 
-Parser operators (also called "combinators") are methods defined on the ``Parser`` protocol that 
+Parser operators (also called "combinators") are methods defined on the ``Parser`` protocol that
 return a parser. For example, the ``Parser/map(_:)`` operator is a method that returns something
 called a ``Parsers/Map``:
 
@@ -110,7 +110,7 @@ extension Parser {
 }
 ```
 
-And ``Parsers/Map`` is a dedicated type that implements the logic of the map operation. In 
+And ``Parsers/Map`` is a dedicated type that implements the logic of the map operation. In
 particular, in runs the upstream parser and then transforms its output:
 
 ```swift

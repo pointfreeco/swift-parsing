@@ -39,7 +39,7 @@ struct User {
 }
 ```
 
-A naive approach to this would be a nested use of `.split(separator:)`, and then a little bit of 
+A naive approach to this would be a nested use of `.split(separator:)`, and then a little bit of
 extra work to convert strings into integers and booleans:
 
 ```swift
@@ -57,15 +57,15 @@ let users = input
   }
 ```
 
-Not only is this code a little messy, but it is also inefficient since we are allocating arrays for 
+Not only is this code a little messy, but it is also inefficient since we are allocating arrays for
 the `.split` and then just immediately throwing away those values.
 
-It would be more straightforward and efficient to instead describe how to consume bits from the 
+It would be more straightforward and efficient to instead describe how to consume bits from the
 beginning of the input and convert that into users. This is what this parser library excels at 😄.
 
-We can start by describing what it means to parse a single row, first by parsing an integer off the 
-front of the string, and then parsing a comma. We can do this by using the `Parse` type, which acts 
-as an entry point into describing a list of parsers that you want to run one after the other to 
+We can start by describing what it means to parse a single row, first by parsing an integer off the
+front of the string, and then parsing a comma. We can do this by using the `Parse` type, which acts
+as an entry point into describing a list of parsers that you want to run one after the other to
 consume from an input:
 
 ```swift
@@ -85,11 +85,11 @@ try user.parse(&input)  // 1
 input                   // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
-Next we want to take everything up until the next comma for the user's name, and then consume the 
+Next we want to take everything up until the next comma for the user's name, and then consume the
 comma:
 
 ```swift
-let user = Parse { 
+let user = Parse {
   Int.parser()
   ","
   Prefix { $0 != "," }
@@ -109,7 +109,7 @@ let user = Parse {
 }
 ```
 
-Currently this will parse a tuple `(Int, Substring, Bool)` from the input, and we can `.map` on 
+Currently this will parse a tuple `(Int, Substring, Bool)` from the input, and we can `.map` on
 that to turn it into a `User`:
 
 ```swift
@@ -151,7 +151,7 @@ let user = Parse(User.init(id:name:isAdmin:)) {
 }
 ```
 
-That is enough to parse a single user from the input string, leaving behind a newline and the final 
+That is enough to parse a single user from the input string, leaving behind a newline and the final
 two users:
 
 ```swift
@@ -159,7 +159,7 @@ try user.parse(&input) // User(id: 1, name: "Blob", isAdmin: true)
 input // "\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
-To parse multiple users from the input we can use the `Many` parser to run the user parser many 
+To parse multiple users from the input we can use the `Many` parser to run the user parser many
 times:
 
 ```swift
@@ -173,7 +173,7 @@ try users.parse(&input) // [User(id: 1, name: "Blob", isAdmin: true), ...]
 input // ""
 ```
 
-Now this parser can process an entire document of users, and the code is simpler and more 
+Now this parser can process an entire document of users, and the code is simpler and more
 straightforward than the version that uses `.split` and `.compactMap`.
 
 Even better, it's more performant. We've written [benchmarks][benchmarks-readme] for these two
@@ -186,7 +186,7 @@ README Example.Parser: Substring 3426.000 ns ±  63.40 %     385395
 README Example.Ad hoc            7631.000 ns ±  47.01 %     169332
 ```
 
-Further, if you are willing write your parsers against `UTF8View` instead of `Substring`, you can 
+Further, if you are willing write your parsers against `UTF8View` instead of `Substring`, you can
 eke out even more performance, more than doubling the speed:
 
 ```
@@ -276,7 +276,7 @@ let field = OneOf {
 .map(String.init)
 ```
 
-We can use this parser in the `user` parser, and now it properly handles quoted and non-quoted 
+We can use this parser in the `user` parser, and now it properly handles quoted and non-quoted
 fields:
 
 ```swift
@@ -295,7 +295,7 @@ It was quite straightforward to improve the `user` parser to handle quoted field
 with our ad hoc `split`/`compactMap` parser, and even the `Scanner`-based parser, would be a lot
 more difficult.
 
-That's the basics of parsing a simple string format, but there's a lot more operators and tricks to 
+That's the basics of parsing a simple string format, but there's a lot more operators and tricks to
 learn in order to performantly parse larger inputs. View the [benchmarks][benchmarks] for examples
 of real-life parsing scenarios.
 

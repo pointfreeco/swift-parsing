@@ -1,6 +1,6 @@
 # String Abstractions
 
-Learn how to write parsers on different levels of string abstractions, giving you the ability to 
+Learn how to write parsers on different levels of string abstractions, giving you the ability to
 trade performance for correctness where needed.
 
 ## Levels of abstraction
@@ -25,10 +25,10 @@ However, there are tradeoffs to using each type:
 
     For example, complex elements that can be represented by a single `Character`, such as "🇺🇸",
     are represented by multiple `Unicode.Scalar` elements, "🇺" and "🇸". When put together they
-    form the single extended grapheme cluster of the flag character. 
+    form the single extended grapheme cluster of the flag character.
 
     Further, some `Character`s have multiple representations as collections of unicode scalars. For
-    example, an "e" with an accute access only has one visual representation, yet there are two 
+    example, an "e" with an accute access only has one visual representation, yet there are two
     different sequences of unicode scalars that can represent that character:
 
     ```swift
@@ -43,7 +43,7 @@ However, there are tradeoffs to using each type:
 
     ```swift
     let e1 = "\u{00E9}"
-    let e2 = "e\u{0301}" 
+    let e2 = "e\u{0301}"
     e1 == e2 // true
     e1.unicodeScalars.elementsEqual(e2.unicodeScalars) // false
     ```
@@ -51,7 +51,7 @@ However, there are tradeoffs to using each type:
     So, when parsing on the level of `UnicodeScalarView` you have to be aware of these subtleties in
     order to form a correct parser.
 
-  * `UTF8View` is a collection of `Unicode.UTF8.CodeUnit`s, which is just a typealias for `UInt8`, 
+  * `UTF8View` is a collection of `Unicode.UTF8.CodeUnit`s, which is just a typealias for `UInt8`,
     _i.e._, a single byte. This is an even lower-level representation of strings than
     `UnicodeScalarView`, and scanning these collections is quite efficient, but at the cost of even
     more complexity.
@@ -114,7 +114,7 @@ let city = OneOf {
 }
 ```
 
-We have accidentally introduced a bug into the parser in which it recognizes one version of 
+We have accidentally introduced a bug into the parser in which it recognizes one version of
 "San José", but not the other:
 
 ```swift
@@ -137,7 +137,7 @@ city.parse("San Jos\u{00E9}".utf8)  // ✅
 city.parse("San Jose\u{0301}".utf8) // ✅
 ```
 
-This does work, but you are now responsible for understanding the ins and outs of UTF-8 
+This does work, but you are now responsible for understanding the ins and outs of UTF-8
 normalization. UTF-8 is incredibly complex and Swift does a lot of work to hide that complexity
 from you.
 
@@ -160,7 +160,7 @@ city.parse("San Jose\u{0301}".utf8) // ✅
 This will run the "San José" parser on the level of `Substring`, meaning it will handle all the
 complexities of UTF8 normalization so that we don't have to think about it.
 
-If we want to be _really_ pedantic we can even decide to parse only the "é" character on the 
+If we want to be _really_ pedantic we can even decide to parse only the "é" character on the
 level of `Substring` and leave everything else to `UTF8View`:
 
 ```swift
@@ -178,6 +178,6 @@ city.parse("San Jos\u{00E9}".utf8)  // ✅
 city.parse("San Jose\u{0301}".utf8) // ✅
 ```
 
-We don't necessarily recommend being this pedantic in general, at least not without benchmarking to 
-make sure it is worth it. But it does demonstrate how you can be very precise with which abstraction 
+We don't necessarily recommend being this pedantic in general, at least not without benchmarking to
+make sure it is worth it. But it does demonstrate how you can be very precise with which abstraction
 levels you want to work on.
