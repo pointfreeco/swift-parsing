@@ -86,7 +86,7 @@ jobs:
                   .build/symbol-graphs;
 
                 export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist";
-                swift-docc/.build/release/docc convert Sources/Documentation.docc \
+                swift-docc/.build/release/docc convert Sources/Parsing/Documentation.docc \
                   --fallback-display-name Parsing \
                   --fallback-bundle-identifier co.pointfree.Parsing \
                   --fallback-bundle-version 0.0.0 \
