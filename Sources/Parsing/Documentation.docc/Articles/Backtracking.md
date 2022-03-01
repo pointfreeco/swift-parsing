@@ -32,8 +32,8 @@ backtracking your input because it will be handled for you automatically. The pr
 for backtracking is via the ``OneOf`` parser, but there are a few other parsers that also backtrack 
 internally.
 
-One such example is the ``Optionally`` parser which transforms any parser into one that cannot fail 
-by returning `nil` if it does fail:
+One such example is the ``Optionally`` parser, which transforms any parser into one that cannot fail 
+by catching any thrown errors and returning `nil`:
 
 ```swift
 let parser = Parse {
@@ -51,7 +51,7 @@ the parser ran. In particular, if the `Bool.parser()` fails then it will make su
 consuming the leading space " " so that later parsers can try.
 
 Another example of a parser that internally backtracks is the ``Parser/replaceError(with:)`` 
-opreator, which coalesces any error thrown by a parser into a default output value:
+operator, which coalesces any error thrown by a parser into a default output value:
 
 ```swift
 let parser = Parse {
@@ -65,8 +65,7 @@ try parser.parse("Hello, world!")      // false
 try parser.parse("Hello, true world!") // true
 ```
 
-It backtracks the input to its original value when the parser fails so that later parsers can 
-try.
+It backtracks the input to its original value when the parser fails so that later parsers can try.
 
 The only time you need to worry about explicitly backtracking input is when making your own
 ``Parser`` conformances. As a general rule of thumb, if your parser recovers from all failures
