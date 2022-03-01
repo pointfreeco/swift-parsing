@@ -10,7 +10,7 @@ class PeekTests: XCTestCase {
       Rest()
     }
 
-    let result = duplicator.parse(&input)
+    let result = try duplicator.parse(&input)
 
     XCTAssertEqual(result.0, "foobar")
     XCTAssertEqual(result.1, "foobar")
