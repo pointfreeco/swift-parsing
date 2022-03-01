@@ -61,6 +61,8 @@ jobs:
 
       - name: Build documentation
         run: >
+          ls;
+          
           rm -rf docs-out/.git;
           rm -rf docs-out/main;
 
