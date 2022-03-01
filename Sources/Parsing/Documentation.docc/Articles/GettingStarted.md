@@ -26,11 +26,11 @@ let package = Package(
 Suppose you have a string that holds some user data that you want to parse into an array of `User`s:
 
 ```swift
-var input = """
-1,Blob,true
-2,Blob Jr.,false
-3,Blob Sr.,true
-"""
+let input = """
+  1,Blob,true
+  2,Blob Jr.,false
+  3,Blob Sr.,true
+  """
 
 struct User {
   var id: Int
@@ -81,8 +81,8 @@ Already this can consume the leading integer and comma from the beginning of the
 // Use a mutable substring to verify what is consumed
 var input = input[...]
 
-try user.parse(&input) // 1
-input // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
+try user.parse(&input)  // 1
+input                   // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
 Next we want to take everything up until the next comma for the user's name, and then consume the 
@@ -138,8 +138,8 @@ let user = Parse {
 }
 ```
 
-Or we can pass the `User` initializer to `Parse` in a point-free style by transforming the `Prefix` 
-parser's output from a `Substring` to ` String` first:
+Or we can pass the `User` initializer to `Parse` in a point-free style by first transforming the
+`Prefix` parser's output from a `Substring` to a `String`:
 
 ```swift
 let user = Parse(User.init(id:name:isAdmin:)) {
@@ -176,16 +176,14 @@ input // ""
 Now this parser can process an entire document of users, and the code is simpler and more 
 straightforward than the version that uses `.split` and `.compactMap`.
 
-Even better, it's more performant. We've written 
-[benchmarks][benchmarks-readme] for these two styles of parsing, 
-and the `.split`-style of parsing is more than twice as slow:
+Even better, it's more performant. We've written [benchmarks][benchmarks-readme] for these two
+styles of parsing, and the `.split`-style of parsing is more than twice as slow:
 
 ```
 name                             time        std        iterations
 ------------------------------------------------------------------
 README Example.Parser: Substring 3426.000 ns ±  63.40 %     385395
 README Example.Ad hoc            7631.000 ns ±  47.01 %     169332
-Program ended with exit code: 0
 ```
 
 Further, if you are willing write your parsers against `UTF8View` instead of `Substring`, you can 
@@ -202,8 +200,8 @@ README Example.Ad hoc            8504.000 ns ±  59.59 %     151417
 See the article <doc:StringAbstractions> for more info on how to write parsers against different
 string abstraction levels.
 
-We can also compare these times to a tool that Apple's Foundation gives us: `Scanner`. It's a type 
-that allows you to consume from the beginning of strings in order to produce values, and provides 
+We can also compare these times to a tool that Apple's Foundation gives us: `Scanner`. It's a type
+that allows you to consume from the beginning of strings in order to produce values, and provides
 a nicer API than using `.split`:
 
 ```swift
@@ -222,7 +220,7 @@ while scanner.currentIndex != input.endIndex {
 }
 ```
 
-However, the `Scanner` style of parsing is more than 5 times as slow as the substring parser 
+However, the `Scanner` style of parsing is more than 5 times as slow as the substring parser written
 written above, and more than 15 times slower than the UTF-8 parser:
 
 ```
@@ -234,10 +232,9 @@ README Example.Ad hoc             8029.000 ns ±  44.44 %     163719
 README Example.Scanner           19786.000 ns ±  35.26 %      62125
 ```
 
-Not only are parsers built with the library more succinct and many times more performant than
-ad hoc parsers, but they can also be easier to evolve to accomodate more features. For example, 
-right now our parser does not work correctly when the user's name contains a comma, such as 
-"Blob, Esq.":
+Not only are parsers built with the library more succinct and many times more performant than ad hoc
+parsers, but they can also be easier to evolve to accommodate more features. For example, right now
+our parser does not work correctly when the user's name contains a comma, such as "Blob, Esq.":
 
 ```swift
 try user.parse("1,Blob, Esq.,true")
@@ -267,9 +264,9 @@ let quotedField = Parse {
 }
 ```
 
-And then to parse a field, in general, we can first try parsing a quoted field, and if that fails
-we will just take everything until the next comma. We can do this using the ``OneOf`` parser,
-which allows us to run multiple parsers on the same input, and it will take the first that succeeds:
+And then to parse a field, in general, we can first try parsing a quoted field, and if that fails we
+will just take everything until the next comma. We can do this using the ``OneOf`` parser, which
+allows us to run multiple parsers on the same input, and it will take the first that succeeds:
 
 ```swift
 let field = OneOf {
@@ -295,12 +292,12 @@ try user.parse("1,"Blob, Esq.",true") // User(id: 1, name: "Blob, Esq.", admin: 
 ```
 
 It was quite straightforward to improve the `user` parser to handle quoted fields. Doing the same
-with our ad hoc, `split`/`compactMap` parser, and even the `Scanner`-based parser, would be a lot
+with our ad hoc `split`/`compactMap` parser, and even the `Scanner`-based parser, would be a lot
 more difficult.
 
 That's the basics of parsing a simple string format, but there's a lot more operators and tricks to 
-learn in order to performantly parse larger inputs. View the 
-[benchmarks][benchmarks] for examples of real life parsing scenarios.
+learn in order to performantly parse larger inputs. View the [benchmarks][benchmarks] for examples
+of real-life parsing scenarios.
 
 [benchmarks-readme]: https://github.com/pointfreeco/swift-parsing/blob/main/Sources/swift-parsing-benchmark/ReadmeExample.swift
 [benchmarks]: https://github.com/pointfreeco/swift-parsing/tree/main/Sources/swift-parsing-benchmark
