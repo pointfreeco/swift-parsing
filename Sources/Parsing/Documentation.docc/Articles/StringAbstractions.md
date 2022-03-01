@@ -16,17 +16,17 @@ However, there are tradeoffs to using each type:
 
 * `Substring`, like `String`, is a collection of `Character`s, which are extended grapheme clusters
 that most closely represents a single visual character one can see on the screen. This type
-is easy to use and hides a lot of the complexities of UTF8 from you (such multiple byte
-sequences that represent the same visual character), but as such it is less efficient to use. Its
+is easy to use and hides a lot of the complexities of UTF8 from you (such as multiple byte
+sequences that represent the same visual character), and as such it is less efficient to use. Its
 elements are variable width, which means scanning its elements is an O(n) operation.
 
 * `UnicodeScalarView` is a collection of unicode scalars represented by the `Unicode.Scalar` type.
 Unicode scalars are 21-bit, and so not variable width like `Substring`, which makes scanning
-`UnicodeScalarView`s more efficient, but at the cost of some additional complexity in the API
+`UnicodeScalarView`s more efficient, but at the cost of some additional complexity in the API.
 
   For example, complex elements that can be represented by a single `Character`, such as "🇺🇸",
-are represented by two `Unicode.Scalar` elements, "🇺" and "🇸". When put together they form the 
-single extended grapheme cluster of the flag character. 
+are represented by multiple `Unicode.Scalar` elements, "🇺" and "🇸". When put together they form 
+the single extended grapheme cluster of the flag character. 
 
   Further, some `Character`s have multiple representations as collections of unicode scalars. For
 example, an "e" with an accute access only has one visual representation, yet there are two 
@@ -67,7 +67,8 @@ has UTF8 bytes:
 
 * And finally there's even `ArraySlice<UInt8>`, which is just a raw collection of bytes. This can
 be even more efficient to parse than `UTF8View` because it does not require representing a valid
-UTF8 string, but then you have no guarantees that you can losslessly convert it into a `String`.
+UTF8 string, but then you have no guarantees that you can losslessly convert it back into a 
+`String`.
 
 ## Mixing and matching abstraction levels
 
@@ -132,6 +133,9 @@ let city = OneOf {
   "San Jos\u{00E9}".utf8.map { City.sanJose }
   "San Jos\u{0301}".utf8.map { City.sanJose }
 }
+
+city.parse("San Jos\u{00E9}".utf8)  // ✅
+city.parse("San Jose\u{0301}".utf8) // ✅
 ```
 
 This does work, but you are now responsible for understanding the ins and outs of UTF8 
@@ -141,7 +145,7 @@ from you.
 However, there's no need to parse everything on the level of `Substring` just because this one
 parser needs to in order to maintain correctness. We can parse everything on the level of 
 `UTF8View` and then parse just "San José" on the level of `Substring`. We do this by using the
-``FromSubstring`` parser, which allows us to temporarily leave the `UTF8View` world to work on the 
+``FromSubstring`` parser, which allows us to temporarily leave the `UTF8View` world to work in the 
 `Substring` world:
 
 ```swift
@@ -150,6 +154,10 @@ let city = OneOf {
   "New York".utf8.map { City.newYork }
   FromSubstring { "San José" }.map { City.sanJose }
 }
+
+city.parse("San Jos\u{00E9}".utf8)  // ✅
+city.parse("San Jose\u{0301}".utf8) // ✅
+
 ```
 
 This will run the "San José" parser on the level of `Substring`, meaning it will handle all the
@@ -168,6 +176,9 @@ let city = OneOf {
   }
   .map { City.sanJose }
 }
+
+city.parse("San Jos\u{00E9}".utf8)  // ✅
+city.parse("San Jose\u{0301}".utf8) // ✅
 ```
 
 We don't necessarily recommend being this pedantic in general, at least not without benchmarking to 
