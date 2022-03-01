@@ -6,9 +6,9 @@ into parsers.
 ## Overview
 
 When a parser fails it throws an error containing information about what went wrong. The actual 
-error thrown by the parsers shipped with this library is internal, and so should be considered 
-opaque. To get a human-readable description of the error message you can stringify the error. For 
-example, the following `UInt8` parser fails to parse a string that would cause it to overflow:
+error thrown by the parsers shipped with this library is internal, and so it should be considered 
+opaque. To get a human-readable debug description of the error message you can stringify the error.
+For  example, the following `UInt8` parser fails to parse a string that would cause it to overflow:
 
 ```swift
 do {
@@ -71,12 +71,12 @@ do {
 ## Improving error messages
 
 The quality of error messages emitted by a parser can depend on the manner in which the parser was
-constructed. Some parser operators are powerful and convenient, but can cause the quality of 
-error messaging to degrade.
+constructed. Some parser operators are powerful and convenient, but can cause the quality of error
+messaging to degrade.
 
-For example, we could construct a parser that consumes a single uncommented line from an input (i.e.
-a line that does not begin with "//") by using ``Parser/compactMap(_:)`` to check the line for a 
-prefix:
+For example, we could construct a parser that consumes a single uncommented line from an input
+(_i.e._, a line that does not begin with "//") by using ``Parser/compactMap(_:)`` to check the line
+for a  prefix:
 
 ```swift
 let uncommentedLine = Prefix { $0 != "\n" }
@@ -93,8 +93,8 @@ try uncommentedLine.parse("// let x = 1")
 However, when this parser fails it can only highlight the entire line as having a problem because
 it cannot know that the only thing that failed was that the first two characters were slashes.
 
-We can write this parser in a different, but equivalent, way by first using the ``Not`` parser
-to confirm that the line does not begin with "//", and then consume the entire line:
+We can rewrite this parser in a different, but equivalent, way by using the ``Not`` parser to first
+confirm that the line does not begin with "//", and then consume the entire line:
 
 ```swift
 let uncommentedLine = Parse {
@@ -110,17 +110,17 @@ try uncommentedLine.parse("// let x = 1")
 //   | ^^ expected not to be processed
 ```
 
-This provides better error messaging because ``Not`` knows exactly what matched that we did not
-want to match, and so can highlight those specific characters.
+This provides better error messaging because ``Not`` knows exactly what matched that we did not want
+to match, and so it can highlight those specific characters.
 
 When using the `Many` parser you can improve error messaging by supplying a "terminator" parser,
 which is an optional argument. The terminator parser is run after the element and separator
 parsers have consumed as much as they can, and allows you to assert on exactly what is left
 afterwards.
 
-For example, if a user CSV parser without a terminator is run on an input that has a typo in the 
-last row of data, the parser will succeed without consuming that last row and we won't know what
-went wrong:
+For example, if a parser is run on an input that has a typo in the last row of data, and a
+terminator is not specified, the parser will succeed without consuming that last row and we won't
+know what went wrong:
 
 ```swift
 struct User {
@@ -154,8 +154,8 @@ output.count // 2
 input // "\n3,Blob Sr.,tru"
 ```
 
-However, by adding a terminator to the `users` parser an error will be throw that points to the 
-exact spot where the typo occured:
+However, by adding a terminator to this `users` parser an error will be throw that points to the 
+exact spot where the typo occurred:
 
 ```swift
 let users = Many {
@@ -178,12 +178,11 @@ let output = try users.parse(&input)
 
 Although the error type thrown by the parsers that ship in this library is currently internal, and 
 so should be thought of as opaque, it is still possible to throw your own errors. Your errors will
-automatically be reformatted and contextualized to show exactly where in the input the error 
-occured.
+automatically be reformatted and contextualized to show exactly where the error occurred.
 
 For example, suppose we wanted a parser that only parsed the digits 0-9 from the beginning of a 
-string and transformed it into an integer. This is subtly different from `Int.parser()` which allows 
-for negative numbers.
+string and transformed it into an integer. This is subtly different from `Int.parser()` which
+supports negative numbers, exponential formatting, and more.
 
 Constructing a `Digits` parser is easy enough, and we can introduce a custom struct error for 
 customizing the message displayed:
@@ -233,7 +232,7 @@ Then when running the parser we get a nice error message that shows exactly what
 ```swift
 try user.parse(&input)
 
-// error: DigitsError(message: "0-9")
+// error: DigitsError(message: "Expected a prefix of digits 0-9")
 //  --> input:2:1
 // 2 | -2,Blob Sr,false
 //   | ^
