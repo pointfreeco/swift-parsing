@@ -11,7 +11,7 @@ final class DoubleTests: XCTestCase {
 
     input = "123. Hello"[...].utf8
     XCTAssertEqual(123, try parser.parse(&input))
-    XCTAssertEqual(". Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
 
     input = "123.123 Hello"[...].utf8
     XCTAssertEqual(123.123, try parser.parse(&input))
@@ -54,18 +54,8 @@ final class DoubleTests: XCTestCase {
     XCTAssertEqual(" Hello", String(input))
 
     input = "-.123 Hello"[...].utf8
-    XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertEqual(
-        """
-        error: unexpected input
-         --> input:1:2
-        1 | -.123 Hello
-          |  ^ expected double
-        """,
-        "\(error)"
-      )
-    }
-    XCTAssertEqual(".123 Hello", String(input))
+    XCTAssertEqual(-0.123, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
 
     input = "Hello"[...].utf8
     XCTAssertThrowsError(try parser.parse(&input)) { error in
@@ -86,9 +76,9 @@ final class DoubleTests: XCTestCase {
       XCTAssertEqual(
         """
         error: unexpected input
-         --> input:1:2
+         --> input:1:1
         1 | - Hello
-          |  ^ expected double
+          | ^ expected double
         """,
         "\(error)"
       )
@@ -100,9 +90,9 @@ final class DoubleTests: XCTestCase {
       XCTAssertEqual(
         """
         error: unexpected input
-         --> input:1:2
+         --> input:1:1
         1 | + Hello
-          |  ^ expected double
+          | ^ expected double
         """,
         "\(error)"
       )
@@ -119,7 +109,7 @@ final class DoubleTests: XCTestCase {
 
     input = "123. Hello"[...].utf8
     XCTAssertEqual(123, try parser.parse(&input))
-    XCTAssertEqual(". Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
 
     input = "123.123 Hello"[...].utf8
     XCTAssertEqual(123.123, try parser.parse(&input))
@@ -167,18 +157,8 @@ final class DoubleTests: XCTestCase {
     XCTAssertEqual(" Hello", String(input))
 
     input = "-.123 Hello"[...].utf8
-    XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertEqual(
-        """
-        error: unexpected input
-         --> input:1:2
-        1 | -.123 Hello
-          |  ^ expected float
-        """,
-        "\(error)"
-      )
-    }
-    XCTAssertEqual(".123 Hello", String(input))
+    XCTAssertEqual(-0.123, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
 
     input = "Hello"[...].utf8
     XCTAssertThrowsError(try parser.parse(&input)) { error in
@@ -199,9 +179,9 @@ final class DoubleTests: XCTestCase {
       XCTAssertEqual(
         """
         error: unexpected input
-         --> input:1:2
+         --> input:1:1
         1 | - Hello
-          |  ^ expected float
+          | ^ expected float
         """,
         "\(error)"
       )
@@ -213,9 +193,9 @@ final class DoubleTests: XCTestCase {
       XCTAssertEqual(
         """
         error: unexpected input
-         --> input:1:2
+         --> input:1:1
         1 | + Hello
-          |  ^ expected float
+          | ^ expected float
         """,
         "\(error)"
       )
@@ -233,7 +213,7 @@ final class DoubleTests: XCTestCase {
 
       input = "123. Hello"[...].utf8
       XCTAssertEqual(123, try parser.parse(&input))
-      XCTAssertEqual(". Hello", String(input))
+      XCTAssertEqual(" Hello", String(input))
 
       input = "123.123 Hello"[...].utf8
       XCTAssertEqual(123.123, try parser.parse(&input))
@@ -279,18 +259,8 @@ final class DoubleTests: XCTestCase {
       XCTAssertEqual(" Hello", String(input))
 
       input = "-.123 Hello"[...].utf8
-      XCTAssertThrowsError(try parser.parse(&input)) { error in
-        XCTAssertEqual(
-          """
-          error: unexpected input
-           --> input:1:2
-          1 | -.123 Hello
-            |  ^ expected extended-precision float
-          """,
-          "\(error)"
-        )
-      }
-      XCTAssertEqual(".123 Hello", String(input))
+      XCTAssertEqual(-0.123, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
 
       input = "Hello"[...].utf8
       XCTAssertThrowsError(try parser.parse(&input)) { error in
@@ -311,9 +281,9 @@ final class DoubleTests: XCTestCase {
         XCTAssertEqual(
           """
           error: unexpected input
-           --> input:1:2
+           --> input:1:1
           1 | - Hello
-            |  ^ expected extended-precision float
+            | ^ expected extended-precision float
           """,
           "\(error)"
         )
@@ -325,9 +295,9 @@ final class DoubleTests: XCTestCase {
         XCTAssertEqual(
           """
           error: unexpected input
-           --> input:1:2
+           --> input:1:1
           1 | + Hello
-            |  ^ expected extended-precision float
+            | ^ expected extended-precision float
           """,
           "\(error)"
         )
