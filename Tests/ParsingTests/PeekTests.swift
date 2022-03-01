@@ -29,15 +29,15 @@ class PeekTests: XCTestCase {
     XCTAssertThrowsError(try identifier.parse(&input))
     XCTAssertEqual("1foo = nil", input)
   }
-  
+
   func testBacktracking() throws {
     var input = "fooblah"[...]
-    
+
     let parser = Peek {
       "foo"
       "bar"
     }
-    
+
     XCTAssertThrowsError(try parser.parse(&input))
     XCTAssertEqual("blah"[...], input)
   }

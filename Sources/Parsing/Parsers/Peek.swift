@@ -27,7 +27,7 @@ public struct Peek<Upstream: Parser>: Parser {
   }
 
   @inlinable
-  public func parse(_ input: inout Upstream.Input) rethrows -> Void {
+  public func parse(_ input: inout Upstream.Input) rethrows {
     let original = input
     _ = try self.upstream.parse(&input)
     input = original
