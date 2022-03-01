@@ -489,9 +489,9 @@ Numerics.Comma separated: Int.parser          8096459.000 ns ±   0.44 %        
 Numerics.Comma separated: Scanner.scanInt    49178770.500 ns ±   0.24 %         28
 Numerics.Comma separated: String.split       14922583.500 ns ±   0.67 %         94
 Numerics.Double.init                               42.000 ns ±  72.61 %    1000000
-Numerics.Double.parser                             84.000 ns ±  33.88 %    1000000
+Numerics.Double.parser                            125.000 ns ±  58.57 %    1000000
 Numerics.Scanner.scanDouble                       167.000 ns ±  18.84 %    1000000
-Numerics.Comma separated: Double.parser       9807500.000 ns ±   0.46 %        143
+Numerics.Comma separated: Double.parser      11313395.500 ns ±   0.96 %        124
 Numerics.Comma separated: Scanner.scanDouble 50431521.000 ns ±   0.19 %         28
 Numerics.Comma separated: String.split       18744125.000 ns ±   0.46 %         75
 PrefixUpTo.Parser: Substring                   249958.000 ns ±   0.88 %       5595

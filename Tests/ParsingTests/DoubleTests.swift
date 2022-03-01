@@ -2,7 +2,7 @@ import Parsing
 import XCTest
 
 final class DoubleTests: XCTestCase {
-  func testDouble() {
+  func testDouble() throws {
     let parser = Double.parser(of: Substring.UTF8View.self)
 
     var input = "123 Hello"[...].utf8
@@ -98,9 +98,67 @@ final class DoubleTests: XCTestCase {
       )
     }
     XCTAssertEqual(" Hello", String(input))
+
+    input = "1.23e-9999 Hello"[...].utf8
+    XCTAssertEqual(0, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "-7.89e-7206 Hello"[...].utf8
+    XCTAssertEqual(-0, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "1.23e17802 Hello"[...].utf8
+    XCTAssertEqual(.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "-7.89e7206 Hello"[...].utf8
+    XCTAssertEqual(-.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "inf Hello"[...].utf8
+    XCTAssertEqual(.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "+Inf Hello"[...].utf8
+    XCTAssertEqual(.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "-inF Hello"[...].utf8
+    XCTAssertEqual(-.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "Infinity Hello"[...].utf8
+    XCTAssertEqual(.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "+inFinity Hello"[...].utf8
+    XCTAssertEqual(.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "-iNfInItY Hello"[...].utf8
+    XCTAssertEqual(-.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "nan Hello"[...].utf8
+    var output = try parser.parse(&input)
+    XCTAssert(output.isNaN)
+    XCTAssertEqual(.plus, output.sign)
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "+NaN Hello"[...].utf8
+    output = try parser.parse(&input)
+    XCTAssert(output.isNaN)
+    XCTAssertEqual(.plus, output.sign)
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "-nAn Hello"[...].utf8
+    output = try parser.parse(&input)
+    XCTAssert(output.isNaN)
+    XCTAssertEqual(.minus, output.sign)
+    XCTAssertEqual(" Hello", String(input))
   }
 
-  func testFloat() {
+  func testFloat() throws {
     let parser = Float.parser(of: Substring.UTF8View.self)
 
     var input = "123 Hello"[...].utf8
@@ -201,10 +259,68 @@ final class DoubleTests: XCTestCase {
       )
     }
     XCTAssertEqual(" Hello", String(input))
+
+    input = "1.23e-9999 Hello"[...].utf8
+    XCTAssertEqual(0, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "-7.89e-7206 Hello"[...].utf8
+    XCTAssertEqual(-0, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "1.23e17802 Hello"[...].utf8
+    XCTAssertEqual(.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "-7.89e7206 Hello"[...].utf8
+    XCTAssertEqual(-.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "inf Hello"[...].utf8
+    XCTAssertEqual(.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "+Inf Hello"[...].utf8
+    XCTAssertEqual(.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "-inF Hello"[...].utf8
+    XCTAssertEqual(-.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "Infinity Hello"[...].utf8
+    XCTAssertEqual(.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "+inFinity Hello"[...].utf8
+    XCTAssertEqual(.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "-iNfInItY Hello"[...].utf8
+    XCTAssertEqual(-.infinity, try parser.parse(&input))
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "nan Hello"[...].utf8
+    var output = try parser.parse(&input)
+    XCTAssert(output.isNaN)
+    XCTAssertEqual(.plus, output.sign)
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "+NaN Hello"[...].utf8
+    output = try parser.parse(&input)
+    XCTAssert(output.isNaN)
+    XCTAssertEqual(.plus, output.sign)
+    XCTAssertEqual(" Hello", String(input))
+
+    input = "-nAn Hello"[...].utf8
+    output = try parser.parse(&input)
+    XCTAssert(output.isNaN)
+    XCTAssertEqual(.minus, output.sign)
+    XCTAssertEqual(" Hello", String(input))
   }
 
   #if !(os(Windows) || os(Android)) && (arch(i386) || arch(x86_64))
-    func testFloat80() {
+    func testFloat80() throws {
       let parser = Float80.parser(of: Substring.UTF8View.self)
 
       var input = "123 Hello"[...].utf8
@@ -302,6 +418,64 @@ final class DoubleTests: XCTestCase {
           "\(error)"
         )
       }
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "1.23e-9999 Hello"[...].utf8
+      XCTAssertEqual(0, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "-7.89e-7206 Hello"[...].utf8
+      XCTAssertEqual(-0, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "1.23e17802 Hello"[...].utf8
+      XCTAssertEqual(.infinity, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "-7.89e7206 Hello"[...].utf8
+      XCTAssertEqual(-.infinity, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "inf Hello"[...].utf8
+      XCTAssertEqual(.infinity, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "+Inf Hello"[...].utf8
+      XCTAssertEqual(.infinity, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "-inF Hello"[...].utf8
+      XCTAssertEqual(-.infinity, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "Infinity Hello"[...].utf8
+      XCTAssertEqual(.infinity, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "+inFinity Hello"[...].utf8
+      XCTAssertEqual(.infinity, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "-iNfInItY Hello"[...].utf8
+      XCTAssertEqual(-.infinity, try parser.parse(&input))
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "nan Hello"[...].utf8
+      var output = try parser.parse(&input)
+      XCTAssert(output.isNaN)
+      XCTAssertEqual(.plus, output.sign)
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "+NaN Hello"[...].utf8
+      output = try parser.parse(&input)
+      XCTAssert(output.isNaN)
+      XCTAssertEqual(.plus, output.sign)
+      XCTAssertEqual(" Hello", String(input))
+
+      input = "-nAn Hello"[...].utf8
+      output = try parser.parse(&input)
+      XCTAssert(output.isNaN)
+      XCTAssertEqual(.minus, output.sign)
       XCTAssertEqual(" Hello", String(input))
     }
   #endif
