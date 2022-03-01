@@ -1,3 +1,5 @@
+# Build and deploy DocC to GitHub pages. Based off of @karwa's work here:
+# https://github.com/karwa/swift-url/blob/main/.github/workflows/docs.yml
 name: Documentation
 
 on:
