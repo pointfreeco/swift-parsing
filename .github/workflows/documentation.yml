@@ -76,6 +76,7 @@ jobs:
             else 
                 git checkout "$tag";
                 mkdir -p Sources/Parsing/Documentation.docc;
+                export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist";
 
                 rm -rf .build/symbol-graphs;
                 mkdir -p .build/symbol-graphs;
@@ -87,7 +88,6 @@ jobs:
                   -emit-symbol-graph-dir \
                   -Xswiftc \
                   .build/symbol-graphs \
-                  && export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist" \
                   && swift-docc/.build/release/docc convert Sources/Parsing/Documentation.docc \
                     --fallback-display-name Parsing \
                     --fallback-bundle-identifier co.pointfree.Parsing \
@@ -97,9 +97,8 @@ jobs:
                     --transform-for-static-hosting \
                     --hosting-base-path /swift-parsing/"$tag" \
                     --output-path docs-out/"$tag" \
+                    && echo "✅ Documentation generated for "$tag" release." \
                     || echo "⚠️ Documentation skipped for "$tag".";
-
-                echo "✅ Documentation generated for "$tag" release.";
             fi;
           done
       
