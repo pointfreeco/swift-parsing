@@ -75,6 +75,7 @@ jobs:
                 echo "✅ Documentation for "$tag" already exists.";
             else 
                 git checkout "$tag";
+                mkdir -p Sources/Parsing/Documentation.docc;
 
                 rm -rf .build/symbol-graphs;
                 mkdir -p .build/symbol-graphs;
