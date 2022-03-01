@@ -1,6 +1,6 @@
 /// A parser that runs the given parser, but does not consume any input.
 ///
-/// It lets the upstream parser "peek" into the output without consuming it.
+/// It lets the upstream parser "peek" into the input without consuming it.
 ///
 /// For example, identifiers (variables, functions, etc.) in Swift allow the first character to be a
 /// letter or underscore, but not a digit, but subsequent characters can be digits. _E.g._, `foo123`
@@ -11,7 +11,7 @@
 ///
 /// ```swift
 /// let identifier = Parse {
-///   Peek { Prefix(1) { $0.isLetter || $0 == "_" }
+///   Peek { Prefix(1) { $0.isLetter || $0 == "_" } }
 ///   Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
 /// }
 /// ```
