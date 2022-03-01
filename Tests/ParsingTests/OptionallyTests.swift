@@ -13,7 +13,7 @@ final class OptionalTests: XCTestCase {
     XCTAssertEqual(.none, Optionally { Bool.parser() }.parse(&input))
     XCTAssertEqual("Hello, world!", Substring(input))
   }
-  
+
   func testBacktracking() {
     let parser = Parse {
       "Hello,"
