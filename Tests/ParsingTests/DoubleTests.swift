@@ -154,19 +154,16 @@ final class DoubleTests: XCTestCase {
     input = "nan Hello"[...].utf8
     var output = try parser.parse(&input)
     XCTAssert(output.isNaN)
-    XCTAssertEqual(.plus, output.sign)
     XCTAssertEqual(" Hello", String(input))
 
     input = "+NaN Hello"[...].utf8
     output = try parser.parse(&input)
     XCTAssert(output.isNaN)
-    XCTAssertEqual(.plus, output.sign)
     XCTAssertEqual(" Hello", String(input))
 
     input = "-nAn Hello"[...].utf8
     output = try parser.parse(&input)
     XCTAssert(output.isNaN)
-    XCTAssertEqual(.minus, output.sign)
     XCTAssertEqual(" Hello", String(input))
   }
 
@@ -327,19 +324,16 @@ final class DoubleTests: XCTestCase {
     input = "nan Hello"[...].utf8
     var output = try parser.parse(&input)
     XCTAssert(output.isNaN)
-    XCTAssertEqual(.plus, output.sign)
     XCTAssertEqual(" Hello", String(input))
 
     input = "+NaN Hello"[...].utf8
     output = try parser.parse(&input)
     XCTAssert(output.isNaN)
-    XCTAssertEqual(.plus, output.sign)
     XCTAssertEqual(" Hello", String(input))
 
     input = "-nAn Hello"[...].utf8
     output = try parser.parse(&input)
     XCTAssert(output.isNaN)
-    XCTAssertEqual(.minus, output.sign)
     XCTAssertEqual(" Hello", String(input))
   }
 
@@ -499,19 +493,16 @@ final class DoubleTests: XCTestCase {
       input = "nan Hello"[...].utf8
       var output = try parser.parse(&input)
       XCTAssert(output.isNaN)
-      XCTAssertEqual(.plus, output.sign)
       XCTAssertEqual(" Hello", String(input))
 
       input = "+NaN Hello"[...].utf8
       output = try parser.parse(&input)
       XCTAssert(output.isNaN)
-      XCTAssertEqual(.plus, output.sign)
       XCTAssertEqual(" Hello", String(input))
 
       input = "-nAn Hello"[...].utf8
       output = try parser.parse(&input)
       XCTAssert(output.isNaN)
-      XCTAssertEqual(.minus, output.sign)
       XCTAssertEqual(" Hello", String(input))
     }
   #endif
