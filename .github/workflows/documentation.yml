@@ -6,7 +6,7 @@ on:
       - published
   push:
     branches:
-      - *
+      - docc
   workflow_dispatch:
 
 jobs:
