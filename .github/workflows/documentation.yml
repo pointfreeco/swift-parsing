@@ -96,7 +96,7 @@ jobs:
                   --additional-symbol-graph-dir \
                   .build/symbol-graphs \
                   --transform-for-static-hosting \
-                  --static-hosting-base-path /swift-parsing/"$tag" \
+                  --hosting-base-path /swift-parsing/"$tag" \
                   --output-path docs-out/"$tag";
 
                 echo "✅ Documentation generated for "$tag" release.";
