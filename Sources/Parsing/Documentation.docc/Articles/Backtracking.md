@@ -10,8 +10,6 @@ can be very useful, backtracking can lead to more complicated parser logic than 
 backtracking too often can lead to performance issues. For this reason, most parsers are not
 required to backtrack, and can therefore fail _and_ still consume from the input.
 
-<!-- TODO: Mention that error messages are improved by avoiding backtracking. -->
-
 The primary way to make use of backtracking in your parsers is through the ``OneOf`` parser, which
 tries many parsers on an input and chooses the first that succeeds. This allows you to try many
 parsers on the same input, regardless of how much each parser consumes:
@@ -25,6 +23,55 @@ let currency = OneOf {
   "$".map { Currency.usd }
 }
 ```
+
+## When to backtrack in your parsers?
+
+If you only use the parsers and operators that ship with this library, and in particular you do not
+create custom conformances to the ``Parser`` protocol, then you never need to worry about explicitly 
+backtracking your input because it will be handled for you automatically. The primary way to allow 
+for backtracking is via the ``OneOf`` parser, but there are a few other parsers that also backtrack 
+internally.
+
+One such example is the ``Optionally`` parser which transforms any parser into one that cannot fail 
+by returning `nil` if it does fail:
+
+```swift
+let parser = Parse {
+  "Hello,"
+  Optionally { " "; Bool.parser() }
+  " world!"
+}
+
+try parser.parse("Hello, world!")      // nil
+try parser.parse("Hello, true world!") // true
+```
+
+If the parser captured inside ``Optionally`` fails then it backtracks the input to its state before
+the parser ran. In particular, if the `Bool.parser()` fails then it will make sure to undo
+consuming the leading space " " so that later parsers can try.
+
+Another example of a parser that internally backtracks is the ``Parser/replaceError(with:)`` 
+opreator, which coalesces any error thrown by a parser into a default output value:
+
+```swift
+let parser = Parse {
+  "Hello,"
+  Optionally { " "; Bool.parser() }
+    .replaceError(with: false)
+  " world!"
+}
+
+try parser.parse("Hello, world!")      // false
+try parser.parse("Hello, true world!") // true
+```
+
+It backtracks the input to its original value when the parser fails so that later parsers can 
+try.
+
+The only time you need to worry about explicitly backtracking input is when making your own
+``Parser`` conformances. As a general rule of thumb, if your parser recovers from all failures
+in the `parse` method then it should backtrack the input to its state before the error was thrown.
+This is exactly how ``OneOf``, ``Optionally`` and ``Parser/replaceError(with:)`` work.
 
 ## Performance
 

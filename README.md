@@ -59,6 +59,8 @@ This library aims to write such a story for parsing in Swift. It introduces a si
 
 ## Getting started
 
+> This is an abridged version of the ["Getting Started"][getting-started-docs] article in the library's [documentation][swift-parsing-docs].
+
 Suppose you have a string that holds some user data that you want to parse into an array of `User`s:
 
 ```swift
@@ -114,6 +116,8 @@ var input = input[...]
 try user.parse(&input)  // 1
 input                   // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
+
+> Note that we use a `Substring` instead of `String` because it allows for more efficient mutations and copying. See the article ["String Abstractions"][string-abstractions-docs] for more information.
 
 Next we want to take everything up until the next comma for the user's name, and then consume the comma:
 
@@ -346,4 +350,6 @@ There are a few other parsing libraries in the Swift community that you might al
 
 This library is released under the MIT license. See [LICENSE](LICENSE) for details.
 
+[getting-started-docs]: https://pointfreeco.github.io/swift-parsing/main/documentation/parsing/gettingstarted
+[string-abstractions-docs]: https://pointfreeco.github.io/swift-parsing/main/documentation/parsing/stringabstractions
 [swift-parsing-docs]: https://pointfreeco.github.io/swift-parsing
