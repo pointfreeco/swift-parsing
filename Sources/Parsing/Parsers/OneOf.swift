@@ -64,8 +64,8 @@
 ///
 /// ```swift
 /// OneOf {
-///   Parser { Int.parser(); "-"; Int.parser() } // 1️⃣
-///   Parser { Int.parser(); "/"; Int.parser() } // 2️⃣
+///   Parse { Int.parser(); "-"; Int.parser() } // 1️⃣
+///   Parse { Int.parser(); "/"; Int.parser() } // 2️⃣
 /// }
 /// ```
 ///

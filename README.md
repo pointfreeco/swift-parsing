@@ -383,8 +383,8 @@ If used naively, backtracking can lead to less performant parsing code. For exam
 
 ```swift
 OneOf {
-  Parser { Int.parser(); "-"; Int.parser() } // 1️⃣
-  Parser { Int.parser(); "/"; Int.parser() } // 2️⃣
+  Parse { Int.parser(); "-"; Int.parser() } // 1️⃣
+  Parse { Int.parser(); "/"; Int.parser() } // 2️⃣
 }
 ```
 
