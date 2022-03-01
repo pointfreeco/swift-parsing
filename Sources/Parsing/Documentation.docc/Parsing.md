@@ -1,4 +1,4 @@
-# ``Parsing``
+# Parsing
 
 A library for turning nebulous data into well-structured data, with a focus on composition, 
 performance, generality, and ergonomics.
@@ -6,8 +6,8 @@ performance, generality, and ergonomics.
 ## Overview
 
 Parsing with this library is performed by listing out many small parsers that describe how to 
-incremental consume small bits from the beginning of an input string. For example, suppose you have 
-a string that holds some user data that you want to parse into an array of `User`s:
+incrementally consume small bits from the beginning of an input string. For example, suppose you
+have a string that holds some user data that you want to parse into an array of `User`s:
 
 ```swift
 var input = """
@@ -43,8 +43,7 @@ let users = Many {
   End()
 }
 
-try users.parse(&input)  // [User(id: 1, name: "Blob", isAdmin: true), ...]
-input                    // ""
+try users.parse(input)  // [User(id: 1, name: "Blob", isAdmin: true), ...]
 ```
 
 This says that to parse a user we consume an integer from the beginning of the input, then a comma, 
@@ -61,9 +60,9 @@ var input = """
 1,Blob,true
 2,Blob Jr.,false
 3,Blob Sr.,tru
-"""[...]
+"""
 
-try users.parse(&input)
+try users.parse(input)
 
 // error: unexpected input
 //  --> input:3:11
@@ -71,8 +70,8 @@ try users.parse(&input)
 //   |           ^ expected "true" or "false"
 ```
 
-That's the basics of parsing a simple string format, but there's a lot more operators and tricks to 
-learn in order to performantly parse larger inputs.
+That's the basics of parsing a simple string format, but there are a lot more operators and tricks
+to learn in order to performantly parse larger inputs.
 
 #### Additional Resources
 

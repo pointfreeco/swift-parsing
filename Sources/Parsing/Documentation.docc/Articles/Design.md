@@ -44,15 +44,15 @@ The type of this parser is now:
 Parsers.Map<Prefix<Substring>, Substring>
 ```
 
-Notice how the type of the parser encodes the operations that we performed. This adds a bit of 
+Notice that the type of the parser encodes the operations that we performed. This adds a bit of 
 complexity when using these types, but comes with some performance benefits because Swift can 
-usually optimize away the creation of those nested types.
+usually inline and optimize away the creation of those nested types.
 
 ## Result Builders
 
-The library takes advantage of Swift's `@resultBuilder` feature to make constructing complex 
-parsers as fluent as possible, and should be reminiscent of how views are constructed in SwiftUI. 
-The main entry point into building a parser is the `Parse` builder:
+The library takes advantage of Swift's `@resultBuilder` feature to make constructing complex parsers
+as fluent as possible, and should be reminiscent of how views are constructed in SwiftUI. The main
+entry point into building a parser is the `Parse` builder:
 
 ```swift
 Parse {
