@@ -62,7 +62,10 @@ jobs:
       - name: Build documentation
         run: >
           ls;
-          
+          ls Sources;
+          ls Sources/Parsing;
+          ls Sources/Parsing/Documentation.docc;
+
           rm -rf docs-out/.git;
           rm -rf docs-out/main;
 
