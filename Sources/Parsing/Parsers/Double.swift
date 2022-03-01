@@ -269,8 +269,8 @@ extension UTF8.CodeUnit {
   @usableFromInline
   var isHexDigit: Bool {
     (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
-    || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
-    || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
+      || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
+      || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
   }
 
   @usableFromInline
@@ -287,15 +287,16 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
     if self.first?.isSign == true {
       self.removeFirst()
     }
-    if self.first == .init(ascii: "0") && (
-      self.dropFirst().first == .init(ascii: "x") || self.dropFirst().first == .init(ascii: "X")
-    ) {
+    if self.first == .init(ascii: "0")
+      && (self.dropFirst().first == .init(ascii: "x")
+        || self.dropFirst().first == .init(ascii: "X"))
+    {
       self.removeFirst(2)
       let integer = self.prefix(while: { $0.isHexDigit })
       self.removeFirst(integer.count)
       if self.first == .init(ascii: ".") {
         let fractional =
-        self
+          self
           .dropFirst()
           .prefix(while: { $0.isHexDigit })
         self.removeFirst(1 + fractional.count)
@@ -304,7 +305,7 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
         var n = 1
         if self.dropFirst().first?.isSign == true { n += 1 }
         let exponent =
-        self
+          self
           .dropFirst(n)
           .prefix(while: { $0.isHexDigit })
         guard !exponent.isEmpty else { return original[..<self.startIndex] }
@@ -315,7 +316,7 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
       self.removeFirst(integer.count)
       if self.first == .init(ascii: ".") {
         let fractional =
-        self
+          self
           .dropFirst()
           .prefix(while: { $0.isDigit })
         self.removeFirst(1 + fractional.count)
@@ -324,7 +325,7 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
         var n = 1
         if self.dropFirst().first?.isSign == true { n += 1 }
         let exponent =
-        self
+          self
           .dropFirst(n)
           .prefix(while: { $0.isDigit })
         guard !exponent.isEmpty else { return original[..<self.startIndex] }
@@ -332,10 +333,9 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
       }
     } else if self.prefix(8).caseInsensitiveElementsEqualLowercase("infinity".utf8) {
       self.removeFirst(8)
-    } else if (
-      self.prefix(3).caseInsensitiveElementsEqualLowercase("inf".utf8)
+    } else if self.prefix(3).caseInsensitiveElementsEqualLowercase("inf".utf8)
       || self.prefix(3).caseInsensitiveElementsEqualLowercase("nan".utf8)
-    ) {
+    {
       self.removeFirst(3)
     }
     return original[..<self.startIndex]
