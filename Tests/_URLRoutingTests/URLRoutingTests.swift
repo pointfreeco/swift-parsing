@@ -14,9 +14,9 @@ class URLRoutingTests: XCTestCase {
 
     var request = URLRequestData(body: .init("name=Blob&age=42&debug=1".utf8))
     let (name, age) = try p.parse(&request)
-    XCTAssertEqual("Blob", name)
-    XCTAssertEqual(42, age)
-    XCTAssertEqual("debug=1", request.body.map { String(decoding: $0, as: UTF8.self) })
+    XCTAssertNoDifference("Blob", name)
+    XCTAssertNoDifference(42, age)
+    XCTAssertNoDifference("debug=1", request.body.map { String(decoding: $0, as: UTF8.self) })
   }
 
   func testHeaders() throws {
@@ -30,8 +30,8 @@ class URLRoutingTests: XCTestCase {
     var request = URLRequestData(request: req)!
 
     let name = try p.parse(&request)
-    XCTAssertEqual("Hello", name)
-    XCTAssertEqual(["X-Haha": ["Blob"]], request.headers)
+    XCTAssertNoDifference("Hello", name)
+    XCTAssertNoDifference(["X-Haha": ["Blob"]], request.headers)
   }
 
   func testPath() {
@@ -49,9 +49,9 @@ class URLRoutingTests: XCTestCase {
 
     var request = URLRequestData(string: "/?name=Blob&age=42&debug=1")!
     let (name, age) = try p.parse(&request)
-    XCTAssertEqual("Blob", name)
-    XCTAssertEqual(42, age)
-    XCTAssertEqual(["debug": ["1"]], request.query)
+    XCTAssertNoDifference("Blob", name)
+    XCTAssertNoDifference(42, age)
+    XCTAssertNoDifference(["debug": ["1"]], request.query)
   }
 
   func testQueryDefault() throws {
@@ -61,8 +61,8 @@ class URLRoutingTests: XCTestCase {
 
     var request = URLRequestData(string: "/")!
     let page = p.parse(&request)
-    XCTAssertEqual(1, page)
-    XCTAssertEqual([:], request.query)
+    XCTAssertNoDifference(1, page)
+    XCTAssertNoDifference([:], request.query)
 
     XCTAssertNoDifference(
       p.print(10),
@@ -131,7 +131,7 @@ class URLRoutingTests: XCTestCase {
 //      staging.print(),
 //      .init(host: "staging.pointfree.co", path: [])
 //    )
-//    XCTAssertEqual(_output.host, "staging.pointfree.co")
+//    XCTAssertNoDifference(_output.host, "staging.pointfree.co")
 //  }
 }
 

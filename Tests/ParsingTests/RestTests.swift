@@ -5,13 +5,23 @@ import XCTest
 final class RestTests: XCTestCase {
   func testRest() {
     var input = "Hello, world!"[...]
-    XCTAssertNoDifference("Hello, world!", Rest().parse(&input))
+    XCTAssertNoDifference("Hello, world!", try Rest().parse(&input))
     XCTAssertNoDifference("", input)
   }
 
   func testRestAlwaysSucceeds() {
     var input = ""[...]
-    XCTAssertNoDifference("", Rest().parse(&input))
+    XCTAssertThrowsError(try Rest().parse(&input)) { error in
+      XCTAssertNoDifference(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 |
+          | ^ expected a non-empty input
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertNoDifference("", input)
   }
 }

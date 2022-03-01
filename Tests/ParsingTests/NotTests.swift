@@ -37,7 +37,7 @@ class NotTests: XCTestCase {
     XCTAssertNoDifference(
       input,
       """
-      // a comment
+       a comment
       let foo = true
       """
     )
