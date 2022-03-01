@@ -26,10 +26,10 @@ public struct Not<Upstream: Parser>: Parser {
   @inlinable
   public func parse(_ input: inout Upstream.Input) throws {
     let original = input
-    defer { input = original }
     do {
       _ = try self.upstream.parse(&input)
     } catch {
+      input = original
       return
     }
     throw ParsingError.expectedInput("not to be processed", from: original, to: input)

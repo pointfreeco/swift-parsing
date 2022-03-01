@@ -3,6 +3,8 @@ import Foundation
 extension Double {
   /// A parser that consumes a double from the beginning of a collection of UTF-8 code units.
   ///
+  /// Parses the same format parsed by `Double.init(_:)`.
+  ///
   /// ```swift
   /// var input = "123.45 Hello world"[...]
   /// try Double.parser().parse(&input)  // 123.45
@@ -53,6 +55,8 @@ extension Double {
 
 extension Float {
   /// A parser that consumes a float from the beginning of a collection of UTF-8 code units.
+  ///
+  /// Parses the same format parsed by `Float.init(_:)`.
   ///
   /// ```swift
   /// var input = "123.45 Hello world"[...]
@@ -106,6 +110,8 @@ extension Float {
   extension Float80 {
     /// A parser that consumes an extended-precision, floating-point value from the beginning of a
     /// collection of UTF-8 code units.
+    ///
+    /// Parses the same format parsed by `Float80.init(_:)`.
     ///
     /// ```swift
     /// var input = "123.45 Hello world"[...]
@@ -184,15 +190,9 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout Input) throws -> Double {
       let original = input
-      let s = try input.parseFloat("double")
+      let s = input.parseFloat()
       guard let n = Double(String(decoding: s, as: UTF8.self))
-      else {
-        throw ParsingError.failed(
-          summary: "failed to process double from \(formatValue(s))",
-          from: original,
-          to: input
-        )
-      }
+      else { throw ParsingError.expectedInput("double", from: original, to: input) }
       return n
     }
   }
@@ -205,7 +205,7 @@ extension Parsers {
   /// ```swift
   /// var input = "123.45 Hello world"[...]
   /// try Float.parser().parse(&input)  // 123.45
-  /// input                              // " Hello world"
+  /// input                             // " Hello world"
   /// ```
   public struct FloatParser<Input>: Parser
   where
@@ -219,15 +219,9 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout Input) throws -> Float {
       let original = input
-      let s = try input.parseFloat("float")
+      let s = input.parseFloat()
       guard let n = Float(String(decoding: s, as: UTF8.self))
-      else {
-        throw ParsingError.failed(
-          summary: "failed to process float from \(formatValue(s))",
-          from: original,
-          to: input
-        )
-      }
+      else { throw ParsingError.expectedInput("float", from: original, to: input) }
       return n
     }
   }
@@ -241,7 +235,7 @@ extension Parsers {
     /// ```swift
     /// var input = "123.45 Hello world"[...]
     /// try Float80.parser().parse(&input)  // 123.45
-    /// input                              // " Hello world"
+    /// input                               // " Hello world"
     /// ```
     public struct Float80Parser<Input>: Parser
     where
@@ -255,14 +249,10 @@ extension Parsers {
       @inlinable
       public func parse(_ input: inout Input) throws -> Float80 {
         let original = input
-        let s = try input.parseFloat("extended-precision float")
+        let s = input.parseFloat()
         guard let n = Float80(String(decoding: s, as: UTF8.self))
         else {
-          throw ParsingError.failed(
-            summary: "failed to process extended-precision float from \(formatValue(s))",
-            from: original,
-            to: input
-          )
+          throw ParsingError.expectedInput("extended-precision float", from: original, to: input)
         }
         return n
       }
@@ -270,38 +260,91 @@ extension Parsers {
   #endif
 }
 
+extension UTF8.CodeUnit {
+  @usableFromInline
+  var isDigit: Bool {
+    (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
+  }
+
+  @usableFromInline
+  var isHexDigit: Bool {
+    (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
+      || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
+      || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
+  }
+
+  @usableFromInline
+  var isSign: Bool {
+    self == .init(ascii: "-") || self == .init(ascii: "+")
+  }
+}
+
 extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
   @inlinable
   @inline(__always)
-  mutating func parseFloat(_ label: String) throws -> SubSequence {
+  mutating func parseFloat() -> SubSequence {
     let original = self
-    if self.first == .init(ascii: "-") || self.first == .init(ascii: "+") {
+    if self.first?.isSign == true {
       self.removeFirst()
     }
-    let integer = self.prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
-    guard !integer.isEmpty else { throw ParsingError.expectedInput(label, at: self) }
-    self.removeFirst(integer.count)
-    if self.first == .init(ascii: ".") {
-      let fractional =
-        self
-        .dropFirst()
-        .prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
-      guard !fractional.isEmpty else { return original[..<self.startIndex] }
-      self.removeFirst(1 + fractional.count)
-    }
-    if self.first == .init(ascii: "e") || self.first == .init(ascii: "E") {
-      var n = 1
-      if self.dropFirst().first == .init(ascii: "-") || self.dropFirst().first == .init(ascii: "+")
-      {
-        n += 1
+    if self.first == .init(ascii: "0")
+      && (self.dropFirst().first == .init(ascii: "x")
+        || self.dropFirst().first == .init(ascii: "X"))
+    {
+      self.removeFirst(2)
+      let integer = self.prefix(while: { $0.isHexDigit })
+      self.removeFirst(integer.count)
+      if self.first == .init(ascii: ".") {
+        let fractional =
+          self
+          .dropFirst()
+          .prefix(while: { $0.isHexDigit })
+        self.removeFirst(1 + fractional.count)
       }
-      let exponent =
-        self
-        .dropFirst(n)
-        .prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
-      guard !exponent.isEmpty else { return original[..<self.startIndex] }
-      self.removeFirst(n + exponent.count)
+      if self.first == .init(ascii: "p") || self.first == .init(ascii: "P") {
+        var n = 1
+        if self.dropFirst().first?.isSign == true { n += 1 }
+        let exponent =
+          self
+          .dropFirst(n)
+          .prefix(while: { $0.isHexDigit })
+        guard !exponent.isEmpty else { return original[..<self.startIndex] }
+        self.removeFirst(n + exponent.count)
+      }
+    } else if self.first?.isDigit == true || self.first == .init(ascii: ".") {
+      let integer = self.prefix(while: { $0.isDigit })
+      self.removeFirst(integer.count)
+      if self.first == .init(ascii: ".") {
+        let fractional =
+          self
+          .dropFirst()
+          .prefix(while: { $0.isDigit })
+        self.removeFirst(1 + fractional.count)
+      }
+      if self.first == .init(ascii: "e") || self.first == .init(ascii: "E") {
+        var n = 1
+        if self.dropFirst().first?.isSign == true { n += 1 }
+        let exponent =
+          self
+          .dropFirst(n)
+          .prefix(while: { $0.isDigit })
+        guard !exponent.isEmpty else { return original[..<self.startIndex] }
+        self.removeFirst(n + exponent.count)
+      }
+    } else if self.prefix(8).caseInsensitiveElementsEqualLowercase("infinity".utf8) {
+      self.removeFirst(8)
+    } else if self.prefix(3).caseInsensitiveElementsEqualLowercase("inf".utf8)
+      || self.prefix(3).caseInsensitiveElementsEqualLowercase("nan".utf8)
+    {
+      self.removeFirst(3)
     }
     return original[..<self.startIndex]
+  }
+
+  @inlinable
+  @inline(__always)
+  func caseInsensitiveElementsEqualLowercase<S: Sequence>(_ other: S) -> Bool
+  where S.Element == Element {
+    self.elementsEqual(other, by: { $0 == $1 || $0 + 32 == $1 })
   }
 }
