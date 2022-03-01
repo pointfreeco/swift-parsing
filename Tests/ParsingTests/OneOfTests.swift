@@ -79,7 +79,16 @@ final class OneOfTests: XCTestCase {
     var input = "Berkeley, Hello!"[...]
     XCTAssertThrowsError(
       try OneOf {
-        for parser in [Parse { "New "; "York" }, Parse { "Ber"; "lin" }] {
+        for parser in [
+          Parse {
+            "New "
+            "York"
+          },
+          Parse {
+            "Ber"
+            "lin"
+          },
+        ] {
           parser
         }
       }
