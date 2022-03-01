@@ -122,7 +122,7 @@ input                   // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
 Next we want to take everything up until the next comma for the user's name, and then consume the comma:
 
 ```swift
-let user = Parse { 
+let user = Parse {
   Int.parser()
   ","
   Prefix { $0 != "," }

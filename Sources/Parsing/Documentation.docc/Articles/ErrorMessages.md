@@ -1,12 +1,12 @@
 # Error messages
 
-Learn how the library reports parsing errors and how to integrate your own custom error messages 
-into parsers. 
+Learn how the library reports parsing errors and how to integrate your own custom error messages
+into parsers.
 
 ## Overview
 
-When a parser fails it throws an error containing information about what went wrong. The actual 
-error thrown by the parsers shipped with this library is internal, and so it should be considered 
+When a parser fails it throws an error containing information about what went wrong. The actual
+error thrown by the parsers shipped with this library is internal, and so it should be considered
 opaque. To get a human-readable debug description of the error message you can stringify the error.
 For  example, the following `UInt8` parser fails to parse a string that would cause it to overflow:
 
@@ -55,12 +55,12 @@ do {
   print(error))
 
   // error: multiple failures occurred
-  // 
+  //
   // error: unexpected input
   //  --> input:1:5
   // 1 | (100]
   //   |     ^ expected ")"
-  // 
+  //
   // error: unexpected input
   //  --> input:1:1
   // 1 | (100]
@@ -154,7 +154,7 @@ output.count // 2
 input // "\n3,Blob Sr.,tru"
 ```
 
-However, by adding a terminator to this `users` parser an error will be throw that points to the 
+However, by adding a terminator to this `users` parser an error will be throw that points to the
 exact spot where the typo occurred:
 
 ```swift
@@ -176,15 +176,15 @@ let output = try users.parse(&input)
 
 ## Throwing your own errors
 
-Although the error type thrown by the parsers that ship in this library is currently internal, and 
+Although the error type thrown by the parsers that ship in this library is currently internal, and
 so should be thought of as opaque, it is still possible to throw your own errors. Your errors will
 automatically be reformatted and contextualized to show exactly where the error occurred.
 
-For example, suppose we wanted a parser that only parsed the digits 0-9 from the beginning of a 
+For example, suppose we wanted a parser that only parsed the digits 0-9 from the beginning of a
 string and transformed it into an integer. This is subtly different from `Int.parser()` which
 supports negative numbers, exponential formatting, and more.
 
-Constructing a `Digits` parser is easy enough, and we can introduce a custom struct error for 
+Constructing a `Digits` parser is easy enough, and we can introduce a custom struct error for
 customizing the message displayed:
 
 ```swift

@@ -5,7 +5,7 @@ unnecessary.
 
 ## Overview
 
-Backtracking is the process of restoring an input to its original value when parsing fails. While it 
+Backtracking is the process of restoring an input to its original value when parsing fails. While it
 can be very useful, backtracking can lead to more complicated parser logic than necessary, and
 backtracking too often can lead to performance issues. For this reason, most parsers are not
 required to backtrack, and can therefore fail _and_ still consume from the input.
@@ -27,12 +27,12 @@ let currency = OneOf {
 ## When to backtrack in your parsers?
 
 If you only use the parsers and operators that ship with this library, and in particular you do not
-create custom conformances to the ``Parser`` protocol, then you never need to worry about explicitly 
-backtracking your input because it will be handled for you automatically. The primary way to allow 
-for backtracking is via the ``OneOf`` parser, but there are a few other parsers that also backtrack 
+create custom conformances to the ``Parser`` protocol, then you never need to worry about explicitly
+backtracking your input because it will be handled for you automatically. The primary way to allow
+for backtracking is via the ``OneOf`` parser, but there are a few other parsers that also backtrack
 internally.
 
-One such example is the ``Optionally`` parser, which transforms any parser into one that cannot fail 
+One such example is the ``Optionally`` parser, which transforms any parser into one that cannot fail
 by catching any thrown errors and returning `nil`:
 
 ```swift
@@ -50,7 +50,7 @@ If the parser captured inside ``Optionally`` fails then it backtracks the input 
 the parser ran. In particular, if the `Bool.parser()` fails then it will make sure to undo
 consuming the leading space " " so that later parsers can try.
 
-Another example of a parser that internally backtracks is the ``Parser/replaceError(with:)`` 
+Another example of a parser that internally backtracks is the ``Parser/replaceError(with:)``
 operator, which coalesces any error thrown by a parser into a default output value:
 
 ```swift
@@ -75,7 +75,7 @@ This is exactly how ``OneOf``, ``Optionally`` and ``Parser/replaceError(with:)``
 ## Performance
 
 If used naively, backtracking can lead to less performant parsing code. For example, if we wanted to
-parse two integers from a string that were separated by either a dash "-" or slash "/", then we 
+parse two integers from a string that were separated by either a dash "-" or slash "/", then we
 could write this as:
 
 ```swift
@@ -85,11 +85,11 @@ OneOf {
 }
 ```
 
-However, parsing slash-separated integers is not going to be performant because it will first run 
-the entire 1️⃣ parser until it fails, then backtrack to the beginning, and run the 2️⃣ parser. In 
-particular, the first integer will get parsed twice, unnecessarily repeating that work. 
+However, parsing slash-separated integers is not going to be performant because it will first run
+the entire 1️⃣ parser until it fails, then backtrack to the beginning, and run the 2️⃣ parser. In
+particular, the first integer will get parsed twice, unnecessarily repeating that work.
 
-On the  other hand, we can factor out the common work of the parser and localize the backtracking 
+On the  other hand, we can factor out the common work of the parser and localize the backtracking
 ``OneOf`` work to make a much more performant parser:
 
 ```swift

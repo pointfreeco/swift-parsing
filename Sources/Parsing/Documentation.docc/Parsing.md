@@ -1,6 +1,6 @@
 # ``Parsing``
 
-A library for turning nebulous data into well-structured data, with a focus on composition, 
+A library for turning nebulous data into well-structured data, with a focus on composition,
 performance, generality, and ergonomics.
 
 ## Additional Resources
@@ -11,7 +11,7 @@ performance, generality, and ergonomics.
 
 ## Overview
 
-Parsing with this library is performed by listing out many small parsers that describe how to 
+Parsing with this library is performed by listing out many small parsers that describe how to
 incrementally consume small bits from the beginning of an input string. For example, suppose you
 have a string that holds some user data that you want to parse into an array of `User`s:
 
@@ -29,7 +29,7 @@ struct User {
 }
 ```
 
-A parser can be constructed for transforming the input string into an array of users in succinct 
+A parser can be constructed for transforming the input string into an array of users in succinct
 and fluent API:
 
 ```swift
@@ -45,7 +45,7 @@ let users = Many {
   user
 } separator: {
   "\n"
-} terminator: { 
+} terminator: {
   End()
 }
 
@@ -58,7 +58,7 @@ This says that to parse a user we:
 * then a comma
 * then everything up to the next comma
 * then another comma
-* and finally a boolean. 
+* and finally a boolean.
 
 And to parse an entire array of users we:
 
@@ -67,7 +67,7 @@ And to parse an entire array of users we:
 * and once the `user` and separator parsers have consumed all they can we run the terminator
 parser to verify there is no more input to consume.
 
-Further, if the input is malformed, like say we mistyped one of the booleans, then the parser emits 
+Further, if the input is malformed, like say we mistyped one of the booleans, then the parser emits
 an error that describes exactly what went wrong:
 
 ```swift
