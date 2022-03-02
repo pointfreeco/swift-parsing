@@ -270,19 +270,20 @@ final class OneOfTests: XCTestCase {
       }
     }
 
-    json = ParsePrint {
-      Skip { Whitespace() }.printing("".utf8)
-      OneOf {
-        object.map(.case(JSONValue.object))
-        array.map(.case(JSONValue.array))
-        string.map(.case(JSONValue.string))
-        Double.parser().map(.case(JSONValue.number))
-        Bool.parser().map(.case(JSONValue.boolean))
-        "null".utf8.map { JSONValue.null }
+    json = .init(
+      ParsePrint {
+        Skip { Whitespace() }.printing("".utf8)
+        OneOf {
+          object.map(.case(JSONValue.object))
+          array.map(.case(JSONValue.array))
+          string.map(.case(JSONValue.string))
+          Double.parser().map(.case(JSONValue.number))
+          Bool.parser().map(.case(JSONValue.boolean))
+          "null".utf8.map { JSONValue.null }
+        }
+        Skip { Whitespace() }.printing("".utf8)
       }
-      Skip { Whitespace() }.printing("".utf8)
-    }
-    .eraseToAnyParserPrinter()
+    )
 
     let input = #"""
       {
