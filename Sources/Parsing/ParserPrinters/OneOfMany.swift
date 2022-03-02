@@ -28,19 +28,20 @@ extension Parsers {
     @inlinable
     @inline(__always)
     public func parse(_ input: inout Parsers.Input) throws -> Parsers.Output {
+      let original = input
+      var count = self.parsers.count
       var errors: [Error] = []
-      errors.reserveCapacity(self.parsers.count)
+      errors.reserveCapacity(count)
       for parser in self.parsers {
         do {
-          var i = input
-          let output = try parser.parse(&i)
-          input = i
-          return output
+          return try parser.parse(&input)
         } catch {
+          count -= 1
+          if count > 0 { input = original }
           errors.append(error)
         }
       }
-      throw ParsingError.manyFailed(errors, at: input)
+      throw ParsingError.manyFailed(errors, at: original)
     }
   }
 }

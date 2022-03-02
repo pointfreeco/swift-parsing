@@ -313,7 +313,10 @@ func format(labels: [String], context: ParsingError.Context) -> String {
       let slice =
         originalInput.startIndex == remainingInput.startIndex
         ? originalInput
-        : originalInput.base[originalInput.startIndex..<remainingInput.startIndex]
+        : Slice(
+          base: originalInput.base,
+          bounds: originalInput.startIndex..<remainingInput.startIndex
+        )
 
       let expectation: String
       if let error = context.underlyingError as? ParsingError,
