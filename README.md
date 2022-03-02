@@ -16,18 +16,15 @@ A library for turning nebulous data into well-structured data, with a focus on c
 
 ---
 
-* [Motivation](#motivation)
-* [Getting started](#getting-started)
-* [Design](#design)
-  * [Protocol](#protocol)
-  * [Result builders](#result-builders)
-  * [Error messages](#error-messages)
-  * [Backtracking](#backtracking)
-  * [Low-level versus high-level](#low-level-versus-high-level)
-* [Benchmarks](#benchmarks)
-* [Documentation](#documentation)
-* [Other libraries](#other-libraries)
-* [License](#license)
+- [swift-parsing](#swift-parsing)
+  - [Learn More](#learn-more)
+  - [Motivation](#motivation)
+  - [Getting started](#getting-started)
+    - [Error messages](#error-messages)
+  - [Benchmarks](#benchmarks)
+  - [Documentation](#documentation)
+  - [Other libraries](#other-libraries)
+  - [License](#license)
 
 ## Learn More
 
@@ -64,6 +61,8 @@ While parsers are everywhere in Swift, Swift has no holistic story _for_ parsing
 This library aims to write such a story for parsing in Swift. It introduces a single unit of parsing that can be combined in interesting ways to form large, complex parsers that can tackle the programming problems you need to solve in a maintainable way.
 
 ## Getting started
+
+> This is an abridged version of the ["Getting Started"][getting-started-docs] article in the library's [documentation][swift-parsing-docs].
 
 Suppose you have a string that holds some user data that you want to parse into an array of `User`s:
 
@@ -121,10 +120,12 @@ try user.parse(&input)  // 1
 input                   // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
+> Note that we use a `Substring` instead of `String` because it allows for more efficient mutations and copying. See the article ["String Abstractions"][string-abstractions-docs] for more information.
+
 Next we want to take everything up until the next comma for the user's name, and then consume the comma:
 
 ```swift
-let user = Parse { 
+let user = Parse {
   Int.parser()
   ","
   Prefix { $0 != "," }
@@ -254,212 +255,7 @@ README Example.Ad hoc             8029.000 ns ±  44.44 %     163719
 README Example.Scanner           19786.000 ns ±  35.26 %      62125
 ```
 
-That's the basics of parsing a simple string format, but there's a lot more operators and tricks to learn in order to performantly parse larger inputs. View the [benchmarks](Sources/swift-parsing-benchmark) for examples of real life parsing scenarios.
-
-## Design
-
-### Protocol
-
-The design of the library is largely inspired by the Swift standard library and Apple's Combine framework. A parser is represented as a protocol that many types conform to, and then parser transformations (also known as "combinators") are methods that return concrete types conforming to the parser protocol.
-
-For example, to parse all the characters from the beginning of a substring until you encounter a comma you can use the `Prefix` parser:
-
-```swift
-let parser = Prefix { $0 != "," }
-
-var input = "Hello,World"[...]
-try parser.parse(&input)  // "Hello"
-input                     // ",World"
-```
-
-The type of this parser is:
-
-```swift
-Prefix<Substring>
-```
-
-We can `.map` on this parser in order to transform its output, which in this case is the string "Hello":
-
-```swift
-let parser = Prefix { $0 != "," }
-  .map { $0 + "!!!" }
-
-var input = "Hello,World"[...]
-try parser.parse(&input)  // "Hello!!!"
-input                     // ",World"
-```
-
-The type of this parser is now:
-
-```swift
-Parsers.Map<Prefix<Substring>, Substring>
-```
-
-Notice how the type of the parser encodes the operations that we performed. This adds a bit of complexity when using these types, but comes with some performance benefits because Swift can usually optimize away the creation of those nested types.
-
-### Result builders
-
-The library takes advantage of Swift's `@resultBuilder` feature to make constructing complex parsers as fluent as possible, and should be reminiscent of how views are constructed in SwiftUI. The main entry point into building a parser is the `Parse` builder:
-
-```swift
-Parse {
-
-}
-```
-
-In this builder block you can specify parsers that will be run one after another. For example, if you wanted to parse an integer, then a comma, and then a boolean from a string, you can simply do:
-
-```swift
-Parse {
-  Int.parser()
-  ","
-  Bool.parser()
-}
-```
-
-Note that the `String` type conforms to the `Parser` protocol, and represents a parser that consumes that exact string from the beginning of an input if it matches, and otherwise fails.
-
-Many of the parsers and operators that come with the library are configured with parser builders to maximize readability of the parsers. For example, to parse accounting syntax of numbers, where parenthesized numbers are negative, we can use the `OneOf` parser builder:
-
-```swift
-let accountingNumber = OneOf {
-  Int.parser(isSigned: false)
-
-  Parse {
-    "("
-    Int.parser(isSigned: false)
-    ")"
-  }
-  .map { -$0 }
-}
-
-try accountingNumber.parse("100")    // 100
-try accountingNumber.parse("(100)")  // -100
-```
-
-### Error messages
-
-When a parser fails it throws an error containing information about what went wrong. The actual error thrown by the parsers shipped with this library is internal, and so should be considered opaque. To get a human-readable description of the error message you can stringify the error. For example, the following `UInt8` parser fails to parse a string that would cause it to overflow:
-
-```swift
-do {
-  var input = "1234 Hello"[...]
-  let number = try UInt8.parser().parse(&input))
-} catch {
-  print(error)
-  // error: failed to process "UInt8"
-  //  --> input:1:1-4
-  // 1 | 1234 Hello
-  //   | ^^^^ overflowed 255
-}
-``` 
-
-### Backtracking
-
-Backtracking, which is the process of restoring the input to its original value when a parser fails, is very useful, but can lead to performance issues and cause parsers' logic to be more complicated than necessary. For this reason most parsers are not required to backtrack.
-
-However, if a parser catches an error and may not throw its own error, it should backtrack so that parsers further down the line can continue parsing without having part of the input consumed if the parser fails.
-
-For example, the `OneOf` parser backtracks, because it will attempt to parse multiple internal parsers, returning the result of the first one which doesn't fail.
-
-`Optionally` also backtracks, since a the wrapped parser may partially consume the input before failing, but `Optionally` will just return `nil`, allowing parsing to continue. Additionally, `Optionally` is essentially syntactic sugar for `OneOf`:
-
-```swift
-Optionally { p }
-
-// vs
-
-OneOf {
-  p.map(Optional.some)
-  Always(nil)  
-}
-```
-
-Internally, the `Many` parser backtracks when checking the `separator` parser, because it is expected to fail at some point to signal the end of the loop, in which case it continues successfully. However if the main body or the `terminator` fails, it is not backtracked. If your parser has a similar internal "checking" parser like `separator`, consider backtracking in that context.
-
-In most cases, if backtracking is needed, one should use the `OneOf` parser, which can try many parsers one after another on a single input, backtracking after each failure and taking the first that succeeds.
-
-If used naively, backtracking can lead to less performant parsing code. For example, if we wanted to parse two integers from a string that were separated by either a dash "-" or slash "/", then we could write this as:
-
-```swift
-OneOf {
-  Parser { Int.parser(); "-"; Int.parser() } // 1️⃣
-  Parser { Int.parser(); "/"; Int.parser() } // 2️⃣
-}
-```
-
-However, parsing slash-separated integers is not going to be performant because it will first run the entire 1️⃣ parser until it fails, then backtrack to the beginning, and run the 2️⃣ parser. In particular, the first integer will get parsed twice, unnecessarily repeating that work. On the other hand, we can factor out the common work of the parser and localize the backtracking `OneOf` work to make a much more performant parser:
-
-```swift
-Parse {
-  Int.parser()
-  OneOf { "-"; "/" }
-  Int.parser()
-}
-```
-
-### Low-level versus high-level
-
-The library makes it easy to choose which abstraction level you want to work on. Both low-level and high-level have their pros and cons.
-
-Parsing low-level inputs, such as UTF-8 code units, has better performance, but at the cost of potentially losing correctness. The most canonical example of this is trying to parse the character "é", which can be represented in code units as `[233]` or `[101, 769]`. If you don't remember to always parse both representations you may have a bug where you accidentally fail your parser when it encounters a code unit sequence you don't support.
-
-On the other hand, parsing high-level inputs, such as `String`, can guarantee correctness, but at the cost of performance. For example, `String` handles the complexities of extended grapheme clusters and UTF-8 normalization for you, but traversing strings is slower since its elements are variable width.
-
-The library gives you the tools that allow you to choose which abstraction level you want to work on, as well as the ability to fluidly move between abstraction levels where it makes sense.
-
-For example, say we want to parse particular city names from the beginning of a string:
-
-```swift
-enum City {
-  case london
-  case newYork
-  case sanJose
-}
-```
-
-Because "San José" has an accented character, the safest way to parse it is to parse on the `Substring` abstraction level:
-
-```swift
-let city = OneOf {
-  "London".map { City.london }
-  "New York".map { City.newYork }
-  "San José".map { City.sanJose }
-}
-
-var input = "San José,123"[...]
-try city.parse(&input)  // City.sanJose
-input                   // ",123"
-```
-
-However, we are incurring the cost of parsing `Substring` for this entire parser, even though only the "San José" case needs that power. We can refactor this parser so that "London" and "New York" are parsed on the `UTF8View` level, since they consist of only ASCII characters, and then parse "San José" as `Substring`:
-
-```swift
-let city = OneOf {
-  "London".utf8.map { City.london }
-  "New York".utf8.map { City.newYork }
-  FromSubstring { 
-    "San José".map { City.sanJose }
-  }  
-}
-```
-
-The `FromSubstring` parser allows us to temporarily leave the world of parsing UTF-8 and instead work on the higher level `Substring` abstraction, which takes care of normalization of the "é" character.
-
-If we wanted to be _really_ pedantic we could even parse "San Jos" as UTF-8 and then parse only the "é" character as a substring:
-
-```swift
-let city = OneOf {
-  "London".utf8.map { City.london }
-  "New York".utf8.map { City.newYork }
-  Parse(City.sanJose) {
-    "San Jos".utf8
-    FromSubstring { "é" }
-  }
-}
-```
-
-This allows you to parse as much as possible on the more performant, low-level `UTF8View`, while still allowing you to parse on the more correct, high-level `Substring` when necessary.
+That's the basics of parsing a simple string format, but there's a lot more operators and tricks to learn in order to performantly parse larger inputs. Read the [documentation][swift-parsing-docs] to dive more deeply into the concepts of parsing, and view the [benchmarks](Sources/swift-parsing-benchmark) for more examples of real life parsing scenarios.
 
 ### Error messages
 
@@ -510,9 +306,9 @@ Numerics.Comma separated: Int.parser          8096459.000 ns ±   0.44 %        
 Numerics.Comma separated: Scanner.scanInt    49178770.500 ns ±   0.24 %         28
 Numerics.Comma separated: String.split       14922583.500 ns ±   0.67 %         94
 Numerics.Double.init                               42.000 ns ±  72.61 %    1000000
-Numerics.Double.parser                             84.000 ns ±  33.88 %    1000000
+Numerics.Double.parser                            125.000 ns ±  58.57 %    1000000
 Numerics.Scanner.scanDouble                       167.000 ns ±  18.84 %    1000000
-Numerics.Comma separated: Double.parser       9807500.000 ns ±   0.46 %        143
+Numerics.Comma separated: Double.parser      11313395.500 ns ±   0.96 %        124
 Numerics.Comma separated: Scanner.scanDouble 50431521.000 ns ±   0.19 %         28
 Numerics.Comma separated: String.split       18744125.000 ns ±   0.46 %         75
 PrefixUpTo.Parser: Substring                   249958.000 ns ±   0.88 %       5595
@@ -534,7 +330,20 @@ Xcode Logs.Parser                             3768437.500 ns ±   0.56 %        
 
 ## Documentation
 
-The latest documentation for swift-parsing is available [here](https://pointfreeco.github.io/swift-parsing/).
+The documentation for releases and main are available here:
+
+* [main][swift-parsing-docs]
+* [0.7.1](https://pointfreeco.github.io/swift-parsing/0.7.1/documentation/parsing)
+<details>
+  <summary>
+  Other versions
+  </summary>
+
+  * [0.7](https://pointfreeco.github.io/swift-parsing/0.7.0/documentation/parsing)
+  * [0.6](https://pointfreeco.github.io/swift-parsing/0.6.0/documentation/parsing)
+  * [0.5](https://pointfreeco.github.io/swift-parsing/0.5.0/documentation/parsing)
+
+</details>
 
 ## Other libraries
 
@@ -547,3 +356,7 @@ There are a few other parsing libraries in the Swift community that you might al
 ## License
 
 This library is released under the MIT license. See [LICENSE](LICENSE) for details.
+
+[getting-started-docs]: https://pointfreeco.github.io/swift-parsing/main/documentation/parsing/gettingstarted
+[string-abstractions-docs]: https://pointfreeco.github.io/swift-parsing/main/documentation/parsing/stringabstractions
+[swift-parsing-docs]: https://pointfreeco.github.io/swift-parsing

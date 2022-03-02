@@ -32,6 +32,23 @@
 /// try Prefix(2).parse(&input)  // "Lo"
 /// input                        // "rem ipsum dolor"
 /// ```
+///
+/// ## Printer
+///
+/// ``Prefix`` is also a printer when its `Input` generic conforms to ``AppendableCollection``, such
+/// as `Substring` and `UTF8View`:
+///
+/// ```swift
+/// Prefix { $0 != "," }.print("Hello World") // "Hello World"
+/// ```
+///
+/// It fails to print if the collection being printed does not meet the `minLength` and `maxLength`
+/// requirements, or if the predicate provided is not satisfied on every element of the collection:
+///
+/// ```swift
+/// Prefix { $0 != "," }.print("Hello, World")
+/// // An error was thrown and was not caught
+/// ```
 public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input {
   public let maxLength: Int?
   public let minLength: Int

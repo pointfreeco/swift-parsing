@@ -44,4 +44,32 @@ final class UTF8Tests: XCTestCase {
     }
     XCTAssertNoDifference("🇸 Hello, world", Substring(input))
   }
+
+  func testUTF8Normalization() {
+    enum City {
+      case losAngeles
+      case newYork
+      case sanJose
+    }
+
+    let city = OneOf {
+      "Los Angeles".utf8.map { City.losAngeles }
+      "New York".utf8.map { City.newYork }
+      "San Jos\u{00E9}".utf8.map { City.sanJose }
+    }
+
+    XCTAssertThrowsError(try city.parse("San Jose\u{0301}")) { error in
+      XCTAssertNoDifference(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | San José
+          | ^ expected "Los Angeles"
+          | ^ expected "New York"
+          | ^ expected "San José"
+        """,
+        "\(error)"
+      )
+    }
+  }
 }

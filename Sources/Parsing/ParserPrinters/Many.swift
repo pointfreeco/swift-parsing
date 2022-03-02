@@ -172,7 +172,7 @@ extension Many where Printability == Void {
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     iterator: @escaping (Result) -> Iterator,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator,
@@ -282,7 +282,7 @@ where
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     iterator: @escaping (Result) -> Iterator,
     @ParserBuilder element: () -> Element
   ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
@@ -310,7 +310,7 @@ where
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element
   ) {
     self.init(
@@ -331,7 +331,7 @@ extension Many where Separator == Always<Input, Void>, Printability == Void {
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     iterator: @escaping (Result) -> Iterator,
     @ParserBuilder element: () -> Element,
     @ParserBuilder terminator: () -> Terminator
@@ -355,7 +355,7 @@ extension Many where Separator == Always<Input, Void>, Printability == Never {
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
     @ParserBuilder terminator: () -> Terminator
   ) {
@@ -377,7 +377,7 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
     into initialResult: Result,
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
-    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) -> Void,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     iterator: @escaping (Result) -> Iterator,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator

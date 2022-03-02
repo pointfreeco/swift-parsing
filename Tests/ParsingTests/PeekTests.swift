@@ -11,7 +11,7 @@ class PeekTests: XCTestCase {
       Rest()
     }
 
-    let result = duplicator.parse(&input)
+    let result = try duplicator.parse(&input)
 
     XCTAssertNoDifference(result.0, "foobar")
     XCTAssertNoDifference(result.1, "foobar")

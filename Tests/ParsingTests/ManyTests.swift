@@ -222,45 +222,29 @@ class ManyTests: XCTestCase {
       )
     }
   }
-  
-  func testPrintSingleItem() {
-    let intsParser = Many {
+
+  func testThrowingAccumulator() {
+    let parser = Many(into: [Int]()) { (xs, x) throws in
+      struct UniqueIntegerError: Error {}
+      guard !xs.contains(x)
+      else { throw UniqueIntegerError() }
+      xs.append(x)
+    } element: {
       Int.parser()
     } separator: {
       ","
     }
-    
-    var input = ""[...]
-    
-    XCTAssertNoThrow(try intsParser.print([1], to: &input))
-    XCTAssertNoDifference(input, "1")
-  }
-  
-  func testPrintMultipleItems() {
-    let intsParser = Many {
-      Int.parser()
-    } separator: {
-      ","
+
+    XCTAssertThrowsError(try parser.parse("1,2,3,1,2,3")) { error in
+      XCTAssertNoDifference(
+        """
+        error: UniqueIntegerError()
+         --> input:1:7
+        1 | 1,2,3,1,2,3
+          |       ^
+        """,
+        "\(error)"
+      )
     }
-    
-    var input = ""[...]
-    
-    XCTAssertNoThrow(try intsParser.print([1, 2, 3], to: &input))
-    XCTAssertNoDifference(input, "1,2,3"[...])
-  }
-  
-  func testPrintWithTerminator() {
-    let intsParser = Many {
-      Int.parser()
-    } separator: {
-      ","
-    } terminator: {
-      "---"
-    }
-    
-    var input = ""[...]
-    
-    XCTAssertNoThrow(try intsParser.print([1,2,3], to: &input))
-    XCTAssertNoDifference(input, "1,2,3---"[...])
   }
 }

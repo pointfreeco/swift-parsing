@@ -1,10 +1,11 @@
+import CustomDump
 import Parsing
 import XCTest
 
 final class ParserTests: XCTestCase {
   func testNonIncrementalParsingValidatesEnd() {
     XCTAssertThrowsError(try Int.parser().parse("123 Hello")) { error in
-      XCTAssertEqual(
+      XCTAssertNoDifference(
         """
         error: unexpected input
          --> input:1:4

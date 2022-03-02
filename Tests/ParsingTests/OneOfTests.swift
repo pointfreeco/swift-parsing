@@ -76,6 +76,45 @@ final class OneOfTests: XCTestCase {
     XCTAssertNoDifference(", Hello!", Substring(input))
   }
 
+  func testOneOfManyLastPartialFailure() {
+    var input = "Berkeley, Hello!"[...]
+    XCTAssertThrowsError(
+      try OneOf {
+        for parser in [
+          Parse {
+            "New "
+            "York"
+          },
+          Parse {
+            "Ber"
+            "lin"
+          },
+        ] {
+          parser
+        }
+      }
+      .parse(&input)
+    ) { error in
+      XCTAssertNoDifference(
+        """
+        error: multiple failures occurred
+
+        error: unexpected input
+         --> input:1:4
+        1 | Berkeley, Hello!
+          |    ^ expected "lin"
+
+        error: unexpected input
+         --> input:1:1
+        1 | Berkeley, Hello!
+          | ^ expected "New "
+        """,
+        "\(error)"
+      )
+    }
+    XCTAssertNoDifference("keley, Hello!", Substring(input))
+  }
+
   func testOneOfManyFailure() {
     var input = "London, Hello!"[...]
     XCTAssertThrowsError(

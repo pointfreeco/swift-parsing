@@ -52,4 +52,10 @@ final class PrefixThroughTests: XCTestCase {
     XCTAssertNoDifference("Hello,world, ", Substring(try PrefixThrough(", ".utf8).parse(&input)))
     XCTAssertNoDifference("42!", Substring(input))
   }
+
+  func testPrint() throws {
+    var input = ""[...]
+    try PrefixThrough(",").print("Hello,", to: &input)
+    XCTAssertNoDifference("Hello,", input)
+  }
 }
