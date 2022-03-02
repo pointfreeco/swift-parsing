@@ -39,7 +39,7 @@ public struct End<Input: Collection>: Parser {
 
 extension End: Printer {
   @inlinable
-  public func print(_ output: Void, to input: inout Input) throws {
+  public func print(_ output: (), to input: inout Input) throws {
     guard input.isEmpty
     else { throw PrintingError() }
   }

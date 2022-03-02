@@ -36,14 +36,14 @@ public struct Not<Upstream: Parser>: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: Void, to input: inout Upstream.Input) throws {
+  public func print(_ output: (), to input: inout Upstream.Input) throws {
+    let original = input
     do {
-      var i = input
-      _ = try upstream.parse(&i)
+      _ = try self.upstream.parse(&input)
     } catch {
-        return
+      input = original
+      return
     }
-    //      throw PrintingError.expected("not to be \(result)", at: i)
     throw PrintingError()
   }
 }
