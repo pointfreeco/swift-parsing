@@ -27,13 +27,13 @@ final class EndTests: XCTestCase {
 
   func testPrintSuccess() {
     var input = ""[...]
-    XCTAssertNoThrow(try End().print(to: &input))
+    XCTAssertNoThrow(try End().print(into: &input))
     XCTAssertNoDifference(input, ""[...])
   }
 
   func testPrintFailure() {
     var input = "Hello, world!"[...]
-    XCTAssertThrowsError(try End().print(to: &input))
+    XCTAssertThrowsError(try End().print(into: &input))
     XCTAssertNoDifference(input, "Hello, world!"[...])
   }
 }
