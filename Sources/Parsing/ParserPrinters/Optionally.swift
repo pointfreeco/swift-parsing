@@ -44,10 +44,10 @@ public struct Optionally<Wrapped: Parser>: Parser {
   public func parse(_ input: inout Wrapped.Input) -> Wrapped.Output? {
     let original = input
     do {
-     return try self.wrapped.parse(&input)
+      return try self.wrapped.parse(&input)
     } catch {
-     input = original
-     return nil
+      input = original
+      return nil
     }
   }
 }
