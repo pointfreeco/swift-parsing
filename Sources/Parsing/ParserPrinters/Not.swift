@@ -37,11 +37,10 @@ public struct Not<Upstream: Parser>: ParserPrinter {
 
   @inlinable
   public func print(_ output: (), to input: inout Upstream.Input) throws {
-    let original = input
     do {
+      var input = input
       _ = try self.upstream.parse(&input)
     } catch {
-      input = original
       return
     }
     throw PrintingError()

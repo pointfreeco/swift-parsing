@@ -209,7 +209,7 @@ extension Prefix: Printer where Input: PrependableCollection {
     guard
       count >= self.minLength,
       self.maxLength.map({ count <= $0 }) ?? true,
-      self.predicate.map({ output.allSatisfy($0) }) ?? true
+      self.predicate.map({ input.first.map($0) != true && output.allSatisfy($0) }) ?? true
     else { throw PrintingError() }
     input.prepend(contentsOf: output)
   }

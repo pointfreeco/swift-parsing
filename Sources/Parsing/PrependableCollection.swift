@@ -1,26 +1,29 @@
 import Foundation
 
-/// A collection that supports empty initialization and the ability to prepend a sequence
-/// of elements to itself.
+/// A collection that supports empty initialization and the ability to prepend a sequence of
+/// elements of elements to itself.
 ///
-/// A partial conformance of `RangeReplaceableCollection`, and any `RangeReplaceableCollection` can
-/// get a conformance for free:
+/// `PrependableCollection` is a specialized subset of `RangeReplaceableCollection` that it tuned to
+/// incremental printing.
+///
+/// In fact, any `RangeReplaceableCollection` can get a conformance for free:
 ///
 /// ```swift
 /// extension MyRangeReplaceableCollection: PrependableCollection {}
 /// ```
 ///
-/// `PrependableCollection` is a useful constraint for the input of a parser-printer's ``Printer``
-/// conformance, where `RangeReplaceableCollection` would be too strict.
+/// Because it is also less strict than `RangeReplaceableCollection`, it is an appropriate protocol
+/// to conform to for types that cannot and should not conform to `RangeReplaceableCollection`
+/// directly.
 ///
 /// For example, `Substring.UTF8View` is a common input for string parsers to parse from, but it
 /// does not conform to `RangeReplaceableCollection`. It does, however, conform to
-/// `PrependableCollection` by validating and appending the given UTF-8 bytes to its underlying
+/// `PrependableCollection` by validating and prepending the given UTF-8 bytes to its underlying
 /// substring. So in order to write a parser against generic sequences of UTF-8 bytes, you would
 /// constrain its input against `PrependableCollection`.
 ///
 /// For example the following `Digits` parser is generic over an `Collection` of bytes, and its
-/// printer conformance further constraints its input to be appendable.
+/// printer conformance further constraints its input to be prependable.
 ///
 /// ```swift
 /// struct Digits<Input: Collection>: Parser
@@ -50,15 +53,15 @@ import Foundation
   ///   // Convert `Int` to string's underlying bytes
 ///     let bytes = String(output).utf8
 ///
-///     // Append bytes using `PrependableCollection` conformance.
-///     input.append(contentsOf: bytes)
+///     // Prepend bytes using `PrependableCollection` conformance.
+///     input.prepend(contentsOf: bytes)
 ///   }
 /// }
 /// ```
 public protocol PrependableCollection: Collection, EmptyInitializable {
-  /// Adds the elements of a sequence or collection to the end of this collection.
+  /// Inserts the elements of a sequence or collection to the beginning of this collection.
   ///
-  /// The collection being appended to allocates any additional necessary storage to hold the new
+  /// The collection being prepended to allocates any additional necessary storage to hold the new
   /// elements.
   ///
   /// - Parameter newElements: The elements to append to the collection.
@@ -77,9 +80,9 @@ extension PrependableCollection {
     self = collection
   }
 
-  /// Adds an element to the end of the collection.
+  /// Adds an element to the beginning of the collection.
   ///
-  /// - Parameter newElement: The element to append to the collection.
+  /// - Parameter newElement: The element to prepend to the collection.
   @inlinable
   public mutating func prepend(_ newElement: Element) {
     self.prepend(contentsOf: CollectionOfOne(newElement))

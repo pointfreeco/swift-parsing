@@ -10,7 +10,9 @@ extension CharacterSet: ParserPrinter {
 
   @inlinable
   public func print(_ output: Substring, to input: inout Substring) throws {
-    guard output.unicodeScalars.allSatisfy(self.contains)
+    guard
+      input.first?.unicodeScalars.allSatisfy(self.contains) != true,
+      output.unicodeScalars.allSatisfy(self.contains)
     else { throw PrintingError() }
     input.prepend(contentsOf: output)
   }
