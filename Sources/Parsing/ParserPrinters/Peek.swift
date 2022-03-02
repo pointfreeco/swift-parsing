@@ -41,25 +41,10 @@ public struct Peek<Upstream: Parser>: ParserPrinter {
   }
     
   @inlinable
-  public func print(_ output: Upstream.Output, to input: inout Upstream.Input) throws {
+  public func print(_ output: Void, to input: inout Upstream.Input) throws {
     do {
       var i = input
-      _ = try upstream.parse(&i)
-    } catch {
-      throw PrintingError()
-    }
-  }
-}
-
-extension Peek where Output: Equatable {
-  @inlinable
-  public func print(_ output: Upstream.Output, to input: inout Upstream.Input) throws {
-    do {
-      var i = input
-      let result = try upstream.parse(&i)
-      guard result == output else {
-        throw PrintingError()
-      }
+      _ = try self.upstream.parse(&i)
     } catch {
       throw PrintingError()
     }
