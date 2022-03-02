@@ -77,6 +77,9 @@ struct PrintingError: Error {}
 
 extension Prefix: Printer where Input: AppendableCollection {
   func print(_ output: Input, to input: inout Input) throws {
+    guard input.isEmpty || !self.predicate!(input.first!)
+    else { throw PrintingError() }
+
     guard output.allSatisfy(self.predicate!)
     else { throw PrintingError() }
 
@@ -214,6 +217,7 @@ where
   Result == [Element.Output]
 {
   func print(_ output: [Element.Output], to input: inout Element.Input) throws {
+    try self.terminator.print((), to: &input)
     var firstElement = true
     for elementOutput in output {
       defer { firstElement = false }
@@ -222,7 +226,6 @@ where
       }
       try self.element.print(elementOutput, to: &input)
     }
-    try self.terminator.print((), to: &input)
   }
 }
 
@@ -497,7 +500,9 @@ let quotedFieldUtf8 = ParsePrint {
   "\"".utf8
 }
 var inputUtf8 = ""[...].utf8
+print(#line)
 try quotedFieldUtf8.print("Blob, Esq"[...].utf8, to: &inputUtf8)
+print(#line)
 Substring(inputUtf8)
 
 let quotedField = ParsePrint {
@@ -506,11 +511,17 @@ let quotedField = ParsePrint {
   "\""
 }
 
+
 input = ""
+print(#line)
 try quotedField.print("Blob, Esq.", to: &input)
+print(#line)
 input
+print(#line)
 let parsedQuotedField = try quotedField.parse(&input)
+print(#line)
 try quotedField.print(parsedQuotedField, to: &input)
+print(#line)
 input
 
 let fieldUtf8 = OneOf {
@@ -526,6 +537,7 @@ let field = OneOf {
   Prefix { $0 != "," }
 }
 .map(.string)
+
 
 input = ""
 try field.print("Blob, Esq." as String, to: &input)
@@ -833,3 +845,33 @@ try ParsePrint {
 .print(42, to: &input)
 input
 1
+
+
+extension First: Printer where Input: AppendableCollection {
+  func print(_ output: Input.Element, to input: inout Input) throws {
+    input.prepend(contentsOf: [output])
+  }
+}
+
+input = ""
+try ParsePrint
+{
+  Prefix { $0 != "," && $0 != "\n" }
+  First()
+}
+.print(("Hello", "!"), to: &input)
+input
+
+input = "Hello,World"
+try ParsePrint
+{
+  Prefix { $0 != "," && $0 != "\n" }
+  First()
+}
+.parse(&input)
+input
+
+// error: unexpected input
+//  --> input:1:7
+// 1 | Hello!
+//   |       ^ expected element
