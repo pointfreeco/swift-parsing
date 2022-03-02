@@ -6,7 +6,11 @@ public struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestDa
   public init<Upstream, NewOutput>(
     _ transform: @escaping (Upstream.Output) -> NewOutput,
     @ParserBuilder with build: () -> Upstream
-  ) where Parsers == Parsing.Parsers.Map<Upstream, NewOutput> {
+  )
+  where
+    Upstream.Input == URLRequestData,
+    Parsers == Parsing.Parsers.Map<Upstream, NewOutput>
+  {
     self.parsers = build().map(transform)
   }
 
@@ -14,14 +18,21 @@ public struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestDa
   public init<Upstream, NewOutput>(
     _ output: NewOutput,
     @ParserBuilder with build: () -> Upstream
-  ) where Parsers == Parsing.Parsers.MapConstant<Upstream, NewOutput> {
+  )
+  where
+    Upstream.Input == URLRequestData,
+    Parsers == Parsing.Parsers.MapConstant<Upstream, NewOutput>
+  {
     self.parsers = build().map { output }
   }
 
   @inlinable
   public init<NewOutput>(
     _ output: NewOutput
-  ) where Parsers == Parsing.Parsers.MapConstant<Always<URLRequestData, Void>, NewOutput> {
+  )
+  where
+    Parsers == Parsing.Parsers.MapConstant<Always<URLRequestData, Void>, NewOutput>
+  {
     self.init(output) {
       Always<URLRequestData, Void>(())
     }
@@ -31,7 +42,11 @@ public struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestDa
   public init<C: Conversion, P: Parser>(
     _ conversion: C,
     @ParserBuilder to parsers: () -> P
-  ) where Parsers == Parsing.Parsers.MapConversion<P, C> {
+  )
+  where
+    P.Input == URLRequestData,
+    Parsers == Parsing.Parsers.MapConversion<P, C>
+  {
     self.parsers = parsers().map(conversion)
   }
 
