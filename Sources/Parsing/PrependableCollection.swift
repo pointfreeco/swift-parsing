@@ -58,6 +58,23 @@ import Foundation
 ///   }
 /// }
 /// ```
+///
+/// The `Digits` parser-printer now works on any collection of UTF-8 code units, including
+/// `UTF8View` and `ArraySlice<UInt8>`:
+///
+/// ```swift
+/// var input = "123"[...].utf8
+/// try Digits().parse(&input) // 123
+/// try Digits().print(123, into: &input)
+/// Substring(input) // "123"
+/// ```
+///
+/// ```swift
+/// var input = ArraySlice("123"[...].utf8)
+/// try Digits().parse(&input) // 123
+/// try Digits().print(123, into: &input)
+/// Substring(decoding: input, as: UTF8.self) // "123"
+/// ```
 public protocol PrependableCollection: Collection, EmptyInitializable {
   /// Inserts the elements of a sequence or collection to the beginning of this collection.
   ///
