@@ -19,8 +19,14 @@ where
     P1.Output
   ) {
     guard input.path.count >= 2 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -69,8 +75,14 @@ where
     P0.Output
   ) {
     guard input.path.count >= 2 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -119,8 +131,14 @@ where
     P1.Output
   ) {
     guard input.path.count >= 2 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -166,12 +184,16 @@ where
     self.p1 = p1
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
-
-  ) {
+  @inlinable public func parse(_ input: inout URLRequestData) throws {
     guard input.path.count >= 2 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -225,9 +247,18 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -283,9 +314,18 @@ where
     P1.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -341,9 +381,18 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -399,9 +448,18 @@ where
     P0.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -457,9 +515,18 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -515,9 +582,18 @@ where
     P1.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -573,9 +649,18 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -628,13 +713,20 @@ where
     self.p2 = p2
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
-
-  ) {
+  @inlinable public func parse(_ input: inout URLRequestData) throws {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -695,10 +787,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3)
   }
 }
@@ -761,10 +865,22 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -827,10 +943,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3)
   }
 }
@@ -893,10 +1021,22 @@ where
     P1.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -959,10 +1099,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3)
   }
 }
@@ -1025,10 +1177,22 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -1091,10 +1255,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3)
   }
 }
@@ -1157,10 +1333,22 @@ where
     P0.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -1223,10 +1411,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3)
   }
 }
@@ -1289,10 +1489,22 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -1355,10 +1567,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3)
   }
 }
@@ -1421,10 +1645,22 @@ where
     P1.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -1487,10 +1723,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3)
   }
 }
@@ -1553,10 +1801,22 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -1619,10 +1879,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o3)
   }
 }
@@ -1682,14 +1954,24 @@ where
     self.p3 = p3
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
-
-  ) {
+  @inlinable public func parse(_ input: inout URLRequestData) throws {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -1757,11 +2039,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o4)
   }
 }
@@ -1831,11 +2128,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3)
   }
 }
@@ -1905,11 +2217,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o4)
   }
 }
@@ -1979,11 +2306,26 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -2053,11 +2395,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3, o4)
   }
 }
@@ -2127,11 +2484,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3)
   }
 }
@@ -2201,11 +2573,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o4)
   }
 }
@@ -2275,11 +2662,26 @@ where
     P1.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -2349,11 +2751,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3, o4)
   }
 }
@@ -2423,11 +2840,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3)
   }
 }
@@ -2497,11 +2929,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o4)
   }
 }
@@ -2571,11 +3018,26 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -2645,11 +3107,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3, o4)
   }
 }
@@ -2719,11 +3196,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3)
   }
 }
@@ -2793,11 +3285,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o4)
   }
 }
@@ -2867,11 +3374,26 @@ where
     P0.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -2941,11 +3463,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3, o4)
   }
 }
@@ -3015,11 +3552,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3)
   }
 }
@@ -3089,11 +3641,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o4)
   }
 }
@@ -3163,11 +3730,26 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -3237,11 +3819,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3, o4)
   }
 }
@@ -3311,11 +3908,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3)
   }
 }
@@ -3385,11 +3997,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o4)
   }
 }
@@ -3459,11 +4086,26 @@ where
     P1.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -3533,11 +4175,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3, o4)
   }
 }
@@ -3607,11 +4264,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3)
   }
 }
@@ -3681,11 +4353,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o4)
   }
 }
@@ -3755,11 +4442,26 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -3829,11 +4531,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o3, o4)
   }
 }
@@ -3903,11 +4620,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o3)
   }
 }
@@ -3977,11 +4709,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o4)
   }
 }
@@ -4048,15 +4795,28 @@ where
     self.p4 = p4
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
-
-  ) {
+  @inlinable public func parse(_ input: inout URLRequestData) throws {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -4131,12 +4891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o4, o5)
   }
 }
@@ -4213,12 +4991,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o4)
   }
 }
@@ -4295,12 +5091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o5)
   }
 }
@@ -4377,12 +5191,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3)
   }
 }
@@ -4459,12 +5291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o4, o5)
   }
 }
@@ -4541,12 +5391,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o4)
   }
 }
@@ -4623,12 +5491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o5)
   }
 }
@@ -4705,12 +5591,30 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -4787,12 +5691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3, o4, o5)
   }
 }
@@ -4869,12 +5791,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3, o4)
   }
 }
@@ -4951,12 +5891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3, o5)
   }
 }
@@ -5033,12 +5991,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3)
   }
 }
@@ -5115,12 +6091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o4, o5)
   }
 }
@@ -5197,12 +6191,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o4)
   }
 }
@@ -5279,12 +6291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o5)
   }
 }
@@ -5361,12 +6391,30 @@ where
     P1.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -5443,12 +6491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3, o4, o5)
   }
 }
@@ -5525,12 +6591,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3, o4)
   }
 }
@@ -5607,12 +6691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3, o5)
   }
 }
@@ -5689,12 +6791,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3)
   }
 }
@@ -5771,12 +6891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o4, o5)
   }
 }
@@ -5853,12 +6991,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o4)
   }
 }
@@ -5935,12 +7091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o5)
   }
 }
@@ -6017,12 +7191,30 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -6099,12 +7291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3, o4, o5)
   }
 }
@@ -6181,12 +7391,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3, o4)
   }
 }
@@ -6263,12 +7491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3, o5)
   }
 }
@@ -6345,12 +7591,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3)
   }
 }
@@ -6427,12 +7691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o4, o5)
   }
 }
@@ -6509,12 +7791,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o4)
   }
 }
@@ -6591,12 +7891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o5)
   }
 }
@@ -6673,12 +7991,30 @@ where
     P0.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -6755,12 +8091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3, o4, o5)
   }
 }
@@ -6837,12 +8191,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3, o4)
   }
 }
@@ -6919,12 +8291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3, o5)
   }
 }
@@ -7001,12 +8391,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3)
   }
 }
@@ -7083,12 +8491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o4, o5)
   }
 }
@@ -7165,12 +8591,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o4)
   }
 }
@@ -7247,12 +8691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o5)
   }
 }
@@ -7329,12 +8791,30 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -7411,12 +8891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3, o4, o5)
   }
 }
@@ -7493,12 +8991,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3, o4)
   }
 }
@@ -7575,12 +9091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3, o5)
   }
 }
@@ -7657,12 +9191,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3)
   }
 }
@@ -7739,12 +9291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o4, o5)
   }
 }
@@ -7821,12 +9391,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o4)
   }
 }
@@ -7903,12 +9491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o5)
   }
 }
@@ -7985,12 +9591,30 @@ where
     P1.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -8067,12 +9691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3, o4, o5)
   }
 }
@@ -8149,12 +9791,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3, o4)
   }
 }
@@ -8231,12 +9891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3, o5)
   }
 }
@@ -8313,12 +9991,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3)
   }
 }
@@ -8395,12 +10091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o4, o5)
   }
 }
@@ -8477,12 +10191,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o4)
   }
 }
@@ -8559,12 +10291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o5)
   }
 }
@@ -8641,12 +10391,30 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -8723,12 +10491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o3, o4, o5)
   }
 }
@@ -8805,12 +10591,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o3, o4)
   }
 }
@@ -8887,12 +10691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o3, o5)
   }
 }
@@ -8969,12 +10791,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o3)
   }
 }
@@ -9051,12 +10891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o4, o5)
   }
 }
@@ -9133,12 +10991,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o4)
   }
 }
@@ -9215,12 +11091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o5)
   }
 }
@@ -9294,16 +11188,32 @@ where
     self.p5 = p5
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
-
-  ) {
+  @inlinable public func parse(_ input: inout URLRequestData) throws {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return ()
   }
 }

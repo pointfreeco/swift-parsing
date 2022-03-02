@@ -50,7 +50,7 @@ import Foundation
 ///
 /// extension Digits: Printer where Input: PrependableCollection {
 ///   func print(_ output: Int, into input: inout Input) {
-  ///   // Convert `Int` to string's underlying bytes
+///     // Convert `Int` to string's underlying bytes
 ///     let bytes = String(output).utf8
 ///
 ///     // Prepend bytes using `PrependableCollection` conformance.
@@ -95,8 +95,9 @@ extension Array: PrependableCollection {
     newSelf.append(contentsOf: self)
     self = newSelf
   }
-  
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Element == S.Element {
+
+  public mutating func prepend<S>(contentsOf newElements: S)
+  where S: Sequence, Element == S.Element {
     var newSelf = Self()
     newSelf.append(contentsOf: newElements)
     newSelf.append(contentsOf: self)
@@ -105,7 +106,8 @@ extension Array: PrependableCollection {
 }
 
 extension ArraySlice: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Element == S.Element {
+  public mutating func prepend<S>(contentsOf newElements: S)
+  where S: Sequence, Element == S.Element {
     var newSelf = Self()
     newSelf.append(contentsOf: newElements)
     newSelf.append(contentsOf: self)
@@ -114,7 +116,8 @@ extension ArraySlice: PrependableCollection {
 }
 
 extension ContiguousArray: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Element == S.Element {
+  public mutating func prepend<S>(contentsOf newElements: S)
+  where S: Sequence, Element == S.Element {
     var newSelf = Self()
     newSelf.append(contentsOf: newElements)
     newSelf.append(contentsOf: self)
@@ -123,7 +126,7 @@ extension ContiguousArray: PrependableCollection {
 }
 
 extension Data: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, UInt8 == S.Element {
+  public mutating func prepend<S>(contentsOf newElements: S) where S: Sequence, UInt8 == S.Element {
     var newSelf = Self()
     newSelf.append(contentsOf: newElements)
     newSelf.append(contentsOf: self)
@@ -132,7 +135,8 @@ extension Data: PrependableCollection {
 }
 
 extension Slice: PrependableCollection, EmptyInitializable where Base: RangeReplaceableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Base.Element == S.Element {
+  public mutating func prepend<S>(contentsOf newElements: S)
+  where S: Sequence, Base.Element == S.Element {
     var newSelf = Self()
     newSelf.append(contentsOf: newElements)
     newSelf.append(contentsOf: self)
@@ -141,16 +145,18 @@ extension Slice: PrependableCollection, EmptyInitializable where Base: RangeRepl
 }
 
 extension String: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Character == S.Element {
+  public mutating func prepend<S>(contentsOf newElements: S)
+  where S: Sequence, Character == S.Element {
     var newSelf = Self()
     newSelf.append(contentsOf: newElements)
     newSelf.append(contentsOf: self)
     self = newSelf
   }
 }
-  
+
 extension String.UnicodeScalarView: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Unicode.Scalar == S.Element {
+  public mutating func prepend<S>(contentsOf newElements: S)
+  where S: Sequence, Unicode.Scalar == S.Element {
     var newSelf = Self()
     newSelf.append(contentsOf: newElements)
     newSelf.append(contentsOf: self)
@@ -158,16 +164,18 @@ extension String.UnicodeScalarView: PrependableCollection {
   }
 }
 extension Substring: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Character == S.Element {
+  public mutating func prepend<S>(contentsOf newElements: S)
+  where S: Sequence, Character == S.Element {
     var newSelf = Self()
     newSelf.append(contentsOf: newElements)
     newSelf.append(contentsOf: self)
     self = newSelf
   }
 }
-  
+
 extension Substring.UnicodeScalarView: PrependableCollection {
-  public mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, String.UnicodeScalarView.Element == S.Element {
+  public mutating func prepend<S>(contentsOf newElements: S)
+  where S: Sequence, String.UnicodeScalarView.Element == S.Element {
     var newSelf = Self()
     newSelf.append(contentsOf: newElements)
     newSelf.append(contentsOf: self)
@@ -182,7 +190,8 @@ extension Substring.UTF8View: PrependableCollection {
   }
 
   @inlinable
-  public mutating func prepend<S>(contentsOf elements: S) where S : Sequence, String.UTF8View.Element == S.Element {
+  public mutating func prepend<S>(contentsOf elements: S)
+  where S: Sequence, String.UTF8View.Element == S.Element {
     var str = Substring(self)
     defer { self = str.utf8 }
 

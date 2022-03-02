@@ -46,7 +46,10 @@ where
       return defaultValue
     }
 
-    let output = try Parse { self.valueParser; End() }.parse(&value)
+    let output = try Parse {
+      self.valueParser
+      End()
+    }.parse(&value)
 
     input[self.name]?.removeFirst()
     if input[self.name]?.isEmpty ?? true {

@@ -52,7 +52,8 @@ extension URLRequestData: Codable {
     self.host = try container.decodeIfPresent(String.self, forKey: .host)?[...]
     self.method = try container.decodeIfPresent(String.self, forKey: .method)
     self.password = try container.decodeIfPresent(String.self, forKey: .password)
-    self.path = try container.decodeIfPresent([String].self, forKey: .path)?.map { $0[...] }[...]
+    self.path =
+      try container.decodeIfPresent([String].self, forKey: .path)?.map { $0[...] }[...]
       ?? []
     self.port = try container.decodeIfPresent(Int.self, forKey: .port)
     self.query = try container.decodeIfPresent(Fields.self, forKey: .query) ?? [:]

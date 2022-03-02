@@ -76,7 +76,8 @@ extension Parsers.ReplaceError: Printer where Upstream: Printer {
     do {
       try self.upstream.print(output, into: &input)
       var `default` = original
-      if (try? self.upstream.print(self.output, into: &`default`)) != nil, isEqual(input, `default`) {
+      if (try? self.upstream.print(self.output, into: &`default`)) != nil, isEqual(input, `default`)
+      {
         input = original
       }
     } catch {

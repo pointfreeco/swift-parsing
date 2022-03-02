@@ -36,7 +36,10 @@ where
 
   public func parse(_ input: inout URLRequestData) throws -> ComponentParser.Output {
     guard input.path.count >= 1 else { throw RoutingError() }
-    return try Parse { self.componentParser; End() }.parse(input.path.removeFirst())
+    return try Parse {
+      self.componentParser
+      End()
+    }.parse(input.path.removeFirst())
   }
 }
 

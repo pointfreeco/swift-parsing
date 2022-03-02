@@ -146,7 +146,7 @@ extension Float {
     ) -> Parsers.Float80Parser<Input> {
       .init()
     }
-    
+
     /// A parser that consumes an extended-precision, floating-point value from the beginning of a
     /// substring.
     ///

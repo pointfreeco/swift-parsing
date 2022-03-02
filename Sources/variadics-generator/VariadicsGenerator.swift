@@ -188,9 +188,12 @@ struct VariadicsGenerator: ParsableCommand {
       }
       output(",\n    to input: inout P0.Input\n  ) rethrows {\n    ")
       outputForEach((0..<arity).reversed(), separator: "\n    ") {
-        let output = permutation.isCaptureless(at: $0) ? ""
-          : permutation.captureIndices.count == 1 ? "output, "
-          : "output.\(permutation.captureIndices.firstIndex(of: $0)!), "
+        let output =
+          permutation.isCaptureless(at: $0)
+          ? ""
+          : permutation.captureIndices.count == 1
+            ? "output, "
+            : "output.\(permutation.captureIndices.firstIndex(of: $0)!), "
         return "try p\($0).print(\(output)into: &input)"
       }
       output("\n  }\n}\n\n")
@@ -341,9 +344,12 @@ struct VariadicsGenerator: ParsableCommand {
       outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
       output("\n    ),\n    to input: inout URLRequestData\n  ) rethrows {\n    ")
       outputForEach(0..<arity, separator: "\n    ") {
-        let output = permutation.isCaptureless(at: $0) ? ""
-          : permutation.captureIndices.count == 1 ? "output"
-          : "output.\(permutation.captureIndices.firstIndex(of: $0)!)"
+        let output =
+          permutation.isCaptureless(at: $0)
+          ? ""
+          : permutation.captureIndices.count == 1
+            ? "output"
+            : "output.\(permutation.captureIndices.firstIndex(of: $0)!)"
         return "input.path.append(try p\($0).print(\(output)))"
       }
       output("\n  }\n}\n\n")

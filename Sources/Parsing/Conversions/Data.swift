@@ -35,7 +35,7 @@ extension Conversions {
     Input.Element == UInt8
   {
     @usableFromInline
-    init () {}
+    init() {}
 
     @inlinable
     public func apply(_ input: Input) -> Data {

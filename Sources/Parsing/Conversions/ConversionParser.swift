@@ -30,7 +30,11 @@ extension Conversions {
     @inlinable
     public func apply(_ input: Upstream.Input) rethrows -> Upstream.Output {
       // TODO: Should `End` *not* be baked in?
-      try Parse { self.parser; End<Upstream.Input>() }.parse(input)
+      try Parse {
+        self.parser
+        End<Upstream.Input>()
+      }
+      .parse(input)
     }
 
     @inlinable

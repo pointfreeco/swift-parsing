@@ -117,20 +117,20 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   } tearDown: {
     precondition(
       jsonOutput
-      == .object([
-        "hello": .boolean(true),
-        "goodbye": .number(42.42),
-        "whatever": .null,
-        "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
-        "ys": .object([
-          "0": .number(2),
-          "1": .string("goodbye\n"),
-        ]),
-      ])
+        == .object([
+          "hello": .boolean(true),
+          "goodbye": .number(42.42),
+          "whatever": .null,
+          "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
+          "ys": .object([
+            "0": .number(2),
+            "1": .string("goodbye\n"),
+          ]),
+        ])
     )
     precondition(
       try! Substring(json.print(jsonOutput))
-      == """
+        == """
         {\
         "goodbye":42.42,\
         "hello":true,\
@@ -163,16 +163,16 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   }
 }
 
-private extension UTF8.CodeUnit {
-  var isHexDigit: Bool {
+extension UTF8.CodeUnit {
+  fileprivate var isHexDigit: Bool {
     (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
       || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
       || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
   }
 }
 
-private extension Conversion where Self == AnyConversion<Substring.UTF8View, String> {
-  static var unicode: Self {
+extension Conversion where Self == AnyConversion<Substring.UTF8View, String> {
+  fileprivate static var unicode: Self {
     Self(
       apply: {
         UInt32(Substring($0), radix: 16)

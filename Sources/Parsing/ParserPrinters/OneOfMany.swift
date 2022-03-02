@@ -60,7 +60,7 @@ extension Parsers.OneOfMany: Printer where Parsers: Printer {
       } catch {
         count -= 1
         if count > 0 { input = original }
-        errors.insert(error, at: errors.startIndex) // TODO: Should this be `append`?
+        errors.insert(error, at: errors.startIndex)  // TODO: Should this be `append`?
       }
     }
     throw PrintingError.manyFailed(errors, at: input)

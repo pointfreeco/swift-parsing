@@ -104,16 +104,16 @@ private struct Header: Equatable {
   let value: [Substring]
 }
 
-private extension UTF8.CodeUnit {
-  var isHorizontalSpace: Bool {
+extension UTF8.CodeUnit {
+  fileprivate var isHorizontalSpace: Bool {
     self == .init(ascii: " ") || self == .init(ascii: "\t")
   }
 
-  var isNewline: Bool {
+  fileprivate var isNewline: Bool {
     self == .init(ascii: "\n") || self == .init(ascii: "\r")
   }
 
-  var isToken: Bool {
+  fileprivate var isToken: Bool {
     switch self {
     case 128...,
       ...31,
@@ -141,7 +141,7 @@ private extension UTF8.CodeUnit {
     }
   }
 
-  var isVersion: Bool {
+  fileprivate var isVersion: Bool {
     (.init(ascii: "0") ... .init(ascii: "9")).contains(self) || self == .init(ascii: ".")
   }
 }

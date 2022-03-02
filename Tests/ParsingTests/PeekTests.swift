@@ -66,14 +66,14 @@ class PeekTests: XCTestCase {
       Peek {
         Prefix(1) { $0.isLetter || $0 == "_" }
       }
-      .printing("") // this will bypass actually printing the upstream parser in `Skip`
+      .printing("")  // this will bypass actually printing the upstream parser in `Skip`
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
 
     XCTAssertNoThrow(try identifier.print("foo"[...], into: &input))
     XCTAssertNoDifference(input, "foo!")
   }
-  
+
   func testPrintSkippedPeekSucceedsUnexpectedly() {
     var input = "!"[...]
 
@@ -81,7 +81,7 @@ class PeekTests: XCTestCase {
       Peek {
         Prefix(1) { $0.isLetter || $0 == "_" }
       }
-      .printing("") // this will bypass actually printing the upstream parser in `Skip`
+      .printing("")  // this will bypass actually printing the upstream parser in `Skip`
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
 

@@ -62,7 +62,7 @@ extension Parser {
   /// - Parameter conversion: A conversion that transforms the output of this parser.
   /// - Returns: A parser of outputs.
   @inlinable
-  public func map<C>(_ conversion: C) -> Parsers.MapConversion<Self, C>  {
+  public func map<C>(_ conversion: C) -> Parsers.MapConversion<Self, C> {
     .init(upstream: self, downstream: conversion)
   }
 }
