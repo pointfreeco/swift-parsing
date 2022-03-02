@@ -38,9 +38,8 @@ public struct Rest<Input: Collection>: Parser where Input.SubSequence == Input {
 extension Rest: Printer where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Input, to input: inout Input) throws {
-    guard input.isEmpty else {
-      throw PrintingError()
-    }
+    guard input.isEmpty
+    else { throw PrintingError() }
     input.prepend(contentsOf: output)
   }
 }
