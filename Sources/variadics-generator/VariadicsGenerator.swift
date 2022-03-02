@@ -186,7 +186,7 @@ struct VariadicsGenerator: ParsableCommand {
         outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
         output("\n    )")
       }
-      output(",\n    to input: inout P0.Input\n  ) rethrows {\n    ")
+      output(",\n    into input: inout P0.Input\n  ) rethrows {\n    ")
       outputForEach((0..<arity).reversed(), separator: "\n    ") {
         let output =
           permutation.isCaptureless(at: $0)
@@ -262,7 +262,8 @@ struct VariadicsGenerator: ParsableCommand {
       "P\($0).Output == P\($1).Output"
     }
     output("\n{\n  ")
-    output("@inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {")
+    output(
+      "@inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {")
     output("\n    let original = input\n")
     outputForEach(Array(zip((0..<arity).reversed(), 0..<arity)), separator: "\n") {
       """
@@ -342,7 +343,7 @@ struct VariadicsGenerator: ParsableCommand {
       }
       output("\n{\n  @inlinable public func print(\n    _ output: (\n")
       outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
-      output("\n    ),\n    to input: inout URLRequestData\n  ) rethrows {\n    ")
+      output("\n    ),\n    into input: inout URLRequestData\n  ) rethrows {\n    ")
       outputForEach(0..<arity, separator: "\n    ") {
         let output =
           permutation.isCaptureless(at: $0)

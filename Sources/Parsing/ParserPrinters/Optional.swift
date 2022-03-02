@@ -47,6 +47,6 @@ extension Parsers {
 
 extension Parsers.OptionalVoid: Printer where Wrapped: Printer {
   public func print(_ output: (), into input: inout Wrapped.Input) rethrows {
-    try self.wrapped?.print(to: &input)
+    try self.wrapped?.print(into: &input)
   }
 }

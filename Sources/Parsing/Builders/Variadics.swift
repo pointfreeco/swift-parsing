@@ -36,7 +36,7 @@ where
       P0.Output,
       P1.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p1.print(output.1, into: &input)
     try p0.print(output.0, into: &input)
@@ -83,7 +83,7 @@ where
 {
   @inlinable public func print(
     _ output: P0.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p1.print(into: &input)
     try p0.print(output, into: &input)
@@ -130,7 +130,7 @@ where
 {
   @inlinable public func print(
     _ output: P1.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p1.print(output, into: &input)
     try p0.print(into: &input)
@@ -178,7 +178,7 @@ where
 {
   @inlinable public func print(
     _ output: Void,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p1.print(into: &input)
     try p0.print(into: &input)
@@ -236,7 +236,7 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p2.print(output.2, into: &input)
     try p1.print(output.1, into: &input)
@@ -295,7 +295,7 @@ where
       P0.Output,
       P1.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p2.print(into: &input)
     try p1.print(output.1, into: &input)
@@ -354,7 +354,7 @@ where
       P0.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p2.print(output.1, into: &input)
     try p1.print(into: &input)
@@ -409,7 +409,7 @@ where
 {
   @inlinable public func print(
     _ output: P0.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p2.print(into: &input)
     try p1.print(into: &input)
@@ -468,7 +468,7 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p2.print(output.1, into: &input)
     try p1.print(output.0, into: &input)
@@ -523,7 +523,7 @@ where
 {
   @inlinable public func print(
     _ output: P1.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p2.print(into: &input)
     try p1.print(output, into: &input)
@@ -578,7 +578,7 @@ where
 {
   @inlinable public func print(
     _ output: P2.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p2.print(output, into: &input)
     try p1.print(into: &input)
@@ -634,7 +634,7 @@ where
 {
   @inlinable public func print(
     _ output: Void,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p2.print(into: &input)
     try p1.print(into: &input)
@@ -700,7 +700,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(output.3, into: &input)
     try p2.print(output.2, into: &input)
@@ -767,7 +767,7 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(into: &input)
     try p2.print(output.2, into: &input)
@@ -834,7 +834,7 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(output.2, into: &input)
     try p2.print(into: &input)
@@ -901,7 +901,7 @@ where
       P0.Output,
       P1.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(into: &input)
     try p2.print(into: &input)
@@ -968,7 +968,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(output.2, into: &input)
     try p2.print(output.1, into: &input)
@@ -1035,7 +1035,7 @@ where
       P0.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(into: &input)
     try p2.print(output.1, into: &input)
@@ -1102,7 +1102,7 @@ where
       P0.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(output.1, into: &input)
     try p2.print(into: &input)
@@ -1165,7 +1165,7 @@ where
 {
   @inlinable public func print(
     _ output: P0.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(into: &input)
     try p2.print(into: &input)
@@ -1232,7 +1232,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(output.2, into: &input)
     try p2.print(output.1, into: &input)
@@ -1299,7 +1299,7 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(into: &input)
     try p2.print(output.1, into: &input)
@@ -1366,7 +1366,7 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(output.1, into: &input)
     try p2.print(into: &input)
@@ -1429,7 +1429,7 @@ where
 {
   @inlinable public func print(
     _ output: P1.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(into: &input)
     try p2.print(into: &input)
@@ -1496,7 +1496,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(output.1, into: &input)
     try p2.print(output.0, into: &input)
@@ -1559,7 +1559,7 @@ where
 {
   @inlinable public func print(
     _ output: P2.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(into: &input)
     try p2.print(output, into: &input)
@@ -1622,7 +1622,7 @@ where
 {
   @inlinable public func print(
     _ output: P3.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(output, into: &input)
     try p2.print(into: &input)
@@ -1686,7 +1686,7 @@ where
 {
   @inlinable public func print(
     _ output: Void,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p3.print(into: &input)
     try p2.print(into: &input)
@@ -1760,7 +1760,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.4, into: &input)
     try p3.print(output.3, into: &input)
@@ -1835,7 +1835,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(output.3, into: &input)
@@ -1910,7 +1910,7 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.3, into: &input)
     try p3.print(into: &input)
@@ -1985,7 +1985,7 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(into: &input)
@@ -2060,7 +2060,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.3, into: &input)
     try p3.print(output.2, into: &input)
@@ -2135,7 +2135,7 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(output.2, into: &input)
@@ -2210,7 +2210,7 @@ where
       P1.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.2, into: &input)
     try p3.print(into: &input)
@@ -2285,7 +2285,7 @@ where
       P0.Output,
       P1.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(into: &input)
@@ -2360,7 +2360,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.3, into: &input)
     try p3.print(output.2, into: &input)
@@ -2435,7 +2435,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(output.2, into: &input)
@@ -2510,7 +2510,7 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.2, into: &input)
     try p3.print(into: &input)
@@ -2585,7 +2585,7 @@ where
       P0.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(into: &input)
@@ -2660,7 +2660,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.2, into: &input)
     try p3.print(output.1, into: &input)
@@ -2735,7 +2735,7 @@ where
       P0.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(output.1, into: &input)
@@ -2810,7 +2810,7 @@ where
       P0.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.1, into: &input)
     try p3.print(into: &input)
@@ -2881,7 +2881,7 @@ where
 {
   @inlinable public func print(
     _ output: P0.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(into: &input)
@@ -2956,7 +2956,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.3, into: &input)
     try p3.print(output.2, into: &input)
@@ -3031,7 +3031,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(output.2, into: &input)
@@ -3106,7 +3106,7 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.2, into: &input)
     try p3.print(into: &input)
@@ -3181,7 +3181,7 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(into: &input)
@@ -3256,7 +3256,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.2, into: &input)
     try p3.print(output.1, into: &input)
@@ -3331,7 +3331,7 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(output.1, into: &input)
@@ -3406,7 +3406,7 @@ where
       P1.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.1, into: &input)
     try p3.print(into: &input)
@@ -3477,7 +3477,7 @@ where
 {
   @inlinable public func print(
     _ output: P1.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(into: &input)
@@ -3552,7 +3552,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.2, into: &input)
     try p3.print(output.1, into: &input)
@@ -3627,7 +3627,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(output.1, into: &input)
@@ -3702,7 +3702,7 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.1, into: &input)
     try p3.print(into: &input)
@@ -3773,7 +3773,7 @@ where
 {
   @inlinable public func print(
     _ output: P2.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(into: &input)
@@ -3848,7 +3848,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output.1, into: &input)
     try p3.print(output.0, into: &input)
@@ -3919,7 +3919,7 @@ where
 {
   @inlinable public func print(
     _ output: P3.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(output, into: &input)
@@ -3990,7 +3990,7 @@ where
 {
   @inlinable public func print(
     _ output: P4.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(output, into: &input)
     try p3.print(into: &input)
@@ -4062,7 +4062,7 @@ where
 {
   @inlinable public func print(
     _ output: Void,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p4.print(into: &input)
     try p3.print(into: &input)
@@ -4145,7 +4145,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.5, into: &input)
     try p4.print(output.4, into: &input)
@@ -4229,7 +4229,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.4, into: &input)
@@ -4313,7 +4313,7 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.4, into: &input)
     try p4.print(into: &input)
@@ -4397,7 +4397,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -4481,7 +4481,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.4, into: &input)
     try p4.print(output.3, into: &input)
@@ -4565,7 +4565,7 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.3, into: &input)
@@ -4649,7 +4649,7 @@ where
       P2.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.3, into: &input)
     try p4.print(into: &input)
@@ -4733,7 +4733,7 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -4817,7 +4817,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.4, into: &input)
     try p4.print(output.3, into: &input)
@@ -4901,7 +4901,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.3, into: &input)
@@ -4985,7 +4985,7 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.3, into: &input)
     try p4.print(into: &input)
@@ -5069,7 +5069,7 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -5153,7 +5153,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.3, into: &input)
     try p4.print(output.2, into: &input)
@@ -5237,7 +5237,7 @@ where
       P1.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.2, into: &input)
@@ -5321,7 +5321,7 @@ where
       P1.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.2, into: &input)
     try p4.print(into: &input)
@@ -5405,7 +5405,7 @@ where
       P0.Output,
       P1.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -5489,7 +5489,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.4, into: &input)
     try p4.print(output.3, into: &input)
@@ -5573,7 +5573,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.3, into: &input)
@@ -5657,7 +5657,7 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.3, into: &input)
     try p4.print(into: &input)
@@ -5741,7 +5741,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -5825,7 +5825,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.3, into: &input)
     try p4.print(output.2, into: &input)
@@ -5909,7 +5909,7 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.2, into: &input)
@@ -5993,7 +5993,7 @@ where
       P2.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.2, into: &input)
     try p4.print(into: &input)
@@ -6077,7 +6077,7 @@ where
       P0.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -6161,7 +6161,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.3, into: &input)
     try p4.print(output.2, into: &input)
@@ -6245,7 +6245,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.2, into: &input)
@@ -6329,7 +6329,7 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.2, into: &input)
     try p4.print(into: &input)
@@ -6413,7 +6413,7 @@ where
       P0.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -6497,7 +6497,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.2, into: &input)
     try p4.print(output.1, into: &input)
@@ -6581,7 +6581,7 @@ where
       P0.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.1, into: &input)
@@ -6665,7 +6665,7 @@ where
       P0.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.1, into: &input)
     try p4.print(into: &input)
@@ -6745,7 +6745,7 @@ where
 {
   @inlinable public func print(
     _ output: P0.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -6829,7 +6829,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.4, into: &input)
     try p4.print(output.3, into: &input)
@@ -6913,7 +6913,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.3, into: &input)
@@ -6997,7 +6997,7 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.3, into: &input)
     try p4.print(into: &input)
@@ -7081,7 +7081,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -7165,7 +7165,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.3, into: &input)
     try p4.print(output.2, into: &input)
@@ -7249,7 +7249,7 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.2, into: &input)
@@ -7333,7 +7333,7 @@ where
       P2.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.2, into: &input)
     try p4.print(into: &input)
@@ -7417,7 +7417,7 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -7501,7 +7501,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.3, into: &input)
     try p4.print(output.2, into: &input)
@@ -7585,7 +7585,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.2, into: &input)
@@ -7669,7 +7669,7 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.2, into: &input)
     try p4.print(into: &input)
@@ -7753,7 +7753,7 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -7837,7 +7837,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.2, into: &input)
     try p4.print(output.1, into: &input)
@@ -7921,7 +7921,7 @@ where
       P1.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.1, into: &input)
@@ -8005,7 +8005,7 @@ where
       P1.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.1, into: &input)
     try p4.print(into: &input)
@@ -8085,7 +8085,7 @@ where
 {
   @inlinable public func print(
     _ output: P1.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -8169,7 +8169,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.3, into: &input)
     try p4.print(output.2, into: &input)
@@ -8253,7 +8253,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.2, into: &input)
@@ -8337,7 +8337,7 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.2, into: &input)
     try p4.print(into: &input)
@@ -8421,7 +8421,7 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -8505,7 +8505,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.2, into: &input)
     try p4.print(output.1, into: &input)
@@ -8589,7 +8589,7 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.1, into: &input)
@@ -8673,7 +8673,7 @@ where
       P2.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.1, into: &input)
     try p4.print(into: &input)
@@ -8753,7 +8753,7 @@ where
 {
   @inlinable public func print(
     _ output: P2.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -8837,7 +8837,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.2, into: &input)
     try p4.print(output.1, into: &input)
@@ -8921,7 +8921,7 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output.1, into: &input)
@@ -9005,7 +9005,7 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.1, into: &input)
     try p4.print(into: &input)
@@ -9085,7 +9085,7 @@ where
 {
   @inlinable public func print(
     _ output: P3.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -9169,7 +9169,7 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output.1, into: &input)
     try p4.print(output.0, into: &input)
@@ -9249,7 +9249,7 @@ where
 {
   @inlinable public func print(
     _ output: P4.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(output, into: &input)
@@ -9329,7 +9329,7 @@ where
 {
   @inlinable public func print(
     _ output: P5.Output,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(output, into: &input)
     try p4.print(into: &input)
@@ -9410,7 +9410,7 @@ where
 {
   @inlinable public func print(
     _ output: Void,
-    to input: inout P0.Input
+    into input: inout P0.Input
   ) rethrows {
     try p5.print(into: &input)
     try p4.print(into: &input)
@@ -9465,7 +9465,7 @@ where
   P0.Input == P1.Input,
   P0.Output == P1.Output
 {
-  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p1.print(output, into: &input) } catch let e1 {
       do {
@@ -9535,7 +9535,7 @@ where
   P0.Output == P1.Output,
   P1.Output == P2.Output
 {
-  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p2.print(output, into: &input) } catch let e2 {
       do {
@@ -9621,7 +9621,7 @@ where
   P1.Output == P2.Output,
   P2.Output == P3.Output
 {
-  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p3.print(output, into: &input) } catch let e3 {
       do {
@@ -9723,7 +9723,7 @@ where
   P2.Output == P3.Output,
   P3.Output == P4.Output
 {
-  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p4.print(output, into: &input) } catch let e4 {
       do {
@@ -9842,7 +9842,7 @@ where
   P3.Output == P4.Output,
   P4.Output == P5.Output
 {
-  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p5.print(output, into: &input) } catch let e5 {
       do {
@@ -9978,7 +9978,7 @@ where
   P4.Output == P5.Output,
   P5.Output == P6.Output
 {
-  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p6.print(output, into: &input) } catch let e6 {
       do {
@@ -10132,7 +10132,7 @@ where
   P5.Output == P6.Output,
   P6.Output == P7.Output
 {
-  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p7.print(output, into: &input) } catch let e7 {
       do {
@@ -10303,7 +10303,7 @@ where
   P6.Output == P7.Output,
   P7.Output == P8.Output
 {
-  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p8.print(output, into: &input) } catch let e8 {
       do {
@@ -10491,7 +10491,7 @@ where
   P7.Output == P8.Output,
   P8.Output == P9.Output
 {
-  @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p9.print(output, into: &input) } catch let e9 {
       do {

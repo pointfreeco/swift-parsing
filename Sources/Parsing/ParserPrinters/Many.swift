@@ -240,11 +240,11 @@ where
       guard self.minimum == 0 else { throw PrintingError() }
       return
     }
-    try self.terminator.print(to: &input)
+    try self.terminator.print(into: &input)
     try self.element.print(first, into: &input)
     var count = 1
     while let element = iterator.next() {
-      try self.separator.print(to: &input)
+      try self.separator.print(into: &input)
       try self.element.print(element, into: &input)
       count += 1
       guard count <= self.maximum
