@@ -14,7 +14,7 @@ final class OptionalTests: XCTestCase {
     XCTAssertNoDifference(.none, Optionally { Bool.parser() }.parse(&input))
     XCTAssertNoDifference("Hello, world!", Substring(input))
   }
-  
+
   func testBacktracking() {
     let parser = Parse {
       "Hello,"
