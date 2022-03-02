@@ -108,7 +108,7 @@ extension Parsers {
 
 extension Parsers.CaseIterableRawRepresentableParser: Printer where Input: PrependableCollection {
   @inlinable
-  public func print(_ output: Output, to input: inout Input) {
+  public func print(_ output: Output, into input: inout Input) {
     input.prepend(contentsOf: self.toInput(output.rawValue))
   }
 }

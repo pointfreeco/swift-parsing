@@ -54,12 +54,12 @@ where
   Second: Printer
 {
   @inlinable
-  public func print(_ output: First.Output, to input: inout First.Input) rethrows {
+  public func print(_ output: First.Output, into input: inout First.Input) rethrows {
     switch self {
     case let .first(first):
-      try first.print(output, to: &input)
+      try first.print(output, into: &input)
     case let .second(second):
-      try second.print(output, to: &input)
+      try second.print(output, into: &input)
     }
   }
 }

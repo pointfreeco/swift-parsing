@@ -44,7 +44,7 @@ public struct AnyPrinter<Input, Output>: Printer {
   }
 
   @inlinable
-  public func print(_ output: Output, to input: inout Input) throws {
+  public func print(_ output: Output, into input: inout Input) throws {
     try self.printer(output, &input)
   }
 }

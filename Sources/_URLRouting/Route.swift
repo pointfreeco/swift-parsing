@@ -57,7 +57,7 @@ public struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestDa
 
 extension Route: Printer where Parsers: Printer {
   @inlinable
-  public func print(_ output: Parsers.Output, to input: inout URLRequestData) rethrows {
-    try self.parsers.print(output, to: &input)
+  public func print(_ output: Parsers.Output, into input: inout URLRequestData) rethrows {
+    try self.parsers.print(output, into: &input)
   }
 }

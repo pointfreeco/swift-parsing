@@ -55,7 +55,7 @@ final class PrefixUpToTests: XCTestCase {
 
   func testPrint() throws {
     var input = ","[...]
-    try PrefixUpTo(",").print("Hello", to: &input)
+    try PrefixUpTo(",").print("Hello", into: &input)
     XCTAssertNoDifference("Hello,", input)
   }
 }

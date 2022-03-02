@@ -16,8 +16,8 @@ where ComponentParsers.Input == URLRequestData {
 
 extension Path: Printer where ComponentParsers: Printer {
   @inlinable
-  public func print(_ output: ComponentParsers.Output, to input: inout URLRequestData) rethrows {
-    try self.componentParsers.print(output, to: &input)
+  public func print(_ output: ComponentParsers.Output, into input: inout URLRequestData) rethrows {
+    try self.componentParsers.print(output, into: &input)
   }
 }
 
@@ -41,7 +41,7 @@ where
 }
 
 extension PathComponent: Printer where ComponentParser: Printer {
-  public func print(_ output: ComponentParser.Output, to input: inout URLRequestData) rethrows {
+  public func print(_ output: ComponentParser.Output, into input: inout URLRequestData) rethrows {
     try input.path.append(self.componentParser.print(output))
   }
 }

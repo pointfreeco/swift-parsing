@@ -191,7 +191,7 @@ struct VariadicsGenerator: ParsableCommand {
         let output = permutation.isCaptureless(at: $0) ? ""
           : permutation.captureIndices.count == 1 ? "output, "
           : "output.\(permutation.captureIndices.firstIndex(of: $0)!), "
-        return "try p\($0).print(\(output)to: &input)"
+        return "try p\($0).print(\(output)into: &input)"
       }
       output("\n  }\n}\n\n")
 
@@ -265,7 +265,7 @@ struct VariadicsGenerator: ParsableCommand {
       """
           \(String(repeating: "  ", count: $1))\
       do { \($0 == arity - 1 ? "" : "input = original; ")\
-      try self.p\($0).print(output, to: &input) } catch let e\($0) {
+      try self.p\($0).print(output, into: &input) } catch let e\($0) {
       """
     }
     output("\n    \(String(repeating: "  ", count: arity))throw PrintingError.manyFailed(")

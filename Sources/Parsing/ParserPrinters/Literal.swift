@@ -10,7 +10,7 @@ extension Array: Parser where Element: Equatable {
 
 extension Array: Printer {
   @inlinable
-  public func print(_ output: (), to input: inout SubSequence) {
+  public func print(_ output: (), into input: inout SubSequence) {
     input.prepend(contentsOf: self)
   }
 }
@@ -25,7 +25,7 @@ extension String: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: (), to input: inout SubSequence) {
+  public func print(_ output: (), into input: inout SubSequence) {
     input.prepend(contentsOf: self)
   }
 }
@@ -40,7 +40,7 @@ extension String.UnicodeScalarView: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: (), to input: inout SubSequence) {
+  public func print(_ output: (), into input: inout SubSequence) {
     input.prepend(contentsOf: self)
   }
 }
@@ -55,7 +55,7 @@ extension String.UTF8View: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: (), to input: inout SubSequence) {
+  public func print(_ output: (), into input: inout SubSequence) {
     input.prepend(contentsOf: self)
   }
 }

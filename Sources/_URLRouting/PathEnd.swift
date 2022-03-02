@@ -10,5 +10,5 @@ public struct PathEnd: Parser {
 
 extension PathEnd: Printer {
   @inlinable
-  public func print(_ output: (), to input: inout Input) {}
+  public func print(_ output: (), into input: inout Input) {}
 }

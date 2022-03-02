@@ -34,9 +34,9 @@ where FieldParsers.Input == URLRequestData.Fields {
 
 extension FormData: Printer where FieldParsers: Printer {
   @inlinable
-  public func print(_ output: FieldParsers.Output, to input: inout ArraySlice<UInt8>) rethrows {
+  public func print(_ output: FieldParsers.Output, into input: inout ArraySlice<UInt8>) rethrows {
     var fields = URLRequestData.Fields()
-    try self.fieldParsers.print(output, to: &fields)
+    try self.fieldParsers.print(output, into: &fields)
     input = .init(encoding: fields)
   }
 }

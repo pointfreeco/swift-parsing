@@ -234,18 +234,18 @@ where
   Printability == Void
 {
   @inlinable
-  public func print(_ output: Result, to input: inout Element.Input) throws {
+  public func print(_ output: Result, into input: inout Element.Input) throws {
     var iterator = self.iterator(output).lazy.reversed().makeIterator() // TODO: more efficient way to get this?
     guard let first = iterator.next() else {
       guard self.minimum == 0 else { throw PrintingError() }
       return
     }
     try self.terminator.print(to: &input)
-    try self.element.print(first, to: &input)
+    try self.element.print(first, into: &input)
     var count = 1
     while let element = iterator.next() {
       try self.separator.print(to: &input)
-      try self.element.print(element, to: &input)
+      try self.element.print(element, into: &input)
       count += 1
       guard count <= self.maximum
       else {

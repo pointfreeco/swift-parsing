@@ -46,14 +46,14 @@ class NotTests: XCTestCase {
   func testPrintUpstreamFails() {
     var input = "not a comment"[...]
     let parser = Not { "//" }
-    XCTAssertNoThrow(try parser.print((), to: &input))
+    XCTAssertNoThrow(try parser.print((), into: &input))
     XCTAssertNoDifference(input, "not a comment"[...])
   }
   
   func testPrintUpstreamParses() {
     var input = "// a comment"[...]
     let parser = Not { "//" }
-    XCTAssertThrowsError(try parser.print((), to: &input))
+    XCTAssertThrowsError(try parser.print((), into: &input))
     XCTAssertNoDifference(input, "// a comment"[...])
   }
   
@@ -65,7 +65,7 @@ class NotTests: XCTestCase {
       Rest()
     }
     
-    XCTAssertNoThrow(try uncommentedLine.print("uncommented line"[...], to: &input))
+    XCTAssertNoThrow(try uncommentedLine.print("uncommented line"[...], into: &input))
     XCTAssertNoDifference(
       input,
       "uncommented line"
@@ -80,7 +80,7 @@ class NotTests: XCTestCase {
       Rest()
     }
 
-    XCTAssertThrowsError(try uncommentedLine.print("// commented line"[...], to: &input))
+    XCTAssertThrowsError(try uncommentedLine.print("// commented line"[...], into: &input))
     XCTAssertNoDifference(
       input,
       "// commented line"

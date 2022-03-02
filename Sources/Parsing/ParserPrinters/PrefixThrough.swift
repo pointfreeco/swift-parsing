@@ -47,7 +47,7 @@ public struct PrefixThrough<Input: Collection>: Parser where Input.SubSequence =
 
 extension PrefixThrough: Printer where Input: PrependableCollection {
   @inlinable
-  public func print(_ output: Input, to input: inout Input) throws {
+  public func print(_ output: Input, into input: inout Input) throws {
     var output = output
     let appended = try self.parse(&output)
     guard output.isEmpty else { throw PrintingError() }

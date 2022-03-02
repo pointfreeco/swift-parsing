@@ -204,7 +204,7 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
 
 extension Prefix: Printer where Input: PrependableCollection {
   @inlinable
-  public func print(_ output: Input, to input: inout Input) throws {
+  public func print(_ output: Input, into input: inout Input) throws {
     let count = output.count
     guard
       count >= self.minLength,

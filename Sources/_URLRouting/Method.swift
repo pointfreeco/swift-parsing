@@ -30,7 +30,7 @@ public struct Method: Parser {
 
 extension Method: Printer {
   @inlinable
-  public func print(_ output: (), to input: inout URLRequestData) {
+  public func print(_ output: (), into input: inout URLRequestData) {
     input.method = self.name
   }
 }

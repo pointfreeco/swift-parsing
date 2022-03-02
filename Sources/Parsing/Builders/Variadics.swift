@@ -38,8 +38,8 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -85,8 +85,8 @@ where
     _ output: P0.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p1.print(to: &input)
-    try p0.print(output, to: &input)
+    try p1.print(into: &input)
+    try p0.print(output, into: &input)
   }
 }
 
@@ -132,8 +132,8 @@ where
     _ output: P1.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p1.print(output, to: &input)
-    try p0.print(to: &input)
+    try p1.print(output, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -180,8 +180,8 @@ where
     _ output: Void,
     to input: inout P0.Input
   ) rethrows {
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -238,9 +238,9 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -297,9 +297,9 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -356,9 +356,9 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -411,9 +411,9 @@ where
     _ output: P0.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output, to: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output, into: &input)
   }
 }
 
@@ -470,9 +470,9 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -525,9 +525,9 @@ where
     _ output: P1.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p2.print(to: &input)
-    try p1.print(output, to: &input)
-    try p0.print(to: &input)
+    try p2.print(into: &input)
+    try p1.print(output, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -580,9 +580,9 @@ where
     _ output: P2.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p2.print(output, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p2.print(output, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -636,9 +636,9 @@ where
     _ output: Void,
     to input: inout P0.Input
   ) rethrows {
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -702,10 +702,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(output.3, to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -769,10 +769,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -836,10 +836,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(output.2, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -903,10 +903,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -970,10 +970,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1037,10 +1037,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1104,10 +1104,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1167,10 +1167,10 @@ where
     _ output: P0.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output, to: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output, into: &input)
   }
 }
 
@@ -1234,10 +1234,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1301,10 +1301,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1368,10 +1368,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1431,10 +1431,10 @@ where
     _ output: P1.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output, to: &input)
-    try p0.print(to: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1498,10 +1498,10 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(output.1, to: &input)
-    try p2.print(output.0, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1561,10 +1561,10 @@ where
     _ output: P2.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(to: &input)
-    try p2.print(output, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p3.print(into: &input)
+    try p2.print(output, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1624,10 +1624,10 @@ where
     _ output: P3.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(output, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p3.print(output, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1688,10 +1688,10 @@ where
     _ output: Void,
     to input: inout P0.Input
   ) rethrows {
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1762,11 +1762,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.4, to: &input)
-    try p3.print(output.3, to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(output.4, into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1837,11 +1837,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(output.3, to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1912,11 +1912,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.3, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1987,11 +1987,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2062,11 +2062,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.3, to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2137,11 +2137,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2212,11 +2212,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.2, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2287,11 +2287,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2362,11 +2362,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.3, to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2437,11 +2437,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2512,11 +2512,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.2, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2587,11 +2587,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2662,11 +2662,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.2, to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2737,11 +2737,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2812,11 +2812,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.1, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2883,11 +2883,11 @@ where
     _ output: P0.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output, to: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output, into: &input)
   }
 }
 
@@ -2958,11 +2958,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.3, to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3033,11 +3033,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3108,11 +3108,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.2, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3183,11 +3183,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3258,11 +3258,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.2, to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3333,11 +3333,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3408,11 +3408,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.1, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3479,11 +3479,11 @@ where
     _ output: P1.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output, to: &input)
-    try p0.print(to: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3554,11 +3554,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.2, to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(output.0, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3629,11 +3629,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(output.0, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3704,11 +3704,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.1, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.0, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3775,11 +3775,11 @@ where
     _ output: P2.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3850,11 +3850,11 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output.1, to: &input)
-    try p3.print(output.0, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(output.0, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3921,11 +3921,11 @@ where
     _ output: P3.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(output, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p4.print(into: &input)
+    try p3.print(output, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -3992,11 +3992,11 @@ where
     _ output: P4.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(output, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p4.print(output, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -4064,11 +4064,11 @@ where
     _ output: Void,
     to input: inout P0.Input
   ) rethrows {
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -4146,12 +4146,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.5, to: &input)
-    try p4.print(output.4, to: &input)
-    try p3.print(output.3, to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.5, into: &input)
+    try p4.print(output.4, into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -4229,12 +4229,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.4, to: &input)
-    try p3.print(output.3, to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.4, into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -4312,12 +4312,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.4, to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.3, to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.4, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -4395,12 +4395,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.3, to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -4478,12 +4478,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.4, to: &input)
-    try p4.print(output.3, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.4, into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -4561,12 +4561,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.3, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -4644,12 +4644,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.3, to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.3, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -4727,12 +4727,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.2, to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -4810,12 +4810,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.4, to: &input)
-    try p4.print(output.3, to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.4, into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -4893,12 +4893,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.3, to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -4976,12 +4976,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.3, to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.3, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5059,12 +5059,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5142,12 +5142,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.3, to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5225,12 +5225,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5308,12 +5308,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.2, to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5391,12 +5391,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.1, to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5474,12 +5474,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.4, to: &input)
-    try p4.print(output.3, to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.4, into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5557,12 +5557,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.3, to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5640,12 +5640,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.3, to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.3, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5723,12 +5723,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5806,12 +5806,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.3, to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5889,12 +5889,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -5972,12 +5972,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.2, to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -6055,12 +6055,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -6138,12 +6138,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.3, to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -6221,12 +6221,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -6304,12 +6304,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.2, to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -6387,12 +6387,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -6470,12 +6470,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.2, to: &input)
-    try p4.print(output.1, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.2, into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -6553,12 +6553,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.1, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -6636,12 +6636,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.1, to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output.0, to: &input)
+    try p5.print(output.1, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -6715,12 +6715,12 @@ where
     _ output: P0.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(output, to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output, into: &input)
   }
 }
 
@@ -6798,12 +6798,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.4, to: &input)
-    try p4.print(output.3, to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.4, into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -6881,12 +6881,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.3, to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -6964,12 +6964,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.3, to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.3, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7047,12 +7047,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.2, to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7130,12 +7130,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.3, to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7213,12 +7213,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7296,12 +7296,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.2, to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7379,12 +7379,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.1, to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7462,12 +7462,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.3, to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7545,12 +7545,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7628,12 +7628,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.2, to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7711,12 +7711,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7794,12 +7794,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.2, to: &input)
-    try p4.print(output.1, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.2, into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7877,12 +7877,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.1, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -7960,12 +7960,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.1, to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output.0, to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.1, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8039,12 +8039,12 @@ where
     _ output: P1.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(output, to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8122,12 +8122,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.3, to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(output.0, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8205,12 +8205,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.2, to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(output.0, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8288,12 +8288,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.2, to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(output.0, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8371,12 +8371,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.1, to: &input)
-    try p2.print(output.0, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8454,12 +8454,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.2, to: &input)
-    try p4.print(output.1, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.0, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.2, into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8537,12 +8537,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.1, to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.0, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8620,12 +8620,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.1, to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output.0, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.1, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8699,12 +8699,12 @@ where
     _ output: P2.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(output, to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8782,12 +8782,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.2, to: &input)
-    try p4.print(output.1, to: &input)
-    try p3.print(output.0, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.2, into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(output.0, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8865,12 +8865,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output.1, to: &input)
-    try p3.print(output.0, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(output.0, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -8948,12 +8948,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.1, to: &input)
-    try p4.print(to: &input)
-    try p3.print(output.0, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.1, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.0, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -9027,12 +9027,12 @@ where
     _ output: P3.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(output, to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -9110,12 +9110,12 @@ where
     ),
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output.1, to: &input)
-    try p4.print(output.0, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(output.1, into: &input)
+    try p4.print(output.0, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -9189,12 +9189,12 @@ where
     _ output: P4.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(output, to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(output, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -9268,12 +9268,12 @@ where
     _ output: P5.Output,
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(output, to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(output, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -9348,12 +9348,12 @@ where
     _ output: Void,
     to input: inout P0.Input
   ) rethrows {
-    try p5.print(to: &input)
-    try p4.print(to: &input)
-    try p3.print(to: &input)
-    try p2.print(to: &input)
-    try p1.print(to: &input)
-    try p0.print(to: &input)
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -9400,8 +9400,8 @@ where
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
     let original = input
-    do { try self.p1.print(output, to: &input) } catch let e1 {
-      do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+    do { try self.p1.print(output, into: &input) } catch let e1 {
+      do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
         throw PrintingError.manyFailed(
           [e1, e0], at: input
         )
@@ -9461,9 +9461,9 @@ where
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
     let original = input
-    do { try self.p2.print(output, to: &input) } catch let e2 {
-      do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
-        do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+    do { try self.p2.print(output, into: &input) } catch let e2 {
+      do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+        do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
           throw PrintingError.manyFailed(
             [e2, e1, e0], at: input
           )
@@ -9532,10 +9532,10 @@ where
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
     let original = input
-    do { try self.p3.print(output, to: &input) } catch let e3 {
-      do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
-        do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
-          do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+    do { try self.p3.print(output, into: &input) } catch let e3 {
+      do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+        do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+          do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
             throw PrintingError.manyFailed(
               [e3, e2, e1, e0], at: input
             )
@@ -9613,11 +9613,11 @@ where
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
     let original = input
-    do { try self.p4.print(output, to: &input) } catch let e4 {
-      do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
-        do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
-          do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
-            do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+    do { try self.p4.print(output, into: &input) } catch let e4 {
+      do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+        do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+          do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+            do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
               throw PrintingError.manyFailed(
                 [e4, e3, e2, e1, e0], at: input
               )
@@ -9704,12 +9704,12 @@ where
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
     let original = input
-    do { try self.p5.print(output, to: &input) } catch let e5 {
-      do { input = original; try self.p4.print(output, to: &input) } catch let e4 {
-        do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
-          do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
-            do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
-              do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+    do { try self.p5.print(output, into: &input) } catch let e5 {
+      do { input = original; try self.p4.print(output, into: &input) } catch let e4 {
+        do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+          do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+            do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+              do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
                 throw PrintingError.manyFailed(
                   [e5, e4, e3, e2, e1, e0], at: input
                 )
@@ -9805,13 +9805,13 @@ where
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
     let original = input
-    do { try self.p6.print(output, to: &input) } catch let e6 {
-      do { input = original; try self.p5.print(output, to: &input) } catch let e5 {
-        do { input = original; try self.p4.print(output, to: &input) } catch let e4 {
-          do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
-            do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
-              do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
-                do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+    do { try self.p6.print(output, into: &input) } catch let e6 {
+      do { input = original; try self.p5.print(output, into: &input) } catch let e5 {
+        do { input = original; try self.p4.print(output, into: &input) } catch let e4 {
+          do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+            do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+              do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+                do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
                   throw PrintingError.manyFailed(
                     [e6, e5, e4, e3, e2, e1, e0], at: input
                   )
@@ -9916,14 +9916,14 @@ where
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
     let original = input
-    do { try self.p7.print(output, to: &input) } catch let e7 {
-      do { input = original; try self.p6.print(output, to: &input) } catch let e6 {
-        do { input = original; try self.p5.print(output, to: &input) } catch let e5 {
-          do { input = original; try self.p4.print(output, to: &input) } catch let e4 {
-            do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
-              do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
-                do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
-                  do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+    do { try self.p7.print(output, into: &input) } catch let e7 {
+      do { input = original; try self.p6.print(output, into: &input) } catch let e6 {
+        do { input = original; try self.p5.print(output, into: &input) } catch let e5 {
+          do { input = original; try self.p4.print(output, into: &input) } catch let e4 {
+            do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+              do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+                do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+                  do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
                     throw PrintingError.manyFailed(
                       [e7, e6, e5, e4, e3, e2, e1, e0], at: input
                     )
@@ -10037,15 +10037,15 @@ where
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
     let original = input
-    do { try self.p8.print(output, to: &input) } catch let e8 {
-      do { input = original; try self.p7.print(output, to: &input) } catch let e7 {
-        do { input = original; try self.p6.print(output, to: &input) } catch let e6 {
-          do { input = original; try self.p5.print(output, to: &input) } catch let e5 {
-            do { input = original; try self.p4.print(output, to: &input) } catch let e4 {
-              do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
-                do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
-                  do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
-                    do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+    do { try self.p8.print(output, into: &input) } catch let e8 {
+      do { input = original; try self.p7.print(output, into: &input) } catch let e7 {
+        do { input = original; try self.p6.print(output, into: &input) } catch let e6 {
+          do { input = original; try self.p5.print(output, into: &input) } catch let e5 {
+            do { input = original; try self.p4.print(output, into: &input) } catch let e4 {
+              do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+                do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+                  do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+                    do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
                       throw PrintingError.manyFailed(
                         [e8, e7, e6, e5, e4, e3, e2, e1, e0], at: input
                       )
@@ -10168,16 +10168,16 @@ where
 {
   @inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {
     let original = input
-    do { try self.p9.print(output, to: &input) } catch let e9 {
-      do { input = original; try self.p8.print(output, to: &input) } catch let e8 {
-        do { input = original; try self.p7.print(output, to: &input) } catch let e7 {
-          do { input = original; try self.p6.print(output, to: &input) } catch let e6 {
-            do { input = original; try self.p5.print(output, to: &input) } catch let e5 {
-              do { input = original; try self.p4.print(output, to: &input) } catch let e4 {
-                do { input = original; try self.p3.print(output, to: &input) } catch let e3 {
-                  do { input = original; try self.p2.print(output, to: &input) } catch let e2 {
-                    do { input = original; try self.p1.print(output, to: &input) } catch let e1 {
-                      do { input = original; try self.p0.print(output, to: &input) } catch let e0 {
+    do { try self.p9.print(output, into: &input) } catch let e9 {
+      do { input = original; try self.p8.print(output, into: &input) } catch let e8 {
+        do { input = original; try self.p7.print(output, into: &input) } catch let e7 {
+          do { input = original; try self.p6.print(output, into: &input) } catch let e6 {
+            do { input = original; try self.p5.print(output, into: &input) } catch let e5 {
+              do { input = original; try self.p4.print(output, into: &input) } catch let e4 {
+                do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+                  do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+                    do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+                      do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
                         throw PrintingError.manyFailed(
                           [e9, e8, e7, e6, e5, e4, e3, e2, e1, e0], at: input
                         )

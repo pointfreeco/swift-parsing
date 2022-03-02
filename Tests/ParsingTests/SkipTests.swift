@@ -32,7 +32,7 @@ final class SkipTests: XCTestCase {
       Prefix { $0 != "!" }
     }
     
-    XCTAssertNoThrow(try parser.print("world"[...], to: &input))
+    XCTAssertNoThrow(try parser.print("world"[...], into: &input))
     XCTAssertNoDifference(input, "Hello, world!")
   }
 }

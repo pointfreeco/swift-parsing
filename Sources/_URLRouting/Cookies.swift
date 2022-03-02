@@ -31,9 +31,9 @@ public struct Cookies<Parsers: Parser>: Parser where Parsers.Input == URLRequest
 
 extension Cookies: Printer where Parsers: Printer {
   @inlinable
-  public func print(_ output: Parsers.Output, to input: inout URLRequestData) rethrows {
+  public func print(_ output: Parsers.Output, into input: inout URLRequestData) rethrows {
     var cookies = URLRequestData.Fields()
-    try self.cookieParsers.print(output, to: &cookies)
+    try self.cookieParsers.print(output, into: &cookies)
 
     input.headers["cookie", default: []].append(
       cookies

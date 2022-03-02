@@ -24,14 +24,14 @@ public final class Lazy<LazyParser: Parser>: Parser {
 
 extension Lazy: Printer where LazyParser: Printer {
   @inlinable
-  public func print(_ output: LazyParser.Output, to input: inout LazyParser.Input) rethrows {
+  public func print(_ output: LazyParser.Output, into input: inout LazyParser.Input) rethrows {
     guard let parser = self.lazyParser else {
       let parser = self.createParser()
       self.lazyParser = parser
-      try parser.print(output, to: &input)
+      try parser.print(output, into: &input)
       return
     }
-    try parser.print(output, to: &input)
+    try parser.print(output, into: &input)
   }
 }
 

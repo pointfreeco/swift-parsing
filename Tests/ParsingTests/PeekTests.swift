@@ -70,7 +70,7 @@ class PeekTests: XCTestCase {
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
 
-    XCTAssertNoThrow(try identifier.print("foo"[...], to: &input))
+    XCTAssertNoThrow(try identifier.print("foo"[...], into: &input))
     XCTAssertNoDifference(input, "foo!")
   }
   
@@ -87,21 +87,21 @@ class PeekTests: XCTestCase {
 
     // Should fail because '1' is not allowed for the first character, checked by the `Peek`,
     // but parses because of `.printing("")` statement bypasses the `Peek`.
-    XCTAssertNoThrow(try identifier.print("1foo"[...], to: &input))
+    XCTAssertNoThrow(try identifier.print("1foo"[...], into: &input))
     XCTAssertNoDifference(input, "1foo!")
   }
 
   func testPrintUpstreamParses() {
     var input = "// a comment"[...]
     let parser = Peek { "//" }
-    XCTAssertNoThrow(try parser.print((), to: &input))
+    XCTAssertNoThrow(try parser.print((), into: &input))
     XCTAssertNoDifference(input, "// a comment"[...])
   }
 
   func testPrintUpstreamFails() {
     var input = "not a comment"[...]
     let parser = Peek { "//" }
-    XCTAssertThrowsError(try parser.print((), to: &input))
+    XCTAssertThrowsError(try parser.print((), into: &input))
     XCTAssertNoDifference(input, "not a comment"[...])
   }
 
@@ -113,7 +113,7 @@ class PeekTests: XCTestCase {
       Rest()
     }
 
-    XCTAssertNoThrow(try commentedLine.print("// commented line"[...], to: &input))
+    XCTAssertNoThrow(try commentedLine.print("// commented line"[...], into: &input))
     XCTAssertNoDifference(
       input,
       "// commented line"
@@ -128,7 +128,7 @@ class PeekTests: XCTestCase {
       Rest()
     }
 
-    XCTAssertThrowsError(try commentedLine.print("uncommented line"[...], to: &input))
+    XCTAssertThrowsError(try commentedLine.print("uncommented line"[...], into: &input))
     XCTAssertNoDifference(
       input,
       "uncommented line"

@@ -150,8 +150,8 @@ public struct Parse<Parsers: Parser>: Parser {
 
 extension Parse: Printer where Parsers: Printer {
   @inlinable
-  public func print(_ output: Parsers.Output, to input: inout Parsers.Input) rethrows {
-    try self.parsers.print(output, to: &input)
+  public func print(_ output: Parsers.Output, into input: inout Parsers.Input) rethrows {
+    try self.parsers.print(output, into: &input)
   }
 }
 

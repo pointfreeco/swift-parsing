@@ -14,8 +14,8 @@
   ///
   /// - Parameters
   ///   - output: A well-structured value to be printed to the given input.
-  ///   - input: A nebulous, mutable piece of data to be incrementally printed to the beginning of.
-  func print(_ output: Output, to input: inout Input) throws
+  ///   - input: A nebulous, mutable piece of data to be incrementally printed into.
+  func print(_ output: Output, into input: inout Input) throws
 }
 
 extension Printer where Input: EmptyInitializable {
@@ -26,7 +26,7 @@ extension Printer where Input: EmptyInitializable {
   @inlinable
   public func print(_ output: Output) rethrows -> Input {
     var input = Input()
-    try self.print(output, to: &input)
+    try self.print(output, into: &input)
     return input
   }
 }
@@ -34,10 +34,10 @@ extension Printer where Input: EmptyInitializable {
 extension Printer where Output == Void {
   /// Attempts to print into a nebulous piece of data.
   ///
-  /// - Parameter input: A nebulous, mutable piece of data to be incrementally printed to.
+  /// - Parameter input: A nebulous, mutable piece of data to be incrementally printed into.
   @inlinable
-  public func print(to input: inout Input) rethrows {
-    try self.print((), to: &input)
+  public func print(into input: inout Input) rethrows {
+    try self.print((), into: &input)
   }
 }
 

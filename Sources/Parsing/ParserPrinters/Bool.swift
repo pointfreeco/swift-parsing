@@ -93,7 +93,7 @@ extension Parsers {
 
 extension Parsers.BoolParser: Printer where Input: PrependableCollection {
   @inlinable
-  public func print(_ output: Bool, to input: inout Input) {
+  public func print(_ output: Bool, into input: inout Input) {
     switch output {
     case true:
       input.prepend(contentsOf: [116, 114, 117, 101] /*"true".utf8*/)

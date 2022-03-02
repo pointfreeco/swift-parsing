@@ -67,8 +67,8 @@ extension Parsers {
     }
 
     @inlinable
-    public func print(_ output: Parser.Output, to input: inout Parser.Input) rethrows {
-      try self.printer.print(output, to: &input)
+    public func print(_ output: Parser.Output, into input: inout Parser.Input) rethrows {
+      try self.printer.print(output, into: &input)
     }
   }
 }
