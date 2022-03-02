@@ -117,8 +117,8 @@ extension String.UTF8View: PrependableCollection {
   }
 
   @inlinable
-  public mutating func prepend<S>(contentsOf elements: S)
-  where S: Sequence, String.UTF8View.Element == S.Element {
+  public mutating func prepend<S: Sequence>(contentsOf elements: S)
+  where S.Element == Element {
     var str = String(self)
     defer { self = str.utf8 }
 
@@ -140,8 +140,8 @@ extension Substring.UTF8View: PrependableCollection {
   }
 
   @inlinable
-  public mutating func prepend<S>(contentsOf elements: S)
-  where S: Sequence, String.UTF8View.Element == S.Element {
+  public mutating func prepend<S: Sequence>(contentsOf elements: S)
+  where S.Element == Element {
     var str = Substring(self)
     defer { self = str.utf8 }
 
