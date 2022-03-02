@@ -3,7 +3,7 @@
 A library for turning nebulous data into well-structured data, with a focus on composition,
 performance, generality, and ergonomics.
 
-## Additional Resources
+## Resources
 
 - [GitHub Repo](https://github.com/pointfreeco/swift-parsing/)
 - [Discussions](https://github.com/pointfreeco/swift-parsing/discussions)
@@ -11,8 +11,15 @@ performance, generality, and ergonomics.
 
 ## Overview
 
-Parsing with this library is performed by listing out many small parsers that describe how to
-incrementally consume small bits from the beginning of an input string. For example, suppose you
+Combine many small parsers that describe how to incrementally consume an input string and capture the bits that you are interested in as strongly-typed Swift data. 
+
+Start parsing with <doc:GettingStarted> which offers a detailed kickstarer with the library.
+
+## Basics 
+
+``Parsing`` doesn't assume any specific input format — you freely describe the structure and which bits you want to capture.
+
+For example, suppose you
 have a string that holds some user data that you want to parse into an array of `User`s:
 
 ```swift
@@ -29,8 +36,7 @@ struct User {
 }
 ```
 
-A parser can be constructed for transforming the input string into an array of users in succinct
-and fluent API:
+Construct a parser capturing the sequence of an `Int`, comma, `String`, comma, and a `Bool` into the `User` structure and wrap it in a `Many` to parse the complete list:
 
 ```swift
 let user = Parse(User.init) {
@@ -52,48 +58,33 @@ let users = Many {
 try users.parse(input)  // [User(id: 1, name: "Blob", isAdmin: true), ...]
 ```
 
-This says that to parse a user we:
-
-* Parse and consume an integer from the beginning of the input
-* then a comma
-* then everything up to the next comma
-* then another comma
-* and finally a boolean.
-
-And to parse an entire array of users we:
-
-* Run the `user` parser many times
-* between each invocation of `user` we run the separator parser to consume a newline
-* and once the `user` and separator parsers have consumed all they can we run the terminator
-parser to verify there is no more input to consume.
-
-Further, if the input is malformed, like say we mistyped one of the booleans, then the parser emits
-an error that describes exactly what went wrong:
-
-```swift
-var input = """
-1,Blob,true
-2,Blob Jr.,false
-3,Blob Sr.,tru
-"""
-
-try users.parse(input)
-
-// error: unexpected input
-//  --> input:3:11
-// 3 | 3,Blob Jr,tru
-//   |           ^ expected "true" or "false"
-```
-
-That's the basics of parsing a simple string format, but there are a lot more operators and tricks
-to learn in order to performantly parse larger inputs.
-
 ## Topics
 
-### Articles
+### Parsing
+
+Combine a mix of data and logic parsers to describe the source data format and parse it into useful data structures.
 
 * <doc:GettingStarted>
+* <doc:ParsingData>
+* <doc:ParsingLogic>
+* <doc:Functional>
+* ``Parser``
+
+### Diving Deeper
+
+Learn about the library design and deeper topics like error handling and optimization.  
+
 * <doc:Design>
 * <doc:StringAbstractions>
 * <doc:ErrorMessages>
 * <doc:Backtracking>
+
+### Further Parsers
+
+* ``Parsers``
+
+## See Also
+
+The collecton of videos from Point-Free that dive deep into the development of the Parsing library.
+
+* [Parsing Point-Free Videos](https://www.pointfree.co/collections/parsing)
