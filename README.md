@@ -16,15 +16,12 @@ A library for turning nebulous data into well-structured data, with a focus on c
 
 ---
 
-- [swift-parsing](#swift-parsing)
-  - [Learn More](#learn-more)
-  - [Motivation](#motivation)
-  - [Getting started](#getting-started)
-    - [Error messages](#error-messages)
-  - [Benchmarks](#benchmarks)
-  - [Documentation](#documentation)
-  - [Other libraries](#other-libraries)
-  - [License](#license)
+* [Motivation](#motivation)
+* [Getting started](#getting-started)
+* [Benchmarks](#benchmarks)
+* [Documentation](#documentation)
+* [Other libraries](#other-libraries)
+* [License](#license)
 
 ## Learn More
 
