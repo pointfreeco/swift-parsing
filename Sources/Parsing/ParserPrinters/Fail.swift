@@ -48,7 +48,7 @@ public struct Fail<Input, Output>: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: Output, to input: inout Input) throws {
+  public func print(_ output: Output, into input: inout Input) throws {
     switch self.error {
     case is PrintingError:
       throw self.error

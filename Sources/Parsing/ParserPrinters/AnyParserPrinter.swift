@@ -36,7 +36,7 @@ public struct AnyParserPrinter<Input, Output>: ParserPrinter {
   /// - Parameter parser: A parser to wrap with a type eraser.
   @inlinable
   public init<P>(_ parserPrinter: P) where P: ParserPrinter, P.Input == Input, P.Output == Output {
-    self.init(parse: parserPrinter.parse(_:), print: parserPrinter.print(_:to:))
+    self.init(parse: parserPrinter.parse(_:), print: parserPrinter.print(_:into:))
   }
 
   /// Creates a parser-printer that wraps the given closures in its ``parse(_:)`` and
@@ -62,7 +62,7 @@ public struct AnyParserPrinter<Input, Output>: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: Output, to input: inout Input) throws {
+  public func print(_ output: Output, into input: inout Input) throws {
     try self.printer(output, &input)
   }
 }

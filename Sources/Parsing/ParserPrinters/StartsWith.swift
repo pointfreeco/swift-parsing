@@ -72,10 +72,10 @@ public struct StartsWith<Input: Collection>: Parser where Input.SubSequence == I
   }
 }
 
-extension StartsWith: Printer where Input: AppendableCollection {
+extension StartsWith: Printer where Input: PrependableCollection {
   @inlinable
-  public func print(_ output: (), to input: inout Input) {
-    input.append(contentsOf: self.possiblePrefix)
+  public func print(_ output: (), into input: inout Input) {
+    input.prepend(contentsOf: self.possiblePrefix)
   }
 }
 

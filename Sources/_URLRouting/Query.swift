@@ -16,7 +16,7 @@ where FieldParsers.Input == URLRequestData.Fields {
 
 extension Query: Printer where FieldParsers: Printer {
   @inlinable
-  public func print(_ output: FieldParsers.Output, to input: inout URLRequestData) rethrows {
-    try self.fieldParsers.print(output, to: &input.query)
+  public func print(_ output: FieldParsers.Output, into input: inout URLRequestData) rethrows {
+    try self.fieldParsers.print(output, into: &input.query)
   }
 }

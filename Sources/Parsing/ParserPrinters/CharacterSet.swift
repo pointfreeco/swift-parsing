@@ -9,9 +9,11 @@ extension CharacterSet: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: Substring, to input: inout Substring) throws {
-    guard output.unicodeScalars.allSatisfy(self.contains)
+  public func print(_ output: Substring, into input: inout Substring) throws {
+    guard
+      input.first?.unicodeScalars.allSatisfy(self.contains) != true,
+      output.unicodeScalars.allSatisfy(self.contains)
     else { throw PrintingError() }
-    input.append(contentsOf: output)
+    input.prepend(contentsOf: output)
   }
 }

@@ -82,7 +82,7 @@ where
   Upstream.Output: EmptyInitializable
 {
   @inlinable
-  public func print(_ output: Downstream.Output, to input: inout Upstream.Input) rethrows {
-    try self.upstream.print(self.downstream.print(output), to: &input)
+  public func print(_ output: Downstream.Output, into input: inout Upstream.Input) rethrows {
+    try self.upstream.print(self.downstream.print(output), into: &input)
   }
 }

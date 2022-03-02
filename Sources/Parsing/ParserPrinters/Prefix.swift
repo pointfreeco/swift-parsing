@@ -202,16 +202,16 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
   }
 }
 
-extension Prefix: Printer where Input: AppendableCollection {
+extension Prefix: Printer where Input: PrependableCollection {
   @inlinable
-  public func print(_ output: Input, to input: inout Input) throws {
+  public func print(_ output: Input, into input: inout Input) throws {
     let count = output.count
     guard
       count >= self.minLength,
       self.maxLength.map({ count <= $0 }) ?? true,
-      self.predicate.map({ output.allSatisfy($0) }) ?? true
+      self.predicate.map({ input.first.map($0) != true && output.allSatisfy($0) }) ?? true
     else { throw PrintingError() }
-    input.append(contentsOf: output)
+    input.prepend(contentsOf: output)
   }
 }
 

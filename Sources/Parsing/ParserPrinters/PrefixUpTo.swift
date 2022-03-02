@@ -43,14 +43,16 @@ public struct PrefixUpTo<Input: Collection>: Parser where Input.SubSequence == I
   }
 }
 
-extension PrefixUpTo: Printer where Input: AppendableCollection {
+extension PrefixUpTo: Printer where Input: PrependableCollection {
   @inlinable
-  public func print(_ output: Input, to input: inout Input) throws {
+  public func print(_ output: Input, into input: inout Input) throws {
+    guard input.starts(with: self.possibleMatch, by: self.areEquivalent)
+    else { throw PrintingError() }
     do {
       var output = output
       _ = try self.parse(&output)
     } catch {
-      input.append(contentsOf: output)
+      input.prepend(contentsOf: output)
       return
     }
     throw PrintingError()

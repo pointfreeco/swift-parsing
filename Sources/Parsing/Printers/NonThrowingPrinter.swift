@@ -15,7 +15,7 @@ extension Printers {
     }
 
     @inlinable
-    public func print(_ output: Output, to input: inout Input) {
+    public func print(_ output: Output, into input: inout Input) {
       self.printer(output, &input)
     }
   }

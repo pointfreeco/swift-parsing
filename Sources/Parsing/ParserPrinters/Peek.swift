@@ -22,7 +22,7 @@
 ///
 /// If you are building a parser-printer, avoid uses of `Peek` and instead prefer the use of
 /// ``map(_:)-2sblf`` with conversions that preserve printability.
-public struct Peek<Upstream: Parser>: Parser {
+public struct Peek<Upstream: Parser>: ParserPrinter {
   public let upstream: Upstream
 
   /// Construct a parser that runs the given parser, but does not consume any input.
@@ -38,5 +38,15 @@ public struct Peek<Upstream: Parser>: Parser {
     let original = input
     _ = try self.upstream.parse(&input)
     input = original
+  }
+
+  @inlinable
+  public func print(_ output: (), into input: inout Upstream.Input) throws {
+    do {
+      var i = input
+      _ = try self.upstream.parse(&i)
+    } catch {
+      throw PrintingError()
+    }
   }
 }

@@ -23,14 +23,17 @@ public struct Method: Parser {
   @inlinable
   public func parse(_ input: inout URLRequestData) throws {
     guard let method = input.method else { throw RoutingError() }
-    try Parse { self.name; End() }.parse(method)
+    try Parse {
+      self.name
+      End()
+    }.parse(method)
     input.method = nil
   }
 }
 
 extension Method: Printer {
   @inlinable
-  public func print(_ output: Void, to input: inout URLRequestData) {
+  public func print(_ output: (), into input: inout URLRequestData) {
     input.method = self.name
   }
 }

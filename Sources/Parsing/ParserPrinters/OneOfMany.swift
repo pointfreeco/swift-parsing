@@ -48,16 +48,21 @@ extension Parsers {
 
 extension Parsers.OneOfMany: Printer where Parsers: Printer {
   @inlinable
-  public func print(_ output: Parsers.Output, to input: inout Parsers.Input) throws {
+  public func print(_ output: Parsers.Output, into input: inout Parsers.Input) throws {
+    let original = input
+    var count = self.parsers.count
     var errors: [Error] = []
+    errors.reserveCapacity(count)
     for parser in self.parsers.reversed() {
       do {
-        try parser.print(output, to: &input)
+        try parser.print(output, into: &input)
         return
       } catch {
-        errors.append(error)
+        count -= 1
+        if count > 0 { input = original }
+        errors.insert(error, at: errors.startIndex)  // TODO: Should this be `append`?
       }
     }
-    throw PrintingError()
+    throw PrintingError.manyFailed(errors, at: input)
   }
 }

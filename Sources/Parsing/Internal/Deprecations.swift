@@ -21,9 +21,9 @@ where
 @available(*, deprecated, message: "Use 'From(.substring)' instead.")
 extension FromSubstring: Printer where SubstringParser: Printer {
   @inlinable
-  public func print(_ output: SubstringParser.Output, to input: inout Input) rethrows {
+  public func print(_ output: SubstringParser.Output, into input: inout Input) rethrows {
     var substringInput = self.toSubstring(input)
-    try self.substringParser.print(output, to: &substringInput)
+    try self.substringParser.print(output, into: &substringInput)
     input = self.fromSubstring(substringInput)
   }
 }
@@ -79,9 +79,9 @@ where
 @available(*, deprecated, message: "Use 'From(.unicodeScalars)' instead.")
 extension FromUnicodeScalarView: Printer where UnicodeScalarsParser: Printer {
   @inlinable
-  public func print(_ output: UnicodeScalarsParser.Output, to input: inout Input) rethrows {
+  public func print(_ output: UnicodeScalarsParser.Output, into input: inout Input) rethrows {
     var unicodeScalarsInput = self.toUnicodeScalars(input)
-    try self.unicodeScalarsParser.print(output, to: &unicodeScalarsInput)
+    try self.unicodeScalarsParser.print(output, into: &unicodeScalarsInput)
     input = self.fromUnicodeScalars(unicodeScalarsInput)
   }
 }
@@ -137,9 +137,9 @@ where
 @available(*, deprecated, message: "Use 'From(.utf8)' instead.")
 extension FromUTF8View: Printer where UTF8Parser: Printer {
   @inlinable
-  public func print(_ output: UTF8Parser.Output, to input: inout Input) rethrows {
+  public func print(_ output: UTF8Parser.Output, into input: inout Input) rethrows {
     var utf8Input = self.toUTF8(input)
-    try self.utf8Parser.print(output, to: &utf8Input)
+    try self.utf8Parser.print(output, into: &utf8Input)
     input = self.fromUTF8(utf8Input)
   }
 }

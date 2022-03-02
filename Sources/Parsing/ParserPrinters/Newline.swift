@@ -35,10 +35,10 @@ where
   }
 }
 
-extension Newline: Printer where Input: AppendableCollection, Bytes: AppendableCollection {
+extension Newline: Printer where Input: PrependableCollection, Bytes: PrependableCollection {
   @inlinable
-  public func print(_ output: (), to input: inout Input) {
-    input.append(contentsOf: self.fromBytes(.init("\n".utf8)))
+  public func print(_ output: (), into input: inout Input) {
+    input.prepend(contentsOf: self.fromBytes(.init("\n".utf8)))
   }
 }
 

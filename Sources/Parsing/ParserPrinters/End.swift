@@ -39,7 +39,10 @@ public struct End<Input: Collection>: Parser {
 
 extension End: Printer {
   @inlinable
-  public func print(_ output: Void, to input: inout Input) {}
+  public func print(_ output: (), into input: inout Input) throws {
+    guard input.isEmpty
+    else { throw PrintingError() }
+  }
 }
 
 extension End where Input == Substring {

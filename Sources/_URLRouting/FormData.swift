@@ -17,7 +17,8 @@ where FieldParsers.Input == URLRequestData.Fields {
     var fields: FieldParsers.Input = String(decoding: input, as: UTF8.self)
       .split(separator: "&")
       .reduce(into: [:]) { fields, field in
-        let pair = field
+        let pair =
+          field
           .split(separator: "=", maxSplits: 1, omittingEmptySubsequences: false)
           .compactMap { $0.replacingOccurrences(of: "+", with: " ").removingPercentEncoding }
         let name = pair[0]
@@ -34,9 +35,9 @@ where FieldParsers.Input == URLRequestData.Fields {
 
 extension FormData: Printer where FieldParsers: Printer {
   @inlinable
-  public func print(_ output: FieldParsers.Output, to input: inout ArraySlice<UInt8>) rethrows {
+  public func print(_ output: FieldParsers.Output, into input: inout ArraySlice<UInt8>) rethrows {
     var fields = URLRequestData.Fields()
-    try self.fieldParsers.print(output, to: &fields)
+    try self.fieldParsers.print(output, into: &fields)
     input = .init(encoding: fields)
   }
 }

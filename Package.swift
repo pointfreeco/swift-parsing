@@ -12,7 +12,7 @@ let package = Package(
     .library(
       name: "_URLRouting",
       targets: ["_URLRouting"]
-    )
+    ),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-argument-parser", from: "0.5.0"),
@@ -48,7 +48,8 @@ let package = Package(
       name: "_URLRouting", dependencies: ["Parsing"]
     ),
     .testTarget(
-      name: "_URLRoutingTests", dependencies: [
+      name: "_URLRoutingTests",
+      dependencies: [
         "_URLRouting",
         .product(name: "CustomDump", package: "swift-custom-dump"),
       ]

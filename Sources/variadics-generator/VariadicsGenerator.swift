@@ -186,12 +186,15 @@ struct VariadicsGenerator: ParsableCommand {
         outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
         output("\n    )")
       }
-      output(",\n    to input: inout P0.Input\n  ) rethrows {\n    ")
-      outputForEach(0..<arity, separator: "\n    ") {
-        let output = permutation.isCaptureless(at: $0) ? ""
-          : permutation.captureIndices.count == 1 ? "output, "
-          : "output.\(permutation.captureIndices.firstIndex(of: $0)!), "
-        return "try p\($0).print(\(output)to: &input)"
+      output(",\n    into input: inout P0.Input\n  ) rethrows {\n    ")
+      outputForEach((0..<arity).reversed(), separator: "\n    ") {
+        let output =
+          permutation.isCaptureless(at: $0)
+          ? ""
+          : permutation.captureIndices.count == 1
+            ? "output, "
+            : "output.\(permutation.captureIndices.firstIndex(of: $0)!), "
+        return "try p\($0).print(\(output)into: &input)"
       }
       output("\n  }\n}\n\n")
 
@@ -259,13 +262,14 @@ struct VariadicsGenerator: ParsableCommand {
       "P\($0).Output == P\($1).Output"
     }
     output("\n{\n  ")
-    output("@inlinable public func print(_ output: P0.Output, to input: inout P0.Input) rethrows {")
+    output(
+      "@inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {")
     output("\n    let original = input\n")
     outputForEach(Array(zip((0..<arity).reversed(), 0..<arity)), separator: "\n") {
       """
           \(String(repeating: "  ", count: $1))\
       do { \($0 == arity - 1 ? "" : "input = original; ")\
-      try self.p\($0).print(output, to: &input) } catch let e\($0) {
+      try self.p\($0).print(output, into: &input) } catch let e\($0) {
       """
     }
     output("\n    \(String(repeating: "  ", count: arity))throw PrintingError.manyFailed(")
@@ -339,12 +343,15 @@ struct VariadicsGenerator: ParsableCommand {
       }
       output("\n{\n  @inlinable public func print(\n    _ output: (\n")
       outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
-      output("\n    ),\n    to input: inout URLRequestData\n  ) rethrows {\n    ")
-      outputForEach(0..<arity, separator: "\n    ") {
-        let output = permutation.isCaptureless(at: $0) ? ""
-          : permutation.captureIndices.count == 1 ? "output"
-          : "output.\(permutation.captureIndices.firstIndex(of: $0)!)"
-        return "input.path.append(try p\($0).print(\(output)))"
+      output("\n    ),\n    into input: inout URLRequestData\n  ) rethrows {\n    ")
+      outputForEach((0..<arity).reversed(), separator: "\n    ") {
+        let output =
+          permutation.isCaptureless(at: $0)
+          ? ""
+          : permutation.captureIndices.count == 1
+            ? "output"
+            : "output.\(permutation.captureIndices.firstIndex(of: $0)!)"
+        return "input.path.prepend(try p\($0).print(\(output)))"
       }
       output("\n  }\n}\n\n")
 

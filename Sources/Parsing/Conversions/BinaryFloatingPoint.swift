@@ -7,9 +7,11 @@ extension Conversion where Self == Conversions.FixedWidthIntegerToBinaryFloating
 
 extension Conversion where Output == Int {
   @inlinable
-  public var double: Conversions.Map<
-    Self, Conversions.FixedWidthIntegerToBinaryFloatingPoint<Int, Double>
-  > { self.map(.double) }
+  public var double:
+    Conversions.Map<
+      Self, Conversions.FixedWidthIntegerToBinaryFloatingPoint<Int, Double>
+    >
+  { self.map(.double) }
 }
 
 extension Conversions {
@@ -17,7 +19,7 @@ extension Conversions {
     Input: FixedWidthInteger, Output: BinaryFloatingPoint
   >: Conversion {
     @usableFromInline
-    init () {}
+    init() {}
 
     @inlinable
     public func apply(_ input: Input) -> Output {

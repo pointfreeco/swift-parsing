@@ -55,7 +55,7 @@ final class PrefixThroughTests: XCTestCase {
 
   func testPrint() throws {
     var input = ""[...]
-    try PrefixThrough(",").print("Hello,", to: &input)
+    try PrefixThrough(",").print("Hello,", into: &input)
     XCTAssertNoDifference("Hello,", input)
   }
 }

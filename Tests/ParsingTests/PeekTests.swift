@@ -58,4 +58,80 @@ class PeekTests: XCTestCase {
     }
     XCTAssertNoDifference("blah"[...], input)
   }
+
+  func testPrintSkippedPeekSucceeds() {
+    var input = "!"[...]
+
+    let identifier = Parse {
+      Peek {
+        Prefix(1) { $0.isLetter || $0 == "_" }
+      }
+      .printing("")  // this will bypass actually printing the upstream parser in `Skip`
+      Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
+    }
+
+    XCTAssertNoThrow(try identifier.print("foo"[...], into: &input))
+    XCTAssertNoDifference(input, "foo!")
+  }
+
+  func testPrintSkippedPeekSucceedsUnexpectedly() {
+    var input = "!"[...]
+
+    let identifier = Parse {
+      Peek {
+        Prefix(1) { $0.isLetter || $0 == "_" }
+      }
+      .printing("")  // this will bypass actually printing the upstream parser in `Skip`
+      Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
+    }
+
+    // Should fail because '1' is not allowed for the first character, checked by the `Peek`,
+    // but parses because of `.printing("")` statement bypasses the `Peek`.
+    XCTAssertNoThrow(try identifier.print("1foo"[...], into: &input))
+    XCTAssertNoDifference(input, "1foo!")
+  }
+
+  func testPrintUpstreamParses() {
+    var input = "// a comment"[...]
+    let parser = Peek { "//" }
+    XCTAssertNoThrow(try parser.print((), into: &input))
+    XCTAssertNoDifference(input, "// a comment"[...])
+  }
+
+  func testPrintUpstreamFails() {
+    var input = "not a comment"[...]
+    let parser = Peek { "//" }
+    XCTAssertThrowsError(try parser.print((), into: &input))
+    XCTAssertNoDifference(input, "not a comment"[...])
+  }
+
+  func testPrintComplexParserSucceeds() {
+    var input = ""[...]
+
+    let commentedLine = Parse {
+      Peek { "//" }
+      Rest()
+    }
+
+    XCTAssertNoThrow(try commentedLine.print("// commented line"[...], into: &input))
+    XCTAssertNoDifference(
+      input,
+      "// commented line"
+    )
+  }
+
+  func testPrintComplexParserFails() {
+    var input = ""[...]
+
+    let commentedLine = Parse {
+      Peek { "//" }
+      Rest()
+    }
+
+    XCTAssertThrowsError(try commentedLine.print("uncommented line"[...], into: &input))
+    XCTAssertNoDifference(
+      input,
+      "uncommented line"
+    )
+  }
 }

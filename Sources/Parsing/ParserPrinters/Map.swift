@@ -62,7 +62,7 @@ extension Parser {
   /// - Parameter conversion: A conversion that transforms the output of this parser.
   /// - Returns: A parser of outputs.
   @inlinable
-  public func map<C>(_ conversion: C) -> Parsers.MapConversion<Self, C>  {
+  public func map<C>(_ conversion: C) -> Parsers.MapConversion<Self, C> {
     .init(upstream: self, downstream: conversion)
   }
 }
@@ -141,16 +141,16 @@ extension Parsers {
     }
 
     @inlinable
-    public func print(_ output: Downstream.Output, to input: inout Upstream.Input) rethrows {
-      try self.upstream.print(self.downstream.unapply(output), to: &input)
+    public func print(_ output: Downstream.Output, into input: inout Upstream.Input) rethrows {
+      try self.upstream.print(self.downstream.unapply(output), into: &input)
     }
   }
 }
 
 extension Parsers.MapConstant: Printer where Upstream: Printer, Output: Equatable {
   @inlinable
-  public func print(_ output: Output, to input: inout Upstream.Input) throws {
+  public func print(_ output: Output, into input: inout Upstream.Input) throws {
     guard output == self.output else { throw PrintingError() }
-    try self.upstream.print((), to: &input)
+    try self.upstream.print((), into: &input)
   }
 }

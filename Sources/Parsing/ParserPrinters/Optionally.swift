@@ -54,8 +54,8 @@ public struct Optionally<Wrapped: Parser>: Parser {
 
 extension Optionally: Printer where Wrapped: Printer {
   @inlinable
-  public func print(_ output: Wrapped.Output?, to input: inout Wrapped.Input) rethrows {
+  public func print(_ output: Wrapped.Output?, into input: inout Wrapped.Input) rethrows {
     guard let output = output else { return }
-    try? self.wrapped.print(output, to: &input) // TODO: Should this fail?
+    try? self.wrapped.print(output, into: &input)  // TODO: Should this fail?
   }
 }
