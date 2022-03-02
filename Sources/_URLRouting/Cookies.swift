@@ -35,7 +35,7 @@ extension Cookies: Printer where Parsers: Printer {
     var cookies = URLRequestData.Fields()
     try self.cookieParsers.print(output, into: &cookies)
 
-    input.headers["cookie", default: []].append(
+    input.headers["cookie", default: []].prepend(
       cookies
         .sorted(by: { $0.key < $1.key })
         .flatMap { name, values in values.map { "\(name)=\($0 ?? "")" } }

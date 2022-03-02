@@ -344,14 +344,14 @@ struct VariadicsGenerator: ParsableCommand {
       output("\n{\n  @inlinable public func print(\n    _ output: (\n")
       outputForEach(permutation.captureIndices, separator: ",\n") { "      P\($0).Output" }
       output("\n    ),\n    into input: inout URLRequestData\n  ) rethrows {\n    ")
-      outputForEach(0..<arity, separator: "\n    ") {
+      outputForEach((0..<arity).reversed(), separator: "\n    ") {
         let output =
           permutation.isCaptureless(at: $0)
           ? ""
           : permutation.captureIndices.count == 1
             ? "output"
             : "output.\(permutation.captureIndices.firstIndex(of: $0)!)"
-        return "input.path.append(try p\($0).print(\(output)))"
+        return "input.path.prepend(try p\($0).print(\(output)))"
       }
       output("\n  }\n}\n\n")
 

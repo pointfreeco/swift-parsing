@@ -45,6 +45,6 @@ where
 
 extension PathComponent: Printer where ComponentParser: Printer {
   public func print(_ output: ComponentParser.Output, into input: inout URLRequestData) rethrows {
-    try input.path.append(self.componentParser.print(output))
+    try input.path.prepend(self.componentParser.print(output))
   }
 }

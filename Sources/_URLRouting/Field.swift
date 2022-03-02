@@ -63,6 +63,6 @@ extension Field: Printer where Value: Printer {
   @inlinable
   public func print(_ output: Value.Output, into input: inout URLRequestData.Fields) rethrows {
     if let defaultValue = self.defaultValue, isEqual(output, defaultValue) { return }
-    input[self.name, default: []].append(try valueParser.print(output))
+    input[self.name, default: []].prepend(try valueParser.print(output))
   }
 }

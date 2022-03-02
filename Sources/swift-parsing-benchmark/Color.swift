@@ -20,9 +20,9 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
       return byte
     }
 
-    func print(_ output: UInt8, to input: inout Substring.UTF8View) {
+    func print(_ output: UInt8, into input: inout Substring.UTF8View) {
       let byte = String(output, radix: 16)
-      input.append(contentsOf: byte.count == 1 ? "0\(byte)".utf8 : "\(byte)".utf8)
+      input.prepend(contentsOf: byte.count == 1 ? "0\(byte)".utf8 : "\(byte)".utf8)
     }
   }
 

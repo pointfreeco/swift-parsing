@@ -43,8 +43,8 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -99,8 +99,8 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output))
-    input.path.append(try p1.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output))
   }
 }
 
@@ -155,8 +155,8 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output))
+    input.path.prepend(try p1.print(output))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -211,8 +211,8 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -277,9 +277,9 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -344,9 +344,9 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -411,9 +411,9 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -478,9 +478,9 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output))
   }
 }
 
@@ -545,9 +545,9 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -612,9 +612,9 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output))
-    input.path.append(try p2.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -679,9 +679,9 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output))
+    input.path.prepend(try p2.print(output))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -746,9 +746,9 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -823,10 +823,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -901,10 +901,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -979,10 +979,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -1057,10 +1057,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -1135,10 +1135,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -1213,10 +1213,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -1291,10 +1291,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -1369,10 +1369,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output))
   }
 }
 
@@ -1447,10 +1447,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1525,10 +1525,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1603,10 +1603,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1681,10 +1681,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1759,10 +1759,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1837,10 +1837,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output))
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1915,10 +1915,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output))
+    input.path.prepend(try p3.print(output))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1993,10 +1993,10 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -2081,11 +2081,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print(output.4))
+    input.path.prepend(try p4.print(output.4))
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2170,11 +2170,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2259,11 +2259,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.3))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2348,11 +2348,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2437,11 +2437,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2526,11 +2526,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2615,11 +2615,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2704,11 +2704,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2793,11 +2793,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2882,11 +2882,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2971,11 +2971,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -3060,11 +3060,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -3149,11 +3149,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -3238,11 +3238,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -3327,11 +3327,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -3416,11 +3416,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output))
   }
 }
 
@@ -3505,11 +3505,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3594,11 +3594,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3683,11 +3683,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3772,11 +3772,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3861,11 +3861,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3950,11 +3950,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4039,11 +4039,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4128,11 +4128,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4217,11 +4217,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4306,11 +4306,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4395,11 +4395,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4484,11 +4484,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4573,11 +4573,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.0))
-    input.path.append(try p4.print(output.1))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print(output.0))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4662,11 +4662,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4751,11 +4751,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output))
+    input.path.prepend(try p4.print(output))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4840,11 +4840,11 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4939,12 +4939,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print(output.4))
-    input.path.append(try p5.print(output.5))
+    input.path.prepend(try p5.print(output.5))
+    input.path.prepend(try p4.print(output.4))
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5039,12 +5039,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print(output.4))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.4))
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5139,12 +5139,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.4))
+    input.path.prepend(try p5.print(output.4))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5239,12 +5239,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5339,12 +5339,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print(output.4))
+    input.path.prepend(try p5.print(output.4))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5439,12 +5439,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5539,12 +5539,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5639,12 +5639,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5739,12 +5739,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print(output.4))
+    input.path.prepend(try p5.print(output.4))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5839,12 +5839,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5939,12 +5939,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6039,12 +6039,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6139,12 +6139,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6239,12 +6239,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6339,12 +6339,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6439,12 +6439,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6539,12 +6539,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print(output.4))
+    input.path.prepend(try p5.print(output.4))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6639,12 +6639,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6739,12 +6739,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6839,12 +6839,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6939,12 +6939,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -7039,12 +7039,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -7139,12 +7139,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -7239,12 +7239,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -7339,12 +7339,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -7439,12 +7439,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -7539,12 +7539,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -7639,12 +7639,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -7739,12 +7739,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -7839,12 +7839,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -7939,12 +7939,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.1))
+    input.path.prepend(try p5.print(output.1))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -8039,12 +8039,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output))
   }
 }
 
@@ -8139,12 +8139,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print(output.4))
+    input.path.prepend(try p5.print(output.4))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8239,12 +8239,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8339,12 +8339,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8439,12 +8439,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8539,12 +8539,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8639,12 +8639,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8739,12 +8739,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8839,12 +8839,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8939,12 +8939,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9039,12 +9039,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9139,12 +9139,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9239,12 +9239,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9339,12 +9339,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9439,12 +9439,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9539,12 +9539,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.1))
+    input.path.prepend(try p5.print(output.1))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9639,12 +9639,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9739,12 +9739,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9839,12 +9839,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9939,12 +9939,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -10039,12 +10039,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -10139,12 +10139,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -10239,12 +10239,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -10339,12 +10339,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.1))
+    input.path.prepend(try p5.print(output.1))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -10439,12 +10439,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -10539,12 +10539,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.0))
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print(output.0))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -10639,12 +10639,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.0))
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print(output.0))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -10739,12 +10739,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.0))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.1))
+    input.path.prepend(try p5.print(output.1))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.0))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -10839,12 +10839,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -10939,12 +10939,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.0))
-    input.path.append(try p5.print(output.1))
+    input.path.prepend(try p5.print(output.1))
+    input.path.prepend(try p4.print(output.0))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -11039,12 +11039,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -11139,12 +11139,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output))
+    input.path.prepend(try p5.print(output))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -11239,12 +11239,12 @@ where
     ),
     into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 

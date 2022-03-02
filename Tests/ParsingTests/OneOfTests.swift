@@ -202,27 +202,20 @@ final class OneOfTests: XCTestCase {
       case string(String)
     }
 
-    var json: AnyParser<Substring.UTF8View, JSONValue>!
+    var json: AnyParserPrinter<Substring.UTF8View, JSONValue>!
 
-    let unicode = Prefix(4) {
-      (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
-        || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
-        || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
-    }
-    .compactMap {
-      UInt32(Substring($0), radix: 16)
-        .flatMap(UnicodeScalar.init)
-        .map(String.init)
-    }
-
-    let string = Parse {
+    let string = ParsePrint {
       "\"".utf8
       Many(into: "") { string, fragment in
         string.append(contentsOf: fragment)
+      } iterator: { string in
+        string.map(String.init).reversed().makeIterator()
       } element: {
         OneOf {
-          Prefix(1...) { $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") }
-            .map { String(Substring($0)) }
+          Prefix(1...) {
+            $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") && $0 >= .init(ascii: " ")
+          }
+          .map(.string)
 
           Parse {
             "\\".utf8
@@ -236,7 +229,8 @@ final class OneOfTests: XCTestCase {
               "n".utf8.map { "\n" }
               "r".utf8.map { "\r" }
               "t".utf8.map { "\t" }
-              unicode
+
+              Prefix(4) { $0.isHexDigit }.map(.unicode)
             }
           }
         }
@@ -245,15 +239,17 @@ final class OneOfTests: XCTestCase {
       }
     }
 
-    let object = Parse {
+    let object = ParsePrint {
       "{".utf8
       Many(into: [String: JSONValue]()) { object, pair in
         let (name, value) = pair
         object[name] = value
+      } iterator: { object in
+        (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue)]).reversed().makeIterator()
       } element: {
-        Skip { Whitespace() }
+        Skip { Whitespace() }.printing("".utf8)
         string
-        Skip { Whitespace() }
+        Skip { Whitespace() }.printing("".utf8)
         ":".utf8
         Lazy { json! }
       } separator: {
@@ -263,7 +259,7 @@ final class OneOfTests: XCTestCase {
       }
     }
 
-    let array = Parse {
+    let array = ParsePrint {
       "[".utf8
       Many {
         Lazy { json! }
@@ -274,19 +270,19 @@ final class OneOfTests: XCTestCase {
       }
     }
 
-    json = Parse {
-      Skip { Whitespace() }
+    json = ParsePrint {
+      Skip { Whitespace() }.printing("".utf8)
       OneOf {
-        object.map(JSONValue.object)
-        array.map(JSONValue.array)
-        string.map(JSONValue.string)
-        Double.parser().map(JSONValue.number)
-        Bool.parser().map(JSONValue.boolean)
+        object.map(.case(JSONValue.object))
+        array.map(.case(JSONValue.array))
+        string.map(.case(JSONValue.string))
+        Double.parser().map(.case(JSONValue.number))
+        Bool.parser().map(.case(JSONValue.boolean))
         "null".utf8.map { JSONValue.null }
       }
-      Skip { Whitespace() }
+      Skip { Whitespace() }.printing("".utf8)
     }
-    .eraseToAnyParser()
+    .eraseToAnyParserPrinter()
 
     let input = #"""
       {
@@ -307,10 +303,25 @@ final class OneOfTests: XCTestCase {
         error: multiple failures occurred
 
         error: unexpected input
-         --> input:6:4
-        6 |   "ys": {
-          |    ^ expected ","
-          |    ^ expected "]"
+         --> input:5:34
+        5 | …hello, null, false],
+          |                      ^ expected 1 element satisfying predicate
+          |                      ^ expected "\\"
+          |                      ^ expected "\""
+
+        error: unexpected input
+         --> input:5:13
+        5 |   "xs": [1, "hello, null, false],
+          |             ^ expected "{"
+          |             ^ expected "["
+          |             ^ expected double
+          |             ^ expected "true" or "false"
+          |             ^ expected "null"
+
+        error: unexpected input
+         --> input:5:11
+        5 |   "xs": [1, "hello, null, false],
+          |           ^ expected "]"
 
         error: unexpected input
          --> input:5:9
@@ -338,5 +349,29 @@ final class OneOfTests: XCTestCase {
         "\(error)"
       )
     }
+  }
+}
+
+extension UTF8.CodeUnit {
+  fileprivate var isHexDigit: Bool {
+    (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
+      || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
+      || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
+  }
+}
+
+extension Conversion where Self == AnyConversion<Substring.UTF8View, String> {
+  fileprivate static var unicode: Self {
+    Self(
+      apply: {
+        UInt32(Substring($0), radix: 16)
+          .flatMap(UnicodeScalar.init)
+          .map(String.init)
+      },
+      unapply: {
+        $0.unicodeScalars.first
+          .map { String(UInt32($0), radix: 16)[...].utf8 }
+      }
+    )
   }
 }

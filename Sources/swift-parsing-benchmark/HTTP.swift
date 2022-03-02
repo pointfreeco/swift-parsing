@@ -30,7 +30,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
       Prefix(1...) { $0.isHorizontalSpace }
     }
     .printing(" ".utf8)
-    Prefix { $0.isNewline }
+    Prefix { !$0.isNewline }
     Newline()
   }
 
