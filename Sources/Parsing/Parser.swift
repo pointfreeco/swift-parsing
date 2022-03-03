@@ -33,16 +33,21 @@
 /// * <doc:Backtracking>
 @rethrows public protocol Parser {
   /// The type of values this parser parses from.
-  associatedtype Input
+  associatedtype ParseInput
 
   /// The type of values parsed by this parser.
-  associatedtype Output
+  associatedtype ParseOutput
 
   /// Attempts to parse a nebulous piece of data into something more well-structured.
   ///
   /// - Parameter input: A nebulous, mutable piece of data to be incrementally parsed.
   /// - Returns: A more well-structured value parsed from the given input.
   func parse(_ input: inout Input) throws -> Output
+}
+
+extension Parser {
+  public typealias Input = ParseInput
+  public typealias Output = ParseOutput
 }
 
 extension Parser {

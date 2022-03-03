@@ -3,19 +3,20 @@
 /// Note: Printing is the reverse operation of parsing, so the `Input` is essentially built up in reverse.
 /// As such, new values should be prepended to the front of the input. This allows parsers to check that
 /// the already-printed values match what is expected for any given ``Parser``.
-@rethrows public protocol Printer {
-  /// The type of values this printer prints into.
-  associatedtype Input
-
+@rethrows public protocol Printer: Parser
+where PrintInput == ParseOutput, PrintOutput == ParseInput {
   /// The type of values this printer prints.
-  associatedtype Output
+  associatedtype PrintInput
+
+  /// The type of values this printer prints into.
+  associatedtype PrintOutput
 
   /// Attempts to print a well-structured piece of data into something more nebulous.
   ///
   /// - Parameters
   ///   - output: A well-structured value to be printed to the given input.
   ///   - input: A nebulous, mutable piece of data to be incrementally printed into.
-  func print(_ output: Output, into input: inout Input) throws
+  func print(_ input: PrintInput, into output: inout PrintOutput) throws
 }
 
 extension Printer where Input: EmptyInitializable {
@@ -24,10 +25,10 @@ extension Printer where Input: EmptyInitializable {
   /// - Parameter output: A well-structured piece of data to be printed.
   /// - Returns: A more nebulous value printed from the given output.
   @inlinable
-  public func print(_ output: Output) rethrows -> Input {
-    var input = Input()
-    try self.print(output, into: &input)
-    return input
+  public func print(_ input: PrintInput) rethrows -> Input {
+    var output = Input()
+    try self.print(input, into: &output)
+    return output
   }
 }
 
