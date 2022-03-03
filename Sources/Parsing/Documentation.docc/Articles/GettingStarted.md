@@ -64,7 +64,7 @@ It would be more straightforward and efficient to instead describe how to consum
 beginning of the input and convert that into users. This is what this parser library excels at 😄.
 
 We can start by describing what it means to parse a single row, first by parsing an integer off the
-front of the string, and then parsing a comma. We can do this by using the `Parse` type, which acts
+front of the string, and then parsing a comma. We can do this by using the ``Parse`` type, which acts
 as an entry point into describing a list of parsers that you want to run one after the other to
 consume from an input:
 
@@ -288,7 +288,7 @@ let user = Parse(User.init) {
   Bool.parser()
 }
 
-try user.parse("1,"Blob, Esq.",true") // User(id: 1, name: "Blob, Esq.", admin: true)
+try user.parse("1,\"Blob, Esq.\",true") // User(id: 1, name: "Blob, Esq.", admin: true)
 ```
 
 It was quite straightforward to improve the `user` parser to handle quoted fields. Doing the same

@@ -130,7 +130,7 @@ let city = OneOf {
   "Los Angeles".utf8.map { City.losAngeles }
   "New York".utf8.map { City.newYork }
   "San Jos\u{00E9}".utf8.map { City.sanJose }
-  "San Jos\u{0301}".utf8.map { City.sanJose }
+  "San Jose\u{0301}".utf8.map { City.sanJose }
 }
 
 city.parse("San Jos\u{00E9}".utf8)  // ✅
