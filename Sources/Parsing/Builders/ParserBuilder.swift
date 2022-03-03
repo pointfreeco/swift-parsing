@@ -1,5 +1,5 @@
-/// A custom parameter attribute that constructs a parser that attempts to run a number of parsers,
-/// one after the other, and accumulates their outputs.
+/// A custom parameter attribute that constructs parsers from closures. The constructed parser
+/// runs a number of parsers, one after the other, and accumulates their outputs.
 ///
 /// The ``Parse`` parser acts as an entry point into `@ParserBuilder` syntax, where you can list
 /// all of the parsers you want to run. For example, to parse two comma-separated integers:
