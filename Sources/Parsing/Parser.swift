@@ -114,10 +114,10 @@ extension Parser {
   /// > you can do so like this:
   /// > ```swift
   /// > let output = try Parse {
-  /// >  Int.parser()
-  /// >  ",".utf8
-  /// >  Bool.parser()
-  /// >  Skip { Whitespace() }
+  /// >   Int.parser()
+  /// >   ",".utf8
+  /// >   Bool.parser()
+  /// >   Skip { Whitespace() }
   /// > }
   /// > .parse("123,true    ") // (123, true)
   /// > ```
