@@ -32,9 +32,9 @@ where
   }
 }
 
-extension Whitespace: Printer where Input: AppendableCollection {
+extension Whitespace: Printer where Input: PrependableCollection {
   @inlinable
-  public func print(_ output: Input, to input: inout Input) throws {
+  public func print(_ output: Input, into input: inout Input) throws {
     guard
       self.toBytes(output).allSatisfy({ (byte: UTF8.CodeUnit) in
         byte == .init(ascii: " ")
@@ -43,7 +43,7 @@ extension Whitespace: Printer where Input: AppendableCollection {
           || byte == .init(ascii: "\t")
       })
     else { throw PrintingError() }
-    return input.append(contentsOf: output)
+    return input.prepend(contentsOf: output)
   }
 }
 

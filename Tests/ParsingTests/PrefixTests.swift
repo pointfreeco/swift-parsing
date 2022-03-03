@@ -88,4 +88,12 @@ final class PrefixTests: XCTestCase {
     XCTAssertNoDifference("4", try Prefix(1, while: { $0.isNumber }).parse(&input))
     XCTAssertNoDifference("2 Hello, world!", input)
   }
+
+  func testPrintUpstreamInputFailure() {
+    let p = ParsePrint {
+      Prefix { $0 != "\n" }
+      First()
+    }
+    XCTAssertThrowsError(try p.print(("Hello", " ")))
+  }
 }

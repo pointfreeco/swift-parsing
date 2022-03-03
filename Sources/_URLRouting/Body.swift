@@ -21,7 +21,7 @@ public struct Body<Bytes: Parser>: Parser where Bytes.Input == ArraySlice<UInt8>
 
 extension Body: Printer where Bytes: Printer {
   @inlinable
-  public func print(_ output: Bytes.Output, to input: inout URLRequestData) rethrows {
+  public func print(_ output: Bytes.Output, into input: inout URLRequestData) rethrows {
     input.body = try self.bytesParser.print(output)
   }
 }

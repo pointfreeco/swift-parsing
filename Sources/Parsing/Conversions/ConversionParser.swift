@@ -18,7 +18,7 @@ extension Conversions {
   public struct Parser<Upstream>: Conversion
   where
     Upstream: ParserPrinter,
-    Upstream.Input: AppendableCollection
+    Upstream.Input: PrependableCollection
   {
     public let parser: Upstream
 
@@ -30,7 +30,11 @@ extension Conversions {
     @inlinable
     public func apply(_ input: Upstream.Input) rethrows -> Upstream.Output {
       // TODO: Should `End` *not* be baked in?
-      try Parse { self.parser; End<Upstream.Input>() }.parse(input)
+      try Parse {
+        self.parser
+        End<Upstream.Input>()
+      }
+      .parse(input)
     }
 
     @inlinable

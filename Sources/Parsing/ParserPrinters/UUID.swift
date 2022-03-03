@@ -136,9 +136,9 @@ extension Parsers {
   }
 }
 
-extension Parsers.UUIDParser: Printer where Input: AppendableCollection {
+extension Parsers.UUIDParser: Printer where Input: PrependableCollection {
   @inlinable
-  public func print(_ output: UUID, to input: inout Input) {
-    input.append(contentsOf: output.uuidString.utf8)
+  public func print(_ output: UUID, into input: inout Input) {
+    input.prepend(contentsOf: output.uuidString.utf8)
   }
 }

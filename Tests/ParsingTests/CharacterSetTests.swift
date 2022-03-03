@@ -44,4 +44,12 @@ final class CharacterSetTests: XCTestCase {
     XCTAssertNoDifference(firstOutput, "123")
     XCTAssertTrue(secondOutput.isEmpty)
   }
+
+  func testPrintUpstreamInputFailure() {
+    let p = ParsePrint {
+      CharacterSet(charactersIn: "\n").inverted
+      First()
+    }
+    XCTAssertThrowsError(try p.print(("Hello", " ")))
+  }
 }

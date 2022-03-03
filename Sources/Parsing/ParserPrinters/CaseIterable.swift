@@ -56,7 +56,7 @@ extension CaseIterable where Self: RawRepresentable, RawValue == String {
     of inputType: Input.Type = Input.self
   ) -> Parsers.CaseIterableRawRepresentableParser<Input, Self>
   where
-    Input: AppendableCollection,
+    Input: PrependableCollection,
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit
   {
@@ -106,9 +106,9 @@ extension Parsers {
   }
 }
 
-extension Parsers.CaseIterableRawRepresentableParser: Printer where Input: AppendableCollection {
+extension Parsers.CaseIterableRawRepresentableParser: Printer where Input: PrependableCollection {
   @inlinable
-  public func print(_ output: Output, to input: inout Input) {
-    input.append(contentsOf: self.toInput(output.rawValue))
+  public func print(_ output: Output, into input: inout Input) {
+    input.prepend(contentsOf: self.toInput(output.rawValue))
   }
 }

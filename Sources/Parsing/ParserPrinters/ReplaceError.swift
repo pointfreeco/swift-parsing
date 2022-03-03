@@ -71,12 +71,13 @@ extension Parsers {
 
 extension Parsers.ReplaceError: Printer where Upstream: Printer {
   @inlinable
-  public func print(_ output: Upstream.Output, to input: inout Upstream.Input) {
+  public func print(_ output: Upstream.Output, into input: inout Upstream.Input) {
     let original = input
     do {
-      try self.upstream.print(output, to: &input)
+      try self.upstream.print(output, into: &input)
       var `default` = original
-      if (try? self.upstream.print(self.output, to: &`default`)) != nil, isEqual(input, `default`) {
+      if (try? self.upstream.print(self.output, into: &`default`)) != nil, isEqual(input, `default`)
+      {
         input = original
       }
     } catch {

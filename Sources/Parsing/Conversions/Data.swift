@@ -31,11 +31,11 @@ extension Conversion where Output == Substring.UTF8View {
 extension Conversions {
   public struct BytesToData<Input>: Conversion
   where
-    Input: AppendableCollection,
+    Input: PrependableCollection,
     Input.Element == UInt8
   {
     @usableFromInline
-    init () {}
+    init() {}
 
     @inlinable
     public func apply(_ input: Input) -> Data {

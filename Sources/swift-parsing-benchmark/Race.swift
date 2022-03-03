@@ -194,8 +194,8 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   }
 }
 
-private extension Conversion where Self == AnyConversion<(Double, Double), Double> {
-  static var multiplySign: Self {
+extension Conversion where Self == AnyConversion<(Double, Double), Double> {
+  fileprivate static var multiplySign: Self {
     .init(
       apply: *,
       unapply: { $0 < 0 ? (abs($0), -1) : ($0, 1) }
@@ -203,8 +203,8 @@ private extension Conversion where Self == AnyConversion<(Double, Double), Doubl
   }
 }
 
-private extension Conversion where Self == AnyConversion<[Void], Int> {
-  static var count: Self {
+extension Conversion where Self == AnyConversion<[Void], Int> {
+  fileprivate static var count: Self {
     .init(
       apply: \.count,
       unapply: { Array(repeating: (), count: $0) }

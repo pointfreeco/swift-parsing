@@ -75,7 +75,7 @@ public struct Always<Input, Output>: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: Output, to input: inout Input) {}
+  public func print(_ output: Output, into input: inout Input) {}
 
   @inlinable
   public func map<NewOutput>(

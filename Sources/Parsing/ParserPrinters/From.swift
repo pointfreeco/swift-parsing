@@ -25,9 +25,9 @@ where
   }
 
   @inlinable
-  public func print(_ output: Downstream.Output, to input: inout Upstream.Input) rethrows {
+  public func print(_ output: Downstream.Output, into input: inout Upstream.Input) rethrows {
     var parserInput = try self.conversion.apply(input)
-    try self.parser.print(output, to: &parserInput)
+    try self.parser.print(output, into: &parserInput)
     input = try self.conversion.unapply(parserInput)
   }
 }
@@ -43,7 +43,7 @@ extension Parsers {
     }
 
     @inlinable
-    public func print(_ output: InputOutput, to input: inout InputOutput) {
+    public func print(_ output: InputOutput, into input: inout InputOutput) {
       input = output
     }
   }

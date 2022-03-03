@@ -52,7 +52,7 @@ extension Conversions {
   /// hood.
   public struct BytesToString<Input>: Conversion
   where
-    Input: AppendableCollection,
+    Input: PrependableCollection,
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit
   {

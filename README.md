@@ -254,10 +254,6 @@ README Example.Scanner           19786.000 ns ±  35.26 %      62125
 
 That's the basics of parsing a simple string format, but there's a lot more operators and tricks to learn in order to performantly parse larger inputs. Read the [documentation][swift-parsing-docs] to dive more deeply into the concepts of parsing, and view the [benchmarks](Sources/swift-parsing-benchmark) for more examples of real life parsing scenarios.
 
-### Error messages
-
-All parsers and operators that ship with this library provide 
-
 ## Benchmarks
 
 This library comes with a benchmark executable that not only demonstrates the performance of the library, but also provides a wide variety of parsing examples:

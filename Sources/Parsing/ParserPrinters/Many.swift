@@ -80,7 +80,7 @@ where
 {
   public let element: Element
   public let initialResult: Result
-  public let iterator: (Result) -> AnyIterator<Element.Output>
+  public let iterator: (Result) throws -> AnyIterator<Element.Output>
   public let maximum: Int
   public let minimum: Int
   public let separator: Separator
@@ -173,14 +173,14 @@ extension Many where Printability == Void {
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) -> Iterator,
+    iterator: @escaping (Result) throws -> Iterator,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator,
     @ParserBuilder terminator: () -> Terminator
   ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output, Printability == Void {
     self.element = element()
     self.initialResult = initialResult
-    self.iterator = { AnyIterator(iterator($0)) }
+    self.iterator = { AnyIterator(try iterator($0)) }
     self.maximum = maximum
     self.minimum = minimum
     self.separator = separator()
@@ -234,17 +234,18 @@ where
   Printability == Void
 {
   @inlinable
-  public func print(_ output: Result, to input: inout Element.Input) throws {
-    let iterator = self.iterator(output)
+  public func print(_ output: Result, into input: inout Element.Input) throws {
+    try self.terminator.print(into: &input)
+    let iterator = try self.iterator(output)
     guard let first = iterator.next() else {
       guard self.minimum == 0 else { throw PrintingError() }
       return
     }
-    try self.element.print(first, to: &input)
+    try self.element.print(first, into: &input)
     var count = 1
     while let element = iterator.next() {
-      try self.separator.print(to: &input)
-      try self.element.print(element, to: &input)
+      try self.separator.print(into: &input)
+      try self.element.print(element, into: &input)
       count += 1
       guard count <= self.maximum
       else {
@@ -255,7 +256,6 @@ where
     else {
       throw PrintingError()
     }
-    try self.terminator.print(to: &input)
   }
 }
 
@@ -283,7 +283,7 @@ where
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) -> Iterator,
+    iterator: @escaping (Result) throws -> Iterator,
     @ParserBuilder element: () -> Element
   ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
     self.init(
@@ -332,7 +332,7 @@ extension Many where Separator == Always<Input, Void>, Printability == Void {
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) -> Iterator,
+    iterator: @escaping (Result) throws -> Iterator,
     @ParserBuilder element: () -> Element,
     @ParserBuilder terminator: () -> Terminator
   ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
@@ -378,7 +378,7 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
     atLeast minimum: Int = 0,
     atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) -> Iterator,
+    iterator: @escaping (Result) throws -> Iterator,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) where Iterator: IteratorProtocol, Iterator.Element == Element.Output {
@@ -387,7 +387,7 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
       atLeast: minimum,
       atMost: maximum,
       updateAccumulatingResult,
-      iterator: { AnyIterator(iterator($0)) },
+      iterator: { AnyIterator(try iterator($0)) },
       element: element,
       separator: separator,
       terminator: { Always<Input, Void>(()) }
@@ -440,7 +440,7 @@ extension Many where Result == [Element.Output], Printability == Void {
       atLeast: minimum,
       atMost: maximum,
       { $0.append($1) },
-      iterator: { $0.makeIterator() },
+      iterator: { $0.reversed().makeIterator() },
       element: element,
       separator: separator,
       terminator: terminator
@@ -474,7 +474,7 @@ where
       atLeast: minimum,
       atMost: maximum,
       { $0.append($1) },
-      iterator: { $0.makeIterator() },
+      iterator: { $0.reversed().makeIterator() },
       element: element
     )
   }
@@ -498,7 +498,7 @@ where
       atLeast: minimum,
       atMost: maximum,
       { $0.append($1) },
-      iterator: { $0.makeIterator() },
+      iterator: { $0.reversed().makeIterator() },
       element: element,
       terminator: terminator
     )
@@ -523,7 +523,7 @@ where
       atLeast: minimum,
       atMost: maximum,
       { $0.append($1) },
-      iterator: { $0.makeIterator() },
+      iterator: { $0.reversed().makeIterator() },
       element: element,
       separator: separator
     )

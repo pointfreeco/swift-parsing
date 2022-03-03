@@ -19,8 +19,14 @@ where
     P1.Output
   ) {
     guard input.path.count >= 2 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -35,10 +41,10 @@ where
       P0.Output,
       P1.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -69,8 +75,14 @@ where
     P0.Output
   ) {
     guard input.path.count >= 2 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -85,10 +97,10 @@ where
     _ output: (
       P0.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output))
-    input.path.append(try p1.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output))
   }
 }
 
@@ -119,8 +131,14 @@ where
     P1.Output
   ) {
     guard input.path.count >= 2 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -135,10 +153,10 @@ where
     _ output: (
       P1.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output))
+    input.path.prepend(try p1.print(output))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -166,12 +184,16 @@ where
     self.p1 = p1
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
-
-  ) {
+  @inlinable public func parse(_ input: inout URLRequestData) throws {
     guard input.path.count >= 2 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -187,10 +209,10 @@ where
     _ output: (
 
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -225,9 +247,18 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -244,11 +275,11 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -283,9 +314,18 @@ where
     P1.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -302,11 +342,11 @@ where
       P0.Output,
       P1.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -341,9 +381,18 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -360,11 +409,11 @@ where
       P0.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -399,9 +448,18 @@ where
     P0.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -418,11 +476,11 @@ where
     _ output: (
       P0.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output))
   }
 }
 
@@ -457,9 +515,18 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -476,11 +543,11 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -515,9 +582,18 @@ where
     P1.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -534,11 +610,11 @@ where
     _ output: (
       P1.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output))
-    input.path.append(try p2.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -573,9 +649,18 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -592,11 +677,11 @@ where
     _ output: (
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output))
+    input.path.prepend(try p2.print(output))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -628,13 +713,20 @@ where
     self.p2 = p2
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
-
-  ) {
+  @inlinable public func parse(_ input: inout URLRequestData) throws {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -652,11 +744,11 @@ where
     _ output: (
 
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -695,10 +787,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3)
   }
 }
@@ -717,12 +821,12 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -761,10 +865,22 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -783,12 +899,12 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -827,10 +943,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3)
   }
 }
@@ -849,12 +977,12 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -893,10 +1021,22 @@ where
     P1.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -915,12 +1055,12 @@ where
       P0.Output,
       P1.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -959,10 +1099,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3)
   }
 }
@@ -981,12 +1133,12 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -1025,10 +1177,22 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -1047,12 +1211,12 @@ where
       P0.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -1091,10 +1255,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3)
   }
 }
@@ -1113,12 +1289,12 @@ where
       P0.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -1157,10 +1333,22 @@ where
     P0.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -1179,12 +1367,12 @@ where
     _ output: (
       P0.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output))
   }
 }
 
@@ -1223,10 +1411,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3)
   }
 }
@@ -1245,12 +1445,12 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1289,10 +1489,22 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -1311,12 +1523,12 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1355,10 +1567,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3)
   }
 }
@@ -1377,12 +1601,12 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1421,10 +1645,22 @@ where
     P1.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -1443,12 +1679,12 @@ where
     _ output: (
       P1.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1487,10 +1723,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3)
   }
 }
@@ -1509,12 +1757,12 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1553,10 +1801,22 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -1575,12 +1835,12 @@ where
     _ output: (
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output))
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1619,10 +1879,22 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return (o3)
   }
 }
@@ -1641,12 +1913,12 @@ where
     _ output: (
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output))
+    input.path.prepend(try p3.print(output))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1682,14 +1954,24 @@ where
     self.p3 = p3
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
-
-  ) {
+  @inlinable public func parse(_ input: inout URLRequestData) throws {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -1709,12 +1991,12 @@ where
     _ output: (
 
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -1757,11 +2039,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o4)
   }
 }
@@ -1782,13 +2079,13 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print(output.4))
+    input.path.prepend(try p4.print(output.4))
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -1831,11 +2128,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3)
   }
 }
@@ -1856,13 +2168,13 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -1905,11 +2217,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o4)
   }
 }
@@ -1930,13 +2257,13 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.3))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -1979,11 +2306,26 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -2004,13 +2346,13 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2053,11 +2395,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3, o4)
   }
 }
@@ -2078,13 +2435,13 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2127,11 +2484,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3)
   }
 }
@@ -2152,13 +2524,13 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2201,11 +2573,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o4)
   }
 }
@@ -2226,13 +2613,13 @@ where
       P1.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2275,11 +2662,26 @@ where
     P1.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -2300,13 +2702,13 @@ where
       P0.Output,
       P1.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2349,11 +2751,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3, o4)
   }
 }
@@ -2374,13 +2791,13 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2423,11 +2840,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3)
   }
 }
@@ -2448,13 +2880,13 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2497,11 +2929,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o4)
   }
 }
@@ -2522,13 +2969,13 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2571,11 +3018,26 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -2596,13 +3058,13 @@ where
       P0.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2645,11 +3107,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3, o4)
   }
 }
@@ -2670,13 +3147,13 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2719,11 +3196,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3)
   }
 }
@@ -2744,13 +3236,13 @@ where
       P0.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2793,11 +3285,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o4)
   }
 }
@@ -2818,13 +3325,13 @@ where
       P0.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -2867,11 +3374,26 @@ where
     P0.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -2892,13 +3414,13 @@ where
     _ output: (
       P0.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output))
   }
 }
 
@@ -2941,11 +3463,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3, o4)
   }
 }
@@ -2966,13 +3503,13 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3015,11 +3552,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3)
   }
 }
@@ -3040,13 +3592,13 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3089,11 +3641,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o4)
   }
 }
@@ -3114,13 +3681,13 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3163,11 +3730,26 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -3188,13 +3770,13 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3237,11 +3819,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3, o4)
   }
 }
@@ -3262,13 +3859,13 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3311,11 +3908,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3)
   }
 }
@@ -3336,13 +3948,13 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3385,11 +3997,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o4)
   }
 }
@@ -3410,13 +4037,13 @@ where
       P1.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3459,11 +4086,26 @@ where
     P1.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -3484,13 +4126,13 @@ where
     _ output: (
       P1.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3533,11 +4175,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3, o4)
   }
 }
@@ -3558,13 +4215,13 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3607,11 +4264,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3)
   }
 }
@@ -3632,13 +4304,13 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3681,11 +4353,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o4)
   }
 }
@@ -3706,13 +4393,13 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3755,11 +4442,26 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -3780,13 +4482,13 @@ where
     _ output: (
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3829,11 +4531,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o3, o4)
   }
 }
@@ -3854,13 +4571,13 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.0))
-    input.path.append(try p4.print(output.1))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print(output.0))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3903,11 +4620,26 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o3)
   }
 }
@@ -3928,13 +4660,13 @@ where
     _ output: (
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output))
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -3977,11 +4709,26 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return (o4)
   }
 }
@@ -4002,13 +4749,13 @@ where
     _ output: (
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output))
+    input.path.prepend(try p4.print(output))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4048,15 +4795,28 @@ where
     self.p4 = p4
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
-
-  ) {
+  @inlinable public func parse(_ input: inout URLRequestData) throws {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -4078,13 +4838,13 @@ where
     _ output: (
 
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -4131,12 +4891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o4, o5)
   }
 }
@@ -4159,14 +4937,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print(output.4))
-    input.path.append(try p5.print(output.5))
+    input.path.prepend(try p5.print(output.5))
+    input.path.prepend(try p4.print(output.4))
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -4213,12 +4991,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o4)
   }
 }
@@ -4241,14 +5037,14 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print(output.4))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.4))
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -4295,12 +5091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o5)
   }
 }
@@ -4323,14 +5137,14 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.4))
+    input.path.prepend(try p5.print(output.4))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -4377,12 +5191,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o3)
   }
 }
@@ -4405,14 +5237,14 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print(output.3))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.3))
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -4459,12 +5291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o4, o5)
   }
 }
@@ -4487,14 +5337,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print(output.4))
+    input.path.prepend(try p5.print(output.4))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -4541,12 +5391,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o4)
   }
 }
@@ -4569,14 +5437,14 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -4623,12 +5491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2, o5)
   }
 }
@@ -4651,14 +5537,14 @@ where
       P2.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -4705,12 +5591,30 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -4733,14 +5637,14 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print(output.2))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.2))
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -4787,12 +5691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3, o4, o5)
   }
 }
@@ -4815,14 +5737,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print(output.4))
+    input.path.prepend(try p5.print(output.4))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -4869,12 +5791,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3, o4)
   }
 }
@@ -4897,14 +5837,14 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -4951,12 +5891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3, o5)
   }
 }
@@ -4979,14 +5937,14 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5033,12 +5991,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o3)
   }
 }
@@ -5061,14 +6037,14 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5115,12 +6091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o4, o5)
   }
 }
@@ -5143,14 +6137,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5197,12 +6191,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o4)
   }
 }
@@ -5225,14 +6237,14 @@ where
       P1.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5279,12 +6291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1, o5)
   }
 }
@@ -5307,14 +6337,14 @@ where
       P1.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5361,12 +6391,30 @@ where
     P1.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -5389,14 +6437,14 @@ where
       P0.Output,
       P1.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print(output.1))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.1))
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5443,12 +6491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3, o4, o5)
   }
 }
@@ -5471,14 +6537,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print(output.4))
+    input.path.prepend(try p5.print(output.4))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5525,12 +6591,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3, o4)
   }
 }
@@ -5553,14 +6637,14 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5607,12 +6691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3, o5)
   }
 }
@@ -5635,14 +6737,14 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5689,12 +6791,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o3)
   }
 }
@@ -5717,14 +6837,14 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5771,12 +6891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o4, o5)
   }
 }
@@ -5799,14 +6937,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5853,12 +6991,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o4)
   }
 }
@@ -5881,14 +7037,14 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -5935,12 +7091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2, o5)
   }
 }
@@ -5963,14 +7137,14 @@ where
       P2.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6017,12 +7191,30 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -6045,14 +7237,14 @@ where
       P0.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6099,12 +7291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3, o4, o5)
   }
 }
@@ -6127,14 +7337,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6181,12 +7391,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3, o4)
   }
 }
@@ -6209,14 +7437,14 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6263,12 +7491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3, o5)
   }
 }
@@ -6291,14 +7537,14 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6345,12 +7591,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o3)
   }
 }
@@ -6373,14 +7637,14 @@ where
       P0.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6427,12 +7691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o4, o5)
   }
 }
@@ -6455,14 +7737,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6509,12 +7791,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o4)
   }
 }
@@ -6537,14 +7837,14 @@ where
       P0.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6591,12 +7891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0, o5)
   }
 }
@@ -6619,14 +7937,14 @@ where
       P0.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output.0))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.1))
+    input.path.prepend(try p5.print(output.1))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output.0))
   }
 }
 
@@ -6673,12 +7991,30 @@ where
     P0.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    let o0 = try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -6701,14 +8037,14 @@ where
     _ output: (
       P0.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print(output))
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print(output))
   }
 }
 
@@ -6755,12 +8091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3, o4, o5)
   }
 }
@@ -6783,14 +8137,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print(output.4))
+    input.path.prepend(try p5.print(output.4))
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -6837,12 +8191,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3, o4)
   }
 }
@@ -6865,14 +8237,14 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print(output.3))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.3))
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -6919,12 +8291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3, o5)
   }
 }
@@ -6947,14 +8337,14 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7001,12 +8391,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o3)
   }
 }
@@ -7029,14 +8437,14 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print(output.2))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.2))
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7083,12 +8491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o4, o5)
   }
 }
@@ -7111,14 +8537,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7165,12 +8591,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o4)
   }
 }
@@ -7193,14 +8637,14 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7247,12 +8691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2, o5)
   }
 }
@@ -7275,14 +8737,14 @@ where
       P2.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7329,12 +8791,30 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -7357,14 +8837,14 @@ where
       P1.Output,
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print(output.1))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.1))
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7411,12 +8891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3, o4, o5)
   }
 }
@@ -7439,14 +8937,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7493,12 +8991,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3, o4)
   }
 }
@@ -7521,14 +9037,14 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7575,12 +9091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3, o5)
   }
 }
@@ -7603,14 +9137,14 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7657,12 +9191,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o3)
   }
 }
@@ -7685,14 +9237,14 @@ where
       P1.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7739,12 +9291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o4, o5)
   }
 }
@@ -7767,14 +9337,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7821,12 +9391,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o4)
   }
 }
@@ -7849,14 +9437,14 @@ where
       P1.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7903,12 +9491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1, o5)
   }
 }
@@ -7931,14 +9537,14 @@ where
       P1.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output.0))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.1))
+    input.path.prepend(try p5.print(output.1))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output.0))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -7985,12 +9591,30 @@ where
     P1.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    let o1 = try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    let o1 = try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -8013,14 +9637,14 @@ where
     _ output: (
       P1.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print(output))
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print(output))
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8067,12 +9691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3, o4, o5)
   }
 }
@@ -8095,14 +9737,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print(output.3))
+    input.path.prepend(try p5.print(output.3))
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8149,12 +9791,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3, o4)
   }
 }
@@ -8177,14 +9837,14 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print(output.2))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.2))
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8231,12 +9891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3, o5)
   }
 }
@@ -8259,14 +9937,14 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8313,12 +9991,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o3)
   }
 }
@@ -8341,14 +10037,14 @@ where
       P2.Output,
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print(output.1))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.1))
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8395,12 +10091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o4, o5)
   }
 }
@@ -8423,14 +10137,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8477,12 +10191,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o4)
   }
 }
@@ -8505,14 +10237,14 @@ where
       P2.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8559,12 +10291,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2, o5)
   }
 }
@@ -8587,14 +10337,14 @@ where
       P2.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output.0))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.1))
+    input.path.prepend(try p5.print(output.1))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output.0))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8641,12 +10391,30 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    let o2 = try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    let o2 = try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -8669,14 +10437,14 @@ where
     _ output: (
       P2.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print(output))
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print(output))
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8723,12 +10491,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o3, o4, o5)
   }
 }
@@ -8751,14 +10537,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.0))
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print(output.2))
+    input.path.prepend(try p5.print(output.2))
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print(output.0))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8805,12 +10591,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o3, o4)
   }
 }
@@ -8833,14 +10637,14 @@ where
       P3.Output,
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.0))
-    input.path.append(try p4.print(output.1))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output.1))
+    input.path.prepend(try p3.print(output.0))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8887,12 +10691,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o3, o5)
   }
 }
@@ -8915,14 +10737,14 @@ where
       P3.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output.0))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output.1))
+    input.path.prepend(try p5.print(output.1))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output.0))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -8969,12 +10791,30 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    let o3 = try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    let o3 = try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o3)
   }
 }
@@ -8997,14 +10837,14 @@ where
     _ output: (
       P3.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print(output))
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print(output))
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9051,12 +10891,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o4, o5)
   }
 }
@@ -9079,14 +10937,14 @@ where
       P4.Output,
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output.0))
-    input.path.append(try p5.print(output.1))
+    input.path.prepend(try p5.print(output.1))
+    input.path.prepend(try p4.print(output.0))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9133,12 +10991,30 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    let o4 = try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    let o4 = try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o4)
   }
 }
@@ -9161,14 +11037,14 @@ where
     _ output: (
       P4.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print(output))
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print(output))
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9215,12 +11091,30 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    let o5 = try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    let o5 = try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return (o5)
   }
 }
@@ -9243,14 +11137,14 @@ where
     _ output: (
       P5.Output
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print(output))
+    input.path.prepend(try p5.print(output))
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
@@ -9294,16 +11188,32 @@ where
     self.p5 = p5
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
-
-  ) {
+  @inlinable public func parse(_ input: inout URLRequestData) throws {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse { p0; End() }.parse(input.path.removeFirst())
-    try Parse { p1; End() }.parse(input.path.removeFirst())
-    try Parse { p2; End() }.parse(input.path.removeFirst())
-    try Parse { p3; End() }.parse(input.path.removeFirst())
-    try Parse { p4; End() }.parse(input.path.removeFirst())
-    try Parse { p5; End() }.parse(input.path.removeFirst())
+    try Parse {
+      p0
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p1
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p2
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p3
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p4
+      End()
+    }.parse(input.path.removeFirst())
+    try Parse {
+      p5
+      End()
+    }.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -9327,14 +11237,14 @@ where
     _ output: (
 
     ),
-    to input: inout URLRequestData
+    into input: inout URLRequestData
   ) rethrows {
-    input.path.append(try p0.print())
-    input.path.append(try p1.print())
-    input.path.append(try p2.print())
-    input.path.append(try p3.print())
-    input.path.append(try p4.print())
-    input.path.append(try p5.print())
+    input.path.prepend(try p5.print())
+    input.path.prepend(try p4.print())
+    input.path.prepend(try p3.print())
+    input.path.prepend(try p2.print())
+    input.path.prepend(try p1.print())
+    input.path.prepend(try p0.print())
   }
 }
 
