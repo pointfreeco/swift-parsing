@@ -1,27 +1,7 @@
 extension Bool {
   /// A parser that consumes a Boolean value from the beginning of a collection of UTF-8 code units.
   ///
-  /// This parser only recognizes the literal "true" and "false" characters:
-  ///
-  /// ```swift
-  /// // Parses "true":
-  /// var input = "true Hello"[...]
-  /// try Bool.parser().parse(&input)  // true
-  /// input                            // " Hello"
-  ///
-  /// // Parses "false":
-  /// input = "false Hello"[...]
-  /// try Bool.parser().parse(&input)  // false
-  /// input                            // " Hello"
-  ///
-  /// // Otherwise fails:
-  /// input = "1 Hello"[...]
-  /// try Bool.parser().parse(&input)
-  /// // error: unexpected input
-  /// //  --> input:1:1
-  /// // 1 | 1 Hello
-  /// //     ^ expected "true" or "false"
-  /// ```
+  /// See <doc:Bool> for more information about this parser.
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
   /// - Returns: A parser that consumes a Boolean value from the beginning of a collection of UTF-8
@@ -38,6 +18,8 @@ extension Bool {
   /// This overload is provided to allow the `Input` generic to be inferred when it is
   /// `Substring.UTF8View`.
   ///
+  /// See <doc:Bool> for more information about this parser.
+  ///
   /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
   /// - Returns: A parser that consumes a Boolean value from the beginning of a substring's UTF-8
@@ -52,6 +34,8 @@ extension Bool {
   /// A parser that consumes a Boolean value from the beginning of a substring.
   ///
   /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
+  ///
+  /// See <doc:Bool> for more information about this parser.
   ///
   /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
@@ -69,6 +53,8 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `Bool.parser()`, which constructs this type.
+  ///
+  /// See <doc:Bool> for more information about this parser.
   public struct BoolParser<Input: Collection>: Parser
   where
     Input.SubSequence == Input,
