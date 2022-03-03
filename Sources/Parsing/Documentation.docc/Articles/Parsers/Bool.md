@@ -2,7 +2,7 @@
 
 A parser that consumes a Boolean value from the beginning of a string.
  
-This parser only recognizes the literal "true" and "false" characters:
+This parser only recognizes the literal "true" and "false" sequence of characters:
 
 ```swift
 // Parses "true":
