@@ -1,5 +1,5 @@
 /// A custom parameter attribute that constructs parsers from closures. The constructed parser
-/// runs each parser in the closure, one after another, till one succeeds with an input.
+/// runs each parser in the closure, one after another, till one succeeds with an output.
 ///
 /// The ``OneOf`` parser acts as an entry point into `@OneOfBuilder` syntax where you can list
 /// all of the parsers you want to try. For example, to parse a currency symbol into an enum
