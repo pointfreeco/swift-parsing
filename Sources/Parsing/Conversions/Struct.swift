@@ -28,7 +28,7 @@ extension Conversion {
   ///   struct back into a tuple of values.
   @inlinable
   public static func `struct`<Values, Struct>(
-    _ initializer: @escaping (Values) -> Struct
+    _ initializer: @escaping (Values) throws -> Struct
   ) -> Self where Self == Conversions.Structure<Values, Struct> {
     .init(initializer: initializer)
   }
