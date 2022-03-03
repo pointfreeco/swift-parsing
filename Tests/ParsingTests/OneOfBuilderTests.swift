@@ -21,21 +21,11 @@ final class OneOfBuilderTests: XCTestCase {
     XCTAssertThrowsError(try parser.parse("president")) { error in
       XCTAssertEqual(
         """
-        error: multiple failures occurred
-
         error: unexpected input
          --> input:1:1
         1 | president
           | ^ expected "admin"
-
-        error: unexpected input
-         --> input:1:1
-        1 | president
           | ^ expected "guest"
-
-        error: unexpected input
-         --> input:1:1
-        1 | president
           | ^ expected "member"
         """,
         "\(error)"
@@ -64,16 +54,10 @@ final class OneOfBuilderTests: XCTestCase {
     XCTAssertThrowsError(try parser.parse("admin")) { error in
       XCTAssertEqual(
         """
-        error: multiple failures occurred
-
         error: unexpected input
          --> input:1:1
         1 | admin
           | ^ expected "guest"
-
-        error: unexpected input
-         --> input:1:1
-        1 | admin
           | ^ expected "member"
         """,
         "\(error)"
@@ -94,21 +78,11 @@ final class OneOfBuilderTests: XCTestCase {
     XCTAssertThrowsError(try parser.parse("president")) { error in
       XCTAssertEqual(
         """
-        error: multiple failures occurred
-
         error: unexpected input
          --> input:1:1
         1 | president
           | ^ expected "admin"
-
-        error: unexpected input
-         --> input:1:1
-        1 | president
           | ^ expected "guest"
-
-        error: unexpected input
-         --> input:1:1
-        1 | president
           | ^ expected "member"
         """,
         "\(error)"

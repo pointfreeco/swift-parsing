@@ -170,6 +170,7 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
     var prefix = maxLength.map(input.prefix) ?? input
     prefix = predicate.map { prefix.prefix(while: $0) } ?? prefix
     let count = prefix.count
+    input.removeFirst(count)
     guard count >= self.minLength else {
       let atLeast = self.minLength - count
       throw ParsingError.expectedInput(
@@ -177,10 +178,9 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
         \(self.minLength - count) \(count == 0 ? "" : "more ")element\(atLeast == 1 ? "" : "s")\
         \(predicate == nil ? "" : " satisfying predicate")
         """,
-        at: input.dropFirst(self.minLength)
+        at: input
       )
     }
-    input.removeFirst(count)
     return prefix
   }
 }

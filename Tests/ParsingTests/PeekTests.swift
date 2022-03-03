@@ -2,35 +2,16 @@ import Parsing
 import XCTest
 
 class PeekTests: XCTestCase {
-  func testPeekDuplicate() throws {
-    var input = "foobar"[...]
-
-    let duplicator = Parse {
-      Peek { Rest<Substring>() }
-      Rest()
-    }
-
-    let result = duplicator.parse(&input)
-
-    XCTAssertEqual(result.0, "foobar")
-    XCTAssertEqual(result.1, "foobar")
-    XCTAssertEqual(input, "")
-  }
-
   func testPeekMatches() throws {
     var input = "_foo1 = nil"[...]
 
     let identifier = Parse {
-      Skip {
-        Peek { Prefix(1) { $0.isLetter || $0 == "_" } }
-      }
+      Peek { Prefix(1) { $0.isLetter || $0 == "_" } }
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
 
-    let result = try identifier.parse(&input)
-
-    XCTAssertEqual(result, "_foo1")
-    XCTAssertEqual(input, " = nil")
+    XCTAssertEqual("_foo1"[...], try identifier.parse(&input))
+    XCTAssertEqual(" = nil", input)
   }
 
   func testPeekFails() throws {
@@ -46,6 +27,18 @@ class PeekTests: XCTestCase {
     }
 
     XCTAssertThrowsError(try identifier.parse(&input))
-    XCTAssertEqual(input, "1foo = nil")
+    XCTAssertEqual("1foo = nil", input)
+  }
+
+  func testBacktracking() throws {
+    var input = "fooblah"[...]
+
+    let parser = Peek {
+      "foo"
+      "bar"
+    }
+
+    XCTAssertThrowsError(try parser.parse(&input))
+    XCTAssertEqual("blah"[...], input)
   }
 }

@@ -22,6 +22,7 @@ extension FromUTF8View where Input == Substring {
 }
 
 extension FromUTF8View where Input == Substring.UnicodeScalarView {
+  @_disfavoredOverload
   @inlinable
   public init(@ParserBuilder _ build: () -> UTF8Parser) {
     self.utf8Parser = build()

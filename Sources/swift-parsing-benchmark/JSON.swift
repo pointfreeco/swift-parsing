@@ -35,8 +35,10 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       string.append(contentsOf: fragment)
     } element: {
       OneOf {
-        Prefix(1...) { $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") }
-          .map { String(Substring($0)) }
+        Prefix(1...) {
+          $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") && $0 >= .init(ascii: " ")
+        }
+        .map { String(Substring($0)) }
 
         Parse {
           "\\".utf8

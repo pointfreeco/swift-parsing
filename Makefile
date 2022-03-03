@@ -34,6 +34,7 @@ test-swift:
 format:
 	swift format --in-place --recursive \
 		./Package.swift ./Sources ./Tests
+	find . -type f -name '*.md' -print0 | xargs -0 perl -pi -e 's/ +$$//'
 
 generate-variadics:
 	swift run variadics-generator > Sources/Parsing/Builders/Variadics.swift

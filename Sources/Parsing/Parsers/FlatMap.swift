@@ -38,7 +38,8 @@ extension Parsers {
         return try self.transform(self.upstream.parse(&input)).parse(&input)
       } catch let ParsingError.failed(reason, context) {
         throw ParsingError.failed(
-          reason, .init(
+          reason,
+          .init(
             originalInput: original,
             remainingInput: input,
             debugDescription: context.debugDescription,
