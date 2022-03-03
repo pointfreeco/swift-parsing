@@ -40,7 +40,7 @@ extension Conversions {
     let initializer: (Values) throws -> Struct
 
     @usableFromInline
-    init(initializer: @escaping (Values) -> Struct) {
+    init(initializer: @escaping (Values) throws -> Struct) {
       self.initializer = initializer
     }
 
