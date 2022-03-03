@@ -43,16 +43,4 @@ final class CharacterSetTests: XCTestCase {
     XCTAssertEqual(firstOutput, "123")
     XCTAssertTrue(secondOutput.isEmpty)
   }
-
-  func testFoo() {
-    let p = Parse {
-      CharacterSet.alphanumerics
-      CharacterSet.punctuationCharacters
-      CharacterSet.alphanumerics
-    }
-      .parse("Hello...World") // ("Hello", "...", "World")
-
-    print(p)
-
-  }
 }
