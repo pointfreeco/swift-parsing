@@ -166,9 +166,9 @@ extension Parser {
   ///
   /// ```swift
   /// let output = try Parse {
-  ///  Int.parser()
-  ///  ",".utf8
-  ///  Bool.parser()
+  ///   Int.parser()
+  ///   ",".utf8
+  ///   Bool.parser()
   /// }
   /// .parse("123,true    ")
   ///
