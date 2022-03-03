@@ -60,9 +60,9 @@ then you will get an compiler error:
 ```swift
 try Parse {
   Int.parser()
-  Int.parser() // 🛑 Ambiguous use of 'parser(of:)'
+  Bool.parser() // 🛑 Ambiguous use of 'parser(of:)'
 }
-.parse("truefalse")
+.parse("123true")
 ```
 
 To fix this you can force one of the integer parsers to be the `Substring` parser, and then the 
@@ -71,7 +71,7 @@ other will figure it out via type inference:
 ```swift
 try Parse {
   Int.parser(of: Substring.self)
-  Int.parser()
+  Bool.parser()
 }
-.parse("truefalse") // (true, false)
+.parse("123true") // (123, true)
 ```

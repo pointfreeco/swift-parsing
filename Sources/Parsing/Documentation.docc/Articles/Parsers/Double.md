@@ -45,7 +45,7 @@ try Parse {
   Double.parser()
   Double.parser() // 🛑 Ambiguous use of 'parser(of:)'
 }
-.parse("truefalse")
+.parse(".1.2")
 ```
 
 To fix this you can force one of the double parsers to be the `Substring` parser, and then the 
@@ -56,5 +56,5 @@ try Parse {
   Double.parser(of: Substring.self)
   Double.parser()
 }
-.parse("truefalse") // (true, false)
+.parse(".1.2") // (0.1, 0.2)
 ```

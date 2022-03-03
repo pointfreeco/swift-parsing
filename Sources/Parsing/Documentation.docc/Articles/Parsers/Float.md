@@ -57,5 +57,5 @@ try Parse {
   Float.parser(of: Substring.self)
   Float.parser()
 }
-.parse("truefalse") // (true, false)
+.parse(".1.2") // (0.1, 0.2)
 ```
