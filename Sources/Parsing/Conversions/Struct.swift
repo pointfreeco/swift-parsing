@@ -37,7 +37,7 @@ extension Conversion {
 extension Conversions {
   public struct Structure<Values, Struct>: Conversion {
     @usableFromInline
-    let initializer: (Values) -> Struct
+    let initializer: (Values) throws -> Struct
 
     @usableFromInline
     init(initializer: @escaping (Values) -> Struct) {
@@ -45,8 +45,8 @@ extension Conversions {
     }
 
     @inlinable
-    public func apply(_ input: Values) -> Struct {
-      self.initializer(input)
+    public func apply(_ input: Values) throws -> Struct {
+      try self.initializer(input)
     }
 
     @inlinable
