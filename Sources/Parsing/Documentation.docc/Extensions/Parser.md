@@ -14,14 +14,9 @@
 
 All of the ways to run a parser on an input.
 
-<!-- non-inout -->
 - ``parse(_:)-717qw``
-<!-- Parse C's with parser of C.SubSequence  -->
 - ``parse(_:)-6h1d0``
-<!-- Parse String with UTF8 parser -->
 - ``parse(_:)-2wzcq``
-<!-- inout -->
-<!--- ``parse(_:)-76tcw``-->
 
 ### Common parsers
 
