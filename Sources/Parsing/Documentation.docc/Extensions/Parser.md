@@ -12,16 +12,16 @@
 
 ### Running a parser
 
-There are a few ways to run a given parser on an input.
+All of the ways to run a parser on an input.
 
-<!-- inout -->
-- ``parse(_:)-76tcw``
 <!-- non-inout -->
 - ``parse(_:)-717qw``
-<!-- Parse String with UTF8 parser -->
-- ``parse(_:)-2wzcq``
 <!-- Parse C's with parser of C.SubSequence  -->
 - ``parse(_:)-6h1d0``
+<!-- Parse String with UTF8 parser -->
+- ``parse(_:)-2wzcq``
+<!-- inout -->
+<!--- ``parse(_:)-76tcw``-->
 
 ### Common parsers
 
@@ -33,12 +33,14 @@ to build complex parsers from simpler pieces.
 - <doc:Double>
 - <doc:String>
 - <doc:CharacterSet>
+- <doc:UUID>
 - ``Parse``
 - ``OneOf``
 - ``Many``
 - ``Prefix``
 - ``PrefixThrough``
 - ``PrefixUpTo``
+- ``Optionally``
 - ``Always``
 - ``End``
 - ``Rest``
@@ -46,7 +48,7 @@ to build complex parsers from simpler pieces.
 - ``FromSubstring``
 - ``FromUTF8View``
 - ``FromUnicodeScalarView``
-- <doc:UUID>
+- ``First``
 - ``Skip``
 - ``Lazy``
 - ``Newline``
@@ -54,6 +56,8 @@ to build complex parsers from simpler pieces.
 - ``AnyParser``
 - ``Peek``
 - ``Not``
+- ``StartsWith``
+- ``Stream``
 
 ### Parser operators
 

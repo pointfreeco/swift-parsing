@@ -30,7 +30,9 @@
   /// The kind of values parsed by this parser.
   associatedtype Output
 
-  /// Attempts to parse a nebulous piece of data into something more well-structured.
+  /// Attempts to parse a nebulous piece of data into something more well-structured. Typically
+  /// you only call this from other `Parser` conformances, not when you want to parse a concrete
+  /// input.
   ///
   /// - Parameter input: A nebulous, mutable piece of data to be incrementally parsed.
   /// - Returns: A more well-structured value parsed from the given input.
@@ -100,11 +102,11 @@ extension Parser {
   ///  ","
   ///  Bool.parser()
   /// }
-  /// .parse("123,true,Blob")
+  /// .parse("123,true    ")
   ///
   /// // error: unexpected input
   /// //  --> input:1:9
-  /// // 1 | 123,true,Blob
+  /// // 1 | 123,true␣␣␣␣
   /// //   |         ^ expected end of input
   /// // 2 | asdfasdfasdfasdf
   /// ```
@@ -169,13 +171,12 @@ extension Parser {
   ///  ",".utf8
   ///  Bool.parser()
   /// }
-  /// .parse("123,true,Blob")
+  /// .parse("123,true    ")
   ///
   /// // error: unexpected input
   /// //  --> input:1:9
-  /// // 1 | 123,true,Blob
+  /// // 1 | 123,true␣␣␣␣
   /// //   |         ^ expected end of input
-  /// // 2 | asdfasdfasdfasdf
   /// ```
   ///
   /// > Tip: If your input can have trailing whitespace that you would like to consume and discard
