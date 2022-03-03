@@ -47,11 +47,12 @@ On the other hand, if `Bool.parser()` is used in a context where the input type 
 then you will get an compiler error:
 
 ```swift
-try Parse {
+let parser = Parse {
   Bool.parser()
   Bool.parser() // 🛑 Ambiguous use of 'parser(of:)'
 }
-.parse("truefalse")
+
+try parser.parse("truefalse")
 ```
 
 To fix this you can force one of the boolean parsers to be the `Substring` parser, and then the 
