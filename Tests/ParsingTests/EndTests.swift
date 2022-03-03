@@ -23,7 +23,7 @@ final class EndTests: XCTestCase {
     }
     XCTAssertEqual("Hello, world!", input)
   }
-  
+
   func testTrailingWhitespace() {
     XCTAssertThrowsError(try Int.parser().parse("123   ")) { error in
       XCTAssertEqual(
