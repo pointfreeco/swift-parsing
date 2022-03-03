@@ -59,8 +59,8 @@ other will figure it out via type inference:
 
 ```swift
 try Parse {
-Bool.parser(of: Substring.self)
-Bool.parser()
+  Bool.parser(of: Substring.self)
+  Bool.parser()
 }
 .parse("truefalse") // (true, false)
 ```
