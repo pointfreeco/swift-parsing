@@ -246,4 +246,17 @@ class ManyTests: XCTestCase {
       )
     }
   }
+
+  func testFoo() throws {
+
+    let output = try Parse {
+      Int.parser()
+      ",".utf8
+      Bool.parser()
+    }
+      .parse("123,true,Blob")
+
+
+
+  }
 }

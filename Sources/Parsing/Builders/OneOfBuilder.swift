@@ -1,7 +1,21 @@
-/// A custom parameter attribute that constructs a parser that attempts to run a number of parsers,
-/// one after the other, till one succeeds with an output.
+/// A custom parameter attribute that constructs parsers from closures. The constructed parser
+/// run each parser in the closure, one after another, till one succeeds with an input.
 ///
-/// See ``OneOf`` for an entry point into this builder.
+/// The ``OneOf`` parser acts as an entry point into `@OneOfBuilder` syntax where you can list
+/// all of the parsers you want to try. For example, to parse a currency symbol into an enum
+/// of supported currencies:
+///
+/// ```swift
+/// enum Currency { case eur, gbp, usd }
+/// let currency = OneOf {
+///   "€".map { Currency.eur }
+///   "£".map { Currency.gbp }
+///   "$".map { Currency.usd }
+/// }
+/// let money = Parse { currency; Int.parser() }
+///
+/// try currency.parse("$100") // (.usd, 100)
+/// ```
 @resultBuilder
 public enum OneOfBuilder {
   /// Provides support for `for`-`in` loops in ``OneOfBuilder`` blocks.
