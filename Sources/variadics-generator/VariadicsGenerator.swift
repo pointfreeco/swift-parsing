@@ -163,7 +163,7 @@ struct VariadicsGenerator: ParsableCommand {
       output("\n      } catch { throw ParsingError.wrap(error, at: input) }\n    }\n  }\n}\n\n")
 
       // Emit printer extension.
-      output("extension Parsers.\(typeName): Printer\nwhere\n  ")
+      output("extension ParserBuilder.\(typeName): Printer\nwhere\n  ")
       outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Printer" }
       output(",\n  ")
       outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
@@ -251,7 +251,7 @@ struct VariadicsGenerator: ParsableCommand {
     output("\n    }\n  }\n}\n\n")
 
     // Emit printer extension.
-    output("extension Parsers.\(typeName): Printer\nwhere\n  ")
+    output("extension OneOfBuilder.\(typeName): Printer\nwhere\n  ")
     outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Printer" }
     output(",\n  ")
     outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {

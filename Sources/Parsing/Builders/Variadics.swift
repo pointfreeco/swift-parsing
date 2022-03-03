@@ -25,7 +25,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOO: Printer
+extension ParserBuilder.ZipOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -74,7 +74,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOV: Printer
+extension ParserBuilder.ZipOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -121,7 +121,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVO: Printer
+extension ParserBuilder.ZipVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -168,7 +168,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVV: Printer
+extension ParserBuilder.ZipVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -222,7 +222,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOO: Printer
+extension ParserBuilder.ZipOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -281,7 +281,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOV: Printer
+extension ParserBuilder.ZipOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -340,7 +340,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVO: Printer
+extension ParserBuilder.ZipOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -397,7 +397,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVV: Printer
+extension ParserBuilder.ZipOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -454,7 +454,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOO: Printer
+extension ParserBuilder.ZipVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -511,7 +511,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOV: Printer
+extension ParserBuilder.ZipVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -566,7 +566,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVO: Printer
+extension ParserBuilder.ZipVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -621,7 +621,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVV: Printer
+extension ParserBuilder.ZipVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -683,7 +683,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOO: Printer
+extension ParserBuilder.ZipOOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -750,7 +750,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOV: Printer
+extension ParserBuilder.ZipOOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -817,7 +817,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVO: Printer
+extension ParserBuilder.ZipOOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -884,7 +884,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVV: Printer
+extension ParserBuilder.ZipOOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -951,7 +951,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOO: Printer
+extension ParserBuilder.ZipOVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1018,7 +1018,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOV: Printer
+extension ParserBuilder.ZipOVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1085,7 +1085,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVO: Printer
+extension ParserBuilder.ZipOVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1150,7 +1150,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVV: Printer
+extension ParserBuilder.ZipOVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1215,7 +1215,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOO: Printer
+extension ParserBuilder.ZipVOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1282,7 +1282,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOV: Printer
+extension ParserBuilder.ZipVOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1349,7 +1349,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVO: Printer
+extension ParserBuilder.ZipVOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1414,7 +1414,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVV: Printer
+extension ParserBuilder.ZipVOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1479,7 +1479,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOO: Printer
+extension ParserBuilder.ZipVVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1544,7 +1544,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOV: Printer
+extension ParserBuilder.ZipVVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1607,7 +1607,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVO: Printer
+extension ParserBuilder.ZipVVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1670,7 +1670,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVV: Printer
+extension ParserBuilder.ZipVVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1740,7 +1740,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOOO: Printer
+extension ParserBuilder.ZipOOOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1815,7 +1815,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOOV: Printer
+extension ParserBuilder.ZipOOOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1890,7 +1890,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOVO: Printer
+extension ParserBuilder.ZipOOOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -1965,7 +1965,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOVV: Printer
+extension ParserBuilder.ZipOOOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2040,7 +2040,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVOO: Printer
+extension ParserBuilder.ZipOOVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2115,7 +2115,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVOV: Printer
+extension ParserBuilder.ZipOOVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2190,7 +2190,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVVO: Printer
+extension ParserBuilder.ZipOOVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2265,7 +2265,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVVV: Printer
+extension ParserBuilder.ZipOOVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2340,7 +2340,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOOO: Printer
+extension ParserBuilder.ZipOVOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2415,7 +2415,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOOV: Printer
+extension ParserBuilder.ZipOVOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2490,7 +2490,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOVO: Printer
+extension ParserBuilder.ZipOVOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2565,7 +2565,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOVV: Printer
+extension ParserBuilder.ZipOVOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2640,7 +2640,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVOO: Printer
+extension ParserBuilder.ZipOVVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2715,7 +2715,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVOV: Printer
+extension ParserBuilder.ZipOVVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2790,7 +2790,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVVO: Printer
+extension ParserBuilder.ZipOVVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2863,7 +2863,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVVV: Printer
+extension ParserBuilder.ZipOVVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -2936,7 +2936,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOOO: Printer
+extension ParserBuilder.ZipVOOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3011,7 +3011,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOOV: Printer
+extension ParserBuilder.ZipVOOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3086,7 +3086,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOVO: Printer
+extension ParserBuilder.ZipVOOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3161,7 +3161,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOVV: Printer
+extension ParserBuilder.ZipVOOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3236,7 +3236,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVOO: Printer
+extension ParserBuilder.ZipVOVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3311,7 +3311,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVOV: Printer
+extension ParserBuilder.ZipVOVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3386,7 +3386,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVVO: Printer
+extension ParserBuilder.ZipVOVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3459,7 +3459,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVVV: Printer
+extension ParserBuilder.ZipVOVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3532,7 +3532,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOOO: Printer
+extension ParserBuilder.ZipVVOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3607,7 +3607,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOOV: Printer
+extension ParserBuilder.ZipVVOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3682,7 +3682,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOVO: Printer
+extension ParserBuilder.ZipVVOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3755,7 +3755,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOVV: Printer
+extension ParserBuilder.ZipVVOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3828,7 +3828,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVOO: Printer
+extension ParserBuilder.ZipVVVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3901,7 +3901,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVOV: Printer
+extension ParserBuilder.ZipVVVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -3972,7 +3972,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVVO: Printer
+extension ParserBuilder.ZipVVVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4043,7 +4043,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVVV: Printer
+extension ParserBuilder.ZipVVVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4122,7 +4122,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOOOO: Printer
+extension ParserBuilder.ZipOOOOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4206,7 +4206,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOOOV: Printer
+extension ParserBuilder.ZipOOOOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4290,7 +4290,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOOVO: Printer
+extension ParserBuilder.ZipOOOOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4374,7 +4374,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOOVV: Printer
+extension ParserBuilder.ZipOOOOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4458,7 +4458,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOVOO: Printer
+extension ParserBuilder.ZipOOOVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4542,7 +4542,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOVOV: Printer
+extension ParserBuilder.ZipOOOVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4626,7 +4626,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOVVO: Printer
+extension ParserBuilder.ZipOOOVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4710,7 +4710,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOOVVV: Printer
+extension ParserBuilder.ZipOOOVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4794,7 +4794,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVOOO: Printer
+extension ParserBuilder.ZipOOVOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4878,7 +4878,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVOOV: Printer
+extension ParserBuilder.ZipOOVOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -4962,7 +4962,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVOVO: Printer
+extension ParserBuilder.ZipOOVOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5046,7 +5046,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVOVV: Printer
+extension ParserBuilder.ZipOOVOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5130,7 +5130,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVVOO: Printer
+extension ParserBuilder.ZipOOVVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5214,7 +5214,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVVOV: Printer
+extension ParserBuilder.ZipOOVVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5298,7 +5298,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVVVO: Printer
+extension ParserBuilder.ZipOOVVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5382,7 +5382,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOOVVVV: Printer
+extension ParserBuilder.ZipOOVVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5466,7 +5466,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOOOO: Printer
+extension ParserBuilder.ZipOVOOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5550,7 +5550,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOOOV: Printer
+extension ParserBuilder.ZipOVOOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5634,7 +5634,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOOVO: Printer
+extension ParserBuilder.ZipOVOOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5718,7 +5718,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOOVV: Printer
+extension ParserBuilder.ZipOVOOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5802,7 +5802,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOVOO: Printer
+extension ParserBuilder.ZipOVOVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5886,7 +5886,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOVOV: Printer
+extension ParserBuilder.ZipOVOVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -5970,7 +5970,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOVVO: Printer
+extension ParserBuilder.ZipOVOVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6054,7 +6054,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVOVVV: Printer
+extension ParserBuilder.ZipOVOVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6138,7 +6138,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVOOO: Printer
+extension ParserBuilder.ZipOVVOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6222,7 +6222,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVOOV: Printer
+extension ParserBuilder.ZipOVVOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6306,7 +6306,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVOVO: Printer
+extension ParserBuilder.ZipOVVOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6390,7 +6390,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVOVV: Printer
+extension ParserBuilder.ZipOVVOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6474,7 +6474,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVVOO: Printer
+extension ParserBuilder.ZipOVVVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6558,7 +6558,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVVOV: Printer
+extension ParserBuilder.ZipOVVVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6642,7 +6642,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVVVO: Printer
+extension ParserBuilder.ZipOVVVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6724,7 +6724,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipOVVVVV: Printer
+extension ParserBuilder.ZipOVVVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6806,7 +6806,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOOOO: Printer
+extension ParserBuilder.ZipVOOOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6890,7 +6890,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOOOV: Printer
+extension ParserBuilder.ZipVOOOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -6974,7 +6974,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOOVO: Printer
+extension ParserBuilder.ZipVOOOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7058,7 +7058,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOOVV: Printer
+extension ParserBuilder.ZipVOOOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7142,7 +7142,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOVOO: Printer
+extension ParserBuilder.ZipVOOVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7226,7 +7226,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOVOV: Printer
+extension ParserBuilder.ZipVOOVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7310,7 +7310,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOVVO: Printer
+extension ParserBuilder.ZipVOOVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7394,7 +7394,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOOVVV: Printer
+extension ParserBuilder.ZipVOOVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7478,7 +7478,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVOOO: Printer
+extension ParserBuilder.ZipVOVOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7562,7 +7562,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVOOV: Printer
+extension ParserBuilder.ZipVOVOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7646,7 +7646,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVOVO: Printer
+extension ParserBuilder.ZipVOVOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7730,7 +7730,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVOVV: Printer
+extension ParserBuilder.ZipVOVOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7814,7 +7814,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVVOO: Printer
+extension ParserBuilder.ZipVOVVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7898,7 +7898,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVVOV: Printer
+extension ParserBuilder.ZipVOVVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -7982,7 +7982,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVVVO: Printer
+extension ParserBuilder.ZipVOVVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8064,7 +8064,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVOVVVV: Printer
+extension ParserBuilder.ZipVOVVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8146,7 +8146,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOOOO: Printer
+extension ParserBuilder.ZipVVOOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8230,7 +8230,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOOOV: Printer
+extension ParserBuilder.ZipVVOOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8314,7 +8314,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOOVO: Printer
+extension ParserBuilder.ZipVVOOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8398,7 +8398,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOOVV: Printer
+extension ParserBuilder.ZipVVOOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8482,7 +8482,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOVOO: Printer
+extension ParserBuilder.ZipVVOVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8566,7 +8566,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOVOV: Printer
+extension ParserBuilder.ZipVVOVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8650,7 +8650,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOVVO: Printer
+extension ParserBuilder.ZipVVOVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8732,7 +8732,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVOVVV: Printer
+extension ParserBuilder.ZipVVOVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8814,7 +8814,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVOOO: Printer
+extension ParserBuilder.ZipVVVOOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8898,7 +8898,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVOOV: Printer
+extension ParserBuilder.ZipVVVOOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -8982,7 +8982,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVOVO: Printer
+extension ParserBuilder.ZipVVVOVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -9064,7 +9064,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVOVV: Printer
+extension ParserBuilder.ZipVVVOVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -9146,7 +9146,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVVOO: Printer
+extension ParserBuilder.ZipVVVVOO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -9228,7 +9228,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVVOV: Printer
+extension ParserBuilder.ZipVVVVOV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -9308,7 +9308,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVVVO: Printer
+extension ParserBuilder.ZipVVVVVO: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -9388,7 +9388,7 @@ extension ParserBuilder {
   }
 }
 
-extension Parsers.ZipVVVVVV: Printer
+extension ParserBuilder.ZipVVVVVV: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -9458,7 +9458,7 @@ extension OneOfBuilder {
   }
 }
 
-extension Parsers.OneOf2: Printer
+extension OneOfBuilder.OneOf2: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -9525,7 +9525,7 @@ extension OneOfBuilder {
   }
 }
 
-extension Parsers.OneOf3: Printer
+extension OneOfBuilder.OneOf3: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -9608,7 +9608,7 @@ extension OneOfBuilder {
   }
 }
 
-extension Parsers.OneOf4: Printer
+extension OneOfBuilder.OneOf4: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -9707,7 +9707,7 @@ extension OneOfBuilder {
   }
 }
 
-extension Parsers.OneOf5: Printer
+extension OneOfBuilder.OneOf5: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -9823,7 +9823,7 @@ extension OneOfBuilder {
   }
 }
 
-extension Parsers.OneOf6: Printer
+extension OneOfBuilder.OneOf6: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -9956,7 +9956,7 @@ extension OneOfBuilder {
   }
 }
 
-extension Parsers.OneOf7: Printer
+extension OneOfBuilder.OneOf7: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -10107,7 +10107,7 @@ extension OneOfBuilder {
   }
 }
 
-extension Parsers.OneOf8: Printer
+extension OneOfBuilder.OneOf8: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -10275,7 +10275,7 @@ extension OneOfBuilder {
   }
 }
 
-extension Parsers.OneOf9: Printer
+extension OneOfBuilder.OneOf9: Printer
 where
   P0: Printer,
   P1: Printer,
@@ -10460,7 +10460,7 @@ extension OneOfBuilder {
   }
 }
 
-extension Parsers.OneOf10: Printer
+extension OneOfBuilder.OneOf10: Printer
 where
   P0: Printer,
   P1: Printer,
