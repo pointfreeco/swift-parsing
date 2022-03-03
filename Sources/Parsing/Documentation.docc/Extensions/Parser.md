@@ -48,7 +48,7 @@ to build complex parsers from simpler pieces.
 - ``Skip``
 - ``Lazy``
 - ``Newline``
-- ``Whitespace`` 
+- ``Whitespace``
 - ``AnyParser``
 - ``Peek``
 - ``Not``

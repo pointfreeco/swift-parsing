@@ -18,10 +18,10 @@ The string "," acts as a parser that consumes a comma from the beginning of an i
 if the input does not start with a comma.
 
 Swift's other string representations also conform to ``Parser``, such as `UnicodeScalarView`
-and `UTF8View`. This allows you to consume strings from the beginning of an input in a more 
+and `UTF8View`. This allows you to consume strings from the beginning of an input in a more
 efficient manner than is possible with `Substring` (see <doc:StringAbstractions> for more info).
 
-For example, we can conver the above parser to work on the level of `UTF8View`s, which is a 
+For example, we can conver the above parser to work on the level of `UTF8View`s, which is a
 collection of UTF-8 code units:
 
 ```swift

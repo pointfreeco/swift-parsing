@@ -20,7 +20,7 @@ input // " Hello world"
 ```
 
 The `Float.parser()` method is overloaded to work on a variety of string representations in order
-to be as efficient as possible, including `Substring`, `UTF8View`, and generally collections of 
+to be as efficient as possible, including `Substring`, `UTF8View`, and generally collections of
 UTF-8 code units (see <doc:StringAbstractions> for more info).
 
 Typically Swift can choose the correct overload by using type inference based on what other parsers
@@ -49,7 +49,7 @@ let parser = Parse {
 try parser.parse(".1.2")
 ```
 
-To fix this you can force one of the float parsers to be the `Substring` parser, and then the 
+To fix this you can force one of the float parsers to be the `Substring` parser, and then the
 other will figure it out via type inference:
 
 ```swift

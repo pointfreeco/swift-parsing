@@ -1,6 +1,6 @@
 # Int
 
-A parser that consumes an integer (with an optional leading `+` or `-` sign) from the beginning of 
+A parser that consumes an integer (with an optional leading `+` or `-` sign) from the beginning of
 a string.
 
 ```swift
@@ -37,7 +37,7 @@ let number = try Int.parser().parse(&input)
 ```
 
 The `Int.parser()` method is overloaded to work on a variety of string representations in order
-to be as efficient as possible, including `Substring`, `UTF8View`, and generally collections of 
+to be as efficient as possible, including `Substring`, `UTF8View`, and generally collections of
 UTF-8 code units (see <doc:StringAbstractions> for more info).
 
 Typically Swift can choose the correct overload by using type inference based on what other parsers
@@ -65,7 +65,7 @@ try Parse {
 .parse("123true")
 ```
 
-To fix this you can force one of the integer parsers to be the `Substring` parser, and then the 
+To fix this you can force one of the integer parsers to be the `Substring` parser, and then the
 other will figure it out via type inference:
 
 ```swift
