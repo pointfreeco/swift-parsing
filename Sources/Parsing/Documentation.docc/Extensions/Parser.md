@@ -23,10 +23,11 @@ All of the ways to run a parser on an input.
 Some of the most commonly used parsers in the library. Use these parsers with operators in order
 to build complex parsers from simpler pieces.
 
-- <doc:Bool>
 - <doc:Int>
-- <doc:Double>
 - <doc:String>
+- <doc:Bool>
+- <doc:Double>
+- <doc:Float>
 - <doc:CharacterSet>
 - <doc:UUID>
 - ``Parse``

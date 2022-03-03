@@ -3,13 +3,7 @@ import Foundation
 extension Double {
   /// A parser that consumes a double from the beginning of a collection of UTF-8 code units.
   ///
-  /// Parses the same format parsed by `Double.init(_:)`.
-  ///
-  /// ```swift
-  /// var input = "123.45 Hello world"[...]
-  /// try Double.parser().parse(&input)  // 123.45
-  /// input                              // " Hello world"
-  /// ```
+  /// See <doc:Double> for more information about this parser.
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
   /// - Returns: A parser that consumes a double from the beginning of a collection of UTF-8 code
@@ -26,6 +20,8 @@ extension Double {
   /// This overload is provided to allow the `Input` generic to be inferred when it is
   /// `Substring.UTF8View`.
   ///
+  /// See <doc:Double> for more information about this parser.
+  ///
   /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
   /// - Returns: A parser that consumes a double from the beginning of a substring's UTF-8 view.
@@ -40,6 +36,8 @@ extension Double {
   /// A parser that consumes a double from the beginning of a substring.
   ///
   /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
+  ///
+  /// See <doc:Double> for more information about this parser.
   ///
   /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
@@ -56,13 +54,7 @@ extension Double {
 extension Float {
   /// A parser that consumes a float from the beginning of a collection of UTF-8 code units.
   ///
-  /// Parses the same format parsed by `Float.init(_:)`.
-  ///
-  /// ```swift
-  /// var input = "123.45 Hello world"[...]
-  /// try Float.parser().parse(&input)  // 123.45
-  /// input                             // " Hello world"
-  /// ```
+  /// See <doc:Float> for more information about this parser.
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
   /// - Returns: A parser that consumes a float from the beginning of a collection of UTF-8 code
@@ -79,6 +71,8 @@ extension Float {
   /// This overload is provided to allow the `Input` generic to be inferred when it is
   /// `Substring.UTF8View`.
   ///
+  /// See <doc:Float> for more information about this parser.
+  ///
   /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
   /// - Returns: A parser that consumes a float from the beginning of a substring's UTF-8 view.
@@ -93,6 +87,8 @@ extension Float {
   /// A parser that consumes a float from the beginning of a substring.
   ///
   /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
+  ///
+  /// See <doc:Float> for more information about this parser.
   ///
   /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
@@ -178,6 +174,8 @@ extension Parsers {
   /// try Double.parser().parse(&input)  // 123.45
   /// input                              // " Hello world"
   /// ```
+  ///
+  /// See <doc:Double> for more information about this parser.
   public struct DoubleParser<Input>: Parser
   where
     Input: Collection,
@@ -207,6 +205,8 @@ extension Parsers {
   /// try Float.parser().parse(&input)  // 123.45
   /// input                             // " Hello world"
   /// ```
+  ///
+  /// See <doc:Float> for more information about this parser.
   public struct FloatParser<Input>: Parser
   where
     Input: Collection,
