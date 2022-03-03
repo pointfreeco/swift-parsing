@@ -108,7 +108,6 @@ extension Parser {
   /// //  --> input:1:9
   /// // 1 | 123,true␣␣␣␣
   /// //   |         ^ expected end of input
-  /// // 2 | asdfasdfasdfasdf
   /// ```
   ///
   /// > Tip: If your input can have trailing whitespace that you would like to consume and discard
