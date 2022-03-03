@@ -26,7 +26,7 @@ try Bool.parser().parse(&input)
 ```
 
 The `Bool.parser()` method is overloaded to work on a variety of string representations in order
-to be as efficient as possible, including `Substring`, `UTF8View`, and generally collections of 
+to be as efficient as possible, including `Substring`, `UTF8View`, and more general collections of 
 UTF-8 code units (see <doc:StringAbstractions> for more info).
 
 Typically Swift can choose the correct overload by using type inference based on what other parsers
