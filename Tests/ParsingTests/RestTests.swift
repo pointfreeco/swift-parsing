@@ -3,13 +3,13 @@ import Parsing
 import XCTest
 
 final class RestTests: XCTestCase {
-  func testRest() {
+  func testParseRest() {
     var input = "Hello, world!"[...]
     XCTAssertNoDifference("Hello, world!", try Rest().parse(&input))
     XCTAssertNoDifference("", input)
   }
 
-  func testRestAlwaysSucceeds() {
+  func testParseRestFailsOnEmpty() {
     var input = ""[...]
     XCTAssertThrowsError(try Rest().parse(&input)) { error in
       XCTAssertNoDifference(
@@ -23,5 +23,13 @@ final class RestTests: XCTestCase {
       )
     }
     XCTAssertNoDifference("", input)
+  }
+
+  func testPrintRest() {
+    XCTAssertNoDifference(try Rest().print("Hello"), "Hello")
+  }
+
+  func testPrintRestFailsOnEmpty() throws {
+    XCTAssertThrowsError(try Rest().print(""))
   }
 }
