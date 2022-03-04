@@ -16,7 +16,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     Prefix { $0.isVersion }
   }
 
-  let requestLine = ParsePrint(.struct(Request.init(method:uri:version:))) {
+  let requestLine = ParsePrint(.memberwise(Request.init(method:uri:version:))) {
     method
     " ".utf8
     uri
@@ -34,7 +34,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     Newline()
   }
 
-  let header = ParsePrint(.struct(Header.init(name:value:))) {
+  let header = ParsePrint(.memberwise(Header.init(name:value:))) {
     Prefix { $0.isToken }.map(.substring)
     ":".utf8
     Many {

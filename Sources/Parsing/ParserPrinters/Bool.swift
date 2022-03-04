@@ -25,8 +25,8 @@ extension Bool {
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
-  ) -> FromUTF8View<Substring, Parsers.BoolParser<Substring.UTF8View>> {
-    .init { Parsers.BoolParser<Substring.UTF8View>() }
+  ) -> From<Conversions.SubstringToUTF8View, Parsers.BoolParser<Substring.UTF8View>> {
+    From(.utf8) { Parsers.BoolParser<Substring.UTF8View>() }
   }
 
   /// A parser that consumes a Boolean value from the beginning of a substring's UTF-8 view.

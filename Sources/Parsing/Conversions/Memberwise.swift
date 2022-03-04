@@ -1,9 +1,11 @@
 extension Conversion {
-  /// Converts a tuple of values into a struct, and a struct into a tuple of values.
+  /// Converts a tuple of values into a struct and a struct into a tuple of values, using a
+  /// memberwise initializer.
   ///
   /// Useful for transforming the output of parser-printers into structs.
   ///
-  /// For example, given a simple `Coordinate` struct, we can build a parser-printer using `struct`:
+  /// For example, given a simple `Coordinate` struct, we can build a parser-printer using
+  /// ``memberwise(_:)``:
   ///
   /// ```swift
   /// struct Coordinate {
@@ -11,7 +13,7 @@ extension Conversion {
   ///   var y: Double
   /// }
   ///
-  /// let coord = ParsePrint(.struct(Coordinate.init(x:y:))) {
+  /// let coord = ParsePrint(.memberwise(Coordinate.init(x:y:))) {
   ///   Double.parser()
   ///   ","
   ///   Double.parser()
@@ -21,10 +23,10 @@ extension Conversion {
   /// coord.print(.init(x: -5, y: 10))  // "-5.0,10.0"
   /// ```
   ///
-  /// This conversion works by using the function you supply to ``struct(_:)`` in order to turn
-  /// tuples into a struct, and it uses `unsafeBitcast` to turn the struct back into a tuple.
-  /// Because of this, it is _not_ valid to use ``struct(_:)`` with anything other than the
-  /// default synthesized memberwise initializer that structs are given for free by the compiler
+  /// This conversion works by using the memberwise initializer you supply to ``memberwise(_:)`` in
+  /// order to turn tuples into a struct, and it uses `unsafeBitcast` to turn the struct back into
+  /// a tuple. Because of this, it is _not_ valid to use ``memberwise(_:)`` with anything other than
+  /// the default synthesized memberwise initializer that structs are given for free by the compiler
   /// as that function most correctly maps the data inside a struct to its tuple representation,
   /// even enforcing the order of the fields.
   ///
@@ -44,11 +46,11 @@ extension Conversion {
   /// ```
   ///
   /// This may seem innocent enough, but it is _not_ safe to use this initializer with
-  /// ``struct(_:)``. The following parser-printer will correctly parse a radius and angle into an
-  /// x/y coordinate:
+  /// ``memberwise(_:)``. The following parser-printer will correctly parse a radius and angle into
+  /// an x/y coordinate:
   ///
   /// ```swift
-  /// let coord = ParserPrint(.struct(Coordinate.init(radius:angle:))) {
+  /// let coord = ParserPrint(.memberwise(Coordinate.init(radius:angle:))) {
   ///   Double.parser()
   ///   " @ "
   ///   Double.parser()
@@ -90,11 +92,11 @@ extension Conversion {
   /// }
   /// ```
   ///
-  /// However, using this initializer with ``struct`` will cause printing to crash because it will
-  /// try to bitcast a `(String, Int)` struct into a `(Int, String)` tuple:
+  /// However, using this initializer with ``memberwise(_:)`` will cause printing to crash because
+  /// it will try to bitcast a `(String, Int)` struct into a `(Int, String)` tuple:
   ///
   /// ```swift
-  /// let user = ParsePrint(.struct(User.init(id:bio:))) {
+  /// let user = ParsePrint(.memberwise(User.init(id:bio:))) {
   ///   Int.parser()
   ///   ","
   ///   Rest()
@@ -109,15 +111,15 @@ extension Conversion {
   /// - Returns: A conversion that can embed a tuple of values into a struct, and destructure a
   ///   struct back into a tuple of values.
   @inlinable
-  public static func `struct`<Values, Struct>(
+  public static func memberwise<Values, Struct>(
     _ initializer: @escaping (Values) -> Struct
-  ) -> Self where Self == Conversions.Structure<Values, Struct> {
+  ) -> Self where Self == Conversions.Memberwise<Values, Struct> {
     .init(initializer: initializer)
   }
 }
 
 extension Conversions {
-  public struct Structure<Values, Struct>: Conversion {
+  public struct Memberwise<Values, Struct>: Conversion {
     @usableFromInline
     let initializer: (Values) -> Struct
 
