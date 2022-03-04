@@ -14,7 +14,7 @@ try Parse {
 .parse("123,456") // (123, 456)
 ```
 
-The string "," acts as a parser that consumes a comma from the beginning of an input and fails
+The string `","` acts as a parser that consumes a comma from the beginning of an input and fails
 if the input does not start with a comma.
 
 Swift's other string representations also conform to ``Parser``, such as `UnicodeScalarView`
