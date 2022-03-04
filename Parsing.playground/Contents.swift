@@ -2,16 +2,28 @@ import Parsing
 
 var input = ""[...]
 
+//protocol PrependableCollection: Collection {
+//}
+
 protocol AppendableCollection: Collection {
   mutating func append<S>(contentsOf newElements: S) where S : Sequence, Self.Element == S.Element
+  mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Self.Element == S.Element
 }
 
 import Foundation
 
-extension Substring: AppendableCollection {}
-extension ArraySlice: AppendableCollection {}
-extension Data: AppendableCollection {}
-extension Substring.UnicodeScalarView: AppendableCollection {}
+extension Substring: AppendableCollection {
+  mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Character == S.Element {
+    var result = ""[...]
+    defer { self = result }
+    result.append(contentsOf: newElements)
+    result.append(contentsOf: self)
+//    self.insert(contentsOf: Array(newElements), at: self.startIndex)
+  }
+}
+//extension ArraySlice: AppendableCollection {}
+//extension Data: AppendableCollection {}
+//extension Substring.UnicodeScalarView: AppendableCollection {}
 
 extension Substring.UTF8View: AppendableCollection {
   mutating func append<S>(contentsOf newElements: S) where S : Sequence, String.UTF8View.Element == S.Element {
@@ -21,6 +33,17 @@ extension Substring.UTF8View: AppendableCollection {
       result.append(contentsOf: Substring(newElements))
     default:
       result.append(contentsOf: Substring(decoding: Array(newElements), as: UTF8.self))
+    }
+    self = result.utf8
+  }
+
+  mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, String.UTF8View.Element == S.Element {
+    var result = Substring(self)
+    switch newElements {
+    case let newElements as Substring.UTF8View:
+      result.prepend(contentsOf: Substring(newElements))
+    default:
+      result.prepend(contentsOf: Substring(decoding: Array(newElements), as: UTF8.self))
     }
     self = result.utf8
   }
@@ -41,13 +64,13 @@ protocol Printer {
 
 extension String: Printer {
   func print(_ output: (), to input: inout Substring) {
-    input.append(contentsOf: self)
+    input.prepend(contentsOf: self)
   }
 }
 
 extension String.UTF8View: Printer {
   func print(_ output: (), to input: inout Substring.UTF8View) {
-    input.append(contentsOf: self)
+    input.prepend(contentsOf: self)
   }
 }
 
@@ -55,12 +78,50 @@ struct PrintingError: Error {}
 
 extension Prefix: Printer where Input: AppendableCollection {
   func print(_ output: Input, to input: inout Input) throws {
+    guard input.isEmpty || !self.predicate!(input.first!)
+    else { throw PrintingError() }
+
     guard output.allSatisfy(self.predicate!)
     else { throw PrintingError() }
 
-    input.append(contentsOf: output)
+    input.prepend(contentsOf: output)
   }
 }
+
+extension First: Printer where Input: AppendableCollection {
+  func print(_ output: Input.Element, to input: inout Input) throws {
+    input.prepend(contentsOf: [output])
+  }
+}
+
+
+input = "Hello,World"
+try ParsePrint
+{
+  Prefix { $0 != "," && $0 != "\n" }
+  First()
+}
+.parse(&input)
+input
+
+
+try ParsePrint
+{
+  Prefix { $0 != "," && $0 != "\n" }
+  First()
+}
+.print(("Hello", "!"), to: &input)
+input
+
+
+try ParsePrint
+{
+  Prefix { $0 != "," && $0 != "\n" }
+  First()
+}
+.parse(&input)
+input
+
 
 extension Parse: Printer where Parsers: Printer {
   func print(_ output: Parsers.Output, to input: inout Parsers.Input) throws {
@@ -75,9 +136,9 @@ where P0: Printer, P1: Printer, P2: Printer
     _ output: P1.Output,
     to input: inout P0.Input
   ) throws {
-    try self.p0.print((), to: &input)
-    try self.p1.print(output, to: &input)
     try self.p2.print((), to: &input)
+    try self.p1.print(output, to: &input)
+    try self.p0.print((), to: &input)
   }
 }
 
@@ -129,8 +190,8 @@ extension Skip: Printer where Parsers: Printer, Parsers.Output == Void {
 
 extension Parsers.ZipVV: Printer where P0: Printer, P1: Printer {
   func print(_ output: (), to input: inout P0.Input) throws {
-    try self.p0.print((), to: &input)
     try self.p1.print((), to: &input)
+    try self.p0.print((), to: &input)
   }
 }
 
@@ -139,7 +200,7 @@ extension Parsers.IntParser: Printer where Input: AppendableCollection {
 //    var substring = Substring(input)
 //    substring.append(contentsOf: String(output))
 //    input = substring.utf8
-    input.append(contentsOf: String(output).utf8)
+    input.prepend(contentsOf: String(output).utf8)
   }
 }
 
@@ -159,7 +220,7 @@ extension Parsers.BoolParser: Printer where Input: AppendableCollection {
     _ output: Bool,
     to input: inout Input
   ) throws {
-    input.append(contentsOf: String(output).utf8)
+    input.prepend(contentsOf: String(output).utf8)
   }
 }
 
@@ -172,25 +233,25 @@ where
   P4: Printer
 {
   func print(_ output: (P0.Output, P2.Output, P4.Output), to input: inout P0.Input) throws {
-    try self.p0.print(output.0, to: &input)
-    try self.p1.print((), to: &input)
-    try self.p2.print(output.1, to: &input)
-    try self.p3.print((), to: &input)
     try self.p4.print(output.2, to: &input)
+    try self.p3.print((), to: &input)
+    try self.p2.print(output.1, to: &input)
+    try self.p1.print((), to: &input)
+    try self.p0.print(output.0, to: &input)
   }
 }
 
 extension Parsers.ZipOO: Printer where P0: Printer, P1: Printer {
   func print(_ output: (P0.Output, P1.Output), to input: inout P0.Input) throws {
-    try p0.print(output.0, to: &input)
     try p1.print(output.1, to: &input)
+    try p0.print(output.0, to: &input)
   }
 }
 
 extension Parsers.ZipVO: Printer where P0: Printer, P1: Printer {
   func print(_ output: P1.Output, to input: inout P0.Input) throws {
-    try p0.print((), to: &input)
     try p1.print(output, to: &input)
+    try p0.print((), to: &input)
   }
 }
 
@@ -204,15 +265,15 @@ where
   Result == [Element.Output]
 {
   func print(_ output: [Element.Output], to input: inout Element.Input) throws {
+    try self.terminator.print((), to: &input)
     var firstElement = true
-    for elementOutput in output {
+    for elementOutput in output.reversed() {
       defer { firstElement = false }
       if !firstElement {
         try self.separator.print((), to: &input)
       }
       try self.element.print(elementOutput, to: &input)
     }
-    try self.terminator.print((), to: &input)
   }
 }
 
@@ -314,9 +375,9 @@ extension Parse {
 
 extension Parsers.ZipOVO: Printer where P0: Printer, P1: Printer, P2: Printer {
   func print(_ output: (P0.Output, P2.Output), to input: inout P0.Input) throws {
-    try self.p0.print(output.0, to: &input)
-    try self.p1.print((), to: &input)
     try self.p2.print(output.1, to: &input)
+    try self.p1.print((), to: &input)
+    try self.p0.print(output.0, to: &input)
   }
 }
 
@@ -336,13 +397,15 @@ extension Parsers {
     }
 
     func print(_ output: Upstream.Output, to input: inout Upstream.Input) throws {
-      input.append(contentsOf: self.input)
+      input.prepend(contentsOf: self.input)
     }
   }
 }
 
 extension End: Printer {
   func print(_ output: (), to input: inout Input) throws {
+    guard input.isEmpty
+    else { throw PrintingError() }
   }
 }
 
@@ -351,13 +414,19 @@ extension Rest: Printer where Input: AppendableCollection {
     guard !output.isEmpty, input.isEmpty
     else { throw PrintingError() }
 
-    input.append(contentsOf: output)
+    input.prepend(contentsOf: output)
   }
 }
 
 extension Not: Printer where Upstream: Printer, Upstream.Output == Void {
   func print(_ output: (), to input: inout Upstream.Input) throws {
-    //try self.upstream.print((), to: &input)
+    var input = input
+    do {
+      try self.upstream.parse(&input)
+    } catch {
+      return
+    }
+    throw PrintingError()
   }
 }
 
@@ -370,10 +439,19 @@ let uncommentedLine = Parse {
 }
 
 input = ""
-try uncommentedLine.print("// let x = 1", to: &input)
+try uncommentedLine.print("let x = 1", to: &input)
 input
 try uncommentedLine.parse(input)
 //try uncommentedLine.parse("// let x = 1")
+
+
+input = ""
+try ParsePrint {
+  "Hello "
+  Int.parser()
+}
+.print(42, to: &input)
+input
 
 
 //input = ""
@@ -393,8 +471,8 @@ try uncommentedLine.parse(input)
 
 input = ""
 try Parse {
-  End()
   "Hello"
+  End()
 }
 .print((), to: &input)
 input
