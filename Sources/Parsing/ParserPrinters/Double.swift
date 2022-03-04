@@ -31,6 +31,8 @@ extension Double {
   ///
   /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
   ///
+  /// See <doc:Double> for more information about this parser.
+  ///
   /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
   /// - Returns: A parser that consumes a double from the beginning of a substring.
@@ -46,6 +48,8 @@ extension Double {
   ///
   /// This overload is provided to allow the `Input` generic to be inferred when it is
   /// `Substring.UTF8View`.
+  ///
+  /// See <doc:Double> for more information about this parser.
   ///
   /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
@@ -101,14 +105,15 @@ extension Float {
     From(.utf8) { Parsers.FloatParser<Substring.UTF8View>() }
   }
 
-  /// A parser that consumes a float from the beginning of a substring's UTF-8 view.
+  /// A parser that consumes a float from the beginning of a substring.
   ///
-  /// This overload is provided to allow the `Input` generic to be inferred when it is
-  /// `Substring.UTF8View`.
+  /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
   ///
-  /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
+  /// See <doc:Float> for more information about this parser.
+  ///
+  /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
-  /// - Returns: A parser that consumes a float from the beginning of a substring's UTF-8 view.
+  /// - Returns: A parser that consumes a float from the beginning of a substring.
   @_disfavoredOverload
   @inlinable
   public static func parser(

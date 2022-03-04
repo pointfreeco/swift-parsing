@@ -52,7 +52,7 @@ second parser's error shows first since it was able to get the furthest:
 do {
   try accountingNumber.parse("(100]")
 } catch {
-  print(error))
+  print(error)
 
   // error: multiple failures occurred
   //

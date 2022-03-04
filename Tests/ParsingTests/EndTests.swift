@@ -36,4 +36,18 @@ final class EndTests: XCTestCase {
     XCTAssertThrowsError(try End().print(into: &input))
     XCTAssertNoDifference(input, "Hello, world!"[...])
   }
+
+  func testTrailingWhitespace() {
+    XCTAssertThrowsError(try Int.parser().parse("123   ")) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:4
+        1 | 123␣␣␣
+          |    ^ expected end of input
+        """,
+        "\(error)"
+      )
+    }
+  }
 }

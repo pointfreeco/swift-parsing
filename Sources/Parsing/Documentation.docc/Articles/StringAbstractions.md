@@ -28,7 +28,7 @@ However, there are tradeoffs to using each type:
     form the single extended grapheme cluster of the flag character.
 
     Further, some `Character`s have multiple representations as collections of unicode scalars. For
-    example, an "e" with an accute access only has one visual representation, yet there are two
+    example, an "e" with an accute accent only has one visual representation, yet there are two
     different sequences of unicode scalars that can represent that character:
 
     ```swift
@@ -38,7 +38,7 @@ However, there are tradeoffs to using each type:
 
     You can't tell from looking at the character, but the first "é" is a single unicode scalar
     called a "LATIN SMALL LETTER E WITH ACUTE" and the second "é" is two scalars, one just a plain
-    "e" and the second a "COMBINING ACUTE ACCENT". In fact, these two accented e's are equal as
+    "e" and the second a "COMBINING ACUTE ACCENT". Importantly, these two accented e's are equal as
     `Character`s but unequal as `UnicodeScalarView`s:
 
     ```swift
@@ -130,7 +130,7 @@ let city = OneOf {
   "Los Angeles".utf8.map { City.losAngeles }
   "New York".utf8.map { City.newYork }
   "San Jos\u{00E9}".utf8.map { City.sanJose }
-  "San Jos\u{0301}".utf8.map { City.sanJose }
+  "San Jose\u{0301}".utf8.map { City.sanJose }
 }
 
 city.parse("San Jos\u{00E9}".utf8)  // ✅
