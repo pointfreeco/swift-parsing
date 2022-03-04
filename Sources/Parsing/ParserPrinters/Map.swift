@@ -137,12 +137,25 @@ extension Parsers {
     @inlinable
     @inline(__always)
     public func parse(_ input: inout Upstream.Input) rethrows -> Downstream.Output {
-      try self.downstream.apply(try self.upstream.parse(&input))
+      let result = try self.upstream.parse(&input)
+      do {
+        return try self.downstream.apply(result)
+      } catch {
+        throw ParsingError.wrap(error, at: input)
+      }
     }
 
     @inlinable
     public func print(_ output: Downstream.Output, into input: inout Upstream.Input) rethrows {
-      try self.upstream.print(self.downstream.unapply(output), into: &input)
+      let result: Downstream.Input
+      do {
+        result = try self.downstream.unapply(output)
+      } catch {
+        // FIXME: Throw a PrintingError once it can wrap the original error message.
+        // throw PrintingError()
+        throw error
+      }
+      try self.upstream.print(result, into: &input)
     }
   }
 }
