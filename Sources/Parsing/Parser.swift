@@ -23,14 +23,6 @@
 /// be implemented efficiently on substrings because they simply move the start and end indices,
 /// whereas their implementation on strings must make a copy of the string with the characters
 /// removed.
-///
-/// To explore the concepts of parsers more deeply read the following articles:
-///
-/// * <doc:GettingStarted>
-/// * <doc:Design>
-/// * <doc:StringAbstractions>
-/// * <doc:ErrorMessages>
-/// * <doc:Backtracking>
 @rethrows public protocol Parser {
   /// The type of values this parser parses from.
   associatedtype Input
@@ -38,7 +30,9 @@
   /// The type of values parsed by this parser.
   associatedtype Output
 
-  /// Attempts to parse a nebulous piece of data into something more well-structured.
+  /// Attempts to parse a nebulous piece of data into something more well-structured. Typically
+  /// you only call this from other `Parser` conformances, not when you want to parse a concrete
+  /// input.
   ///
   /// - Parameter input: A nebulous, mutable piece of data to be incrementally parsed.
   /// - Returns: A more well-structured value parsed from the given input.
@@ -46,7 +40,22 @@
 }
 
 extension Parser {
-  /// Attempts to parse a nebulous piece of data into something more well-structured.
+  /// Parse an input value into an output. This method is more ergonomic to use than
+  /// ``parse(_:)-76tcw`` because the input does not need to be inout.
+  ///
+  /// Rather than having to create a mutable input value and feed it to the ``parse(_:)-76tcw``
+  /// method like this:
+  ///
+  /// ```swift
+  /// var input = ...
+  /// let output = try parser.parse(&input)
+  /// ```
+  ///
+  /// You can just feed the input directly:
+  ///
+  /// ```swift
+  /// let output = try parser.parse(input)
+  /// ```
   ///
   /// - Parameter input: A nebulous piece of data to be parsed.
   /// - Returns: A more well-structured value parsed from the given input.
@@ -56,7 +65,62 @@ extension Parser {
     return try self.parse(&input)
   }
 
-  /// Attempts to parse a nebulous collection of data into something more well-structured.
+  /// Parse a collection into an output using a parser that works on the collection's `SubSequence`.
+  /// This method is more ergnomic to use than ``parse(_:)-76tcw`` because it accepts a
+  /// collection directly rather than its subsequence, and the input does not need to be `inout`.
+  ///
+  /// Rather than having to create a mutable subsequence value, such as a `Substring`, and feed it
+  /// to the ``parse(_:)-76tcw`` method like this:
+  ///
+  /// ```swift
+  /// var input = "123,true"[...]
+  /// let output = try Parse {
+  ///   Int.parser()
+  ///   ","
+  ///   Bool.parser()
+  /// }
+  /// .parse(&input) // (123, true)
+  /// ```
+  ///
+  /// You can just feed a plain `String` input directly:
+  ///
+  /// ```swift
+  /// let output = try Parse {
+  ///   Int.parser()
+  ///   ","
+  ///   Bool.parser()
+  /// }
+  /// .parse("123,true") // (123, true)
+  /// ```
+  ///
+  /// This method will fail if the parser does not consume the entirety of the input.
+  /// For example:
+  ///
+  /// ```swift
+  /// let output = try Parse {
+  ///  Int.parser()
+  ///  ","
+  ///  Bool.parser()
+  /// }
+  /// .parse("123,true    ")
+  ///
+  /// // error: unexpected input
+  /// //  --> input:1:9
+  /// // 1 | 123,true␣␣␣␣
+  /// //   |         ^ expected end of input
+  /// ```
+  ///
+  /// > Tip: If your input can have trailing whitespace that you would like to consume and discard
+  /// > you can do so like this:
+  /// > ```swift
+  /// > let output = try Parse {
+  /// >   Int.parser()
+  /// >   ",".utf8
+  /// >   Bool.parser()
+  /// >   Skip { Whitespace() }
+  /// > }
+  /// > .parse("123,true    ") // (123, true)
+  /// > ```
   ///
   /// - Parameter input: A nebulous collection of data to be parsed.
   /// - Returns: A more well-structured value parsed from the given input.
@@ -69,7 +133,62 @@ extension Parser {
     }.parse(input[...])
   }
 
-  /// Attempts to parse a nebulous collection of data into something more well-structured.
+  /// Parse a `String` into an output using a UTF-8 parser. This method is more ergnomic to use
+  /// than ``parse(_:)-76tcw`` because it accepts a plain string rather than a collection of
+  /// UTF-8 code units, and the input does not need to be `inout`.
+  ///
+  /// Rather than having to create a mutable UTF-8 value and feed it to the ``parse(_:)-76tcw``
+  /// method like this:
+  ///
+  /// ```swift
+  /// var input = "123,true"[...].utf8
+  /// let output = try Parse {
+  ///   Int.parser()
+  ///   ",".utf8
+  ///   Bool.parser()
+  /// }
+  /// .parse(&input) // (123, true)
+  /// ```
+  ///
+  /// You can just feed a plain `String` input directly:
+  ///
+  /// ```swift
+  /// let output = try Parse {
+  ///   Int.parser()
+  ///   ",".utf8
+  ///   Bool.parser()
+  /// }
+  /// .parse("123,true") // (123, true)
+  /// ```
+  ///
+  /// This method will fail if the parser does not consume the entirety of the input.
+  /// For example:
+  ///
+  /// ```swift
+  /// let output = try Parse {
+  ///   Int.parser()
+  ///   ",".utf8
+  ///   Bool.parser()
+  /// }
+  /// .parse("123,true    ")
+  ///
+  /// // error: unexpected input
+  /// //  --> input:1:9
+  /// // 1 | 123,true␣␣␣␣
+  /// //   |         ^ expected end of input
+  /// ```
+  ///
+  /// > Tip: If your input can have trailing whitespace that you would like to consume and discard
+  /// > you can do so like this:
+  /// > ```swift
+  /// > let output = try Parse {
+  /// >  Int.parser()
+  /// >  ",".utf8
+  /// >  Bool.parser()
+  /// >  Skip { Whitespace() }
+  /// > }
+  /// > .parse("123,true    ") // (123, true)
+  /// > ```
   ///
   /// - Parameter input: A nebulous collection of data to be parsed.
   /// - Returns: A more well-structured value parsed from the given input.
