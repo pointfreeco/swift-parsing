@@ -51,7 +51,7 @@ try Parse {
   ","
   Int.parser()
 }
-.parse("true,false") // (true, false)
+.parse("123,456") // (123, 456)
 ```
 
 On the other hand, if `Int.parser()` is used in a context where the input type cannot be inferred,
