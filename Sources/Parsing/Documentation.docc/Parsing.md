@@ -97,3 +97,10 @@ to learn in order to performantly parse larger inputs.
 * <doc:StringAbstractions>
 * <doc:ErrorMessages>
 * <doc:Backtracking>
+
+## See Also
+
+The collecton of videos from [Point-Free](https://www.pointfree.co) that dive deep into the
+development of the Parsing library.
+
+* [Point-Free Videos](https://www.pointfree.co/collections/parsing)

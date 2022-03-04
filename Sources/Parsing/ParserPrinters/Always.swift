@@ -76,13 +76,6 @@ public struct Always<Input, Output>: ParserPrinter {
 
   @inlinable
   public func print(_ output: Output, into input: inout Input) {}
-
-  @inlinable
-  public func map<NewOutput>(
-    _ transform: @escaping (Output) -> NewOutput
-  ) -> Always<Input, NewOutput> {
-    .init(transform(self.output))
-  }
 }
 
 extension Always where Input == Substring {

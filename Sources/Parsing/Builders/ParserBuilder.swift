@@ -1,7 +1,17 @@
-/// A custom parameter attribute that constructs a parser that attempts to run a number of parsers,
-/// one after the other, and accumulates their outputs.
+/// A custom parameter attribute that constructs parsers from closures. The constructed parser
+/// runs a number of parsers, one after the other, and accumulates their outputs.
 ///
-/// See ``Parse`` for an entry point into this builder.
+/// The ``Parse`` parser acts as an entry point into `@ParserBuilder` syntax, where you can list
+/// all of the parsers you want to run. For example, to parse two comma-separated integers:
+///
+/// ```swift
+/// try Parse {
+///   Int.parser()
+///   ","
+///   Int.parser()
+/// }
+/// .parse("123,456") // (123, 456)
+/// ```
 @resultBuilder
 public enum ParserBuilder {
   /// Provides support for specifying a parser in ``ParserBuilder`` blocks.

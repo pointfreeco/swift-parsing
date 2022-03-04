@@ -283,8 +283,13 @@ func format(labels: [String], context: ParsingError.Context) -> String {
       ]
       .prefix { !$0.isNewline }
       let isStartTruncated = offset != position.column
-      let truncatedLine = selectedLine.prefix(79 - 4 - (isStartTruncated ? 1 : 0))
+      var truncatedLine = selectedLine.prefix(79 - 4 - (isStartTruncated ? 1 : 0))
       let isEndTruncated = truncatedLine.endIndex != selectedLine.endIndex
+      for index in truncatedLine.indices.reversed() {
+        guard truncatedLine[index].isWhitespace
+        else { break }
+        truncatedLine.replaceSubrange(index...index, with: "␣")
+      }
 
       let diagnostic =
         ("\(isStartTruncated ? "…" : "")\(truncatedLine)\(isEndTruncated ? "…" : "")\n"
