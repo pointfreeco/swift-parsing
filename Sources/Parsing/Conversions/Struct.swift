@@ -21,6 +21,88 @@ extension Conversion {
   /// coord.print(.init(x: -5, y: 10))  // "-5.0,10.0"
   /// ```
   ///
+  /// This conversion works by using the function you supply to ``struct(_:)`` in order to turn
+  /// tuples into a struct, and it uses `unsafeBitcast` to turn the struct back into a tuple.
+  /// Because of this, it is _not_ valid to use ``struct(_:)`` with anything other than the
+  /// default synthesized memberwise initializer that structs are given for free by the compiler
+  /// as that function most correctly maps the data inside a struct to its tuple representation,
+  /// even enforcing the order of the fields.
+  ///
+  /// If you alter the initializer in any way you run the risk of introducing subtle bugs into
+  /// your parser-printer and potentially causing crashes.
+  ///
+  /// For example, suppose we provided an alternative initializer to `Coordinate` above that
+  /// allowed you to create a coordinate from a radius and angle measured in degrees:
+  ///
+  /// ```swift
+  /// extension Coordinate {
+  ///   init(radius: Double, angle: Double) {
+  ///     self.x = radius * cos(angle * Double.pi / 180)
+  ///     self.y = radius * sin(angle * Double.pi / 180)
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// This may seem innocent enough, but it is _not_ safe to use this initializer with
+  /// ``struct(_:)``. The following parser-printer will correctly parse a radius and angle into an
+  /// x/y coordinate:
+  ///
+  /// ```swift
+  /// let coord = ParserPrint(.struct(Coordinate.init(radius:angle:))) {
+  ///   Double.parser()
+  ///   " @ "
+  ///   Double.parser()
+  ///   "°"
+  /// }
+  ///
+  /// try coord.parse("1 @ 90°") // (x: 0, y: 1)
+  /// ```
+  ///
+  /// However, printing a coordinate will _not_ convert it back into a radius and angle, and
+  /// instead will erroneously use (0, 1) as the radius and angle:
+  ///
+  /// ```swift
+  /// try coord.print(.init(x: 0, y: 1)) // "0 @ 1°"
+  /// ```
+  ///
+  /// This means this parser-printer does not round trip (see <doc:Roundtripping>), i.e. if we
+  /// parse and input and then print that output we do not get back the original input we started
+  /// with:
+  ///
+  /// ```swift
+  /// try coord.print(try coord.parse("1 @ 90°")) == "1 @ 90°" // ❌
+  /// ```
+  ///
+  /// Further, it is possible to provide a custom initializer for a type that either re-orders
+  /// the fields or add/removes fields, both of which will cause the underlying `unsafeBitCast`
+  /// to crash. For example, we could have a `User` struct that holds onto a string for the
+  /// bio and an integer for the id, and provide a custom initializer so that the id is provided
+  /// first:
+  ///
+  /// ```swift
+  /// struct User {
+  ///   let bio: String
+  ///   let id: Int
+  ///   init(id: Int, bio: String) {
+  ///     self.bio = bio
+  ///     self.id = id
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// However, using this initializer with ``struct`` will cause printing to crash because it will
+  /// try to bitcast a `(String, Int)` struct into a `(Int, String)` tuple:
+  ///
+  /// ```swift
+  /// let user = ParsePrint(.struct(User.init(id:bio:))) {
+  ///   Int.parser()
+  ///   ","
+  ///   Rest()
+  /// }
+  ///
+  /// try user.print(.init(id: 42, bio: "Hello world!")) // ❌
+  /// ```
+  ///
   /// - Parameter initializer: A memberwise initializer where `Values` directly maps to the memory
   ///   layout of `Root`, for example the internal, default initializer that is automatically
   ///   synthesized for structs.
