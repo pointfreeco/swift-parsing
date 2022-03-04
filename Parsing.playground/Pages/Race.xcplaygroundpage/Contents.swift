@@ -196,6 +196,24 @@ where
   }
 }
 
+extension Parsers.ZipOV: Printer where P0: Printer, P1: Printer {
+  func print(_ output: (P0.Output), to input: inout P0.Input) throws {
+    try self.p1.print((), to: &input)
+    try self.p0.print(output, to: &input)
+  }
+}
+
+extension Parsers.ZipOVOVOO: Printer where P0: Printer, P1: Printer, P2: Printer, P3: Printer, P4: Printer, P5: Printer {
+  func print(_ output: (P0.Output, P2.Output, P4.Output, P5.Output), to input: inout P0.Input) throws {
+    try self.p5.print(output.3, to: &input)
+    try self.p4.print(output.2, to: &input)
+    try self.p3.print((), to: &input)
+    try self.p2.print(output.1, to: &input)
+    try self.p1.print((), to: &input)
+    try self.p0.print(output.0, to: &input)
+  }
+}
+
 extension Parsers.ZipOO: Printer where P0: Printer, P1: Printer {
   func print(_ output: (P0.Output, P1.Output), to input: inout P0.Input) throws {
     try p1.print(output.1, to: &input)
@@ -377,9 +395,30 @@ struct Money {
   let dollars: Int
 }
 
+Array("🥵".utf8)
+
+let count = Conversion<[Void], Int>(
+  apply: \.count,
+  unapply: { count in Array(repeating: (), count: count) }
+)
+
+let difficulty = // Prefix { $0 == "🥵" }.map(\.count)
+Many { "🥵".utf8 }.map(count)
+
+input = ""[...].utf8
+try Many { "🥵".utf8 }.print([(), (), ()], to: &input)
+Substring(input)
+
+try difficulty.parse("🥵🥵🥵🥵".utf8)
+
+input = ""[...].utf8
+try difficulty.print(5, to: &input)
+Substring(input)
+
 struct Race {
   let location: String
   let entranceFee: Money
+  let difficulty: Int
   let path: [Coordinate]
 }
 
@@ -474,7 +513,14 @@ let race = ParsePrint(.struct(Race.init)) {
     zeroOrMoreSpaces
   }
   money
-  "\n".utf8
+  Skip {
+    ",".utf8
+    zeroOrMoreSpaces
+  }
+  ParsePrint {
+    difficulty
+    "\n".utf8
+  }
   Many {
     coord
   } separator: {
@@ -487,6 +533,7 @@ try race.print(
   .init(
     location: "New York",
     entranceFee: .init(currency: .usd, dollars: 300),
+    difficulty: 4,
     path: [
       .init(latitude: 37, longitude: 42),
         .init(latitude: 37.01, longitude: 42.01)
@@ -508,6 +555,7 @@ try races.print(
     .init(
       location: "New York",
       entranceFee: .init(currency: .usd, dollars: 300),
+      difficulty: 4,
       path: [
         .init(latitude: 37, longitude: 42),
           .init(latitude: 37.01, longitude: 42.01)
@@ -516,6 +564,7 @@ try races.print(
     .init(
       location: "Berlin",
       entranceFee: .init(currency: .eur, dollars: 200),
+      difficulty: 3,
       path: [
         .init(latitude: 37, longitude: 42),
           .init(latitude: 37.01, longitude: 42.01)
@@ -527,7 +576,7 @@ try races.print(
 Substring(input)
 
 let racesInput = """
-  New York City, $300
+  New York City, $300, 🥵🥵🥵🥵
   40.60248° N, 74.06433° W
   40.61807° N, 74.02966° W
   40.64953° N, 74.00929° W
@@ -545,7 +594,7 @@ let racesInput = """
   40.77392° N, 73.96917° W
   40.77293° N, 73.97671° W
   ---
-  Berlin, €100
+  Berlin, €100, 🥵🥵🥵
   13.36015° N, 52.51516° E
   13.33999° N, 52.51381° E
   13.32539° N, 52.51797° E
@@ -570,7 +619,7 @@ let racesInput = """
   13.39155° N, 52.51046° E
   13.37256° N, 52.51598° E
   ---
-  London, £500
+  London, £500, 🥵🥵
   51.48205° N, 0.04283° E
   51.47439° N, 0.0217° E
   51.47618° N, 0.02199° E
