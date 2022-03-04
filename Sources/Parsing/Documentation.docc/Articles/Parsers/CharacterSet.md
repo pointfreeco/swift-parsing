@@ -5,7 +5,7 @@ A parser that consumes the characters contained in a `CharacterSet` from the beg
 For example:
 
 ```swift
-try Parse {
+Parse {
   CharacterSet.alphanumerics
   CharacterSet.punctuationCharacters
   CharacterSet.alphanumerics
