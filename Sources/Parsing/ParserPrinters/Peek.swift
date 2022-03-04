@@ -15,9 +15,13 @@
 ///   Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
 /// }
 ///
-/// identifier.parse("foo123") // ✅ "foo123"
-/// identifier.parse("_foo123") // ✅ "_foo123"
-/// identifier.parse("1_foo123") // ❌
+/// try identifier.parse("foo123") // ✅ "foo123"
+/// try identifier.parse("_foo123") // ✅ "_foo123"
+/// try identifier.parse("1_foo123") // ❌
+/// // error: unexpected input
+/// //  --> input:1:1
+/// // 1 | 1_foo123
+/// //   | ^ expected 1 element satisfying predicate
 /// ```
 public struct Peek<Upstream: Parser>: ParserPrinter {
   public let upstream: Upstream

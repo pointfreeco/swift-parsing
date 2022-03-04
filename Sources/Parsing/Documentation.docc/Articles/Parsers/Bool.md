@@ -2,7 +2,7 @@
 
 A parser that consumes a Boolean value from the beginning of a string.
 
-This parser only recognizes the literal "true" and "false" sequence of characters:
+This parser only recognizes the literal `"true"` and `"false"` sequence of characters:
 
 ```swift
 // Parses "true":
@@ -31,16 +31,17 @@ UTF-8 code units (see <doc:StringAbstractions> for more info).
 
 Typically Swift can choose the correct overload by using type inference based on what other parsers
 you are combining `Bool.parser()` with. For example, if you use `Bool.parser()` with a
-`Substring` parser, say the literal "," parser (see <doc:String> for more information), Swift
+`Substring` parser, say the literal `","` parser (see <doc:String> for more information), Swift
 will choose the overload that works on substrings:
 
 ```swift
-try Parse {
+let parser = Parse {
   Bool.parser()
   ","
   Bool.parser()
 }
-.parse("true,false") // (true, false)
+
+try parser.parse("true,false") // (true, false)
 ```
 
 On the other hand, if `Bool.parser()` is used in a context where the input type cannot be inferred,
@@ -59,9 +60,10 @@ To fix this you can force one of the boolean parsers to be the `Substring` parse
 other will figure it out via type inference:
 
 ```swift
-try Parse {
+let parser = Parse {
   Bool.parser(of: Substring.self)
-  Bool.parser()
+  Bool.parser() // ✅
 }
-.parse("truefalse") // (true, false)
+
+try parser.parse("truefalse")
 ```

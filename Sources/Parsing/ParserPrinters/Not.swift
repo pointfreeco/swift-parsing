@@ -8,9 +8,9 @@
 ///   PrefixUpTo("\n")
 /// }
 ///
-/// uncommentedLine.parse("let x = 1") // ✅ "let x = 1"
+/// try uncommentedLine.parse("let x = 1") // ✅ "let x = 1"
 ///
-/// uncommentedLine.parse("// let x = 1") // ❌
+/// try uncommentedLine.parse("// let x = 1") // ❌
 /// // error: unexpected input
 /// //  --> input:1:1-2
 /// // 1 | // let x = 1

@@ -25,36 +25,39 @@ UTF-8 code units (see <doc:StringAbstractions> for more info).
 
 Typically Swift can choose the correct overload by using type inference based on what other parsers
 you are combining `Double.parser()` with. For example, if you use `Double.parser()` with a
-`Substring` parser, say the literal "," parser (see <doc:String> for more information), Swift
+`Substring` parser, say the literal `","` parser (see <doc:String> for more information), Swift
 will choose the overload that works on substrings:
 
 ```swift
-try Parse {
+let parser = Parse {
   Double.parser()
   ","
   Double.parser()
 }
-.parse("1,-2") // (1.0, -2.0)
+
+try parser.parse("1,-2") // (1.0, -2.0)
 ```
 
 On the other hand, if `Double.parser()` is used in a context where the input type cannot be inferred,
 then you will get an compiler error:
 
 ```swift
-try Parse {
+let parser = Parse {
   Double.parser()
   Double.parser() // 🛑 Ambiguous use of 'parser(of:)'
 }
-.parse(".1.2")
+
+try parser.parse(".1.2")
 ```
 
 To fix this you can force one of the double parsers to be the `Substring` parser, and then the
 other will figure it out via type inference:
 
 ```swift
-try Parse {
+let parser = Parse {
   Double.parser(of: Substring.self)
-  Double.parser()
+  Double.parser() // ✅
 }
-.parse(".1.2") // (0.1, 0.2)
+
+try parser.parse(".1.2") // (0.1, 0.2)
 ```
