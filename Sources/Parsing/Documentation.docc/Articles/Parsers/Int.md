@@ -76,5 +76,5 @@ let parser = Parse {
   Bool.parser(of: Substring.self)
 }
 
-try parser.parse("123true") // (123, true) 
+try parser.parse("123true") // (123, true)
 ```
