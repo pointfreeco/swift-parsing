@@ -180,11 +180,27 @@ where
   }
 }
 
+extension Parsers.ZipOO: Printer where P0: Printer, P1: Printer {
+  func print(_ output: (P0.Output, P1.Output), to input: inout P0.Input) throws {
+    try p0.print(output.0, to: &input)
+    try p1.print(output.1, to: &input)
+  }
+}
+
+extension Parsers.ZipVO: Printer where P0: Printer, P1: Printer {
+  func print(_ output: P1.Output, to input: inout P0.Input) throws {
+    try p0.print((), to: &input)
+    try p1.print(output, to: &input)
+  }
+}
+
 extension Many: Printer
 where
   Element: Printer,
   Separator: Printer,
   Separator.Output == Void,
+  Terminator: Printer,
+  Terminator.Output == Void,
   Result == [Element.Output]
 {
   func print(_ output: [Element.Output], to input: inout Element.Input) throws {
@@ -196,6 +212,7 @@ where
       }
       try self.element.print(elementOutput, to: &input)
     }
+    try self.terminator.print((), to: &input)
   }
 }
 
@@ -324,6 +341,66 @@ extension Parsers {
   }
 }
 
+extension End: Printer {
+  func print(_ output: (), to input: inout Input) throws {
+  }
+}
+
+extension Rest: Printer where Input: AppendableCollection {
+  func print(_ output: Input, to input: inout Input) throws {
+    guard !output.isEmpty, input.isEmpty
+    else { throw PrintingError() }
+
+    input.append(contentsOf: output)
+  }
+}
+
+extension Not: Printer where Upstream: Printer, Upstream.Output == Void {
+  func print(_ output: (), to input: inout Upstream.Input) throws {
+    //try self.upstream.print((), to: &input)
+  }
+}
+
+let x = 1
+// let y = 2
+
+let uncommentedLine = Parse {
+  Not { "//" }
+  Prefix { $0 != "\n" }
+}
+
+input = ""
+try uncommentedLine.print("// let x = 1", to: &input)
+input
+try uncommentedLine.parse(input)
+//try uncommentedLine.parse("// let x = 1")
+
+
+//input = ""
+//try ParsePrint
+//{
+//  Rest()
+//  Rest()
+//}
+//.print(("Hello", "World"), to: &input)
+//input
+//try Parse
+//{
+//  Rest()
+//  Rest()
+//}
+//.parse(input)
+
+input = ""
+try Parse {
+  End()
+  "Hello"
+}
+.print((), to: &input)
+input
+//.parse("")
+
+
 input = ""
 try Parse {
   Prefix { $0 != "\"" }
@@ -351,10 +428,10 @@ try "Hello".parse(&input) // ()
 // (inout S) -> A
 
 let usersCsv = """
-1, Blob, true
-2, Blob Jr, false
-3, Blob Sr, true
-4, "Blob, Esq.", true
+1, Blob, admin
+2, Blob Jr, member
+3, Blob Sr, guest
+4, "Blob, Esq.", admin
 """
 
 enum Role {
@@ -581,6 +658,12 @@ let users = Many {
 } terminator: {
   End()
 }
+
+//try users.parse("""
+//1,Blob,admin
+//2,Blob Jr,member
+//3,Blob Sr,true
+//""")
 
 inputUtf8 = ""[...].utf8
 try usersUtf8.print([
