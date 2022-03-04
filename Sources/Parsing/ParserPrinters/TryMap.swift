@@ -79,7 +79,12 @@ extension Parsers {
     @inlinable
     @inline(__always)
     public func parse(_ input: inout Upstream.Input) throws -> NewOutput {
-      try self.transform(self.upstream.parse(&input))
+        let result = try self.upstream.parse(&input)
+        do {
+          return try self.transform(result)
+        } catch {
+          throw ParsingError.wrap(error, at: input)
+        }
     }
   }
 }
