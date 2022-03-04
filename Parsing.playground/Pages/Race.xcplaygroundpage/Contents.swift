@@ -1,16 +1,9 @@
 import Parsing
 
-var input = ""[...]
-
-//protocol PrependableCollection: Collection {
-//}
-
 protocol AppendableCollection: Collection {
   mutating func append<S>(contentsOf newElements: S) where S : Sequence, Self.Element == S.Element
   mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Self.Element == S.Element
 }
-
-import Foundation
 
 extension Substring: AppendableCollection {
   mutating func prepend<S>(contentsOf newElements: S) where S : Sequence, Character == S.Element {
@@ -18,12 +11,8 @@ extension Substring: AppendableCollection {
     defer { self = result }
     result.append(contentsOf: newElements)
     result.append(contentsOf: self)
-//    self.insert(contentsOf: Array(newElements), at: self.startIndex)
   }
 }
-//extension ArraySlice: AppendableCollection {}
-//extension Data: AppendableCollection {}
-//extension Substring.UnicodeScalarView: AppendableCollection {}
 
 extension Substring.UTF8View: AppendableCollection {
   mutating func append<S>(contentsOf newElements: S) where S : Sequence, String.UTF8View.Element == S.Element {
@@ -48,13 +37,6 @@ extension Substring.UTF8View: AppendableCollection {
     self = result.utf8
   }
 }
-
-//let _quotedField = ParsePrint {
-//  "\"".utf8
-//  Prefix { $0 != .init(ascii: "\"") }
-//  "\"".utf8
-//}
-
 
 protocol Printer {
   associatedtype Input
@@ -93,35 +75,6 @@ extension First: Printer where Input: AppendableCollection {
     input.prepend(contentsOf: [output])
   }
 }
-
-
-input = "Hello,World"
-try ParsePrint
-{
-  Prefix { $0 != "," && $0 != "\n" }
-  First()
-}
-.parse(&input)
-input
-
-
-try ParsePrint
-{
-  Prefix { $0 != "," && $0 != "\n" }
-  First()
-}
-.print(("Hello", "!"), to: &input)
-input
-
-
-try ParsePrint
-{
-  Prefix { $0 != "," && $0 != "\n" }
-  First()
-}
-.parse(&input)
-input
-
 
 extension Parse: Printer where Parsers: Printer {
   func print(_ output: Parsers.Output, to input: inout Parsers.Input) throws {
@@ -197,9 +150,11 @@ extension Parsers.ZipVV: Printer where P0: Printer, P1: Printer {
 
 extension Parsers.IntParser: Printer where Input: AppendableCollection {
   func print(_ output: Output, to input: inout Input) {
-//    var substring = Substring(input)
-//    substring.append(contentsOf: String(output))
-//    input = substring.utf8
+    input.prepend(contentsOf: String(output).utf8)
+  }
+}
+extension Parsers.DoubleParser: Printer where Input: AppendableCollection {
+  func print(_ output: Output, to input: inout Input) {
     input.prepend(contentsOf: String(output).utf8)
   }
 }
@@ -277,29 +232,6 @@ where
   }
 }
 
-try Parse
-{
-  "Hello "
-  FromUTF8View { Int.parser() }
-  "!"
-}
-.parse("Hello 42!")
-
-input = ""
-try Parse { "Hello "; Int.parser(); "!" }
-.print(42, to: &input)
-input
-
-//Skip { Prefix { $0 != "," } }.print(<#T##output: ()##()#>, to: &<#T##_#>)
-
-
-// f: (A) -> B
-
-// parse: (inout Input) throws -> Output
-// print: (Output, inout Input) throws -> Void
-
-// .map { Role.admin }
-
 extension Parsers.Map: Printer where
   Upstream: Printer,
   Upstream.Output == Void,
@@ -335,18 +267,6 @@ extension Parser where Self: Printer {
     .init(upstream: self, transform: conversion.apply, untransform: conversion.unapply)
   }
 }
-
-// map: ((A) -> B) -> (F<A>) -> F<B>
-// map: ((A) -> B) -> (Array<A>) -> Array<B>
-// map: ((A) -> B) -> (Optional<A>) -> Optional<B>
-// map: ((A) -> B) -> (Result<A, _>) -> Result<B, _>
-// map: ((A) -> B) -> (Dictionary<_, A>) -> Dictionary<_, B>
-//...
-// map: (Conversion<A, B>) -> (ParserPrinter<_, A>) -> ParserPrinter<_, B>
-
-// pullback: (KeyPath<A, B>) -> (Reducer<B, _, _>) -> Reducer<A, _, _>
-// pullback: (CasePath<A, B>) -> (Reducer<_, B, _>) -> Reducer<_, A, _>
-
 
 extension Parsers {
   struct InvertibleMap<Upstream: ParserPrinter, NewOutput>: ParserPrinter {
@@ -430,240 +350,7 @@ extension Not: Printer where Upstream: Printer, Upstream.Output == Void {
   }
 }
 
-let x = 1
-// let y = 2
-
-let uncommentedLine = Parse {
-  Not { "//" }
-  Prefix { $0 != "\n" }
-}
-
-input = ""
-try uncommentedLine.print("let x = 1", to: &input)
-input
-try uncommentedLine.parse(input)
-//try uncommentedLine.parse("// let x = 1")
-
-
-input = ""
-try ParsePrint {
-  "Hello "
-  Int.parser()
-}
-.print(42, to: &input)
-input
-
-
-//input = ""
-//try ParsePrint
-//{
-//  Rest()
-//  Rest()
-//}
-//.print(("Hello", "World"), to: &input)
-//input
-//try Parse
-//{
-//  Rest()
-//  Rest()
-//}
-//.parse(input)
-
-input = ""
-try Parse {
-  "Hello"
-  End()
-}
-.print((), to: &input)
-input
-//.parse("")
-
-
-input = ""
-try Parse {
-  Prefix { $0 != "\"" }
-}
-.print("Blob, Esq.", to: &input)
-input
-
-try Prefix
-{ $0 != "\"" }.parse(&input)
-
-input = ""
-"Hello".print((), to: &input)
-try "Hello".parse(&input) // ()
-
-//print(<#T##items: Any...##Any#>, to: &<#T##TextOutputStream#>)
-
-// parse: (inout Input) throws -> Output
-
-// parse: (Input) throws -> (Output, Input)
-// print: (Output, Input) throws -> Input
-
-// print: (Output, inout Input) throws -> Void
-
-// (S) -> (S, A)
-// (inout S) -> A
-
-let usersCsv = """
-1, Blob, admin
-2, Blob Jr, member
-3, Blob Sr, guest
-4, "Blob, Esq.", admin
-"""
-
-enum Role {
-  case admin, guest, member
-}
-
-struct User: Equatable {
-  var id: Int
-  var name: String
-  var role: Role
-}
-
 struct ConvertingError: Error {}
-
-extension Conversion where A == Void, B: Equatable {
-  static func exactly(_ output: B) -> Self {
-    .init(apply: { output }, unapply: {
-      guard $0 == output
-      else { throw ConvertingError() }
-    })
-  }
-}
-
-let role = OneOf {
-  "admin".map { Role.admin }
-  "guest".map { Role.guest }
-  "member".map { Role.member }
-}
-
-input = ""
-try role.print(.guest, to: &input)
-input
-input = ""
-try role.print(.admin, to: &input)
-input
-input = ""
-try role.print(.member, to: &input)
-input
-
-
-//OneOf {
-//  a.map(f)
-//  b.map(f)
-//  c.map(f)
-//}
-//==
-//OneOf {
-//  a
-//  b
-//  c
-//}
-//.map(f)
-
-let quotedFieldUtf8 = ParsePrint {
-  "\"".utf8
-  Prefix { $0 != .init(ascii: "\"") }
-  "\"".utf8
-}
-var inputUtf8 = ""[...].utf8
-try quotedFieldUtf8.print("Blob, Esq"[...].utf8, to: &inputUtf8)
-Substring(inputUtf8)
-
-let quotedField = ParsePrint {
-  "\""
-  Prefix { $0 != "\"" }
-  "\""
-}
-
-input = ""
-try quotedField.print("Blob, Esq.", to: &input)
-input
-let parsedQuotedField = try quotedField.parse(&input)
-try quotedField.print(parsedQuotedField, to: &input)
-input
-
-let fieldUtf8 = OneOf {
-  quotedFieldUtf8
-
-  Prefix { $0 != .init(ascii: ",") }
-}
-//  .map { String(Substring($0)) }
-
-let field = OneOf {
-  quotedField
-
-  Prefix { $0 != "," }
-}
-.map(.string)
-
-input = ""
-try field.print("Blob, Esq." as String, to: &input)
-input
-
-input = ""
-try field.print("Blob Jr." as String, to: &input)
-input
-
-let zeroOrOneSpaceUtf8 = OneOf {
-  " ".utf8
-  "".utf8
-}
-
-let zeroOrOneSpace = OneOf {
-  " "
-  ""
-}
-.printing(" ")
-
-input = ""
-try Skip {
-  ","
-  zeroOrOneSpace
-}
-.print((), to: &input)
-input
-
-let userUtf8 = Parse {
-  Int.parser()
-  Skip {
-    ",".utf8
-    zeroOrOneSpaceUtf8
-  }
-  fieldUtf8
-  Skip {
-    ",".utf8
-    zeroOrOneSpaceUtf8
-  }
-  Bool.parser()
-}
-
-unsafeBitCast((1, "Blob", true), to: User.self)
-unsafeBitCast(User(id: 1, name: "Blob", role: .admin), to: (Int, String, Bool).self)
-
-
-struct Private {
-  private let value: Int
-//  private let other: Int = 1
-  private init(value: Int) {
-    self.value = value
-  }
-}
-
-//Never
-
-//Private(value: 42)
-let `private` = unsafeBitCast(42, to: Private.self)
-unsafeBitCast(`private`, to: Int.self)
-
-extension Conversion where A == (Int, String, Role), B == User {
-  static let user = Self(
-    apply: B.init,
-    unapply: { unsafeBitCast($0, to: A.self) }
-  )
-}
 
 extension Conversion {
   static func `struct`(_ `init`: @escaping (A) -> B) -> Self {
@@ -673,164 +360,242 @@ extension Conversion {
     )
   }
 }
-
-
-struct Person {
-  let firstName, lastName: String
-  var bio: String = ""
-
-  init(lastName: String, firstName: String) {
-    self.firstName = firstName
-    self.lastName = lastName
+extension Always: Printer where Output == Void {
+  func print(_ output: Void, to input: inout Input) throws {
   }
 }
 
-MemoryLayout<(String, String)>.size
-MemoryLayout<Person>.size
-
-let person = ParsePrint(.struct(Person.init)) {
-  Prefix { $0 != " " }.map(.string)
-  " "
-  Prefix { $0 != " " }.map(.string)
+struct Coordinate {
+  let latitude: Double
+  let longitude: Double
 }
 
-input = "Blob McBlob"
-let p = try person.parse(&input)
-input
-//try person.print(p, to: &input)
-input
+enum Currency { case eur, gbp, usd }
 
+struct Money {
+  let currency: Currency
+  let dollars: Int
+}
 
-let user = ParsePrint(.struct(User.init)) {
+struct Race {
+  let location: String
+  let entranceFee: Money
+  let path: [Coordinate]
+}
+
+let northSouthSign = OneOf {
+  "N".utf8.map { 1.0 }
+  "S".utf8.map { -1.0 }
+}
+
+var input = ""[...].utf8
+try northSouthSign.print(-1, to: &input)
+Substring(input)
+
+let eastWestSign = OneOf {
+  "E".utf8.map { 1.0 }
+  "W".utf8.map { -1.0 }
+}
+
+let magnitudeSign = Conversion<(Double, Double), Double>(
+  apply: *,
+  unapply: { value in
+    value < 0 ? (-value, -1) : (value, 1)
+  }
+)
+
+func print(coordinate: Coordinate) -> String {
+  "\(abs(coordinate.latitude))° \(coordinate.latitude < 0 ? "S" : "N"), \(abs(coordinate.longitude))° \(coordinate.longitude < 0 ? "W" : "E")"
+}
+
+let latitude = ParsePrint(magnitudeSign) {
+  Double.parser()
+  "° ".utf8
+  northSouthSign
+}
+input = ""[...].utf8
+try latitude.print(-37, to: &input)
+Substring(input)
+
+let longitude = ParsePrint(magnitudeSign) {
+  Double.parser()
+  "° ".utf8
+  eastWestSign
+}
+
+let zeroOrMoreSpaces = Skip { Prefix { $0 == .init(ascii: " ") } }
+  .printing(" "[...].utf8)
+
+let coord = ParsePrint(.struct(Coordinate.init)) {
+  latitude
+  Skip {
+    ",".utf8
+    zeroOrMoreSpaces
+  }
+  longitude
+}
+
+input = ""[...].utf8
+try coord.print(.init(latitude: 37, longitude: -42), to: &input)
+Substring(input)
+
+let currency = OneOf {
+  "€".utf8.map { Currency.eur }
+  "£".utf8.map { Currency.gbp }
+  "$".utf8.map { Currency.usd }
+}
+
+input = ""[...].utf8
+try currency.print(.eur, to: &input)
+Substring(input)
+
+let money = Parse(.struct(Money.init)) {
+  currency
   Int.parser()
-  Skip {
-    ","
-    zeroOrOneSpace
-  }
-  field
-  Skip {
-    ","
-    zeroOrOneSpace
-  }
-  role
 }
-//.map(User.init)
-//.map(.struct(User.init))
 
-input = ""
-try user.print(User(id: 42, name: "Blob, Esq.", role: .admin), to: &input)
-input
+input = ""[...].utf8
+try money.print(.init(currency: .usd, dollars: 300), to: &input)
+Substring(input)
 
-let usersUtf8 = Many {
-  userUtf8
-} separator: {
+let locationName = Prefix { $0 != .init(ascii: ",") }
+
+extension Conversion where A == Substring.UTF8View, B == String {
+  static let string = Self(
+    apply: { String(Substring($0)) },
+    unapply: { $0[...].utf8 }
+  )
+}
+
+let race = ParsePrint(.struct(Race.init)) {
+  locationName.map(.string)
+  Skip {
+    ",".utf8
+    zeroOrMoreSpaces
+  }
+  money
   "\n".utf8
-} terminator: {
-  End()
+  Many {
+    coord
+  } separator: {
+    "\n".utf8
+  }
 }
 
-let users = Many {
-  user
+input = ""[...].utf8
+try race.print(
+  .init(
+    location: "New York",
+    entranceFee: .init(currency: .usd, dollars: 300),
+    path: [
+      .init(latitude: 37, longitude: 42),
+        .init(latitude: 37.01, longitude: 42.01)
+    ]
+  ),
+  to: &input
+)
+Substring(input)
+
+let races = Many {
+  race
 } separator: {
-  "\n"
-} terminator: {
-  End()
+  "\n---\n".utf8
 }
 
-//try users.parse("""
-//1,Blob,admin
-//2,Blob Jr,member
-//3,Blob Sr,true
-//""")
+input = ""[...].utf8
+try races.print(
+  [
+    .init(
+      location: "New York",
+      entranceFee: .init(currency: .usd, dollars: 300),
+      path: [
+        .init(latitude: 37, longitude: 42),
+          .init(latitude: 37.01, longitude: 42.01)
+      ]
+    ),
+    .init(
+      location: "Berlin",
+      entranceFee: .init(currency: .eur, dollars: 200),
+      path: [
+        .init(latitude: 37, longitude: 42),
+          .init(latitude: 37.01, longitude: 42.01)
+      ]
+    )
+  ],
+  to: &input
+)
+Substring(input)
 
-inputUtf8 = ""[...].utf8
-try usersUtf8.print([
-  (1, "Blob"[...].utf8, true),
-  (2, "Blob, Esq."[...].utf8, false),
-], to: &inputUtf8)
-Substring(inputUtf8)
-
-input = ""
-try users.print([
-  User(id: 1, name: "Blob", role: .admin),
-  User(id: 2, name: "Blob, Esq.", role: .member),
-], to: &input)
-input
-
-input = "A,A,A,B"
-try Many { "A" } separator: { "," }.parse(&input)
-input
-
-input = usersCsv[...]
-let output = try users.parse(&input)
-input
-
-"，" == ","
-
-func print(user: User) -> String {
-  "\(user.id), \(user.name.contains(",") ? "\"\(user.name)\"" : "\(user.name)"), \(user.role)"
-}
-struct UserPrinter: Printer {
-  func print(_ user: User, to input: inout String) {
-    input.append(contentsOf: "\(user.id),")
-    if user.name.contains(",") {
-      input.append(contentsOf: "\"\(user.name)\"")
-    } else {
-      input.append(contentsOf: user.name)
-    }
-    input.append(contentsOf: ",\(user.role)")
-  }
-}
-
-print(user: .init(id: 42, name: "Blob", role: .admin))
-
-func print(users: [User]) -> String {
-  users.map(print(user:)).joined(separator: "\n")
-}
-struct UsersPrinter: Printer {
-  func print(_ users: [User], to input: inout String) {
-    var firstElement = true
-    for user in users {
-      defer { firstElement = false }
-      if !firstElement {
-        input += "\n"
-      }
-      UserPrinter().print(user, to: &input)
-    }
-  }
-}
-
-input = ""
-//users.print(output, to: &input)
-
-//print(users: output)
-//
-//input = usersCsv[...]
-//try print(users: users.parse(input)) == input
-//try users.parse(print(users: output)) == output
-//
-//var inputString = ""
-//UsersPrinter().print(output, to: &inputString)
-//inputString
-
-
-
-
-"🇺🇸".count
-"🇺🇸".unicodeScalars.count
-Array("🇺🇸".unicodeScalars)
-String.UnicodeScalarView([.init(127482)!])
-String.UnicodeScalarView([.init(127480)!])
-
-"🇺🇸".utf8.count
-Array("🇺🇸".utf8)
-
-String(decoding: [240, 159, 135, 186, 240, 159, 135, 184], as: UTF8.self)
-String(decoding: [240, 159, 135, 186], as: UTF8.self)
-String(decoding: [240, 159, 135, 184], as: UTF8.self)
-
-String(decoding: [240, 159], as: UTF8.self)
-String(decoding: [135, 186, 240, 159, 135, 184], as: UTF8.self)
-
-var utf8 = "🇺🇸".utf8
-//utf8.replaceSubrange(0...0, with: [241])
+let racesInput = """
+  New York City, $300
+  40.60248° N, 74.06433° W
+  40.61807° N, 74.02966° W
+  40.64953° N, 74.00929° W
+  40.67884° N, 73.98198° W
+  40.69894° N, 73.95701° W
+  40.72791° N, 73.95314° W
+  40.74882° N, 73.94221° W
+  40.7574° N, 73.95309° W
+  40.76149° N, 73.96142° W
+  40.77111° N, 73.95362° W
+  40.8026° N, 73.93061° W
+  40.80409° N, 73.92893° W
+  40.81432° N, 73.93292° W
+  40.80325° N, 73.94472° W
+  40.77392° N, 73.96917° W
+  40.77293° N, 73.97671° W
+  ---
+  Berlin, €100
+  13.36015° N, 52.51516° E
+  13.33999° N, 52.51381° E
+  13.32539° N, 52.51797° E
+  13.33696° N, 52.52507° E
+  13.36454° N, 52.52278° E
+  13.38152° N, 52.52295° E
+  13.40072° N, 52.52969° E
+  13.42555° N, 52.51508° E
+  13.41858° N, 52.49862° E
+  13.40929° N, 52.48882° E
+  13.37968° N, 52.49247° E
+  13.34898° N, 52.48942° E
+  13.34103° N, 52.47626° E
+  13.32851° N, 52.47122° E
+  13.30852° N, 52.46797° E
+  13.28742° N, 52.47214° E
+  13.29091° N, 52.4827° E
+  13.31084° N, 52.49275° E
+  13.32052° N, 52.5019° E
+  13.34577° N, 52.50134° E
+  13.36903° N, 52.50701° E
+  13.39155° N, 52.51046° E
+  13.37256° N, 52.51598° E
+  ---
+  London, £500
+  51.48205° N, 0.04283° E
+  51.47439° N, 0.0217° E
+  51.47618° N, 0.02199° E
+  51.49295° N, 0.05658° E
+  51.47542° N, 0.03019° E
+  51.47537° N, 0.03015° E
+  51.47435° N, 0.03733° E
+  51.47954° N, 0.04866° E
+  51.48604° N, 0.06293° E
+  51.49314° N, 0.06104° E
+  51.49248° N, 0.0474° E
+  51.48888° N, 0.03564° E
+  51.48655° N, 0.0183° E
+  51.48085° N, 0.02223° W
+  51.4921° N, 0.0451° W
+  51.49324° N, 0.04699° W
+  51.50959° N, 0.05491° W
+  51.50961° N, 0.0539° W
+  51.4995° N, 0.01356° W
+  51.50898° N, 0.02341° W
+  51.51069° N, 0.04225° W
+  51.51056° N, 0.04353° W
+  51.50946° N, 0.0781° W
+  51.51121° N, 0.09786° W
+  51.50964° N, 0.1187° W
+  51.50273° N, 0.1385° W
+  51.50095° N, 0.12411° W
+  """
