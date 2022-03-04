@@ -14,14 +14,11 @@
 ///   Peek { Prefix(1) { $0.isLetter || $0 == "_" } }
 ///   Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
 /// }
+///
+/// identifier.parse("foo123") // ✅ "foo123"
+/// identifier.parse("_foo123") // ✅ "_foo123"
+/// identifier.parse("1_foo123") // ❌
 /// ```
-///
-/// ## Printability
-///
-/// `Peek` is _not_ printable.
-///
-/// If you are building a parser-printer, avoid uses of `Peek` and instead prefer the use of
-/// ``map(_:)-2sblf`` with conversions that preserve printability.
 public struct Peek<Upstream: Parser>: ParserPrinter {
   public let upstream: Upstream
 

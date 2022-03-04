@@ -33,7 +33,17 @@ class NotTests: XCTestCase {
       Prefix { $0 != "\n" }
     }
 
-    XCTAssertThrowsError(try uncommentedLine.parse(&input))
+    XCTAssertThrowsError(try uncommentedLine.parse(&input)) { error in
+      XCTAssertNoDifference(
+        """
+        error: unexpected input
+         --> input:1:1-2
+        1 | // a comment
+          | ^^ expected not to be processed
+        """,
+        "\(error)"
+      )
+    }
     XCTAssertNoDifference(
       input,
       """
