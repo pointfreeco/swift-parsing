@@ -1,4 +1,4 @@
-/// Declares a type that can parse an `Input` value into an `Output` value.
+/// Declares a type that can incrementally parse an `Output` value from an `Input` value.
 ///
 /// A parser attempts to parse a nebulous piece of data, represented by the `Input` associated type,
 /// into something more well-structured, represented by the `Output` associated type. The parser
@@ -19,15 +19,15 @@
 ///
 /// Note that this parser works on `Substring` rather than `String` because substrings expose
 /// efficient ways of removing characters from its beginning. Substrings are "views" into a string,
-/// specificed by start and end indices. Operations like `removeFirst`, `removeLast` and others can
+/// specified by start and end indices. Operations like `removeFirst`, `removeLast` and others can
 /// be implemented efficiently on substrings because they simply move the start and end indices,
 /// whereas their implementation on strings must make a copy of the string with the characters
 /// removed.
 @rethrows public protocol Parser {
-  /// The kind of values this parser receives.
+  /// The type of values this parser parses from.
   associatedtype Input
 
-  /// The kind of values parsed by this parser.
+  /// The type of values parsed by this parser.
   associatedtype Output
 
   /// Attempts to parse a nebulous piece of data into something more well-structured. Typically
