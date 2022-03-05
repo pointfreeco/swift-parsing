@@ -26,7 +26,7 @@ try Parse {
 This also works with raw enumerations that are backed by integers:
 
 ```swift
-enum Role: String, CaseIterable {
+enum Role: Int, CaseIterable {
   case admin = 1
   case guest = 2
   case member = 3
