@@ -61,7 +61,7 @@ let parser = Parse {
 try parser.parse("123member")
 ```
 
-To fix this you can force one of the boolean parsers to be the `Substring` parser, and then the
+To fix this you can force one of the parsers to be the `Substring` parser, and then the
 other will figure it out via type inference:
 
 ```swift
