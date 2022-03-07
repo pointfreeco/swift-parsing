@@ -1,12 +1,12 @@
 extension BinaryFloatingPoint where Self: LosslessStringConvertible {
-  /// A parser that consumes a floating point from the beginning of a collection of UTF-8 code
-  /// units.
+  /// A parser that consumes a floating-point number from the beginning of a collection of UTF-8
+  /// code units.
   ///
   /// See <doc:Double> for more information about this parser.
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
-  /// - Returns: A parser that consumes a floating point from the beginning of a collection of UTF-8
-  ///   code units.
+  /// - Returns: A parser that consumes a floating-point number from the beginning of a collection
+  ///   of UTF-8 code units.
   @inlinable
   public static func parser<Input>(
     of inputType: Input.Type = Input.self
@@ -14,7 +14,7 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
     .init()
   }
 
-  /// A parser that consumes a floating point from the beginning of a substring's UTF-8 view.
+  /// A parser that consumes a floating-point number from the beginning of a substring's UTF-8 view.
   ///
   /// This overload is provided to allow the `Input` generic to be inferred when it is
   /// `Substring.UTF8View`.
@@ -23,8 +23,8 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
   ///
   /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
-  /// - Returns: A parser that consumes a floating point from the beginning of a substring's UTF-8
-  ///   view.
+  /// - Returns: A parser that consumes a floating-point number from the beginning of a substring's
+  ///   UTF-8 view.
   @_disfavoredOverload
   @inlinable
   public static func parser(
@@ -33,7 +33,7 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
     .init()
   }
 
-  /// A parser that consumes a floating point from the beginning of a substring.
+  /// A parser that consumes a floating-point number from the beginning of a substring.
   ///
   /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
   ///
@@ -41,7 +41,7 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
   ///
   /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
-  /// - Returns: A parser that consumes a floating point from the beginning of a substring.
+  /// - Returns: A parser that consumes a floating-point number from the beginning of a substring.
   @_disfavoredOverload
   @inlinable
   public static func parser(
@@ -52,8 +52,8 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
 }
 
 extension Parsers {
-  /// A parser that consumes a floating point from the beginning of a collection of UTF-8 code
-  /// units.
+  /// A parser that consumes a floating-point number from the beginning of a collection of UTF-8
+  /// code units.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the static `parser()` method on the `BinaryFloatingPoint` of your choice, e.g.,
