@@ -26,7 +26,6 @@ to build complex parsers from simpler pieces.
 - <doc:Int>
 - <doc:String>
 - <doc:Bool>
-- <doc:Double>
 - <doc:Float>
 - <doc:CharacterSet>
 - <doc:UUID>

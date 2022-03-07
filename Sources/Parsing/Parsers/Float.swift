@@ -2,7 +2,7 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
   /// A parser that consumes a floating-point number from the beginning of a collection of UTF-8
   /// code units.
   ///
-  /// See <doc:Double> for more information about this parser.
+  /// See <doc:Float> for more information about this parser.
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
   /// - Returns: A parser that consumes a floating-point number from the beginning of a collection
@@ -19,7 +19,7 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
   /// This overload is provided to allow the `Input` generic to be inferred when it is
   /// `Substring.UTF8View`.
   ///
-  /// See <doc:Double> for more information about this parser.
+  /// See <doc:Float> for more information about this parser.
   ///
   /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
@@ -37,7 +37,7 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
   ///
   /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
   ///
-  /// See <doc:Double> for more information about this parser.
+  /// See <doc:Float> for more information about this parser.
   ///
   /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
@@ -59,7 +59,7 @@ extension Parsers {
   /// the static `parser()` method on the `BinaryFloatingPoint` of your choice, e.g.,
   /// `Double.parser()`, `Float80.parser()`, etc., all of which construct this type.
   ///
-  /// See <doc:Double> for more information about this parser.
+  /// See <doc:Float> for more information about this parser.
   public struct FloatParser<Input: Collection, Output: BinaryFloatingPoint>: Parser
   where
     Input.SubSequence == Input,
