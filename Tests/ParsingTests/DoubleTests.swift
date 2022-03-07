@@ -403,7 +403,7 @@ final class DoubleTests: XCTestCase {
           error: unexpected input
            --> input:1:1
           1 | Hello
-            | ^ expected extended-precision float
+            | ^ expected float80
           """,
           "\(error)"
         )
@@ -417,7 +417,7 @@ final class DoubleTests: XCTestCase {
           error: unexpected input
            --> input:1:1
           1 | - Hello
-            | ^ expected extended-precision float
+            | ^ expected float80
           """,
           "\(error)"
         )
@@ -431,7 +431,7 @@ final class DoubleTests: XCTestCase {
           error: unexpected input
            --> input:1:1
           1 | + Hello
-            | ^ expected extended-precision float
+            | ^ expected float80
           """,
           "\(error)"
         )
