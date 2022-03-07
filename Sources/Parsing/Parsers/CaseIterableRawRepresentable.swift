@@ -1,4 +1,13 @@
 extension CaseIterable where Self: RawRepresentable, RawValue == Int {
+  /// A parser that consumes a case-iterable, raw representable value from the beginning of a
+  /// collection of a substring.
+  ///
+  /// See <doc:CaseIterable> for more info.
+  ///
+  /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
+  ///   interface that parses any collection of UTF-8 code units.
+  /// - Returns: A parser that consumes a case-iterable, raw representable value from the beginning
+  ///   of a substring.
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
@@ -6,6 +15,15 @@ extension CaseIterable where Self: RawRepresentable, RawValue == Int {
     .init(toPrefix: { String($0) }, areEquivalent: ==)
   }
 
+  /// A parser that consumes a case-iterable, raw representable value from the beginning of a
+  /// collection of a substring's UTF-8 view.
+  ///
+  /// See <doc:CaseIterable> for more info.
+  ///
+  /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
+  ///   interface that parses any collection of UTF-8 code units.
+  /// - Returns: A parser that consumes a case-iterable, raw representable value from the beginning
+  ///   of a substring's UTF-8 view.
   @inlinable
   public static func parser(
     of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
@@ -13,6 +31,12 @@ extension CaseIterable where Self: RawRepresentable, RawValue == Int {
     .init(toPrefix: { String($0).utf8 }, areEquivalent: ==)
   }
 
+  /// A parser that consumes a case-iterable, raw representable value from the beginning of a
+  /// collection of UTF-8 code units.
+  ///
+  /// - Parameter inputType: The collection type of UTF-8 code units to parse.
+  /// - Returns: A parser that consumes a case-iterable, raw representable value from the beginning
+  ///   of a collection of UTF-8 code units.
   @inlinable
   public static func parser<Input>(
     of inputType: Input.Type = Input.self
@@ -29,23 +53,7 @@ extension CaseIterable where Self: RawRepresentable, RawValue == String {
   /// A parser that consumes a case-iterable, raw representable value from the beginning of a
   /// collection of a substring.
   ///
-  /// Given a type that conforms to `RawRepresentable` with a `RawValue` of `String`, and
-  /// `CaseIterable`, we can incrementally parse a value of it.
-  ///
-  /// Notably, raw enumerations that conform to `CaseIterable` meet this criteria, so cases of the
-  /// following type can be parsed with no extra work:
-  ///
-  /// ```swift
-  /// enum Role: String, CaseIterable {
-  ///   case admin
-  ///   case guest
-  ///   case member
-  /// }
-  ///
-  /// var input = "admin,123"[...]
-  /// try Role.parser().parse(&input)  // Role.admin
-  /// input                            // ",123"
-  /// ```
+  /// See <doc:CaseIterable> for more info.
   ///
   /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
@@ -60,6 +68,8 @@ extension CaseIterable where Self: RawRepresentable, RawValue == String {
 
   /// A parser that consumes a case-iterable, raw representable value from the beginning of a
   /// collection of a substring's UTF-8 view.
+  ///
+  /// See <doc:CaseIterable> for more info.
   ///
   /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
   ///   interface that parses any collection of UTF-8 code units.
