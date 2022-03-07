@@ -65,9 +65,9 @@ To fix this you can force one of the parsers to be the `Substring` parser, and t
 other will figure it out via type inference:
 
 ```swift
-try Parse {
+let parser = Parse {
   Int.parser(of: Substring.self)
   Role.parser()
 }
-.parse("123member") // (123, .member)
-```
+
+try parser.parse("123member") // (123, .member)
