@@ -10,8 +10,11 @@ import Parsing
 /// while the formatters do not parse beyond the millisecond.
 let dateSuite = BenchmarkSuite(name: "Date") { suite in
   let digits = { (n: Int) in
-    Prefix<Substring.UTF8View>(n).pipe {
-      Int.parser(isSigned: false)
+    Prefix<Substring.UTF8View>(n) {
+      (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
+    }
+    .pipe {
+      Int.parser()
       End()
     }
   }

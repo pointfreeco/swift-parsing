@@ -10,7 +10,7 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
   }
 
   let hexPrimary = Prefix<Substring.UTF8View>(2).pipe {
-    UInt8.parser(isSigned: false, radix: 16)
+    UInt8.parser(radix: 16)
     End()
   }
 

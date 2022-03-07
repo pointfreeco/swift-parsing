@@ -60,7 +60,7 @@ then you will get an compiler error:
 
 ```swift
 let parser = Parse {
-  Int.parser() // 🛑 Ambiguous use of 'parser(of:isSigned:radix:)'
+  Int.parser() // 🛑 Ambiguous use of 'parser(of:radix:)'
   Bool.parser()
 }
 
