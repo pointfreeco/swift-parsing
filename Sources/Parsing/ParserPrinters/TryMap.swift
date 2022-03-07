@@ -16,7 +16,6 @@ extension Parser {
   /// - Returns: A parser of transformed outputs.
   ///
   ///
-  @_disfavoredOverload
   @inlinable
   public func tryMap<NewOutput>(
     _ transform: @escaping (Output) throws -> NewOutput
