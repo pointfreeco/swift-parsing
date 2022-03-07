@@ -1,5 +1,3 @@
-import Foundation
-
 extension BinaryFloatingPoint where Self: LosslessStringConvertible {
   /// A parser that consumes a floating point from the beginning of a collection of UTF-8 code
   /// units.
