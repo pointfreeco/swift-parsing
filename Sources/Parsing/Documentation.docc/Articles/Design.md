@@ -79,13 +79,13 @@ to maximize readability of the parsers. For example, to parse accounting syntax 
 parenthesized numbers are negative, we can use the ``OneOf`` parser builder:
 
 ```swift
+let digits = Prefix { $0.isNumber }.compactMap(Int.init)
+
 let accountingNumber = OneOf {
-  Int.parser(isSigned: false)
+  digits
 
   Parse {
-    "("
-    Int.parser(isSigned: false)
-    ")"
+    "("; digits; ")"
   }
   .map { -$0 }
 }
