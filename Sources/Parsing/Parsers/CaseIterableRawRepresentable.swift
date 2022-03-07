@@ -100,10 +100,7 @@ extension Parsers {
     Prefix.Element == Input.Element
   {
     @usableFromInline
-    let cases: [Output]
-
-    @usableFromInline
-    let toPrefix: (Output.RawValue) -> Prefix
+    let cases: [(case: Output, prefix: Prefix, count: Int)]
 
     @usableFromInline
     let areEquivalent: (Input.Element, Input.Element) -> Bool
@@ -113,17 +110,20 @@ extension Parsers {
       toPrefix: @escaping (Output.RawValue) -> Prefix,
       areEquivalent: @escaping (Input.Element, Input.Element) -> Bool
     ) {
-      self.toPrefix = toPrefix
       self.areEquivalent = areEquivalent
-      self.cases = Output.allCases.sorted(by: { $0.rawValue > $1.rawValue })
+      self.cases = Output.allCases
+        .map {
+          let prefix = toPrefix($0.rawValue)
+          return ($0, prefix, prefix.count)
+        }
+        .sorted(by: { $0.count > $1.count })
     }
 
     @inlinable
     public func parse(_ input: inout Input) throws -> Output {
-      for `case` in self.cases {
-        let prefix = self.toPrefix(`case`.rawValue)
+      for (`case`, prefix, count) in self.cases {
         if input.starts(with: prefix, by: self.areEquivalent) {
-          input.removeFirst(prefix.count)
+          input.removeFirst(count)
           return `case`
         }
       }
