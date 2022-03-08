@@ -14,6 +14,7 @@ Benchmark.main(
     jsonSuite,
     mapSuite,
     numericsSuite,
+    oneOfSuite,
     prefixUpToSuite,
     raceSuite,
     readmeExampleSuite,
