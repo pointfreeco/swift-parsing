@@ -4,6 +4,7 @@ import Parsing
 let mapSuite = BenchmarkSuite(name: "Map") { suite in
     do {
         let mapReturns = Always<Substring, Int>(42).map { $0 + 1 }
+        let mapMemberwise = Always<Substring, Int>(42).map(.memberwise({ $0 + 1 }))
         let tryMapReturns = Always<Substring, Int>(42).tryMap { $0 + 1 }
         let tryMapReplaced = Always<Substring, Int>(42).tryMap { $0 + 1 }.replaceError(with: 0)
 
@@ -13,6 +14,15 @@ let mapSuite = BenchmarkSuite(name: "Map") { suite in
 
         suite.benchmark("Always map") {
             output = mapReturns.parse(&input)
+        } setUp: {
+            input = ""[...]
+            expected = 43
+        } tearDown: {
+            tearDown()
+        }
+        
+        suite.benchmark("Always map memberwise") {
+            output = try mapMemberwise.parse(&input)
         } setUp: {
             input = ""[...]
             expected = 43
@@ -47,6 +57,7 @@ let mapSuite = BenchmarkSuite(name: "Map") { suite in
         struct MyError: Error, Equatable {}
         
         let mapReturns = Int.parser(of: Substring.self).map { $0 + 1 }
+        let mapMemberwise = Int.parser(of: Substring.self).map(.memberwise { $0 + 1 })
         let tryMapReturns = Int.parser(of: Substring.self).tryMap { $0 + 1 }
         let mapReplaced = Int.parser(of: Substring.self).map { $0 + 1 }.replaceError(with: Int.max)
         let tryMapReplaced = Int.parser(of: Substring.self).tryMap { $0 + 1 }.replaceError(with: Int.max)
@@ -63,7 +74,16 @@ let mapSuite = BenchmarkSuite(name: "Map") { suite in
         } tearDown: {
             tearDown()
         }
-        
+
+        suite.benchmark("Int map memberwise") {
+            output = try mapMemberwise.parse(&input)
+        } setUp: {
+            input = "42"[...]
+            expected = 43
+        } tearDown: {
+            tearDown()
+        }
+
         suite.benchmark("Int tryMap") {
             output = try tryMapReturns.parse(&input)
         } setUp: {
