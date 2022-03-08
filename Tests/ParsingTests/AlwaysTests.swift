@@ -11,7 +11,7 @@ final class AlwaysTests: XCTestCase {
 
   func testMap() {
     var input = "Hello, world!"[...]
-    XCTAssertNoDifference(43, try Always(42).map { $0 + 1 }.parse(&input))
+    XCTAssertNoDifference(43, Always(42).map { $0 + 1 }.parse(&input))
     XCTAssertNoDifference("Hello, world!", input)
   }
 }
