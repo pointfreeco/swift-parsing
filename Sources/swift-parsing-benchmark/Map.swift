@@ -11,7 +11,7 @@ let mapSuite = BenchmarkSuite(name: "Map") { suite in
         var expected = 43
         var output: Int!
 
-        suite.benchmark("Always map returns") {
+        suite.benchmark("Always map") {
             output = mapReturns.parse(&input)
         } setUp: {
             input = ""[...]
@@ -20,7 +20,7 @@ let mapSuite = BenchmarkSuite(name: "Map") { suite in
             tearDown()
         }
 
-        suite.benchmark("Always tryMap returns") {
+        suite.benchmark("Always tryMap") {
             output = try tryMapReturns.parse(&input)
         } setUp: {
             input = ""[...]
@@ -29,7 +29,7 @@ let mapSuite = BenchmarkSuite(name: "Map") { suite in
             tearDown()
         }
 
-        suite.benchmark("Always tryMap replaced") {
+        suite.benchmark("Always tryMap replaceError") {
             output = tryMapReplaced.parse(&input)
         } setUp: {
             input = ""[...]
@@ -55,7 +55,7 @@ let mapSuite = BenchmarkSuite(name: "Map") { suite in
         var expected: Int!
         var output: Int!
         
-        suite.benchmark("Int map returns") {
+        suite.benchmark("Int map") {
             output = try mapReturns.parse(&input)
         } setUp: {
             input = "42"[...]
@@ -64,7 +64,7 @@ let mapSuite = BenchmarkSuite(name: "Map") { suite in
             tearDown()
         }
         
-        suite.benchmark("Int tryMap returns") {
+        suite.benchmark("Int tryMap") {
             output = try tryMapReturns.parse(&input)
         } setUp: {
             input = "42"[...]
@@ -73,7 +73,7 @@ let mapSuite = BenchmarkSuite(name: "Map") { suite in
             tearDown()
         }
 
-        suite.benchmark("Int map replaced") {
+        suite.benchmark("Int map replaceError") {
             output = mapReplaced.parse(&input)
         } setUp: {
             input = "42"[...]
@@ -82,7 +82,7 @@ let mapSuite = BenchmarkSuite(name: "Map") { suite in
             tearDown()
         }
         
-        suite.benchmark("Int tryMap replaced") {
+        suite.benchmark("Int tryMap replaceError") {
             output = tryMapReplaced.parse(&input)
         } setUp: {
             input = "42"[...]
@@ -120,7 +120,7 @@ let mapSuite = BenchmarkSuite(name: "Map") { suite in
         }
         
         
-        suite.benchmark("Int tryMap throws replaced") {
+        suite.benchmark("Int tryMap throws replaceError") {
             output = tryMapThrowsReplaced.parse(&input)
         } setUp: {
             input = "42"[...]
