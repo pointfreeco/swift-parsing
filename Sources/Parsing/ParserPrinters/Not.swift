@@ -1,16 +1,21 @@
 /// A parser that succeeds if the given parser fails, and does not consume any input.
 ///
-/// For example:
+/// For example, to parse a line from an input that does not start with "//" one can do:
 ///
 /// ```swift
 /// let uncommentedLine = Parse {
 ///   Not { "//" }
 ///   PrefixUpTo("\n")
 /// }
-/// ```
 ///
-/// This will check the input doesn't start with `"//"`, and if it doesn't, it will return the whole
-/// input up to the first newline.
+/// try uncommentedLine.parse("let x = 1") // ✅ "let x = 1"
+///
+/// try uncommentedLine.parse("// let x = 1") // ❌
+/// // error: unexpected input
+/// //  --> input:1:1-2
+/// // 1 | // let x = 1
+/// //   | ^^ expected not to be processed
+/// ```
 public struct Not<Upstream: Parser>: ParserPrinter {
   public let upstream: Upstream
 

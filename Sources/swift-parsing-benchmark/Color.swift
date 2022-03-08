@@ -26,7 +26,7 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
     }
   }
 
-  let hexColor = ParsePrint(.struct(Color.init(red:green:blue:))) {
+  let hexColor = ParsePrint(.memberwise(Color.init(red:green:blue:))) {
     "#".utf8
     HexByte()
     HexByte()

@@ -84,7 +84,7 @@ class URLRoutingTests: XCTestCase {
       Field("userId", Int.parser())
       Field("isAdmin", Bool.parser())
     }
-    .map(.struct(Session.init(userId:isAdmin:)))
+    .map(.memberwise(Session.init(userId:isAdmin:)))
 
     var request = URLRequestData(headers: ["cookie": ["userId=42; isAdmin=true"]])
     XCTAssertNoDifference(

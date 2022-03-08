@@ -33,7 +33,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     "$".utf8.map { Currency.usd }
   }
 
-  let money = ParsePrint(.struct(Money.init(currency:dollars:))) {
+  let money = ParsePrint(.memberwise(Money.init(currency:dollars:))) {
     currency
     Int.parser()
   }
@@ -67,7 +67,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   }
   .printing(" ".utf8)
 
-  let coord = ParsePrint(.struct(Coordinate.init(latitude:longitude:))) {
+  let coord = ParsePrint(.memberwise(Coordinate.init(latitude:longitude:))) {
     latitude
     Skip {
       ",".utf8
@@ -76,7 +76,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     longitude
   }
 
-  let race = ParsePrint(.struct(Race.init)) {
+  let race = ParsePrint(.memberwise(Race.init)) {
     ParsePrint {
       locationName
       Skip {

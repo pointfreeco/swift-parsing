@@ -118,13 +118,13 @@ public struct Parse<Parsers: Parser>: Parser {
   ///   ","
   ///   Double.parser()
   /// }
-  /// .map(.struct(Coordinate.init(x:y:)))
+  /// .map(.memberwise(Coordinate.init(x:y:)))
   /// ```
   ///
   /// Can be rewritten as:
   ///
   /// ```swift
-  /// ParsePrint(.struct(Coordinate.init(x:y:))) {
+  /// ParsePrint(.memberwise(Coordinate.init(x:y:))) {
   ///   Double.parser()
   ///   ","
   ///   Double.parser()

@@ -1,16 +1,20 @@
 # Int
 
-A parser that consumes an integer (with an optional leading `+` or `-` sign) from the beginning of
-a string.
+A parser that consumes an integer from the beginning of a string.
+
+Supports any type that conforms to `FixedWidthInteger`. This includes `Int`, `UInt`, `UInt8`, and
+many more.
+
+Parses the same format parsed by `FixedWidthInteger.init(_:radix:)`.
 
 ```swift
 var input = "123 Hello world"[...]
 try Int.parser().parse(&input) // 123
-input // " Hello world")
+input // " Hello world"
 
 input = "-123 Hello world"
 try Int.parser().parse(&input) // -123
-input // " Hello world")
+input // " Hello world"
 ```
 
 This parser fails when it does not find an integer at the beginning of the collection:
@@ -36,42 +40,45 @@ let number = try Int.parser().parse(&input)
 //   | ^^^^^^^^^^^^^^^^^^^ overflowed 9223372036854775807
 ```
 
-The `Int.parser()` method is overloaded to work on a variety of string representations in order
+The static `parser()` method is overloaded to work on a variety of string representations in order
 to be as efficient as possible, including `Substring`, `UTF8View`, and generally collections of
 UTF-8 code units (see <doc:StringAbstractions> for more info).
 
 Typically Swift can choose the correct overload by using type inference based on what other parsers
-you are combining `Int.parser()` with. For example, if you use `Int.parser()` with a
-`Substring` parser, say the literal "," parser (see <doc:String> for more information), Swift
-will choose the overload that works on substrings:
+you are combining `parser()` with. For example, if you use `Int.parser()` with a `Substring` parser,
+say the literal `","` parser (see <doc:String> for more information), Swift will choose the overload
+that works on substrings:
 
 ```swift
-try Parse {
+let parser = Parse {
   Int.parser()
   ","
   Int.parser()
 }
-.parse("true,false") // (true, false)
+
+try parser.parse("123,456") // (123, 456)
 ```
 
 On the other hand, if `Int.parser()` is used in a context where the input type cannot be inferred,
 then you will get an compiler error:
 
 ```swift
-try Parse {
-  Int.parser()
-  Bool.parser() // 🛑 Ambiguous use of 'parser(of:)'
+let parser = Parse {
+  Int.parser() // 🛑 Ambiguous use of 'parser(of:radix:)'
+  Bool.parser()
 }
-.parse("123true")
+
+try parser.parse("123true")
 ```
 
-To fix this you can force one of the integer parsers to be the `Substring` parser, and then the
+To fix this you can force one of the parsers to be the `Substring` parser, and then the
 other will figure it out via type inference:
 
 ```swift
-try Parse {
-  Int.parser(of: Substring.self)
-  Bool.parser()
+let parser = Parse {
+  Int.parser() // ✅
+  Bool.parser(of: Substring.self)
 }
-.parse("123true") // (123, true)
+
+try parser.parse("123true") // (123, true)
 ```

@@ -3,7 +3,7 @@ import Foundation
 /// A collection that supports empty initialization and the ability to prepend a sequence of
 /// elements of elements to itself.
 ///
-/// `PrependableCollection` is a specialized subset of `RangeReplaceableCollection` that it tuned to
+/// `PrependableCollection` is a specialized subset of `RangeReplaceableCollection` that is tuned to
 /// incremental printing.
 ///
 /// In fact, any `RangeReplaceableCollection` can get a conformance for free:
