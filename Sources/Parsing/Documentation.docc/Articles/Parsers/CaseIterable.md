@@ -1,17 +1,10 @@
 # CaseIterable
 
-<<<<<<< HEAD
-A parser-printer that consumes a case-iterable, raw representable value from the beginning of a
-collection of a substring.
-
-Given a type that conforms to `CaseIterable` and `RawRepresentable` with a `RawValue` of `String`, 
-we can incrementally parse a value of it.
-=======
-A parser that consumes a case-iterable, raw representable value from the beginning of a string.
+A parser-printer that consumes a case-iterable, raw representable value from the beginning of a 
+string.
 
 Given a type that conforms to `CaseIterable` and `RawRepresentable` with a `RawValue` of `String`
 or `Int`, we can incrementally parse a value of it.
->>>>>>> origin/main
 
 Notably, raw enumerations that conform to `CaseIterable` meet this criteria, so cases of the
 following type can be parsed with no extra work:
@@ -23,16 +16,13 @@ enum Role: String, CaseIterable {
   case member
 }
 
-try Parse {
+let parser = ParsePrint {
   Int.parser()
   ","
   Role.parser()
 }
-.parse("123,member") // (123, .member)
-<<<<<<< HEAD
-
-try ParsePrint {
-=======
+try parser.parse("123,member") // (123, .member)
+try parser.print((123, .member)) // "123,member"
 ```
 
 This also works with raw enumerations that are backed by integers:
@@ -44,23 +34,16 @@ enum Role: Int, CaseIterable {
   case member = 3
 }
 
-try Parse {
->>>>>>> origin/main
+let parser = ParsePrint {
   Int.parser()
   ","
   Role.parser()
 }
-<<<<<<< HEAD
-.print((123, .member)) // "123,member"
+try parser.print((123, .member)) // "123,member"
+try parser.parse("123,1") // (123, .admin)
 ```
 
-The `parser()` method on `CaseIterabl` is overloaded to work on a variety of string representations 
-=======
-.parse("123,1") // (123, .admin)
-```
-
-The `parser()` method on `CaseIterable` is overloaded to work on a variety of string representations 
->>>>>>> origin/main
+The `parser()` method on `CaseIterable` is overloaded to work on a variety of string representations
 in order to be as efficient as possible, including `Substring`, `UTF8View`, and more general
 collections of UTF-8 code units (see <doc:StringAbstractions> for more info).
 
@@ -81,18 +64,6 @@ let parser = Parse {
 try parser.parse("123member")
 ```
 
-<<<<<<< HEAD
-To fix this you can force one of the boolean parsers to be the `Substring` parser, and then the
-other will figure it out via type inference:
-
-```swift
-try Parse {
-  Int.parser(of: Substring.self)
-  Role.parser()
-}
-.parse("123member") // (123, .member)
-```
-=======
 To fix this you can force one of the parsers to be the `Substring` parser, and then the
 other will figure it out via type inference:
 
@@ -103,4 +74,4 @@ let parser = Parse {
 }
 
 try parser.parse("123member") // (123, .member)
->>>>>>> origin/main
+```
