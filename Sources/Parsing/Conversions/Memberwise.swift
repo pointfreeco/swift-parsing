@@ -112,7 +112,7 @@ extension Conversion {
   ///   struct back into a tuple of values.
   @inlinable
   public static func memberwise<Values, Struct>(
-    _ initializer: @escaping (Values) -> Struct
+    _ initializer: @escaping (Values) throws -> Struct
   ) -> Self where Self == Conversions.Memberwise<Values, Struct> {
     .init(initializer: initializer)
   }
