@@ -26,7 +26,7 @@ extension Parser {
   /// Returns a parser that replaces the `Void` output of this parser with the output of a given
   /// closure.
   ///
-  /// A printer-friendly version of ``tryMap(_:)-4hsj5`` for `Void` outputs, so long as `NewOutput`
+  /// A printer-friendly version of ``tryMap(_:)-28pq3`` for `Void` outputs, so long as `NewOutput`
   /// conforms to `Equatable`.
   ///
   /// ```swift
@@ -37,9 +37,9 @@ extension Parser {
   /// }
   ///
   /// let role = OneOf {
-  ///   "admin".map { Role.admin }
-  ///   "guest".map { Role.guest }
-  ///   "member".map { Role.member }
+  ///   "admin".tryMap { Role.admin }
+  ///   "guest".tryMap { Role.guest }
+  ///   "member".tryMap { Role.member }
   /// }
   ///
   /// try role.parse("admin")  // Role.admin
@@ -61,7 +61,7 @@ extension Parsers {
   /// A parser that transforms the output of another parser with a given closure.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``Parser/tryMap(_:)-4hsj5`` operation, which constructs this type.
+  /// the ``Parser/tryMap(_:)-28pq3`` operation, which constructs this type.
   public struct TryMap<Upstream: Parser, NewOutput>: Parser {
     /// The parser from which this parser receives output.
     public let upstream: Upstream
