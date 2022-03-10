@@ -76,6 +76,20 @@
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ToyLanguage"
+               BuildableName = "ToyLanguage"
+               BlueprintName = "ToyLanguage"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -101,6 +115,16 @@
                BlueprintIdentifier = "_URLRoutingTests"
                BuildableName = "_URLRoutingTests"
                BlueprintName = "_URLRoutingTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ToyLanguageTests"
+               BuildableName = "ToyLanguageTests"
+               BlueprintName = "ToyLanguageTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

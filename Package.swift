@@ -13,6 +13,10 @@ let package = Package(
       name: "_URLRouting",
       targets: ["_URLRouting"]
     ),
+    .library(
+      name: "ToyLanguage",
+      targets: ["ToyLanguage"]
+    ),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-argument-parser", from: "0.5.0"),
@@ -52,6 +56,15 @@ let package = Package(
       dependencies: [
         "_URLRouting",
         .product(name: "CustomDump", package: "swift-custom-dump"),
+      ]
+    ),
+    .target(
+      name: "ToyLanguage", dependencies: ["Parsing"]
+    ),
+    .testTarget(
+      name: "ToyLanguageTests",
+      dependencies: [
+        "ToyLanguage",
       ]
     ),
   ]
