@@ -163,7 +163,7 @@ extension Parsers {
   }
 }
 
-extension Parsers.IntParser: Printer where Input: PrependableCollection {
+extension Parsers.IntParser: ParserPrinter, Printer where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Output, into input: inout Input) {
     input.prepend(contentsOf: String(output, radix: self.radix).utf8)

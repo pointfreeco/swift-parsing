@@ -16,8 +16,11 @@ extension Array: Printer {
 }
 
 extension String: ParserPrinter {
+  public typealias Input = SubSequence
+  public typealias Output = Void
+
   @inlinable
-  public func parse(_ input: inout Substring) throws {
+  public func parse(_ input: inout SubSequence) throws {
     guard input.starts(with: self) else {
       throw ParsingError.expectedInput(self.debugDescription, at: input)
     }
@@ -31,8 +34,11 @@ extension String: ParserPrinter {
 }
 
 extension String.UnicodeScalarView: ParserPrinter {
+  public typealias Input = SubSequence
+  public typealias Output = Void
+
   @inlinable
-  public func parse(_ input: inout Substring.UnicodeScalarView) throws {
+  public func parse(_ input: inout SubSequence) throws {
     guard input.starts(with: self) else {
       throw ParsingError.expectedInput(String(self).debugDescription, at: input)
     }
@@ -46,8 +52,11 @@ extension String.UnicodeScalarView: ParserPrinter {
 }
 
 extension String.UTF8View: ParserPrinter {
+  public typealias Input = SubSequence
+  public typealias Output = Void
+  
   @inlinable
-  public func parse(_ input: inout Substring.UTF8View) throws {
+  public func parse(_ input: inout SubSequence) throws {
     guard input.starts(with: self) else {
       throw ParsingError.expectedInput(String(self).debugDescription, at: input)
     }

@@ -77,7 +77,7 @@ extension Parsers {
   }
 }
 
-extension Parsers.BoolParser: Printer where Input: PrependableCollection {
+extension Parsers.BoolParser: Printer, ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Bool, into input: inout Input) {
     switch output {

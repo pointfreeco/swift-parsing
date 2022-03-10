@@ -215,6 +215,8 @@ extension Prefix: Printer where Input: PrependableCollection {
   }
 }
 
+extension Prefix: ParserPrinter where Input: PrependableCollection {}
+
 extension Prefix where Input == Substring {
   @_disfavoredOverload
   @inlinable

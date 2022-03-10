@@ -45,6 +45,8 @@ extension End: Printer {
   }
 }
 
+extension End: ParserPrinter {}
+
 extension End where Input == Substring {
   @_disfavoredOverload
   @inlinable

@@ -24,6 +24,9 @@
 /// //   | ^ expected 1 element satisfying predicate
 /// ```
 public struct Peek<Upstream: Parser>: ParserPrinter {
+  public typealias Input = Upstream.Input
+  public typealias Output = Void
+
   public let upstream: Upstream
 
   /// Construct a parser that runs the given parser, but does not consume any input.

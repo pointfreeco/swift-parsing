@@ -259,6 +259,16 @@ where
   }
 }
 
+extension Many: ParserPrinter
+where
+  Element: ParserPrinter,
+  Separator: ParserPrinter,
+  Separator.Output == Void,
+  Terminator: ParserPrinter,
+  Terminator.Output == Void,
+  Printability == Void
+{}
+
 extension Many
 where
   Separator == Always<Element.Input, Void>,
@@ -325,7 +335,7 @@ where
   }
 }
 
-extension Many where Separator == Always<Input, Void>, Printability == Void {
+extension Many where Separator == Always<Element.Input, Void>, Printability == Void {
   @inlinable
   public init<Iterator>(
     into initialResult: Result,
@@ -349,7 +359,7 @@ extension Many where Separator == Always<Input, Void>, Printability == Void {
   }
 }
 
-extension Many where Separator == Always<Input, Void>, Printability == Never {
+extension Many where Separator == Always<Element.Input, Void>, Printability == Never {
   @inlinable
   public init(
     into initialResult: Result,
@@ -371,7 +381,7 @@ extension Many where Separator == Always<Input, Void>, Printability == Never {
   }
 }
 
-extension Many where Terminator == Always<Input, Void>, Printability == Void {
+extension Many where Terminator == Always<Element.Input, Void>, Printability == Void {
   @inlinable
   public init<Iterator>(
     into initialResult: Result,
@@ -395,7 +405,7 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
   }
 }
 
-extension Many where Terminator == Always<Input, Void>, Printability == Never {
+extension Many where Terminator == Always<Element.Input, Void>, Printability == Never {
   @inlinable
   public init(
     into initialResult: Result,
@@ -451,8 +461,8 @@ extension Many where Result == [Element.Output], Printability == Void {
 extension Many
 where
   Result == [Element.Output],
-  Separator == Always<Input, Void>,
-  Terminator == Always<Input, Void>,
+  Separator == Always<Element.Input, Void>,
+  Terminator == Always<Element.Input, Void>,
   Printability == Void
 {
   /// Initializes a parser that attempts to run the given parser at least and at most the given
@@ -483,7 +493,7 @@ where
 extension Many
 where
   Result == [Element.Output],
-  Separator == Always<Input, Void>,
+  Separator == Always<Element.Input, Void>,
   Printability == Void
 {
   @inlinable
@@ -508,7 +518,7 @@ where
 extension Many
 where
   Result == [Element.Output],
-  Terminator == Always<Input, Void>,
+  Terminator == Always<Element.Input, Void>,
   Printability == Void
 {
   @inlinable

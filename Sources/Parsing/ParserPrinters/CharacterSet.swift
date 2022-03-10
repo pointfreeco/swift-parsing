@@ -1,6 +1,9 @@
 import Foundation
 
-extension CharacterSet: ParserPrinter {
+extension CharacterSet: Printer, ParserPrinter {
+//  public typealias Input = Substring
+//  public typealias Output = Substring
+
   @inlinable
   public func parse(_ input: inout Substring) -> Substring {
     let output = input.unicodeScalars.prefix(while: self.contains)

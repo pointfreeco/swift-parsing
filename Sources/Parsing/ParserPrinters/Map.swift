@@ -125,6 +125,9 @@ extension Parsers {
     Downstream: Conversion,
     Downstream.Input == Upstream.Output
   {
+    public typealias Input = Upstream.Input
+    public typealias Output = Downstream.Output
+
     public let upstream: Upstream
     public let downstream: Downstream
 

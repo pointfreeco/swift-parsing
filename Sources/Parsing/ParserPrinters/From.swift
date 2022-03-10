@@ -4,6 +4,9 @@ where
   Downstream: ParserPrinter,
   Upstream.Output == Downstream.Input
 {
+  public typealias Input = Upstream.Input
+  public typealias Output = Downstream.Output
+
   @usableFromInline
   let conversion: Upstream
 

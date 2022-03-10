@@ -25,10 +25,10 @@
 /// removed.
 @rethrows public protocol Parser {
   /// The type of values this parser parses from.
-  associatedtype Input
+  @_primaryAssociatedType associatedtype Input
 
   /// The type of values parsed by this parser.
-  associatedtype Output
+  @_primaryAssociatedType associatedtype Output
 
   /// Attempts to parse a nebulous piece of data into something more well-structured. Typically
   /// you only call this from other `Parser` conformances, not when you want to parse a concrete
@@ -200,5 +200,76 @@ extension Parser {
       self
       End<Input>()
     }.parse(input[...].utf8)
+  }
+}
+
+@rethrows public protocol ParserBody: Parser where Body.Input == Input, Body.Output == Output {
+  associatedtype Body: Parser
+
+  @ParserBuilder var body: Body { get }
+}
+
+extension ParserBody {
+  public func parse(_ input: inout Input) throws -> Output {
+    try self.body.parse(&input)
+  }
+}
+
+@rethrows protocol ParserPrinterBody: ParserBody, ParserPrinter where Body: ParserPrinter {}
+
+extension ParserPrinterBody {
+  public func print(_ output: Output, into input: inout Input) throws {
+    try self.body.print(output, into: &input)
+  }
+}
+
+@rethrows public protocol ParserPrinter: Parser, Printer {
+  @_primaryAssociatedType associatedtype Input
+  @_primaryAssociatedType associatedtype Output
+}
+
+struct PlainField: ParserPrinterBody {
+  var body: some ParserPrinter<Substring.UTF8View, Substring.UTF8View> {
+    Prefix { $0 != .init(ascii: ",") && $0 != .init(ascii: "\n") }
+  }
+}
+
+struct QuotedField: ParserPrinterBody {
+  var body: some ParserPrinter<Substring.UTF8View, Substring.UTF8View> {
+    "\"".utf8
+    Prefix { $0 != .init(ascii: "\"") }
+    "\"".utf8
+  }
+}
+
+struct Field: ParserPrinterBody {
+  var body: some ParserPrinter<Substring.UTF8View, String> {
+    OneOf {
+      QuotedField()
+      PlainField()
+    }
+    .map(.string)
+  }
+}
+
+struct Line: ParserPrinterBody {
+  var body: some ParserPrinter<Substring.UTF8View, [String]> {
+    Many {
+      Field()
+    } separator: {
+      ",".utf8
+    }
+  }
+}
+
+struct CSV: ParserPrinterBody {
+  var body: some ParserPrinter<Substring.UTF8View, [[String]]> {
+    Many {
+      Line()
+    } separator: {
+      "\n".utf8
+    } terminator: {
+      End()
+    }
   }
 }

@@ -531,6 +531,17 @@ where
   }
 }
 
+extension ParserBuilder.ZipVOV: ParserPrinter
+where
+  P0: Printer,
+  P1: Printer,
+  P2: Printer,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P0.Output == Void,
+  P2.Output == Void
+{}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2>(
     _ p0: P0, _ p1: P1, _ p2: P2

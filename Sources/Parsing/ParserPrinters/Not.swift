@@ -17,6 +17,9 @@
 /// //   | ^^ expected not to be processed
 /// ```
 public struct Not<Upstream: Parser>: ParserPrinter {
+  public typealias Input = Upstream.Input
+  public typealias Output = Void
+
   public let upstream: Upstream
 
   /// Creates a parser that succeeds if the given parser fails, and does not consume any input.

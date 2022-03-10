@@ -7,23 +7,6 @@ import _URLRouting
 import FoundationNetworking
 #endif
 
-protocol ParserBody: Parser {
-  associatedtype Body: Parser where Body.Input == Input, Body.Output == Output
-  @ParserBuilder var body: Body { get }
-}
-extension ParserBody {
-  func parse(_ input: inout Input) throws -> Output {
-    try self.body.parse(&input)
-  }
-}
-protocol ParserPrinterBody: ParserBody, Printer {
-}
-extension ParserPrinterBody where Body: Printer {
-  func print(_ output: Output, into input: inout Input) throws {
-    try self.body.print(output, into: &input)
-  }
-}
-
 /// This benchmark demonstrates how you can build a URL request router that can transform an input
 /// request into a more well-structured data type, such as an enum. We build a router that can
 /// recognize one of 5 routes for a website.
@@ -56,10 +39,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 //    encoder.outputFormatting = .sortedKeys
 
     struct CommentsRouter: ParserPrinterBody {
-      typealias Input = URLRequestData
-      typealias Output = Comments
-
-      let body = OneOf {
+      var body = OneOf {
         Route(.case(Comments.post)) {
           Method.post
           _URLRouting.Body {

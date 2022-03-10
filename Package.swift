@@ -23,7 +23,10 @@ let package = Package(
   targets: [
     .target(
       name: "Parsing",
-      dependencies: [.product(name: "CasePaths", package: "swift-case-paths")]
+      dependencies: [.product(name: "CasePaths", package: "swift-case-paths")],
+      swiftSettings: [
+        .unsafeFlags(["-Xfrontend", "-enable-parameterized-protocol-types"]),
+      ]
     ),
     .testTarget(
       name: "ParsingTests",

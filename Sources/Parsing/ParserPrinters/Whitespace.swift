@@ -47,7 +47,7 @@ extension Whitespace: Printer where Input: PrependableCollection {
   }
 }
 
-extension Whitespace where Bytes == Input {
+extension Whitespace where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
   @inlinable
   public init() {
     self.toBytes = { $0 }

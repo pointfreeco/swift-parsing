@@ -49,6 +49,9 @@ extension Parsers {
     Parser.Input == Printer.Input,
     Parser.Output == Printer.Output
   {
+    public typealias Input = Parser.Input
+    public typealias Output = Parser.Output
+
     public let parser: Parser
     public let printer: Printer
 
