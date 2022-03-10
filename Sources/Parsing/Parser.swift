@@ -273,3 +273,35 @@ struct CSV: ParserPrinterBody {
     }
   }
 }
+
+protocol P where Body.Input == Input, Body.Output == Output {
+  @_primaryAssociatedType associatedtype Input
+  @_primaryAssociatedType associatedtype Output
+
+  associatedtype Body: P = Self
+
+  var body: Body { get }
+  func parse(_ input: inout Input) throws -> Output
+}
+
+extension P where Body == Self {
+  var body: Self { self }
+}
+
+extension P {
+  func parse(_ input: inout Input) throws -> Output {
+    try self.body.parse(&input)
+  }
+}
+
+struct Digits: P {
+  func parse(_ input: inout Substring) throws -> Int {
+    fatalError()
+  }
+}
+
+struct Digital: P {
+  var body: some P<Substring, Int> {
+    Digits()
+  }
+}
