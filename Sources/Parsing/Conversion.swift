@@ -12,7 +12,7 @@
 
   /// Attempts to transform an input into an output.
   ///
-  /// See ``unapply`` for the reverse process.
+  /// See ``Conversion/apply(_:)`` for the reverse process.
   ///
   /// - Parameter input: An input value.
   /// - Returns: A transformed output value.
@@ -20,7 +20,7 @@
 
   /// Attempts to transform an output back into an input.
   ///
-  /// The reverse process of ``apply``.
+  /// The reverse process of ``Conversion/apply(_:)``.
   ///
   /// - Parameter output: An output value.
   /// - Returns: An "un"-transformed input value.

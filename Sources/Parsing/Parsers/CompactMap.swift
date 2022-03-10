@@ -33,7 +33,7 @@ extension Parser {
   /// the old.
   ///
   /// If you are building a parser-printer, avoid uses of `compactMap` and instead use
-  /// ``map(_:)-2sblf`` with a failable conversion.
+  /// ``Parser/map(_:)-2sblf`` with a failable ``Conversion``.
   ///
   /// - Parameter transform: A closure that accepts output of this parser as its argument and
   ///   returns an optional value.

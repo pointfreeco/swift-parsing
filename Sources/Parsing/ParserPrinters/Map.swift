@@ -8,7 +8,7 @@ extension Parser {
   ///
   /// Mapping a parser with a transform function results in a parser that cannot print. If you need
   /// to transform the output of a parser and retain printability, use the ``Conversion``-based
-  /// ``map(_:)-2sblf`` operator instead.
+  /// ``Parser/map(_:)-2sblf`` operator instead.
   ///
   /// - Parameter transform: A closure that transforms values of this parser's output.
   /// - Returns: A parser of transformed outputs.
@@ -23,8 +23,8 @@ extension Parser {
   /// Returns a parser that replaces the `Void` output of this parser with the output of a given
   /// closure.
   ///
-  /// A printer-friendly version of ``map(_:)-4hsj5`` for `Void` outputs, so long as `NewOutput`
-  /// conforms to `Equatable`.
+  /// A printer-friendly version of ``Parser/map(_:)-2sblf`` for `Void` outputs, so long as
+  /// `NewOutput` conforms to `Equatable`.
   ///
   /// ```swift
   /// enum Role: String {
@@ -55,8 +55,8 @@ extension Parser {
 
   /// Returns a parser that transforms the output of this parser with a given conversion.
   ///
-  /// A printer-friendly version of ``map(_:)-4hsj5`` that transforms this parser's output using the
-  /// conversion's ``Conversion/apply(_:)`` method, and prints using the conversion's
+  /// A printer-friendly version of ``Parser/map(_:)-2sblf`` that transforms this parser's output
+  /// using the conversion's ``Conversion/apply(_:)`` method, and prints using the conversion's
   /// ``Conversion/unapply(_:)`` method.
   ///
   /// - Parameter conversion: A conversion that transforms the output of this parser.
@@ -95,7 +95,7 @@ extension Parsers {
   /// A parser that replaces another parser's `Void` output with some new output.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``Parser/map(_:)-2a01g`` operation, which constructs this type.
+  /// the ``Parser/map(_:)-2e6si`` operation, which constructs this type.
   public struct MapConstant<Upstream: Parser, Output>: Parser where Upstream.Output == Void {
     public let upstream: Upstream
     public let output: Output

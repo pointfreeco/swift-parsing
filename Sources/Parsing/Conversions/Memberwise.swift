@@ -23,6 +23,8 @@ extension Conversion {
   /// coord.print(.init(x: -5, y: 10))  // "-5.0,10.0"
   /// ```
   ///
+  /// ## Careful usage
+  ///
   /// This conversion works by using the memberwise initializer you supply to ``memberwise(_:)`` in
   /// order to turn tuples into a struct, and it uses `unsafeBitcast` to turn the struct back into
   /// a tuple. Because of this, it is _not_ valid to use ``memberwise(_:)`` with anything other than

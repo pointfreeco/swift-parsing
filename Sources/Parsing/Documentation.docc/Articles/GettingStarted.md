@@ -81,8 +81,8 @@ Already this can consume the leading integer and comma from the beginning of the
 // Use a mutable substring to verify what is consumed
 var input = input[...]
 
-try user.parse(&input)  // 1
-input                   // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
+try user.parse(&input)  // ✅ 1
+input // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
 Next we want to take everything up until the next comma for the user's name, and then consume the
@@ -155,7 +155,8 @@ That is enough to parse a single user from the input string, leaving behind a ne
 two users:
 
 ```swift
-try user.parse(&input) // User(id: 1, name: "Blob", isAdmin: true)
+try user.parse(&input) 
+// ✅ User(id: 1, name: "Blob", isAdmin: true)
 input // "\n2,Blob Jr.,false\n3,Blob Sr.,true"
 ```
 
@@ -169,7 +170,8 @@ let users = Many {
   "\n"
 }
 
-try users.parse(&input) // [User(id: 1, name: "Blob", isAdmin: true), ...]
+try users.parse(&input) 
+// ✅ [User(id: 1, name: "Blob", isAdmin: true), ...]
 input // ""
 ```
 
@@ -288,7 +290,8 @@ let user = Parse(User.init) {
   Bool.parser()
 }
 
-try user.parse("1,\"Blob, Esq.\",true") // User(id: 1, name: "Blob, Esq.", admin: true)
+try user.parse("1,\"Blob, Esq.\",true") 
+// ✅ User(id: 1, name: "Blob, Esq.", admin: true)
 ```
 
 It was quite straightforward to improve the `user` parser to handle quoted fields. Doing the same
@@ -298,6 +301,137 @@ more difficult.
 That's the basics of parsing a simple string format, but there's a lot more operators and tricks to
 learn in order to performantly parse larger inputs. View the [benchmarks][benchmarks] for examples
 of real-life parsing scenarios.
+
+## Your first printer
+
+Once you build a parser to turn nebulous data into well-structured data, you may ask if the 
+inverse process can also be performed. What if you need to turn your well-structured data back into
+nebulous data, such as if you needed to save the data back to disk or send the data to a server
+over the network. This inverse process is known as _printing_.
+
+If you are careful in the manner you construct your parser, there is a good chance that with a 
+little bit of extra work you can turn your parser into a printer. Most of the ``Parser`` 
+conformances that ship with the library also conform to the ``Printer`` protocol, although many
+have additional constraints that need to be satisfied.
+
+As long as you stay within those constraints, or use operations that are printer-friendly, then your 
+parser most likely is already a printer.
+
+For example, the tiny parser we defined for parsing a quoted field:
+
+```swift
+let quotedField = Parse {
+  "\""
+  Prefix { $0 != "\"" }
+  "\""
+}
+```
+
+This is already a printer because all of the parsers involved are also printers, such as the string
+parser `"\""` and the `Prefix` parser. Even the entry point ``Parse`` is a printer when everything
+in the builder context is a printer. We also provide a special ``ParsePrint`` entry point to make
+this clearer.
+
+So we can call ``Printer/print(_:)`` on this value, pass it a string, and it will give us back a 
+quoted field:
+
+```swift
+quotedField.print("Blob, Esq.") // ✅ ""Blob, Esq.""
+```
+
+However, the `field` parser, which first tries to parse a quoted field, and if that fails it falls
+back to consuming everything until the next comma, is _not_ a printer currently:
+
+```swift
+let field = OneOf {
+  quotedField
+  Prefix { $0 != "," }
+}
+.map(String.init)
+
+try field.print("Blob, Esq.")
+// ❌ Value of type 'Parsers.Map<OneOf<OneOfBuilder.OneOf2<Parse<ParserBuilder.ZipVOV<String, Prefix<Substring>, String>>, Prefix<Substring>>>, String>'
+//    has no member 'print'
+```
+
+The problem here is that the ``Parser/map(_:)-4hsj5`` operation is not printer-friendly. It can 
+describe how to transform a parser's output into a new kind of output, such as `Substring` into
+`String` like the above. But for printing we need the opposite direction. We need to be able to 
+transform `String` back into `Substring` so that it can be plugged into the printer.
+
+To fix this we cannot use ``Parser/map(_:)-4hsj5`` that simply uses one-directional transformations
+for turning a parser's output into a new output. We must use the more powerful 
+``Parser/map(_:)-2sblf`` overload that takes a ``Conversion``, which is a type that describes
+a process for converting from one type to another and back.
+
+If you map a parser-printer with a conversion, rather than just a simple function, you can transform
+a parser-printer to another parser-printer. This library ships with many conversions (see 
+<doc:ConversionArticle>) that makes it easy to quickly transform outputs. For example, the `field` parser
+can be transformed with the ``Conversion/string-swift.type.property-3u2b5`` conversion like so:
+
+```swift
+let field = OneOf {
+  quotedField
+  Prefix { $0 != "," }
+}
+.map(.string)
+
+try field.parse("Blob") // ✅ "Blob"
+try field.parse("\"Blob, Esq.\"") // ✅ "Blob, Esq."
+
+try field.print("Blob") // ✅ "Blob"
+try field.print("Blob, Esq.") // ✅ ""Blob, Esq.""
+```
+
+Although the `field` parser is now a parser-printer, the same is not true of the `user` parser:
+
+```swift
+let user = Parse(User.init) {
+  Int.parser()
+  ","
+  field
+  ","
+  Bool.parser()
+}
+
+try user.parse("1,\"Blob, Esq.\",true") 
+// ✅ User(id: 1, name: "Blob, Esq.", admin: true)
+
+try user.print(User(id: 1, name: "Blob", isAdmin: true)) // ❌
+```
+
+It cannot print because secretly the `Parse` initializer that takes a transformation function,
+such as `User.init`, uses a one-direction ``Parser/map(_:)-4hsj5`` operation under the hood.
+In order to make this a parser-printer we need to use ``Conversion/memberwise(_:)`` which can
+derive a conversion between a tuple of data and a struct by specify the structs memberwise
+initializer:
+
+```swift
+let user = ParsePrint(.memberwise(User.init)) {
+  Int.parser()
+  ","
+  field
+  ","
+  Bool.parser()
+}
+
+try user.parse("1,\"Blob, Esq.\",true") 
+// ✅ User(id: 1, name: "Blob, Esq.", admin: true)
+
+try user.print(User(id: 1, name: "Blob, Esq.", isAdmin: true)) 
+// ✅ "1,"Blob, Esq.",true"
+```
+
+It was quite straightforward to turn the user parser into a user parser-printer. We simply needed
+change all instances of a one-directional ``Parser/map(_:)-4hsj5`` to a bidirection 
+``Parser/map(_:)-2sblf``, which uses a conversion for describing how to transform an output to
+a new output and back.
+
+That's the basics of parser-printers, but there's a lot more operators and tricks to
+learn in order to handle more complex domains. View the [benchmarks][benchmarks] for examples
+of real-life parser-printer scenarios.
+
+<!-- Links -->
 
 [benchmarks-readme]: https://github.com/pointfreeco/swift-parsing/blob/main/Sources/swift-parsing-benchmark/ReadmeExample.swift
 [benchmarks]: https://github.com/pointfreeco/swift-parsing/tree/main/Sources/swift-parsing-benchmark

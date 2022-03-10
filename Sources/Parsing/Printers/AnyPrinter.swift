@@ -7,7 +7,7 @@ extension Printer {
   /// When you expose your composed printers as the ``AnyPrinter`` type, you can change the
   /// underlying implementation over time without affecting existing clients.
   ///
-  /// Equivalent to passing `self` to ``AnyPrinter/init(_:)``.
+  /// Equivalent to passing `self` to `AnyPrinter.init`.
   ///
   /// - Returns: An ``AnyPrinter`` wrapping this printer.
   @inlinable

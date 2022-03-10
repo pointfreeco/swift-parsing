@@ -35,8 +35,8 @@
 ///
 /// ## Printer
 ///
-/// ``Prefix`` is also a printer when its `Input` generic conforms to ``AppendableCollection``, such
-/// as `Substring` and `UTF8View`:
+/// ``Prefix`` is also a printer when its `Input` generic conforms to ``PrependableCollection``,
+/// such as `Substring` and `UTF8View`:
 ///
 /// ```swift
 /// Prefix { $0 != "," }.print("Hello World") // "Hello World"
