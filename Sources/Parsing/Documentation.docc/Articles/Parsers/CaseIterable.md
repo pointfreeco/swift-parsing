@@ -1,6 +1,6 @@
 # CaseIterable
 
-A parser-printer that consumes a case-iterable, raw representable value from the beginning of a 
+A parser-printer that consumes a case-iterable, raw representable value from the beginning of a
 string.
 
 Given a type that conforms to `CaseIterable` and `RawRepresentable` with a `RawValue` of `String`

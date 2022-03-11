@@ -52,7 +52,7 @@ public struct Optionally<Wrapped: Parser>: Parser {
   }
 }
 
-extension Optionally: Printer where Wrapped: Printer {
+extension Optionally: ParserPrinter where Wrapped: ParserPrinter {
   @inlinable
   public func print(_ output: Wrapped.Output?, into input: inout Wrapped.Input) rethrows {
     guard let output = output else { return }

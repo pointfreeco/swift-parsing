@@ -46,7 +46,7 @@ extension Parsers {
   }
 }
 
-extension Parsers.OneOfMany: Printer where Parsers: Printer {
+extension Parsers.OneOfMany: ParserPrinter where Parsers: ParserPrinter {
   @inlinable
   public func print(_ output: Parsers.Output, into input: inout Parsers.Input) throws {
     let original = input

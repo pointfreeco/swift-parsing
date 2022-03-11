@@ -1,4 +1,4 @@
-public struct PathEnd: Parser {
+public struct PathEnd: ParserPrinter {
   @inlinable
   public init() {}
 
@@ -6,9 +6,7 @@ public struct PathEnd: Parser {
   public func parse(_ input: inout URLRequestData) throws {
     try End().parse(input.path)
   }
-}
 
-extension PathEnd: Printer {
   @inlinable
   public func print(_ output: (), into input: inout Input) {}
 }

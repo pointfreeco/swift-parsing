@@ -6,7 +6,7 @@ extension Optional: Parser where Wrapped: Parser {
   }
 }
 
-extension Optional: Printer where Wrapped: Printer {
+extension Optional: ParserPrinter where Wrapped: ParserPrinter {
   public func print(_ output: Wrapped.Output?, into input: inout Wrapped.Input) rethrows {
     guard let output = output else { return }
     try self?.print(output, into: &input)
@@ -45,7 +45,7 @@ extension Parsers {
   }
 }
 
-extension Parsers.OptionalVoid: Printer where Wrapped: Printer {
+extension Parsers.OptionalVoid: ParserPrinter where Wrapped: ParserPrinter {
   public func print(_ output: (), into input: inout Wrapped.Input) rethrows {
     try self.wrapped?.print(into: &input)
   }

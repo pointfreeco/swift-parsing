@@ -29,7 +29,7 @@ public struct Cookies<Parsers: Parser>: Parser where Parsers.Input == URLRequest
   }
 }
 
-extension Cookies: Printer where Parsers: Printer {
+extension Cookies: ParserPrinter where Parsers: ParserPrinter {
   @inlinable
   public func print(_ output: Parsers.Output, into input: inout URLRequestData) rethrows {
     var cookies = URLRequestData.Fields()

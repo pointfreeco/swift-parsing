@@ -163,8 +163,8 @@ struct VariadicsGenerator: ParsableCommand {
       output("\n      } catch { throw ParsingError.wrap(error, at: input) }\n    }\n  }\n}\n\n")
 
       // Emit printer extension.
-      output("extension ParserBuilder.\(typeName): Printer\nwhere\n  ")
-      outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Printer" }
+      output("extension ParserBuilder.\(typeName): ParserPrinter\nwhere\n  ")
+      outputForEach(0..<arity, separator: ",\n  ") { "P\($0): ParserPrinter" }
       output(",\n  ")
       outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
         "P\($0).Input == P\($1).Input"
@@ -251,8 +251,8 @@ struct VariadicsGenerator: ParsableCommand {
     output("\n    }\n  }\n}\n\n")
 
     // Emit printer extension.
-    output("extension OneOfBuilder.\(typeName): Printer\nwhere\n  ")
-    outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Printer" }
+    output("extension OneOfBuilder.\(typeName): ParserPrinter\nwhere\n  ")
+    outputForEach(0..<arity, separator: ",\n  ") { "P\($0): ParserPrinter" }
     output(",\n  ")
     outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
       "P\($0).Input == P\($1).Input"
@@ -333,8 +333,8 @@ struct VariadicsGenerator: ParsableCommand {
       output(")\n  }\n}\n\n")
 
       // Emit printer extension.
-      output("extension \(typeName): Printer\nwhere\n  ")
-      outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Printer" }
+      output("extension \(typeName): ParserPrinter\nwhere\n  ")
+      outputForEach(0..<arity, separator: ",\n  ") { "P\($0): ParserPrinter" }
       if permutation.hasCaptureless {
         output(",\n  ")
         outputForEach(permutation.capturelessIndices, separator: ",\n  ") {

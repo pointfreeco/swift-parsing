@@ -35,7 +35,7 @@ public struct Rest<Input: Collection>: Parser where Input.SubSequence == Input {
   }
 }
 
-extension Rest: Printer where Input: PrependableCollection {
+extension Rest: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Input, into input: inout Input) throws {
     guard

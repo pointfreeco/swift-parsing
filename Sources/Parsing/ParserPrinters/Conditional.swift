@@ -48,10 +48,10 @@ extension Parsers {
   }
 }
 
-extension Parsers.Conditional: Printer
+extension Parsers.Conditional: ParserPrinter
 where
-  First: Printer,
-  Second: Printer
+  First: ParserPrinter,
+  Second: ParserPrinter
 {
   @inlinable
   public func print(_ output: First.Output, into input: inout First.Input) rethrows {

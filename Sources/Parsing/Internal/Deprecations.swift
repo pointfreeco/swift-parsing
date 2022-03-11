@@ -19,16 +19,6 @@ where
 }
 
 @available(*, deprecated, message: "Use 'From(.substring)' instead.")
-extension FromSubstring: Printer where SubstringParser: Printer {
-  @inlinable
-  public func print(_ output: SubstringParser.Output, into input: inout Input) rethrows {
-    var substringInput = self.toSubstring(input)
-    try self.substringParser.print(output, into: &substringInput)
-    input = self.fromSubstring(substringInput)
-  }
-}
-
-@available(*, deprecated, message: "Use 'From(.substring)' instead.")
 extension FromSubstring where Input == ArraySlice<UInt8> {
   @inlinable
   public init(@ParserBuilder _ build: () -> SubstringParser) {
@@ -77,16 +67,6 @@ where
 }
 
 @available(*, deprecated, message: "Use 'From(.unicodeScalars)' instead.")
-extension FromUnicodeScalarView: Printer where UnicodeScalarsParser: Printer {
-  @inlinable
-  public func print(_ output: UnicodeScalarsParser.Output, into input: inout Input) rethrows {
-    var unicodeScalarsInput = self.toUnicodeScalars(input)
-    try self.unicodeScalarsParser.print(output, into: &unicodeScalarsInput)
-    input = self.fromUnicodeScalars(unicodeScalarsInput)
-  }
-}
-
-@available(*, deprecated, message: "Use 'From(.unicodeScalars)' instead.")
 extension FromUnicodeScalarView where Input == ArraySlice<UInt8> {
   @inlinable
   public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
@@ -131,16 +111,6 @@ where
     var utf8 = self.toUTF8(input)
     defer { input = self.fromUTF8(utf8) }
     return try self.utf8Parser.parse(&utf8)
-  }
-}
-
-@available(*, deprecated, message: "Use 'From(.utf8)' instead.")
-extension FromUTF8View: Printer where UTF8Parser: Printer {
-  @inlinable
-  public func print(_ output: UTF8Parser.Output, into input: inout Input) rethrows {
-    var utf8Input = self.toUTF8(input)
-    try self.utf8Parser.print(output, into: &utf8Input)
-    input = self.fromUTF8(utf8Input)
   }
 }
 

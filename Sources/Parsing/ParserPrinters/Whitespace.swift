@@ -32,7 +32,7 @@ where
   }
 }
 
-extension Whitespace: Printer where Input: PrependableCollection {
+extension Whitespace: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Input, into input: inout Input) throws {
     guard
@@ -47,7 +47,8 @@ extension Whitespace: Printer where Input: PrependableCollection {
   }
 }
 
-extension Whitespace where Bytes == Input {
+// NB: Swift 5.7 fails to build with a simpler `Bytes == Input` constraint
+extension Whitespace where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
   @inlinable
   public init() {
     self.toBytes = { $0 }

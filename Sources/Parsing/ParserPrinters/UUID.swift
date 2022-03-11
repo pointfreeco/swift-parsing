@@ -136,7 +136,7 @@ extension Parsers {
   }
 }
 
-extension Parsers.UUIDParser: Printer where Input: PrependableCollection {
+extension Parsers.UUIDParser: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: UUID, into input: inout Input) {
     input.prepend(contentsOf: output.uuidString.utf8)

@@ -224,12 +224,12 @@ extension Many where Printability == Never {
   }
 }
 
-extension Many: Printer
+extension Many: ParserPrinter
 where
-  Element: Printer,
-  Separator: Printer,
+  Element: ParserPrinter,
+  Separator: ParserPrinter,
   Separator.Output == Void,
-  Terminator: Printer,
+  Terminator: ParserPrinter,
   Terminator.Output == Void,
   Printability == Void
 {

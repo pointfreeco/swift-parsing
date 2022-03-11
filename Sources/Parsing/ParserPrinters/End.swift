@@ -25,7 +25,7 @@
 /// // 1 | Hello, Blob!!
 /// //   |             ^ expected end of input
 /// ```
-public struct End<Input: Collection>: Parser {
+public struct End<Input: Collection>: ParserPrinter {
   @inlinable
   public init() {}
 
@@ -35,9 +35,7 @@ public struct End<Input: Collection>: Parser {
       throw ParsingError.expectedInput("end of input", at: input)
     }
   }
-}
 
-extension End: Printer {
   @inlinable
   public func print(_ output: (), into input: inout Input) throws {
     guard input.isEmpty

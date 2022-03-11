@@ -31,10 +31,10 @@ where
   }
 }
 
-extension PathZipOO: Printer
+extension PathZipOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer
+  P0: ParserPrinter,
+  P1: ParserPrinter
 {
   @inlinable public func print(
     _ output: (
@@ -87,10 +87,10 @@ where
   }
 }
 
-extension PathZipOV: Printer
+extension PathZipOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
   P1.Output == Void
 {
   @inlinable public func print(
@@ -143,10 +143,10 @@ where
   }
 }
 
-extension PathZipVO: Printer
+extension PathZipVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
   P0.Output == Void
 {
   @inlinable public func print(
@@ -198,10 +198,10 @@ where
   }
 }
 
-extension PathZipVV: Printer
+extension PathZipVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void
 {
@@ -263,11 +263,11 @@ where
   }
 }
 
-extension PathZipOOO: Printer
+extension PathZipOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter
 {
   @inlinable public func print(
     _ output: (
@@ -330,11 +330,11 @@ where
   }
 }
 
-extension PathZipOOV: Printer
+extension PathZipOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P2.Output == Void
 {
   @inlinable public func print(
@@ -397,11 +397,11 @@ where
   }
 }
 
-extension PathZipOVO: Printer
+extension PathZipOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P1.Output == Void
 {
   @inlinable public func print(
@@ -464,11 +464,11 @@ where
   }
 }
 
-extension PathZipOVV: Printer
+extension PathZipOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void
 {
@@ -531,11 +531,11 @@ where
   }
 }
 
-extension PathZipVOO: Printer
+extension PathZipVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Output == Void
 {
   @inlinable public func print(
@@ -598,11 +598,11 @@ where
   }
 }
 
-extension PathZipVOV: Printer
+extension PathZipVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void
 {
@@ -665,11 +665,11 @@ where
   }
 }
 
-extension PathZipVVO: Printer
+extension PathZipVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void
 {
@@ -731,11 +731,11 @@ where
   }
 }
 
-extension PathZipVVV: Printer
+extension PathZipVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void
@@ -807,12 +807,12 @@ where
   }
 }
 
-extension PathZipOOOO: Printer
+extension PathZipOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter
 {
   @inlinable public func print(
     _ output: (
@@ -885,12 +885,12 @@ where
   }
 }
 
-extension PathZipOOOV: Printer
+extension PathZipOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P3.Output == Void
 {
   @inlinable public func print(
@@ -963,12 +963,12 @@ where
   }
 }
 
-extension PathZipOOVO: Printer
+extension PathZipOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P2.Output == Void
 {
   @inlinable public func print(
@@ -1041,12 +1041,12 @@ where
   }
 }
 
-extension PathZipOOVV: Printer
+extension PathZipOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P2.Output == Void,
   P3.Output == Void
 {
@@ -1119,12 +1119,12 @@ where
   }
 }
 
-extension PathZipOVOO: Printer
+extension PathZipOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P1.Output == Void
 {
   @inlinable public func print(
@@ -1197,12 +1197,12 @@ where
   }
 }
 
-extension PathZipOVOV: Printer
+extension PathZipOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P1.Output == Void,
   P3.Output == Void
 {
@@ -1275,12 +1275,12 @@ where
   }
 }
 
-extension PathZipOVVO: Printer
+extension PathZipOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void
 {
@@ -1353,12 +1353,12 @@ where
   }
 }
 
-extension PathZipOVVV: Printer
+extension PathZipOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void,
   P3.Output == Void
@@ -1431,12 +1431,12 @@ where
   }
 }
 
-extension PathZipVOOO: Printer
+extension PathZipVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Output == Void
 {
   @inlinable public func print(
@@ -1509,12 +1509,12 @@ where
   }
 }
 
-extension PathZipVOOV: Printer
+extension PathZipVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Output == Void,
   P3.Output == Void
 {
@@ -1587,12 +1587,12 @@ where
   }
 }
 
-extension PathZipVOVO: Printer
+extension PathZipVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void
 {
@@ -1665,12 +1665,12 @@ where
   }
 }
 
-extension PathZipVOVV: Printer
+extension PathZipVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void,
   P3.Output == Void
@@ -1743,12 +1743,12 @@ where
   }
 }
 
-extension PathZipVVOO: Printer
+extension PathZipVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void
 {
@@ -1821,12 +1821,12 @@ where
   }
 }
 
-extension PathZipVVOV: Printer
+extension PathZipVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P3.Output == Void
@@ -1899,12 +1899,12 @@ where
   }
 }
 
-extension PathZipVVVO: Printer
+extension PathZipVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void
@@ -1976,12 +1976,12 @@ where
   }
 }
 
-extension PathZipVVVV: Printer
+extension PathZipVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void,
@@ -2063,13 +2063,13 @@ where
   }
 }
 
-extension PathZipOOOOO: Printer
+extension PathZipOOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter
 {
   @inlinable public func print(
     _ output: (
@@ -2152,13 +2152,13 @@ where
   }
 }
 
-extension PathZipOOOOV: Printer
+extension PathZipOOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P4.Output == Void
 {
   @inlinable public func print(
@@ -2241,13 +2241,13 @@ where
   }
 }
 
-extension PathZipOOOVO: Printer
+extension PathZipOOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P3.Output == Void
 {
   @inlinable public func print(
@@ -2330,13 +2330,13 @@ where
   }
 }
 
-extension PathZipOOOVV: Printer
+extension PathZipOOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P3.Output == Void,
   P4.Output == Void
 {
@@ -2419,13 +2419,13 @@ where
   }
 }
 
-extension PathZipOOVOO: Printer
+extension PathZipOOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P2.Output == Void
 {
   @inlinable public func print(
@@ -2508,13 +2508,13 @@ where
   }
 }
 
-extension PathZipOOVOV: Printer
+extension PathZipOOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P2.Output == Void,
   P4.Output == Void
 {
@@ -2597,13 +2597,13 @@ where
   }
 }
 
-extension PathZipOOVVO: Printer
+extension PathZipOOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P2.Output == Void,
   P3.Output == Void
 {
@@ -2686,13 +2686,13 @@ where
   }
 }
 
-extension PathZipOOVVV: Printer
+extension PathZipOOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P2.Output == Void,
   P3.Output == Void,
   P4.Output == Void
@@ -2775,13 +2775,13 @@ where
   }
 }
 
-extension PathZipOVOOO: Printer
+extension PathZipOVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P1.Output == Void
 {
   @inlinable public func print(
@@ -2864,13 +2864,13 @@ where
   }
 }
 
-extension PathZipOVOOV: Printer
+extension PathZipOVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P1.Output == Void,
   P4.Output == Void
 {
@@ -2953,13 +2953,13 @@ where
   }
 }
 
-extension PathZipOVOVO: Printer
+extension PathZipOVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P1.Output == Void,
   P3.Output == Void
 {
@@ -3042,13 +3042,13 @@ where
   }
 }
 
-extension PathZipOVOVV: Printer
+extension PathZipOVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P1.Output == Void,
   P3.Output == Void,
   P4.Output == Void
@@ -3131,13 +3131,13 @@ where
   }
 }
 
-extension PathZipOVVOO: Printer
+extension PathZipOVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void
 {
@@ -3220,13 +3220,13 @@ where
   }
 }
 
-extension PathZipOVVOV: Printer
+extension PathZipOVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void,
   P4.Output == Void
@@ -3309,13 +3309,13 @@ where
   }
 }
 
-extension PathZipOVVVO: Printer
+extension PathZipOVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void,
   P3.Output == Void
@@ -3398,13 +3398,13 @@ where
   }
 }
 
-extension PathZipOVVVV: Printer
+extension PathZipOVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void,
   P3.Output == Void,
@@ -3487,13 +3487,13 @@ where
   }
 }
 
-extension PathZipVOOOO: Printer
+extension PathZipVOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void
 {
   @inlinable public func print(
@@ -3576,13 +3576,13 @@ where
   }
 }
 
-extension PathZipVOOOV: Printer
+extension PathZipVOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P4.Output == Void
 {
@@ -3665,13 +3665,13 @@ where
   }
 }
 
-extension PathZipVOOVO: Printer
+extension PathZipVOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P3.Output == Void
 {
@@ -3754,13 +3754,13 @@ where
   }
 }
 
-extension PathZipVOOVV: Printer
+extension PathZipVOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P3.Output == Void,
   P4.Output == Void
@@ -3843,13 +3843,13 @@ where
   }
 }
 
-extension PathZipVOVOO: Printer
+extension PathZipVOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void
 {
@@ -3932,13 +3932,13 @@ where
   }
 }
 
-extension PathZipVOVOV: Printer
+extension PathZipVOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void,
   P4.Output == Void
@@ -4021,13 +4021,13 @@ where
   }
 }
 
-extension PathZipVOVVO: Printer
+extension PathZipVOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void,
   P3.Output == Void
@@ -4110,13 +4110,13 @@ where
   }
 }
 
-extension PathZipVOVVV: Printer
+extension PathZipVOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void,
   P3.Output == Void,
@@ -4199,13 +4199,13 @@ where
   }
 }
 
-extension PathZipVVOOO: Printer
+extension PathZipVVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void
 {
@@ -4288,13 +4288,13 @@ where
   }
 }
 
-extension PathZipVVOOV: Printer
+extension PathZipVVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P4.Output == Void
@@ -4377,13 +4377,13 @@ where
   }
 }
 
-extension PathZipVVOVO: Printer
+extension PathZipVVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P3.Output == Void
@@ -4466,13 +4466,13 @@ where
   }
 }
 
-extension PathZipVVOVV: Printer
+extension PathZipVVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P3.Output == Void,
@@ -4555,13 +4555,13 @@ where
   }
 }
 
-extension PathZipVVVOO: Printer
+extension PathZipVVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void
@@ -4644,13 +4644,13 @@ where
   }
 }
 
-extension PathZipVVVOV: Printer
+extension PathZipVVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void,
@@ -4733,13 +4733,13 @@ where
   }
 }
 
-extension PathZipVVVVO: Printer
+extension PathZipVVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void,
@@ -4821,13 +4821,13 @@ where
   }
 }
 
-extension PathZipVVVVV: Printer
+extension PathZipVVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void,
@@ -4919,14 +4919,14 @@ where
   }
 }
 
-extension PathZipOOOOOO: Printer
+extension PathZipOOOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter
 {
   @inlinable public func print(
     _ output: (
@@ -5019,14 +5019,14 @@ where
   }
 }
 
-extension PathZipOOOOOV: Printer
+extension PathZipOOOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P5.Output == Void
 {
   @inlinable public func print(
@@ -5119,14 +5119,14 @@ where
   }
 }
 
-extension PathZipOOOOVO: Printer
+extension PathZipOOOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P4.Output == Void
 {
   @inlinable public func print(
@@ -5219,14 +5219,14 @@ where
   }
 }
 
-extension PathZipOOOOVV: Printer
+extension PathZipOOOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P4.Output == Void,
   P5.Output == Void
 {
@@ -5319,14 +5319,14 @@ where
   }
 }
 
-extension PathZipOOOVOO: Printer
+extension PathZipOOOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P3.Output == Void
 {
   @inlinable public func print(
@@ -5419,14 +5419,14 @@ where
   }
 }
 
-extension PathZipOOOVOV: Printer
+extension PathZipOOOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P3.Output == Void,
   P5.Output == Void
 {
@@ -5519,14 +5519,14 @@ where
   }
 }
 
-extension PathZipOOOVVO: Printer
+extension PathZipOOOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P3.Output == Void,
   P4.Output == Void
 {
@@ -5619,14 +5619,14 @@ where
   }
 }
 
-extension PathZipOOOVVV: Printer
+extension PathZipOOOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P3.Output == Void,
   P4.Output == Void,
   P5.Output == Void
@@ -5719,14 +5719,14 @@ where
   }
 }
 
-extension PathZipOOVOOO: Printer
+extension PathZipOOVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P2.Output == Void
 {
   @inlinable public func print(
@@ -5819,14 +5819,14 @@ where
   }
 }
 
-extension PathZipOOVOOV: Printer
+extension PathZipOOVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P2.Output == Void,
   P5.Output == Void
 {
@@ -5919,14 +5919,14 @@ where
   }
 }
 
-extension PathZipOOVOVO: Printer
+extension PathZipOOVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P2.Output == Void,
   P4.Output == Void
 {
@@ -6019,14 +6019,14 @@ where
   }
 }
 
-extension PathZipOOVOVV: Printer
+extension PathZipOOVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P2.Output == Void,
   P4.Output == Void,
   P5.Output == Void
@@ -6119,14 +6119,14 @@ where
   }
 }
 
-extension PathZipOOVVOO: Printer
+extension PathZipOOVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P2.Output == Void,
   P3.Output == Void
 {
@@ -6219,14 +6219,14 @@ where
   }
 }
 
-extension PathZipOOVVOV: Printer
+extension PathZipOOVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P2.Output == Void,
   P3.Output == Void,
   P5.Output == Void
@@ -6319,14 +6319,14 @@ where
   }
 }
 
-extension PathZipOOVVVO: Printer
+extension PathZipOOVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P2.Output == Void,
   P3.Output == Void,
   P4.Output == Void
@@ -6419,14 +6419,14 @@ where
   }
 }
 
-extension PathZipOOVVVV: Printer
+extension PathZipOOVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P2.Output == Void,
   P3.Output == Void,
   P4.Output == Void,
@@ -6519,14 +6519,14 @@ where
   }
 }
 
-extension PathZipOVOOOO: Printer
+extension PathZipOVOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void
 {
   @inlinable public func print(
@@ -6619,14 +6619,14 @@ where
   }
 }
 
-extension PathZipOVOOOV: Printer
+extension PathZipOVOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P5.Output == Void
 {
@@ -6719,14 +6719,14 @@ where
   }
 }
 
-extension PathZipOVOOVO: Printer
+extension PathZipOVOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P4.Output == Void
 {
@@ -6819,14 +6819,14 @@ where
   }
 }
 
-extension PathZipOVOOVV: Printer
+extension PathZipOVOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P4.Output == Void,
   P5.Output == Void
@@ -6919,14 +6919,14 @@ where
   }
 }
 
-extension PathZipOVOVOO: Printer
+extension PathZipOVOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P3.Output == Void
 {
@@ -7019,14 +7019,14 @@ where
   }
 }
 
-extension PathZipOVOVOV: Printer
+extension PathZipOVOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P3.Output == Void,
   P5.Output == Void
@@ -7119,14 +7119,14 @@ where
   }
 }
 
-extension PathZipOVOVVO: Printer
+extension PathZipOVOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P3.Output == Void,
   P4.Output == Void
@@ -7219,14 +7219,14 @@ where
   }
 }
 
-extension PathZipOVOVVV: Printer
+extension PathZipOVOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P3.Output == Void,
   P4.Output == Void,
@@ -7319,14 +7319,14 @@ where
   }
 }
 
-extension PathZipOVVOOO: Printer
+extension PathZipOVVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void
 {
@@ -7419,14 +7419,14 @@ where
   }
 }
 
-extension PathZipOVVOOV: Printer
+extension PathZipOVVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void,
   P5.Output == Void
@@ -7519,14 +7519,14 @@ where
   }
 }
 
-extension PathZipOVVOVO: Printer
+extension PathZipOVVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void,
   P4.Output == Void
@@ -7619,14 +7619,14 @@ where
   }
 }
 
-extension PathZipOVVOVV: Printer
+extension PathZipOVVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void,
   P4.Output == Void,
@@ -7719,14 +7719,14 @@ where
   }
 }
 
-extension PathZipOVVVOO: Printer
+extension PathZipOVVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void,
   P3.Output == Void
@@ -7819,14 +7819,14 @@ where
   }
 }
 
-extension PathZipOVVVOV: Printer
+extension PathZipOVVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void,
   P3.Output == Void,
@@ -7919,14 +7919,14 @@ where
   }
 }
 
-extension PathZipOVVVVO: Printer
+extension PathZipOVVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void,
   P3.Output == Void,
@@ -8019,14 +8019,14 @@ where
   }
 }
 
-extension PathZipOVVVVV: Printer
+extension PathZipOVVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P1.Output == Void,
   P2.Output == Void,
   P3.Output == Void,
@@ -8119,14 +8119,14 @@ where
   }
 }
 
-extension PathZipVOOOOO: Printer
+extension PathZipVOOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void
 {
   @inlinable public func print(
@@ -8219,14 +8219,14 @@ where
   }
 }
 
-extension PathZipVOOOOV: Printer
+extension PathZipVOOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P5.Output == Void
 {
@@ -8319,14 +8319,14 @@ where
   }
 }
 
-extension PathZipVOOOVO: Printer
+extension PathZipVOOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P4.Output == Void
 {
@@ -8419,14 +8419,14 @@ where
   }
 }
 
-extension PathZipVOOOVV: Printer
+extension PathZipVOOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P4.Output == Void,
   P5.Output == Void
@@ -8519,14 +8519,14 @@ where
   }
 }
 
-extension PathZipVOOVOO: Printer
+extension PathZipVOOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P3.Output == Void
 {
@@ -8619,14 +8619,14 @@ where
   }
 }
 
-extension PathZipVOOVOV: Printer
+extension PathZipVOOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P3.Output == Void,
   P5.Output == Void
@@ -8719,14 +8719,14 @@ where
   }
 }
 
-extension PathZipVOOVVO: Printer
+extension PathZipVOOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P3.Output == Void,
   P4.Output == Void
@@ -8819,14 +8819,14 @@ where
   }
 }
 
-extension PathZipVOOVVV: Printer
+extension PathZipVOOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P3.Output == Void,
   P4.Output == Void,
@@ -8919,14 +8919,14 @@ where
   }
 }
 
-extension PathZipVOVOOO: Printer
+extension PathZipVOVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void
 {
@@ -9019,14 +9019,14 @@ where
   }
 }
 
-extension PathZipVOVOOV: Printer
+extension PathZipVOVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void,
   P5.Output == Void
@@ -9119,14 +9119,14 @@ where
   }
 }
 
-extension PathZipVOVOVO: Printer
+extension PathZipVOVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void,
   P4.Output == Void
@@ -9219,14 +9219,14 @@ where
   }
 }
 
-extension PathZipVOVOVV: Printer
+extension PathZipVOVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void,
   P4.Output == Void,
@@ -9319,14 +9319,14 @@ where
   }
 }
 
-extension PathZipVOVVOO: Printer
+extension PathZipVOVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void,
   P3.Output == Void
@@ -9419,14 +9419,14 @@ where
   }
 }
 
-extension PathZipVOVVOV: Printer
+extension PathZipVOVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void,
   P3.Output == Void,
@@ -9519,14 +9519,14 @@ where
   }
 }
 
-extension PathZipVOVVVO: Printer
+extension PathZipVOVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void,
   P3.Output == Void,
@@ -9619,14 +9619,14 @@ where
   }
 }
 
-extension PathZipVOVVVV: Printer
+extension PathZipVOVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P2.Output == Void,
   P3.Output == Void,
@@ -9719,14 +9719,14 @@ where
   }
 }
 
-extension PathZipVVOOOO: Printer
+extension PathZipVVOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void
 {
@@ -9819,14 +9819,14 @@ where
   }
 }
 
-extension PathZipVVOOOV: Printer
+extension PathZipVVOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P5.Output == Void
@@ -9919,14 +9919,14 @@ where
   }
 }
 
-extension PathZipVVOOVO: Printer
+extension PathZipVVOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P4.Output == Void
@@ -10019,14 +10019,14 @@ where
   }
 }
 
-extension PathZipVVOOVV: Printer
+extension PathZipVVOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P4.Output == Void,
@@ -10119,14 +10119,14 @@ where
   }
 }
 
-extension PathZipVVOVOO: Printer
+extension PathZipVVOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P3.Output == Void
@@ -10219,14 +10219,14 @@ where
   }
 }
 
-extension PathZipVVOVOV: Printer
+extension PathZipVVOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P3.Output == Void,
@@ -10319,14 +10319,14 @@ where
   }
 }
 
-extension PathZipVVOVVO: Printer
+extension PathZipVVOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P3.Output == Void,
@@ -10419,14 +10419,14 @@ where
   }
 }
 
-extension PathZipVVOVVV: Printer
+extension PathZipVVOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P3.Output == Void,
@@ -10519,14 +10519,14 @@ where
   }
 }
 
-extension PathZipVVVOOO: Printer
+extension PathZipVVVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void
@@ -10619,14 +10619,14 @@ where
   }
 }
 
-extension PathZipVVVOOV: Printer
+extension PathZipVVVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void,
@@ -10719,14 +10719,14 @@ where
   }
 }
 
-extension PathZipVVVOVO: Printer
+extension PathZipVVVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void,
@@ -10819,14 +10819,14 @@ where
   }
 }
 
-extension PathZipVVVOVV: Printer
+extension PathZipVVVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void,
@@ -10919,14 +10919,14 @@ where
   }
 }
 
-extension PathZipVVVVOO: Printer
+extension PathZipVVVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void,
@@ -11019,14 +11019,14 @@ where
   }
 }
 
-extension PathZipVVVVOV: Printer
+extension PathZipVVVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void,
@@ -11119,14 +11119,14 @@ where
   }
 }
 
-extension PathZipVVVVVO: Printer
+extension PathZipVVVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void,
@@ -11218,14 +11218,14 @@ where
   }
 }
 
-extension PathZipVVVVVV: Printer
+extension PathZipVVVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Output == Void,
   P1.Output == Void,
   P2.Output == Void,

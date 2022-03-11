@@ -117,7 +117,7 @@ extension Parsers {
 
     @usableFromInline
     let cases: [(case: Output, prefix: Prefix, count: Int)]
-    
+
     @usableFromInline
     init(
       toPrefix: @escaping (Output.RawValue) -> Prefix,
@@ -146,7 +146,8 @@ extension Parsers {
   }
 }
 
-extension Parsers.CaseIterableRawRepresentableParser: Printer where Input: PrependableCollection {
+extension Parsers.CaseIterableRawRepresentableParser: ParserPrinter
+where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Output, into input: inout Input) {
     input.prepend(contentsOf: self.toPrefix(output.rawValue))

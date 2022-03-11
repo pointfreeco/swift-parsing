@@ -148,7 +148,7 @@ public struct Parse<Parsers: Parser>: Parser {
   }
 }
 
-extension Parse: Printer where Parsers: Printer {
+extension Parse: ParserPrinter where Parsers: ParserPrinter {
   @inlinable
   public func print(_ output: Parsers.Output, into input: inout Parsers.Input) rethrows {
     try self.parsers.print(output, into: &input)
@@ -185,7 +185,7 @@ extension Parse: Printer where Parsers: Printer {
 /// // ❌ Generic struct 'Parse' requires that 'Parsers.Map<Prefix<Substring>, String>'
 /// //    conform to 'Printer'
 /// ```
-/// 
+///
 /// `ParsePrint` is a type alias for the ``Parse`` parser with its underlying parser constrained to
 /// ``ParserPrinter``.
 public typealias ParsePrint<ParserPrinters: ParserPrinter> = Parse<ParserPrinters>

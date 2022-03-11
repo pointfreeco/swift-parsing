@@ -202,7 +202,7 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
   }
 }
 
-extension Prefix: Printer where Input: PrependableCollection {
+extension Prefix: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Input, into input: inout Input) throws {
     let count = output.count

@@ -165,7 +165,7 @@ public struct OneOf<Parsers: Parser>: Parser {
   }
 }
 
-extension OneOf: Printer where Parsers: Printer {
+extension OneOf: ParserPrinter where Parsers: ParserPrinter {
   @inlinable
   public func print(_ output: Parsers.Output, into input: inout Parsers.Input) rethrows {
     try self.parsers.print(output, into: &input)

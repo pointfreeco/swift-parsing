@@ -75,10 +75,10 @@ extension Parsers {
   }
 }
 
-extension Parsers.Pipe: Printer
+extension Parsers.Pipe: ParserPrinter
 where
-  Upstream: Printer,
-  Downstream: Printer,
+  Upstream: ParserPrinter,
+  Downstream: ParserPrinter,
   Upstream.Output: EmptyInitializable
 {
   @inlinable

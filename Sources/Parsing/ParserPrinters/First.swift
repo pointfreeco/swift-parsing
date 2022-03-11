@@ -35,7 +35,7 @@ public struct First<Input: Collection>: Parser where Input.SubSequence == Input 
   }
 }
 
-extension First: Printer where Input: PrependableCollection {
+extension First: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Input.Element, into input: inout Input) {
     input.prepend(contentsOf: CollectionOfOne(output))

@@ -35,7 +35,7 @@ where
   }
 }
 
-extension Newline: Printer where Input: PrependableCollection, Bytes: PrependableCollection {
+extension Newline: ParserPrinter where Input: PrependableCollection, Bytes: PrependableCollection {
   @inlinable
   public func print(_ output: (), into input: inout Input) {
     input.prepend(contentsOf: self.fromBytes(.init("\n".utf8)))

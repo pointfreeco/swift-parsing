@@ -45,7 +45,7 @@ public struct PrefixThrough<Input: Collection>: Parser where Input.SubSequence =
   }
 }
 
-extension PrefixThrough: Printer where Input: PrependableCollection {
+extension PrefixThrough: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Input, into input: inout Input) throws {
     var output = output

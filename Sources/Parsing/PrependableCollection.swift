@@ -48,7 +48,7 @@ import Foundation
 ///   }
 /// }
 ///
-/// extension Digits: Printer where Input: PrependableCollection {
+/// extension Digits: ParserPrinter where Input: PrependableCollection {
 ///   func print(_ output: Int, into input: inout Input) {
 ///     // Convert `Int` to string's underlying bytes
 ///     let bytes = String(output).utf8

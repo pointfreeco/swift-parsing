@@ -69,7 +69,7 @@ extension Parsers {
   }
 }
 
-extension Parsers.ReplaceError: Printer where Upstream: Printer {
+extension Parsers.ReplaceError: ParserPrinter where Upstream: ParserPrinter {
   @inlinable
   public func print(_ output: Upstream.Output, into input: inout Upstream.Input) {
     let original = input

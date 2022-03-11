@@ -120,8 +120,7 @@ extension Parsers {
   /// the ``Parser/map(_:)-2sblf`` operation, which constructs this type.
   public struct MapConversion<Upstream, Downstream>: ParserPrinter
   where
-    Upstream: Parser,
-    Upstream: Printer,
+    Upstream: ParserPrinter,
     Downstream: Conversion,
     Downstream.Input == Upstream.Output
   {
@@ -147,7 +146,7 @@ extension Parsers {
   }
 }
 
-extension Parsers.MapConstant: Printer where Upstream: Printer, Output: Equatable {
+extension Parsers.MapConstant: ParserPrinter where Upstream: ParserPrinter, Output: Equatable {
   @inlinable
   public func print(_ output: Output, into input: inout Upstream.Input) throws {
     guard output == self.output else { throw PrintingError() }

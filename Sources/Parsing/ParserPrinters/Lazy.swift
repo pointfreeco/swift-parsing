@@ -22,7 +22,7 @@ public final class Lazy<LazyParser: Parser>: Parser {
   }
 }
 
-extension Lazy: Printer where LazyParser: Printer {
+extension Lazy: ParserPrinter where LazyParser: ParserPrinter {
   @inlinable
   public func print(_ output: LazyParser.Output, into input: inout LazyParser.Input) rethrows {
     guard let parser = self.lazyParser else {

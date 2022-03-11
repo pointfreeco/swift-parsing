@@ -59,7 +59,7 @@ where
   }
 }
 
-extension Field: Printer where Value: Printer {
+extension Field: ParserPrinter where Value: ParserPrinter {
   @inlinable
   public func print(_ output: Value.Output, into input: inout URLRequestData.Fields) rethrows {
     if let defaultValue = self.defaultValue, isEqual(output, defaultValue) { return }

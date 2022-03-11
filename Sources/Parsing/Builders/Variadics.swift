@@ -25,10 +25,10 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOO: Printer
+extension ParserBuilder.ZipOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
   P0.Input == P1.Input
 {
   @inlinable public func print(
@@ -74,10 +74,10 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOV: Printer
+extension ParserBuilder.ZipOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
   P0.Input == P1.Input,
   P1.Output == Void
 {
@@ -121,10 +121,10 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVO: Printer
+extension ParserBuilder.ZipVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
   P0.Input == P1.Input,
   P0.Output == Void
 {
@@ -168,10 +168,10 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVV: Printer
+extension ParserBuilder.ZipVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
   P0.Input == P1.Input,
   P0.Output == Void,
   P1.Output == Void
@@ -222,11 +222,11 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOO: Printer
+extension ParserBuilder.ZipOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input
 {
@@ -281,11 +281,11 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOV: Printer
+extension ParserBuilder.ZipOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Output == Void
@@ -340,11 +340,11 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVO: Printer
+extension ParserBuilder.ZipOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P1.Output == Void
@@ -397,11 +397,11 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVV: Printer
+extension ParserBuilder.ZipOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P1.Output == Void,
@@ -454,11 +454,11 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOO: Printer
+extension ParserBuilder.ZipVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P0.Output == Void
@@ -511,11 +511,11 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOV: Printer
+extension ParserBuilder.ZipVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P0.Output == Void,
@@ -566,11 +566,11 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVO: Printer
+extension ParserBuilder.ZipVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P0.Output == Void,
@@ -621,11 +621,11 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVV: Printer
+extension ParserBuilder.ZipVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P0.Output == Void,
@@ -683,12 +683,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOO: Printer
+extension ParserBuilder.ZipOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input
@@ -750,12 +750,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOV: Printer
+extension ParserBuilder.ZipOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -817,12 +817,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVO: Printer
+extension ParserBuilder.ZipOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -884,12 +884,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVV: Printer
+extension ParserBuilder.ZipOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -951,12 +951,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOO: Printer
+extension ParserBuilder.ZipOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1018,12 +1018,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOV: Printer
+extension ParserBuilder.ZipOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1085,12 +1085,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVO: Printer
+extension ParserBuilder.ZipOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1150,12 +1150,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVV: Printer
+extension ParserBuilder.ZipOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1215,12 +1215,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOO: Printer
+extension ParserBuilder.ZipVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1282,12 +1282,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOV: Printer
+extension ParserBuilder.ZipVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1349,12 +1349,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVO: Printer
+extension ParserBuilder.ZipVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1414,12 +1414,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVV: Printer
+extension ParserBuilder.ZipVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1479,12 +1479,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOO: Printer
+extension ParserBuilder.ZipVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1544,12 +1544,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOV: Printer
+extension ParserBuilder.ZipVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1607,12 +1607,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVO: Printer
+extension ParserBuilder.ZipVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1670,12 +1670,12 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVV: Printer
+extension ParserBuilder.ZipVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1740,13 +1740,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOOO: Printer
+extension ParserBuilder.ZipOOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1815,13 +1815,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOOV: Printer
+extension ParserBuilder.ZipOOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1890,13 +1890,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOVO: Printer
+extension ParserBuilder.ZipOOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -1965,13 +1965,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOVV: Printer
+extension ParserBuilder.ZipOOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2040,13 +2040,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVOO: Printer
+extension ParserBuilder.ZipOOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2115,13 +2115,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVOV: Printer
+extension ParserBuilder.ZipOOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2190,13 +2190,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVVO: Printer
+extension ParserBuilder.ZipOOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2265,13 +2265,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVVV: Printer
+extension ParserBuilder.ZipOOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2340,13 +2340,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOOO: Printer
+extension ParserBuilder.ZipOVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2415,13 +2415,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOOV: Printer
+extension ParserBuilder.ZipOVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2490,13 +2490,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOVO: Printer
+extension ParserBuilder.ZipOVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2565,13 +2565,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOVV: Printer
+extension ParserBuilder.ZipOVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2640,13 +2640,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVOO: Printer
+extension ParserBuilder.ZipOVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2715,13 +2715,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVOV: Printer
+extension ParserBuilder.ZipOVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2790,13 +2790,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVVO: Printer
+extension ParserBuilder.ZipOVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2863,13 +2863,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVVV: Printer
+extension ParserBuilder.ZipOVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -2936,13 +2936,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOOO: Printer
+extension ParserBuilder.ZipVOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3011,13 +3011,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOOV: Printer
+extension ParserBuilder.ZipVOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3086,13 +3086,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOVO: Printer
+extension ParserBuilder.ZipVOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3161,13 +3161,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOVV: Printer
+extension ParserBuilder.ZipVOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3236,13 +3236,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVOO: Printer
+extension ParserBuilder.ZipVOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3311,13 +3311,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVOV: Printer
+extension ParserBuilder.ZipVOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3386,13 +3386,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVVO: Printer
+extension ParserBuilder.ZipVOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3459,13 +3459,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVVV: Printer
+extension ParserBuilder.ZipVOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3532,13 +3532,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOOO: Printer
+extension ParserBuilder.ZipVVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3607,13 +3607,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOOV: Printer
+extension ParserBuilder.ZipVVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3682,13 +3682,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOVO: Printer
+extension ParserBuilder.ZipVVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3755,13 +3755,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOVV: Printer
+extension ParserBuilder.ZipVVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3828,13 +3828,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVOO: Printer
+extension ParserBuilder.ZipVVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3901,13 +3901,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVOV: Printer
+extension ParserBuilder.ZipVVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -3972,13 +3972,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVVO: Printer
+extension ParserBuilder.ZipVVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4043,13 +4043,13 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVVV: Printer
+extension ParserBuilder.ZipVVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4122,14 +4122,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOOOO: Printer
+extension ParserBuilder.ZipOOOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4206,14 +4206,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOOOV: Printer
+extension ParserBuilder.ZipOOOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4290,14 +4290,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOOVO: Printer
+extension ParserBuilder.ZipOOOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4374,14 +4374,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOOVV: Printer
+extension ParserBuilder.ZipOOOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4458,14 +4458,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOVOO: Printer
+extension ParserBuilder.ZipOOOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4542,14 +4542,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOVOV: Printer
+extension ParserBuilder.ZipOOOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4626,14 +4626,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOVVO: Printer
+extension ParserBuilder.ZipOOOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4710,14 +4710,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOOVVV: Printer
+extension ParserBuilder.ZipOOOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4794,14 +4794,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVOOO: Printer
+extension ParserBuilder.ZipOOVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4878,14 +4878,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVOOV: Printer
+extension ParserBuilder.ZipOOVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -4962,14 +4962,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVOVO: Printer
+extension ParserBuilder.ZipOOVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5046,14 +5046,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVOVV: Printer
+extension ParserBuilder.ZipOOVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5130,14 +5130,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVVOO: Printer
+extension ParserBuilder.ZipOOVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5214,14 +5214,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVVOV: Printer
+extension ParserBuilder.ZipOOVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5298,14 +5298,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVVVO: Printer
+extension ParserBuilder.ZipOOVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5382,14 +5382,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOOVVVV: Printer
+extension ParserBuilder.ZipOOVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5466,14 +5466,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOOOO: Printer
+extension ParserBuilder.ZipOVOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5550,14 +5550,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOOOV: Printer
+extension ParserBuilder.ZipOVOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5634,14 +5634,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOOVO: Printer
+extension ParserBuilder.ZipOVOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5718,14 +5718,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOOVV: Printer
+extension ParserBuilder.ZipOVOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5802,14 +5802,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOVOO: Printer
+extension ParserBuilder.ZipOVOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5886,14 +5886,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOVOV: Printer
+extension ParserBuilder.ZipOVOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -5970,14 +5970,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOVVO: Printer
+extension ParserBuilder.ZipOVOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6054,14 +6054,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVOVVV: Printer
+extension ParserBuilder.ZipOVOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6138,14 +6138,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVOOO: Printer
+extension ParserBuilder.ZipOVVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6222,14 +6222,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVOOV: Printer
+extension ParserBuilder.ZipOVVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6306,14 +6306,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVOVO: Printer
+extension ParserBuilder.ZipOVVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6390,14 +6390,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVOVV: Printer
+extension ParserBuilder.ZipOVVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6474,14 +6474,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVVOO: Printer
+extension ParserBuilder.ZipOVVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6558,14 +6558,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVVOV: Printer
+extension ParserBuilder.ZipOVVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6642,14 +6642,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVVVO: Printer
+extension ParserBuilder.ZipOVVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6724,14 +6724,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipOVVVVV: Printer
+extension ParserBuilder.ZipOVVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6806,14 +6806,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOOOO: Printer
+extension ParserBuilder.ZipVOOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6890,14 +6890,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOOOV: Printer
+extension ParserBuilder.ZipVOOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -6974,14 +6974,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOOVO: Printer
+extension ParserBuilder.ZipVOOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7058,14 +7058,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOOVV: Printer
+extension ParserBuilder.ZipVOOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7142,14 +7142,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOVOO: Printer
+extension ParserBuilder.ZipVOOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7226,14 +7226,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOVOV: Printer
+extension ParserBuilder.ZipVOOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7310,14 +7310,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOVVO: Printer
+extension ParserBuilder.ZipVOOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7394,14 +7394,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOOVVV: Printer
+extension ParserBuilder.ZipVOOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7478,14 +7478,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVOOO: Printer
+extension ParserBuilder.ZipVOVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7562,14 +7562,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVOOV: Printer
+extension ParserBuilder.ZipVOVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7646,14 +7646,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVOVO: Printer
+extension ParserBuilder.ZipVOVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7730,14 +7730,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVOVV: Printer
+extension ParserBuilder.ZipVOVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7814,14 +7814,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVVOO: Printer
+extension ParserBuilder.ZipVOVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7898,14 +7898,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVVOV: Printer
+extension ParserBuilder.ZipVOVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -7982,14 +7982,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVVVO: Printer
+extension ParserBuilder.ZipVOVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8064,14 +8064,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVOVVVV: Printer
+extension ParserBuilder.ZipVOVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8146,14 +8146,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOOOO: Printer
+extension ParserBuilder.ZipVVOOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8230,14 +8230,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOOOV: Printer
+extension ParserBuilder.ZipVVOOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8314,14 +8314,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOOVO: Printer
+extension ParserBuilder.ZipVVOOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8398,14 +8398,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOOVV: Printer
+extension ParserBuilder.ZipVVOOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8482,14 +8482,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOVOO: Printer
+extension ParserBuilder.ZipVVOVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8566,14 +8566,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOVOV: Printer
+extension ParserBuilder.ZipVVOVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8650,14 +8650,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOVVO: Printer
+extension ParserBuilder.ZipVVOVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8732,14 +8732,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVOVVV: Printer
+extension ParserBuilder.ZipVVOVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8814,14 +8814,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVOOO: Printer
+extension ParserBuilder.ZipVVVOOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8898,14 +8898,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVOOV: Printer
+extension ParserBuilder.ZipVVVOOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -8982,14 +8982,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVOVO: Printer
+extension ParserBuilder.ZipVVVOVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9064,14 +9064,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVOVV: Printer
+extension ParserBuilder.ZipVVVOVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9146,14 +9146,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVVOO: Printer
+extension ParserBuilder.ZipVVVVOO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9228,14 +9228,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVVOV: Printer
+extension ParserBuilder.ZipVVVVOV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9308,14 +9308,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVVVO: Printer
+extension ParserBuilder.ZipVVVVVO: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9388,14 +9388,14 @@ extension ParserBuilder {
   }
 }
 
-extension ParserBuilder.ZipVVVVVV: Printer
+extension ParserBuilder.ZipVVVVVV: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9458,10 +9458,10 @@ extension OneOfBuilder {
   }
 }
 
-extension OneOfBuilder.OneOf2: Printer
+extension OneOfBuilder.OneOf2: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
   P0.Input == P1.Input,
   P0.Output == P1.Output
 {
@@ -9525,11 +9525,11 @@ extension OneOfBuilder {
   }
 }
 
-extension OneOfBuilder.OneOf3: Printer
+extension OneOfBuilder.OneOf3: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P0.Output == P1.Output,
@@ -9608,12 +9608,12 @@ extension OneOfBuilder {
   }
 }
 
-extension OneOfBuilder.OneOf4: Printer
+extension OneOfBuilder.OneOf4: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9707,13 +9707,13 @@ extension OneOfBuilder {
   }
 }
 
-extension OneOfBuilder.OneOf5: Printer
+extension OneOfBuilder.OneOf5: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9823,14 +9823,14 @@ extension OneOfBuilder {
   }
 }
 
-extension OneOfBuilder.OneOf6: Printer
+extension OneOfBuilder.OneOf6: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -9956,15 +9956,15 @@ extension OneOfBuilder {
   }
 }
 
-extension OneOfBuilder.OneOf7: Printer
+extension OneOfBuilder.OneOf7: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
-  P6: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P6: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10107,16 +10107,16 @@ extension OneOfBuilder {
   }
 }
 
-extension OneOfBuilder.OneOf8: Printer
+extension OneOfBuilder.OneOf8: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
-  P6: Printer,
-  P7: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P6: ParserPrinter,
+  P7: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10275,17 +10275,17 @@ extension OneOfBuilder {
   }
 }
 
-extension OneOfBuilder.OneOf9: Printer
+extension OneOfBuilder.OneOf9: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
-  P6: Printer,
-  P7: Printer,
-  P8: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P6: ParserPrinter,
+  P7: ParserPrinter,
+  P8: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,
@@ -10460,18 +10460,18 @@ extension OneOfBuilder {
   }
 }
 
-extension OneOfBuilder.OneOf10: Printer
+extension OneOfBuilder.OneOf10: ParserPrinter
 where
-  P0: Printer,
-  P1: Printer,
-  P2: Printer,
-  P3: Printer,
-  P4: Printer,
-  P5: Printer,
-  P6: Printer,
-  P7: Printer,
-  P8: Printer,
-  P9: Printer,
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P6: ParserPrinter,
+  P7: ParserPrinter,
+  P8: ParserPrinter,
+  P9: ParserPrinter,
   P0.Input == P1.Input,
   P1.Input == P2.Input,
   P2.Input == P3.Input,

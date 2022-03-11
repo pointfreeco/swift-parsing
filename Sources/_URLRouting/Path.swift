@@ -14,7 +14,7 @@ where ComponentParsers.Input == URLRequestData {
   }
 }
 
-extension Path: Printer where ComponentParsers: Printer {
+extension Path: ParserPrinter where ComponentParsers: ParserPrinter {
   @inlinable
   public func print(_ output: ComponentParsers.Output, into input: inout URLRequestData) rethrows {
     try self.componentParsers.print(output, into: &input)
@@ -43,7 +43,7 @@ where
   }
 }
 
-extension PathComponent: Printer where ComponentParser: Printer {
+extension PathComponent: ParserPrinter where ComponentParser: ParserPrinter {
   public func print(_ output: ComponentParser.Output, into input: inout URLRequestData) rethrows {
     try input.path.prepend(self.componentParser.print(output))
   }

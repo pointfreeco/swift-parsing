@@ -60,7 +60,7 @@ extension Parsers {
   }
 }
 
-extension Parsers.Filter: Printer where Upstream: Printer {
+extension Parsers.Filter: ParserPrinter where Upstream: ParserPrinter {
   @inlinable
   public func print(_ output: Upstream.Output, into input: inout Upstream.Input) throws {
     guard self.predicate(output) else { throw PrintingError() }

@@ -51,18 +51,18 @@ final class EndTests: XCTestCase {
     }
   }
 
-//  func testFoo() throws {
-//    let quotedField = Parse {
-//      "\""
-//      Prefix { $0 != "\"" }
-//      "\""
-//    }
-//    let field = OneOf {
-//      quotedField
-//      Prefix { $0 != "," }
-//    }
-//      .map(String.init)
-//
-//    try field.print("Blob, Esq.")
-//  }
+  //  func testFoo() throws {
+  //    let quotedField = Parse {
+  //      "\""
+  //      Prefix { $0 != "\"" }
+  //      "\""
+  //    }
+  //    let field = OneOf {
+  //      quotedField
+  //      Prefix { $0 != "," }
+  //    }
+  //      .map(String.init)
+  //
+  //    try field.print("Blob, Esq.")
+  //  }
 }

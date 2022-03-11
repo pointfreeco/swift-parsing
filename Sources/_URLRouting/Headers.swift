@@ -14,7 +14,7 @@ where FieldParsers.Input == URLRequestData.Fields {
   }
 }
 
-extension Headers: Printer where FieldParsers: Printer {
+extension Headers: ParserPrinter where FieldParsers: ParserPrinter {
   @inlinable
   public func print(_ output: FieldParsers.Output, into input: inout URLRequestData) rethrows {
     try self.fieldParsers.print(output, into: &input.headers)

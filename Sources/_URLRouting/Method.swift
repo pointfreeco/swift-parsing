@@ -1,4 +1,4 @@
-public struct Method: Parser {
+public struct Method: ParserPrinter {
   @usableFromInline
   let name: String
 
@@ -29,9 +29,7 @@ public struct Method: Parser {
     }.parse(method)
     input.method = nil
   }
-}
 
-extension Method: Printer {
   @inlinable
   public func print(_ output: (), into input: inout URLRequestData) {
     input.method = self.name

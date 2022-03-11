@@ -33,7 +33,7 @@ where FieldParsers.Input == URLRequestData.Fields {
   }
 }
 
-extension FormData: Printer where FieldParsers: Printer {
+extension FormData: ParserPrinter where FieldParsers: ParserPrinter {
   @inlinable
   public func print(_ output: FieldParsers.Output, into input: inout ArraySlice<UInt8>) rethrows {
     var fields = URLRequestData.Fields()

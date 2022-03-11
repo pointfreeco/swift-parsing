@@ -1,4 +1,4 @@
-extension Array: Parser where Element: Equatable {
+extension Array: Parser, ParserPrinter where Element: Equatable {
   @inlinable
   public func parse(_ input: inout ArraySlice<Element>) throws {
     guard input.starts(with: self) else {
@@ -6,9 +6,7 @@ extension Array: Parser where Element: Equatable {
     }
     input.removeFirst(self.count)
   }
-}
 
-extension Array: Printer {
   @inlinable
   public func print(_ output: (), into input: inout SubSequence) {
     input.prepend(contentsOf: self)

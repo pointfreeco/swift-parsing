@@ -82,7 +82,7 @@ extension Parsers {
   }
 }
 
-extension Parsers.FloatParser: Printer where Input: PrependableCollection {
+extension Parsers.FloatParser: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Output, into input: inout Input) {
     input.prepend(contentsOf: String(output).utf8)
