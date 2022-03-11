@@ -75,7 +75,7 @@ import Foundation
 /// try Digits().print(123, into: &input)
 /// Substring(decoding: input, as: UTF8.self) // "123"
 /// ```
-public protocol PrependableCollection: Collection, EmptyInitializable {
+public protocol PrependableCollection: Collection, _EmptyInitializable {
   /// Inserts the elements of a sequence or collection to the beginning of this collection.
   ///
   /// The collection being prepended to allocates any additional necessary storage to hold the new
@@ -121,7 +121,8 @@ extension Array: PrependableCollection {}
 extension ArraySlice: PrependableCollection {}
 extension ContiguousArray: PrependableCollection {}
 extension Data: PrependableCollection {}
-extension Slice: PrependableCollection, EmptyInitializable where Base: RangeReplaceableCollection {}
+extension Slice: PrependableCollection, _EmptyInitializable
+where Base: RangeReplaceableCollection {}
 extension String: PrependableCollection {}
 extension String.UnicodeScalarView: PrependableCollection {}
 extension Substring: PrependableCollection {}

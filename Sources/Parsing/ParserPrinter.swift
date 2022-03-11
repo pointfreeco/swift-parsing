@@ -14,7 +14,7 @@
   func print(_ output: Output, into input: inout Input) throws
 }
 
-extension ParserPrinter where Input: EmptyInitializable {
+extension ParserPrinter where Input: _EmptyInitializable {
   /// Attempts to print a well-structured piece of data to something more nebulous.
   ///
   /// - Parameter output: A well-structured piece of data to be printed.
@@ -37,7 +37,7 @@ extension ParserPrinter where Output == Void {
   }
 }
 
-extension ParserPrinter where Input: EmptyInitializable, Output == Void {
+extension ParserPrinter where Input: _EmptyInitializable, Output == Void {
   /// Attempts to print a nebulous piece of data.
   ///
   /// - Returns: A nebulous value.

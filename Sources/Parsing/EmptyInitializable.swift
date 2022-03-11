@@ -1,3 +1,3 @@
-public protocol EmptyInitializable {
+public protocol _EmptyInitializable {
   init()
 }

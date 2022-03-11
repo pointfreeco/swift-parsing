@@ -42,6 +42,11 @@ extension URLRequestData {
 extension URLRequest {
   public init?(data: URLRequestData) {
     var urlComponents = URLComponents()
+    urlComponents.scheme = data.scheme
+    urlComponents.user = data.user
+    urlComponents.password = data.password
+    urlComponents.host = data.host.map(String.init)
+    urlComponents.port = data.port
     urlComponents.path = data.path.joined(separator: "/")
     if !data.query.isEmpty {
       urlComponents.queryItems = data.query

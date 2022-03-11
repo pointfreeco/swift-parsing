@@ -79,7 +79,7 @@ extension Parsers.Pipe: ParserPrinter
 where
   Upstream: ParserPrinter,
   Downstream: ParserPrinter,
-  Upstream.Output: EmptyInitializable
+  Upstream.Output: _EmptyInitializable
 {
   @inlinable
   public func print(_ output: Downstream.Output, into input: inout Upstream.Input) rethrows {

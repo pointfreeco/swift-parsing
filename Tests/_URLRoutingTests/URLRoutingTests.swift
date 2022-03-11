@@ -34,13 +34,6 @@ class URLRoutingTests: XCTestCase {
     XCTAssertNoDifference(["X-Haha": ["Blob"]], request.headers)
   }
 
-  func testPath() {
-    let p = Path {
-      "hello"
-      "world"
-    }
-  }
-
   func testQuery() throws {
     let p = Query {
       Field("name", Parse(.string))
@@ -117,22 +110,22 @@ class URLRoutingTests: XCTestCase {
     )
   }
 
-  //  func testHost() {
-  //    let host = Host(PFHost.parser(rawValue: String.parser()))
-  //      .captureEnvironment(\.pfHost)
-  //
-  //    let staging = host
-  //      .environment(\.host, "staging.pointfree.co")
-  //
-  //    var input = URLRequestData(string: "http://staging.pointfree.co/foo")!
-  //    @ParserOutput var output = staging.parse(&input)
-  //
-  //    XCTAssertNoDifference(
-  //      staging.print(),
-  //      .init(host: "staging.pointfree.co", path: [])
-  //    )
-  //    XCTAssertNoDifference(_output.host, "staging.pointfree.co")
-  //  }
+  func testHost() throws {
+    enum AppRoute { case home }
+
+    let router = Route(AppRoute.home)
+
+    print(
+      URLRequest(
+        data: try router
+          .printing {
+            $1.scheme = "https"
+            $1.host = "www.pointfree.co"
+          }
+          .print(.home)
+      )!
+    )
+  }
 }
 
 //enum PFHost: String {

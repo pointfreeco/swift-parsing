@@ -1,4 +1,4 @@
-public struct URLRequestData: Equatable, EmptyInitializable {
+public struct URLRequestData: Equatable, _EmptyInitializable {
   public var body: ArraySlice<UInt8>?
   public var headers: Fields = [:]
   public var host: Substring?
