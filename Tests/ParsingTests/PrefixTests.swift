@@ -1,24 +1,23 @@
-import CustomDump
 import Parsing
 import XCTest
 
 final class PrefixTests: XCTestCase {
   func testPrefixSuccess() {
     var input = "42 Hi!"[...]
-    XCTAssertNoDifference("42", try Prefix(2).parse(&input))
-    XCTAssertNoDifference(" Hi!", input)
+    XCTAssertEqual("42", try Prefix(2).parse(&input))
+    XCTAssertEqual(" Hi!", input)
   }
 
   func testPrefixUnder() {
     var input = "42 Hi!"[...]
     XCTAssertThrowsError(try Prefix(8).parse(&input))
-    XCTAssertNoDifference("", input)
+    XCTAssertEqual("", input)
   }
 
   func testPrefixOver() {
     var input = "42 Hi!"[...]
     XCTAssertThrowsError(try Prefix(10).parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:7
@@ -28,31 +27,31 @@ final class PrefixTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference("", input)
+    XCTAssertEqual("", input)
   }
 
   func testPrefixWhile() {
     var input = "42 Hello, world!"[...]
-    XCTAssertNoDifference("42", try Prefix(while: { $0.isNumber }).parse(&input))
-    XCTAssertNoDifference(" Hello, world!", input)
+    XCTAssertEqual("42", try Prefix(while: { $0.isNumber }).parse(&input))
+    XCTAssertEqual(" Hello, world!", input)
   }
 
   func testPrefixWhileAlwaysSucceeds() {
     var input = "Hello, world!"[...]
-    XCTAssertNoDifference("", try Prefix(while: { $0.isNumber }).parse(&input))
-    XCTAssertNoDifference("Hello, world!", input)
+    XCTAssertEqual("", try Prefix(while: { $0.isNumber }).parse(&input))
+    XCTAssertEqual("Hello, world!", input)
   }
 
   func testPrefixRangeFromSuccess() {
     var input = "42 Hello, world!"[...]
-    XCTAssertNoDifference("42 Hello, world!", try Prefix(1...).parse(&input))
-    XCTAssertNoDifference("", input)
+    XCTAssertEqual("42 Hello, world!", try Prefix(1...).parse(&input))
+    XCTAssertEqual("", input)
   }
 
   func testPrefixRangeFromFailure() {
     var input = "42 Hello, world!"[...]
     XCTAssertThrowsError(try Prefix(100...) { _ in true }.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:17
@@ -62,31 +61,31 @@ final class PrefixTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference("", input)
+    XCTAssertEqual("", input)
   }
 
   func testPrefixRangeFromWhileSuccess() {
     var input = "42 Hello, world!"[...]
-    XCTAssertNoDifference("42", try Prefix(1..., while: { $0.isNumber }).parse(&input))
-    XCTAssertNoDifference(" Hello, world!", input)
+    XCTAssertEqual("42", try Prefix(1..., while: { $0.isNumber }).parse(&input))
+    XCTAssertEqual(" Hello, world!", input)
   }
 
   func testPrefixRangeThroughSuccess() {
     var input = "42 Hello, world!"[...]
-    XCTAssertNoDifference("42 Hello, ", try Prefix(...10).parse(&input))
-    XCTAssertNoDifference("world!", input)
+    XCTAssertEqual("42 Hello, ", try Prefix(...10).parse(&input))
+    XCTAssertEqual("world!", input)
   }
 
   func testPrefixRangeThroughWhileSuccess() {
     var input = "42 Hello, world!"[...]
-    XCTAssertNoDifference("42", try Prefix(...10, while: { $0.isNumber }).parse(&input))
-    XCTAssertNoDifference(" Hello, world!", input)
+    XCTAssertEqual("42", try Prefix(...10, while: { $0.isNumber }).parse(&input))
+    XCTAssertEqual(" Hello, world!", input)
   }
 
   func testPrefixLengthFromWhileSuccess() {
     var input = "42 Hello, world!"[...]
-    XCTAssertNoDifference("4", try Prefix(1, while: { $0.isNumber }).parse(&input))
-    XCTAssertNoDifference("2 Hello, world!", input)
+    XCTAssertEqual("4", try Prefix(1, while: { $0.isNumber }).parse(&input))
+    XCTAssertEqual("2 Hello, world!", input)
   }
 
   func testPrintUpstreamInputFailure() {

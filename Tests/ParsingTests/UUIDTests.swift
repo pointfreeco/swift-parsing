@@ -1,4 +1,3 @@
-import CustomDump
 import Parsing
 import XCTest
 
@@ -7,21 +6,21 @@ final class UUIDTests: XCTestCase {
     let parser = UUID.parser(of: Substring.UTF8View.self)
 
     var input = "deadbeef-dead-beef-dead-beefdeadbeef Hello"[...].utf8
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       UUID(uuidString: "deadbeef-dead-beef-dead-beefdeadbeef"),
       try parser.parse(&input)
     )
-    XCTAssertNoDifference(" Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
 
     input = "DEADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF Hello"[...].utf8
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       UUID(uuidString: "deadbeef-dead-beef-dead-beefdeadbeef"), try parser.parse(&input)
     )
-    XCTAssertNoDifference(" Hello", String(input))
+    XCTAssertEqual(" Hello", String(input))
 
     input = "DADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF Hello"[...].utf8
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:1
@@ -31,6 +30,6 @@ final class UUIDTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference("DADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF Hello", String(input))
+    XCTAssertEqual("DADBEEF-DEAD-BEEF-DEAD-BEEFDEADBEEF Hello", String(input))
   }
 }

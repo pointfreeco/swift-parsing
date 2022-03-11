@@ -1,4 +1,3 @@
-import CustomDump
 import Parsing
 import XCTest
 
@@ -18,8 +17,8 @@ class NotTests: XCTestCase {
       }
     }
 
-    XCTAssertNoDifference(try uncommentedLine.parse(&input), "let foo = true")
-    XCTAssertNoDifference(input, "let bar = false")
+    XCTAssertEqual(try uncommentedLine.parse(&input), "let foo = true")
+    XCTAssertEqual(input, "let bar = false")
   }
 
   func testNotUpstreamParses() {
@@ -34,7 +33,7 @@ class NotTests: XCTestCase {
     }
 
     XCTAssertThrowsError(try uncommentedLine.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:1-2
@@ -44,7 +43,7 @@ class NotTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       input,
       """
        a comment
@@ -57,14 +56,14 @@ class NotTests: XCTestCase {
     var input = "not a comment"[...]
     let parser = Not { "//" }
     XCTAssertNoThrow(try parser.print((), into: &input))
-    XCTAssertNoDifference(input, "not a comment"[...])
+    XCTAssertEqual(input, "not a comment"[...])
   }
 
   func testPrintUpstreamParses() {
     var input = "// a comment"[...]
     let parser = Not { "//" }
     XCTAssertThrowsError(try parser.print((), into: &input))
-    XCTAssertNoDifference(input, "// a comment"[...])
+    XCTAssertEqual(input, "// a comment"[...])
   }
 
   func testPrintComplexParserSucceeds() {
@@ -76,7 +75,7 @@ class NotTests: XCTestCase {
     }
 
     XCTAssertNoThrow(try uncommentedLine.print("uncommented line"[...], into: &input))
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       input,
       "uncommented line"
     )
@@ -91,7 +90,7 @@ class NotTests: XCTestCase {
     }
 
     XCTAssertThrowsError(try uncommentedLine.print("// commented line"[...], into: &input))
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       input,
       "// commented line"
     )

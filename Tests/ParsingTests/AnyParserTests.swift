@@ -1,4 +1,3 @@
-import CustomDump
 import Parsing
 import XCTest
 
@@ -15,12 +14,12 @@ final class AnyParserTests: XCTestCase {
 
     var input = "Hello, world!"[...]
     XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertNoDifference(", world!", input)
+    XCTAssertEqual(", world!", input)
 
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(error as? CustomError, CustomError())
+      XCTAssertEqual(error as? CustomError, CustomError())
     }
-    XCTAssertNoDifference(", world!", input)
+    XCTAssertEqual(", world!", input)
   }
 
   func testParserInitializer() {
@@ -28,10 +27,10 @@ final class AnyParserTests: XCTestCase {
 
     var input = "Hello, world!"[...]
     XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertNoDifference(", world!", input)
+    XCTAssertEqual(", world!", input)
 
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:6
@@ -41,7 +40,7 @@ final class AnyParserTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(", world!", input)
+    XCTAssertEqual(", world!", input)
   }
 
   func testParserEraseToAnyParser() {
@@ -49,10 +48,10 @@ final class AnyParserTests: XCTestCase {
 
     var input = "Hello, world!"[...]
     XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertNoDifference(", world!", input)
+    XCTAssertEqual(", world!", input)
 
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:6
@@ -62,7 +61,7 @@ final class AnyParserTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(", world!", input)
+    XCTAssertEqual(", world!", input)
   }
 
   func testAnyParserEraseToAnyParser() {
@@ -70,10 +69,10 @@ final class AnyParserTests: XCTestCase {
 
     var input = "Hello, world!"[...]
     XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertNoDifference(", world!", input)
+    XCTAssertEqual(", world!", input)
 
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:6
@@ -83,6 +82,6 @@ final class AnyParserTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(", world!", input)
+    XCTAssertEqual(", world!", input)
   }
 }

@@ -1,4 +1,3 @@
-import CustomDump
 import Parsing
 import XCTest
 
@@ -15,12 +14,12 @@ final class ParserBuilderTests: XCTestCase {
       "!"
     }
     var input = "Hello, world!"[...]
-    XCTAssertNoDifference("world", try parser.parse(&input))
-    XCTAssertNoDifference(input, ""[...])
+    XCTAssertEqual("world", try parser.parse(&input))
+    XCTAssertEqual(input, ""[...])
 
     input = "Hello world!"[...]
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:6
@@ -30,7 +29,7 @@ final class ParserBuilderTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(input, " world!"[...])
+    XCTAssertEqual(input, " world!"[...])
 
     parseComma = false
     parser = Parse {
@@ -43,12 +42,12 @@ final class ParserBuilderTests: XCTestCase {
       "!"
     }
     input = "Hello world!"
-    XCTAssertNoDifference("world", try parser.parse(&input))
-    XCTAssertNoDifference(input, ""[...])
+    XCTAssertEqual("world", try parser.parse(&input))
+    XCTAssertEqual(input, ""[...])
 
     input = "Hello, world!"
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:6
@@ -58,7 +57,7 @@ final class ParserBuilderTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(input, ", world!"[...])
+    XCTAssertEqual(input, ", world!"[...])
   }
 
   func testBuildIfOutput() throws {
@@ -72,13 +71,13 @@ final class ParserBuilderTests: XCTestCase {
     }
     var input = "42 Blob"[...]
     var (int, string) = try XCTUnwrap(parser.parse(&input))
-    XCTAssertNoDifference(42, int)
-    XCTAssertNoDifference("Blob", string)
-    XCTAssertNoDifference(input, ""[...])
+    XCTAssertEqual(42, int)
+    XCTAssertEqual("Blob", string)
+    XCTAssertEqual(input, ""[...])
 
     input = "Blob"
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:1
@@ -88,7 +87,7 @@ final class ParserBuilderTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(input, "Blob"[...])
+    XCTAssertEqual(input, "Blob"[...])
 
     parseInt = false
     parser = Parse {
@@ -100,9 +99,9 @@ final class ParserBuilderTests: XCTestCase {
     }
     input = "Blob"
     (int, string) = try XCTUnwrap(parser.parse(&input))
-    XCTAssertNoDifference(nil, int)
-    XCTAssertNoDifference("Blob", string)
-    XCTAssertNoDifference(input, ""[...])
+    XCTAssertEqual(nil, int)
+    XCTAssertEqual("Blob", string)
+    XCTAssertEqual(input, ""[...])
   }
 
   func testWrapsCustomErrors() {
@@ -125,7 +124,7 @@ final class ParserBuilderTests: XCTestCase {
       }
       .parse(&input)
     ) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: whoops!
          --> input:1:4
@@ -135,7 +134,7 @@ final class ParserBuilderTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(input, " Blob"[...])
+    XCTAssertEqual(input, " Blob"[...])
 
     input = "123 Blob"[...]
     func custom<P>(@ParserBuilder _ build: () -> P) -> P {
@@ -148,7 +147,7 @@ final class ParserBuilderTests: XCTestCase {
       }
       .parse(&input)
     ) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: whoops!
          --> input:1:4
@@ -158,6 +157,6 @@ final class ParserBuilderTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(input, " Blob"[...])
+    XCTAssertEqual(input, " Blob"[...])
   }
 }

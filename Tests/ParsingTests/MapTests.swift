@@ -1,12 +1,11 @@
-import CustomDump
 import Parsing
 import XCTest
 
 final class MapTests: XCTestCase {
   func testSuccess() {
     var input = "42 Hello, world!"[...].utf8
-    XCTAssertNoDifference("42", try Int.parser().map(String.init).parse(&input))
-    XCTAssertNoDifference(" Hello, world!", Substring(input))
+    XCTAssertEqual("42", try Int.parser().map(String.init).parse(&input))
+    XCTAssertEqual(" Hello, world!", Substring(input))
   }
 
   func testOverloadArray() {

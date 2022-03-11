@@ -1,17 +1,16 @@
-import CustomDump
 import Parsing
 import XCTest
 
 final class AlwaysTests: XCTestCase {
   func testAlways() {
     var input = "Hello, world!"[...]
-    XCTAssertNoDifference(42, Always(42).parse(&input))
-    XCTAssertNoDifference("Hello, world!", input)
+    XCTAssertEqual(42, Always(42).parse(&input))
+    XCTAssertEqual("Hello, world!", input)
   }
 
   func testMap() {
     var input = "Hello, world!"[...]
-    XCTAssertNoDifference(43, Always(42).map { $0 + 1 }.parse(&input))
-    XCTAssertNoDifference("Hello, world!", input)
+    XCTAssertEqual(43, Always(42).map { $0 + 1 }.parse(&input))
+    XCTAssertEqual("Hello, world!", input)
   }
 }

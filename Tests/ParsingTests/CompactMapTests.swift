@@ -1,15 +1,14 @@
-import CustomDump
 import Parsing
 import XCTest
 
 final class CompactMapTests: XCTestCase {
   func testSuccess() {
     var input = "FF0000"[...]
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       0xFF,
       try Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
     )
-    XCTAssertNoDifference("0000", Substring(input))
+    XCTAssertEqual("0000", Substring(input))
   }
 
   func testFailure() {
@@ -17,7 +16,7 @@ final class CompactMapTests: XCTestCase {
     XCTAssertThrowsError(
       try Prefix(2).compactMap { Int(String($0), radix: 16) }.parse(&input)
     ) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: failed to process "Int" from "GG"
          --> input:1:1-2
@@ -27,7 +26,7 @@ final class CompactMapTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference("0000", Substring(input))
+    XCTAssertEqual("0000", Substring(input))
   }
 
   func testOverloadArray() {

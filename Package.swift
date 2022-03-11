@@ -17,7 +17,6 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/apple/swift-argument-parser", from: "0.5.0"),
     .package(url: "https://github.com/pointfreeco/swift-case-paths", from: "0.8.0"),
-    .package(url: "https://github.com/pointfreeco/swift-custom-dump", from: "0.3.0"),
     .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark", from: "0.1.1"),
   ],
   targets: [
@@ -29,7 +28,6 @@ let package = Package(
       name: "ParsingTests",
       dependencies: [
         "Parsing",
-        .product(name: "CustomDump", package: "swift-custom-dump"),
       ]
     ),
     .executableTarget(
@@ -51,7 +49,6 @@ let package = Package(
       name: "_URLRoutingTests",
       dependencies: [
         "_URLRouting",
-        .product(name: "CustomDump", package: "swift-custom-dump"),
       ]
     ),
   ]

@@ -1,4 +1,3 @@
-import CustomDump
 import Parsing
 import XCTest
 import _URLRouting
@@ -14,9 +13,9 @@ class URLRoutingTests: XCTestCase {
 
     var request = URLRequestData(body: .init("name=Blob&age=42&debug=1".utf8))
     let (name, age) = try p.parse(&request)
-    XCTAssertNoDifference("Blob", name)
-    XCTAssertNoDifference(42, age)
-    XCTAssertNoDifference("debug=1", request.body.map { String(decoding: $0, as: UTF8.self) })
+    XCTAssertEqual("Blob", name)
+    XCTAssertEqual(42, age)
+    XCTAssertEqual("debug=1", request.body.map { String(decoding: $0, as: UTF8.self) })
   }
 
   func testHeaders() throws {
@@ -30,8 +29,8 @@ class URLRoutingTests: XCTestCase {
     var request = URLRequestData(request: req)!
 
     let name = try p.parse(&request)
-    XCTAssertNoDifference("Hello", name)
-    XCTAssertNoDifference(["X-Haha": ["Blob"]], request.headers)
+    XCTAssertEqual("Hello", name)
+    XCTAssertEqual(["X-Haha": ["Blob"]], request.headers)
   }
 
   func testQuery() throws {
@@ -42,9 +41,9 @@ class URLRoutingTests: XCTestCase {
 
     var request = URLRequestData(string: "/?name=Blob&age=42&debug=1")!
     let (name, age) = try p.parse(&request)
-    XCTAssertNoDifference("Blob", name)
-    XCTAssertNoDifference(42, age)
-    XCTAssertNoDifference(["debug": ["1"]], request.query)
+    XCTAssertEqual("Blob", name)
+    XCTAssertEqual(42, age)
+    XCTAssertEqual(["debug": ["1"]], request.query)
   }
 
   func testQueryDefault() throws {
@@ -54,14 +53,14 @@ class URLRoutingTests: XCTestCase {
 
     var request = URLRequestData(string: "/")!
     let page = p.parse(&request)
-    XCTAssertNoDifference(1, page)
-    XCTAssertNoDifference([:], request.query)
+    XCTAssertEqual(1, page)
+    XCTAssertEqual([:], request.query)
 
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       p.print(10),
       URLRequestData(query: ["page": ["10"]])
     )
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       p.print(1),
       URLRequestData(query: [:])
     )
@@ -80,11 +79,11 @@ class URLRoutingTests: XCTestCase {
     .map(.memberwise(Session.init(userId:isAdmin:)))
 
     var request = URLRequestData(headers: ["cookie": ["userId=42; isAdmin=true"]])
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       Session(userId: 42, isAdmin: true),
       try p.parse(&request)
     )
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       URLRequestData(headers: ["cookie": ["isAdmin=true; userId=42"]]),
       try p.print(Session(userId: 42, isAdmin: true))
     )
@@ -100,11 +99,11 @@ class URLRoutingTests: XCTestCase {
     }
 
     var request = URLRequestData(headers: ["cookie": [#"pf_session={"userId":42}; foo=bar"#]])
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       Session(userId: 42),
       try p.parse(&request)
     )
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       URLRequestData(headers: ["cookie": [#"pf_session={"userId":42}"#]]),
       try p.print(Session(userId: 42))
     )

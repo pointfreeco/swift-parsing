@@ -1,4 +1,3 @@
-import CustomDump
 import Parsing
 import XCTest
 
@@ -6,13 +5,13 @@ final class EndTests: XCTestCase {
   func testSuccess() {
     var input = ""[...]
     XCTAssertNoThrow(try End().parse(&input))
-    XCTAssertNoDifference("", input)
+    XCTAssertEqual("", input)
   }
 
   func testFailure() {
     var input = "Hello, world!"[...]
     XCTAssertThrowsError(try End().parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:1
@@ -22,19 +21,19 @@ final class EndTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference("Hello, world!", input)
+    XCTAssertEqual("Hello, world!", input)
   }
 
   func testPrintSuccess() {
     var input = ""[...]
     XCTAssertNoThrow(try End().print(into: &input))
-    XCTAssertNoDifference(input, ""[...])
+    XCTAssertEqual(input, ""[...])
   }
 
   func testPrintFailure() {
     var input = "Hello, world!"[...]
     XCTAssertThrowsError(try End().print(into: &input))
-    XCTAssertNoDifference(input, "Hello, world!"[...])
+    XCTAssertEqual(input, "Hello, world!"[...])
   }
 
   func testTrailingWhitespace() {

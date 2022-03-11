@@ -1,18 +1,17 @@
-import CustomDump
 import Parsing
 import XCTest
 
 final class FilterTests: XCTestCase {
   func testSuccess() {
     var input = "42 Hello, world!"[...].utf8
-    XCTAssertNoDifference(42, try Int.parser().filter { $0.isMultiple(of: 2) }.parse(&input))
-    XCTAssertNoDifference(" Hello, world!", Substring(input))
+    XCTAssertEqual(42, try Int.parser().filter { $0.isMultiple(of: 2) }.parse(&input))
+    XCTAssertEqual(" Hello, world!", Substring(input))
   }
 
   func testFailure() {
     var input = "43 Hello, world!"[...].utf8
     XCTAssertThrowsError(try Int.parser().filter { $0.isMultiple(of: 2) }.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: processed value 43 failed to satisfy predicate
          --> input:1:1-2
@@ -22,7 +21,7 @@ final class FilterTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(" Hello, world!", Substring(input))
+    XCTAssertEqual(" Hello, world!", Substring(input))
   }
 
   func testOverloadArray() {

@@ -1,4 +1,3 @@
-import CustomDump
 import Parsing
 import XCTest
 
@@ -7,13 +6,13 @@ final class UTF8Tests: XCTestCase {
     var input = "\u{00E9}e\u{0301}e\u{0341} Hello, world"[...].utf8
     let parser = From<Conversions.UTF8ViewToSubstring, String>(.substring) { "é" }
     XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertNoDifference("e\u{0301}e\u{0341} Hello, world", Substring(input))
+    XCTAssertEqual("e\u{0301}e\u{0341} Hello, world", Substring(input))
     XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertNoDifference("e\u{0341} Hello, world", Substring(input))
+    XCTAssertEqual("e\u{0341} Hello, world", Substring(input))
     XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertNoDifference(" Hello, world", Substring(input))
+    XCTAssertEqual(" Hello, world", Substring(input))
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:4
@@ -23,16 +22,16 @@ final class UTF8Tests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(" Hello, world", Substring(input))
+    XCTAssertEqual(" Hello, world", Substring(input))
   }
 
   func testUnicodeScalars() {
     var input = "🇺🇸 Hello, world"[...].unicodeScalars
     let parser = "🇺".unicodeScalars
     XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertNoDifference("🇸 Hello, world", Substring(input))
+    XCTAssertEqual("🇸 Hello, world", Substring(input))
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:1
@@ -42,7 +41,7 @@ final class UTF8Tests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference("🇸 Hello, world", Substring(input))
+    XCTAssertEqual("🇸 Hello, world", Substring(input))
   }
 
   func testUTF8Normalization() {
@@ -59,7 +58,7 @@ final class UTF8Tests: XCTestCase {
     }
 
     XCTAssertThrowsError(try city.parse("San Jose\u{0301}")) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:1

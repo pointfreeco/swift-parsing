@@ -1,4 +1,3 @@
-import CustomDump
 import Parsing
 import XCTest
 
@@ -14,14 +13,14 @@ final class ConditionalTests: XCTestCase {
 
   func testFirst() {
     var input = "42 Hello, world!"[...]
-    XCTAssertNoDifference(true, try parser.parse(&input))
-    XCTAssertNoDifference(" Hello, world!", input)
+    XCTAssertEqual(true, try parser.parse(&input))
+    XCTAssertEqual(" Hello, world!", input)
   }
 
   func testSecond() {
     var input = "43 Hello, world!"[...]
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: OddNumberError()
          --> input:1:1-2
@@ -31,7 +30,7 @@ final class ConditionalTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(" Hello, world!", input)
+    XCTAssertEqual(" Hello, world!", input)
   }
 }
 

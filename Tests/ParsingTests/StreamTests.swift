@@ -1,4 +1,3 @@
-import CustomDump
 import Parsing
 import XCTest
 
@@ -19,6 +18,6 @@ final class StreamTests: XCTestCase {
       .parse(&stream)
     )
 
-    XCTAssertNoDifference(Array(output), Array(1...20))
+    XCTAssertEqual(Array(output), Array(1...20))
   }
 }

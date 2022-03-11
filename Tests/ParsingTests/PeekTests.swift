@@ -1,4 +1,3 @@
-import CustomDump
 import Parsing
 import XCTest
 
@@ -11,8 +10,8 @@ class PeekTests: XCTestCase {
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
 
-    XCTAssertNoDifference("_foo1"[...], try identifier.parse(&input))
-    XCTAssertNoDifference(" = nil", input)
+    XCTAssertEqual("_foo1"[...], try identifier.parse(&input))
+    XCTAssertEqual(" = nil", input)
   }
 
   func testPeekFails() throws {
@@ -24,7 +23,7 @@ class PeekTests: XCTestCase {
     }
 
     XCTAssertThrowsError(try identifier.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:1
@@ -34,7 +33,7 @@ class PeekTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference("1foo = nil", input)
+    XCTAssertEqual("1foo = nil", input)
   }
 
   func testBacktracking() throws {
@@ -46,7 +45,7 @@ class PeekTests: XCTestCase {
     }
 
     XCTAssertThrowsError(try parser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:4
@@ -56,7 +55,7 @@ class PeekTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference("blah"[...], input)
+    XCTAssertEqual("blah"[...], input)
   }
 
   func testPrintSkippedPeekSucceeds() {
@@ -71,7 +70,7 @@ class PeekTests: XCTestCase {
     }
 
     XCTAssertNoThrow(try identifier.print("foo"[...], into: &input))
-    XCTAssertNoDifference(input, "foo!")
+    XCTAssertEqual(input, "foo!")
   }
 
   func testPrintSkippedPeekSucceedsUnexpectedly() {
@@ -88,21 +87,21 @@ class PeekTests: XCTestCase {
     // Should fail because '1' is not allowed for the first character, checked by the `Peek`,
     // but parses because of `.printing("")` statement bypasses the `Peek`.
     XCTAssertNoThrow(try identifier.print("1foo"[...], into: &input))
-    XCTAssertNoDifference(input, "1foo!")
+    XCTAssertEqual(input, "1foo!")
   }
 
   func testPrintUpstreamParses() {
     var input = "// a comment"[...]
     let parser = Peek { "//" }
     XCTAssertNoThrow(try parser.print((), into: &input))
-    XCTAssertNoDifference(input, "// a comment"[...])
+    XCTAssertEqual(input, "// a comment"[...])
   }
 
   func testPrintUpstreamFails() {
     var input = "not a comment"[...]
     let parser = Peek { "//" }
     XCTAssertThrowsError(try parser.print((), into: &input))
-    XCTAssertNoDifference(input, "not a comment"[...])
+    XCTAssertEqual(input, "not a comment"[...])
   }
 
   func testPrintComplexParserSucceeds() {
@@ -114,7 +113,7 @@ class PeekTests: XCTestCase {
     }
 
     XCTAssertNoThrow(try commentedLine.print("// commented line"[...], into: &input))
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       input,
       "// commented line"
     )
@@ -129,7 +128,7 @@ class PeekTests: XCTestCase {
     }
 
     XCTAssertThrowsError(try commentedLine.print("uncommented line"[...], into: &input))
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       input,
       "uncommented line"
     )

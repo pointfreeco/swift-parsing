@@ -1,4 +1,3 @@
-import CustomDump
 import Parsing
 import XCTest
 
@@ -11,13 +10,13 @@ class ManyTests: XCTestCase {
       }
       .parse(&input)
     )
-    XCTAssertNoDifference(Substring(input), "Hello world")
+    XCTAssertEqual(Substring(input), "Hello world")
   }
 
   func testSeparator() {
     var input = "1,2,3,4,5"[...].utf8
 
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       try Many {
         Int.parser()
       } separator: {
@@ -26,13 +25,13 @@ class ManyTests: XCTestCase {
       .parse(&input),
       [1, 2, 3, 4, 5]
     )
-    XCTAssertNoDifference(Substring(input), "")
+    XCTAssertEqual(Substring(input), "")
   }
 
   func testTrailingSeparator() {
     var input = "1,2,3,4,5,"[...].utf8
 
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       try Many {
         Int.parser()
       } separator: {
@@ -41,7 +40,7 @@ class ManyTests: XCTestCase {
       .parse(&input),
       [1, 2, 3, 4, 5]
     )
-    XCTAssertNoDifference(Substring(input), ",")
+    XCTAssertEqual(Substring(input), ",")
   }
 
   func testMinimum() {
@@ -55,7 +54,7 @@ class ManyTests: XCTestCase {
       }
       .parse(&input)
     ) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:10
@@ -65,10 +64,10 @@ class ManyTests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertNoDifference(Substring(input), "")
+    XCTAssertEqual(Substring(input), "")
 
     input = "1,2,3,4,5"[...].utf8
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       try Many(atLeast: 5) {
         Int.parser()
       } separator: {
@@ -77,13 +76,13 @@ class ManyTests: XCTestCase {
       .parse(&input),
       [1, 2, 3, 4, 5]
     )
-    XCTAssertNoDifference(Substring(input), "")
+    XCTAssertEqual(Substring(input), "")
   }
 
   func testMaximum() {
     var input = "1,2,3,4,5"[...].utf8
 
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       try Many(atMost: 3) {
         Int.parser()
       } separator: {
@@ -92,13 +91,13 @@ class ManyTests: XCTestCase {
       .parse(&input),
       [1, 2, 3]
     )
-    XCTAssertNoDifference(Substring(input), ",4,5")
+    XCTAssertEqual(Substring(input), ",4,5")
   }
 
   func testReduce() {
     var input = "1,2,3,4,5"[...].utf8
 
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       try Many(into: 0, +=) {
         Int.parser()
       } separator: {
@@ -107,12 +106,12 @@ class ManyTests: XCTestCase {
       .parse(&input),
       15
     )
-    XCTAssertNoDifference(Substring(input), "")
+    XCTAssertEqual(Substring(input), "")
   }
 
   func testEmptyComponents() {
     var input = "2001:db8::2:1"[...]
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       try Many {
         Prefix(while: \.isHexDigit)
       } separator: {
@@ -151,7 +150,7 @@ class ManyTests: XCTestCase {
       2,Blob Sr,false
       3,Blob Jr,true
       """[...]
-    XCTAssertNoDifference(
+    XCTAssertEqual(
       [
         User(id: 1, name: "Blob", isAdmin: true),
         User(id: 2, name: "Blob Sr", isAdmin: false),
@@ -166,7 +165,7 @@ class ManyTests: XCTestCase {
       3,Blob Jr,tru
       """
     XCTAssertThrowsError(try users.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: multiple failures occurred
 
@@ -196,7 +195,7 @@ class ManyTests: XCTestCase {
 
     var input = "1,2,3-"[...]
     XCTAssertThrowsError(try intsParser.parse(&input)) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: unexpected input
          --> input:1:6
@@ -211,7 +210,7 @@ class ManyTests: XCTestCase {
 
   func testInfiniteLoop() {
     XCTAssertThrowsError(try Many { Prefix(while: \.isNumber) }.parse("Hello world!")) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: infinite loop
          --> input:1:1
@@ -236,7 +235,7 @@ class ManyTests: XCTestCase {
     }
 
     XCTAssertThrowsError(try parser.parse("1,2,3,1,2,3")) { error in
-      XCTAssertNoDifference(
+      XCTAssertEqual(
         """
         error: UniqueIntegerError()
          --> input:1:7
