@@ -116,10 +116,12 @@ class URLRoutingTests: XCTestCase {
 
     print(
       URLRequest(
-        data: try router
+        data:
+          try router
           .printing {
             $1.scheme = "https"
             $1.host = "www.pointfree.co"
+            $1.path.prepend("v1")
           }
           .print(.home)
       )!

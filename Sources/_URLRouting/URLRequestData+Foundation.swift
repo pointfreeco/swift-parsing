@@ -47,7 +47,7 @@ extension URLRequest {
     urlComponents.password = data.password
     urlComponents.host = data.host.map(String.init)
     urlComponents.port = data.port
-    urlComponents.path = data.path.joined(separator: "/")
+    urlComponents.path = "/\(data.path.joined(separator: "/"))"
     if !data.query.isEmpty {
       urlComponents.queryItems = data.query
         .sorted(by: { $0.key < $1.key })

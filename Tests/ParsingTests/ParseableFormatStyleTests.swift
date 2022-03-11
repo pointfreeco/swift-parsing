@@ -3,10 +3,10 @@ import XCTest
 
 @available(iOS 15, macOS 12, tvOS 15, watchOS 8, *)
 final class ParseableFormatStyleTests: XCTestCase {
-  func testDate() {
-    let parser = Rest<Substring>().map(.string.formatted(.iso8601))
+  func testCurrency() {
+    let parser = Rest<Substring>().map(.string.formatted(.currency(code: "USD")))
 
-    XCTAssertEqual(try parser.parse("1970-01-01T00:00:00Z"), Date(timeIntervalSince1970: 0))
-    XCTAssertEqual(try parser.print(Date(timeIntervalSince1970: 0)), "1970-01-01T00:00:00Z")
+    XCTAssertEqual(try parser.parse("$10.00"), 10)
+    XCTAssertEqual(try parser.print(10), "$10.00")
   }
 }
