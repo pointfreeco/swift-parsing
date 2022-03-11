@@ -1,5 +1,5 @@
 extension Conversion {
-  /// Converts a tuple of values into a struct and a struct into a tuple of values, using a
+  /// A conversion from a tuple of values into a struct and a struct into a tuple of values, using a
   /// memberwise initializer.
   ///
   /// Useful for transforming the output of parser-printers into structs.
@@ -14,14 +14,18 @@ extension Conversion {
   /// }
   ///
   /// let coord = ParsePrint(.memberwise(Coordinate.init(x:y:))) {
+  ///   "("
   ///   Double.parser()
   ///   ","
   ///   Double.parser()
+  ///   ")"
   /// }
   ///
   /// try coord.parse("1,-2")           // Coordinate(x: 1.0, y: -2.0)
-  /// coord.print(.init(x: -5, y: 10))  // "-5.0,10.0"
+  /// coord.print(.init(x: -5, y: 10))  // "(-5.0,10.0)"
   /// ```
+  ///
+  /// ## Careful usage
   ///
   /// This conversion works by using the memberwise initializer you supply to ``memberwise(_:)`` in
   /// order to turn tuples into a struct, and it uses `unsafeBitcast` to turn the struct back into

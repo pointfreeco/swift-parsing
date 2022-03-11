@@ -49,7 +49,7 @@ public struct Parse<Parsers: Parser>: Parser {
 
   /// A parser builder that bakes in a transformation of the tuple output.
   ///
-  /// Equivalent to calling ``Parser/map(_:)-4hsj5`` on the result of a ``Parse/init(_:)`` builder.
+  /// Equivalent to calling ``Parser/map(_:)-4hsj5`` on the result of a `Parse.init` builder.
   ///
   /// For example, the following parser:
   ///
@@ -85,7 +85,7 @@ public struct Parse<Parsers: Parser>: Parser {
 
   /// A parser builder that replaces a void output with a given value.
   ///
-  /// Equivalent to calling ``Parser/map(_:)-2e6si`` on the result of a ``Parse/init(_:)`` builder.
+  /// Equivalent to calling ``Parser/map(_:)-2e6si`` on the result of a `Parse.init` builder.
   ///
   /// For example, the following parser:
   ///
@@ -108,7 +108,7 @@ public struct Parse<Parsers: Parser>: Parser {
 
   /// A parser builder that bakes in a conversion of the tuple output.
   ///
-  /// Equivalent to calling ``Parser/map(_:)-2sblf`` on the result of a ``Parse/init(_:)`` builder.
+  /// Equivalent to calling ``Parser/map(_:)-2sblf`` on the result of a `Parse.init` builder.
   ///
   /// For example, the following parser:
   ///
@@ -157,6 +157,35 @@ extension Parse: Printer where Parsers: Printer {
 
 /// An entry to ``ParserBuilder`` syntax that requires the builder to be a printer.
 ///
+/// Although you can build printers with the ``Parse`` entry point, as long as everything in the
+/// builder context is a printer, it doesn't proper connote its intentions. By using ``ParsePrint``
+/// you can make your intentions clearer:
+///
+/// ```swift
+/// let welcoming = ParsePrint {
+///   "Hello "
+///   Int.parser()
+///   "!"
+/// }
+///
+/// try welcoming.parse("Hello 42!") // 42
+/// try welcoming.print(1729) // "Hello 1729"
+/// ```
+///
+/// The ``ParsePrint`` entry point can also help you catch errors earlier if you accidentally use
+/// an operator that is not printer-friendly:
+///
+/// ```swift
+/// let welcoming = ParsePrint {
+///   "Hello "
+///   Prefix { $0 != "!" }.map(String.init)
+///   "!"
+/// }
+///
+/// // ❌ Generic struct 'Parse' requires that 'Parsers.Map<Prefix<Substring>, String>'
+/// //    conform to 'Printer'
+/// ```
+/// 
 /// `ParsePrint` is a type alias for the ``Parse`` parser with its underlying parser constrained to
 /// ``ParserPrinter``.
 public typealias ParsePrint<ParserPrinters: ParserPrinter> = Parse<ParserPrinters>

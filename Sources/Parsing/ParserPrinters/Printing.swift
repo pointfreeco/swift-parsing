@@ -43,7 +43,7 @@ extension Parsers {
   /// A parser-printer that parses with the given parser and prints with the given printer.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``Parser/printing(_:)`` operator, which constructs this type.
+  /// the ``Parser/printing(_:)-128cr`` operator, which constructs this type.
   public struct Printing<Parser: Parsing.Parser, Printer: Parsing.Printer>: ParserPrinter
   where
     Parser.Input == Printer.Input,

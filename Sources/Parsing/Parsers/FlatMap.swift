@@ -10,7 +10,7 @@ extension Parser {
   /// some new parser is not reversible.
   ///
   /// If you are building a parser-printer, avoid uses of `flatMap` and instead prefer the use of
-  /// ``map(_:)-2sblf`` with conversions that preserve printability.
+  /// ``Parser/map(_:)-2sblf`` with conversions that preserve printability.
   ///
   /// - Parameter transform: A closure that transforms values of this parser's output and returns a
   ///   new parser.

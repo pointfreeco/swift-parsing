@@ -1,13 +1,14 @@
 import Foundation
 
 extension Conversion where Self == Conversions.BinaryFloatingPointToFixedWidthInteger<Double, Int> {
+  /// A conversion from a `Double` to an `Int`.
   @inlinable
   public static var int: Self { .init() }
 }
 
 extension Conversion where Output == Double {
   @inlinable
-  public var double:
+  public var int:
     Conversions.Map<
       Self, Conversions.BinaryFloatingPointToFixedWidthInteger<Double, Int>
     >

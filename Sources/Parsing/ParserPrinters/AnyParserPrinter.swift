@@ -18,7 +18,7 @@ extension Parser where Self: ParserPrinter {
 
 /// A type-erased parser-printer of `Output` from `Input`.
 ///
-/// This parser-printer forwards its ``parse(_:)`` and ``print(_:to:)`` methods to an arbitrary
+/// This parser-printer forwards its `parse(_:)` and `print(_:to:)` methods to an arbitrary
 /// underlying parser-printer having the same `Input` and `Output` types, hiding the specifics of
 /// the underlying ``ParserPrinter``.
 ///
@@ -40,7 +40,7 @@ public struct AnyParserPrinter<Input, Output>: ParserPrinter {
   }
 
   /// Creates a parser-printer that wraps the given closures in its ``parse(_:)`` and
-  /// ``print(_:to:)`` methods.
+  /// `print(_:to:)` methods.
   ///
   /// - Parameters:
   ///   - parse: A closure that attempts to parse an output from an input. `parse` is executed each
