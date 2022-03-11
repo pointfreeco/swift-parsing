@@ -138,8 +138,8 @@ extension Conversions {
       // TODO: Use runtime to determine if `Struct` is a struct
       // TODO: Use runtime to iterate over `Struct` and `Values` to compare memory layout
       guard
-        MemoryLayout<Struct>.alignment == MemoryLayout<Struct>.alignment,
-        MemoryLayout<Struct>.size == MemoryLayout<Struct>.size
+        MemoryLayout<Struct>.alignment == MemoryLayout<Values>.alignment,
+        MemoryLayout<Struct>.size == MemoryLayout<Values>.size
       else { throw ConvertingError() }
       return unsafeBitCast(output, to: Values.self)
     }
