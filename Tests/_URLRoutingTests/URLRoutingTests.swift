@@ -2,6 +2,10 @@ import Parsing
 import XCTest
 import _URLRouting
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 class URLRoutingTests: XCTestCase {
   func testFormData() throws {
     let p = Body {
@@ -108,40 +112,4 @@ class URLRoutingTests: XCTestCase {
       try p.print(Session(userId: 42))
     )
   }
-
-  func testHost() throws {
-    enum AppRoute { case home }
-
-    let router = Route(AppRoute.home)
-
-    print(
-      URLRequest(
-        data:
-          try router
-          .printing {
-            $1.scheme = "https"
-            $1.host = "www.pointfree.co"
-            $1.path.prepend("v1")
-          }
-          .print(.home)
-      )!
-    )
-  }
 }
-
-//enum PFHost: String {
-//  case prod = "pointfree.co"
-//  case staging = "staging.pointfree.co"
-//  case localhost = "localhost:8080"
-//}
-//
-//enum PFHostKey: EnvironmentKey {
-//  static var value = PFHost.localhost
-//}
-//
-//extension EnvironmentValues {
-//  var pfHost: PFHost {
-//    get { self[PFHostKey.self] }
-//    set { self[PFHostKey.self] = newValue }
-//  }
-//}
