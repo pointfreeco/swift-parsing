@@ -112,4 +112,30 @@ class URLRoutingTests: XCTestCase {
       try p.print(Session(userId: 42))
     )
   }
+
+  func testHost() throws {
+    enum AppRoute { case home, episodes }
+
+    let router = OneOf {
+      Route(AppRoute.home)
+      Route(AppRoute.episodes) {
+        Path { "episodes" }
+      }
+    }
+
+    print(
+      URLRequest(
+        data: try Parse {
+          Always<URLRequestData, Void>(()).printing {
+            $1.scheme = "https"
+            $1.host = "www.pointfree.co"
+            $1.path = ["v1"]
+          }
+
+          router
+        }
+        .print(.episodes)
+      )!
+    )
+  }
 }
