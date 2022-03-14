@@ -1,32 +1,64 @@
 import Parsing
 
-struct Color {
-  let red, green, blue: UInt8
+let input = """
+Wordle 267 4/6*
+
+⬛⬛⬛⬛⬛
+⬛🟩⬛⬛⬛
+⬛🟩🟩⬛🟩
+🟩🟩🟩🟩🟩
+"""
+
+enum LetterSpot {
+  case correct
+  case wrong
+  case none
 }
 
-let hexPrimary = Prefix(2)
-  .compactMap { UInt8($0, radix: 16) }
-
-let hexColor = Parse(Color.init(red:green:blue:)) {
-  "#"
-  hexPrimary
-  hexPrimary
-  hexPrimary
+struct Wordle {
+  var gameNumber: Int
+  var guessedInCount: Int?
+  var isHardMode: Bool
+  var guesses: [[LetterSpot]]
 }
 
-do {
-  var hex = "#000000"[...]
-  print(hex.debugDescription, "->", try hexColor.parse(&hex), terminator: "\n ...\n\n")
+let summary = ParsePrint {
+  "Wordle "
+  Int.parser()
+  " "
+  guessedInCount
+  "/6"
+  "*".map { true }.replaceError(with: false)
 }
 
-do {
-  var hex = "#FF0000"[...]
-  print(hex.debugDescription, "->", try hexColor.parse(&hex), terminator: "\n ...\n\n")
+let guessedInCount = OneOf {
+  Int.parser().map(.case(Int?.some))
+  "X".map { Int?.none }
 }
 
-do {
-  var bad = "#BADHEX"[...]
-  try hexColor.parse(&bad)
-} catch {
-  print(error)
+let letter = OneOf {
+  "🟩".map { LetterSpot.correct }
+  "🟨".map { LetterSpot.wrong }
+  OneOf { "⬜️"; "⬛" }.map { LetterSpot.none }
 }
+
+let guess = Many(atLeast: 5, atMost: 5) {
+  letter
+}
+
+let guesses = Many(atLeast: 1, atMost: 6) {
+  guess
+} separator: {
+  "\n"
+} terminator: {
+  OneOf { "\n"; End() }
+}
+
+let wordle = ParsePrint {
+  summary
+  "\n\n"
+  guesses
+}
+
+//var i = input[...]
+//try wordle.parse(&i)
