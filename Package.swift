@@ -4,6 +4,12 @@ import PackageDescription
 
 let package = Package(
   name: "swift-parsing",
+  platforms: [
+    .iOS(.v13),
+    .macOS(.v10_15),
+    .tvOS(.v13),
+    .watchOS(.v6),
+  ],
   products: [
     .library(
       name: "Parsing",
@@ -22,7 +28,14 @@ let package = Package(
   targets: [
     .target(
       name: "Parsing",
-      dependencies: [.product(name: "CasePaths", package: "swift-case-paths")]
+      dependencies: [.product(name: "CasePaths", package: "swift-case-paths")],
+      swiftSettings: [
+        .unsafeFlags([
+          "-Xfrontend", "-enable-experimental-pairwise-build-block",
+          "-Xfrontend", "-enable-parameterized-protocol-types",
+          "-Xfrontend", "-requirement-machine-protocol-signatures=on",
+        ])
+      ]
     ),
     .testTarget(
       name: "ParsingTests",
@@ -36,6 +49,13 @@ let package = Package(
         "Parsing",
         "_URLRouting",
         .product(name: "Benchmark", package: "Benchmark"),
+      ],
+      swiftSettings: [
+        .unsafeFlags([
+          "-Xfrontend", "-enable-experimental-pairwise-build-block",
+          "-Xfrontend", "-enable-parameterized-protocol-types",
+          "-Xfrontend", "-requirement-machine-protocol-signatures=on",
+        ])
       ]
     ),
     .executableTarget(

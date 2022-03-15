@@ -5,13 +5,24 @@
 /// > reverse. As such, new values should be prepended to the front of the input. This allows
 /// > parsers to check that the already-printed values match what is expected for any given
 /// ``Parser``.
-@rethrows public protocol ParserPrinter: Parser {
+@rethrows public protocol ParserPrinter<Input, Output>: Parser {
   /// Attempts to print a well-structured piece of data into something more nebulous.
   ///
   /// - Parameters
   ///   - output: A well-structured value to be printed to the given input.
   ///   - input: A nebulous, mutable piece of data to be incrementally printed into.
   func print(_ output: Output, into input: inout Input) throws
+
+  associatedtype Body: ParserPrinter = Self
+
+  var body: Body { get }
+}
+
+extension ParserPrinter {
+  @inlinable
+  public func print(_ output: Output, into input: inout Input) rethrows {
+    try self.body.print(output, into: &input)
+  }
 }
 
 extension ParserPrinter where Input: _EmptyInitializable {

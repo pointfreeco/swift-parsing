@@ -23,13 +23,7 @@
 /// be implemented efficiently on substrings because they simply move the start and end indices,
 /// whereas their implementation on strings must make a copy of the string with the characters
 /// removed.
-@rethrows public protocol Parser {
-  /// The type of values this parser parses from.
-  associatedtype Input
-
-  /// The type of values parsed by this parser.
-  associatedtype Output
-
+@rethrows public protocol Parser<Input, Output> {
   /// Attempts to parse a nebulous piece of data into something more well-structured. Typically
   /// you only call this from other `Parser` conformances, not when you want to parse a concrete
   /// input.
@@ -37,6 +31,24 @@
   /// - Parameter input: A nebulous, mutable piece of data to be incrementally parsed.
   /// - Returns: A more well-structured value parsed from the given input.
   func parse(_ input: inout Input) throws -> Output
+
+  associatedtype Body: Parser<Input, Output> = Self
+
+  @ParserBuilder var body: Body { get }
+}
+
+extension Parser {
+  @inlinable
+  public func parse(_ input: inout Input) rethrows -> Output {
+    try self.body.parse(&input)
+  }
+}
+
+extension Parser where Body == Self {
+  @inlinable
+  public var body: Body {
+    self
+  }
 }
 
 extension Parser {

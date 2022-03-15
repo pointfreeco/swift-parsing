@@ -8,5 +8,5 @@ public struct PathEnd: ParserPrinter {
   }
 
   @inlinable
-  public func print(_ output: (), into input: inout Input) {}
+  public func print(_ output: (), into input: inout URLRequestData) {}
 }

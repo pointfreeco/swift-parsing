@@ -5,52 +5,72 @@ import Parsing
 /// This benchmark demonstrates how to define a simple CSV parser with quoted fields and measures its
 /// performance against more a more ad hoc approach at the same level of abstraction.
 let csvSuite = BenchmarkSuite(name: "CSV") { suite in
-  let plainField = Prefix { $0 != .init(ascii: ",") && $0 != .init(ascii: "\n") }
+  if #available(macOS 10.15, *) {
+    struct PlainField: ParserPrinter {
+      var body: some ParserPrinter<Substring.UTF8View, Substring.UTF8View> {
+        Prefix { $0 != .init(ascii: ",") && $0 != .init(ascii: "\n") }
+      }
+    }
 
-  let quotedField = ParsePrint {
-    "\"".utf8
-    Prefix { $0 != .init(ascii: "\"") }
-    "\"".utf8
-  }
+    struct QuotedField: ParserPrinter {
+      var body: some ParserPrinter<Substring.UTF8View, Substring.UTF8View> {
+        "\"".utf8
+        Prefix { $0 != .init(ascii: "\"") }
+        "\"".utf8
+      }
+    }
 
-  let field = OneOf {
-    quotedField
-    plainField
-  }
-  .map(.string)
+    struct Field: ParserPrinter {
+      var body: some ParserPrinter<Substring.UTF8View, String> {
+        OneOf {
+          QuotedField()
+          PlainField()
+        }
+        .map(.string)
+      }
+    }
 
-  let line = Many {
-    field
-  } separator: {
-    ",".utf8
-  }
+    struct Line: ParserPrinter {
+      var body: some ParserPrinter<Substring.UTF8View, [String]> {
+        Many {
+          Field()
+        } separator: {
+          ",".utf8
+        }
+      }
+    }
 
-  let csv = Many {
-    line
-  } separator: {
-    "\n".utf8
-  } terminator: {
-    End()
-  }
+    struct CSV: ParserPrinter {
+      var body: some ParserPrinter<Substring.UTF8View, [[String]]> {
+        Many {
+          Line()
+        } separator: {
+          "\n".utf8
+        } terminator: {
+          End()
+        }
+      }
+    }
 
-  let expectedRowCount = 1_000
-  let expectedColumnCount = 5
-  var output: [[String]] = []
+    let expectedRowCount = 1_000
+    let expectedColumnCount = 5
+    var output: [[String]] = []
 
-  suite.benchmark("Parser") {
-    output = try csv.parse(csvInput)
-  } tearDown: {
-    precondition(output.count == expectedRowCount)
-    precondition(output.allSatisfy { $0.count == expectedColumnCount })
-    precondition(try! csv.parse(csv.print(output)) == output)
-  }
+    suite.benchmark("Parser") {
+      output = try CSV().parse(csvInput)
+    } tearDown: {
+      precondition(output.count == expectedRowCount)
+      precondition(output.allSatisfy { $0.count == expectedColumnCount })
+      precondition(try! CSV().parse(CSV().print(output)) == output)
+    }
 
-  suite.benchmark("Ad hoc mutating methods") {
-    var input = csvInput[...].utf8
-    output = input.parseCsv()
-  } tearDown: {
-    precondition(output.count == expectedRowCount)
-    precondition(output.allSatisfy { $0.count == expectedColumnCount })
+    suite.benchmark("Ad hoc mutating methods") {
+      var input = csvInput[...].utf8
+      output = input.parseCsv()
+    } tearDown: {
+      precondition(output.count == expectedRowCount)
+      precondition(output.allSatisfy { $0.count == expectedColumnCount })
+    }
   }
 }
 

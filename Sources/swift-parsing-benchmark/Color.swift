@@ -26,11 +26,15 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
     }
   }
 
-  let hexColor = ParsePrint(.memberwise(Color.init(red:green:blue:))) {
-    "#".utf8
-    HexByte()
-    HexByte()
-    HexByte()
+  struct HexColor: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, Color> {
+      ParsePrint(.memberwise(Color.init(red:green:blue:))) {
+        "#".utf8
+        HexByte()
+        HexByte()
+        HexByte()
+      }
+    }
   }
 
   let input = "#FF0000"
@@ -39,9 +43,9 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
 
   suite.benchmark("Parser") {
     var input = input[...].utf8
-    output = try hexColor.parse(&input)
+    output = try HexColor().parse(&input)
   } tearDown: {
     precondition(output == expected)
-    precondition(try! hexColor.print(output).elementsEqual("#ff0000".utf8) == true)
+    precondition(try! HexColor().print(output).elementsEqual("#ff0000".utf8) == true)
   }
 }

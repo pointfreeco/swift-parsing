@@ -7,48 +7,6 @@ import Parsing
 ///
 /// In particular, it benchmarks the same HTTP header as that defined in `one_test`.
 let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
-  let method = ParsePrint(.substring) { Prefix { $0.isToken } }
-
-  let uri = ParsePrint(.substring) { Prefix { $0 != .init(ascii: " ") } }
-
-  let httpVersion = ParsePrint(.substring) {
-    "HTTP/".utf8
-    Prefix { $0.isVersion }
-  }
-
-  let requestLine = ParsePrint(.memberwise(Request.init(method:uri:version:))) {
-    method
-    " ".utf8
-    uri
-    " ".utf8
-    httpVersion
-    Newline()
-  }
-
-  let headerValue = ParsePrint(.substring) {
-    Skip {
-      Prefix(1...) { $0.isHorizontalSpace }
-    }
-    .printing(" ".utf8)
-    Prefix { !$0.isNewline }
-    Newline()
-  }
-
-  let header = ParsePrint(.memberwise(Header.init(name:value:))) {
-    Prefix { $0.isToken }.map(.substring)
-    ":".utf8
-    Many {
-      headerValue
-    }
-  }
-
-  let request = ParsePrint {
-    requestLine
-    Many {
-      header
-    }
-  }
-
   let input = """
     GET / HTTP/1.1
     Host: www.reddit.com
@@ -86,10 +44,10 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
 
   suite.benchmark("HTTP") {
     var input = input[...].utf8
-    output = try request.parse(&input)
+    output = try Request.parser().parse(&input)
   } tearDown: {
     precondition(output == expected)
-    precondition(Substring(try! request.print(output)) == input)
+    precondition(Substring(try! Request.parser().print(output)) == input)
   }
 }
 
@@ -102,6 +60,76 @@ private struct Request: Equatable {
 private struct Header: Equatable {
   let name: Substring
   let value: [Substring]
+}
+
+private struct Method: ParserPrinter {
+  var body: some ParserPrinter<Substring.UTF8View, Substring> {
+    ParsePrint(.substring) { Prefix { $0.isToken } }
+  }
+}
+
+private struct URI: ParserPrinter {
+  var body: some ParserPrinter<Substring.UTF8View, Substring> {
+    ParsePrint(.substring) { Prefix { $0 != .init(ascii: " ") } }
+  }
+}
+
+private struct HTTPVersion: ParserPrinter {
+  var body: some ParserPrinter<Substring.UTF8View, Substring> {
+    ParsePrint(.substring) {
+      "HTTP/".utf8
+      Prefix { $0.isVersion }
+    }
+  }
+}
+
+private struct RequestLine: ParserPrinter {
+  var body: some ParserPrinter<Substring.UTF8View, Request> {
+    ParsePrint(.memberwise(Request.init(method:uri:version:))) {
+      Method()
+      " ".utf8
+      URI()
+      " ".utf8
+      HTTPVersion()
+      Newline()
+    }
+  }
+}
+
+private struct HeaderValue: ParserPrinter {
+  var body: some ParserPrinter<Substring.UTF8View, Substring> {
+    ParsePrint(.substring) {
+      Skip {
+        Prefix(1...) { $0.isHorizontalSpace }
+      }
+      .printing(" ".utf8)
+      Prefix { !$0.isNewline }
+      Newline()
+    }
+  }
+}
+
+private extension Header {
+  static func parser() -> some ParserPrinter<Substring.UTF8View, Self> {
+    ParsePrint(.memberwise(Self.init)) {
+      Prefix { $0.isToken }.map(.substring)
+      ":".utf8
+      Many {
+        HeaderValue()
+      }
+    }
+  }
+}
+
+private extension Request {
+  static func parser() -> some ParserPrinter<Substring.UTF8View, (Self, [Header])> {
+    ParsePrint {
+      RequestLine()
+      Many {
+        Header.parser()
+      }
+    }
+  }
 }
 
 extension UTF8.CodeUnit {

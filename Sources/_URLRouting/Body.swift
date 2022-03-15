@@ -1,4 +1,4 @@
-public struct Body<Bytes: Parser>: Parser where Bytes.Input == ArraySlice<UInt8> {
+public struct HTTPBody<Bytes: Parser>: Parser where Bytes.Input == ArraySlice<UInt8> {
   @usableFromInline
   let bytesParser: Bytes
 
@@ -19,7 +19,7 @@ public struct Body<Bytes: Parser>: Parser where Bytes.Input == ArraySlice<UInt8>
   }
 }
 
-extension Body: ParserPrinter where Bytes: ParserPrinter {
+extension HTTPBody: ParserPrinter where Bytes: ParserPrinter {
   @inlinable
   public func print(_ output: Bytes.Output, into input: inout URLRequestData) rethrows {
     input.body = try self.bytesParser.print(output)

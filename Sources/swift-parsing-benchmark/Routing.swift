@@ -11,116 +11,132 @@ import _URLRouting
 /// request into a more well-structured data type, such as an enum. We build a router that can
 /// recognize one of 5 routes for a website.
 let routingSuite = BenchmarkSuite(name: "Routing") { suite in
-  if #available(macOS 10.13, *) {
-    #if compiler(>=5.5)
-      enum AppRoute: Equatable {
-        case home
-        case contactUs
-        case episodes(Episodes)
-      }
-      enum Episodes: Equatable {
-        case index
-        case episode(id: Int, route: Episode)
-      }
-      enum Episode: Equatable {
-        case show
-        case comments(Comments)
-      }
-      enum Comments: Equatable {
-        case post(Comment)
-        case show(count: Int)
-      }
-      struct Comment: Codable, Equatable {
-        let commenter: String
-        let message: String
-      }
+  let requests = [
+    URLRequestData(),
+    URLRequestData(path: ["contact-us"]),
+    URLRequestData(path: ["episodes"]),
+    URLRequestData(path: ["episodes", "1"]),
+    URLRequestData(path: ["episodes", "1", "comments"]),
+    URLRequestData(path: ["episodes", "1", "comments"], query: ["count": ["20"]]),
+    URLRequestData(
+      method: "POST",
+      path: ["episodes", "1", "comments"],
+      body: .init(#"{"commenter":"Blob","message":"Hi!"}"#.utf8)
+    ),
+  ]
 
-      let encoder = JSONEncoder()
-      encoder.outputFormatting = .sortedKeys
+  var output: [AppRoute]!
+  var expectedOutput: [AppRoute] = [
+    .home,
+    .contactUs,
+    .episodes(.index),
+    .episodes(.episode(id: 1, route: .show)),
+    .episodes(.episode(id: 1, route: .comments(.show(count: 10)))),
+    .episodes(.episode(id: 1, route: .comments(.show(count: 20)))),
+    .episodes(
+      .episode(id: 1, route: .comments(.post(.init(commenter: "Blob", message: "Hi!"))))),
+  ]
+  suite.benchmark("Parser") {
+    output = try requests.map {
+      var input = $0
+      return try AppRoute.router().parse(&input)
+    }
+  } tearDown: {
+    precondition(output == expectedOutput)
+    precondition(requests == output.map { try! AppRoute.router().print($0) })
+  }
+}
 
-      let commentsRouter = OneOf {
-        Route(.case(Comments.post)) {
-          Method.post
-          Body {
-            Parse(.data.json(Comment.self, encoder: encoder))
-          }
+enum AppRoute: Equatable {
+  case home
+  case contactUs
+  case episodes(Episodes)
+}
+
+enum Episodes: Equatable {
+  case index
+  case episode(id: Int, route: Episode)
+}
+
+enum Episode: Equatable {
+  case show
+  case comments(Comments)
+}
+
+enum Comments: Equatable {
+  case post(Comment)
+  case show(count: Int)
+}
+
+struct Comment: Codable, Equatable {
+  let commenter: String
+  let message: String
+}
+
+extension Comments {
+  static func router() -> some ParserPrinter<URLRequestData, Self> {
+    let encoder = JSONEncoder()
+    encoder.outputFormatting = .sortedKeys
+
+    return OneOf {
+      Route(.case(Self.post)) {
+        Method.post
+        HTTPBody {
+          Parse(.data.json(Comment.self, encoder: encoder))
         }
-
-        Route(.case(Comments.show)) {
-          Query {
-            Field("count", Int.parser(), default: 10)
-          }
-        }
       }
 
-      let episodeRouter = OneOf {
-        Route(Episode.show)
-
-        Route(.case(Episode.comments)) {
-          Path { From(.utf8) { "comments".utf8 } }
-
-          commentsRouter
+      Route(.case(Self.show)) {
+        Query {
+          Field("count", Int.parser(), default: 10)
         }
       }
+    }
+  }
+}
 
-      let episodesRouter = OneOf {
-        Route(Episodes.index)
+extension Episode {
+  static func router() -> some ParserPrinter<URLRequestData, Self> {
+    OneOf {
+      Route(Self.show)
 
-        Route(.case(Episodes.episode)) {
-          Path { Int.parser() }
+      Route(.case(Self.comments)) {
+        Path { From(.utf8) { "comments".utf8 } }
 
-          episodeRouter
-        }
+        Comments.router()
+      }
+    }
+  }
+}
+
+extension Episodes {
+  static func router() -> some ParserPrinter<URLRequestData, Self> {
+    OneOf {
+      Route(Self.index)
+
+      Route(.case(Self.episode)) {
+        Path { Int.parser() }
+
+        Episode.router()
+      }
+    }
+  }
+}
+
+extension AppRoute {
+  static func router() -> some ParserPrinter<URLRequestData, Self> {
+    OneOf {
+      Route(Self.home)
+
+      Route(Self.contactUs) {
+        Path { From(.utf8) { "contact-us".utf8 } }
       }
 
-      let router = OneOf {
-        Route(AppRoute.home)
+      Route(.case(Self.episodes)) {
+        Path { From(.utf8) { "episodes".utf8 } }
 
-        Route(AppRoute.contactUs) {
-          Path { From(.utf8) { "contact-us".utf8 } }
-        }
-
-        Route(.case(AppRoute.episodes)) {
-          Path { From(.utf8) { "episodes".utf8 } }
-
-          episodesRouter
-        }
+        Episodes.router()
       }
-
-      let requests = [
-        URLRequestData(),
-        URLRequestData(path: ["contact-us"]),
-        URLRequestData(path: ["episodes"]),
-        URLRequestData(path: ["episodes", "1"]),
-        URLRequestData(path: ["episodes", "1", "comments"]),
-        URLRequestData(path: ["episodes", "1", "comments"], query: ["count": ["20"]]),
-        URLRequestData(
-          method: "POST",
-          path: ["episodes", "1", "comments"],
-          body: .init(#"{"commenter":"Blob","message":"Hi!"}"#.utf8)
-        ),
-      ]
-
-      var output: [AppRoute]!
-      var expectedOutput: [AppRoute] = [
-        .home,
-        .contactUs,
-        .episodes(.index),
-        .episodes(.episode(id: 1, route: .show)),
-        .episodes(.episode(id: 1, route: .comments(.show(count: 10)))),
-        .episodes(.episode(id: 1, route: .comments(.show(count: 20)))),
-        .episodes(
-          .episode(id: 1, route: .comments(.post(.init(commenter: "Blob", message: "Hi!"))))),
-      ]
-      suite.benchmark("Parser") {
-        output = try requests.map {
-          var input = $0
-          return try router.parse(&input)
-        }
-      } tearDown: {
-        precondition(output == expectedOutput)
-        precondition(requests == output.map { try! router.print($0) })
-      }
-    #endif
+    }
   }
 }

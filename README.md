@@ -284,12 +284,12 @@ Bool.Bool.init                                     41.000 ns ±  60.69 %    1000
 Bool.Bool.parser                                   42.000 ns ±  57.28 %    1000000
 Bool.Scanner.scanBool                            1041.000 ns ±  25.98 %    1000000
 Color.Parser                                      209.000 ns ±  13.68 %    1000000
-CSV.Parser                                    4047750.000 ns ±   1.18 %        349
+CSV.Parser                                    2977250.000 ns ±   1.18 %        349
 CSV.Ad hoc mutating methods                    898604.000 ns ±   1.49 %       1596
 Date.Parser                                      6416.000 ns ±   2.56 %     219218
 Date.DateFormatter                              25625.000 ns ±   2.19 %      54110
 Date.ISO8601DateFormatter                       35125.000 ns ±   1.71 %      39758
-HTTP.HTTP                                        9709.000 ns ±   3.81 %     138868
+HTTP.HTTP                                        8209.000 ns ±   3.81 %     138868
 JSON.Parser                                     32292.000 ns ±   3.18 %      41890
 JSON.JSONSerialization                           1833.000 ns ±   8.58 %     764057
 Numerics.Int.init                                  41.000 ns ±  84.54 %    1000000
