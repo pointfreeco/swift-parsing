@@ -39,11 +39,11 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
   suite.benchmark("Parser") {
     output = try requests.map {
       var input = $0
-      return try AppRoute.router().parse(&input)
+      return try AppRouter().parse(&input)
     }
   } tearDown: {
     precondition(output == expectedOutput)
-    precondition(requests == output.map { try! AppRoute.router().print($0) })
+    precondition(requests == output.map { try! AppRouter().print($0) })
   }
 }
 
@@ -52,41 +52,40 @@ enum AppRoute: Equatable {
   case contactUs
   case episodes(Episodes)
 }
-
 enum Episodes: Equatable {
   case index
   case episode(id: Int, route: Episode)
 }
-
 enum Episode: Equatable {
   case show
   case comments(Comments)
 }
-
 enum Comments: Equatable {
   case post(Comment)
   case show(count: Int)
 }
-
 struct Comment: Codable, Equatable {
   let commenter: String
   let message: String
 }
 
-extension Comments {
-  static func router() -> some ParserPrinter<URLRequestData, Self> {
+struct CommentsRouter: ParserPrinter {
+  var encoder: JSONEncoder {
     let encoder = JSONEncoder()
     encoder.outputFormatting = .sortedKeys
+    return encoder
+  }
 
-    return OneOf {
-      Route(.case(Self.post)) {
+  var body: some ParserPrinter<URLRequestData, Comments> {
+    OneOf {
+      Route(.case(Comments.post)) {
         Method.post
         HTTPBody {
-          Parse(.data.json(Comment.self, encoder: encoder))
+          Parse(.data.json(Comment.self, encoder: self.encoder))
         }
       }
 
-      Route(.case(Self.show)) {
+      Route(.case(Comments.show)) {
         Query {
           Field("count", Int.parser(), default: 10)
         }
@@ -95,47 +94,47 @@ extension Comments {
   }
 }
 
-extension Episode {
-  static func router() -> some ParserPrinter<URLRequestData, Self> {
+struct EpisodeRouter: ParserPrinter {
+  var body: some ParserPrinter<URLRequestData, Episode> {
     OneOf {
-      Route(Self.show)
+      Route(Episode.show)
 
-      Route(.case(Self.comments)) {
+      Route(.case(Episode.comments)) {
         Path { From(.utf8) { "comments".utf8 } }
 
-        Comments.router()
+        CommentsRouter()
       }
     }
   }
 }
 
-extension Episodes {
-  static func router() -> some ParserPrinter<URLRequestData, Self> {
+struct EpisodesRouter: ParserPrinter {
+  var body: some ParserPrinter<URLRequestData, Episodes> {
     OneOf {
-      Route(Self.index)
+      Route(Episodes.index)
 
-      Route(.case(Self.episode)) {
+      Route(.case(Episodes.episode)) {
         Path { Int.parser() }
 
-        Episode.router()
+        EpisodeRouter()
       }
     }
   }
 }
 
-extension AppRoute {
-  static func router() -> some ParserPrinter<URLRequestData, Self> {
+struct AppRouter: ParserPrinter {
+  var body: some ParserPrinter<URLRequestData, AppRoute> {
     OneOf {
-      Route(Self.home)
+      Route(AppRoute.home)
 
-      Route(Self.contactUs) {
+      Route(AppRoute.contactUs) {
         Path { From(.utf8) { "contact-us".utf8 } }
       }
 
-      Route(.case(Self.episodes)) {
+      Route(.case(AppRoute.episodes)) {
         Path { From(.utf8) { "episodes".utf8 } }
 
-        Episodes.router()
+        EpisodesRouter()
       }
     }
   }
