@@ -45,6 +45,7 @@ enum Token: Equatable {
   case comment(String)
   case key(Key)
   case note(Note)
+  case title(String)
 }
 
 class ABCTests: XCTestCase {
@@ -52,6 +53,13 @@ class ABCTests: XCTestCase {
     let input = """
       CDEF GABc cdef gabc'
       """
+
+    let title = ParsePrint(.string) {
+      "T:"
+      Skip { Prefix { $0 == " " } }.printing(" ")
+      Prefix { $0 != "\n" }
+      OneOf { "\n"; End() }
+    }
 
     let key = ParsePrint(.memberwise(Key.init)) {
       "K:"
@@ -81,6 +89,7 @@ class ABCTests: XCTestCase {
             "m".map { Mode.minor }
             "".map { Mode.major }
           }
+          End()
         }
     }
 
@@ -96,7 +105,7 @@ class ABCTests: XCTestCase {
       Parse {
         key
         Skip { Prefix { $0 == " " } }.printing("")
-        "\n"
+        OneOf { "\n"; End() }
       }
     }
 
@@ -134,7 +143,7 @@ class ABCTests: XCTestCase {
       OneOf {
         Parse { "/"; digits }
 
-        Count(atLeast: 1) { "/" }.map(.double.pow2.int)
+        Count(atLeast: 1) { "/" }.map(.pow2)
       }
       .replaceError(with: 1)
     }
@@ -151,7 +160,7 @@ class ABCTests: XCTestCase {
       "%"
       OneOf { " "; "" }.printing(" ")
       Prefix { $0 != "\n" }
-      "\n"
+      OneOf { "\n"; End() }
     }
 
     let token = OneOf {
@@ -159,17 +168,22 @@ class ABCTests: XCTestCase {
       comment.map(.case(Token.comment))
       keyField.map(.case(Token.key))
       note.map(.case(Token.note))
+      title.map(.case(Token.title))
     }
 
     let tokens = Many {
       token
     } separator: {
       Skip { Whitespace() }.printing(" ")
+    } terminator: {
+      End()
     }
 
     var i = input[...]
     let output = try tokens.parse(&i)
     print("parsed:")
+    i = "abcdefgh"
+    try tokens.parse(&i)
     dump(output)
     print("printed:", try tokens.print(
       [
@@ -180,9 +194,9 @@ class ABCTests: XCTestCase {
         .note(.init(accidental: nil, pitch: .init(letter: .c, octave: 3), length: .init(numerator: 1, denominator: 2))),
         .note(.init(accidental: nil, pitch: .init(letter: .c, octave: 4), length: .init(numerator: 1, denominator: 4))),
         .note(.init(accidental: nil, pitch: .init(letter: .c, octave: 5), length: .init(numerator: 1, denominator: 8))),
-        .note(.init(accidental: nil, pitch: .init(letter: .c, octave: 6), length: .init(numerator: 1, denominator: 1))),
+        .note(.init(accidental: nil, pitch: .init(letter: .c, octave: 6), length: .init(numerator: 3, denominator: 4))),
         .note(.init(accidental: .sharp, pitch: .init(letter: .c, octave: 7), length: .init(numerator: 1, denominator: 1))),
-        .note(.init(accidental: .doubleSharp, pitch: .init(letter: .c, octave: 8), length: .init(numerator: 1, denominator: 1))),
+        .note(.init(accidental: .doubleSharp, pitch: .init(letter: .c, octave: 8), length: .init(numerator: 3, denominator: 7))),
       ]
 //      output
     ))
@@ -212,17 +226,30 @@ extension Conversion where Self == AnyConversion<Substring, Substring> {
   }
 }
 
-extension Conversion where Self == AnyConversion<Double, Double> {
+func discreteLog2(_ y: Int) throws -> Int {
+  struct LogError: Error {}
+  for x in (0...) {
+    let possibleLog = y >> (x - 1)
+    if possibleLog == 2 {
+      return x
+    } else if possibleLog < 2 {
+      break
+    }
+  }
+  throw LogError()
+}
+
+extension Conversion where Self == AnyConversion<Int, Int> {
   static var pow2: Self {
     .init(
-      apply: { $0 > 0 ? pow(2, $0) : nil },
-      unapply: { $0 > 0 ? log2($0) : nil }
+      apply: { $0 > 0 ? 2 << ($0 - 1) : nil },
+      unapply: { try? discreteLog2($0) }
     )
   }
 }
 
-extension Conversion where Output == Double {
-  var pow2: Conversions.Map<Self, AnyConversion<Double, Double>>  {
+extension Conversion where Output == Int {
+  var pow2: Conversions.Map<Self, AnyConversion<Int, Int>>  {
     self.map(.pow2)
   }
 }
