@@ -42,7 +42,39 @@ extension Whitespace: ParserPrinter where Input: PrependableCollection {
           || byte == .init(ascii: "\r")
           || byte == .init(ascii: "\t")
       })
-    else { throw PrintingError() }
+    else {
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          A "Whitespace" parser-printer attempted to print a string that is not whitespace.
+
+          During a round-trip, the "Whitespace" parser stops parsing at non-whitespace characters, \
+          which means its data is in an invalid state.
+          """,
+        input: input
+      )
+    }
+    guard
+      self.toBytes(input).first.map({ (byte: UTF8.CodeUnit) in
+        byte == .init(ascii: " ")
+        || byte == .init(ascii: "\n")
+        || byte == .init(ascii: "\r")
+        || byte == .init(ascii: "\t")
+      }) != true
+    else {
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          The first element printed by a printer after a "Whitespace" parser-printer was whitespace.
+
+          During a round-trip, the "Whitespace" parser would have parsed this character, which \
+          means the data handed to the next printer is in an invalid state.
+          """,
+        input: input
+      )
+    }
     return input.prepend(contentsOf: output)
   }
 }

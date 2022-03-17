@@ -53,7 +53,16 @@ public struct Fail<Input, Output>: ParserPrinter {
     case is PrintingError:
       throw self.error
     default:
-      throw PrintingError()
+      throw PrintingError.failed(
+        summary: """
+          \(self.error)
+
+          A failing parser-printer attempted to print:
+
+          \(output)
+          """,
+        input: input
+      )
     }
   }
 }

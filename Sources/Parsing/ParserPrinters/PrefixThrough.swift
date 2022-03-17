@@ -48,10 +48,32 @@ public struct PrefixThrough<Input: Collection>: Parser where Input.SubSequence =
 extension PrefixThrough: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Input, into input: inout Input) throws {
-    var output = output
-    let appended = try self.parse(&output)
-    guard output.isEmpty else { throw PrintingError() }
-    input.prepend(contentsOf: appended)
+    do {
+      var output = output
+      let appended = try self.parse(&output)
+      guard output.isEmpty else {
+        throw PrintingError.failed(
+          summary: """
+            round-trip expectation failed
+
+            A "PrefixThrough" parser-printer attempted to print a collection that could not have \
+            been parsed.
+            """,
+          input: input
+        )
+      }
+      input.prepend(contentsOf: appended)
+    } catch {
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          A "PrefixThrough" parser-printer attempted to print a collection that could not have \
+          been parsed.
+          """,
+        input: input
+      )
+    }
   }
 }
 

@@ -66,6 +66,24 @@ class ManyTests: XCTestCase {
     }
     XCTAssertEqual(Substring(input), "")
 
+    XCTAssertThrowsError(
+      try Many(atLeast: 6) {
+        Int.parser()
+      } separator: {
+        ",".utf8
+      }
+      .print([1, 2, 3, 4, 5])
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: round-trip expectation failed
+
+        A "Many" parser that requires at least 6 values of Int was given only 5 values to print.
+        """,
+        "\(error)"
+      )
+    }
+
     input = "1,2,3,4,5"[...].utf8
     XCTAssertEqual(
       try Many(atLeast: 5) {
@@ -92,6 +110,25 @@ class ManyTests: XCTestCase {
       [1, 2, 3]
     )
     XCTAssertEqual(Substring(input), ",4,5")
+
+    XCTAssertThrowsError(
+      try Many(atMost: 3) {
+        Int.parser()
+      } separator: {
+        ",".utf8
+      }
+      .print([1, 2, 3, 4, 5])
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: round-trip expectation failed
+
+        A "Many" parser that parses at most 3 values of Int was given more values than it could \
+        have parsed.
+        """,
+        "\(error)"
+      )
+    }
   }
 
   func testReduce() {

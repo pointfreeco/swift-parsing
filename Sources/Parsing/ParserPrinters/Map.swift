@@ -149,7 +149,14 @@ extension Parsers {
 extension Parsers.MapConstant: ParserPrinter where Upstream: ParserPrinter, Output: Equatable {
   @inlinable
   public func print(_ output: Output, into input: inout Upstream.Input) throws {
-    guard output == self.output else { throw PrintingError() }
+    guard output == self.output else {
+      throw PrintingError.failed(
+        summary: """
+          expected \(self.output)
+          """,
+        input: input
+      )
+    }
     try self.upstream.print((), into: &input)
   }
 }

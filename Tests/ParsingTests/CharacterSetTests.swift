@@ -51,4 +51,53 @@ final class CharacterSetTests: XCTestCase {
     }
     XCTAssertThrowsError(try p.print(("Hello", " ")))
   }
+
+  func testPrintSuccess() {
+    var input = " WORLD"[...]
+    XCTAssertNoThrow(try CharacterSet.uppercaseLetters.print("HELLO", into: &input))
+    XCTAssertEqual("HELLO WORLD", input)
+  }
+
+  func testPrintFailureInOutput() {
+    XCTAssertThrowsError(try CharacterSet.uppercaseLetters.print("Hello")) { error in
+      XCTAssertEqual(
+        """
+        error: round-trip expectation failed
+
+        A character set does not contain a character to be printed.
+
+        "Hello"
+          ^ not found in set
+
+        <CFCharacterSet Predefined UppercaseLetter Set>
+
+        During a round-trip, the character set would have failed to parse this character, which \
+        means its data is in an invalid state.
+        """,
+        "\(error)"
+      )
+    }
+  }
+
+  func testPrintFailureInInput() {
+    var input = "WORLD"[...]
+    XCTAssertThrowsError(try CharacterSet.uppercaseLetters.print("HELLO", into: &input)) { error in
+      XCTAssertEqual(
+        """
+        error: round-trip expectation failed
+
+        A character set contains a character that is printed by the next printer.
+
+        "WORLD"
+         ^ found in set
+
+        <CFCharacterSet Predefined UppercaseLetter Set>
+
+        During a round-trip, the character set would have parsed this character, which means the \
+        data handed to the next printer is in an invalid state.
+        """,
+        "\(error)"
+      )
+    }
+  }
 }

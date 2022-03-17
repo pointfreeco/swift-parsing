@@ -206,11 +206,66 @@ extension Prefix: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Input, into input: inout Input) throws {
     let count = output.count
-    guard
-      count >= self.minLength,
-      self.maxLength.map({ count <= $0 }) ?? true,
-      self.predicate.map({ input.first.map($0) != true && output.allSatisfy($0) }) ?? true
-    else { throw PrintingError() }
+    guard count >= self.minLength
+    else {
+      let description = describe(input).map { "\n\n\($0.debugDescription)" } ?? ""
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          A "Prefix" parser that parses at least \(self.minLength) \
+          element\(self.minLength == 1 ? "" : "s") was given only \(count) \
+          element\(count == 1 ? "" : "s") to print.\(description)
+          """,
+        input: input
+      )
+    }
+    if let maxLength = self.maxLength {
+      guard count <= maxLength
+      else {
+        let description = describe(input).map { "\n\n\($0.debugDescription)" } ?? ""
+        throw PrintingError.failed(
+          summary: """
+            round-trip expectation failed
+
+            A "Prefix" parser that parses at most \(self.maxLength!) \
+            element\(self.maxLength! == 1 ? "" : "s") was given \(count) \
+            element\(count == 1 ? "" : "s") to print.\(description)
+            """,
+          input: input
+        )
+      }
+    }
+    if let predicate = self.predicate {
+      guard output.allSatisfy(predicate)
+      else {
+        throw PrintingError.failed(
+          summary: """
+            round-trip expectation failed
+
+            A "Prefix" parser's predicate failed to satisfy all elements it was handed to print.
+
+            During a round-trip, the "Prefix" parser would have stopped parsing at this element, \
+            which means its data is in an invalid state.
+            """,
+          input: input
+        )
+      }
+      guard input.first.map(predicate) != true
+      else {
+        throw PrintingError.failed(
+          summary: """
+            round-trip expectation failed
+
+            A "Prefix" parser's predicate satisfied the first element printed by the next printer.
+
+            During a round-trip, the "Prefix" parser would have parsed this element, which means \
+            the data handed to the next printer is in an invalid state.
+            """,
+          input: input
+        )
+      }
+    }
     input.prepend(contentsOf: output)
   }
 }

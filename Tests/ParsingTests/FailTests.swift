@@ -16,6 +16,19 @@ final class FailTests: XCTestCase {
       )
     }
     XCTAssertEqual("Hello, world!", input)
+
+    XCTAssertThrowsError(try Fail<Substring, Int>().print(42)) { error in
+      XCTAssertEqual(
+        """
+        error: failed
+
+        A failing parser-printer attempted to print:
+        
+        42
+        """,
+        "\(error)"
+      )
+    }
   }
 
   func testCustomError() {
@@ -28,6 +41,19 @@ final class FailTests: XCTestCase {
          --> input:1:1
         1 | Hello
           | ^
+        """,
+        "\(error)"
+      )
+    }
+
+    XCTAssertThrowsError(try Fail<Substring, Int>(throwing: MyError()).print(42)) { error in
+      XCTAssertEqual(
+        """
+        error: MyError()
+
+        A failing parser-printer attempted to print:
+
+        42
         """,
         "\(error)"
       )

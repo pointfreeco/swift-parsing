@@ -238,7 +238,19 @@ where
     try self.terminator.print(into: &input)
     let iterator = try self.iterator(output)
     guard let first = iterator.next() else {
-      guard self.minimum == 0 else { throw PrintingError() }
+      guard self.minimum == 0
+      else {
+        throw PrintingError.failed(
+          summary: """
+            round-trip expectation failed
+
+            A "Many" parser that requires at least \(self.minimum) \
+            value\(self.minimum == 1 ? "" : "s") of \(Element.Output.self) wasn't given any values \
+            to print.
+            """,
+          input: input
+        )
+      }
       return
     }
     try self.element.print(first, into: &input)
@@ -249,12 +261,30 @@ where
       count += 1
       guard count <= self.maximum
       else {
-        throw PrintingError()
+        throw PrintingError.failed(
+          summary: """
+            round-trip expectation failed
+
+            A "Many" parser that parses at most \(self.maximum) \
+            value\(self.minimum == 1 ? "" : "s") of \(Element.Output.self) was given more values \
+            than it could have parsed.
+            """,
+          input: input
+        )
       }
     }
     guard count >= self.minimum
     else {
-      throw PrintingError()
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          A "Many" parser that requires at least \(self.minimum) \
+          value\(self.minimum == 1 ? "" : "s") of \(Element.Output.self) was given only \(count) \
+          value\(count == 1 ? "" : "s") to print.
+          """,
+        input: input
+      )
     }
   }
 }

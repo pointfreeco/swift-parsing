@@ -38,10 +38,35 @@ public struct Rest<Input: Collection>: Parser where Input.SubSequence == Input {
 extension Rest: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Input, into input: inout Input) throws {
-    guard
-      input.isEmpty,
-      !output.isEmpty
-    else { throw PrintingError() }
+    guard input.isEmpty
+    else {
+      let description = describe(input).map { "\n\n\($0.debugDescription)" } ?? ""
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          A "Rest" parser-printer expected to have printed all remaining input, but more was \
+          printed.\(description)
+
+          During a round-trip, the "Rest" parser-printer would have parsed this remaining input.
+          """,
+        input: input
+      )
+    }
+
+    guard !output.isEmpty
+    else {
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          A "Rest" parser-printer attempted to print an empty \(Input.self).
+
+          During a round-trip, the "Rest" parser-printer would have failed to parse an empty input.
+          """,
+        input: input
+      )
+    }
     input.prepend(contentsOf: output)
   }
 }

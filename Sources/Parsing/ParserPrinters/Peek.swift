@@ -47,7 +47,14 @@ public struct Peek<Upstream: Parser>: ParserPrinter {
       var i = input
       _ = try self.upstream.parse(&i)
     } catch {
-      throw PrintingError()
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          A "Peek" parser-printer was handed a value to print that it would have failed to parse.
+          """,
+        input: input
+      )
     }
   }
 }

@@ -38,8 +38,20 @@ public struct End<Input: Collection>: ParserPrinter {
 
   @inlinable
   public func print(_ output: (), into input: inout Input) throws {
-    guard input.isEmpty
-    else { throw PrintingError() }
+    guard input.isEmpty else {
+      let description = describe(input).map { "\n\n\($0.debugDescription)" } ?? ""
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          An "End" parser-printer expected no more input, but more was printed.\(description)
+
+          During a round-trip, the "End" parser-printer would have failed to parse at this \
+          remaining input.
+          """,
+        input: input
+      )
+    }
   }
 }
 
