@@ -97,7 +97,7 @@ extension PrintingError: CustomDebugStringConvertible {
         : """
         error: multiple failures occurred
 
-        error
+        \(errors.map { "\($0)" }.joined(separator: "\n\n"))
         """
     }
   }
