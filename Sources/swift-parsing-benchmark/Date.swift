@@ -86,8 +86,7 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
     partialTime
     timeOffset
   }
-  .map { date, time, timeZone -> DateComponents in
-    let (year, month, day) = date
+  .map { year, month, day, time, timeZone -> DateComponents in
     let (hour, minute, second, nanosecond) = time
     return DateComponents(
       timeZone: timeZone,
@@ -101,8 +100,7 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
     timeDelim
     partialTime
   }
-  .map { date, time -> DateComponents in
-    let (year, month, day) = date
+  .map { year, month, day, time -> DateComponents in
     let (hour, minute, second, nanosecond) = time
     return DateComponents(
       year: year, month: month, day: day,
