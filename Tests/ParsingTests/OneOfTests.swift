@@ -250,9 +250,9 @@ final class OneOfTests: XCTestCase {
         let (name, value) = pair
         object[name] = value
       } element: {
-        Skip { Whitespace() }
+        Whitespace()
         string
-        Skip { Whitespace() }
+        Whitespace()
         ":".utf8
         Lazy { json! }
       } separator: {
@@ -274,7 +274,7 @@ final class OneOfTests: XCTestCase {
     }
 
     json = Parse {
-      Skip { Whitespace() }
+      Whitespace()
       OneOf {
         object.map(JSONValue.object)
         array.map(JSONValue.array)
@@ -283,7 +283,7 @@ final class OneOfTests: XCTestCase {
         Bool.parser().map(JSONValue.boolean)
         "null".utf8.map { JSONValue.null }
       }
-      Skip { Whitespace() }
+      Whitespace()
     }
     .eraseToAnyParser()
 
