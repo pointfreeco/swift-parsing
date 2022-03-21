@@ -7,6 +7,8 @@ let swiftSettings: [SwiftSetting] = [
     "-Xfrontend", "-enable-experimental-pairwise-build-block",
     "-Xfrontend", "-enable-parameterized-protocol-types",
     "-Xfrontend", "-requirement-machine-protocol-signatures=on",
+    "-Xfrontend", "-warn-long-expression-type-checking=75",
+    "-Xfrontend", "-warn-long-function-bodies=75",
   ])
 ]
 
@@ -29,7 +31,6 @@ let package = Package(
     ),
   ],
   dependencies: [
-    .package(url: "https://github.com/apple/swift-argument-parser", from: "0.5.0"),
     .package(url: "https://github.com/pointfreeco/swift-case-paths", from: "0.8.0"),
     .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark", from: "0.1.1"),
   ],
@@ -43,7 +44,8 @@ let package = Package(
       name: "ParsingTests",
       dependencies: [
         "Parsing",
-      ]
+      ],
+      swiftSettings: swiftSettings
     ),
     .executableTarget(
       name: "swift-parsing-benchmark",
@@ -54,10 +56,6 @@ let package = Package(
       ],
       swiftSettings: swiftSettings
     ),
-    .executableTarget(
-      name: "variadics-generator",
-      dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]
-    ),
     .target(
       name: "_URLRouting",
       dependencies: ["Parsing"],
@@ -67,7 +65,8 @@ let package = Package(
       name: "_URLRoutingTests",
       dependencies: [
         "_URLRouting",
-      ]
+      ],
+      swiftSettings: swiftSettings
     ),
   ]
 )

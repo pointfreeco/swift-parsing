@@ -183,8 +183,8 @@ public enum ParserBuilder {
 
   public struct SkipFirst<P0: Parser, P1: Parser>: Parser
   where
-    P0.Input == P1.Input,
-    P0.Output == Void
+  P0.Input == P1.Input,
+  P0.Output == Void
   {
     @usableFromInline let p0: P0, p1: P1
 
@@ -194,15 +194,17 @@ public enum ParserBuilder {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> P1.Output {
-      try self.p0.parse(&input)
-      return try self.p1.parse(&input)
+      do {
+        try self.p0.parse(&input)
+        return try self.p1.parse(&input)
+      } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
 
   public struct SkipSecond<P0: Parser, P1: Parser>: Parser
   where
-    P0.Input == P1.Input,
-    P1.Output == Void
+  P0.Input == P1.Input,
+  P1.Output == Void
   {
     @usableFromInline let p0: P0, p1: P1
 
@@ -212,15 +214,17 @@ public enum ParserBuilder {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
-      let o0 = try self.p0.parse(&input)
-      try self.p1.parse(&input)
-      return o0
+      do {
+        let o0 = try self.p0.parse(&input)
+        try self.p1.parse(&input)
+        return o0
+      } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
 
   public struct Take2<P0: Parser, P1: Parser>: Parser
   where
-    P0.Input == P1.Input
+  P0.Input == P1.Input
   {
     @usableFromInline let p0: P0, p1: P1
 
@@ -230,17 +234,19 @@ public enum ParserBuilder {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (P0.Output, P1.Output) {
-      return try (
-        self.p0.parse(&input),
-        self.p1.parse(&input)
-      )
+      do {
+        return try (
+          self.p0.parse(&input),
+          self.p1.parse(&input)
+        )
+      } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
 
   public struct Take3<P0: Parser, P1: Parser, O0, O1>: Parser
   where
-    P0.Input == P1.Input,
-    P0.Output == (O0, O1)
+  P0.Input == P1.Input,
+  P0.Output == (O0, O1)
   {
     @usableFromInline let p0: P0, p1: P1
 
@@ -250,15 +256,17 @@ public enum ParserBuilder {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (O0, O1, P1.Output) {
-      let (o0, o1) = try self.p0.parse(&input)
-      return try (o0, o1, self.p1.parse(&input))
+      do {
+        let (o0, o1) = try self.p0.parse(&input)
+        return try (o0, o1, self.p1.parse(&input))
+      } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
 
   public struct Take4<P0: Parser, P1: Parser, O0, O1, O2>: Parser
   where
-    P0.Input == P1.Input,
-    P0.Output == (O0, O1, O2)
+  P0.Input == P1.Input,
+  P0.Output == (O0, O1, O2)
   {
     @usableFromInline let p0: P0, p1: P1
 
@@ -268,15 +276,17 @@ public enum ParserBuilder {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (O0, O1, O2, P1.Output) {
-      let (o0, o1, o2) = try self.p0.parse(&input)
-      return try (o0, o1, o2, self.p1.parse(&input))
+      do {
+        let (o0, o1, o2) = try self.p0.parse(&input)
+        return try (o0, o1, o2, self.p1.parse(&input))
+      } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
 
   public struct Take5<P0: Parser, P1: Parser, O0, O1, O2, O3>: Parser
   where
-    P0.Input == P1.Input,
-    P0.Output == (O0, O1, O2, O3)
+  P0.Input == P1.Input,
+  P0.Output == (O0, O1, O2, O3)
   {
     @usableFromInline let p0: P0, p1: P1
 
@@ -286,15 +296,17 @@ public enum ParserBuilder {
     }
 
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (O0, O1, O2, O3, P1.Output) {
-      let (o0, o1, o2, o3) = try self.p0.parse(&input)
-      return try (o0, o1, o2, o3, self.p1.parse(&input))
+      do {
+        let (o0, o1, o2, o3) = try self.p0.parse(&input)
+        return try (o0, o1, o2, o3, self.p1.parse(&input))
+      } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
 
   public struct Take6<P0: Parser, P1: Parser, O0, O1, O2, O3, O4>: Parser
   where
-    P0.Input == P1.Input,
-    P0.Output == (O0, O1, O2, O3, O4)
+  P0.Input == P1.Input,
+  P0.Output == (O0, O1, O2, O3, O4)
   {
     @usableFromInline let p0: P0, p1: P1
 
@@ -306,15 +318,17 @@ public enum ParserBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       O0, O1, O2, O3, O4, P1.Output
     ) {
-      let (o0, o1, o2, o3, o4) = try self.p0.parse(&input)
-      return try (o0, o1, o2, o3, o4, self.p1.parse(&input))
+      do {
+        let (o0, o1, o2, o3, o4) = try self.p0.parse(&input)
+        return try (o0, o1, o2, o3, o4, self.p1.parse(&input))
+      } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
 
   public struct Take7<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5>: Parser
   where
-    P0.Input == P1.Input,
-    P0.Output == (O0, O1, O2, O3, O4, O5)
+  P0.Input == P1.Input,
+  P0.Output == (O0, O1, O2, O3, O4, O5)
   {
     @usableFromInline let p0: P0, p1: P1
 
@@ -326,15 +340,17 @@ public enum ParserBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       O0, O1, O2, O3, O4, O5, P1.Output
     ) {
-      let (o0, o1, o2, o3, o4, o5) = try self.p0.parse(&input)
-      return try (o0, o1, o2, o3, o4, o5, self.p1.parse(&input))
+      do {
+        let (o0, o1, o2, o3, o4, o5) = try self.p0.parse(&input)
+        return try (o0, o1, o2, o3, o4, o5, self.p1.parse(&input))
+      } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
 
   public struct Take8<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5, O6>: Parser
   where
-    P0.Input == P1.Input,
-    P0.Output == (O0, O1, O2, O3, O4, O5, O6)
+  P0.Input == P1.Input,
+  P0.Output == (O0, O1, O2, O3, O4, O5, O6)
   {
     @usableFromInline let p0: P0, p1: P1
 
@@ -346,15 +362,17 @@ public enum ParserBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       O0, O1, O2, O3, O4, O5, O6, P1.Output
     ) {
-      let (o0, o1, o2, o3, o4, o5, o6) = try self.p0.parse(&input)
-      return try (o0, o1, o2, o3, o4, o5, o6, self.p1.parse(&input))
+      do {
+        let (o0, o1, o2, o3, o4, o5, o6) = try self.p0.parse(&input)
+        return try (o0, o1, o2, o3, o4, o5, o6, self.p1.parse(&input))
+      } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
 
   public struct Take9<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5, O6, O7>: Parser
   where
-    P0.Input == P1.Input,
-    P0.Output == (O0, O1, O2, O3, O4, O5, O6, O7)
+  P0.Input == P1.Input,
+  P0.Output == (O0, O1, O2, O3, O4, O5, O6, O7)
   {
     @usableFromInline let p0: P0, p1: P1
 
@@ -366,15 +384,17 @@ public enum ParserBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       O0, O1, O2, O3, O4, O5, O6, O7, P1.Output
     ) {
-      let (o0, o1, o2, o3, o4, o5, o6, o7) = try self.p0.parse(&input)
-      return try (o0, o1, o2, o3, o4, o5, o6, o7, self.p1.parse(&input))
+      do {
+        let (o0, o1, o2, o3, o4, o5, o6, o7) = try self.p0.parse(&input)
+        return try (o0, o1, o2, o3, o4, o5, o6, o7, self.p1.parse(&input))
+      } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
 
   public struct Take10<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5, O6, O7, O8>: Parser
   where
-    P0.Input == P1.Input,
-    P0.Output == (O0, O1, O2, O3, O4, O5, O6, O7, O8)
+  P0.Input == P1.Input,
+  P0.Output == (O0, O1, O2, O3, O4, O5, O6, O7, O8)
   {
     @usableFromInline let p0: P0, p1: P1
 
@@ -386,8 +406,10 @@ public enum ParserBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
       O0, O1, O2, O3, O4, O5, O6, O7, O8, P1.Output
     ) {
-      let (o0, o1, o2, o3, o4, o5, o6, o7, o8) = try self.p0.parse(&input)
-      return try (o0, o1, o2, o3, o4, o5, o6, o7, o8, self.p1.parse(&input))
+      do {
+        let (o0, o1, o2, o3, o4, o5, o6, o7, o8) = try self.p0.parse(&input)
+        return try (o0, o1, o2, o3, o4, o5, o6, o7, o8, self.p1.parse(&input))
+      } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
 }

@@ -209,7 +209,10 @@ extension Prefix: ParserPrinter where Input: PrependableCollection {
     guard
       count >= self.minLength,
       self.maxLength.map({ count <= $0 }) ?? true,
-      self.predicate.map({ input.first.map($0) != true && output.allSatisfy($0) }) ?? true
+      self.predicate.map({
+        output.allSatisfy($0)
+        && (self.maxLength ?? .max > count) ? input.first.map($0) != true : true
+      }) ?? true
     else { throw PrintingError() }
     input.prepend(contentsOf: output)
   }

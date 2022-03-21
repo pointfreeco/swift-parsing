@@ -23,7 +23,7 @@ test-linux:
 		--rm \
 		-v "$(PWD):$(PWD)" \
 		-w "$(PWD)" \
-		swift:5.3 \
+		swift:5.5 \
 		bash -c 'make test-swift'
 
 test-swift:
@@ -36,14 +36,4 @@ format:
 		./Package.swift ./Sources ./Tests
 	find . -type f -name '*.md' -print0 | xargs -0 perl -pi -e 's/ +$$//'
 
-generate-variadics:
-	swift run variadics-generator \
-		--generate-zips \
-		--generate-one-ofs \
-		> Sources/Parsing/Builders/Variadics.swift
-
-	swift run variadics-generator \
-		--generate-path-zips \
-		> Sources/_URLRouting/Builders/Variadics.swift
-
-.PHONY: benchmarks format generate-variadics test
+.PHONY: benchmarks format test

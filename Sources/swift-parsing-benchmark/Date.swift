@@ -9,19 +9,21 @@ import Parsing
 /// parse fractional seconds and time zone offsets automatically, and it will parse to the nanosecond,
 /// while the formatters do not parse beyond the millisecond.
 let dateSuite = BenchmarkSuite(name: "Date") { suite in
-  let digits = { (n: Int) in
-    Prefix<Substring.UTF8View>(n) {
-      (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
+  struct Digits: ParserPrinter {
+    let count: Int
+
+    init(_ count: Int) {
+      self.count = count
     }
-    .pipe {
-      Int.parser()
-      End()
+
+    var body: some ParserPrinter<Substring.UTF8View, Int> {
+      Prefix(self.count).map(.string.lossless(Int.self))
     }
   }
 
-  let dateFullyear = digits(4)
-  let dateMonth = digits(2)
-  let dateMday = digits(2)
+  let dateFullyear = Digits(4)
+  let dateMonth = Digits(2)
+  let dateMday = Digits(2)
 
   let timeDelim = OneOf {
     "T".utf8
@@ -29,9 +31,9 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
     " ".utf8
   }
 
-  let timeHour = digits(2)
-  let timeMinute = digits(2)
-  let timeSecond = digits(2)
+  let timeHour = Digits(2)
+  let timeMinute = Digits(2)
+  let timeSecond = Digits(2)
 
   let nanoSecfrac = Prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
     .map { $0.prefix(9) }

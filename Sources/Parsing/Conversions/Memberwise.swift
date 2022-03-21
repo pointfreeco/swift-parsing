@@ -120,6 +120,13 @@ extension Conversion {
   ) -> Self where Self == Conversions.Memberwise<Values, Struct> {
     .init(initializer: initializer)
   }
+
+  @inlinable
+  public func memberwise<Struct>(
+    _ initializer: @escaping (Output) -> Struct
+  ) -> Conversions.Map<Self, Conversions.Memberwise<Output, Struct>> {
+    self.map(.memberwise(initializer))
+  }
 }
 
 extension Conversions {

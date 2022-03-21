@@ -45,7 +45,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           }
           .map(.string)
 
-          Parse {
+          let x = Parse {
             "\\".utf8
 
             OneOf {
