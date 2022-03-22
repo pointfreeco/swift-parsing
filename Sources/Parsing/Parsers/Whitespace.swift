@@ -87,7 +87,7 @@ where
     func consumeVertical() -> Bool {
       // Unicode chars from `CharacterSet.newlines`
       switch bytes.first {
-      case 0xA, 0xB, 0xC, 0xD: // U+000A ~ U+000D
+      case 0xA ... 0xD: // U+000A ~ U+000D
         bytes.removeFirst()
         return true
         
