@@ -5,10 +5,10 @@ where
   Bytes.SubSequence == Bytes
 {
   @usableFromInline
-  let maxLength: Int?
+  let maximum: Int?
 
   @usableFromInline
-  let minLength: Int
+  let minimum: Int
 
   @usableFromInline
   let toBytes: (Input) -> Bytes
@@ -17,15 +17,14 @@ where
   let fromBytes: (Bytes) -> Input
 
   @usableFromInline
-  init(
-    minLength: Int,
-    maxLength: Int?,
+  init<L: Length>(
+    length: L,
     toBytes: @escaping (Input) -> Bytes,
     fromBytes: @escaping (Bytes) -> Input
   ) {
-    precondition(minLength >= 1, "Can't construct Digits with length < 1")
-    self.minLength = minLength
-    self.maxLength = maxLength
+    precondition(length.minimum >= 1, "Can't construct Digits with length < 1")
+    self.minimum = length.minimum
+    self.maximum = length.maximum
     self.toBytes = toBytes
     self.fromBytes = fromBytes
   }
@@ -35,16 +34,16 @@ where
     var bytes = self.toBytes(input)
     defer { input = self.fromBytes(bytes) }
 
-    var prefix = self.maxLength.map(bytes.prefix) ?? bytes
+    var prefix = self.maximum.map(bytes.prefix) ?? bytes
     prefix = prefix.prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
     let count = prefix.count
 
-    guard prefix.count >= self.minLength
+    guard prefix.count >= self.minimum
     else {
       throw ParsingError.expectedInput(
         """
-        \(self.minLength == self.maxLength ? "" : "at least ")\(self.minLength) \
-        digit\(self.minLength == 1 ? "" : "s")
+        \(self.minimum == self.maximum ? "" : "at least ")\(self.minimum) \
+        digit\(self.minimum == 1 ? "" : "s")
         """,
         at: input
       )
@@ -61,21 +60,15 @@ where
 extension Digits where Input == Substring, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init(_ length: PartialRangeFrom<Int> = 1...) {
-    self.init(
-      minLength: length.lowerBound,
-      maxLength: nil,
-      toBytes: { $0.utf8 },
-      fromBytes: Substring.init
-    )
+  public init() {
+    self.init(1...)
   }
 
   @_disfavoredOverload
   @inlinable
-  public init(_ length: Int) {
+  public init<L: Length>(_ length: L) {
     self.init(
-      minLength: length,
-      maxLength: length,
+      length: length,
       toBytes: { $0.utf8 },
       fromBytes: Substring.init
     )
@@ -85,21 +78,14 @@ extension Digits where Input == Substring, Bytes == Substring.UTF8View {
 extension Digits where Input == Substring.UTF8View, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init(_ length: PartialRangeFrom<Int> = 1...) {
-    self.init(
-      minLength: length.lowerBound,
-      maxLength: nil,
-      toBytes: { $0 },
-      fromBytes: { $0 }
-    )
+  public init() {
+    self.init(1...)
   }
 
   @_disfavoredOverload
-  @inlinable
-  public init(_ length: Int) {
+  public init<L: Length>(_ length: L) {
     self.init(
-      minLength: length,
-      maxLength: length,
+      length: length,
       toBytes: { $0 },
       fromBytes: { $0 }
     )

@@ -18,9 +18,9 @@ import Foundation
 /// input                         // ""
 /// ```
 ///
-/// In addition to an element and separator parser, a "terminator" parser that is run after the element
-/// parser has run as many times as possible. This can be useful for proving that the `Many` parser has
-/// consumed everything you expect:
+/// In addition to an element and separator parser, a "terminator" parser that is run after the
+/// element parser has run as many times as possible. This can be useful for proving that the `Many`
+/// parser has consumed everything you expect:
 ///
 /// ```swift
 /// let intsParser = Many {
@@ -36,9 +36,10 @@ import Foundation
 /// input                         // ""
 /// ```
 ///
-/// The outputs of the element parser do not need to be accumulated in an array. More generally one can
-/// specify a closure that customizes how outputs are accumulated, much like `Sequence.reduce(into:_)`. We
-/// could, for example, sum the numbers as we parse them instead of accumulating each value in an array:
+/// The outputs of the element parser do not need to be accumulated in an array. More generally one
+/// can specify a closure that customizes how outputs are accumulated, much like
+/// `Sequence.reduce(into:_)`. We could, for example, sum the numbers as we parse them instead of
+/// accumulating each value in an array:
 ///
 /// ```swift
 /// let sumParser = Many(into: 0, +=) {
@@ -52,9 +53,9 @@ import Foundation
 /// input                        // ""
 /// ```
 ///
-/// This parser fails if the terminator parser fails. For example, if we required our comma-separated
-/// integer parser to be terminated by `"---"`, but we parsed a list that contained a non-integer we would
-/// get an error:
+/// This parser fails if the terminator parser fails. For example, if we required our
+/// comma-separated integer parser to be terminated by `"---"`, but we parsed a list that contained
+/// a non-integer we would get an error:
 ///
 /// ```swift
 /// let intsParser = Many {
@@ -78,29 +79,29 @@ where
 {
   public let element: Element
   public let initialResult: Result
-  public let maximum: Int
+  public let maximum: Int?
   public let minimum: Int
   public let separator: Separator
   public let terminator: Terminator
   public let updateAccumulatingResult: (inout Result, Element.Output) throws -> Void
 
-  /// Initializes a parser that attempts to run the given parser at least and at most the given
-  /// number of times, accumulating the outputs into a result with a given closure.
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
   ///
   /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
   ///   - initialResult: The value to use as the initial accumulating value.
-  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
-  ///     successful.
-  ///   - maximum: The maximum number of times to run this parser before returning the output.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - separator: A parser that consumes input between each parsed output.
+  ///   - terminator: A parser that consumes any leftover input.
   @inlinable
-  public init(
+  public init<L: Length>(
+    _ length: L,
     into initialResult: Result,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator,
@@ -108,11 +109,39 @@ where
   ) {
     self.element = element()
     self.initialResult = initialResult
-    self.maximum = maximum
-    self.minimum = minimum
+    self.maximum = length.maximum
+    self.minimum = length.minimum
     self.separator = separator()
     self.terminator = terminator()
     self.updateAccumulatingResult = updateAccumulatingResult
+  }
+
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
+  ///   - terminator: A parser that consumes any leftover input.
+  @inlinable
+  public init(
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator,
+    @ParserBuilder terminator: () -> Terminator
+  ) {
+    self.init(
+      0...,
+      into: initialResult,
+      updateAccumulatingResult,
+      element: element,
+      separator: separator,
+      terminator: terminator
+    )
   }
 
   @inlinable
@@ -122,7 +151,7 @@ where
     var result = self.initialResult
     var count = 0
     var loopError: Error?
-    while count < self.maximum {
+    while self.maximum.map({ count < $0 }) ?? true {
       let output: Element.Output
       do {
         output = try self.element.parse(&input)
@@ -181,98 +210,206 @@ where
 }
 
 extension Many where Separator == Always<Input, Void>, Terminator == Always<Input, Void> {
-  /// Initializes a parser that attempts to run the given parser at least and at most the given
-  /// number of times, accumulating the outputs into a result with a given closure.
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  @inlinable
+  public init<L: Length>(
+    _ length: L,
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    @ParserBuilder element: () -> Element
+  ) {
+    self.element = element()
+    self.initialResult = initialResult
+    self.maximum = length.maximum
+    self.minimum = length.minimum
+    self.separator = .init(())
+    self.terminator = .init(())
+    self.updateAccumulatingResult = updateAccumulatingResult
+  }
+
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
   ///
   /// - Parameters:
   ///   - initialResult: The value to use as the initial accumulating value.
-  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
-  ///     successful.
-  ///   - maximum: The maximum number of times to run this parser before returning the output.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
   ///   - element: A parser to run multiple times to accumulate into a result.
   @inlinable
   public init(
     into initialResult: Result,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element
   ) {
-    self.element = element()
-    self.initialResult = initialResult
-    self.maximum = maximum
-    self.minimum = minimum
-    self.separator = .init(())
-    self.terminator = .init(())
-    self.updateAccumulatingResult = updateAccumulatingResult
+    self.init(0..., into: initialResult, updateAccumulatingResult, element: element)
   }
 }
 
 extension Many where Separator == Always<Input, Void> {
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - terminator: A parser that consumes any leftover input.
   @inlinable
-  public init(
+  public init<L: Length>(
+    _ length: L,
     into initialResult: Result,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
     @ParserBuilder terminator: () -> Terminator
   ) {
     self.element = element()
     self.initialResult = initialResult
-    self.maximum = maximum
-    self.minimum = minimum
+    self.maximum = length.maximum
+    self.minimum = length.minimum
     self.separator = .init(())
     self.terminator = terminator()
     self.updateAccumulatingResult = updateAccumulatingResult
   }
-}
 
-extension Many where Terminator == Always<Input, Void> {
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - terminator: A parser that consumes any leftover input.
   @inlinable
   public init(
     into initialResult: Result,
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder terminator: () -> Terminator
+  ) {
+    self.init(
+      0...,
+      into: initialResult,
+      updateAccumulatingResult,
+      element: element,
+      terminator: terminator
+    )
+  }
+}
+
+extension Many where Terminator == Always<Input, Void> {
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
+  @inlinable
+  public init<L: Length>(
+    _ length: L,
+    into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) {
     self.element = element()
     self.initialResult = initialResult
-    self.maximum = maximum
-    self.minimum = minimum
+    self.maximum = length.maximum
+    self.minimum = length.minimum
     self.separator = separator()
     self.terminator = .init(())
     self.updateAccumulatingResult = updateAccumulatingResult
   }
-}
 
-extension Many where Result == [Element.Output] {
-  /// Initializes a parser that attempts to run the given parser at least and at most the given
-  /// number of times, accumulating the outputs in an array.
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
   ///
   /// - Parameters:
-  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
-  ///     successful.
-  ///   - maximum: The maximum number of times to run this parser before returning the output.
-  ///   - element: A parser to run multiple times to accumulate into an array.
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
   public init(
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator
+  ) {
+    self.init(
+      0...,
+      into: initialResult,
+      updateAccumulatingResult,
+      element: element,
+      separator: separator
+    )
+  }
+}
+
+extension Many where Result == [Element.Output] {
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
+  ///   - terminator: A parser that consumes any leftover input.
+  @inlinable
+  public init<L: Length>(
+    _ length: L,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator,
     @ParserBuilder terminator: () -> Terminator
   ) {
     self.init(
+      length,
       into: [],
-      atLeast: minimum,
-      atMost: maximum,
       { $0.append($1) },
+      element: element,
+      separator: separator,
+      terminator: terminator
+    )
+  }
+
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
+  ///   - terminator: A parser that consumes any leftover input.
+  @inlinable
+  public init(
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator,
+    @ParserBuilder terminator: () -> Terminator
+  ) {
+    self.init(
+      0...,
       element: element,
       separator: separator,
       terminator: terminator
@@ -286,43 +423,77 @@ where
   Separator == Always<Input, Void>,
   Terminator == Always<Input, Void>
 {
-  /// Initializes a parser that attempts to run the given parser at least and at most the given
-  /// number of times, accumulating the outputs in an array.
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
   ///
   /// - Parameters:
-  ///   - minimum: The minimum number of times to run this parser and consider parsing to be
-  ///     successful.
-  ///   - maximum: The maximum number of times to run this parser before returning the output.
-  ///   - element: A parser to run multiple times to accumulate into an array.
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - element: A parser to run multiple times to accumulate into a result.
   @inlinable
-  public init(
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
+  public init<L: Length>(
+    _ length: L,
     @ParserBuilder element: () -> Element
   ) {
     self.init(
+      length,
       into: [],
-      atLeast: minimum,
-      atMost: maximum,
       { $0.append($1) },
       element: element
     )
   }
+
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameter element: A parser to run multiple times to accumulate into a result.
+  @inlinable
+  public init(
+    @ParserBuilder element: () -> Element
+  ) {
+    self.init(0..., element: element)
+  }
 }
 
 extension Many where Result == [Element.Output], Separator == Always<Input, Void> {
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - terminator: A parser that consumes any leftover input.
   @inlinable
-  public init(
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
+  public init<L: Length>(
+    _ length: L,
     @ParserBuilder element: () -> Element,
     @ParserBuilder terminator: () -> Terminator
   ) {
     self.init(
+      length,
       into: [],
-      atLeast: minimum,
-      atMost: maximum,
       { $0.append($1) },
+      element: element,
+      terminator: terminator
+    )
+  }
+
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - terminator: A parser that consumes any leftover input.
+  @inlinable
+  public init(
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder terminator: () -> Terminator
+  ) {
+    self.init(
+      0...,
       element: element,
       terminator: terminator
     )
@@ -330,18 +501,43 @@ extension Many where Result == [Element.Output], Separator == Always<Input, Void
 }
 
 extension Many where Result == [Element.Output], Terminator == Always<Input, Void> {
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
-  public init(
-    atLeast minimum: Int = 0,
-    atMost maximum: Int = .max,
+  public init<L: Length>(
+    _ length: L,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) {
     self.init(
+      length,
       into: [],
-      atLeast: minimum,
-      atMost: maximum,
       { $0.append($1) },
+      element: element,
+      separator: separator
+    )
+  }
+
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
+  @inlinable
+  public init(
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator
+  ) {
+    self.init(
+      0...,
       element: element,
       separator: separator
     )
