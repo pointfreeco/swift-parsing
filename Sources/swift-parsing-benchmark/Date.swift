@@ -9,29 +9,11 @@ import Parsing
 /// parse fractional seconds and time zone offsets automatically, and it will parse to the nanosecond,
 /// while the formatters do not parse beyond the millisecond.
 let dateSuite = BenchmarkSuite(name: "Date") { suite in
-  let digits = { (n: Int) in
-    Prefix<Substring.UTF8View>(n) {
-      (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
-    }
-    .pipe {
-      Int.parser()
-      End()
-    }
-  }
-
-  let dateFullyear = digits(4)
-  let dateMonth = digits(2)
-  let dateMday = digits(2)
-
   let timeDelim = OneOf {
     "T".utf8
     "t".utf8
     " ".utf8
   }
-
-  let timeHour = digits(2)
-  let timeMinute = digits(2)
-  let timeSecond = digits(2)
 
   let nanoSecfrac = Prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
     .map { $0.prefix(9) }
@@ -50,9 +32,9 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
       "+".utf8.map { 1 }
       "-".utf8.map { -1 }
     }
-    timeHour
+    Digits(2)
     ":".utf8
-    timeMinute
+    Digits(2)
   }
 
   let timeOffset = OneOf {
@@ -62,22 +44,22 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
   .compactMap { TimeZone(secondsFromGMT: $0 * ($1 * 60 + $2)) }
 
   let partialTime = Parse {
-    timeHour
+    Digits(2)
     ":".utf8
-    timeMinute
+    Digits(2)
     ":".utf8
-    timeSecond
+    Digits(2)
     Optionally {
       timeSecfrac
     }
   }
 
   let fullDate = Parse {
-    dateFullyear
+    Digits(4)
     "-".utf8
-    dateMonth
+    Digits(2)
     "-".utf8
-    dateMday
+    Digits(2)
   }
 
   let offsetDateTime = Parse {

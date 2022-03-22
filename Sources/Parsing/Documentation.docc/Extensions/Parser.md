@@ -29,6 +29,7 @@ to build complex parsers from simpler pieces.
 - <doc:Float>
 - <doc:CharacterSet>
 - <doc:UUID>
+- <doc:CaseIterable>
 - ``Parse``
 - ``OneOf``
 - ``Many``
