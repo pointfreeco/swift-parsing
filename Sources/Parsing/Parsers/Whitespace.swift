@@ -41,8 +41,7 @@ where
       case 226:
         switch bytes.dropFirst().first {
         case 128:
-          if
-            let byte = bytes.dropFirst(2).first,
+          if let byte = bytes.dropFirst(2).first,
             (128...138).contains(byte) || byte == 175
           {
             bytes.removeFirst(3)
@@ -81,8 +80,7 @@ where
         return true
 
       case 226:
-        if
-          bytes.dropFirst().first == 128,
+        if bytes.dropFirst().first == 128,
           let byte = bytes.dropFirst(2).first,
           byte == 168 || byte == 169
         {
