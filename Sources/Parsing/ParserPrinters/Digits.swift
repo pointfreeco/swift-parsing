@@ -64,8 +64,10 @@ extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: Prepe
     var bytes = Bytes(String(output).utf8)
     let count = bytes.count
 
-    guard self.maxLength.map({ $0 <= count }) ?? true
-    else { throw PrintingError.failed(summary: "TODO", input: input) }
+    guard self.maxLength.map({ count <= $0 }) ?? true
+    else {
+      throw PrintingError.failed(summary: "TODO", input: input)
+    }
 
     for _ in 0..<max(0, self.minLength - count) {
       bytes.prepend(.init(ascii: "0"))
