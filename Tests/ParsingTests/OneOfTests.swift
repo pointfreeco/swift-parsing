@@ -246,9 +246,9 @@ final class OneOfTests: XCTestCase {
       } iterator: { object in
         (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue)]).reversed().makeIterator()
       } element: {
-        Whitespace().printing("".utf8)
+        Whitespace()
         string
-        Whitespace().printing("".utf8)
+        Whitespace()
         ":".utf8
         Lazy { json! }
       } separator: {
@@ -271,7 +271,7 @@ final class OneOfTests: XCTestCase {
 
     json = .init(
       ParsePrint {
-        Whitespace().printing("".utf8)
+        Whitespace()
         OneOf {
           object.map(.case(JSONValue.object))
           array.map(.case(JSONValue.array))
@@ -280,7 +280,7 @@ final class OneOfTests: XCTestCase {
           Bool.parser().map(.case(JSONValue.boolean))
           "null".utf8.map { JSONValue.null }
         }
-        Whitespace().printing("".utf8)
+        Whitespace()
       }
     )
 

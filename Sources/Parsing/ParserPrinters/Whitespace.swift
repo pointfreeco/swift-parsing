@@ -14,6 +14,12 @@ where
   public let configuration: Configuration
 
   @usableFromInline
+  let maxLength: Int?
+
+  @usableFromInline
+  let minLength: Int
+
+  @usableFromInline
   let toBytes: (Input) -> Bytes
 
   @usableFromInline
@@ -22,7 +28,10 @@ where
   @inlinable
   public func parse(_ input: inout Input) {
     var bytes = self.toBytes(input)
-    defer { input = self.fromBytes(bytes) }
+    defer {
+
+      input = self.fromBytes(bytes)
+    }
 
     @inline(__always)
     func consumeHorizontal() -> Bool {
@@ -107,10 +116,51 @@ where
   }
 }
 
+extension Whitespace: ParserPrinter
+where Input: PrependableCollection, Bytes: PrependableCollection {
+  @inlinable
+  public func print(_ output: (), into input: inout Input) {
+    var bytes = Bytes()
+    defer { input.prepend(contentsOf: self.fromBytes(bytes)) }
+
+    switch self.configuration {
+    case .all, .horizontal:
+      for _ in 0..<self.minLength {
+        bytes.prepend(.init(ascii: " "))
+      }
+
+    case .vertical:
+      for _ in 0..<self.minLength {
+        bytes.prepend(.init(ascii: "\n"))
+      }
+    }
+  }
+}
+
 // NB: Swift 5.7 fails to build with a simpler `Bytes == Input` constraint
 extension Whitespace where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
   @inlinable
   public init(_ configuration: Configuration = .all) {
+    self.minLength = 0
+    self.maxLength = nil
+    self.configuration = configuration
+    self.toBytes = { $0 }
+    self.fromBytes = { $0 }
+  }
+
+  @inlinable
+  public init(_ length: Int, _ configuration: Configuration = .all) {
+    self.minLength = length
+    self.maxLength = length
+    self.configuration = configuration
+    self.toBytes = { $0 }
+    self.fromBytes = { $0 }
+  }
+
+  @inlinable
+  public init(_ length: PartialRangeFrom<Int>, _ configuration: Configuration = .all) {
+    self.minLength = length.lowerBound
+    self.maxLength = nil
     self.configuration = configuration
     self.toBytes = { $0 }
     self.fromBytes = { $0 }
@@ -121,6 +171,28 @@ extension Whitespace where Input == Substring, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
   public init(_ configuration: Configuration = .all) {
+    self.minLength = 0
+    self.maxLength = nil
+    self.configuration = configuration
+    self.toBytes = { $0.utf8 }
+    self.fromBytes = Substring.init
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(_ length: Int, _ configuration: Configuration = .all) {
+    self.minLength = length
+    self.maxLength = length
+    self.configuration = configuration
+    self.toBytes = { $0.utf8 }
+    self.fromBytes = Substring.init
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(_ length: PartialRangeFrom<Int>, _ configuration: Configuration = .all) {
+    self.minLength = length.lowerBound
+    self.maxLength = nil
     self.configuration = configuration
     self.toBytes = { $0.utf8 }
     self.fromBytes = Substring.init
@@ -132,6 +204,18 @@ extension Whitespace where Input == Substring.UTF8View, Bytes == Substring.UTF8V
   @inlinable
   public init(_ configuration: Configuration = .all) {
     self.init(configuration)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(_ length: Int, _ configuration: Configuration = .all) {
+    self.init(length, configuration)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(_ length: PartialRangeFrom<Int>, _ configuration: Configuration = .all) {
+    self.init(length, configuration)
   }
 }
 

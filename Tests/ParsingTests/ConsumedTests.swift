@@ -6,5 +6,7 @@ final class ConsumedTests: XCTestCase {
     var input = "    \r \t\t \r\n \n\r    Hello, world!"[...].utf8
     XCTAssertEqual("    \r \t\t \r\n \n\r    ", Substring(Consumed { Whitespace() }.parse(&input)))
     XCTAssertEqual("Hello, world!", Substring(input))
+
+    input = ""[...].utf8
   }
 }
