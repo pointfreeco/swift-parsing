@@ -30,13 +30,11 @@ a parser that can parse accounting style of numbers, i.e. plain numbers are cons
 and numbers in parentheses are considered negative:
 
 ```swift
-let digits = Prefix { $0 >= "0" && $0 <= "9" }.compactMap(Int.init)
-
 let accountingNumber = OneOf {
-  digits
+  Digits()
 
   Parse {
-    "("; digits; ")"
+    "("; Digits(); ")"
   }
   .map { -$0 }
 }
