@@ -1,3 +1,27 @@
+/// A parser that consumes a number of digits from the beginning of a collection of UTF-8 code
+/// units.
+///
+/// Useful for processing simple numbers into integers.
+///
+/// ```swift
+/// try Digits().parse("123")  // 123
+/// ```
+///
+/// `Digits` can be configured with a length of input to parse, making it a more surgical tool than
+/// <doc:Int> parsers, which will parse an entire number all at once.
+///
+/// For example, you may want to parse a `YYYYMMDD` date format. You could do so using `Digits`:
+///
+/// ```swift
+/// struct Date { var year, month, day: Int }
+///
+/// Parse(Date.init(year:month:day:)) {
+///   Digits(4)
+///   Digits(2)
+///   Digits(2)
+/// }
+/// .parse("20220131")  // Date(year: 2022, month: 1, day: 31)
+/// ```
 public struct Digits<Input: Collection, Bytes: Collection>: Parser
 where
   Input.SubSequence == Input,
@@ -17,8 +41,8 @@ where
   let fromBytes: (Bytes) -> Input
 
   @usableFromInline
-  init<L: Length>(
-    length: L,
+  init<R: CountingRange>(
+    length: R,
     toBytes: @escaping (Input) -> Bytes,
     fromBytes: @escaping (Bytes) -> Input
   ) {
@@ -57,6 +81,23 @@ where
   }
 }
 
+// NB: Swift 5.7 fails to build with a simpler `Bytes == Input` constraint
+extension Digits where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
+  @inlinable
+  public init() {
+    self.init(1...)
+  }
+
+  @inlinable
+  public init<R: CountingRange>(_ length: R) {
+    self.init(
+      length: length,
+      toBytes: { $0 },
+      fromBytes: { $0 }
+    )
+  }
+}
+
 extension Digits where Input == Substring, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
@@ -66,7 +107,7 @@ extension Digits where Input == Substring, Bytes == Substring.UTF8View {
 
   @_disfavoredOverload
   @inlinable
-  public init<L: Length>(_ length: L) {
+  public init<R: CountingRange>(_ length: R) {
     self.init(
       length: length,
       toBytes: { $0.utf8 },
@@ -83,11 +124,7 @@ extension Digits where Input == Substring.UTF8View, Bytes == Substring.UTF8View 
   }
 
   @_disfavoredOverload
-  public init<L: Length>(_ length: L) {
-    self.init(
-      length: length,
-      toBytes: { $0 },
-      fromBytes: { $0 }
-    )
+  public init<R: CountingRange>(_ length: R) {
+    self.init(length)
   }
 }

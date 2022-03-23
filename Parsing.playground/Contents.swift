@@ -30,3 +30,22 @@ do {
 } catch {
   print(error)
 }
+
+//Capture {
+//  OneOrMore(.custom([
+//    .characterClass(.word),
+//    .characterClass(.whitespace)
+//  ]))
+//  CharacterClass.word
+//} transform: { String($0) }
+
+
+try Parse {
+  Whitespace()
+  Consumed {
+    Prefix { $0.isWhitespace || $0.isLetter }
+    Prefix(1) { $0.isLetter }
+  }
+  Whitespace()
+}
+.parse("    hello world    ")

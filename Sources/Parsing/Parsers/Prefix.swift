@@ -56,7 +56,7 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
   ///     and returns `true` if the element should be included or `false` if it should be excluded.
   ///     Once the predicate returns `false` it will not be called again.
   @inlinable
-  public init<L: Length>(_ length: L, while predicate: ((Input.Element) -> Bool)? = nil) {
+  public init<R: CountingRange>(_ length: R, while predicate: ((Input.Element) -> Bool)? = nil) {
     self.minimum = length.minimum
     self.maximum = length.maximum
     self.predicate = predicate
@@ -105,7 +105,7 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
 extension Prefix where Input == Substring {
   @_disfavoredOverload
   @inlinable
-  public init<L: Length>(_ length: L, while predicate: ((Input.Element) -> Bool)? = nil) {
+  public init<R: CountingRange>(_ length: R, while predicate: ((Input.Element) -> Bool)? = nil) {
     self.init(length, while: predicate)
   }
 
@@ -119,7 +119,7 @@ extension Prefix where Input == Substring {
 extension Prefix where Input == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init<L: Length>(_ length: L, while predicate: ((Input.Element) -> Bool)? = nil) {
+  public init<R: CountingRange>(_ length: R, while predicate: ((Input.Element) -> Bool)? = nil) {
     self.init(length, while: predicate)
   }
 
