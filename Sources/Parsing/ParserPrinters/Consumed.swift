@@ -18,15 +18,14 @@ where
   }
 }
 
-extension Consumed: ParserPrinter where Upstream: ParserPrinter {
+extension Consumed: ParserPrinter where Upstream.Input: PrependableCollection {
   @inlinable
   public func print(_ output: Upstream.Input, into input: inout Upstream.Input) rethrows {
-    let upstreamOutput: Upstream.Output
     do {
-      upstreamOutput = try self.upstream.parse(output)
+      _ = try self.upstream.parse(output)
+      input.prepend(contentsOf: output)
     } catch {
       throw PrintingError.failed(summary: "TODO", input: input)
     }
-    try self.upstream.print(upstreamOutput, into: &input)
   }
 }
