@@ -4,30 +4,29 @@ import XCTest
 final class PipeTests: XCTestCase {
   func testSuccess() {
     var input = "true Hello, world!"[...].utf8
-    XCTAssertEqual(true, try Prefix(5).pipe { Bool.parser() }.parse(&input))
-    XCTAssertEqual("Hello, world!", Substring(input))
+    XCTAssertEqual(true, try Prefix(4).pipe { Bool.parser() }.parse(&input))
+    XCTAssertEqual(" Hello, world!", Substring(input))
   }
 
   func testFailureOutput() {
     var input = "true Hello, world!"[...].utf8
     XCTAssertThrowsError(
-      try Prefix(5).pipe {
+      try Prefix(10).pipe {
         Bool.parser()
-        End()
       }
       .parse(&input)
     ) { error in
       XCTAssertEqual(
         """
         error: unexpected input
-         --> input:1:1-5
+         --> input:1:5-10
         1 | true Hello, world!
-          | ^^^^^ pipe: expected end of input
+          |     ^^^^^^ expected end of pipe
         """,
         "\(error)"
       )
     }
-    XCTAssertEqual("Hello, world!", Substring(input))
+    XCTAssertEqual(", world!", Substring(input))
   }
 
   func testFailureInput() {
@@ -49,5 +48,20 @@ final class PipeTests: XCTestCase {
       )
     }
     XCTAssertEqual("true", Substring(input))
+  }
+
+  func testPipeEnd() {
+    var input = "DH0000"[...]
+    XCTAssertThrowsError(try Prefix(2).pipe { UInt8.parser(radix: 16) }.parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:2
+        1 | DH0000
+          |  ^ expected end of pipe
+        """,
+        "\(error)"
+      )
+    }
   }
 }
