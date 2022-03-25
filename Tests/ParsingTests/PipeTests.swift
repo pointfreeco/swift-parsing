@@ -49,19 +49,4 @@ final class PipeTests: XCTestCase {
     }
     XCTAssertEqual("true", Substring(input))
   }
-
-  func testPipeEnd() {
-    var input = "DH0000"[...]
-    XCTAssertThrowsError(try Prefix(2).pipe { UInt8.parser(radix: 16) }.parse(&input)) { error in
-      XCTAssertEqual(
-        """
-        error: unexpected input
-         --> input:1:2
-        1 | DH0000
-          |  ^ expected end of pipe
-        """,
-        "\(error)"
-      )
-    }
-  }
 }
