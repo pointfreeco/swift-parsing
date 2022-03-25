@@ -29,8 +29,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       .map(String.init)
   }
 
-  let escape
-  Parse {
+  let escape = Parse {
     "\\".utf8
 
     OneOf {
