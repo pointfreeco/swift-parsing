@@ -155,8 +155,8 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   }
 }
 
-private extension UTF8.CodeUnit {
-  var isUnescapedJSONStringByte: Bool {
+extension UTF8.CodeUnit {
+  fileprivate var isUnescapedJSONStringByte: Bool {
     self != .init(ascii: "\"") && self != .init(ascii: "\\") && self >= .init(ascii: " ")
   }
 }
