@@ -301,10 +301,8 @@ struct VariadicsGenerator: ParsableCommand {
       // Emit type declaration.
       let typeName = "PathZip\(permutation.identifier)"
       output("public struct \(typeName)<")
-      outputForEach(0..<arity, separator: ", ") { "P\($0)" }
+      outputForEach(0..<arity, separator: ", ") { "P\($0): Parser" }
       output(">: Parser\nwhere\n  ")
-      outputForEach(0..<arity, separator: ",\n  ") { "P\($0): Parser" }
-      output(",\n  ")
       outputForEach(0..<arity, separator: ",\n  ") { "P\($0).Input == Substring" }
       if permutation.hasCaptureless {
         output(",\n  ")

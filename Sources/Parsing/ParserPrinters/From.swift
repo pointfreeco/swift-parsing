@@ -1,9 +1,5 @@
-public struct From<Upstream, Downstream>: ParserPrinter
-where
-  Upstream: Conversion,
-  Downstream: ParserPrinter,
-  Upstream.Output == Downstream.Input
-{
+public struct From<Upstream: Conversion, Downstream: ParserPrinter>: ParserPrinter
+where Upstream.Output == Downstream.Input {
   @usableFromInline
   let conversion: Upstream
 
@@ -32,6 +28,7 @@ where
   }
 }
 
+// TODO: Do we want to ship this?
 extension Parsers {
   public struct Identity<InputOutput>: ParserPrinter {
     @usableFromInline

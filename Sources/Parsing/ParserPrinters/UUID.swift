@@ -68,7 +68,7 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout Input) throws -> UUID {
-      func parseHelp<C>(_ bytes: C) throws -> UUID where C: Collection, C.Element == UTF8.CodeUnit {
+      func parseHelp<C: Collection>(_ bytes: C) throws -> UUID where C.Element == UTF8.CodeUnit {
         var prefix = bytes.prefix(36)
         guard prefix.count == 36
         else { throw ParsingError.expectedInput("UUID", at: input) }

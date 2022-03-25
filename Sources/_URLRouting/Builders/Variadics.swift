@@ -1,9 +1,7 @@
 // BEGIN AUTO-GENERATED CONTENT
 
-public struct PathZipOO<P0, P1>: Parser
+public struct PathZipOO<P0: Parser, P1: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
   P0.Input == Substring,
   P1.Input == Substring
 {
@@ -56,10 +54,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOV<P0, P1>: Parser
+public struct PathZipOV<P0: Parser, P1: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P1.Output == Void
@@ -112,10 +108,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVO<P0, P1>: Parser
+public struct PathZipVO<P0: Parser, P1: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P0.Output == Void
@@ -168,10 +162,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVV<P0, P1>: Parser
+public struct PathZipVV<P0: Parser, P1: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P0.Output == Void,
@@ -224,11 +216,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOO<P0, P1, P2>: Parser
+public struct PathZipOOO<P0: Parser, P1: Parser, P2: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring
@@ -291,11 +280,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOV<P0, P1, P2>: Parser
+public struct PathZipOOV<P0: Parser, P1: Parser, P2: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -358,11 +344,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVO<P0, P1, P2>: Parser
+public struct PathZipOVO<P0: Parser, P1: Parser, P2: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -425,11 +408,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVV<P0, P1, P2>: Parser
+public struct PathZipOVV<P0: Parser, P1: Parser, P2: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -492,11 +472,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOO<P0, P1, P2>: Parser
+public struct PathZipVOO<P0: Parser, P1: Parser, P2: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -559,11 +536,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOV<P0, P1, P2>: Parser
+public struct PathZipVOV<P0: Parser, P1: Parser, P2: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -626,11 +600,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVO<P0, P1, P2>: Parser
+public struct PathZipVVO<P0: Parser, P1: Parser, P2: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -693,11 +664,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVV<P0, P1, P2>: Parser
+public struct PathZipVVV<P0: Parser, P1: Parser, P2: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -760,12 +728,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOO<P0, P1, P2, P3>: Parser
+public struct PathZipOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -838,12 +802,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOV<P0, P1, P2, P3>: Parser
+public struct PathZipOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -916,12 +876,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVO<P0, P1, P2, P3>: Parser
+public struct PathZipOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -994,12 +950,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVV<P0, P1, P2, P3>: Parser
+public struct PathZipOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1072,12 +1024,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOO<P0, P1, P2, P3>: Parser
+public struct PathZipOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1150,12 +1098,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOV<P0, P1, P2, P3>: Parser
+public struct PathZipOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1228,12 +1172,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVO<P0, P1, P2, P3>: Parser
+public struct PathZipOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1306,12 +1246,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVV<P0, P1, P2, P3>: Parser
+public struct PathZipOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1384,12 +1320,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOO<P0, P1, P2, P3>: Parser
+public struct PathZipVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1462,12 +1394,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOV<P0, P1, P2, P3>: Parser
+public struct PathZipVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1540,12 +1468,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVO<P0, P1, P2, P3>: Parser
+public struct PathZipVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1618,12 +1542,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVV<P0, P1, P2, P3>: Parser
+public struct PathZipVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1696,12 +1616,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOO<P0, P1, P2, P3>: Parser
+public struct PathZipVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1774,12 +1690,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOV<P0, P1, P2, P3>: Parser
+public struct PathZipVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1852,12 +1764,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVO<P0, P1, P2, P3>: Parser
+public struct PathZipVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -1930,12 +1838,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVV<P0, P1, P2, P3>: Parser
+public struct PathZipVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2008,13 +1912,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOOO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2097,13 +1996,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOOV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2186,13 +2080,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOVO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2275,13 +2164,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOVV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2364,13 +2248,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVOO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2453,13 +2332,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVOV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2542,13 +2416,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVVO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2631,13 +2500,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVVV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2720,13 +2584,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOOO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2809,13 +2668,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOOV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2898,13 +2752,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOVO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -2987,13 +2836,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOVV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -3076,13 +2920,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVOO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -3165,13 +3004,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVOV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -3254,13 +3088,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVVO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -3343,13 +3172,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVVV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -3432,13 +3256,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOOO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -3521,13 +3340,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOOV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -3610,13 +3424,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOVO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -3699,13 +3508,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOVV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -3788,13 +3592,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVOO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -3877,13 +3676,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVOV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -3966,13 +3760,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVVO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -4055,13 +3844,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVVV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -4144,13 +3928,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOOO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -4233,13 +4012,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOOV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -4322,13 +4096,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOVO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -4411,13 +4180,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOVV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -4500,13 +4264,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVOO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -4589,13 +4348,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVOV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -4678,13 +4432,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVVO<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -4767,13 +4516,8 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVVV<P0, P1, P2, P3, P4>: Parser
+public struct PathZipVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser>: Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -4856,14 +4600,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOOOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -4956,14 +4695,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOOOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -5056,14 +4790,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOOVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -5156,14 +4885,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOOVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -5256,14 +4980,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOVOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -5356,14 +5075,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOVOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -5456,14 +5170,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOVVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -5556,14 +5265,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOVVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -5656,14 +5360,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVOOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -5756,14 +5455,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVOOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -5856,14 +5550,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVOVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -5956,14 +5645,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVOVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -6056,14 +5740,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVVOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -6156,14 +5835,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVVOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -6256,14 +5930,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVVVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -6356,14 +6025,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVVVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -6456,14 +6120,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOOOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -6556,14 +6215,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOOOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -6656,14 +6310,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOOVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -6756,14 +6405,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOOVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -6856,14 +6500,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOVOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -6956,14 +6595,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOVOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -7056,14 +6690,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOVVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -7156,14 +6785,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOVVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -7256,14 +6880,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVOOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -7356,14 +6975,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVOOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -7456,14 +7070,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVOVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -7556,14 +7165,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVOVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -7656,14 +7260,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVVOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -7756,14 +7355,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVVOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -7856,14 +7450,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVVVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -7956,14 +7545,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVVVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipOVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -8056,14 +7640,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOOOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -8156,14 +7735,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOOOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -8256,14 +7830,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOOVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -8356,14 +7925,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOOVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -8456,14 +8020,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOVOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -8556,14 +8115,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOVOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -8656,14 +8210,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOVVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -8756,14 +8305,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOVVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -8856,14 +8400,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVOOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -8956,14 +8495,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVOOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -9056,14 +8590,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVOVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -9156,14 +8685,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVOVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -9256,14 +8780,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVVOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -9356,14 +8875,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVVOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -9456,14 +8970,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVVVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -9556,14 +9065,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVVVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -9656,14 +9160,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOOOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -9756,14 +9255,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOOOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -9856,14 +9350,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOOVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -9956,14 +9445,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOOVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -10056,14 +9540,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOVOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -10156,14 +9635,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOVOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -10256,14 +9730,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOVVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -10356,14 +9825,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOVVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -10456,14 +9920,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVOOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -10556,14 +10015,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVOOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -10656,14 +10110,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVOVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -10756,14 +10205,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVOVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -10856,14 +10300,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVVOO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -10956,14 +10395,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVVOV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -11056,14 +10490,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVVVO<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,
@@ -11156,14 +10585,9 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVVVV<P0, P1, P2, P3, P4, P5>: Parser
+public struct PathZipVVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
+  Parser
 where
-  P0: Parser,
-  P1: Parser,
-  P2: Parser,
-  P3: Parser,
-  P4: Parser,
-  P5: Parser,
   P0.Input == Substring,
   P1.Input == Substring,
   P2.Input == Substring,

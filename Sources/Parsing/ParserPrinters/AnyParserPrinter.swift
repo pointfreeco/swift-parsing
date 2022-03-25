@@ -35,7 +35,7 @@ public struct AnyParserPrinter<Input, Output>: ParserPrinter {
   ///
   /// - Parameter parser: A parser to wrap with a type eraser.
   @inlinable
-  public init<P>(_ parserPrinter: P) where P: ParserPrinter, P.Input == Input, P.Output == Output {
+  public init<P: ParserPrinter>(_ parserPrinter: P) where P.Input == Input, P.Output == Output {
     self.init(parse: parserPrinter.parse(_:), print: parserPrinter.print(_:into:))
   }
 

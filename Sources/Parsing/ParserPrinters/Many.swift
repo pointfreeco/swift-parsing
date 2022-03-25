@@ -244,7 +244,7 @@ extension Many where Printability == Void {
   ) where I.Element == Element.Output {
     self.element = element()
     self.initialResult = initialResult
-    self.iterator = {  AnyIterator(try iterator($0)) }
+    self.iterator = { AnyIterator(try iterator($0)) }
     self.maximum = length.maximum
     self.minimum = length.minimum
     self.separator = separator()

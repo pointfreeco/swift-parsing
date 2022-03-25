@@ -46,10 +46,7 @@ extension Conversions {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/json(_:decoder:encoder:)-swift.type.method`` and ``Conversion/json(_:decoder:encoder:)-swift.method`` operations, which construct this type
   /// under the hood.
-  public struct JSON<Value>: Conversion  // FIXME: Should this be generic over `Input`?
-  where
-    Value: Codable  // FIXME: Can/should we support types that are simply `Decodable`?
-  {
+  public struct JSON<Value: Codable>: Conversion {
     @usableFromInline
     let decoder: JSONDecoder
 

@@ -24,12 +24,8 @@ extension Conversions {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/map(_:)`` operation, which constructs this type.
-  public struct Map<Upstream, Downstream>: Conversion
-  where
-    Upstream: Conversion,
-    Downstream: Conversion,
-    Upstream.Output == Downstream.Input
-  {
+  public struct Map<Upstream: Conversion, Downstream: Conversion>: Conversion
+  where Upstream.Output == Downstream.Input {
     public let upstream: Upstream
     public let downstream: Downstream
 

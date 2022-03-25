@@ -1,7 +1,10 @@
 // NB: Deprecated after 0.8.0
 
 extension Many where Printability == Never {
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -22,7 +25,10 @@ extension Many where Printability == Never {
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -42,7 +48,10 @@ extension Many where Printability == Never {
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -69,7 +78,10 @@ where
   Terminator == Always<Input, Void>,
   Printability == Never
 {
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -86,7 +98,10 @@ where
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -102,7 +117,10 @@ where
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -120,7 +138,10 @@ where
 }
 
 extension Many where Separator == Always<Input, Void>, Printability == Never {
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -139,7 +160,10 @@ extension Many where Separator == Always<Input, Void>, Printability == Never {
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -157,7 +181,10 @@ extension Many where Separator == Always<Input, Void>, Printability == Never {
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -177,7 +204,10 @@ extension Many where Separator == Always<Input, Void>, Printability == Never {
 }
 
 extension Many where Terminator == Always<Input, Void>, Printability == Never {
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -196,7 +226,10 @@ extension Many where Terminator == Always<Input, Void>, Printability == Never {
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -214,7 +247,10 @@ extension Many where Terminator == Always<Input, Void>, Printability == Never {
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     into initialResult: Result,
@@ -234,7 +270,10 @@ extension Many where Terminator == Always<Input, Void>, Printability == Never {
 }
 
 extension Many where Result == [Element.Output], Printability == Void {
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atLeast minimum: Int,
@@ -251,7 +290,10 @@ extension Many where Result == [Element.Output], Printability == Void {
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atLeast minimum: Int,
@@ -267,7 +309,10 @@ extension Many where Result == [Element.Output], Printability == Void {
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atMost maximum: Int,
@@ -291,7 +336,10 @@ where
   Terminator == Always<Input, Void>,
   Printability == Void
 {
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atLeast minimum: Int,
@@ -304,7 +352,10 @@ where
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atLeast minimum: Int,
@@ -316,7 +367,10 @@ where
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atMost maximum: Int,
@@ -335,7 +389,10 @@ where
   Separator == Always<Input, Void>,
   Printability == Void
 {
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atLeast minimum: Int,
@@ -350,7 +407,10 @@ where
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atLeast minimum: Int,
@@ -364,7 +424,10 @@ where
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atMost maximum: Int,
@@ -385,7 +448,10 @@ where
   Terminator == Always<Input, Void>,
   Printability == Void
 {
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atLeast minimum: Int,
@@ -400,7 +466,10 @@ where
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atLeast minimum: Int,
@@ -414,7 +483,10 @@ where
     )
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     atMost maximum: Int,
@@ -436,7 +508,10 @@ extension Prefix {
   @available(*, deprecated, renamed: "maximum")
   public var maxLength: Int? { self.maximum }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     minLength: Int,
@@ -448,7 +523,10 @@ extension Prefix {
     self.predicate = predicate
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     minLength: Int,
@@ -459,7 +537,10 @@ extension Prefix {
     self.predicate = predicate
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @inlinable
   public init(
     maxLength: Int,
@@ -472,7 +553,10 @@ extension Prefix {
 }
 
 extension Prefix where Input == Substring {
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @_disfavoredOverload
   @inlinable
   public init(
@@ -483,7 +567,10 @@ extension Prefix where Input == Substring {
     self.init(minLength: minLength, maxLength: maxLength, while: predicate)
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @_disfavoredOverload
   @inlinable
   public init(
@@ -493,7 +580,10 @@ extension Prefix where Input == Substring {
     self.init(minLength: minLength, maxLength: nil, while: predicate)
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @_disfavoredOverload
   @inlinable
   public init(
@@ -505,7 +595,10 @@ extension Prefix where Input == Substring {
 }
 
 extension Prefix where Input == Substring.UTF8View {
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @_disfavoredOverload
   @inlinable
   public init(
@@ -516,7 +609,10 @@ extension Prefix where Input == Substring.UTF8View {
     self.init(minLength: minLength, maxLength: maxLength, while: predicate)
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @_disfavoredOverload
   @inlinable
   public init(
@@ -526,7 +622,10 @@ extension Prefix where Input == Substring.UTF8View {
     self.init(minLength: minLength, maxLength: nil, while: predicate)
   }
 
-  @available(*, deprecated, message: "Use the initializer that takes a Length (Int or range expression), instead.")
+  @available(
+    *, deprecated,
+    message: "Use the initializer that takes a Length (Int or range expression), instead."
+  )
   @_disfavoredOverload
   @inlinable
   public init(
@@ -540,11 +639,8 @@ extension Prefix where Input == Substring.UTF8View {
 // NB: Deprecated after 0.6.0
 
 @available(*, deprecated, message: "Use 'From(.substring)' instead.")
-public struct FromSubstring<Input, SubstringParser>: Parser
-where
-  SubstringParser: Parser,
-  SubstringParser.Input == Substring
-{
+public struct FromSubstring<Input, SubstringParser: Parser>: Parser
+where SubstringParser.Input == Substring {
   public let substringParser: SubstringParser
   public let toSubstring: (Input) -> Substring
   public let fromSubstring: (Substring) -> Input
@@ -588,11 +684,8 @@ extension FromSubstring where Input == Substring.UTF8View {
 }
 
 @available(*, deprecated, message: "Use 'From(.unicodeScalars)' instead.")
-public struct FromUnicodeScalarView<Input, UnicodeScalarsParser>: Parser
-where
-  UnicodeScalarsParser: Parser,
-  UnicodeScalarsParser.Input == Substring.UnicodeScalarView
-{
+public struct FromUnicodeScalarView<Input, UnicodeScalarsParser: Parser>: Parser
+where UnicodeScalarsParser.Input == Substring.UnicodeScalarView {
   public let unicodeScalarsParser: UnicodeScalarsParser
   public let toUnicodeScalars: (Input) -> Substring.UnicodeScalarView
   public let fromUnicodeScalars: (Substring.UnicodeScalarView) -> Input
@@ -636,11 +729,8 @@ extension FromUnicodeScalarView where Input == Substring.UTF8View {
 }
 
 @available(*, deprecated, message: "Use 'From(.utf8)' instead.")
-public struct FromUTF8View<Input, UTF8Parser>: Parser
-where
-  UTF8Parser: Parser,
-  UTF8Parser.Input == Substring.UTF8View
-{
+public struct FromUTF8View<Input, UTF8Parser: Parser>: Parser
+where UTF8Parser.Input == Substring.UTF8View {
   public let utf8Parser: UTF8Parser
   public let toUTF8: (Input) -> Substring.UTF8View
   public let fromUTF8: (Substring.UTF8View) -> Input

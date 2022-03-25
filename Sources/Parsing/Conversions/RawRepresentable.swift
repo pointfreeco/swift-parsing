@@ -40,7 +40,7 @@ extension Conversion {
   @inlinable
   public static func representing<NewOutput>(
     _ type: NewOutput.Type
-  ) -> Self where Self == Conversions.RawRepresentable<NewOutput> {
+  ) -> Self where Self == Conversions.FromRawValue<NewOutput> {
     .init()
   }
 
@@ -55,7 +55,7 @@ extension Conversion {
   @inlinable
   public func representing<NewOutput>(
     _ type: NewOutput.Type
-  ) -> Conversions.Map<Self, Conversions.RawRepresentable<NewOutput>> {
+  ) -> Conversions.Map<Self, Conversions.FromRawValue<NewOutput>> {
     self.map(.representing(NewOutput.self))
   }
 }
@@ -67,7 +67,7 @@ extension Conversions {
   /// the ``Conversion/representing(_:)-swift.type.method`` and
   /// ``Conversion/representing(_:)-swift.method`` operations, which construct this type under the
   /// hood.
-  public struct RawRepresentable<Output>: Conversion where Output: Swift.RawRepresentable {
+  public struct FromRawValue<Output: RawRepresentable>: Conversion {
     @inlinable
     public init() {}
 
