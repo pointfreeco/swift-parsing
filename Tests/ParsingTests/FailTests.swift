@@ -23,7 +23,7 @@ final class FailTests: XCTestCase {
         error: failed
 
         A failing parser-printer attempted to print:
-        
+
         42
         """,
         "\(error)"

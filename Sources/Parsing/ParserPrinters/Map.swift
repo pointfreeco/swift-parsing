@@ -8,7 +8,7 @@ extension Parser {
   ///
   /// Mapping a parser with a transform function results in a parser that cannot print. If you need
   /// to transform the output of a parser and retain printability, use the ``Conversion``-based
-  /// ``Parser/map(_:)-2sblf`` operator instead.
+  /// ``Parser/map(_:)-18m9d`` operator instead.
   ///
   /// - Parameter transform: A closure that transforms values of this parser's output.
   /// - Returns: A parser of transformed outputs.
@@ -23,7 +23,7 @@ extension Parser {
   /// Returns a parser that replaces the `Void` output of this parser with the output of a given
   /// closure.
   ///
-  /// A printer-friendly version of ``Parser/map(_:)-2sblf`` for `Void` outputs, so long as
+  /// A printer-friendly version of ``Parser/map(_:)-2e6si`` for `Void` outputs, so long as
   /// `NewOutput` conforms to `Equatable`.
   ///
   /// ```swift
@@ -55,7 +55,7 @@ extension Parser {
 
   /// Returns a parser that transforms the output of this parser with a given conversion.
   ///
-  /// A printer-friendly version of ``Parser/map(_:)-2sblf`` that transforms this parser's output
+  /// A printer-friendly version of ``Parser/map(_:)-18m9d`` that transforms this parser's output
   /// using the conversion's ``Conversion/apply(_:)`` method, and prints using the conversion's
   /// ``Conversion/unapply(_:)`` method.
   ///
@@ -117,7 +117,7 @@ extension Parsers {
   /// A parser that transforms the output of another parser with a given conversion.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``Parser/map(_:)-2sblf`` operation, which constructs this type.
+  /// the ``Parser/map(_:)-4hsj5`` operation, which constructs this type.
   public struct MapConversion<Upstream, Downstream>: ParserPrinter
   where
     Upstream: ParserPrinter,

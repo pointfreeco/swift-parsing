@@ -14,7 +14,7 @@ extension Conversion {
   /// }
   /// ```
   ///
-  /// You can transform an `Int` parser into a `UserID` parser by invoking ``Parser/map(_:)-2sblf``
+  /// You can transform an `Int` parser into a `UserID` parser by invoking ``Parser/map(_:)-18m9d``
   /// with this conversion:
   ///
   /// ```swift

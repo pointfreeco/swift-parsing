@@ -1,4 +1,4 @@
-extension Parser where Self: ParserPrinter {
+extension ParserPrinter {
   /// Wraps this parser with a type eraser.
   ///
   /// This form of _type erasure_ preserves abstraction across API boundaries, such as different

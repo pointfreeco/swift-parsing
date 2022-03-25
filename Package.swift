@@ -27,7 +27,7 @@ let package = Package(
     .testTarget(
       name: "ParsingTests",
       dependencies: [
-        "Parsing",
+        "Parsing"
       ]
     ),
     .executableTarget(
@@ -48,7 +48,7 @@ let package = Package(
     .testTarget(
       name: "_URLRoutingTests",
       dependencies: [
-        "_URLRouting",
+        "_URLRouting"
       ]
     ),
   ]

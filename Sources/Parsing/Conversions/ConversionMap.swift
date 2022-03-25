@@ -2,8 +2,11 @@ extension Conversion {
   /// Returns a conversion that transforms the output of this conversion with a given downstream
   /// conversion.
   ///
+  /// This method is the ``Conversion``-equivalent version of ``Parser/map(_:)-18m9d``.
+  ///
   /// This method is similar to `Sequence.map`, `Optional.map`, and `Result.map` in the Swift
-  /// standard library, as well as `Publisher.map` in the Combine framework.
+  /// standard library, as well as `Publisher.map` in the Combine framework. This method is also
+  /// similar to the `map` functions on ``Parser`` and ``ParserPrinter``, espec
   ///
   /// - Parameter downstream: A conversion that transforms the output of this conversion into some
   ///   new output.

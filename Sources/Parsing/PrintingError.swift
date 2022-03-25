@@ -26,7 +26,7 @@ enum PrintingError: Error {
       return context
     }
   }
- 
+
   @usableFromInline
   func flattened() -> Self {
     func flatten(_ depth: Int = 0) -> (Error) -> [(depth: Int, error: Error)] {
