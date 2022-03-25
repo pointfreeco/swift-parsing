@@ -1,3 +1,27 @@
+/// A parser that consumes a number of digits from the beginning of a collection of UTF-8 code
+/// units.
+///
+/// Useful for processing simple numbers into integers.
+///
+/// ```swift
+/// try Digits().parse("123")  // 123
+/// ```
+///
+/// `Digits` can be configured with a length of input to parse, making it a more surgical tool than
+/// <doc:Int> parsers, which will parse an entire number all at once.
+///
+/// For example, you may want to parse a `YYYYMMDD` date format. You could do so using `Digits`:
+///
+/// ```swift
+/// struct Date { var year, month, day: Int }
+///
+/// Parse(Date.init(year:month:day:)) {
+///   Digits(4)
+///   Digits(2)
+///   Digits(2)
+/// }
+/// .parse("20220131")  // Date(year: 2022, month: 1, day: 31)
+/// ```
 public struct Digits<Input: Collection, Bytes: Collection>: Parser
 where
   Input.SubSequence == Input,
@@ -5,10 +29,10 @@ where
   Bytes.SubSequence == Bytes
 {
   @usableFromInline
-  let maxLength: Int?
+  let maximum: Int?
 
   @usableFromInline
-  let minLength: Int
+  let minimum: Int
 
   @usableFromInline
   let toBytes: (Input) -> Bytes
@@ -17,15 +41,14 @@ where
   let fromBytes: (Bytes) -> Input
 
   @usableFromInline
-  init(
-    minLength: Int,
-    maxLength: Int?,
+  init<R: CountingRange>(
+    length: R,
     toBytes: @escaping (Input) -> Bytes,
     fromBytes: @escaping (Bytes) -> Input
   ) {
-    precondition(minLength >= 1, "Can't construct Digits with length < 1")
-    self.minLength = minLength
-    self.maxLength = maxLength
+    precondition(length.minimum >= 1, "Can't construct Digits with length < 1")
+    self.minimum = length.minimum
+    self.maximum = length.maximum
     self.toBytes = toBytes
     self.fromBytes = fromBytes
   }
@@ -35,16 +58,16 @@ where
     var bytes = self.toBytes(input)
     defer { input = self.fromBytes(bytes) }
 
-    var prefix = self.maxLength.map(bytes.prefix) ?? bytes
+    var prefix = self.maximum.map(bytes.prefix) ?? bytes
     prefix = prefix.prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
     let count = prefix.count
 
-    guard prefix.count >= self.minLength
+    guard prefix.count >= self.minimum
     else {
       throw ParsingError.expectedInput(
         """
-        \(self.minLength == self.maxLength ? "" : "at least ")\(self.minLength) \
-        digit\(self.minLength == 1 ? "" : "s")
+        \(self.minimum == self.maximum ? "" : "at least ")\(self.minimum) \
+        digit\(self.minimum == 1 ? "" : "s")
         """,
         at: input
       )
@@ -58,24 +81,35 @@ where
   }
 }
 
+// NB: Swift 5.7 fails to build with a simpler `Bytes == Input` constraint
+extension Digits where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
+  @inlinable
+  public init() {
+    self.init(1...)
+  }
+
+  @inlinable
+  public init<R: CountingRange>(_ length: R) {
+    self.init(
+      length: length,
+      toBytes: { $0 },
+      fromBytes: { $0 }
+    )
+  }
+}
+
 extension Digits where Input == Substring, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init(_ length: PartialRangeFrom<Int> = 1...) {
-    self.init(
-      minLength: length.lowerBound,
-      maxLength: nil,
-      toBytes: { $0.utf8 },
-      fromBytes: Substring.init
-    )
+  public init() {
+    self.init(1...)
   }
 
   @_disfavoredOverload
   @inlinable
-  public init(_ length: Int) {
+  public init<R: CountingRange>(_ length: R) {
     self.init(
-      minLength: length,
-      maxLength: length,
+      length: length,
       toBytes: { $0.utf8 },
       fromBytes: Substring.init
     )
@@ -85,23 +119,12 @@ extension Digits where Input == Substring, Bytes == Substring.UTF8View {
 extension Digits where Input == Substring.UTF8View, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init(_ length: PartialRangeFrom<Int> = 1...) {
-    self.init(
-      minLength: length.lowerBound,
-      maxLength: nil,
-      toBytes: { $0 },
-      fromBytes: { $0 }
-    )
+  public init() {
+    self.init(1...)
   }
 
   @_disfavoredOverload
-  @inlinable
-  public init(_ length: Int) {
-    self.init(
-      minLength: length,
-      maxLength: length,
-      toBytes: { $0 },
-      fromBytes: { $0 }
-    )
+  public init<R: CountingRange>(_ length: R) {
+    self.init(length)
   }
 }
