@@ -29,6 +29,23 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       .map(String.init)
   }
 
+  let escape
+  Parse {
+    "\\".utf8
+
+    OneOf {
+      "\"".utf8.map { "\"" }
+      "\\".utf8.map { "\\" }
+      "/".utf8.map { "/" }
+      "b".utf8.map { "\u{8}" }
+      "f".utf8.map { "\u{c}" }
+      "n".utf8.map { "\n" }
+      "r".utf8.map { "\r" }
+      "t".utf8.map { "\t" }
+      unicode
+    }
+  }
+
   let string = Parse {
     "\"".utf8
     Many(into: "") { string, fragment in
@@ -40,21 +57,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
         }
         .map { String(Substring($0)) }
 
-        Parse {
-          "\\".utf8
-
-          OneOf {
-            "\"".utf8.map { "\"" }
-            "\\".utf8.map { "\\" }
-            "/".utf8.map { "/" }
-            "b".utf8.map { "\u{8}" }
-            "f".utf8.map { "\u{c}" }
-            "n".utf8.map { "\n" }
-            "r".utf8.map { "\r" }
-            "t".utf8.map { "\t" }
-            unicode
-          }
-        }
+        escape
       }
     } terminator: {
       "\"".utf8
