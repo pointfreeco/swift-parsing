@@ -51,10 +51,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       string.append(contentsOf: fragment)
     } element: {
       OneOf {
-        Prefix(1...) {
-          $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") && $0 >= .init(ascii: " ")
-        }
-        .map { String(Substring($0)) }
+        Prefix(1...) { $0.isUnescapedJSONStringByte }.map { String(Substring($0)) }
 
         escape
       }
@@ -155,5 +152,11 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
         ],
       ]
     )
+  }
+}
+
+private extension UTF8.CodeUnit {
+  var isUnescapedJSONStringByte: Bool {
+    self != .init(ascii: "\"") && self != .init(ascii: "\\") && self >= .init(ascii: " ")
   }
 }
