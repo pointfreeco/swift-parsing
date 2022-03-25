@@ -18,6 +18,26 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
 
   var json: AnyParserPrinter<Substring.UTF8View, JSONValue>!
 
+  let unicode = ParsePrint(.unicode) {
+    Prefix(4) { $0.isHexDigit }
+  }
+
+  let escape = Parse {
+    "\\".utf8
+
+    OneOf {
+      "\"".utf8.map { "\"" }
+      "\\".utf8.map { "\\" }
+      "/".utf8.map { "/" }
+      "b".utf8.map { "\u{8}" }
+      "f".utf8.map { "\u{c}" }
+      "n".utf8.map { "\n" }
+      "r".utf8.map { "\r" }
+      "t".utf8.map { "\t" }
+      unicode
+    }
+  }
+
   let string = ParsePrint {
     "\"".utf8
     Many(into: "") { string, fragment in
@@ -26,27 +46,9 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       string.map(String.init).reversed().makeIterator()
     } element: {
       OneOf {
-        Prefix(1...) {
-          $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") && $0 >= .init(ascii: " ")
-        }
-        .map(.string)
+        Prefix(1...) { $0.isUnescapedJSONStringByte }.map(.string)
 
-        Parse {
-          "\\".utf8
-
-          OneOf {
-            "\"".utf8.map { "\"" }
-            "\\".utf8.map { "\\" }
-            "/".utf8.map { "/" }
-            "b".utf8.map { "\u{8}" }
-            "f".utf8.map { "\u{c}" }
-            "n".utf8.map { "\n" }
-            "r".utf8.map { "\r" }
-            "t".utf8.map { "\t" }
-
-            Prefix(4) { $0.isHexDigit }.map(.unicode)
-          }
-        }
+        escape
       }
     } terminator: {
       "\"".utf8
@@ -168,6 +170,10 @@ extension UTF8.CodeUnit {
     (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
       || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
       || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
+  }
+
+  fileprivate var isUnescapedJSONStringByte: Bool {
+    self != .init(ascii: "\"") && self != .init(ascii: "\\") && self >= .init(ascii: " ")
   }
 }
 

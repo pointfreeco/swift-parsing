@@ -1,3 +1,4 @@
+/// A parser that returns the subsequence of input consumed by another parser.
 public struct Consumed<Upstream: Parser>: Parser
 where
   Upstream.Input: Collection,

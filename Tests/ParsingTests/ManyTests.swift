@@ -47,7 +47,7 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertThrowsError(
-      try Many(atLeast: 6) {
+      try Many(6...) {
         Int.parser()
       } separator: {
         ",".utf8
@@ -86,7 +86,7 @@ class ManyTests: XCTestCase {
 
     input = "1,2,3,4,5"[...].utf8
     XCTAssertEqual(
-      try Many(atLeast: 5) {
+      try Many(5...) {
         Int.parser()
       } separator: {
         ",".utf8
@@ -101,7 +101,7 @@ class ManyTests: XCTestCase {
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      try Many(atMost: 3) {
+      try Many(...3) {
         Int.parser()
       } separator: {
         ",".utf8
