@@ -108,12 +108,7 @@ where
       do {
         try self.updateAccumulatingResult(&result, output)
       } catch {
-        throw ParsingError.failed(
-          "",
-          .init(
-            originalInput: previous, remainingInput: input, debugDescription: "\(error)",
-            underlyingError: error)
-        )
+        throw ParsingError.wrap(error, from: previous, to: input)
       }
       rest = input
       do {
