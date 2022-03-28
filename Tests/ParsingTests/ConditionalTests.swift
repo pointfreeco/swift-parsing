@@ -13,13 +13,13 @@ final class ConditionalTests: XCTestCase {
 
   func testFirst() {
     var input = "42 Hello, world!"[...]
-    XCTAssertEqual(true, try parser.parse(&input))
+    XCTAssertEqual(true, try parser.parse(&input.utf8))
     XCTAssertEqual(" Hello, world!", input)
   }
 
   func testSecond() {
     var input = "43 Hello, world!"[...]
-    XCTAssertThrowsError(try parser.parse(&input)) { error in
+    XCTAssertThrowsError(try parser.parse(&input.utf8)) { error in
       XCTAssertEqual(
         """
         error: OddNumberError()

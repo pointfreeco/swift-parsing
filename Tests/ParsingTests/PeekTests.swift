@@ -10,7 +10,7 @@ class PeekTests: XCTestCase {
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
 
-    XCTAssertEqual("_foo1"[...], try identifier.parse(&input))
+    XCTAssertEqual("_foo1"[...], try identifier.parse(&input.utf8))
     XCTAssertEqual(" = nil", input)
   }
 
@@ -26,7 +26,7 @@ class PeekTests: XCTestCase {
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
 
-    XCTAssertThrowsError(try identifier.parse(&input))
+    XCTAssertThrowsError(try identifier.parse(&input.utf8))
     XCTAssertEqual("1foo = nil", input)
   }
 
@@ -38,7 +38,7 @@ class PeekTests: XCTestCase {
       "bar"
     }
 
-    XCTAssertThrowsError(try parser.parse(&input))
+    XCTAssertThrowsError(try parser.parse(&input.utf8))
     XCTAssertEqual("blah"[...], input)
   }
 }

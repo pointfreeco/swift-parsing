@@ -36,21 +36,6 @@ extension UUID {
   ) -> Parsers.UUIDParser<Substring.UTF8View> {
     .init()
   }
-
-  /// A parser that consumes a hexadecimal UUID from the beginning of a substring.
-  ///
-  /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
-  ///
-  /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
-  ///   interface that parses any collection of UTF-8 code units.
-  /// - Returns: A parser that consumes a hexadecimal UUID from the beginning of a substring.
-  @_disfavoredOverload
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self
-  ) -> FromUTF8View<Substring, Parsers.UUIDParser<Substring.UTF8View>> {
-    .init { Parsers.UUIDParser<Substring.UTF8View>() }
-  }
 }
 
 extension Parsers {

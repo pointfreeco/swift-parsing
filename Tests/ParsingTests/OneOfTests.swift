@@ -9,7 +9,7 @@ final class OneOfTests: XCTestCase {
         "New York"
         "Berlin"
       }
-      .parse(&input)
+      .parse(&input.utf8)
     )
     XCTAssertEqual(", Hello!", Substring(input))
   }
@@ -21,7 +21,7 @@ final class OneOfTests: XCTestCase {
         "New York"
         "Berlin"
       }
-      .parse(&input)
+      .parse(&input.utf8)
     )
     XCTAssertEqual(", Hello!", Substring(input))
   }
@@ -33,7 +33,7 @@ final class OneOfTests: XCTestCase {
         "New York"
         "Berlin"
       }
-      .parse(&input)
+      .parse(&input.utf8)
     ) { error in
       XCTAssertEqual(
         """
@@ -57,7 +57,7 @@ final class OneOfTests: XCTestCase {
           city
         }
       }
-      .parse(&input)
+      .parse(&input.utf8)
     )
     XCTAssertEqual(", Hello!", Substring(input))
   }
@@ -70,7 +70,7 @@ final class OneOfTests: XCTestCase {
           city
         }
       }
-      .parse(&input)
+      .parse(&input.utf8)
     )
     XCTAssertEqual(", Hello!", Substring(input))
   }
@@ -92,7 +92,7 @@ final class OneOfTests: XCTestCase {
           parser
         }
       }
-      .parse(&input)
+      .parse(&input.utf8)
     ) { error in
       XCTAssertEqual(
         """
@@ -121,7 +121,7 @@ final class OneOfTests: XCTestCase {
         "New York"
         "Berlin"
       }
-      .parse(&input)
+      .parse(&input.utf8)
     ) { error in
       XCTAssertEqual(
         """

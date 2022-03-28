@@ -5,7 +5,7 @@ final class FromSubstringTests: XCTestCase {
   func testUTF8View() {
     let p = Parse {
       "caf".utf8
-      FromSubstring { "é" }
+      "é"
     }
 
     var input = "caf\u{00E9}"[...].utf8

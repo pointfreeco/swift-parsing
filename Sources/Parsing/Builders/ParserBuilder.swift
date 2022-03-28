@@ -14,6 +14,26 @@
 /// ```
 @resultBuilder
 public enum ParserBuilder {
+  /// Provides support for specifying an "empty" parser in ``ParserBuilder`` blocks.
+  @inlinable
+  public static func buildBlock() -> Always<Substring.UTF8View, Void> {
+    .init(())
+  }
+
+  /// Provides support for specifying a parser in ``ParserBuilder`` blocks.
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> P {
+    parser
+  }
+
+  /// Provides support for specifying a substring parser in a UTF-8 ``ParserBuilder`` block.
+  @inlinable
+  public static func buildExpression<P>(
+    _ parser: P
+  ) -> FromSubstring<Substring.UTF8View, P> {
+    FromSubstring(substringParser: parser, toSubstring: Substring.init, fromSubstring: { $0.utf8 })
+  }
+
   /// Provides support for specifying a parser in ``ParserBuilder`` blocks.
   @inlinable
   public static func buildBlock<P: Parser>(_ parser: P) -> P {

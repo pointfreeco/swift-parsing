@@ -3,14 +3,14 @@ import XCTest
 
 final class UTF8Tests: XCTestCase {
   func testSubstringNormalization() {
-    var input = "\u{00E9}e\u{0301}e\u{0341} Hello, world"[...].utf8
-    let parser = FromSubstring<Substring.UTF8View, String> { "é" }
+    var input = "\u{00E9}e\u{0301}e\u{0341} Hello, world"[...]
+    let parser = "é"
     XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertEqual("e\u{0301}e\u{0341} Hello, world", Substring(input))
+    XCTAssertEqual("e\u{0301}e\u{0341} Hello, world", input)
     XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertEqual("e\u{0341} Hello, world", Substring(input))
+    XCTAssertEqual("e\u{0341} Hello, world", input)
     XCTAssertNoThrow(try parser.parse(&input))
-    XCTAssertEqual(" Hello, world", Substring(input))
+    XCTAssertEqual(" Hello, world", input)
     XCTAssertThrowsError(try parser.parse(&input)) { error in
       XCTAssertEqual(
         """
@@ -22,7 +22,7 @@ final class UTF8Tests: XCTestCase {
         "\(error)"
       )
     }
-    XCTAssertEqual(" Hello, world", Substring(input))
+    XCTAssertEqual(" Hello, world", input)
   }
 
   func testUnicodeScalars() {

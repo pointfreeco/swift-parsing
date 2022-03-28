@@ -9,7 +9,7 @@ final class ReplaceErrorTests: XCTestCase {
       Parse {
         Int.parser()
         "!"
-      }.replaceError(with: 0).parse(&input))
+      }.replaceError(with: 0).parse(&input.utf8))
     XCTAssertEqual("123", input)
   }
 }

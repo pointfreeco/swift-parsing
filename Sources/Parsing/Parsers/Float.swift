@@ -32,23 +32,6 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
   ) -> Parsers.FloatParser<Substring.UTF8View, Self> {
     .init()
   }
-
-  /// A parser that consumes a floating-point number from the beginning of a substring.
-  ///
-  /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
-  ///
-  /// See <doc:Float> for more information about this parser.
-  ///
-  /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
-  ///   interface that parses any collection of UTF-8 code units.
-  /// - Returns: A parser that consumes a floating-point number from the beginning of a substring.
-  @_disfavoredOverload
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self
-  ) -> FromUTF8View<Substring, Parsers.FloatParser<Substring.UTF8View, Self>> {
-    .init { Parsers.FloatParser<Substring.UTF8View, Self>() }
-  }
 }
 
 extension Parsers {

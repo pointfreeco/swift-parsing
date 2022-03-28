@@ -17,7 +17,7 @@ class NotTests: XCTestCase {
       }
     }
 
-    XCTAssertEqual(try uncommentedLine.parse(&input), "let foo = true")
+    XCTAssertEqual(try uncommentedLine.parse(&input.utf8), "let foo = true")
     XCTAssertEqual(input, "let bar = false")
   }
 
@@ -32,7 +32,7 @@ class NotTests: XCTestCase {
       Prefix { $0 != "\n" }
     }
 
-    XCTAssertThrowsError(try uncommentedLine.parse(&input))
+    XCTAssertThrowsError(try uncommentedLine.parse(&input.utf8))
     XCTAssertEqual(
       input,
       """

@@ -50,7 +50,7 @@ private let testCaseBody = Parse {
 struct TestCaseBody: Parser {
   func parse(
     _ input: inout Substring.UTF8View
-  ) throws -> (file: Substring.UTF8View, line: Int, message: Substring.UTF8View) {
+  ) throws -> (file: Substring.UTF8View, line: Int, message: Substring) {
     guard input.first == .init(ascii: "/")
     else { throw ParsingError() }
 
@@ -98,7 +98,7 @@ private let testFailed = Parse {
 .map { testName, bodyData, time in
   bodyData.map { body in
     TestResult.failed(
-      failureMessage: Substring(body.2),
+      failureMessage: body.2,
       file: Substring(body.0),
       line: body.1,
       testName: Substring(testName),

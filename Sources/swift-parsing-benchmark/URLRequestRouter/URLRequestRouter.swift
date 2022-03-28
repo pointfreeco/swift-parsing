@@ -103,7 +103,7 @@
   struct Path<Component>: Parser
   where
     Component: Parser,
-    Component.Input == Substring
+    Component.Input == Substring.UTF8View
   {
     let componentParser: Component
 
@@ -119,7 +119,7 @@
         throw ParsingError()
       }
 
-      let output = try self.componentParser.parse(&component)
+      let output = try self.componentParser.parse(&component.utf8)
 
       guard component.isEmpty
       else {
@@ -145,7 +145,7 @@
   struct Query<Value>: Parser
   where
     Value: Parser,
-    Value.Input == Substring
+    Value.Input == Substring.UTF8View
   {
     let defaultValue: Value.Output?
     let name: String
@@ -166,7 +166,7 @@
     init(
       _ name: String,
       default defaultValue: Value.Output? = nil
-    ) where Value == Rest<Substring> {
+    ) where Value == Rest<Substring.UTF8View> {
       self.init(
         name,
         Rest(),
@@ -193,7 +193,7 @@
 
       let output: Value.Output
       do {
-        output = try self.valueParser.parse(&value)
+        output = try self.valueParser.parse(&value.utf8)
       } catch {
         return try defaultOrError(error)
       }

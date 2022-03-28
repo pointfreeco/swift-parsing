@@ -23,7 +23,7 @@
 /// to coalesce the error into a default output value.
 public struct Rest<Input: Collection>: Parser where Input.SubSequence == Input {
   @inlinable
-  public init() {}
+  public init(of inputType: Input.Type = Input.self) {}
 
   @inlinable
   public func parse(_ input: inout Input) throws -> Input {

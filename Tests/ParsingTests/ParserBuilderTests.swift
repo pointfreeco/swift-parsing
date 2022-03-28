@@ -14,11 +14,11 @@ final class ParserBuilderTests: XCTestCase {
       "!"
     }
     var input = "Hello, world!"[...]
-    XCTAssertEqual("world", try parser.parse(&input))
+    XCTAssertEqual("world", try parser.parse(&input.utf8))
     XCTAssertEqual(input, ""[...])
 
     input = "Hello world!"[...]
-    XCTAssertThrowsError(try parser.parse(&input)) { error in
+    XCTAssertThrowsError(try parser.parse(&input.utf8)) { error in
       XCTAssertEqual(
         """
         error: unexpected input
@@ -42,11 +42,11 @@ final class ParserBuilderTests: XCTestCase {
       "!"
     }
     input = "Hello world!"
-    XCTAssertEqual("world", try parser.parse(&input))
+    XCTAssertEqual("world", try parser.parse(&input.utf8))
     XCTAssertEqual(input, ""[...])
 
     input = "Hello, world!"
-    XCTAssertThrowsError(try parser.parse(&input)) { error in
+    XCTAssertThrowsError(try parser.parse(&input.utf8)) { error in
       XCTAssertEqual(
         """
         error: unexpected input
@@ -70,13 +70,13 @@ final class ParserBuilderTests: XCTestCase {
       Rest()
     }
     var input = "42 Blob"[...]
-    var (int, string) = try XCTUnwrap(parser.parse(&input))
+    var (int, string) = try XCTUnwrap(parser.parse(&input.utf8))
     XCTAssertEqual(42, int)
     XCTAssertEqual("Blob", string)
     XCTAssertEqual(input, ""[...])
 
     input = "Blob"
-    XCTAssertThrowsError(try parser.parse(&input)) { error in
+    XCTAssertThrowsError(try parser.parse(&input.utf8)) { error in
       XCTAssertEqual(
         """
         error: unexpected input
@@ -98,7 +98,7 @@ final class ParserBuilderTests: XCTestCase {
       Rest()
     }
     input = "Blob"
-    (int, string) = try XCTUnwrap(parser.parse(&input))
+    (int, string) = try XCTUnwrap(parser.parse(&input.utf8))
     XCTAssertEqual(nil, int)
     XCTAssertEqual("Blob", string)
     XCTAssertEqual(input, ""[...])
@@ -122,7 +122,7 @@ final class ParserBuilderTests: XCTestCase {
         Int.parser()
         MyParser()
       }
-      .parse(&input)
+      .parse(&input.utf8)
     ) { error in
       XCTAssertEqual(
         """
@@ -145,7 +145,7 @@ final class ParserBuilderTests: XCTestCase {
         Int.parser()
         MyParser()
       }
-      .parse(&input)
+      .parse(&input.utf8)
     ) { error in
       XCTAssertEqual(
         """

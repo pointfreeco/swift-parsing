@@ -117,7 +117,7 @@ class ManyTests: XCTestCase {
       } separator: {
         ":"
       }
-      .parse(&input),
+      .parse(&input.utf8),
       ["2001", "db8", "", "2", "1"]
     )
   }
@@ -156,7 +156,7 @@ class ManyTests: XCTestCase {
         User(id: 2, name: "Blob Sr", isAdmin: false),
         User(id: 3, name: "Blob Jr", isAdmin: true),
       ],
-      try users.parse(&input)
+      try users.parse(&input.utf8)
     )
 
     input = """
@@ -164,7 +164,7 @@ class ManyTests: XCTestCase {
       2,Blob Sr,false
       3,Blob Jr,tru
       """
-    XCTAssertThrowsError(try users.parse(&input)) { error in
+    XCTAssertThrowsError(try users.parse(&input.utf8)) { error in
       XCTAssertEqual(
         """
         error: multiple failures occurred
@@ -194,7 +194,7 @@ class ManyTests: XCTestCase {
     }
 
     var input = "1,2,3-"[...]
-    XCTAssertThrowsError(try intsParser.parse(&input)) { error in
+    XCTAssertThrowsError(try intsParser.parse(&input.utf8)) { error in
       XCTAssertEqual(
         """
         error: unexpected input

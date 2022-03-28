@@ -18,6 +18,20 @@
 /// ```
 @resultBuilder
 public enum OneOfBuilder {
+  /// Provides support for specifying a parser in ``OneOfBuilder`` blocks.
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> P {
+    parser
+  }
+
+  /// Provides support for specifying a substring parser in a UTF-8 ``OneOfBuilder`` block.
+  @inlinable
+  public static func buildExpression<P>(
+    _ parser: P
+  ) -> FromSubstring<Substring.UTF8View, P> {
+    FromSubstring(substringParser: parser, toSubstring: Substring.init, fromSubstring: { $0.utf8 })
+  }
+
   /// Provides support for `for`-`in` loops in ``OneOfBuilder`` blocks.
   ///
   /// Useful for building up a parser from a dynamic source, like for a case-iterable enum:

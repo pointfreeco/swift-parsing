@@ -35,6 +35,17 @@ where SubstringParser.Input == Substring {
   public let toSubstring: (Input) -> Substring
   public let fromSubstring: (Substring) -> Input
 
+  @usableFromInline
+  init(
+    substringParser: SubstringParser,
+    toSubstring: @escaping (Input) -> Substring,
+    fromSubstring: @escaping (Substring) -> Input
+  ) {
+    self.substringParser = substringParser
+    self.toSubstring = toSubstring
+    self.fromSubstring = fromSubstring
+  }
+
   @inlinable
   public func parse(_ input: inout Input) rethrows -> SubstringParser.Output {
     var substring = self.toSubstring(input)
