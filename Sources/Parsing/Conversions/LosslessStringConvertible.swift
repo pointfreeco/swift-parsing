@@ -9,7 +9,7 @@ extension Conversion {
   @inlinable
   public static func lossless<NewOutput>(
     _ type: NewOutput.Type
-  ) -> Self where Self == Conversions.LosslessStringConvertible<NewOutput> {
+  ) -> Self where Self == Conversions.FromLosslessString<NewOutput> {
     .init()
   }
 
@@ -24,7 +24,7 @@ extension Conversion {
   @inlinable
   public func lossless<NewOutput>(
     _ type: NewOutput.Type
-  ) -> Conversions.Map<Self, Conversions.LosslessStringConvertible<NewOutput>> {
+  ) -> Conversions.Map<Self, Conversions.FromLosslessString<NewOutput>> {
     self.map(.lossless(NewOutput.self))
   }
 }
@@ -35,10 +35,7 @@ extension Conversions {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/lossless(_:)-swift.type.method`` and ``Conversion/lossless(_:)-swift.method``
   /// operations, which construct this type under the hood.
-  public struct LosslessStringConvertible<Output>: Conversion
-  where
-    Output: Swift.LosslessStringConvertible
-  {
+  public struct FromLosslessString<Output: LosslessStringConvertible>: Conversion {
     @usableFromInline
     init() {}
 

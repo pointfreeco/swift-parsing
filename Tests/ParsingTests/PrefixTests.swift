@@ -93,6 +93,18 @@ final class PrefixTests: XCTestCase {
       Prefix { $0 != "\n" }
       First()
     }
-    XCTAssertThrowsError(try p.print(("Hello", " ")))
+    XCTAssertThrowsError(try p.print(("Hello", " "))) { error in
+      XCTAssertEqual(
+        """
+        error: round-trip expectation failed
+
+        A "Prefix" parser's predicate satisfied the first element printed by the next printer.
+
+        During a round-trip, the "Prefix" parser would have parsed this element, which means the \
+        data handed to the next printer is in an invalid state.
+        """,
+        "\(error)"
+      )
+    }
   }
 }

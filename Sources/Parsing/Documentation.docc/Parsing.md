@@ -85,7 +85,7 @@ try users.parse(input)
 //   |           ^ expected "true" or "false"
 ```
 
-With a few small changes we can also turn this parser into a ``Printer``
+With a few small changes we can also turn this parser into a ``ParserPrinter``
 
 That's the basics of parsing a simple string format, but there are a lot more operators and tricks
 to learn in order to performantly parse larger inputs.

@@ -43,11 +43,17 @@ public struct Not<Upstream: Parser>: ParserPrinter {
   @inlinable
   public func print(_ output: (), into input: inout Upstream.Input) throws {
     do {
-      var input = input
       _ = try self.upstream.parse(&input)
     } catch {
       return
     }
-    throw PrintingError()
+    throw PrintingError.failed(
+      summary: """
+        round-trip expectation failed
+
+        A "Not" parser-printer was handed a value to print that it would have failed to parse.
+        """,
+      input: input
+    )
   }
 }

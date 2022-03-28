@@ -29,11 +29,7 @@ extension Conversion where Output == Substring.UTF8View {
 }
 
 extension Conversions {
-  public struct BytesToData<Input>: Conversion
-  where
-    Input: PrependableCollection,
-    Input.Element == UInt8
-  {
+  public struct BytesToData<Input: PrependableCollection>: Conversion where Input.Element == UInt8 {
     @usableFromInline
     init() {}
 

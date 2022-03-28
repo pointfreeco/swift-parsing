@@ -52,9 +52,9 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
       "+".utf8.map { 1 }
       "-".utf8.map { -1 }
     }
-    timeHour
+    Digits(2)
     ":".utf8
-    timeMinute
+    Digits(2)
   }
 
   let timeOffset = OneOf {
@@ -64,22 +64,22 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
   .compactMap { TimeZone(secondsFromGMT: $0 * ($1 * 60 + $2)) }
 
   let partialTime = Parse {
-    timeHour
+    Digits(2)
     ":".utf8
-    timeMinute
+    Digits(2)
     ":".utf8
-    timeSecond
+    Digits(2)
     Optionally {
       timeSecfrac
     }
   }
 
   let fullDate = Parse {
-    dateFullyear
+    Digits(4)
     "-".utf8
-    dateMonth
+    Digits(2)
     "-".utf8
-    dateMday
+    Digits(2)
   }
 
   let offsetDateTime = Parse {

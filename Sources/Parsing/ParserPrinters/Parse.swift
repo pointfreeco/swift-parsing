@@ -108,7 +108,7 @@ public struct Parse<Parsers: Parser>: Parser {
 
   /// A parser builder that bakes in a conversion of the tuple output.
   ///
-  /// Equivalent to calling ``Parser/map(_:)-2sblf`` on the result of a `Parse.init` builder.
+  /// Equivalent to calling ``Parser/map(_:)-18m9d`` on the result of a `Parse.init` builder.
   ///
   /// For example, the following parser:
   ///

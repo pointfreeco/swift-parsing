@@ -59,6 +59,7 @@ public struct AnyConversion<Input, Output>: Conversion {
   ///   - unapply: A closure that attempts to convert an output into an input. `unapply` is executed
   ///     each time the ``unapply(_:)`` method is called on the resulting conversion.
   @_disfavoredOverload
+  @inlinable
   public init(
     apply: @escaping (Input) throws -> Output,
     unapply: @escaping (Output) throws -> Input
@@ -77,6 +78,7 @@ public struct AnyConversion<Input, Output>: Conversion {
   ///   - unapply: A closure that attempts to convert an output into an input. `unapply` is executed
   ///     each time the ``unapply(_:)`` method is called on the resulting conversion. If the closure
   ///     returns `nil`, an error is thrown. Otherwise, the value is unwrapped.
+  @inlinable
   public init(
     apply: @escaping (Input) -> Output?,
     unapply: @escaping (Output) -> Input?
@@ -96,14 +98,17 @@ public struct AnyConversion<Input, Output>: Conversion {
   /// Creates a type-erasing conversion to wrap the given conversion.
   ///
   /// - Parameter conversion: A conversion to wrap with a type eraser.
-  public init<C>(_ conversion: C) where C: Conversion, C.Input == Input, C.Output == Output {
+  @inlinable
+  public init<C: Conversion>(_ conversion: C) where C.Input == Input, C.Output == Output {
     self.init(apply: conversion.apply, unapply: conversion.unapply)
   }
 
+  @inlinable
   public func apply(_ input: Input) throws -> Output {
     try self._apply(input)
   }
 
+  @inlinable
   public func unapply(_ output: Output) throws -> Input {
     try self._unapply(output)
   }

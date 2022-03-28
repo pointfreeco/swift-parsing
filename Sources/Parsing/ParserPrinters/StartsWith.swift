@@ -50,14 +50,11 @@ public struct StartsWith<Input: Collection>: Parser where Input.SubSequence == I
   ///   - areEquivalent: A predicate that returns `true` if its two arguments are equivalent;
   ///     otherwise, `false`.
   @inlinable
-  public init<PossiblePrefix>(
+  public init<PossiblePrefix: Collection>(
     _ possiblePrefix: PossiblePrefix,
     by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool
   )
-  where
-    PossiblePrefix: Collection,
-    PossiblePrefix.Element == Input.Element
-  {
+  where PossiblePrefix.Element == Input.Element {
     self.count = possiblePrefix.count
     self.possiblePrefix = AnyCollection(possiblePrefix)
     self.startsWith = { input in input.starts(with: possiblePrefix, by: areEquivalent) }
@@ -85,11 +82,8 @@ extension StartsWith where Input.Element: Equatable {
   ///
   /// - Parameter possiblePrefix: A sequence to compare to the start of an input sequence.
   @inlinable
-  public init<PossiblePrefix>(_ possiblePrefix: PossiblePrefix)
-  where
-    PossiblePrefix: Collection,
-    PossiblePrefix.Element == Input.Element
-  {
+  public init<PossiblePrefix: Collection>(_ possiblePrefix: PossiblePrefix)
+  where PossiblePrefix.Element == Input.Element {
     self.init(possiblePrefix, by: ==)
   }
 }

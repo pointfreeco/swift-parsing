@@ -311,8 +311,8 @@ over the network. This inverse process is known as _printing_.
 
 If you are careful in the manner you construct your parser, there is a good chance that with a
 little bit of extra work you can turn your parser into a printer. Most of the ``Parser``
-conformances that ship with the library also conform to the ``Printer`` protocol, although many
-have additional constraints that need to be satisfied.
+conformances that ship with the library also conform to the ``ParserPrinter`` protocol, although
+many have additional constraints that need to be satisfied.
 
 As long as you stay within those constraints, or use operations that are printer-friendly, then your
 parser most likely is already a printer.
@@ -332,7 +332,7 @@ parser `"\""` and the `Prefix` parser. Even the entry point ``Parse`` is a print
 in the builder context is a printer. We also provide a special ``ParsePrint`` entry point to make
 this clearer.
 
-So we can call ``Printer/print(_:)`` on this value, pass it a string, and it will give us back a
+So we can call ``ParserPrinter/print(_:)`` on this value, pass it a string, and it will give us back a
 quoted field:
 
 ```swift
@@ -350,8 +350,7 @@ let field = OneOf {
 .map(String.init)
 
 try field.print("Blob, Esq.")
-// ❌ Value of type 'Parsers.Map<OneOf<OneOfBuilder.OneOf2<Parse<ParserBuilder.ZipVOV<String, Prefix<Substring>, String>>, Prefix<Substring>>>, String>'
-//    has no member 'print'
+// ❌ Value of type 'Parsers.Map<OneOf<...>, String>' has no member 'print'
 ```
 
 The problem here is that the ``Parser/map(_:)-4hsj5`` operation is not printer-friendly. It can
@@ -361,8 +360,8 @@ transform `String` back into `Substring` so that it can be plugged into the prin
 
 To fix this we cannot use ``Parser/map(_:)-4hsj5`` that simply uses one-directional transformations
 for turning a parser's output into a new output. We must use the more powerful
-``Parser/map(_:)-2sblf`` overload that takes a ``Conversion``, which is a type that describes
-a process for converting from one type to another and back.
+``Parser/map(_:)-18m9d`` overload that takes a ``Conversion``, which is a type that describes a
+process for converting from one type to another and back.
 
 If you map a parser-printer with a conversion, rather than just a simple function, you can transform
 a parser-printer to another parser-printer. This library ships with many conversions (see
@@ -424,7 +423,7 @@ try user.print(User(id: 1, name: "Blob, Esq.", isAdmin: true))
 
 It was quite straightforward to turn the user parser into a user parser-printer. We simply needed
 change all instances of a one-directional ``Parser/map(_:)-4hsj5`` to a bidirection
-``Parser/map(_:)-2sblf``, which uses a conversion for describing how to transform an output to
+``Parser/map(_:)-18m9d``, which uses a conversion for describing how to transform an output to
 a new output and back.
 
 That's the basics of parser-printers, but there's a lot more operators and tricks to

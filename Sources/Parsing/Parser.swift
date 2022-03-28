@@ -129,7 +129,7 @@ extension Parser {
   /// >   Int.parser()
   /// >   ",".utf8
   /// >   Bool.parser()
-  /// >   Skip { Whitespace() }
+  /// >   Whitespace()
   /// > }
   /// > .parse("123,true    ") // (123, true)
   /// > ```
@@ -197,7 +197,7 @@ extension Parser {
   /// >  Int.parser()
   /// >  ",".utf8
   /// >  Bool.parser()
-  /// >  Skip { Whitespace() }
+  /// >  Whitespace()
   /// > }
   /// > .parse("123,true    ") // (123, true)
   /// > ```

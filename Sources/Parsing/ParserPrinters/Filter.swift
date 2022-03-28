@@ -63,7 +63,19 @@ extension Parsers {
 extension Parsers.Filter: ParserPrinter where Upstream: ParserPrinter {
   @inlinable
   public func print(_ output: Upstream.Output, into input: inout Upstream.Input) throws {
-    guard self.predicate(output) else { throw PrintingError() }
+    guard self.predicate(output)
+    else {
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          Attempted to print a value that fails to satisfy a given predicate:
+
+          \(output)
+          """,
+        input: input
+      )
+    }
     try self.upstream.print(output, into: &input)
   }
 }

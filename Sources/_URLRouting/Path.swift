@@ -21,11 +21,8 @@ extension Path: ParserPrinter where ComponentParsers: ParserPrinter {
   }
 }
 
-public struct PathComponent<ComponentParser>: Parser
-where
-  ComponentParser: Parser,
-  ComponentParser.Input == Substring
-{
+public struct PathComponent<ComponentParser: Parser>: Parser
+where ComponentParser.Input == Substring {
   @usableFromInline
   let componentParser: ComponentParser
 

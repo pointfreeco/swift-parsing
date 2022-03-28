@@ -66,12 +66,6 @@ extension Newline where Input == Substring.UTF8View, Bytes == Input {
   public init() { self.init() }
 }
 
-extension Newline where Input == ArraySlice<UTF8.CodeUnit>, Bytes == Input {
-  @_disfavoredOverload
-  @inlinable
-  public init() { self.init() }
-}
-
 extension Parsers {
   public typealias Newline = Parsing.Newline  // NB: Convenience type alias for discovery
 }

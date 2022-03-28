@@ -9,7 +9,7 @@ import Parsing
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   struct JSONValue: ParserPrinter {
     var body: some ParserPrinter<Substring.UTF8View, Output> {
-      Skip { Whitespace() }.printing("".utf8)
+      Whitespace()
       OneOf {
         JSONObject().map(.case(Output.object))
         JSONArray().map(.case(Output.array))
@@ -18,7 +18,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
         Bool.parser().map(.case(Output.boolean))
         "null".utf8.map { Output.null }
       }
-      Skip { Whitespace() }.printing("".utf8)
+      Whitespace()
     }
 
     enum Output: Equatable {
@@ -40,12 +40,9 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
         string.map(String.init).reversed().makeIterator()
       } element: {
         OneOf {
-          Prefix(1...) {
-            $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") && $0 >= .init(ascii: " ")
-          }
-          .map(.string)
+          Prefix(1...) { $0.isUnescapedJSONStringByte }.map(.string)
 
-          let x = Parse {
+          Parse {
             "\\".utf8
 
             OneOf {
@@ -79,9 +76,9 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           .reversed()
           .makeIterator()
       } element: {
-        Skip { Whitespace() }.printing("".utf8)
+        Whitespace()
         JSONString()
-        Skip { Whitespace() }.printing("".utf8)
+        Whitespace()
         ":".utf8
         JSONValue()
       } separator: {
@@ -175,6 +172,10 @@ extension UTF8.CodeUnit {
     (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
       || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
       || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
+  }
+
+  fileprivate var isUnescapedJSONStringByte: Bool {
+    self != .init(ascii: "\"") && self != .init(ascii: "\\") && self >= .init(ascii: " ")
   }
 }
 

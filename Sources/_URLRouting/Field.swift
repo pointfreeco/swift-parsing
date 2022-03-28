@@ -1,10 +1,6 @@
 // FIXME: Should there be a `NameParser`?
 
-public struct Field<Value>: Parser
-where
-  Value: Parser,
-  Value.Input == Substring
-{
+public struct Field<Value: Parser>: Parser where Value.Input == Substring {
   @usableFromInline
   let defaultValue: Value.Output?
 

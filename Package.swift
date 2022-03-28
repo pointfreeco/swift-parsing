@@ -5,6 +5,7 @@ import PackageDescription
 let swiftSettings: [SwiftSetting] = [
   .unsafeFlags([
     "-Xfrontend", "-enable-experimental-pairwise-build-block",
+    "-Xfrontend", "-enable-experimental-type-inference-from-defaults",
     "-Xfrontend", "-enable-parameterized-protocol-types",
     "-Xfrontend", "-requirement-machine-protocol-signatures=on",
     "-Xfrontend", "-warn-long-expression-type-checking=75",
@@ -42,9 +43,7 @@ let package = Package(
     ),
     .testTarget(
       name: "ParsingTests",
-      dependencies: [
-        "Parsing",
-      ],
+      dependencies: ["Parsing"],
       swiftSettings: swiftSettings
     ),
     .executableTarget(
@@ -63,9 +62,7 @@ let package = Package(
     ),
     .testTarget(
       name: "_URLRoutingTests",
-      dependencies: [
-        "_URLRouting",
-      ],
+      dependencies: ["_URLRouting"],
       swiftSettings: swiftSettings
     ),
   ]

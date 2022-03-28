@@ -15,11 +15,8 @@ extension Conversion {
 }
 
 extension Conversions {
-  public struct Parser<Upstream>: Conversion
-  where
-    Upstream: ParserPrinter,
-    Upstream.Input: PrependableCollection
-  {
+  public struct Parser<Upstream: ParserPrinter>: Conversion
+  where Upstream.Input: PrependableCollection {
     public let parser: Upstream
 
     @inlinable

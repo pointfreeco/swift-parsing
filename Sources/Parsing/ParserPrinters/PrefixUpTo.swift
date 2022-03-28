@@ -47,7 +47,20 @@ extension PrefixUpTo: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Input, into input: inout Input) throws {
     guard input.starts(with: self.possibleMatch, by: self.areEquivalent)
-    else { throw PrintingError() }
+    else {
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          A "PrefixUpTo" parser-printer expected its match to be printed next, but no such match \
+          was printed.
+
+          During a round-trip, the parser would have continued parsing up to the match or the end \
+          of input.
+          """,
+        input: input
+      )
+    }
     do {
       var output = output
       _ = try self.parse(&output)
@@ -55,7 +68,17 @@ extension PrefixUpTo: ParserPrinter where Input: PrependableCollection {
       input.prepend(contentsOf: output)
       return
     }
-    throw PrintingError()
+    throw PrintingError.failed(
+      summary: """
+        round-trip expectation failed
+
+        A "PrefixUpTo" parser-printer was given a value to print that contained the match it \
+        parses up to.
+
+        During a round-trip, the parser would have only parsed up to this match.
+        """,
+      input: input
+    )
   }
 }
 

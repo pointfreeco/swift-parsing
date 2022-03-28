@@ -50,9 +50,8 @@ extension Conversions {
   /// the ``Conversion/string-swift.type.property-9owth`` and
   /// ``Conversion/string-swift.property-7zxma`` operations, which construct this type under the
   /// hood.
-  public struct BytesToString<Input>: Conversion
+  public struct BytesToString<Input: PrependableCollection>: Conversion
   where
-    Input: PrependableCollection,
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit
   {

@@ -12,7 +12,7 @@
 ///   "£".map { Currency.gbp }
 ///   "$".map { Currency.usd }
 /// }
-/// let money = Parse { currency; Int.parser() }
+/// let money = Parse { currency; Digits() }
 ///
 /// try currency.parse("$100") // (.usd, 100)
 /// ```

@@ -28,7 +28,7 @@ class ParsingErrorTests: XCTestCase {
   }
 
   func testAlignsLineNumber() {
-    let parser = Many(atLeast: 101) {
+    let parser = Many(101...) {
       "Hello"
     } separator: {
       "\n"
@@ -51,7 +51,7 @@ class ParsingErrorTests: XCTestCase {
 
   func testTruncatesLongLines() {
     XCTAssertThrowsError(
-      try Many(atLeast: 101) { "hello" }.parse(
+      try Many(101...) { "hello" }.parse(
         String(repeating: "hello", count: 100) + String(repeating: "world", count: 100)
       )
     ) { error in
@@ -67,7 +67,7 @@ class ParsingErrorTests: XCTestCase {
     }
 
     XCTAssertThrowsError(
-      try Many(atLeast: 101) { "hello" }.parse(
+      try Many(101...) { "hello" }.parse(
         String(repeating: "hello", count: 100) + "world"
       )
     ) { error in
