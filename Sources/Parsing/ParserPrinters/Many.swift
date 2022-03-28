@@ -81,7 +81,7 @@ where
 {
   public let element: Element
   public let initialResult: Result
-  public let iterator: (Result) throws -> AnyIterator<Element.Output>
+  public let decumulator: (Result) throws -> AnyIterator<Element.Output>
   public let maximum: Int?
   public let minimum: Int
   public let separator: Separator
@@ -165,7 +165,7 @@ where
   @inlinable
   public func print(_ output: Result, into input: inout Element.Input) throws {
     try self.terminator.print(into: &input)
-    let iterator = try self.iterator(output)
+    let iterator = try self.decumulator(output)
     guard let first = iterator.next() else {
       guard self.minimum == 0
       else {
@@ -228,7 +228,8 @@ extension Many where Printability == Void {
   ///   - initialResult: The value to use as the initial accumulating value.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
-  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
+  ///   - decumulator: An iterator that can "undo" the work of `updateAccumulatingResult` by
+  ///     iterating over the elements used to build up a result in reverse order.
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - separator: A parser that consumes input between each parsed output.
   ///   - terminator: A parser that consumes any leftover input.
@@ -237,14 +238,14 @@ extension Many where Printability == Void {
     _ length: R,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) throws -> I,
+    decumulator: @escaping (Result) throws -> I,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator,
     @ParserBuilder terminator: () -> Terminator
   ) where I.Element == Element.Output {
     self.element = element()
     self.initialResult = initialResult
-    self.iterator = { AnyIterator(try iterator($0)) }
+    self.decumulator = { AnyIterator(try decumulator($0)) }
     self.maximum = length.maximum
     self.minimum = length.minimum
     self.separator = separator()
@@ -259,7 +260,8 @@ extension Many where Printability == Void {
   ///   - initialResult: The value to use as the initial accumulating value.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
-  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
+  ///   - decumulator: An iterator that can "undo" the work of `updateAccumulatingResult` by
+  ///     iterating over the elements used to build up a result in reverse order.
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - separator: A parser that consumes input between each parsed output.
   ///   - terminator: A parser that consumes any leftover input.
@@ -267,7 +269,7 @@ extension Many where Printability == Void {
   public init<I: IteratorProtocol>(
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) throws -> I,
+    decumulator: @escaping (Result) throws -> I,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator,
     @ParserBuilder terminator: () -> Terminator
@@ -276,7 +278,7 @@ extension Many where Printability == Void {
       0...,
       into: initialResult,
       updateAccumulatingResult,
-      iterator: iterator,
+      decumulator: decumulator,
       element: element,
       separator: separator,
       terminator: terminator
@@ -309,7 +311,7 @@ extension Many where Printability == Never {
   ) where Printability == Never {
     self.element = element()
     self.initialResult = initialResult
-    self.iterator = { _ in fatalError() }
+    self.decumulator = { _ in fatalError() }
     self.maximum = length.maximum
     self.minimum = length.minimum
     self.separator = separator()
@@ -362,21 +364,22 @@ where
   ///   - initialResult: The value to use as the initial accumulating value.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
-  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
+  ///   - decumulator: An iterator that can "undo" the work of `updateAccumulatingResult` by
+  ///     iterating over the elements used to build up a result in reverse order.
   ///   - element: A parser to run multiple times to accumulate into a result.
   @inlinable
   public init<R: CountingRange, I: IteratorProtocol>(
     _ length: R,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) throws -> I,
+    decumulator: @escaping (Result) throws -> I,
     @ParserBuilder element: () -> Element
   ) where I.Element == Element.Output {
     self.init(
       length,
       into: initialResult,
       updateAccumulatingResult,
-      iterator: iterator,
+      decumulator: decumulator,
       element: element,
       separator: { Always<Element.Input, Void>(()) },
       terminator: { Always<Element.Input, Void>(()) }
@@ -398,14 +401,14 @@ where
   public init<I: IteratorProtocol>(
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) throws -> I,
+    decumulator: @escaping (Result) throws -> I,
     @ParserBuilder element: () -> Element
   ) where I.Element == Element.Output {
     self.init(
       0...,
       into: initialResult,
       updateAccumulatingResult,
-      iterator: iterator,
+      decumulator: decumulator,
       element: element,
       separator: { Always<Element.Input, Void>(()) },
       terminator: { Always<Element.Input, Void>(()) }
@@ -481,7 +484,8 @@ extension Many where Separator == Always<Input, Void>, Printability == Void {
   ///   - initialResult: The value to use as the initial accumulating value.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
-  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
+  ///   - decumulator: An iterator that can "undo" the work of `updateAccumulatingResult` by
+  ///     iterating over the elements used to build up a result in reverse order.
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - terminator: A parser that consumes any leftover input.
   @inlinable
@@ -489,7 +493,7 @@ extension Many where Separator == Always<Input, Void>, Printability == Void {
     _ length: R,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) throws -> I,
+    decumulator: @escaping (Result) throws -> I,
     @ParserBuilder element: () -> Element,
     @ParserBuilder terminator: () -> Terminator
   ) where I.Element == Element.Output {
@@ -497,7 +501,7 @@ extension Many where Separator == Always<Input, Void>, Printability == Void {
       length,
       into: initialResult,
       updateAccumulatingResult,
-      iterator: iterator,
+      decumulator: decumulator,
       element: element,
       separator: { Always<Element.Input, Void>(()) },
       terminator: terminator
@@ -511,14 +515,15 @@ extension Many where Separator == Always<Input, Void>, Printability == Void {
   ///   - initialResult: The value to use as the initial accumulating value.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
-  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
+  ///   - decumulator: An iterator that can "undo" the work of `updateAccumulatingResult` by
+  ///     iterating over the elements used to build up a result in reverse order.
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - terminator: A parser that consumes any leftover input.
   @inlinable
   public init<I: IteratorProtocol>(
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) throws -> I,
+    decumulator: @escaping (Result) throws -> I,
     @ParserBuilder element: () -> Element,
     @ParserBuilder terminator: () -> Terminator
   ) where I.Element == Element.Output {
@@ -526,7 +531,7 @@ extension Many where Separator == Always<Input, Void>, Printability == Void {
       0...,
       into: initialResult,
       updateAccumulatingResult,
-      iterator: iterator,
+      decumulator: decumulator,
       element: element,
       terminator: terminator
     )
@@ -601,7 +606,8 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
   ///   - initialResult: The value to use as the initial accumulating value.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
-  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
+  ///   - decumulator: An iterator that can "undo" the work of `updateAccumulatingResult` by
+  ///     iterating over the elements used to build up a result in reverse order.
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
@@ -609,7 +615,7 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
     _ length: R,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) throws -> I,
+    decumulator: @escaping (Result) throws -> I,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) where I.Element == Element.Output {
@@ -617,7 +623,7 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
       length,
       into: initialResult,
       updateAccumulatingResult,
-      iterator: { AnyIterator(try iterator($0)) },
+      decumulator: { AnyIterator(try decumulator($0)) },
       element: element,
       separator: separator,
       terminator: { Always<Input, Void>(()) }
@@ -631,14 +637,15 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
   ///   - initialResult: The value to use as the initial accumulating value.
   ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
   ///     of the element parser.
-  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
+  ///   - decumulator: An iterator that can "undo" the work of `updateAccumulatingResult` by
+  ///     iterating over the elements used to build up a result in reverse order.
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
   public init<I: IteratorProtocol>(
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    iterator: @escaping (Result) throws -> I,
+    decumulator: @escaping (Result) throws -> I,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) where I.Element == Element.Output {
@@ -646,7 +653,7 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
       0...,
       into: initialResult,
       updateAccumulatingResult,
-      iterator: iterator,
+      decumulator: decumulator,
       element: element,
       separator: separator
     )
@@ -732,7 +739,7 @@ extension Many where Result == [Element.Output], Printability == Void {
       length,
       into: [],
       { $0.append($1) },
-      iterator: { $0.reversed().makeIterator() },
+      decumulator: { $0.reversed().makeIterator() },
       element: element,
       separator: separator,
       terminator: terminator
@@ -786,7 +793,7 @@ where
       length,
       into: [],
       { $0.append($1) },
-      iterator: { $0.reversed().makeIterator() },
+      decumulator: { $0.reversed().makeIterator() },
       element: element
     )
   }
@@ -826,7 +833,7 @@ where
       length,
       into: [],
       { $0.append($1) },
-      iterator: { $0.reversed().makeIterator() },
+      decumulator: { $0.reversed().makeIterator() },
       element: element,
       terminator: terminator
     )
@@ -876,7 +883,7 @@ where
       length,
       into: [],
       { $0.append($1) },
-      iterator: { $0.reversed().makeIterator() },
+      decumulator: { $0.reversed().makeIterator() },
       element: element,
       separator: separator
     )

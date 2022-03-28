@@ -42,7 +42,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
     "\"".utf8
     Many(into: "") { string, fragment in
       string.append(contentsOf: fragment)
-    } iterator: { string in
+    } decumulator: { string in
       string.map(String.init).reversed().makeIterator()
     } element: {
       OneOf {
@@ -60,7 +60,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
     Many(into: [String: JSONValue]()) { object, pair in
       let (name, value) = pair
       object[name] = value
-    } iterator: { object in
+    } decumulator: { object in
       (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue)]).reversed().makeIterator()
     } element: {
       Whitespace()
