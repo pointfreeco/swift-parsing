@@ -239,8 +239,8 @@ extension Many where Printability == Void {
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     iterator: @escaping (Result) throws -> I,
     @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder separator: () -> Separator = { Always(()) },
+    @ParserBuilder terminator: () -> Terminator = { Always(()) }
   ) where I.Element == Element.Output {
     self.element = element()
     self.initialResult = initialResult
