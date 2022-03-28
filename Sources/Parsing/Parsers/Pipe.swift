@@ -41,7 +41,12 @@ extension Parser where Input: Collection {
   public func pipe<Downstream>(
     @ParserBuilder _ build: () -> Downstream
   ) -> Parsers.Pipe<Self, Parse<ParserBuilder.ZipOV<Downstream, Parsers.PipeEnd<Self.Input>>>> {
-    .init(upstream: self, downstream: Parse { build(); Parsers.PipeEnd<Input>() })
+    .init(
+      upstream: self,
+      downstream: Parse {
+        build()
+        Parsers.PipeEnd<Input>()
+      })
   }
 }
 
