@@ -37,6 +37,14 @@ extension Parser {
   }
 }
 
+extension Parser where Input: Collection {
+  public func pipe<Downstream>(
+    @ParserBuilder _ build: () -> Downstream
+  ) -> Parsers.Pipe<Self, Parse<ParserBuilder.ZipOV<Downstream, Parsers.PipeEnd<Self.Input>>>> {
+    .init(upstream: self, downstream: Parse { build(); Parsers.PipeEnd<Input>() })
+  }
+}
+
 extension Parsers {
   /// A parser that runs this parser, pipes its output into the given parser, and returns the output
   /// of the given parser.
@@ -56,20 +64,18 @@ extension Parsers {
 
     @inlinable
     public func parse(_ input: inout Upstream.Input) rethrows -> Downstream.Output {
-      let original = input
-      var downstreamInput = try self.upstream.parse(&input)
-      do {
-        return try self.downstream.parse(&downstreamInput)
-      } catch let ParsingError.failed(reason, context) {
-        throw ParsingError.failed(
-          "pipe: \(reason)",
-          .init(
-            originalInput: original,
-            remainingInput: input,
-            debugDescription: context.debugDescription,
-            underlyingError: ParsingError.failed(reason, context)
-          )
-        )
+      try self.downstream.parse(self.upstream.parse(&input))
+    }
+  }
+
+  public struct PipeEnd<Input: Collection>: Parser {
+    @usableFromInline
+    init() {}
+
+    @inlinable
+    public func parse(_ input: inout Input) throws {
+      guard input.isEmpty else {
+        throw ParsingError.expectedInput("end of pipe", from: input, to: input[input.endIndex...])
       }
     }
   }
