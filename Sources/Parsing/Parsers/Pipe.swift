@@ -69,8 +69,8 @@ extension Parsers {
   }
 
   public struct PipeEnd<Input: Collection>: Parser {
-    @inlinable
-    public init() {}
+    @usableFromInline
+    init() {}
 
     @inlinable
     public func parse(_ input: inout Input) throws {
