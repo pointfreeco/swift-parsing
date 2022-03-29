@@ -33,8 +33,7 @@ extension Conversions {
   /// A conversion from a string to a lossless string-convertible type.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``Conversion/lossless(_:)-swift.type.method`` and ``Conversion/lossless(_:)-swift.method``
-  /// operations, which construct this type under the hood.
+  /// the ``Conversion/lossless(_:)-swift.type.method`` operation, which constructs this type.
   public struct FromLosslessString<Output: LosslessStringConvertible>: Conversion {
     @usableFromInline
     init() {}

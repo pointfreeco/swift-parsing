@@ -2,11 +2,15 @@ extension Conversion {
   /// Returns a conversion that transforms the output of this conversion with a given downstream
   /// conversion.
   ///
-  /// This method is the ``Conversion``-equivalent version of ``Parser/map(_:)-18m9d``.
+  /// When provided with a conversion from this conversion's output type to some new output type,
+  /// this method can return a new conversion from this conversion's input type to the given
+  /// conversion's output type by calling their ``apply(_:)`` functions and ``unapply(_:)``
+  /// functions one after the other.
   ///
   /// This method is similar to `Sequence.map`, `Optional.map`, and `Result.map` in the Swift
   /// standard library, as well as `Publisher.map` in the Combine framework. This method is also
-  /// similar to the `map` functions on ``Parser`` and ``ParserPrinter``, espec
+  /// similar to the `map` functions on ``Parser`` and ``ParserPrinter``, especially the
+  /// bidirectional ``Conversion``-based ``Parser/map(_:)-18m9d``.
   ///
   /// - Parameter downstream: A conversion that transforms the output of this conversion into some
   ///   new output.
@@ -19,8 +23,8 @@ extension Conversion {
 }
 
 extension Conversions {
-  /// A conversion that composes two conversions together by composing their `apply` functions and
-  /// `unapply` functions together.
+  /// A conversion that composes two conversions together by composing their
+  /// ``Conversion/apply(_:)`` functions and ``Conversion/unapply(_:)`` functions together.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/map(_:)`` operation, which constructs this type.

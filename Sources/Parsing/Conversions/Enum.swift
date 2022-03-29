@@ -4,7 +4,23 @@ extension Conversion {
   /// Converts the associated values of an enum case into the case, and an enum case into its
   /// associated values.
   ///
-  /// Useful for transforming the output of parser-printers into enums.
+  /// Useful for transforming the output of a ``ParserPrinter`` into an enum:
+  ///
+  /// ```swift
+  /// enum Expression {
+  ///   case add(Int, Int)
+  ///   ...
+  /// }
+  ///
+  /// let add = ParsePrint(.case(Expression.add)) {
+  ///   Int.parser()
+  ///   "+"
+  ///   Int.parser()
+  /// }
+  /// try add.parse("1+2")  // Expression.add(1, 2)
+  /// ```
+  ///
+  /// To transform the output of a ``ParserPrinter`` into a struct, see ``memberwise(_:)``.
   ///
   /// - Parameter embed: An embed function where `Values` directly maps to the memory
   ///   layout of `Enum`, for example the internal, default initializer that is automatically

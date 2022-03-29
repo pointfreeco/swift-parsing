@@ -8,8 +8,8 @@ extension Conversion {
   ///
   /// - Parameters:
   ///   - type: A type that conforms to `Codable`.
-  ///   - decoder: An optional JSON decoder.
-  ///   - encoder: An optional JSON encoder.
+  ///   - decoder: An optional JSON decoder that handles decoding.
+  ///   - encoder: An optional JSON encoder that handles encoding.
   /// - Returns: A conversion from `Data` to the given codable type.
   @inlinable
   public static func json<Value>(
@@ -27,8 +27,8 @@ extension Conversion {
   ///
   /// - Parameters:
   ///   - type: A type that conforms to `Codable`.
-  ///   - decoder: An optional JSON decoder.
-  ///   - encoder: An optional JSON encoder.
+  ///   - decoder: An optional JSON decoder that handles decoding.
+  ///   - encoder: An optional JSON encoder that handles encoding.
   /// - Returns: A conversion from this conversion's input to the given codable type.
   @inlinable
   public func json<Value>(
@@ -44,8 +44,8 @@ extension Conversions {
   /// A conversion from `Data` to some codable type.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``Conversion/json(_:decoder:encoder:)-swift.type.method`` and ``Conversion/json(_:decoder:encoder:)-swift.method`` operations, which construct this type
-  /// under the hood.
+  /// the ``Conversion/json(_:decoder:encoder:)-swift.type.method`` operation, which constructs this
+  /// type.
   public struct JSON<Value: Codable>: Conversion {
     @usableFromInline
     let decoder: JSONDecoder

@@ -1,10 +1,9 @@
-/// A type that can incrementally parse an output value from an input and incrementally "print" an
-/// output value back into an input.
+/// A ``Parser`` that can incrementally "print" an output value back into an input.
 ///
 /// > Note: Printing is the reverse operation of parsing, so the `Input` is essentially built up in
 /// > reverse. As such, new values should be prepended to the front of the input. This allows
 /// > parsers to check that the already-printed values match what is expected for any given
-/// ``Parser``.
+/// > ``Parser``.
 @rethrows public protocol ParserPrinter: Parser {
   /// Attempts to print a well-structured piece of data into something more nebulous.
   ///

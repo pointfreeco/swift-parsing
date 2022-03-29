@@ -14,8 +14,7 @@ extension Conversions {
   /// A conversion from a substring to its UTF-8 view.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``Conversion/utf8-swift.type.property`` and ``Conversion/utf8-swift.property`` operations,
-  /// which construct this type under the hood.
+  /// the ``Conversion/utf8-swift.type.property`` operation, which constructs this type.
   public struct SubstringToUTF8View: Conversion {
     @inlinable
     public init() {}

@@ -2,7 +2,7 @@ extension Conversion {
   /// A conversion from a tuple of values into a struct and a struct into a tuple of values, using a
   /// memberwise initializer.
   ///
-  /// Useful for transforming the output of parser-printers into structs.
+  /// Useful for transforming the output of a ``ParserPrinter`` into a struct.
   ///
   /// For example, given a simple `Coordinate` struct, we can build a parser-printer using
   /// ``memberwise(_:)``:
@@ -24,6 +24,8 @@ extension Conversion {
   /// try coord.parse("1,-2")           // Coordinate(x: 1.0, y: -2.0)
   /// coord.print(.init(x: -5, y: 10))  // "(-5.0,10.0)"
   /// ```
+  ///
+  /// To transform the output of a ``ParserPrinter`` into an enum, see ``case(_:)``.
   ///
   /// ## Careful usage
   ///
@@ -61,29 +63,28 @@ extension Conversion {
   ///   "°"
   /// }
   ///
-  /// try coord.parse("1 @ 90°") // (x: 0, y: 1)
+  /// try coord.parse("1 @ 90°")  // (x: 0, y: 1)
   /// ```
   ///
   /// However, printing a coordinate will _not_ convert it back into a radius and angle, and
   /// instead will erroneously use (0, 1) as the radius and angle:
   ///
   /// ```swift
-  /// try coord.print(.init(x: 0, y: 1)) // "0 @ 1°"
+  /// try coord.print(.init(x: 0, y: 1))  // "0 @ 1°"
   /// ```
   ///
-  /// This means this parser-printer does not round trip (see <doc:Roundtripping>), i.e. if we
+  /// This means this parser-printer does not round trip (see <doc:Roundtripping>), _i.e._ if we
   /// parse and input and then print that output we do not get back the original input we started
   /// with:
   ///
   /// ```swift
-  /// try coord.print(try coord.parse("1 @ 90°")) == "1 @ 90°" // ❌
+  /// try coord.print(try coord.parse("1 @ 90°")) == "1 @ 90°"  // ❌
   /// ```
   ///
-  /// Further, it is possible to provide a custom initializer for a type that either re-orders
-  /// the fields or add/removes fields, both of which will cause the underlying `unsafeBitCast`
-  /// to crash. For example, we could have a `User` struct that holds onto a string for the
-  /// bio and an integer for the id, and provide a custom initializer so that the id is provided
-  /// first:
+  /// Further, it is possible to provide a custom initializer for a type that either re-orders the
+  /// fields or add/removes fields, both of which will cause the underlying `unsafeBitCast` to
+  /// crash. For example, we could have a `User` struct that holds onto a string for the bio and an
+  /// integer for the id, and provide a custom initializer so that the id is provided first:
   ///
   /// ```swift
   /// struct User {
@@ -106,7 +107,7 @@ extension Conversion {
   ///   Rest()
   /// }
   ///
-  /// try user.print(.init(id: 42, bio: "Hello world!")) // ❌
+  /// try user.print(.init(id: 42, bio: "Hello world!"))  // ❌
   /// ```
   ///
   /// - Parameter initializer: A memberwise initializer where `Values` directly maps to the memory

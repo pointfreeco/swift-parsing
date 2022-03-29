@@ -4,7 +4,7 @@
 /// underlying conversion having the same `Input` and `Output` types, hiding the specifics of the
 /// underlying ``Conversion``.
 ///
-/// Use `AnyConversion` to wrap a parser whose type has details you don't want to expose across
+/// Use `AnyConversion` to wrap a conversion whose type has details you don't want to expose across
 /// API boundaries, such as different modules. When you use type erasure this way, you can change
 /// the underlying conversion over time without affecting existing clients.
 ///

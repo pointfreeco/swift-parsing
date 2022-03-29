@@ -32,7 +32,13 @@ extension Conversion {
   ///   var rawValue: String
   /// }
   ///
-  /// let emailAddress = Parse(.string.representing(EmailAddress.self))
+  /// let emailAddress = Parse(.string.representing(EmailAddress.self)) {
+  ///   Consumed {
+  ///     PrefixUpTo("@")
+  ///     "@"
+  ///     Rest()
+  ///   }
+  /// }
   /// ```
   ///
   /// - Parameter type: A type that conforms to `RawRepresentable`.
@@ -48,7 +54,13 @@ extension Conversion {
   /// type.
   ///
   /// A fluent version of ``Conversion/representing(_:)-swift.type.method``. Equivalent to calling
-  /// `Conversion.map(.representing(NewOutput.self)).
+  /// ``Conversion/map(_:)`` with ``Conversion/representing(_:)-swift.type.method``:
+  ///
+  /// ```swift
+  /// stringConversion.representing(EmailAddress.self)
+  /// // =
+  /// stringConversion.map(.representing(EmailAddress.self)
+  /// ```
   ///
   /// - Parameter type: A type that conforms to `RawRepresentable`.
   /// - Returns: A conversion from a raw value to the given type.
@@ -64,9 +76,7 @@ extension Conversions {
   /// A conversion from a raw value to a raw representable type.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``Conversion/representing(_:)-swift.type.method`` and
-  /// ``Conversion/representing(_:)-swift.method`` operations, which construct this type under the
-  /// hood.
+  /// the ``Conversion/representing(_:)-swift.type.method`` operation, which constructs this type.
   public struct FromRawValue<Output: RawRepresentable>: Conversion {
     @inlinable
     public init() {}
