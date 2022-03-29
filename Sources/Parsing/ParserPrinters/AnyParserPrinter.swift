@@ -1,21 +1,3 @@
-extension ParserPrinter {
-  /// Wraps this parser with a type eraser.
-  ///
-  /// This form of _type erasure_ preserves abstraction across API boundaries, such as different
-  /// modules.
-  ///
-  /// When you expose your composed parser-printers as the ``AnyParserPrinter`` type, you can change
-  /// the underlying implementation over time without affecting existing clients.
-  ///
-  /// Equivalent to passing `self` to ``AnyParserPrinter/init(_:)``.
-  ///
-  /// - Returns: An ``AnyParserPrinter`` wrapping this parser-printer.
-  @inlinable
-  public func eraseToAnyParserPrinter() -> AnyParserPrinter<Input, Output> {
-    AnyParserPrinter(self)
-  }
-}
-
 /// A type-erased parser-printer of `Output` from `Input`.
 ///
 /// This parser-printer forwards its `parse(_:)` and `print(_:to:)` methods to an arbitrary
@@ -28,16 +10,6 @@ extension ParserPrinter {
 public struct AnyParserPrinter<Input, Output>: ParserPrinter {
   @usableFromInline let parser: (inout Input) throws -> Output
   @usableFromInline let printer: (Output, inout Input) throws -> Void
-
-  /// Creates a type-erasing parser-printer to wrap the given parser-printer.
-  ///
-  /// Equivalent to calling ``Parser/eraseToAnyParserPrinter()`` on the parser-printer.
-  ///
-  /// - Parameter parser: A parser to wrap with a type eraser.
-  @inlinable
-  public init<P: ParserPrinter>(_ parserPrinter: P) where P.Input == Input, P.Output == Output {
-    self.init(parse: parserPrinter.parse(_:), print: parserPrinter.print(_:into:))
-  }
 
   /// Creates a parser-printer that wraps the given closures in its ``parse(_:)`` and
   /// `print(_:to:)` methods.

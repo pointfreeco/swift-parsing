@@ -1,4 +1,4 @@
-public struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestData {
+public struct Route<Parsers: Parser<URLRequestData>>: Parser {
   @usableFromInline
   let parsers: Parsers
 

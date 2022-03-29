@@ -181,11 +181,7 @@ public enum ParserBuilder {
     .init(accumulated, next)
   }
 
-  public struct SkipFirst<P0: Parser, P1: Parser>: Parser
-  where
-  P0.Input == P1.Input,
-  P0.Output == Void
-  {
+  public struct SkipFirst<P0: Parser<P1.Input, Void>, P1: Parser>: Parser {
     @usableFromInline let p0: P0, p1: P1
 
     @usableFromInline init(_ p0: P0, _ p1: P1) {
@@ -201,11 +197,7 @@ public enum ParserBuilder {
     }
   }
 
-  public struct SkipSecond<P0: Parser, P1: Parser>: Parser
-  where
-  P0.Input == P1.Input,
-  P1.Output == Void
-  {
+  public struct SkipSecond<P0: Parser, P1: Parser<P0.Input, Void>>: Parser {
     @usableFromInline let p0: P0, p1: P1
 
     @usableFromInline init(_ p0: P0, _ p1: P1) {
@@ -222,10 +214,7 @@ public enum ParserBuilder {
     }
   }
 
-  public struct Take2<P0: Parser, P1: Parser>: Parser
-  where
-  P0.Input == P1.Input
-  {
+  public struct Take2<P0: Parser, P1: Parser<P0.Input>>: Parser {
     @usableFromInline let p0: P0, p1: P1
 
     @usableFromInline init(_ p0: P0, _ p1: P1) {
@@ -243,11 +232,7 @@ public enum ParserBuilder {
     }
   }
 
-  public struct Take3<P0: Parser, P1: Parser, O0, O1>: Parser
-  where
-  P0.Input == P1.Input,
-  P0.Output == (O0, O1)
-  {
+  public struct Take3<P0: Parser<P1.Input, (O0, O1)>, P1: Parser, O0, O1>: Parser {
     @usableFromInline let p0: P0, p1: P1
 
     @usableFromInline init(_ p0: P0, _ p1: P1) {
@@ -263,11 +248,7 @@ public enum ParserBuilder {
     }
   }
 
-  public struct Take4<P0: Parser, P1: Parser, O0, O1, O2>: Parser
-  where
-  P0.Input == P1.Input,
-  P0.Output == (O0, O1, O2)
-  {
+  public struct Take4<P0: Parser<P1.Input, (O0, O1, O2)>, P1: Parser, O0, O1, O2>: Parser {
     @usableFromInline let p0: P0, p1: P1
 
     @usableFromInline init(_ p0: P0, _ p1: P1) {
@@ -283,11 +264,7 @@ public enum ParserBuilder {
     }
   }
 
-  public struct Take5<P0: Parser, P1: Parser, O0, O1, O2, O3>: Parser
-  where
-  P0.Input == P1.Input,
-  P0.Output == (O0, O1, O2, O3)
-  {
+  public struct Take5<P0: Parser<P1.Input, (O0, O1, O2, O3)>, P1: Parser, O0, O1, O2, O3>: Parser {
     @usableFromInline let p0: P0, p1: P1
 
     @usableFromInline init(_ p0: P0, _ p1: P1) {
@@ -303,11 +280,9 @@ public enum ParserBuilder {
     }
   }
 
-  public struct Take6<P0: Parser, P1: Parser, O0, O1, O2, O3, O4>: Parser
-  where
-  P0.Input == P1.Input,
-  P0.Output == (O0, O1, O2, O3, O4)
-  {
+  public struct Take6<
+    P0: Parser<P1.Input, (O0, O1, O2, O3, O4)>, P1: Parser, O0, O1, O2, O3, O4
+  >: Parser {
     @usableFromInline let p0: P0, p1: P1
 
     @usableFromInline init(_ p0: P0, _ p1: P1) {
@@ -325,11 +300,9 @@ public enum ParserBuilder {
     }
   }
 
-  public struct Take7<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5>: Parser
-  where
-  P0.Input == P1.Input,
-  P0.Output == (O0, O1, O2, O3, O4, O5)
-  {
+  public struct Take7<
+    P0: Parser<P1.Input, (O0, O1, O2, O3, O4, O5)>, P1: Parser, O0, O1, O2, O3, O4, O5
+  >: Parser {
     @usableFromInline let p0: P0, p1: P1
 
     @usableFromInline init(_ p0: P0, _ p1: P1) {
@@ -347,11 +320,9 @@ public enum ParserBuilder {
     }
   }
 
-  public struct Take8<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5, O6>: Parser
-  where
-  P0.Input == P1.Input,
-  P0.Output == (O0, O1, O2, O3, O4, O5, O6)
-  {
+  public struct Take8<
+    P0: Parser<P1.Input, (O0, O1, O2, O3, O4, O5, O6)>, P1: Parser, O0, O1, O2, O3, O4, O5, O6
+  >: Parser {
     @usableFromInline let p0: P0, p1: P1
 
     @usableFromInline init(_ p0: P0, _ p1: P1) {
@@ -369,11 +340,10 @@ public enum ParserBuilder {
     }
   }
 
-  public struct Take9<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5, O6, O7>: Parser
-  where
-  P0.Input == P1.Input,
-  P0.Output == (O0, O1, O2, O3, O4, O5, O6, O7)
-  {
+  public struct Take9<
+    P0: Parser<P1.Input, (O0, O1, O2, O3, O4, O5, O6, O7)>,
+    P1: Parser, O0, O1, O2, O3, O4, O5, O6, O7
+  >: Parser {
     @usableFromInline let p0: P0, p1: P1
 
     @usableFromInline init(_ p0: P0, _ p1: P1) {
@@ -391,11 +361,10 @@ public enum ParserBuilder {
     }
   }
 
-  public struct Take10<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5, O6, O7, O8>: Parser
-  where
-  P0.Input == P1.Input,
-  P0.Output == (O0, O1, O2, O3, O4, O5, O6, O7, O8)
-  {
+  public struct Take10<
+    P0: Parser<P1.Input, (O0, O1, O2, O3, O4, O5, O6, O7, O8)>,
+    P1: Parser, O0, O1, O2, O3, O4, O5, O6, O7, O8
+  >: Parser {
     @usableFromInline let p0: P0, p1: P1
 
     @usableFromInline init(_ p0: P0, _ p1: P1) {

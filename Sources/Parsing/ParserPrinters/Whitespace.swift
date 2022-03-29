@@ -173,7 +173,7 @@ where Input: PrependableCollection, Bytes: PrependableCollection {
 // NB: Swift 5.7 fails to build with a simpler `Bytes == Input` constraint
 extension Whitespace where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
   @inlinable
-  public init<R: CountingRange>(_ length: R, _ configuration: Configuration = .all) {
+  public init(_ length: some CountingRange, _ configuration: Configuration = .all) {
     self.minimum = length.minimum
     self.maximum = length.maximum
     self.configuration = configuration
@@ -190,7 +190,7 @@ extension Whitespace where Bytes == Input.SubSequence, Bytes.SubSequence == Inpu
 extension Whitespace where Input == Substring, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init<R: CountingRange>(_ length: R, _ configuration: Configuration = .all) {
+  public init(_ length: some CountingRange, _ configuration: Configuration = .all) {
     self.minimum = length.minimum
     self.maximum = length.maximum
     self.configuration = configuration
@@ -208,7 +208,7 @@ extension Whitespace where Input == Substring, Bytes == Substring.UTF8View {
 extension Whitespace where Input == Substring.UTF8View, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init<R: CountingRange>(_ length: R, _ configuration: Configuration = .all) {
+  public init(_ length: some CountingRange, _ configuration: Configuration = .all) {
     self.init(length, configuration)
   }
 

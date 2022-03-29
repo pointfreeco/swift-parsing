@@ -1,5 +1,4 @@
-public struct Path<ComponentParsers: Parser>: Parser
-where ComponentParsers.Input == URLRequestData {
+public struct Path<ComponentParsers: Parser<URLRequestData>>: Parser {
   @usableFromInline
   let componentParsers: ComponentParsers
 
@@ -21,8 +20,7 @@ extension Path: ParserPrinter where ComponentParsers: ParserPrinter {
   }
 }
 
-public struct PathComponent<ComponentParser: Parser>: Parser
-where ComponentParser.Input == Substring {
+public struct PathComponent<ComponentParser: Parser<Substring>>: Parser {
   @usableFromInline
   let componentParser: ComponentParser
 

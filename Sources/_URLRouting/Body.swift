@@ -1,4 +1,4 @@
-public struct HTTPBody<Bytes: Parser>: Parser where Bytes.Input == ArraySlice<UInt8> {
+public struct HTTPBody<Bytes: Parser<ArraySlice<UInt8>>>: Parser {
   @usableFromInline
   let bytesParser: Bytes
 

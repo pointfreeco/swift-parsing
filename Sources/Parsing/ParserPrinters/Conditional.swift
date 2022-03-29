@@ -28,11 +28,7 @@ extension Parsers {
   ///   }
   /// }
   /// ```
-  public enum Conditional<First: Parser, Second: Parser>: Parser
-  where
-    First.Input == Second.Input,
-    First.Output == Second.Output
-  {
+  public enum Conditional<First: Parser, Second: Parser<First.Input, First.Output>>: Parser {
     case first(First)
     case second(Second)
 

@@ -114,11 +114,7 @@ public enum OneOfBuilder {
     .init(accumulated, next)
   }
 
-  public struct OneOf2<P0: Parser, P1: Parser>: Parser
-  where
-    P0.Input == P1.Input,
-    P0.Output == P1.Output
-  {
+  public struct OneOf2<P0: Parser, P1: Parser<P0.Input, P0.Output>>: Parser {
     public let p0: P0, p1: P1
 
     @inlinable public init(_ p0: P0, _ p1: P1) {

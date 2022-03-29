@@ -44,11 +44,9 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/printing(_:)-1lyhy`` operator, which constructs this type.
-  public struct OverridePrinting<Parser: Parsing.Parser, Printer: ParserPrinter>: ParserPrinter
-  where
-    Parser.Input == Printer.Input,
-    Parser.Output == Printer.Output
-  {
+  public struct OverridePrinting<
+    Parser: Parsing.Parser, Printer: ParserPrinter<Parser.Input, Parser.Output>
+  >: ParserPrinter {
     public let parser: Parser
     public let printer: Printer
 

@@ -3,13 +3,7 @@
 ///
 /// Useful in transforming the output of a parser-printer into some new type while preserving
 /// printability via ``Parser/map(_:)-18m9d``.
-@rethrows public protocol Conversion {
-  // The type of values this conversion converts from.
-  associatedtype Input
-
-  // The type of values this conversion converts to.
-  associatedtype Output
-
+@rethrows public protocol Conversion<Input, Output> {
   /// Attempts to transform an input into an output.
   ///
   /// See ``Conversion/apply(_:)`` for the reverse process.

@@ -103,7 +103,7 @@ extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: Prepe
 // NB: Swift 5.7 fails to build with a simpler `Bytes == Input` constraint
 extension Digits where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
   @inlinable
-  public init<R: CountingRange>(_ length: R = 1...) {
+  public init(_ length: some CountingRange = 1...) {
     self.init(
       length: length,
       toBytes: { $0 },
@@ -115,7 +115,7 @@ extension Digits where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
 extension Digits where Input == Substring, Bytes == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init<R: CountingRange>(_ length: R = 1...) {
+  public init(_ length: some CountingRange = 1...) {
     self.init(
       length: length,
       toBytes: { $0.utf8 },
@@ -126,7 +126,7 @@ extension Digits where Input == Substring, Bytes == Substring.UTF8View {
 
 extension Digits where Input == Substring.UTF8View, Bytes == Substring.UTF8View {
   @_disfavoredOverload
-  public init<R: CountingRange>(_ length: R = 1...) {
+  public init(_ length: some CountingRange = 1...) {
     self.init(length)
   }
 }

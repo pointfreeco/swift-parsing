@@ -1,6 +1,6 @@
 // FIXME: Should this be a `Conversion`?
 
-public struct Cookies<Parsers: Parser>: Parser where Parsers.Input == URLRequestData.Fields {
+public struct Cookies<Parsers: Parser<URLRequestData.Fields>>: Parser {
   @usableFromInline
   let cookieParsers: Parsers
 

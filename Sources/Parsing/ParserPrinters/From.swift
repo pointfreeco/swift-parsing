@@ -1,5 +1,5 @@
-public struct From<Upstream: Conversion, Downstream: ParserPrinter>: ParserPrinter
-where Upstream.Output == Downstream.Input {
+public struct From<Upstream: Conversion, Downstream: ParserPrinter<Upstream.Output>>: ParserPrinter
+{
   @usableFromInline
   let conversion: Upstream
 

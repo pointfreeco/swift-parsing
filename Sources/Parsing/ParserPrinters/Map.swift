@@ -118,8 +118,9 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/map(_:)-4hsj5`` operation, which constructs this type.
-  public struct MapConversion<Upstream: ParserPrinter, Downstream: Conversion>: ParserPrinter
-  where Downstream.Input == Upstream.Output {
+  public struct MapConversion<
+    Upstream: ParserPrinter, Downstream: Conversion<Upstream.Output>
+  >: ParserPrinter {
     public let upstream: Upstream
     public let downstream: Downstream
 

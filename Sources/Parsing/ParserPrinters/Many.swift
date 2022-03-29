@@ -73,12 +73,9 @@ import Foundation
 /// //   |     ^ expected integer
 /// ```
 public struct Many<
-  Element: Parser, Result, Separator: Parser, Terminator: Parser, Printability
->: Parser
-where
-  Separator.Input == Element.Input,
-  Terminator.Input == Element.Input
-{
+  Element: Parser, Result,
+  Separator: Parser<Element.Input>, Terminator: Parser<Element.Input>, Printability
+>: Parser {
   public let element: Element
   public let initialResult: Result
   public let iterator: (Result) throws -> AnyIterator<Element.Output>
@@ -233,8 +230,8 @@ extension Many where Printability == Void {
   ///   - separator: A parser that consumes input between each parsed output.
   ///   - terminator: A parser that consumes any leftover input.
   @inlinable
-  public init<R: CountingRange, I: IteratorProtocol>(
-    _ length: R = 0...,
+  public init<I: IteratorProtocol>(
+    _ length: some CountingRange = 0...,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     iterator: @escaping (Result) throws -> I,
@@ -268,8 +265,8 @@ extension Many where Printability == Never {
   ///   - separator: A parser that consumes input between each parsed output.
   ///   - terminator: A parser that consumes any leftover input.
   @inlinable
-  public init<R: CountingRange>(
-    _ length: R = 0...,
+  public init(
+    _ length: some CountingRange = 0...,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
@@ -306,8 +303,8 @@ where
   ///   - iterator: An iterator that can iterate over the elements used to build up a result.
   ///   - element: A parser to run multiple times to accumulate into a result.
   @inlinable
-  public init<R: CountingRange, I: IteratorProtocol>(
-    _ length: R = 0...,
+  public init<I: IteratorProtocol>(
+    _ length: some CountingRange = 0...,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     iterator: @escaping (Result) throws -> I,
@@ -343,8 +340,8 @@ where
   ///     of the element parser.
   ///   - element: A parser to run multiple times to accumulate into a result.
   @inlinable
-  public init<R: CountingRange>(
-    _ length: R = 0...,
+  public init(
+    _ length: some CountingRange = 0...,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element
@@ -375,8 +372,8 @@ extension Many where Separator == Always<Input, Void>, Printability == Void {
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - terminator: A parser that consumes any leftover input.
   @inlinable
-  public init<R: CountingRange, I: IteratorProtocol>(
-    _ length: R = 0...,
+  public init<I: IteratorProtocol>(
+    _ length: some CountingRange = 0...,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     iterator: @escaping (Result) throws -> I,
@@ -409,8 +406,8 @@ extension Many where Separator == Always<Input, Void>, Printability == Never {
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - terminator: A parser that consumes any leftover input.
   @inlinable
-  public init<R: CountingRange>(
-    _ length: R = 0...,
+  public init(
+    _ length: some CountingRange = 0...,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
@@ -442,8 +439,8 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
-  public init<R: CountingRange, I: IteratorProtocol>(
-    _ length: R = 0...,
+  public init<I: IteratorProtocol>(
+    _ length: some CountingRange = 0...,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     iterator: @escaping (Result) throws -> I,
@@ -476,8 +473,8 @@ extension Many where Terminator == Always<Input, Void>, Printability == Never {
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
-  public init<R: CountingRange>(
-    _ length: R = 0...,
+  public init(
+    _ length: some CountingRange = 0...,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
@@ -506,8 +503,8 @@ extension Many where Result == [Element.Output], Printability == Void {
   ///   - separator: A parser that consumes input between each parsed output.
   ///   - terminator: A parser that consumes any leftover input.
   @inlinable
-  public init<R: CountingRange>(
-    _ length: R = 0...,
+  public init(
+    _ length: some CountingRange = 0...,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator,
     @ParserBuilder terminator: () -> Terminator
@@ -540,8 +537,8 @@ where
   ///     returning the output.
   ///   - element: A parser to run multiple times to accumulate into a result.
   @inlinable
-  public init<R: CountingRange>(
-    _ length: R = 0...,
+  public init(
+    _ length: some CountingRange = 0...,
     @ParserBuilder element: () -> Element
   ) {
     self.init(
@@ -570,8 +567,8 @@ where
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - terminator: A parser that consumes any leftover input.
   @inlinable
-  public init<R: CountingRange>(
-    _ length: R = 0...,
+  public init(
+    _ length: some CountingRange = 0...,
     @ParserBuilder element: () -> Element,
     @ParserBuilder terminator: () -> Terminator
   ) {
@@ -602,8 +599,8 @@ where
   ///   - element: A parser to run multiple times to accumulate into a result.
   ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
-  public init<R: CountingRange>(
-    _ length: R = 0...,
+  public init(
+    _ length: some CountingRange = 0...,
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator
   ) {
