@@ -1,11 +1,16 @@
 extension Conversion where Self == Conversions.UnicodeScalarViewToSubstring {
   /// A conversion from `Substring.UnicodeScalarView` to `Substring`.
+  ///
+  /// Useful when used with the ``From`` parser-printer to integrate a substring parser into a
+  /// parser on unicode scalars.
   @inlinable
   public static var substring: Self { .init() }
 }
 
 extension Conversion where Output == Substring.UnicodeScalarView {
   /// Transforms this conversion to `Substring.UnicodeScalarView` into a conversion to `Substring`.
+  ///
+  /// A fluent version of ``substring-swift.type.property-4r1aj``.
   @inlinable
   public var substring: Conversions.Map<Self, Conversions.UnicodeScalarViewToSubstring> {
     self.map(.substring)
@@ -14,12 +19,28 @@ extension Conversion where Output == Substring.UnicodeScalarView {
 
 extension Conversion where Self == Conversions.UTF8ViewToSubstring {
   /// A conversion from `Substring.UTF8View` to `Substring`.
+  ///
+  /// Useful when used with the ``From`` parser-printer to integrate a substring parser into a
+  /// parser on UTF-8 bytes.
+  ///
+  /// For example:
+  ///
+  /// ```swift
+  /// Parse {
+  ///   "caf".utf8
+  ///   From(.substring) {
+  ///     "é"
+  ///   }
+  /// }
+  /// ```
   @inlinable
   public static var substring: Self { .init() }
 }
 
 extension Conversion where Output == Substring.UTF8View {
   /// Transforms this conversion to `Substring.UTF8View` into a conversion to `Substring`.
+  ///
+  /// A fluent version of ``substring-swift.type.property-1y3u3``.
   @inlinable
   public var substring: Conversions.Map<Self, Conversions.UTF8ViewToSubstring> {
     self.map(.substring)

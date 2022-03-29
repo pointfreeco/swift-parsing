@@ -23,7 +23,15 @@
     /// Transforms this conversion to a parseable format style's parse input into a conversion to
     /// the parseable format style's parse output.
     ///
-    /// A fluent version of ``Conversion/formatted(_:)-swift.type.method``. Equivalent to calling
+    /// A fluent version of ``formatted(_:)-swift.type.method``. Equivalent to calling ``map(_:)``
+    /// with ``formatted(_:)-swift.type.method``:
+    ///
+    /// ```swift
+    /// Parse(.string.formatted(.currency("USD")))
+    /// // =
+    /// Parse(.string.map(.formatted(.currency("USD"))))
+    /// ```
+    ///
     /// `Conversion.map(.formatted(style)).
     ///
     /// - Parameter type: A type that conforms to `LosslessStringConvertible`.
@@ -31,7 +39,7 @@
     public func formatted<Style>(
       _ style: Style
     ) -> Conversions.Map<Self, Conversions.ParseableFormat<Style>> {
-      self.map(.formatted(style))
+      self.map(.formatted(.style))
     }
   }
 

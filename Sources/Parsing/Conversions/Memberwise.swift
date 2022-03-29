@@ -21,7 +21,7 @@ extension Conversion {
   ///   ")"
   /// }
   ///
-  /// try coord.parse("1,-2")           // Coordinate(x: 1.0, y: -2.0)
+  /// try coord.parse("(1,-2)")           // Coordinate(x: 1.0, y: -2.0)
   /// coord.print(.init(x: -5, y: 10))  // "(-5.0,10.0)"
   /// ```
   ///

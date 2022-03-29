@@ -53,8 +53,8 @@ extension Conversion {
   /// Transforms this conversion to a raw value into a conversion to the given raw representable
   /// type.
   ///
-  /// A fluent version of ``Conversion/representing(_:)-swift.type.method``. Equivalent to calling
-  /// ``Conversion/map(_:)`` with ``Conversion/representing(_:)-swift.type.method``:
+  /// A fluent version of ``representing(_:)-swift.type.method``. Equivalent to calling ``map(_:)``
+  /// with ``representing(_:)-swift.type.method``:
   ///
   /// ```swift
   /// stringConversion.representing(EmailAddress.self)
