@@ -291,7 +291,7 @@ let user = Parse(User.init) {
 }
 
 try user.parse("1,\"Blob, Esq.\",true")
-// ✅ User(id: 1, name: "Blob, Esq.", admin: true)
+// ✅ User(id: 1, name: "Blob, Esq.", isAdmin: true)
 ```
 
 It was quite straightforward to improve the `user` parser to handle quoted fields. Doing the same
@@ -304,10 +304,10 @@ of real-life parsing scenarios.
 
 ## Your first printer
 
-Once you build a parser to turn nebulous data into well-structured data, you may ask if the
-inverse process can also be performed. What if you need to turn your well-structured data back into
-nebulous data, such as if you needed to save the data back to disk or send the data to a server
-over the network. This inverse process is known as _printing_.
+Once you build a parser to turn nebulous data into well-structured data, you may ask if the inverse
+process can also be performed. What if you need to turn your well-structured data back into nebulous
+data, such as if you needed to save the data back to disk or send the data to a server over the
+network. This inverse process is known as _printing_.
 
 If you are careful in the manner you construct your parser, there is a good chance that with a
 little bit of extra work you can turn your parser into a printer. Most of the ``Parser``
@@ -332,11 +332,11 @@ parser `"\""` and the `Prefix` parser. Even the entry point ``Parse`` is a print
 in the builder context is a printer. We also provide a special ``ParsePrint`` entry point to make
 this clearer.
 
-So we can call ``ParserPrinter/print(_:)`` on this value, pass it a string, and it will give us back a
-quoted field:
+So we can call ``ParserPrinter/print(_:)`` on this value, pass it a string, and it will give us back
+a quoted field:
 
 ```swift
-quotedField.print("Blob, Esq.") // ✅ ""Blob, Esq.""
+quotedField.print("Blob, Esq.")  // ✅ "\"Blob, Esq.\""
 ```
 
 However, the `field` parser, which first tries to parse a quoted field, and if that fails it falls
@@ -365,8 +365,9 @@ process for converting from one type to another and back.
 
 If you map a parser-printer with a conversion, rather than just a simple function, you can transform
 a parser-printer to another parser-printer. This library ships with many conversions (see
-<doc:ConversionArticle>) that makes it easy to quickly transform outputs. For example, the `field` parser
-can be transformed with the ``Conversion/string-swift.type.property-3u2b5`` conversion like so:
+<doc:ConversionArticle>) that makes it easy to quickly transform outputs. For example, the `field`
+parser can be transformed with the ``Conversion/string-swift.type.property-3u2b5`` conversion like
+so:
 
 ```swift
 let field = OneOf {
@@ -375,11 +376,11 @@ let field = OneOf {
 }
 .map(.string)
 
-try field.parse("Blob") // ✅ "Blob"
-try field.parse("\"Blob, Esq.\"") // ✅ "Blob, Esq."
+try field.parse("Blob")            // ✅ "Blob"
+try field.parse("\"Blob, Esq.\"")  // ✅ "Blob, Esq."
 
-try field.print("Blob") // ✅ "Blob"
-try field.print("Blob, Esq.") // ✅ ""Blob, Esq.""
+try field.print("Blob")            // ✅ "Blob"
+try field.print("Blob, Esq.")      // ✅ "\"Blob, Esq.\""
 ```
 
 Although the `field` parser is now a parser-printer, the same is not true of the `user` parser:
@@ -394,7 +395,7 @@ let user = Parse(User.init) {
 }
 
 try user.parse("1,\"Blob, Esq.\",true")
-// ✅ User(id: 1, name: "Blob, Esq.", admin: true)
+// ✅ User(id: 1, name: "Blob, Esq.", isAdmin: true)
 
 try user.print(User(id: 1, name: "Blob", isAdmin: true)) // ❌
 ```
@@ -415,14 +416,14 @@ let user = ParsePrint(.memberwise(User.init)) {
 }
 
 try user.parse("1,\"Blob, Esq.\",true")
-// ✅ User(id: 1, name: "Blob, Esq.", admin: true)
+// ✅ User(id: 1, name: "Blob, Esq.", isAdmin: true)
 
 try user.print(User(id: 1, name: "Blob, Esq.", isAdmin: true))
 // ✅ "1,"Blob, Esq.",true"
 ```
 
 It was quite straightforward to turn the user parser into a user parser-printer. We simply needed
-change all instances of a one-directional ``Parser/map(_:)-4hsj5`` to a bidirection
+change all instances of a one-directional ``Parser/map(_:)-4hsj5`` to a bidirectional
 ``Parser/map(_:)-18m9d``, which uses a conversion for describing how to transform an output to
 a new output and back.
 
