@@ -32,14 +32,12 @@
     /// Parse(.string.map(.formatted(.currency("USD"))))
     /// ```
     ///
-    /// `Conversion.map(.formatted(style)).
-    ///
     /// - Parameter type: A type that conforms to `LosslessStringConvertible`.
     /// - Returns: A conversion from a string to the given type.
     public func formatted<Style>(
       _ style: Style
     ) -> Conversions.Map<Self, Conversions.ParseableFormat<Style>> {
-      self.map(.formatted(.style))
+      self.map(.formatted(style))
     }
   }
 
