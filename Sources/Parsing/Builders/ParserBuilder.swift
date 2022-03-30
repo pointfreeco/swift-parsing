@@ -122,3 +122,40 @@ extension ParserBuilder where Input == Substring.UTF8View {
     parser
   }
 }
+
+//let p0 = Always(())
+
+let p1 = Parse {
+  "Caf".utf8
+//  FromSubstring {
+//    "é"
+//  }
+  Always(())
+  Int.parser()
+}
+
+
+let p2 = Parse {
+  "Caf".utf8
+//  "Caf".utf8
+//  "Caf".utf8
+//  "Caf".utf8
+//  "Caf".utf8
+//  "Caf".utf8
+//  FromSubstring { "é" }
+  Always(())
+  Int.parser()
+  Double.parser()
+}
+
+let p3 = Parse {
+  "Café"
+  Always(())
+  Int.parser()
+}
+
+//let p3 = Parse {
+//  Whitespace()
+//  //  Int.parser()
+//  //  Double.parser()
+//}

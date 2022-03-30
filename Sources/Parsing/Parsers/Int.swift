@@ -32,11 +32,10 @@ extension FixedWidthInteger {
   ///     in the range `2...36`.
   /// - Returns: A parser that consumes an integer from the beginning of a substring.
   @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self,
-    radix: Int = 10
-  ) -> FromUTF8View<Substring, Parsers.IntParser<Substring.UTF8View, Self>> {
-    .init { Parsers.IntParser<Substring.UTF8View, Self>(radix: radix) }
+  public static func parser(radix: Int = 10) -> FromUTF8View<Substring, Parsers.IntParser<Substring.UTF8View, Self>> {
+    FromUTF8View<Substring, Parsers.IntParser<Substring.UTF8View, Self>> {
+      Parsers.IntParser<Substring.UTF8View, Self>(radix: radix)
+    }
   }
 }
 

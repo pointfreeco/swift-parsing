@@ -209,35 +209,38 @@ final class OneOfTests: XCTestCase {
         .map(String.init)
     }
 
-    let string = Parse {
-      "\"".utf8
-      Many(into: "") { string, fragment in
-        string.append(contentsOf: fragment)
-      } element: {
-        OneOf {
-          Prefix(1...) { $0.isUnescapedJSONStringByte }
-            .map { String(Substring($0)) }
-
-          Parse {
-            "\\".utf8
-
-            OneOf {
-              "\"".utf8.map { "\"" }
-              "\\".utf8.map { "\\" }
-              "/".utf8.map { "/" }
-              "b".utf8.map { "\u{8}" }
-              "f".utf8.map { "\u{c}" }
-              "n".utf8.map { "\n" }
-              "r".utf8.map { "\r" }
-              "t".utf8.map { "\t" }
-              unicode
-            }
-          }
-        }
-      } terminator: {
-        "\"".utf8
-      }
+    let escapeCharacter = OneOf {
+      "\"".utf8.map { "\"" }
+      "\\".utf8.map { "\\" }
+      "/".utf8.map { "/" }
+      "b".utf8.map { "\u{8}" }
+      "f".utf8.map { "\u{c}" }
+      "n".utf8.map { "\n" }
+      "r".utf8.map { "\r" }
+      "t".utf8.map { "\t" }
+//      unicode
     }
+
+    let escape = Parse {
+      "\\".utf8
+      escapeCharacter
+    }
+
+//    let string = Parse {
+//      "\"".utf8
+//      Many(into: "") { string, fragment in
+//        string.append(contentsOf: fragment)
+//      } element: {
+//        OneOf {
+//          Prefix(1...) { $0.isUnescapedJSONStringByte }
+//            .map { String(Substring($0)) }
+//
+//          escape
+//        }
+//      } terminator: {
+//        "\"".utf8
+//      }
+//    }
 
 //    let object = Parse {
 //      "{".utf8

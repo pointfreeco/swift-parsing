@@ -2,6 +2,16 @@
 
 import PackageDescription
 
+let swiftSettings: [SwiftSetting] = [
+  .unsafeFlags([
+//    "-Xfrontend", "-enable-experimental-pairwise-build-block",
+//    "-Xfrontend", "-enable-parameterized-protocol-types",
+//    "-Xfrontend", "-requirement-machine-protocol-signatures=on",
+    "-Xfrontend", "-warn-long-expression-type-checking=75",
+    "-Xfrontend", "-warn-long-function-bodies=75",
+  ]),
+]
+
 let package = Package(
   name: "swift-parsing",
   products: [
@@ -16,11 +26,13 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "Parsing"
+      name: "Parsing",
+      swiftSettings: swiftSettings
     ),
     .testTarget(
       name: "ParsingTests",
-      dependencies: ["Parsing"]
+      dependencies: ["Parsing"],
+      swiftSettings: swiftSettings
     ),
     .executableTarget(
       name: "swift-parsing-benchmark",
