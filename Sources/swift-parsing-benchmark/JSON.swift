@@ -18,12 +18,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
 
   var json: AnyParser<Substring.UTF8View, JSONValue>!
 
-  let unicode = Prefix(4) {
-    (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
-      || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
-      || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
-  }
-  .compactMap {
+  let unicode = Prefix(4) { $0.isHexByte }.compactMap {
     UInt32(Substring($0), radix: 16)
       .flatMap(UnicodeScalar.init)
       .map(String.init)
@@ -156,6 +151,12 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
 }
 
 extension UTF8.CodeUnit {
+  fileprivate var isHexByte: Bool {
+    (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
+      || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
+      || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
+  }
+
   fileprivate var isUnescapedJSONStringByte: Bool {
     self != .init(ascii: "\"") && self != .init(ascii: "\\") && self >= .init(ascii: " ")
   }

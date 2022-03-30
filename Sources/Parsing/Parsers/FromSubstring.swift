@@ -45,7 +45,7 @@ where SubstringParser.Input == Substring {
 
 extension FromSubstring where Input == ArraySlice<UInt8> {
   @inlinable
-  public init(@ParserBuilder _ build: () -> SubstringParser) {
+  public init(@ParserBuilder<SubstringParser.Input> _ build: () -> SubstringParser) {
     self.substringParser = build()
     self.toSubstring = { Substring(decoding: $0, as: UTF8.self) }
     self.fromSubstring = { ArraySlice($0.utf8) }
@@ -55,7 +55,7 @@ extension FromSubstring where Input == ArraySlice<UInt8> {
 extension FromSubstring where Input == Substring.UnicodeScalarView {
   @_disfavoredOverload
   @inlinable
-  public init(@ParserBuilder _ build: () -> SubstringParser) {
+  public init(@ParserBuilder<SubstringParser.Input> _ build: () -> SubstringParser) {
     self.substringParser = build()
     self.toSubstring = Substring.init
     self.fromSubstring = \.unicodeScalars
@@ -64,7 +64,7 @@ extension FromSubstring where Input == Substring.UnicodeScalarView {
 
 extension FromSubstring where Input == Substring.UTF8View {
   @inlinable
-  public init(@ParserBuilder _ build: () -> SubstringParser) {
+  public init(@ParserBuilder<SubstringParser.Input> _ build: () -> SubstringParser) {
     self.substringParser = build()
     self.toSubstring = Substring.init
     self.fromSubstring = \.utf8

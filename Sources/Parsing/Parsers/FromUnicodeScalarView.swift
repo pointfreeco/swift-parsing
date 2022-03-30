@@ -16,7 +16,7 @@ where UnicodeScalarsParser.Input == Substring.UnicodeScalarView {
 
 extension FromUnicodeScalarView where Input == ArraySlice<UInt8> {
   @inlinable
-  public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+  public init(@ParserBuilder<UnicodeScalarsParser.Input> _ build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = { Substring(decoding: $0, as: UTF8.self).unicodeScalars }
     self.fromUnicodeScalars = { ArraySlice(Substring($0).utf8) }
@@ -25,7 +25,7 @@ extension FromUnicodeScalarView where Input == ArraySlice<UInt8> {
 
 extension FromUnicodeScalarView where Input == Substring {
   @inlinable
-  public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+  public init(@ParserBuilder<UnicodeScalarsParser.Input> _ build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = \.unicodeScalars
     self.fromUnicodeScalars = Substring.init
@@ -34,7 +34,7 @@ extension FromUnicodeScalarView where Input == Substring {
 
 extension FromUnicodeScalarView where Input == Substring.UTF8View {
   @inlinable
-  public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+  public init(@ParserBuilder<UnicodeScalarsParser.Input> _ build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = { Substring($0).unicodeScalars }
     self.fromUnicodeScalars = { Substring($0).utf8 }

@@ -16,22 +16,6 @@ extension CaseIterable where Self: RawRepresentable, RawValue == Int {
   }
 
   /// A parser that consumes a case-iterable, raw representable value from the beginning of a
-  /// collection of a substring's UTF-8 view.
-  ///
-  /// See <doc:CaseIterable> for more info.
-  ///
-  /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
-  ///   interface that parses any collection of UTF-8 code units.
-  /// - Returns: A parser that consumes a case-iterable, raw representable value from the beginning
-  ///   of a substring's UTF-8 view.
-  @inlinable
-  public static func parser(
-    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
-  ) -> Parsers.CaseIterableRawRepresentableParser<Substring.UTF8View, Self, String.UTF8View> {
-    .init(toPrefix: { String($0).utf8 }, areEquivalent: ==)
-  }
-
-  /// A parser that consumes a case-iterable, raw representable value from the beginning of a
   /// collection of UTF-8 code units.
   ///
   /// - Parameter inputType: The collection type of UTF-8 code units to parse.
@@ -64,22 +48,6 @@ extension CaseIterable where Self: RawRepresentable, RawValue == String {
     of inputType: Substring.Type = Substring.self
   ) -> Parsers.CaseIterableRawRepresentableParser<Substring, Self, String> {
     .init(toPrefix: { $0 }, areEquivalent: ==)
-  }
-
-  /// A parser that consumes a case-iterable, raw representable value from the beginning of a
-  /// collection of a substring's UTF-8 view.
-  ///
-  /// See <doc:CaseIterable> for more info.
-  ///
-  /// - Parameter inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
-  ///   interface that parses any collection of UTF-8 code units.
-  /// - Returns: A parser that consumes a case-iterable, raw representable value from the beginning
-  ///   of a substring's UTF-8 view.
-  @inlinable
-  public static func parser(
-    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self
-  ) -> Parsers.CaseIterableRawRepresentableParser<Substring.UTF8View, Self, String.UTF8View> {
-    .init(toPrefix: { $0.utf8 }, areEquivalent: ==)
   }
 
   /// A parser that consumes a case-iterable, raw representable value from the beginning of a

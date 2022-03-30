@@ -99,13 +99,11 @@ extension Digits where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
 }
 
 extension Digits where Input == Substring, Bytes == Substring.UTF8View {
-  @_disfavoredOverload
   @inlinable
   public init() {
     self.init(1...)
   }
 
-  @_disfavoredOverload
   @inlinable
   public init<R: CountingRange>(_ length: R) {
     self.init(
@@ -113,18 +111,5 @@ extension Digits where Input == Substring, Bytes == Substring.UTF8View {
       toBytes: { $0.utf8 },
       fromBytes: Substring.init
     )
-  }
-}
-
-extension Digits where Input == Substring.UTF8View, Bytes == Substring.UTF8View {
-  @_disfavoredOverload
-  @inlinable
-  public init() {
-    self.init(1...)
-  }
-
-  @_disfavoredOverload
-  public init<R: CountingRange>(_ length: R) {
-    self.init(length)
   }
 }

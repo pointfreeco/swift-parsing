@@ -24,14 +24,14 @@ public struct Parse<Parsers: Parser>: Parser {
   public let parsers: Parsers
 
   @inlinable
-  public init(@ParserBuilder _ build: () -> Parsers) {
+  public init(@ParserBuilder<Input> _ build: () -> Parsers) {
     self.parsers = build()
   }
 
   @inlinable
   public init<Upstream, NewOutput>(
     _ transform: @escaping (Upstream.Output) -> NewOutput,
-    @ParserBuilder with build: () -> Upstream
+    @ParserBuilder<Input> with build: () -> Upstream
   ) where Parsers == Parsing.Parsers.Map<Upstream, NewOutput> {
     self.parsers = build().map(transform)
   }
@@ -39,7 +39,7 @@ public struct Parse<Parsers: Parser>: Parser {
   @inlinable
   public init<Upstream, NewOutput>(
     _ output: NewOutput,
-    @ParserBuilder with build: () -> Upstream
+    @ParserBuilder<Input> with build: () -> Upstream
   ) where Upstream.Output == Void, Parsers == Parsing.Parsers.Map<Upstream, NewOutput> {
     self.parsers = build().map { output }
   }

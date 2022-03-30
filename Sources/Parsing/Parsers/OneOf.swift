@@ -155,7 +155,7 @@ public struct OneOf<Parsers>: Parser where Parsers: Parser {
   public let parsers: Parsers
 
   @inlinable
-  public init(@OneOfBuilder _ build: () -> Parsers) {
+  public init(@OneOfBuilder<Input> _ build: () -> Parsers) {
     self.parsers = build()
   }
 

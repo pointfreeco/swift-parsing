@@ -7,7 +7,7 @@ where
   public let upstream: Upstream
 
   @inlinable
-  public init(@ParserBuilder _ build: () -> Upstream) {
+  public init(@ParserBuilder<Input> _ build: () -> Upstream) {
     self.upstream = build()
   }
 

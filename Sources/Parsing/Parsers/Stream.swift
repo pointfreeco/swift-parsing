@@ -34,7 +34,7 @@ public struct Stream<Parsers: Parser>: Parser where Parsers.Input: RangeReplacea
   public let parsers: Parsers
 
   @inlinable
-  public init(@ParserBuilder build: () -> Parsers) {
+  public init(@ParserBuilder<Parsers.Input> build: () -> Parsers) {
     self.parsers = build()
   }
 

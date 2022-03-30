@@ -17,7 +17,12 @@
 /// try currency.parse("$100") // (.usd, 100)
 /// ```
 @resultBuilder
-public enum OneOfBuilder {
+public enum OneOfBuilder<Input> {
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> P where P.Input == Input {
+    parser
+  }
+
   /// Provides support for `for`-`in` loops in ``OneOfBuilder`` blocks.
   ///
   /// Useful for building up a parser from a dynamic source, like for a case-iterable enum:
@@ -42,7 +47,7 @@ public enum OneOfBuilder {
 
   /// Provides support for specifying a parser in ``OneOfBuilder`` blocks.
   @inlinable
-  static public func buildBlock<P: Parser>(_ parser: P) -> P {
+  static public func buildBlock<P: Parser>(_ parser: P) -> P where P.Input == Input {
     parser
   }
 
@@ -127,7 +132,7 @@ public enum OneOfBuilder {
   ///   "\t"
   /// }
   /// ```
-  public struct OptionalOneOf<Wrapped: Parser>: Parser {
+  public struct OptionalOneOf<Wrapped: Parser>: Parser where Wrapped.Input == Input {
     @usableFromInline
     let wrapped: Wrapped?
 
@@ -142,5 +147,21 @@ public enum OneOfBuilder {
       else { throw ParsingError.manyFailed([], at: input) }
       return try wrapped.parse(&input)
     }
+  }
+}
+
+extension OneOfBuilder where Input == Substring {
+  @_disfavoredOverload
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> P where P.Input == Input {
+    parser
+  }
+}
+
+extension OneOfBuilder where Input == Substring.UTF8View {
+  @_disfavoredOverload
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> P where P.Input == Input {
+    parser
   }
 }

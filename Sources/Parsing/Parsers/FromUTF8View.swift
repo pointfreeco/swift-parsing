@@ -14,7 +14,7 @@ where UTF8Parser.Input == Substring.UTF8View {
 
 extension FromUTF8View where Input == Substring {
   @inlinable
-  public init(@ParserBuilder _ build: () -> UTF8Parser) {
+  public init(@ParserBuilder<UTF8Parser.Input> _ build: () -> UTF8Parser) {
     self.utf8Parser = build()
     self.toUTF8 = \.utf8
     self.fromUTF8 = Substring.init
@@ -24,7 +24,7 @@ extension FromUTF8View where Input == Substring {
 extension FromUTF8View where Input == Substring.UnicodeScalarView {
   @_disfavoredOverload
   @inlinable
-  public init(@ParserBuilder _ build: () -> UTF8Parser) {
+  public init(@ParserBuilder<UTF8Parser.Input> _ build: () -> UTF8Parser) {
     self.utf8Parser = build()
     self.toUTF8 = { Substring($0).utf8 }
     self.fromUTF8 = { Substring($0).unicodeScalars }

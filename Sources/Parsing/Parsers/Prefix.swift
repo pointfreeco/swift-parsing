@@ -103,16 +103,18 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
 }
 
 extension Prefix where Input == Substring {
-  @_disfavoredOverload
   @inlinable
   public init<R: CountingRange>(_ length: R, while predicate: ((Input.Element) -> Bool)? = nil) {
-    self.init(length, while: predicate)
+    self.minimum = length.minimum
+    self.maximum = length.maximum
+    self.predicate = predicate
   }
 
-  @_disfavoredOverload
   @inlinable
   public init(while predicate: @escaping (Input.Element) -> Bool) {
-    self.init(while: predicate)
+    self.minimum = 0
+    self.maximum = nil
+    self.predicate = predicate
   }
 }
 
@@ -120,13 +122,17 @@ extension Prefix where Input == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
   public init<R: CountingRange>(_ length: R, while predicate: ((Input.Element) -> Bool)? = nil) {
-    self.init(length, while: predicate)
+    self.minimum = length.minimum
+    self.maximum = length.maximum
+    self.predicate = predicate
   }
 
   @_disfavoredOverload
   @inlinable
   public init(while predicate: @escaping (Input.Element) -> Bool) {
-    self.init(while: predicate)
+    self.minimum = 0
+    self.maximum = nil
+    self.predicate = predicate
   }
 }
 

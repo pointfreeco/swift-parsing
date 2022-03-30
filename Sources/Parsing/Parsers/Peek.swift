@@ -30,7 +30,7 @@ public struct Peek<Upstream: Parser>: Parser {
   ///
   /// - Parameter build: A parser this parser wants to inspect.
   @inlinable
-  public init(@ParserBuilder _ build: () -> Upstream) {
+  public init(@ParserBuilder<Input> _ build: () -> Upstream) {
     self.upstream = build()
   }
 

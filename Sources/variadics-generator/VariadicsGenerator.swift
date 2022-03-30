@@ -101,8 +101,8 @@ struct VariadicsGenerator: ParsableCommand {
       output("extension ParserBuilder {\n  public struct \(typeName)<")
       outputForEach(0..<arity, separator: ", ") { "P\($0): Parser" }
       output(">: Parser\n  where\n    ")
-      outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n    ") {
-        "P\($0).Input == P\($1).Input"
+      outputForEach(0..<arity, separator: ",\n    ") {
+        "P\($0).Input == Input"
       }
       if permutation.hasCaptureless {
         output(",\n    ")
@@ -149,10 +149,10 @@ struct VariadicsGenerator: ParsableCommand {
       outputForEach(0..<arity, separator: ", ") { "P\($0)" }
       output(">(\n    ")
       outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
-      output("\n  ) -> ParserBuilder.\(typeName)<")
+      output("\n  ) -> \(typeName)<")
       outputForEach(0..<arity, separator: ", ") { "P\($0)" }
       output("> {\n")
-      output("    ParserBuilder.\(typeName)(")
+      output("    \(typeName)(")
       outputForEach(0..<arity, separator: ", ") { "p\($0)" }
       output(")\n  }\n}\n\n")
     }
@@ -164,8 +164,8 @@ struct VariadicsGenerator: ParsableCommand {
     output("extension OneOfBuilder {\n  public struct \(typeName)<")
     outputForEach(0..<arity, separator: ", ") { "P\($0): Parser" }
     output(">: Parser\n  where\n    ")
-    outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n    ") {
-      "P\($0).Input == P\($1).Input"
+    outputForEach(0..<arity, separator: ",\n    ") {
+      "P\($0).Input == Input"
     }
     output(",\n    ")
     outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n    ") {
@@ -201,10 +201,10 @@ struct VariadicsGenerator: ParsableCommand {
     outputForEach(0..<arity, separator: ", ") { "P\($0)" }
     output(">(\n    ")
     outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
-    output("\n  ) -> OneOfBuilder.\(typeName)<")
+    output("\n  ) -> \(typeName)<")
     outputForEach(0..<arity, separator: ", ") { "P\($0)" }
     output("> {\n")
-    output("    OneOfBuilder.\(typeName)(")
+    output("    \(typeName)(")
     outputForEach(0..<arity, separator: ", ") { "p\($0)" }
     output(")\n  }\n}\n\n")
   }

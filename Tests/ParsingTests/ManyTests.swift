@@ -129,10 +129,12 @@ class ManyTests: XCTestCase {
       var isAdmin: Bool
     }
 
+    let name = Prefix { $0 != "," }.map(String.init)
+
     let user = Parse(User.init) {
       Int.parser()
       ","
-      Prefix { $0 != "," }.map(String.init)
+      name
       ","
       Bool.parser()
     }

@@ -11,9 +11,9 @@ extension Many {
     atLeast minimum: Int,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> separator: () -> Separator,
+    @ParserBuilder<Input> terminator: () -> Terminator
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -33,9 +33,9 @@ extension Many {
     into initialResult: Result,
     atLeast minimum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> separator: () -> Separator,
+    @ParserBuilder<Input> terminator: () -> Terminator
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -55,9 +55,9 @@ extension Many {
     into initialResult: Result,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> separator: () -> Separator,
+    @ParserBuilder<Input> terminator: () -> Terminator
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -80,7 +80,7 @@ extension Many where Separator == Always<Input, Void>, Terminator == Always<Inpu
     atLeast minimum: Int,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Input> element: () -> Element
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -100,7 +100,7 @@ extension Many where Separator == Always<Input, Void>, Terminator == Always<Inpu
     into initialResult: Result,
     atLeast minimum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Input> element: () -> Element
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -120,7 +120,7 @@ extension Many where Separator == Always<Input, Void>, Terminator == Always<Inpu
     into initialResult: Result,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Input> element: () -> Element
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -143,8 +143,8 @@ extension Many where Separator == Always<Input, Void> {
     atLeast minimum: Int,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> terminator: () -> Terminator
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -164,8 +164,8 @@ extension Many where Separator == Always<Input, Void> {
     into initialResult: Result,
     atLeast minimum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> terminator: () -> Terminator
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -185,8 +185,8 @@ extension Many where Separator == Always<Input, Void> {
     into initialResult: Result,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> terminator: () -> Terminator
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -209,8 +209,8 @@ extension Many where Terminator == Always<Input, Void> {
     atLeast minimum: Int,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> separator: () -> Separator
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -230,8 +230,8 @@ extension Many where Terminator == Always<Input, Void> {
     into initialResult: Result,
     atLeast minimum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> separator: () -> Separator
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -251,8 +251,8 @@ extension Many where Terminator == Always<Input, Void> {
     into initialResult: Result,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> separator: () -> Separator
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -273,9 +273,9 @@ extension Many where Result == [Element.Output] {
   public init(
     atLeast minimum: Int,
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> separator: () -> Separator,
+    @ParserBuilder<Input> terminator: () -> Terminator
   ) {
     self.init(
       into: [],
@@ -303,7 +303,7 @@ where
   public init(
     atLeast minimum: Int,
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Input> element: () -> Element
   ) {
     self.init(
       into: [],
@@ -321,7 +321,7 @@ where
   @inlinable
   public init(
     atLeast minimum: Int,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Input> element: () -> Element
   ) {
     self.init(
       into: [],
@@ -339,7 +339,7 @@ where
   @inlinable
   public init(
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Input> element: () -> Element
   ) {
     self.init(
       into: [],
@@ -360,8 +360,8 @@ extension Many where Result == [Element.Output], Separator == Always<Input, Void
   public init(
     atLeast minimum: Int,
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> terminator: () -> Terminator
   ) {
     self.init(
       into: [],
@@ -380,8 +380,8 @@ extension Many where Result == [Element.Output], Separator == Always<Input, Void
   @inlinable
   public init(
     atLeast minimum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> terminator: () -> Terminator
   ) {
     self.init(
       into: [],
@@ -400,8 +400,8 @@ extension Many where Result == [Element.Output], Separator == Always<Input, Void
   @inlinable
   public init(
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> terminator: () -> Terminator
   ) {
     self.init(
       into: [],
@@ -423,8 +423,8 @@ extension Many where Result == [Element.Output], Terminator == Always<Input, Voi
   public init(
     atLeast minimum: Int,
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> separator: () -> Separator
   ) {
     self.init(
       into: [],
@@ -443,8 +443,8 @@ extension Many where Result == [Element.Output], Terminator == Always<Input, Voi
   @inlinable
   public init(
     atLeast minimum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> separator: () -> Separator
   ) {
     self.init(
       into: [],
@@ -463,8 +463,8 @@ extension Many where Result == [Element.Output], Terminator == Always<Input, Voi
   @inlinable
   public init(
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Input> element: () -> Element,
+    @ParserBuilder<Input> separator: () -> Separator
   ) {
     self.init(
       into: [],

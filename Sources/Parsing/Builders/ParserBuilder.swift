@@ -13,7 +13,12 @@
 /// .parse("123,456") // (123, 456)
 /// ```
 @resultBuilder
-public enum ParserBuilder {
+public enum ParserBuilder<Input> {
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> P where P.Input == Input {
+    parser
+  }
+
   /// Provides support for specifying a parser in ``ParserBuilder`` blocks.
   @inlinable
   public static func buildBlock<P: Parser>(_ parser: P) -> P {
@@ -99,5 +104,21 @@ public enum ParserBuilder {
   @inlinable
   public static func buildLimitedAvailability<P>(_ parser: P?) -> Parsers.OptionalVoid<P> {
     .init(wrapped: parser)
+  }
+}
+
+extension ParserBuilder where Input == Substring {
+  @_disfavoredOverload
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> P where P.Input == Input {
+    parser
+  }
+}
+
+extension ParserBuilder where Input == Substring.UTF8View {
+  @_disfavoredOverload
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> P where P.Input == Input {
+    parser
   }
 }

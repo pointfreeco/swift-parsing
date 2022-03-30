@@ -166,7 +166,6 @@ extension Whitespace where Bytes == Input.SubSequence, Bytes.SubSequence == Inpu
 }
 
 extension Whitespace where Input == Substring, Bytes == Substring.UTF8View {
-  @_disfavoredOverload
   @inlinable
   public init<R: CountingRange>(_ length: R, _ configuration: Configuration = .all) {
     self.minimum = length.minimum
@@ -176,24 +175,9 @@ extension Whitespace where Input == Substring, Bytes == Substring.UTF8View {
     self.fromBytes = Substring.init
   }
 
-  @_disfavoredOverload
   @inlinable
   public init(_ configuration: Configuration = .all) {
     self.init(0..., configuration)
-  }
-}
-
-extension Whitespace where Input == Substring.UTF8View, Bytes == Substring.UTF8View {
-  @_disfavoredOverload
-  @inlinable
-  public init<R: CountingRange>(_ length: R, _ configuration: Configuration = .all) {
-    self.init(length, configuration)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(_ configuration: Configuration = .all) {
-    self.init(configuration)
   }
 }
 

@@ -31,24 +31,25 @@ extension Parser {
   /// - Parameter downstream: A parser that parses the output of this parser.
   /// - Returns: A parser that pipes this parser's output into another parser.  @inlinable
   public func pipe<Downstream>(
-    @ParserBuilder _ build: () -> Downstream
+    @ParserBuilder<Downstream.Input> _ build: () -> Downstream
   ) -> Parsers.Pipe<Self, Downstream> {
     .init(upstream: self, downstream: build())
   }
 }
 
-extension Parser where Input: Collection {
-  public func pipe<Downstream>(
-    @ParserBuilder _ build: () -> Downstream
-  ) -> Parsers.Pipe<Self, Parse<ParserBuilder.ZipOV<Downstream, Parsers.PipeEnd<Self.Input>>>> {
-    .init(
-      upstream: self,
-      downstream: Parse {
-        build()
-        Parsers.PipeEnd<Input>()
-      })
-  }
-}
+#warning("TODO: Fix")
+//extension Parser where Input: Collection {
+//  public func pipe<Downstream>(
+//    @ParserBuilder _ build: () -> Downstream
+//  ) -> Parsers.Pipe<Self, Parse<ParserBuilder.ZipOV<Downstream, Parsers.PipeEnd<Self.Input>>>> {
+//    .init(
+//      upstream: self,
+//      downstream: Parse {
+//        build()
+//        Parsers.PipeEnd<Input>()
+//      })
+//  }
+//}
 
 extension Parsers {
   /// A parser that runs this parser, pipes its output into the given parser, and returns the output
