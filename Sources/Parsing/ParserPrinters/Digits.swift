@@ -46,7 +46,6 @@ where
     toBytes: @escaping (Input) -> Bytes,
     fromBytes: @escaping (Bytes) -> Input
   ) {
-    precondition(length.minimum >= 1, "Can't construct Digits with length < 1")
     self.minimum = length.minimum
     self.maximum = length.maximum
     self.toBytes = toBytes
@@ -73,6 +72,9 @@ where
       )
     }
 
+    guard !prefix.isEmpty
+    else { return 0 }
+
     guard let digits = Int(String(decoding: prefix, as: UTF8.self))
     else { throw ParsingError.expectedInput("digits", at: input) }
 
@@ -84,6 +86,9 @@ where
 extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: PrependableCollection {
   @inlinable
   public func print(_ output: Int, into input: inout Input) throws {
+    guard self.minimum != 0, output != 0
+    else { return }
+
     var bytes = Bytes(String(output).utf8)
     let count = bytes.count
 

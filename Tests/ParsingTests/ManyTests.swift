@@ -67,7 +67,7 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(Substring(input), "")
 
     XCTAssertThrowsError(
-      try Many(atLeast: 6) {
+      try Many(6...) {
         Int.parser()
       } separator: {
         ",".utf8
@@ -112,7 +112,7 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(Substring(input), ",4,5")
 
     XCTAssertThrowsError(
-      try Many(atMost: 3) {
+      try Many(...3) {
         Int.parser()
       } separator: {
         ",".utf8
