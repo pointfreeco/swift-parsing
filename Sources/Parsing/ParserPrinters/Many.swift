@@ -236,8 +236,8 @@ extension Many where Printability == Void {
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     iterator: @escaping (Result) throws -> I,
     @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator = { Always<Input, Void>(()) },
-    @ParserBuilder terminator: () -> Terminator = { Always<Input, Void>(()) }
+    @ParserBuilder separator: () -> Separator,
+    @ParserBuilder terminator: () -> Terminator
   ) where I.Element == Element.Output {
     self.element = element()
     self.initialResult = initialResult
@@ -270,8 +270,8 @@ extension Many where Printability == Never {
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator = { Always<Input, Void>(()) },
-    @ParserBuilder terminator: () -> Terminator = { Always<Input, Void>(()) }
+    @ParserBuilder separator: () -> Separator,
+    @ParserBuilder terminator: () -> Terminator
   ) where Printability == Never {
     self.element = element()
     self.initialResult = initialResult
@@ -286,10 +286,212 @@ extension Many where Printability == Never {
 
 extension Many
 where
-  Result: RangeReplaceableCollection,
-  Result.Element == Element.Output,
+  Separator == Always<Element.Input, Void>,
+  Terminator == Always<Element.Input, Void>,
   Printability == Void
 {
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  @inlinable
+  public init<I: IteratorProtocol>(
+    _ length: some CountingRange = 0...,
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    iterator: @escaping (Result) throws -> I,
+    @ParserBuilder element: () -> Element
+  ) where I.Element == Element.Output {
+    self.init(
+      length,
+      into: initialResult,
+      updateAccumulatingResult,
+      iterator: iterator,
+      element: element,
+      separator: { Always<Element.Input, Void>(()) },
+      terminator: { Always<Element.Input, Void>(()) }
+    )
+  }
+}
+
+extension Many
+where
+  Separator == Always<Element.Input, Void>,
+  Terminator == Always<Element.Input, Void>,
+  Printability == Never
+{
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  @inlinable
+  public init(
+    _ length: some CountingRange = 0...,
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    @ParserBuilder element: () -> Element
+  ) {
+    self.init(
+      length,
+      into: initialResult,
+      updateAccumulatingResult,
+      element: element,
+      separator: { Always<Element.Input, Void>(()) },
+      terminator: { Always<Element.Input, Void>(()) }
+    )
+  }
+}
+
+extension Many where Separator == Always<Input, Void>, Printability == Void {
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - terminator: A parser that consumes any leftover input.
+  @inlinable
+  public init<I: IteratorProtocol>(
+    _ length: some CountingRange = 0...,
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    iterator: @escaping (Result) throws -> I,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder terminator: () -> Terminator
+  ) where I.Element == Element.Output {
+    self.init(
+      length,
+      into: initialResult,
+      updateAccumulatingResult,
+      iterator: iterator,
+      element: element,
+      separator: { Always<Element.Input, Void>(()) },
+      terminator: terminator
+    )
+  }
+}
+
+extension Many where Separator == Always<Input, Void>, Printability == Never {
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - terminator: A parser that consumes any leftover input.
+  @inlinable
+  public init(
+    _ length: some CountingRange = 0...,
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder terminator: () -> Terminator
+  ) {
+    self.init(
+      length,
+      into: initialResult,
+      updateAccumulatingResult,
+      element: element,
+      separator: { Always<Element.Input, Void>(()) },
+      terminator: terminator
+    )
+  }
+}
+
+extension Many where Terminator == Always<Input, Void>, Printability == Void {
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - iterator: An iterator that can iterate over the elements used to build up a result.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
+  @inlinable
+  public init<I: IteratorProtocol>(
+    _ length: some CountingRange = 0...,
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    iterator: @escaping (Result) throws -> I,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator
+  ) where I.Element == Element.Output {
+    self.init(
+      length,
+      into: initialResult,
+      updateAccumulatingResult,
+      iterator: { AnyIterator(try iterator($0)) },
+      element: element,
+      separator: separator,
+      terminator: { Always<Input, Void>(()) }
+    )
+  }
+}
+
+extension Many where Terminator == Always<Input, Void>, Printability == Never {
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - initialResult: The value to use as the initial accumulating value.
+  ///   - updateAccumulatingResult: A closure that updates the accumulating result with each output
+  ///     of the element parser.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
+  @inlinable
+  public init(
+    _ length: some CountingRange = 0...,
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator
+  ) {
+    self.init(
+      length,
+      into: initialResult,
+      updateAccumulatingResult,
+      element: element,
+      separator: separator,
+      terminator: { Always<Input, Void>(()) }
+    )
+  }
+}
+
+extension Many where Result == [Element.Output], Printability == Void {
   /// Initializes a parser that attempts to run the given parser many times, accumulating the
   /// outputs into a result.
   ///
@@ -303,19 +505,112 @@ where
   @inlinable
   public init(
     _ length: some CountingRange = 0...,
-    into initialResult: Result = [],
     @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator = { Always<Input, Void>(()) },
-    @ParserBuilder terminator: () -> Terminator = { Always<Input, Void>(()) }
+    @ParserBuilder separator: () -> Separator,
+    @ParserBuilder terminator: () -> Terminator
   ) {
     self.init(
       length,
-      into: initialResult,
+      into: [],
       { $0.append($1) },
       iterator: { $0.reversed().makeIterator() },
       element: element,
       separator: separator,
       terminator: terminator
+    )
+  }
+}
+
+extension Many
+where
+  Result == [Element.Output],
+  Separator == Always<Input, Void>,
+  Terminator == Always<Input, Void>,
+  Printability == Void
+{
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  @inlinable
+  public init(
+    _ length: some CountingRange = 0...,
+    @ParserBuilder element: () -> Element
+  ) {
+    self.init(
+      length,
+      into: [],
+      { $0.append($1) },
+      iterator: { $0.reversed().makeIterator() },
+      element: element
+    )
+  }
+}
+
+extension Many
+where
+  Result == [Element.Output],
+  Separator == Always<Input, Void>,
+  Printability == Void
+{
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - terminator: A parser that consumes any leftover input.
+  @inlinable
+  public init(
+    _ length: some CountingRange = 0...,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder terminator: () -> Terminator
+  ) {
+    self.init(
+      length,
+      into: [],
+      { $0.append($1) },
+      iterator: { $0.reversed().makeIterator() },
+      element: element,
+      terminator: terminator
+    )
+  }
+}
+
+extension Many
+where
+  Result == [Element.Output],
+  Terminator == Always<Input, Void>,
+  Printability == Void
+{
+  /// Initializes a parser that attempts to run the given parser many times, accumulating the
+  /// outputs into a result.
+  ///
+  /// - Parameters:
+  ///   - length: A bounds that represents the minimum number of times to run this parser and
+  ///     consider parsing to be successful, and maximum number of times to run this parser before
+  ///     returning the output.
+  ///   - element: A parser to run multiple times to accumulate into a result.
+  ///   - separator: A parser that consumes input between each parsed output.
+  @inlinable
+  public init(
+    _ length: some CountingRange = 0...,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator
+  ) {
+    self.init(
+      length,
+      into: [],
+      { $0.append($1) },
+      iterator: { $0.reversed().makeIterator() },
+      element: element,
+      separator: separator
     )
   }
 }
