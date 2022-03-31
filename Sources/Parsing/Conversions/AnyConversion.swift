@@ -113,3 +113,23 @@ public struct AnyConversion<Input, Output>: Conversion {
     try self._unapply(output)
   }
 }
+
+extension Conversion {
+#warning("DOCS")
+  @inlinable
+  public static func convert<Input, Output>(
+    apply: @escaping (Input) throws -> Output,
+    unapply: @escaping (Output) throws -> Input
+  ) -> Self where Self == AnyConversion<Input, Output> {
+    .init(apply: apply, unapply: unapply)
+  }
+
+  #warning("DOCS")
+  @inlinable
+  public static func convert<Input, Output>(
+    apply: @escaping (Input) -> Output?,
+    unapply: @escaping (Output) -> Input?
+  ) -> Self where Self == AnyConversion<Input, Output> {
+    .init(apply: apply, unapply: unapply)
+  }
+}
