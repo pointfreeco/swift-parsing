@@ -13,7 +13,12 @@ extension URLRequestData {
 
     self.init(
       method: request.httpMethod,
-      path: url.path.split(separator: "/")[...],
+      scheme: components.scheme,
+      user: components.user,
+      password: components.password,
+      host: components.host?[...],
+      port: components.port,
+      path: components.path.split(separator: "/")[...],
       query: Fields(
         components.queryItems?.reduce(into: [:]) { query, item in
           query[item.name, default: []].append(item.value?[...])
