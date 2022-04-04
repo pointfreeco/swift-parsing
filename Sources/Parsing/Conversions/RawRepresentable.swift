@@ -84,7 +84,15 @@ extension Conversions {
     @inlinable
     public func apply(_ input: Output.RawValue) throws -> Output {
       guard let output = Output(rawValue: input)
-      else { throw ConvertingError() }
+      else {
+        var debugDescription = ""
+        debugPrint(input, to: &debugDescription)
+        throw ConvertingError(
+          """
+          representing: Failed to convert \(debugDescription) to \(Output.self).
+          """
+        )
+      }
       return output
     }
 

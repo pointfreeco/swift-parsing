@@ -47,7 +47,13 @@ extension Conversions {
     @inlinable
     public func apply(_ input: String) throws -> Output {
       guard let output = Output(input)
-      else { throw ConvertingError() }
+      else {
+        throw ConvertingError(
+          """
+          lossless: Failed to convert \(input.debugDescription) to \(Output.self).
+          """
+        )
+      }
 
       return output
     }

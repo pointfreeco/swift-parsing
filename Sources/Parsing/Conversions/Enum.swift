@@ -51,7 +51,13 @@ extension CasePath: Conversion {
   @inlinable
   public func unapply(_ output: Root) throws -> Value {
     guard let value = self.extract(from: output)
-    else { throw ConvertingError() }
+    else {
+      throw ConvertingError(
+        """
+        case: Failed to extract \(Value.self) from \(output).
+        """
+      )
+    }
     return value
   }
 }
