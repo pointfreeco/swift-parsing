@@ -16,17 +16,17 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       enum AppRoute: Equatable {
         case home
         case contactUs
-        case episodes(Episodes)
+        case episodes(EpisodesRoute)
       }
-      enum Episodes: Equatable {
+      enum EpisodesRoute: Equatable {
         case index
-        case episode(id: Int, route: Episode)
+        case episode(id: Int, route: EpisodeRoute)
       }
-      enum Episode: Equatable {
+      enum EpisodeRoute: Equatable {
         case show
-        case comments(Comments)
+        case comments(CommentsRoute)
       }
-      enum Comments: Equatable {
+      enum CommentsRoute: Equatable {
         case post(Comment)
         case show(count: Int)
       }
@@ -39,14 +39,14 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       encoder.outputFormatting = .sortedKeys
 
       let commentsRouter = OneOf {
-        Route(.case(Comments.post)) {
+        Route(.case(CommentsRoute.post)) {
           Method.post
           Body {
             Parse(.data.json(Comment.self, encoder: encoder))
           }
         }
 
-        Route(.case(Comments.show)) {
+        Route(.case(CommentsRoute.show)) {
           Query {
             Field("count", Int.parser(), default: 10)
           }
@@ -54,9 +54,9 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       }
 
       let episodeRouter = OneOf {
-        Route(Episode.show)
+        Route(EpisodeRoute.show)
 
-        Route(.case(Episode.comments)) {
+        Route(.case(EpisodeRoute.comments)) {
           Path { From(.utf8) { "comments".utf8 } }
 
           commentsRouter
@@ -64,9 +64,9 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       }
 
       let episodesRouter = OneOf {
-        Route(Episodes.index)
+        Route(EpisodesRoute.index)
 
-        Route(.case(Episodes.episode)) {
+        Route(.case(EpisodesRoute.episode)) {
           Path { Int.parser() }
 
           episodeRouter
