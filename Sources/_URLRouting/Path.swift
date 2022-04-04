@@ -33,10 +33,7 @@ where ComponentParser.Input == Substring {
 
   public func parse(_ input: inout URLRequestData) throws -> ComponentParser.Output {
     guard input.path.count >= 1 else { throw RoutingError() }
-    return try Parse {
-      self.componentParser
-      End()
-    }.parse(input.path.removeFirst())
+    return try self.componentParser.parse(input.path.removeFirst())
   }
 }
 

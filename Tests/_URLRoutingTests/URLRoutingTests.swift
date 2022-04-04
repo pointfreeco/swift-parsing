@@ -113,7 +113,7 @@ class URLRoutingTests: XCTestCase {
     )
   }
 
-  func testHost() throws {
+  func testBaseURL() throws {
     enum AppRoute { case home, episodes }
 
     let router = OneOf {
@@ -123,19 +123,13 @@ class URLRoutingTests: XCTestCase {
       }
     }
 
-    print(
+    XCTAssertEqual(
+      "https://api.pointfree.co/v1/episodes?token=deadbeef",
       URLRequest(
-        data: try Parse {
-          Always<URLRequestData, Void>(()).printing {
-            $1.scheme = "https"
-            $1.host = "www.pointfree.co"
-            $1.path = ["v1"]
-          }
-
-          router
-        }
-        .print(.episodes)
-      )!
+        data: try router
+          .baseURL("https://api.pointfree.co/v1?token=deadbeef")
+          .print(.episodes)
+      )?.url?.absoluteString
     )
   }
 }

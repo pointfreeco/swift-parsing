@@ -1,19 +1,7 @@
 /// A parser that succeeds if the input is empty, and fails otherwise.
 ///
 /// Useful as a final parser in a long sequence of parsers to guarantee that all input has been
-/// consumed.
-///
-/// ```swift
-/// let parser = Parse {
-///   "Hello, "
-///   Prefix { $0 != "!" }
-///   "!"
-///   End()  // NB: All input should be consumed.
-/// }
-///
-/// var input = "Hello, Blob!"[...]
-/// try parser.parse(&input)  // "Blob"
-/// ```
+/// consumed, especially as ``Many``'s terminal parser.
 ///
 /// This parser will fail if there are input elements that have not been consumed:
 ///
@@ -25,6 +13,9 @@
 /// // 1 | Hello, Blob!!
 /// //   |             ^ expected end of input
 /// ```
+///
+/// > Note: This parser is automatically inserted when you invoke the non-incremental
+/// > ``Parser/parse(_:)-6h1d0`` and ``Parser/parse(_:)-2wzcq`` methods.
 public struct End<Input: Collection>: ParserPrinter {
   @inlinable
   public init() {}

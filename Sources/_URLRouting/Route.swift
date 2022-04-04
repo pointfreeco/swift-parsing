@@ -65,7 +65,7 @@ public struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestDa
     if input.method != nil {
       try Method.get.parse(&input)
     }
-    try End().parse(input.path)
+    try PathEnd().parse(input)
     return output
   }
 }
