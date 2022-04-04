@@ -33,6 +33,13 @@ extension Conversion {
   ) -> Self where Self == CasePath<Enum, Values> {
     /initializer
   }
+
+  @inlinable
+  public static func `case`<Enum>(
+    _ initializer: Enum
+  ) -> Self where Self == CasePath<Enum, Void> {
+    /initializer
+  }
 }
 
 extension CasePath: Conversion {

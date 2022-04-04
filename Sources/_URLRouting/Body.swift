@@ -8,6 +8,14 @@ public struct Body<Bytes: Parser>: Parser where Bytes.Input == ArraySlice<UInt8>
   }
 
   @inlinable
+  public init<C>(_ conversion: C)
+  where
+    Bytes == Parse<Parsers.MapConversion<Rest<Bytes.Input>, C>>
+  {
+    self.bytesParser = Parse(conversion)
+  }
+
+  @inlinable
   public func parse(_ input: inout URLRequestData) throws -> Bytes.Output {
     guard var body = input.body
     else { throw RoutingError() }
