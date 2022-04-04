@@ -1,3 +1,4 @@
+/// Parses a request's headers using field parsers.
 public struct Headers<FieldParsers: Parser>: Parser
 where FieldParsers.Input == URLRequestData.Fields {
   @usableFromInline

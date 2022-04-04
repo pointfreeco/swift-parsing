@@ -5,6 +5,19 @@ import Foundation
 #endif
 
 extension URLRequestData {
+  /// Initializes parseable request data from a `URLRequest`.
+  ///
+  /// Useful for converting a `URLRequest` from the Foundation framework into parseable
+  /// ``URLRequestData``.
+  ///
+  /// ```swift
+  /// guard let requestData = URLRequestData(request: urlRequest)
+  /// else { return }
+  ///
+  /// let route = try router.parse(requestData)
+  /// ```
+  ///
+  /// - Parameter request: A URL request.
   public init?(request: URLRequest) {
     guard
       let url = request.url,
@@ -16,7 +29,7 @@ extension URLRequestData {
       scheme: components.scheme,
       user: components.user,
       password: components.password,
-      host: components.host?[...],
+      host: components.host,
       port: components.port,
       path: components.path.split(separator: "/")[...],
       query: Fields(
@@ -33,10 +46,12 @@ extension URLRequestData {
     )
   }
 
+  /// Initializes a parseable URL request from a `URL`.
   public init?(url: URL) {
     self.init(request: URLRequest(url: url))
   }
 
+  /// Initializes a parseable URL request from a URL string.
   public init?(string: String) {
     guard let url = URL(string: string)
     else { return nil }
@@ -45,12 +60,23 @@ extension URLRequestData {
 }
 
 extension URLRequest {
+  /// Initializes a `URLRequest` from parseable/printable request data.
+  ///
+  /// Useful for converting ``URLRequestData`` back into a `URLRequest`.
+  ///
+  /// ```swift
+  /// let requestData = try router.print(route)
+  /// guard let urlRequest = URLRequest(data: requestData)
+  /// else { return }
+  /// ```
+  ///
+  /// - Parameter data: URL request data.
   public init?(data: URLRequestData) {
     var urlComponents = URLComponents()
     urlComponents.scheme = data.scheme
     urlComponents.user = data.user
     urlComponents.password = data.password
-    urlComponents.host = data.host.map(String.init)
+    urlComponents.host = data.host
     urlComponents.port = data.port
     urlComponents.path = "/\(data.path.joined(separator: "/"))"
     if !data.query.isEmpty {

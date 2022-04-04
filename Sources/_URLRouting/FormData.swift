@@ -1,7 +1,6 @@
 import Foundation
 
-// FIXME: Should this be a `Conversion`?
-
+/// Parser form-encoded data using field parsers.
 public struct FormData<FieldParsers: Parser>: Parser
 where FieldParsers.Input == URLRequestData.Fields {
   @usableFromInline

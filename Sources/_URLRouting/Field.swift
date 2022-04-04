@@ -1,5 +1,7 @@
-// FIXME: Should there be a `NameParser`?
-
+/// Parses a named field's value with a string parser.
+///
+/// Useful for incrementally parsing values from various request fields, including ``Query``
+/// parameters, ``Headers`` and ``Cookies``, and ``FormData``.
 public struct Field<Value: Parser>: Parser where Value.Input == Substring {
   @usableFromInline
   let defaultValue: Value.Output?
@@ -42,11 +44,7 @@ public struct Field<Value: Parser>: Parser where Value.Input == Substring {
       return defaultValue
     }
 
-    let output = try Parse {
-      self.valueParser
-      End()
-    }.parse(&value)
-
+    let output = try self.valueParser.parse(&value)
     input[self.name]?.removeFirst()
     if input[self.name]?.isEmpty ?? true {
       input[self.name] = nil

@@ -128,6 +128,12 @@ func describe(_ input: Any) -> String? {
   case let input as Substring.UTF8View:
     return describe(Substring(input))
 
+  case let input as String:
+    return input
+
+  case let input as String.UTF8View:
+    return String(input)
+
   default:
     return nil
   }

@@ -141,7 +141,13 @@ extension Parsers {
           return `case`
         }
       }
-      throw ParsingError.expectedInput("case of \"\(Output.self)\"", at: input)
+      throw ParsingError.manyFailed(
+        self.cases.map {
+          ParsingError
+            .expectedInput(describe($0.prefix)?.debugDescription ?? "\($0.prefix)", at: input)
+        },
+        at: input
+      )
     }
   }
 }

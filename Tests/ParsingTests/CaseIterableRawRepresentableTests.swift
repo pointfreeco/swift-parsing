@@ -31,7 +31,8 @@ final class CaseIterableRawRepresentableTests: XCTestCase {
         error: unexpected input
          --> input:1:6
         1 | Blob,Mr Blob
-          |      ^ expected case of "Person"
+          |      ^ expected "Blob Jr"
+          |      ^ expected "Blob"
 
         error: unexpected input
          --> input:1:5

@@ -1,5 +1,4 @@
-// FIXME: Should this be a `Conversion`?
-
+/// Parses a request's cookies using field parsers.
 public struct Cookies<Parsers: Parser>: Parser where Parsers.Input == URLRequestData.Fields {
   @usableFromInline
   let cookieParsers: Parsers
