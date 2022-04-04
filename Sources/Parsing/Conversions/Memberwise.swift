@@ -140,12 +140,33 @@ extension Conversions {
 
     @inlinable
     public func unapply(_ output: Struct) throws -> Values {
-      // TODO: Use runtime to determine if `Struct` is a struct
-      // TODO: Use runtime to iterate over `Struct` and `Values` to compare memory layout
+      let ptr = unsafeBitCast(Struct.self as Any.Type, to: UnsafeRawPointer.self)
+      guard ptr.load(as: Int.self) == 512
+      else {
+        throw ConvertingError(
+          """
+          memberwise: Can't convert \(Values.self) to non-struct type \(Struct.self). This \
+          conversion should only be used with a memberwise initializer matching the memory layout \
+          of the struct. The "memberwise" initializer is the internal, compiler-generated \
+          initializer that specifies its arguments in the same order as the struct specifies its \
+          properties.
+          """
+        )
+      }
       guard
         MemoryLayout<Struct>.alignment == MemoryLayout<Values>.alignment,
         MemoryLayout<Struct>.size == MemoryLayout<Values>.size
-      else { throw ConvertingError() }
+      else {
+        throw ConvertingError(
+          """
+          memberwise: Can't convert \(Values.self) type \(Struct.self) as their memory layouts \
+          differ. This conversion should only be used with a memberwise initializer matching the \
+          memory layout of the struct. The "memberwise" initializer is the internal, \
+          compiler-generated initializer that specifies its arguments in the same order as the \
+          struct specifies its properties.
+          """
+        )
+      }
       return unsafeBitCast(output, to: Values.self)
     }
   }

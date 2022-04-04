@@ -1,5 +1,10 @@
 @usableFromInline
 struct ConvertingError: Error {
   @usableFromInline
-  init() {}
+  let message: String
+
+  @usableFromInline
+  init(_ message: String = "") {
+    self.message = message
+  }
 }

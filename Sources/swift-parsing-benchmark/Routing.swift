@@ -41,9 +41,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
       let commentsRouter = OneOf {
         Route(.case(CommentsRoute.post)) {
           Method.post
-          Body {
-            Parse(.data.json(Comment.self, encoder: encoder))
-          }
+          Body(.data.json(Comment.self, encoder: encoder))
         }
 
         Route(.case(CommentsRoute.show)) {
