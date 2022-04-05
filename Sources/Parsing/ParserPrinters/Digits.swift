@@ -89,12 +89,32 @@ extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: Prepe
     guard self.minimum != 0, output != 0
     else { return }
 
+    guard output >= 0
+    else {
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          A "Digits" parser tried to print \(output). "Digits" parsers cannot parse or print \
+          negative numbers.
+          """,
+        input: input
+      )
+    }
+
     var bytes = Bytes(String(output).utf8)
     let count = bytes.count
 
-    guard self.maximum.map({ count <= $0 }) ?? true
-    else {
-      throw PrintingError.failed(summary: "TODO", input: input)
+    if let maximum = self.maximum, count > maximum {
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          A "Digits" parser configured to parse at most \(maximum) digits tried to print \(output) \
+          (\(count) digits).
+          """,
+        input: input
+      )
     }
 
     for _ in 0..<max(0, self.minimum - count) {

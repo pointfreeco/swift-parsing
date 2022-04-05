@@ -181,11 +181,46 @@ extension Parse: ParserPrinter where Parsers: ParserPrinter {
 ///   Prefix { $0 != "!" }.map(String.init)
 ///   "!"
 /// }
-///
-/// // ❌ Generic struct 'Parse' requires that 'Parsers.Map<Prefix<Substring>, String>'
-/// //    conform to 'Printer'
 /// ```
+///
+/// > Generic struct `ParsePrint` requires that `Parsers.Map<Prefix<Substring>, String>` conform
+/// > to `ParserPrinter`
 ///
 /// `ParsePrint` is a type alias for the ``Parse`` parser with its underlying parser constrained to
 /// ``ParserPrinter``.
-public typealias ParsePrint<ParserPrinters: ParserPrinter> = Parse<ParserPrinters>
+public struct ParsePrint<ParserPrinters: ParserPrinter>: ParserPrinter {
+  public let parserPrinters: ParserPrinters
+
+  @inlinable
+  public init(@ParserBuilder with build: () -> ParserPrinters) {
+    self.parserPrinters = build()
+  }
+
+  @inlinable
+  public init<Upstream, NewOutput>(
+    _ output: NewOutput,
+    @ParserBuilder with build: () -> Upstream
+  ) where ParserPrinters == Parsers.MapConstant<Upstream, NewOutput> {
+    self.parserPrinters = build().map { output }
+  }
+
+  @inlinable
+  public init<Upstream, Downstream>(
+    _ conversion: Downstream,
+    @ParserBuilder with build: () -> Upstream
+  ) where ParserPrinters == Parsers.MapConversion<Upstream, Downstream> {
+    self.parserPrinters = build().map(conversion)
+  }
+
+  @inlinable
+  public func parse(_ input: inout ParserPrinters.Input) rethrows -> ParserPrinters.Output {
+    try self.parserPrinters.parse(&input)
+  }
+
+  @inlinable
+  public func print(
+    _ output: ParserPrinters.Output, into input: inout ParserPrinters.Input
+  ) throws {
+    try self.parserPrinters.print(output, into: &input)
+  }
+}

@@ -302,7 +302,7 @@ That's the basics of parsing a simple string format, but there's a lot more oper
 learn in order to performantly parse larger inputs. View the [benchmarks][benchmarks] for examples
 of real-life parsing scenarios.
 
-## Your first printer
+## Your first parser-printer
 
 Once you build a parser to turn nebulous data into well-structured data, you may ask if the inverse
 process can also be performed. What if you need to turn your well-structured data back into nebulous
