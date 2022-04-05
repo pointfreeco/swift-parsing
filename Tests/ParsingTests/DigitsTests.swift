@@ -32,6 +32,19 @@ final class DigitsTests: XCTestCase {
     }
 
     XCTAssertEqual("0", try Digits().print(0))
+    XCTAssertEqual("00", try Digits(2).print(0))
+    XCTAssertEqual("01", try Digits(2).print(1))
+
+    XCTAssertThrowsError(try Digits(2).print(255) as Substring) { error in
+      XCTAssertEqual(
+        """
+        error: round-trip expectation failed
+
+        A "Digits" parser configured to parse at most 2 digits tried to print 255 (3 digits).
+        """,
+        "\(error)"
+      )
+    }
   }
 
   func testZeroMinimum() {

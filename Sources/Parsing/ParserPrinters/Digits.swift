@@ -110,8 +110,8 @@ extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: Prepe
         summary: """
           round-trip expectation failed
 
-          A "Digits" parser configured to parse at most \(maximum) digits tried to print \(output) \
-          (\(count) digits).
+          A "Digits" parser configured to parse at most \(maximum) digit\(maximum == 1 ? "" : "s") \
+          tried to print \(output) (\(count) digit\(count == 1 ? "" : "s").
           """,
         input: input
       )
