@@ -30,6 +30,8 @@ final class DigitsTests: XCTestCase {
         "\(error)"
       )
     }
+
+    XCTAssertEqual("0", try Digits().print(0))
   }
 
   func testZeroMinimum() {

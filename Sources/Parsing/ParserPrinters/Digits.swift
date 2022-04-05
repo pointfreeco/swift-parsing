@@ -86,7 +86,7 @@ where
 extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: PrependableCollection {
   @inlinable
   public func print(_ output: Int, into input: inout Input) throws {
-    guard self.minimum != 0, output != 0
+    guard self.minimum != 0 || output != 0
     else { return }
 
     guard output >= 0
