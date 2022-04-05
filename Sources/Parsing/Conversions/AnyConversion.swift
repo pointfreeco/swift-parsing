@@ -1,3 +1,41 @@
+extension Conversion {
+  /// A conversion that invokes the given apply and unapply functions.
+  ///
+  /// Useful for experimenting with conversions in a lightweight manner, without the ceremony of a
+  /// dedicated type. If performance is a concern, define a custom type that conforms to
+  /// ``Conversion`` instead, which gives the compiler the ability to further optimize.
+  ///
+  /// - Parameters:
+  ///   - apply: A closure that transforms an input into an output.
+  ///   - unapply: A closure that transforms an output into an input.
+  /// - Returns: A conversion that invokes the given apply and unapply functions.
+  @inlinable
+  public static func convert<Input, Output>(
+    apply: @escaping (Input) throws -> Output,
+    unapply: @escaping (Output) throws -> Input
+  ) -> Self where Self == AnyConversion<Input, Output> {
+    .init(apply: apply, unapply: unapply)
+  }
+
+  /// A conversion that invokes the given apply and unapply functions.
+  ///
+  /// Useful for experimenting with conversions in a lightweight manner, without the ceremony of a
+  /// dedicated type. If performance is a concern, define a custom type that conforms to
+  /// ``Conversion`` instead, which gives the compiler the ability to further optimize.
+  /// 
+  /// - Parameters:
+  ///   - apply: A closure that transforms an input into an output and can fail with `nil`.
+  ///   - unapply: A closure that transforms an output into an input and can fail with `nil`.
+  /// - Returns: A conversion that invokes the given apply and unapply functions.
+  @inlinable
+  public static func convert<Input, Output>(
+    apply: @escaping (Input) -> Output?,
+    unapply: @escaping (Output) -> Input?
+  ) -> Self where Self == AnyConversion<Input, Output> {
+    .init(apply: apply, unapply: unapply)
+  }
+}
+
 /// A type-erased ``Conversion``.
 ///
 /// This conversion forwards its ``apply(_:)`` and ``unapply(_:)`` methods to an arbitrary
@@ -111,25 +149,5 @@ public struct AnyConversion<Input, Output>: Conversion {
   @inlinable
   public func unapply(_ output: Output) throws -> Input {
     try self._unapply(output)
-  }
-}
-
-extension Conversion {
-#warning("DOCS")
-  @inlinable
-  public static func convert<Input, Output>(
-    apply: @escaping (Input) throws -> Output,
-    unapply: @escaping (Output) throws -> Input
-  ) -> Self where Self == AnyConversion<Input, Output> {
-    .init(apply: apply, unapply: unapply)
-  }
-
-  #warning("DOCS")
-  @inlinable
-  public static func convert<Input, Output>(
-    apply: @escaping (Input) -> Output?,
-    unapply: @escaping (Output) -> Input?
-  ) -> Self where Self == AnyConversion<Input, Output> {
-    .init(apply: apply, unapply: unapply)
   }
 }

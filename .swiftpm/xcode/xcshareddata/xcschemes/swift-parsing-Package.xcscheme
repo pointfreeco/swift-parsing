@@ -23,20 +23,6 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "swift-parsing-benchmark"
-               BuildableName = "swift-parsing-benchmark"
-               BlueprintName = "swift-parsing-benchmark"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
             buildForAnalyzing = "YES">
@@ -45,6 +31,20 @@
                BlueprintIdentifier = "ParsingTests"
                BuildableName = "ParsingTests"
                BlueprintName = "ParsingTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-parsing-benchmark"
+               BuildableName = "swift-parsing-benchmark"
+               BlueprintName = "swift-parsing-benchmark"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
