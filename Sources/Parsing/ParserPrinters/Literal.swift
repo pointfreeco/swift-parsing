@@ -30,30 +30,30 @@ extension String: ParserPrinter {
 
 extension String.UnicodeScalarView: ParserPrinter {
   @inlinable
-  public func parse(_ input: inout Substring.UnicodeScalarView) throws {
-    guard input.starts(with: self) else {
+  public func parse(_ input: inout Substring) throws {
+    guard input.unicodeScalars.starts(with: self) else {
       throw ParsingError.expectedInput(String(self).debugDescription, at: input)
     }
-    input.removeFirst(self.count)
+    input.unicodeScalars.removeFirst(self.count)
   }
 
   @inlinable
-  public func print(_ output: (), into input: inout SubSequence) {
-    input.prepend(contentsOf: self)
+  public func print(_ output: (), into input: inout Substring) {
+    input.prepend(contentsOf: String(self))
   }
 }
 
 extension String.UTF8View: ParserPrinter {
   @inlinable
-  public func parse(_ input: inout Substring.UTF8View) throws {
-    guard input.starts(with: self) else {
+  public func parse(_ input: inout Substring) throws {
+    guard input.utf8.starts(with: self) else {
       throw ParsingError.expectedInput(String(self).debugDescription, at: input)
     }
-    input.removeFirst(self.count)
+    input.utf8.removeFirst(self.count)
   }
 
   @inlinable
-  public func print(_ output: (), into input: inout SubSequence) {
-    input.prepend(contentsOf: self)
+  public func print(_ output: (), into input: inout Substring) {
+    input.prepend(contentsOf: String(self))
   }
 }

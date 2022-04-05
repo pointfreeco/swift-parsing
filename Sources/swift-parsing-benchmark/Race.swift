@@ -65,7 +65,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   let zeroOrMoreSpaces = Skip {
     Prefix { $0 == .init(ascii: " ") }
   }
-  .printing(" ".utf8)
+  .printing(" ")
 
   let coord = ParsePrint(.memberwise(Coordinate.init(latitude:longitude:))) {
     latitude
@@ -186,11 +186,11 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   var output: [Race]!
 
   suite.benchmark("Parser") {
-    var input = input[...].utf8
+    var input = input[...]
     output = try races.parse(&input)
   } tearDown: {
     precondition(output.count == 3)
-    precondition(try! races.print(output).elementsEqual(input.utf8) == true)
+    precondition(try! races.print(output) == input)
   }
 }
 

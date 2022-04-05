@@ -17,52 +17,6 @@ extension FixedWidthInteger {
   ) -> Parsers.IntParser<Input, Self> {
     .init(radix: radix)
   }
-
-  /// A parser that consumes an integer (with an optional leading `+` or `-` sign for signed integer
-  /// types) from the beginning of a substring.
-  ///
-  /// This overload is provided to allow the `Input` generic to be inferred when it is `Substring`.
-  ///
-  /// See <doc:Int> for more information about this parser.
-  ///
-  /// - Parameters:
-  ///   - inputType: The `Substring` type. This parameter is included to mirror the interface that
-  ///     parses any collection of UTF-8 code units.
-  ///   - isSigned: If the parser will attempt to parse a leading `+` or `-` sign.
-  ///   - radix: The radix, or base, to use for converting text to an integer value. `radix` must be
-  ///     in the range `2...36`.
-  /// - Returns: A parser that consumes an integer from the beginning of a substring.
-  @_disfavoredOverload
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self,
-    radix: Int = 10
-  ) -> From<Conversions.SubstringToUTF8View, Parsers.IntParser<Substring.UTF8View, Self>> {
-    From(.utf8) { Parsers.IntParser<Substring.UTF8View, Self>(radix: radix) }
-  }
-
-  /// A parser that consumes an integer (with an optional leading `+` or `-` sign) from the
-  /// beginning of a substring's UTF-8 view.
-  ///
-  /// This overload is provided to allow the `Input` generic to be inferred when it is
-  /// `Substring.UTF8View`.
-  ///
-  /// See <doc:Int> for more information about this parser.
-  ///
-  /// - Parameters:
-  ///   - inputType: The `Substring.UTF8View` type. This parameter is included to mirror the
-  ///     interface that parses any collection of UTF-8 code units.
-  ///   - radix: The radix, or base, to use for converting text to an integer value. `radix` must be
-  ///     in the range `2...36`.
-  /// - Returns: A parser that consumes an integer from the beginning of a substring's UTF-8 view.
-  @_disfavoredOverload
-  @inlinable
-  public static func parser(
-    of inputType: Substring.UTF8View.Type = Substring.UTF8View.self,
-    radix: Int = 10
-  ) -> Parsers.IntParser<Substring.UTF8View, Self> {
-    .init(radix: radix)
-  }
 }
 
 extension Parsers {

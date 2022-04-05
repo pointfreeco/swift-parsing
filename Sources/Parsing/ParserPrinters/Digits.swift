@@ -22,11 +22,10 @@
 /// }
 /// .parse("20220131")  // Date(year: 2022, month: 1, day: 31)
 /// ```
-public struct Digits<Input: Collection, Bytes: Collection>: Parser
+public struct Digits<Input: Collection>: Parser
 where
   Input.SubSequence == Input,
-  Bytes.Element == UTF8.CodeUnit,
-  Bytes.SubSequence == Bytes
+  Input.Element == UTF8.CodeUnit
 {
   @usableFromInline
   let maximum: Int?
@@ -34,30 +33,20 @@ where
   @usableFromInline
   let minimum: Int
 
-  @usableFromInline
-  let toBytes: (Input) -> Bytes
-
-  @usableFromInline
-  let fromBytes: (Bytes) -> Input
-
-  @usableFromInline
-  init<R: CountingRange>(
-    length: R,
-    toBytes: @escaping (Input) -> Bytes,
-    fromBytes: @escaping (Bytes) -> Input
-  ) {
+  @inlinable
+  public init<R: CountingRange>(_ length: R) {
     self.minimum = length.minimum
     self.maximum = length.maximum
-    self.toBytes = toBytes
-    self.fromBytes = fromBytes
+  }
+
+  @inlinable
+  public init() {
+    self.init(1...)
   }
 
   @inlinable
   public func parse(_ input: inout Input) throws -> Int {
-    var bytes = self.toBytes(input)
-    defer { input = self.fromBytes(bytes) }
-
-    var prefix = self.maximum.map(bytes.prefix) ?? bytes
+    var prefix = self.maximum.map(input.prefix) ?? input
     prefix = prefix.prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
     let count = prefix.count
 
@@ -78,12 +67,12 @@ where
     guard let digits = Int(String(decoding: prefix, as: UTF8.self))
     else { throw ParsingError.expectedInput("digits", at: input) }
 
-    bytes.removeFirst(count)
+    input.removeFirst(count)
     return digits
   }
 }
 
-extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: PrependableCollection {
+extension Digits: ParserPrinter where Input: PrependableCollection {
   @inlinable
   public func print(_ output: Int, into input: inout Input) throws {
     guard self.minimum != 0 || output != 0
@@ -102,7 +91,7 @@ extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: Prepe
       )
     }
 
-    var bytes = Bytes(String(output).utf8)
+    var bytes = Input(String(output).utf8)
     let count = bytes.count
 
     if let maximum = self.maximum, count > maximum {
@@ -121,54 +110,6 @@ extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: Prepe
       bytes.prepend(.init(ascii: "0"))
     }
 
-    input.prepend(contentsOf: self.fromBytes(bytes))
-  }
-}
-
-// NB: Swift 5.7 fails to build with a simpler `Bytes == Input` constraint
-extension Digits where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
-  @inlinable
-  public init() {
-    self.init(1...)
-  }
-
-  @inlinable
-  public init<R: CountingRange>(_ length: R) {
-    self.init(
-      length: length,
-      toBytes: { $0 },
-      fromBytes: { $0 }
-    )
-  }
-}
-
-extension Digits where Input == Substring, Bytes == Substring.UTF8View {
-  @_disfavoredOverload
-  @inlinable
-  public init() {
-    self.init(1...)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init<R: CountingRange>(_ length: R) {
-    self.init(
-      length: length,
-      toBytes: { $0.utf8 },
-      fromBytes: Substring.init
-    )
-  }
-}
-
-extension Digits where Input == Substring.UTF8View, Bytes == Substring.UTF8View {
-  @_disfavoredOverload
-  @inlinable
-  public init() {
-    self.init(1...)
-  }
-
-  @_disfavoredOverload
-  public init<R: CountingRange>(_ length: R) {
-    self.init(length)
+    input.prepend(contentsOf: bytes)
   }
 }

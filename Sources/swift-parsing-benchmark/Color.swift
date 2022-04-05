@@ -38,10 +38,10 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
   var output: Color!
 
   suite.benchmark("Parser") {
-    var input = input[...].utf8
+    var input = input[...]
     output = try hexColor.parse(&input)
   } tearDown: {
     precondition(output == expected)
-    precondition(try! hexColor.print(output).elementsEqual("#ff0000".utf8) == true)
+    precondition(try! hexColor.print(output) == "#ff0000")
   }
 }

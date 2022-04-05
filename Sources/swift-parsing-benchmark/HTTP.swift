@@ -29,7 +29,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     Skip {
       Prefix(1...) { $0.isHorizontalSpace }
     }
-    .printing(" ".utf8)
+    .printing(" ")
     Prefix { !$0.isNewline }
     Newline()
   }
@@ -85,7 +85,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
   var output: (Request, [Header])!
 
   suite.benchmark("HTTP") {
-    var input = input[...].utf8
+    var input = input[...]
     output = try request.parse(&input)
   } tearDown: {
     precondition(output == expected)

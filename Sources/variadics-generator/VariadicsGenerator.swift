@@ -322,8 +322,8 @@ struct VariadicsGenerator: ParsableCommand {
       output("\n    ")
       outputForEach(0..<arity, separator: "\n    ") {
         """
-        \(permutation.isCaptureless(at: $0) ? "" : "let o\($0) = ")try Parse { p\($0); End() }\
-        .parse(input.path.removeFirst())
+        \(permutation.isCaptureless(at: $0) ? "" : "let o\($0) = ")try \
+        p\($0).parse(input.path.removeFirst())
         """
       }
       output("\n    return (")

@@ -63,7 +63,7 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
     }
 
     suite.benchmark("Parser: UTF8") {
-      var input = input[...].utf8
+      var input = input[...]
       output = try users.parse(&input)
     } tearDown: {
       precondition(output == expectedOutput)

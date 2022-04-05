@@ -17,14 +17,8 @@ where
     P1.Output
   ) {
     guard input.path.count >= 2 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -71,14 +65,8 @@ where
     P0.Output
   ) {
     guard input.path.count >= 2 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -125,14 +113,8 @@ where
     P1.Output
   ) {
     guard input.path.count >= 2 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -176,16 +158,12 @@ where
     self.p1 = p1
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws {
+  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
+
+  ) {
     guard input.path.count >= 2 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -236,18 +214,9 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -300,18 +269,9 @@ where
     P1.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -364,18 +324,9 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -428,18 +379,9 @@ where
     P0.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -492,18 +434,9 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -556,18 +489,9 @@ where
     P1.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -620,18 +544,9 @@ where
     P2.Output
   ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -681,20 +596,13 @@ where
     self.p2 = p2
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws {
+  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
+
+  ) {
     guard input.path.count >= 3 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -751,22 +659,10 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
     return (o0, o1, o2, o3)
   }
 }
@@ -825,22 +721,10 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -899,22 +783,10 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
     return (o0, o1, o3)
   }
 }
@@ -973,22 +845,10 @@ where
     P1.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -1047,22 +907,10 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
     return (o0, o2, o3)
   }
 }
@@ -1121,22 +969,10 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -1195,22 +1031,10 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
     return (o0, o3)
   }
 }
@@ -1269,22 +1093,10 @@ where
     P0.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -1343,22 +1155,10 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
     return (o1, o2, o3)
   }
 }
@@ -1417,22 +1217,10 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -1491,22 +1279,10 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
     return (o1, o3)
   }
 }
@@ -1565,22 +1341,10 @@ where
     P1.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -1639,22 +1403,10 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
     return (o2, o3)
   }
 }
@@ -1713,22 +1465,10 @@ where
     P2.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -1787,22 +1527,10 @@ where
     P3.Output
   ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
     return (o3)
   }
 }
@@ -1858,24 +1586,14 @@ where
     self.p3 = p3
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws {
+  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
+
+  ) {
     guard input.path.count >= 4 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -1938,26 +1656,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o4)
   }
 }
@@ -2022,26 +1725,11 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o0, o1, o2, o3)
   }
 }
@@ -2106,26 +1794,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o0, o1, o2, o4)
   }
 }
@@ -2190,26 +1863,11 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -2274,26 +1932,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o0, o1, o3, o4)
   }
 }
@@ -2358,26 +2001,11 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o0, o1, o3)
   }
 }
@@ -2442,26 +2070,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o0, o1, o4)
   }
 }
@@ -2526,26 +2139,11 @@ where
     P1.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -2610,26 +2208,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o0, o2, o3, o4)
   }
 }
@@ -2694,26 +2277,11 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o0, o2, o3)
   }
 }
@@ -2778,26 +2346,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o0, o2, o4)
   }
 }
@@ -2862,26 +2415,11 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -2946,26 +2484,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o0, o3, o4)
   }
 }
@@ -3030,26 +2553,11 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o0, o3)
   }
 }
@@ -3114,26 +2622,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o0, o4)
   }
 }
@@ -3198,26 +2691,11 @@ where
     P0.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -3282,26 +2760,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o1, o2, o3, o4)
   }
 }
@@ -3366,26 +2829,11 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o1, o2, o3)
   }
 }
@@ -3450,26 +2898,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o1, o2, o4)
   }
 }
@@ -3534,26 +2967,11 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -3618,26 +3036,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o1, o3, o4)
   }
 }
@@ -3702,26 +3105,11 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o1, o3)
   }
 }
@@ -3786,26 +3174,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o1, o4)
   }
 }
@@ -3870,26 +3243,11 @@ where
     P1.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -3954,26 +3312,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o2, o3, o4)
   }
 }
@@ -4038,26 +3381,11 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o2, o3)
   }
 }
@@ -4122,26 +3450,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o2, o4)
   }
 }
@@ -4206,26 +3519,11 @@ where
     P2.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -4290,26 +3588,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o3, o4)
   }
 }
@@ -4374,26 +3657,11 @@ where
     P3.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return (o3)
   }
 }
@@ -4458,26 +3726,11 @@ where
     P4.Output
   ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
     return (o4)
   }
 }
@@ -4539,28 +3792,15 @@ where
     self.p4 = p4
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws {
+  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
+
+  ) {
     guard input.path.count >= 5 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
     return ()
   }
 }
@@ -4600,8 +3840,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -4630,30 +3869,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o4, o5)
   }
 }
@@ -4695,8 +3916,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -4725,30 +3945,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o4)
   }
 }
@@ -4790,8 +3992,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -4820,30 +4021,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o1, o2, o3, o5)
   }
 }
@@ -4885,8 +4068,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -4915,30 +4097,12 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o1, o2, o3)
   }
 }
@@ -4980,8 +4144,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -5010,30 +4173,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o1, o2, o4, o5)
   }
 }
@@ -5075,8 +4220,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -5105,30 +4249,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o1, o2, o4)
   }
 }
@@ -5170,8 +4296,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -5200,30 +4325,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o1, o2, o5)
   }
 }
@@ -5265,8 +4372,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -5295,30 +4401,12 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o1, o2)
   }
 }
@@ -5360,8 +4448,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -5390,30 +4477,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o1, o3, o4, o5)
   }
 }
@@ -5455,8 +4524,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -5485,30 +4553,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o1, o3, o4)
   }
 }
@@ -5550,8 +4600,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -5580,30 +4629,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o1, o3, o5)
   }
 }
@@ -5645,8 +4676,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -5675,30 +4705,12 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o1, o3)
   }
 }
@@ -5740,8 +4752,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -5770,30 +4781,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o1, o4, o5)
   }
 }
@@ -5835,8 +4828,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -5865,30 +4857,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o1, o4)
   }
 }
@@ -5930,8 +4904,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -5960,30 +4933,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o1, o5)
   }
 }
@@ -6025,8 +4980,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -6055,30 +5009,12 @@ where
     P1.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o1)
   }
 }
@@ -6120,8 +5056,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -6150,30 +5085,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o2, o3, o4, o5)
   }
 }
@@ -6215,8 +5132,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -6245,30 +5161,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o2, o3, o4)
   }
 }
@@ -6310,8 +5208,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -6340,30 +5237,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o2, o3, o5)
   }
 }
@@ -6405,8 +5284,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -6435,30 +5313,12 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o2, o3)
   }
 }
@@ -6500,8 +5360,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -6530,30 +5389,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o2, o4, o5)
   }
 }
@@ -6595,8 +5436,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -6625,30 +5465,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o2, o4)
   }
 }
@@ -6690,8 +5512,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -6720,30 +5541,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o2, o5)
   }
 }
@@ -6785,8 +5588,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -6815,30 +5617,12 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o2)
   }
 }
@@ -6880,8 +5664,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -6910,30 +5693,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o3, o4, o5)
   }
 }
@@ -6975,8 +5740,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -7005,30 +5769,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o3, o4)
   }
 }
@@ -7070,8 +5816,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -7100,30 +5845,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o3, o5)
   }
 }
@@ -7165,8 +5892,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -7195,30 +5921,12 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o3)
   }
 }
@@ -7260,8 +5968,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -7290,30 +5997,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o4, o5)
   }
 }
@@ -7355,8 +6044,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -7385,30 +6073,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0, o4)
   }
 }
@@ -7450,8 +6120,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -7480,30 +6149,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o0, o5)
   }
 }
@@ -7545,8 +6196,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipOVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipOVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -7575,30 +6225,12 @@ where
     P0.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    let o0 = try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    let o0 = try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o0)
   }
 }
@@ -7640,8 +6272,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -7670,30 +6301,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o1, o2, o3, o4, o5)
   }
 }
@@ -7735,8 +6348,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -7765,30 +6377,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o1, o2, o3, o4)
   }
 }
@@ -7830,8 +6424,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -7860,30 +6453,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o1, o2, o3, o5)
   }
 }
@@ -7925,8 +6500,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -7955,30 +6529,12 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o1, o2, o3)
   }
 }
@@ -8020,8 +6576,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -8050,30 +6605,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o1, o2, o4, o5)
   }
 }
@@ -8115,8 +6652,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -8145,30 +6681,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o1, o2, o4)
   }
 }
@@ -8210,8 +6728,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -8240,30 +6757,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o1, o2, o5)
   }
 }
@@ -8305,8 +6804,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -8335,30 +6833,12 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o1, o2)
   }
 }
@@ -8400,8 +6880,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -8430,30 +6909,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o1, o3, o4, o5)
   }
 }
@@ -8495,8 +6956,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -8525,30 +6985,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o1, o3, o4)
   }
 }
@@ -8590,8 +7032,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -8620,30 +7061,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o1, o3, o5)
   }
 }
@@ -8685,8 +7108,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -8715,30 +7137,12 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o1, o3)
   }
 }
@@ -8780,8 +7184,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -8810,30 +7213,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o1, o4, o5)
   }
 }
@@ -8875,8 +7260,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -8905,30 +7289,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o1, o4)
   }
 }
@@ -8970,8 +7336,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -9000,30 +7365,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o1, o5)
   }
 }
@@ -9065,8 +7412,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -9095,30 +7441,12 @@ where
     P1.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    let o1 = try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    let o1 = try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o1)
   }
 }
@@ -9160,8 +7488,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -9190,30 +7517,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o2, o3, o4, o5)
   }
 }
@@ -9255,8 +7564,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -9285,30 +7593,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o2, o3, o4)
   }
 }
@@ -9350,8 +7640,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -9380,30 +7669,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o2, o3, o5)
   }
 }
@@ -9445,8 +7716,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -9475,30 +7745,12 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o2, o3)
   }
 }
@@ -9540,8 +7792,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -9570,30 +7821,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o2, o4, o5)
   }
 }
@@ -9635,8 +7868,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -9665,30 +7897,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o2, o4)
   }
 }
@@ -9730,8 +7944,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -9760,30 +7973,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o2, o5)
   }
 }
@@ -9825,8 +8020,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -9855,30 +8049,12 @@ where
     P2.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    let o2 = try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    let o2 = try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o2)
   }
 }
@@ -9920,8 +8096,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -9950,30 +8125,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o3, o4, o5)
   }
 }
@@ -10015,8 +8172,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -10045,30 +8201,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o3, o4)
   }
 }
@@ -10110,8 +8248,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -10140,30 +8277,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o3, o5)
   }
 }
@@ -10205,8 +8324,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -10235,30 +8353,12 @@ where
     P3.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    let o3 = try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    let o3 = try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o3)
   }
 }
@@ -10300,8 +8400,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -10330,30 +8429,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o4, o5)
   }
 }
@@ -10395,8 +8476,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -10425,30 +8505,12 @@ where
     P4.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    let o4 = try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    let o4 = try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return (o4)
   }
 }
@@ -10490,8 +8552,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -10520,30 +8581,12 @@ where
     P5.Output
   ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    let o5 = try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    let o5 = try p5.parse(input.path.removeFirst())
     return (o5)
   }
 }
@@ -10585,8 +8628,7 @@ extension PathBuilder {
   }
 }
 
-public struct PathZipVVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-  Parser
+public struct PathZipVVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
 where
   P0.Input == Substring,
   P1.Input == Substring,
@@ -10612,32 +8654,16 @@ where
     self.p5 = p5
   }
 
-  @inlinable public func parse(_ input: inout URLRequestData) throws {
+  @inlinable public func parse(_ input: inout URLRequestData) throws -> (
+
+  ) {
     guard input.path.count >= 6 else { throw RoutingError() }
-    try Parse {
-      p0
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p1
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p2
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p3
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p4
-      End()
-    }.parse(input.path.removeFirst())
-    try Parse {
-      p5
-      End()
-    }.parse(input.path.removeFirst())
+    try p0.parse(input.path.removeFirst())
+    try p1.parse(input.path.removeFirst())
+    try p2.parse(input.path.removeFirst())
+    try p3.parse(input.path.removeFirst())
+    try p4.parse(input.path.removeFirst())
+    try p5.parse(input.path.removeFirst())
     return ()
   }
 }

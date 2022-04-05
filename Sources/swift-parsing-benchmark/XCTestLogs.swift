@@ -8,7 +8,7 @@ let xcodeLogsSuite = BenchmarkSuite(name: "Xcode Logs") { suite in
   var output: [TestResult]!
 
   suite.benchmark("Parser") {
-    var input = xcodeLogs[...].utf8
+    var input = xcodeLogs[...]
     output = try testResultsUtf8.parse(&input)
   } tearDown: {
     precondition(output.count == 284)
@@ -28,13 +28,13 @@ private let testCaseStartedLine = Parse {
     PrefixUpTo("Test Case '-[".utf8)
   }
   PrefixThrough("\n".utf8)
-    .map { line in line.split(separator: .init(ascii: " "))[3].dropLast(2) }
+    .map { line in Substring(line.split(separator: .init(ascii: " "))[3].dropLast(2)) }
 }
 
 private let fileName = Parse {
   "/".utf8
   PrefixThrough(".swift".utf8)
-    .compactMap { $0.split(separator: .init(ascii: "/")).last }
+    .compactMap { $0.split(separator: .init(ascii: "/")).last.map(Substring.init) }
 }
 
 private let testCaseBody = Parse {
@@ -49,26 +49,26 @@ private let testCaseBody = Parse {
 
 struct TestCaseBody: Parser {
   func parse(
-    _ input: inout Substring.UTF8View
-  ) throws -> (file: Substring.UTF8View, line: Int, message: Substring.UTF8View) {
-    guard input.first == .init(ascii: "/")
+    _ input: inout Substring
+  ) throws -> (file: Substring, line: Int, message: Substring) {
+    guard input.utf8.first == .init(ascii: "/")
     else { throw ParsingError() }
 
     var slashCount = 0
-    let filePathPrefix = input.prefix { codeUnit in
+    let filePathPrefix = input.utf8.prefix { codeUnit in
       if codeUnit == .init(ascii: "/") {
         slashCount += 1
       }
       return slashCount != 3
     }
 
-    input.removeFirst(filePathPrefix.count)
+    input.utf8.removeFirst(filePathPrefix.count)
     do {
-      var failure = try OneOf {
+      var failure = Substring(try OneOf {
         PrefixUpTo(filePathPrefix)
         PrefixUpTo("Test Case '-[".utf8)
       }
-      .parse(&input)
+      .parse(&input))
 
       failure.removeLast()  // trailing newline
       let output = try testCaseBody.parse(&failure)
@@ -98,10 +98,10 @@ private let testFailed = Parse {
 .map { testName, bodyData, time in
   bodyData.map { body in
     TestResult.failed(
-      failureMessage: Substring(body.2),
-      file: Substring(body.0),
+      failureMessage: body.2,
+      file: body.0,
       line: body.1,
-      testName: Substring(testName),
+      testName: testName,
       time: time
     )
   }

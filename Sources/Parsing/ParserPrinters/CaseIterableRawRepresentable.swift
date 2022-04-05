@@ -1,21 +1,5 @@
 extension CaseIterable where Self: RawRepresentable, RawValue == Int {
   /// A parser that consumes a case-iterable, raw representable value from the beginning of a
-  /// collection of a substring.
-  ///
-  /// See <doc:CaseIterable> for more info.
-  ///
-  /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
-  ///   interface that parses any collection of UTF-8 code units.
-  /// - Returns: A parser that consumes a case-iterable, raw representable value from the beginning
-  ///   of a substring.
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self
-  ) -> Parsers.CaseIterableRawRepresentableParser<Substring, Self, String> {
-    .init(toPrefix: { String($0) }, areEquivalent: ==)
-  }
-
-  /// A parser that consumes a case-iterable, raw representable value from the beginning of a
   /// collection of a substring's UTF-8 view.
   ///
   /// See <doc:CaseIterable> for more info.
@@ -50,22 +34,6 @@ extension CaseIterable where Self: RawRepresentable, RawValue == Int {
 }
 
 extension CaseIterable where Self: RawRepresentable, RawValue == String {
-  /// A parser that consumes a case-iterable, raw representable value from the beginning of a
-  /// collection of a substring.
-  ///
-  /// See <doc:CaseIterable> for more info.
-  ///
-  /// - Parameter inputType: The `Substring` type. This parameter is included to mirror the
-  ///   interface that parses any collection of UTF-8 code units.
-  /// - Returns: A parser that consumes a case-iterable, raw representable value from the beginning
-  ///   of a substring.
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type = Substring.self
-  ) -> Parsers.CaseIterableRawRepresentableParser<Substring, Self, String> {
-    .init(toPrefix: { $0 }, areEquivalent: ==)
-  }
-
   /// A parser that consumes a case-iterable, raw representable value from the beginning of a
   /// collection of a substring's UTF-8 view.
   ///

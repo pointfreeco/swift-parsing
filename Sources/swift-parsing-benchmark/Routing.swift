@@ -46,7 +46,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 
         Route(.case(CommentsRoute.show)) {
           Query {
-            Field("count", Int.parser(), default: 10)
+            Field("count", Parse { Int.parser() }, default: 10)
           }
         }
       }
@@ -55,7 +55,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
         Route(EpisodeRoute.show)
 
         Route(.case(EpisodeRoute.comments)) {
-          Path { From(.utf8) { "comments".utf8 } }
+          Path { "comments".utf8 }
 
           commentsRouter
         }
@@ -75,11 +75,11 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
         Route(AppRoute.home)
 
         Route(AppRoute.contactUs) {
-          Path { From(.utf8) { "contact-us".utf8 } }
+          Path { "contact-us".utf8 }
         }
 
         Route(.case(AppRoute.episodes)) {
-          Path { From(.utf8) { "episodes".utf8 } }
+          Path { "episodes".utf8 }
 
           episodesRouter
         }

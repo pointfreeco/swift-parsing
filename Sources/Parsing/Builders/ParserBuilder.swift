@@ -14,6 +14,26 @@
 /// ```
 @resultBuilder
 public enum ParserBuilder {
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> P {
+    parser
+  }
+
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> P where P.Input == Substring {
+    parser
+  }
+
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> FromUTF8View<P> {
+    .init(upstream: parser)
+  }
+
+  @inlinable
+  public static func buildBlock() -> Always<Substring, Void> {
+    .init(())
+  }
+
   /// Provides support for specifying a parser in ``ParserBuilder`` blocks.
   @inlinable
   public static func buildBlock<P: Parser>(_ parser: P) -> P {
@@ -99,5 +119,27 @@ public enum ParserBuilder {
   @inlinable
   public static func buildLimitedAvailability<P>(_ parser: P?) -> Parsers.OptionalVoid<P> {
     .init(wrapped: parser)
+  }
+}
+
+public struct FromUTF8View<Upstream: Parser>: Parser
+where Upstream.Input == Substring.UTF8View {
+  public let upstream: Upstream
+
+  @usableFromInline
+  init(upstream: Upstream) {
+    self.upstream = upstream
+  }
+
+  @inlinable
+  @inline(__always)
+  public func parse(_ input: inout Substring) rethrows -> Upstream.Output {
+    try self.upstream.parse(&input.utf8)
+  }
+}
+
+extension FromUTF8View: ParserPrinter where Upstream: ParserPrinter {
+  public func print(_ output: Upstream.Output, into input: inout Substring) rethrows {
+    try self.upstream.print(output, into: &input.utf8)
   }
 }

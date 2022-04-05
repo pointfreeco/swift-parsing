@@ -48,9 +48,9 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     var output: [Int]!
 
     suite.benchmark("Comma separated: Int.parser") {
-      var input = input[...].utf8
+      var input = input[...]
       output = try Many {
-        Int.parser()
+        Int.parser() as Parsers.IntParser
       } separator: {
         ",".utf8
       }
@@ -121,7 +121,7 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     var output: [Double]!
 
     suite.benchmark("Comma separated: Double.parser") {
-      var input = input[...].utf8
+      var input = input[...]
       output = try Many {
         Double.parser()
       } separator: {

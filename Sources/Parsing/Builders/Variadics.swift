@@ -4081,8 +4081,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4165,8 +4164,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4249,8 +4247,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4333,8 +4330,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4417,8 +4413,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4501,8 +4496,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4585,8 +4579,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4669,8 +4662,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4753,8 +4745,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4837,8 +4828,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -4921,8 +4911,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5005,8 +4994,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5089,8 +5077,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5173,8 +5160,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5257,8 +5243,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5341,8 +5326,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5425,8 +5409,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5509,8 +5492,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5593,8 +5575,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5677,8 +5658,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5761,8 +5741,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5845,8 +5824,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -5929,8 +5907,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6013,8 +5990,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6097,8 +6073,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6181,8 +6156,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6265,8 +6239,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6349,8 +6322,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6433,8 +6405,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6517,8 +6488,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6601,8 +6571,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6685,8 +6654,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipOVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipOVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6765,8 +6733,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6849,8 +6816,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -6933,8 +6899,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7017,8 +6982,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7101,8 +7065,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7185,8 +7148,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7269,8 +7231,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7353,8 +7314,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7437,8 +7397,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7521,8 +7480,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7605,8 +7563,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7689,8 +7646,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7773,8 +7729,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7857,8 +7812,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -7941,8 +7895,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8025,8 +7978,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVOVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8105,8 +8057,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8189,8 +8140,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8273,8 +8223,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8357,8 +8306,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8441,8 +8389,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8525,8 +8472,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8609,8 +8555,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8693,8 +8638,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVOVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8773,8 +8717,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVOOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8857,8 +8800,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVOOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -8941,8 +8883,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVOVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -9025,8 +8966,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVOVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -9105,8 +9045,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVVOO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -9189,8 +9128,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVVOV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -9269,8 +9207,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVVVO<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -9349,8 +9286,7 @@ extension ParserBuilder {
 }
 
 extension ParserBuilder {
-  public struct ZipVVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct ZipVVVVVV<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -9445,10 +9381,7 @@ extension OneOfBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
       do { return try self.p0.parse(&input) } catch let e0 {
-        do {
-          input = original
-          return try self.p1.parse(&input)
-        } catch let e1 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
           throw ParsingError.manyFailed(
             [e0, e1], at: input
           )
@@ -9468,10 +9401,7 @@ where
   @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p1.print(output, into: &input) } catch let e1 {
-      do {
-        input = original
-        try self.p0.print(output, into: &input)
-      } catch let e0 {
+      do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
         throw PrintingError.manyFailed(
           [e1, e0], at: input
         )
@@ -9507,14 +9437,8 @@ extension OneOfBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
       do { return try self.p0.parse(&input) } catch let e0 {
-        do {
-          input = original
-          return try self.p1.parse(&input)
-        } catch let e1 {
-          do {
-            input = original
-            return try self.p2.parse(&input)
-          } catch let e2 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
             throw ParsingError.manyFailed(
               [e0, e1, e2], at: input
             )
@@ -9538,14 +9462,8 @@ where
   @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p2.print(output, into: &input) } catch let e2 {
-      do {
-        input = original
-        try self.p1.print(output, into: &input)
-      } catch let e1 {
-        do {
-          input = original
-          try self.p0.print(output, into: &input)
-        } catch let e0 {
+      do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+        do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
           throw PrintingError.manyFailed(
             [e2, e1, e0], at: input
           )
@@ -9585,18 +9503,9 @@ extension OneOfBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
       do { return try self.p0.parse(&input) } catch let e0 {
-        do {
-          input = original
-          return try self.p1.parse(&input)
-        } catch let e1 {
-          do {
-            input = original
-            return try self.p2.parse(&input)
-          } catch let e2 {
-            do {
-              input = original
-              return try self.p3.parse(&input)
-            } catch let e3 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
               throw ParsingError.manyFailed(
                 [e0, e1, e2, e3], at: input
               )
@@ -9624,18 +9533,9 @@ where
   @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p3.print(output, into: &input) } catch let e3 {
-      do {
-        input = original
-        try self.p2.print(output, into: &input)
-      } catch let e2 {
-        do {
-          input = original
-          try self.p1.print(output, into: &input)
-        } catch let e1 {
-          do {
-            input = original
-            try self.p0.print(output, into: &input)
-          } catch let e0 {
+      do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+        do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+          do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
             throw PrintingError.manyFailed(
               [e3, e2, e1, e0], at: input
             )
@@ -9679,22 +9579,10 @@ extension OneOfBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
       do { return try self.p0.parse(&input) } catch let e0 {
-        do {
-          input = original
-          return try self.p1.parse(&input)
-        } catch let e1 {
-          do {
-            input = original
-            return try self.p2.parse(&input)
-          } catch let e2 {
-            do {
-              input = original
-              return try self.p3.parse(&input)
-            } catch let e3 {
-              do {
-                input = original
-                return try self.p4.parse(&input)
-              } catch let e4 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
                 throw ParsingError.manyFailed(
                   [e0, e1, e2, e3, e4], at: input
                 )
@@ -9726,22 +9614,10 @@ where
   @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p4.print(output, into: &input) } catch let e4 {
-      do {
-        input = original
-        try self.p3.print(output, into: &input)
-      } catch let e3 {
-        do {
-          input = original
-          try self.p2.print(output, into: &input)
-        } catch let e2 {
-          do {
-            input = original
-            try self.p1.print(output, into: &input)
-          } catch let e1 {
-            do {
-              input = original
-              try self.p0.print(output, into: &input)
-            } catch let e0 {
+      do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+        do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+          do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+            do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
               throw PrintingError.manyFailed(
                 [e4, e3, e2, e1, e0], at: input
               )
@@ -9762,8 +9638,7 @@ extension OneOfBuilder {
 }
 
 extension OneOfBuilder {
-  public struct OneOf6<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>:
-    Parser
+  public struct OneOf6<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -9790,26 +9665,11 @@ extension OneOfBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
       do { return try self.p0.parse(&input) } catch let e0 {
-        do {
-          input = original
-          return try self.p1.parse(&input)
-        } catch let e1 {
-          do {
-            input = original
-            return try self.p2.parse(&input)
-          } catch let e2 {
-            do {
-              input = original
-              return try self.p3.parse(&input)
-            } catch let e3 {
-              do {
-                input = original
-                return try self.p4.parse(&input)
-              } catch let e4 {
-                do {
-                  input = original
-                  return try self.p5.parse(&input)
-                } catch let e5 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
+                do { input = original; return try self.p5.parse(&input) } catch let e5 {
                   throw ParsingError.manyFailed(
                     [e0, e1, e2, e3, e4, e5], at: input
                   )
@@ -9845,26 +9705,11 @@ where
   @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p5.print(output, into: &input) } catch let e5 {
-      do {
-        input = original
-        try self.p4.print(output, into: &input)
-      } catch let e4 {
-        do {
-          input = original
-          try self.p3.print(output, into: &input)
-        } catch let e3 {
-          do {
-            input = original
-            try self.p2.print(output, into: &input)
-          } catch let e2 {
-            do {
-              input = original
-              try self.p1.print(output, into: &input)
-            } catch let e1 {
-              do {
-                input = original
-                try self.p0.print(output, into: &input)
-              } catch let e0 {
+      do { input = original; try self.p4.print(output, into: &input) } catch let e4 {
+        do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+          do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+            do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+              do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
                 throw PrintingError.manyFailed(
                   [e5, e4, e3, e2, e1, e0], at: input
                 )
@@ -9886,9 +9731,7 @@ extension OneOfBuilder {
 }
 
 extension OneOfBuilder {
-  public struct OneOf7<
-    P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser
-  >: Parser
+  public struct OneOf7<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -9918,30 +9761,12 @@ extension OneOfBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
       do { return try self.p0.parse(&input) } catch let e0 {
-        do {
-          input = original
-          return try self.p1.parse(&input)
-        } catch let e1 {
-          do {
-            input = original
-            return try self.p2.parse(&input)
-          } catch let e2 {
-            do {
-              input = original
-              return try self.p3.parse(&input)
-            } catch let e3 {
-              do {
-                input = original
-                return try self.p4.parse(&input)
-              } catch let e4 {
-                do {
-                  input = original
-                  return try self.p5.parse(&input)
-                } catch let e5 {
-                  do {
-                    input = original
-                    return try self.p6.parse(&input)
-                  } catch let e6 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
+                do { input = original; return try self.p5.parse(&input) } catch let e5 {
+                  do { input = original; return try self.p6.parse(&input) } catch let e6 {
                     throw ParsingError.manyFailed(
                       [e0, e1, e2, e3, e4, e5, e6], at: input
                     )
@@ -9981,30 +9806,12 @@ where
   @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p6.print(output, into: &input) } catch let e6 {
-      do {
-        input = original
-        try self.p5.print(output, into: &input)
-      } catch let e5 {
-        do {
-          input = original
-          try self.p4.print(output, into: &input)
-        } catch let e4 {
-          do {
-            input = original
-            try self.p3.print(output, into: &input)
-          } catch let e3 {
-            do {
-              input = original
-              try self.p2.print(output, into: &input)
-            } catch let e2 {
-              do {
-                input = original
-                try self.p1.print(output, into: &input)
-              } catch let e1 {
-                do {
-                  input = original
-                  try self.p0.print(output, into: &input)
-                } catch let e0 {
+      do { input = original; try self.p5.print(output, into: &input) } catch let e5 {
+        do { input = original; try self.p4.print(output, into: &input) } catch let e4 {
+          do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+            do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+              do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+                do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
                   throw PrintingError.manyFailed(
                     [e6, e5, e4, e3, e2, e1, e0], at: input
                   )
@@ -10027,9 +9834,7 @@ extension OneOfBuilder {
 }
 
 extension OneOfBuilder {
-  public struct OneOf8<
-    P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser, P7: Parser
-  >: Parser
+  public struct OneOf8<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser, P7: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -10048,9 +9853,7 @@ extension OneOfBuilder {
   {
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -10064,34 +9867,13 @@ extension OneOfBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
       do { return try self.p0.parse(&input) } catch let e0 {
-        do {
-          input = original
-          return try self.p1.parse(&input)
-        } catch let e1 {
-          do {
-            input = original
-            return try self.p2.parse(&input)
-          } catch let e2 {
-            do {
-              input = original
-              return try self.p3.parse(&input)
-            } catch let e3 {
-              do {
-                input = original
-                return try self.p4.parse(&input)
-              } catch let e4 {
-                do {
-                  input = original
-                  return try self.p5.parse(&input)
-                } catch let e5 {
-                  do {
-                    input = original
-                    return try self.p6.parse(&input)
-                  } catch let e6 {
-                    do {
-                      input = original
-                      return try self.p7.parse(&input)
-                    } catch let e7 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
+                do { input = original; return try self.p5.parse(&input) } catch let e5 {
+                  do { input = original; return try self.p6.parse(&input) } catch let e6 {
+                    do { input = original; return try self.p7.parse(&input) } catch let e7 {
                       throw ParsingError.manyFailed(
                         [e0, e1, e2, e3, e4, e5, e6, e7], at: input
                       )
@@ -10135,34 +9917,13 @@ where
   @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p7.print(output, into: &input) } catch let e7 {
-      do {
-        input = original
-        try self.p6.print(output, into: &input)
-      } catch let e6 {
-        do {
-          input = original
-          try self.p5.print(output, into: &input)
-        } catch let e5 {
-          do {
-            input = original
-            try self.p4.print(output, into: &input)
-          } catch let e4 {
-            do {
-              input = original
-              try self.p3.print(output, into: &input)
-            } catch let e3 {
-              do {
-                input = original
-                try self.p2.print(output, into: &input)
-              } catch let e2 {
-                do {
-                  input = original
-                  try self.p1.print(output, into: &input)
-                } catch let e1 {
-                  do {
-                    input = original
-                    try self.p0.print(output, into: &input)
-                  } catch let e0 {
+      do { input = original; try self.p6.print(output, into: &input) } catch let e6 {
+        do { input = original; try self.p5.print(output, into: &input) } catch let e5 {
+          do { input = original; try self.p4.print(output, into: &input) } catch let e4 {
+            do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+              do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+                do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+                  do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
                     throw PrintingError.manyFailed(
                       [e7, e6, e5, e4, e3, e2, e1, e0], at: input
                     )
@@ -10186,10 +9947,7 @@ extension OneOfBuilder {
 }
 
 extension OneOfBuilder {
-  public struct OneOf9<
-    P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser, P7: Parser,
-    P8: Parser
-  >: Parser
+  public struct OneOf9<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser, P7: Parser, P8: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -10210,9 +9968,7 @@ extension OneOfBuilder {
   {
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -10227,38 +9983,14 @@ extension OneOfBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
       do { return try self.p0.parse(&input) } catch let e0 {
-        do {
-          input = original
-          return try self.p1.parse(&input)
-        } catch let e1 {
-          do {
-            input = original
-            return try self.p2.parse(&input)
-          } catch let e2 {
-            do {
-              input = original
-              return try self.p3.parse(&input)
-            } catch let e3 {
-              do {
-                input = original
-                return try self.p4.parse(&input)
-              } catch let e4 {
-                do {
-                  input = original
-                  return try self.p5.parse(&input)
-                } catch let e5 {
-                  do {
-                    input = original
-                    return try self.p6.parse(&input)
-                  } catch let e6 {
-                    do {
-                      input = original
-                      return try self.p7.parse(&input)
-                    } catch let e7 {
-                      do {
-                        input = original
-                        return try self.p8.parse(&input)
-                      } catch let e8 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
+                do { input = original; return try self.p5.parse(&input) } catch let e5 {
+                  do { input = original; return try self.p6.parse(&input) } catch let e6 {
+                    do { input = original; return try self.p7.parse(&input) } catch let e7 {
+                      do { input = original; return try self.p8.parse(&input) } catch let e8 {
                         throw ParsingError.manyFailed(
                           [e0, e1, e2, e3, e4, e5, e6, e7, e8], at: input
                         )
@@ -10306,38 +10038,14 @@ where
   @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p8.print(output, into: &input) } catch let e8 {
-      do {
-        input = original
-        try self.p7.print(output, into: &input)
-      } catch let e7 {
-        do {
-          input = original
-          try self.p6.print(output, into: &input)
-        } catch let e6 {
-          do {
-            input = original
-            try self.p5.print(output, into: &input)
-          } catch let e5 {
-            do {
-              input = original
-              try self.p4.print(output, into: &input)
-            } catch let e4 {
-              do {
-                input = original
-                try self.p3.print(output, into: &input)
-              } catch let e3 {
-                do {
-                  input = original
-                  try self.p2.print(output, into: &input)
-                } catch let e2 {
-                  do {
-                    input = original
-                    try self.p1.print(output, into: &input)
-                  } catch let e1 {
-                    do {
-                      input = original
-                      try self.p0.print(output, into: &input)
-                    } catch let e0 {
+      do { input = original; try self.p7.print(output, into: &input) } catch let e7 {
+        do { input = original; try self.p6.print(output, into: &input) } catch let e6 {
+          do { input = original; try self.p5.print(output, into: &input) } catch let e5 {
+            do { input = original; try self.p4.print(output, into: &input) } catch let e4 {
+              do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+                do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+                  do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+                    do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
                       throw PrintingError.manyFailed(
                         [e8, e7, e6, e5, e4, e3, e2, e1, e0], at: input
                       )
@@ -10362,10 +10070,7 @@ extension OneOfBuilder {
 }
 
 extension OneOfBuilder {
-  public struct OneOf10<
-    P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser, P7: Parser,
-    P8: Parser, P9: Parser
-  >: Parser
+  public struct OneOf10<P0: Parser, P1: Parser, P2: Parser, P3: Parser, P4: Parser, P5: Parser, P6: Parser, P7: Parser, P8: Parser, P9: Parser>: Parser
   where
     P0.Input == P1.Input,
     P1.Input == P2.Input,
@@ -10388,10 +10093,7 @@ extension OneOfBuilder {
   {
     public let p0: P0, p1: P1, p2: P2, p3: P3, p4: P4, p5: P5, p6: P6, p7: P7, p8: P8, p9: P9
 
-    @inlinable public init(
-      _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8,
-      _ p9: P9
-    ) {
+    @inlinable public init(_ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8, _ p9: P9) {
       self.p0 = p0
       self.p1 = p1
       self.p2 = p2
@@ -10407,42 +10109,15 @@ extension OneOfBuilder {
     @inlinable public func parse(_ input: inout P0.Input) rethrows -> P0.Output {
       let original = input
       do { return try self.p0.parse(&input) } catch let e0 {
-        do {
-          input = original
-          return try self.p1.parse(&input)
-        } catch let e1 {
-          do {
-            input = original
-            return try self.p2.parse(&input)
-          } catch let e2 {
-            do {
-              input = original
-              return try self.p3.parse(&input)
-            } catch let e3 {
-              do {
-                input = original
-                return try self.p4.parse(&input)
-              } catch let e4 {
-                do {
-                  input = original
-                  return try self.p5.parse(&input)
-                } catch let e5 {
-                  do {
-                    input = original
-                    return try self.p6.parse(&input)
-                  } catch let e6 {
-                    do {
-                      input = original
-                      return try self.p7.parse(&input)
-                    } catch let e7 {
-                      do {
-                        input = original
-                        return try self.p8.parse(&input)
-                      } catch let e8 {
-                        do {
-                          input = original
-                          return try self.p9.parse(&input)
-                        } catch let e9 {
+        do { input = original; return try self.p1.parse(&input) } catch let e1 {
+          do { input = original; return try self.p2.parse(&input) } catch let e2 {
+            do { input = original; return try self.p3.parse(&input) } catch let e3 {
+              do { input = original; return try self.p4.parse(&input) } catch let e4 {
+                do { input = original; return try self.p5.parse(&input) } catch let e5 {
+                  do { input = original; return try self.p6.parse(&input) } catch let e6 {
+                    do { input = original; return try self.p7.parse(&input) } catch let e7 {
+                      do { input = original; return try self.p8.parse(&input) } catch let e8 {
+                        do { input = original; return try self.p9.parse(&input) } catch let e9 {
                           throw ParsingError.manyFailed(
                             [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9], at: input
                           )
@@ -10494,42 +10169,15 @@ where
   @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
     do { try self.p9.print(output, into: &input) } catch let e9 {
-      do {
-        input = original
-        try self.p8.print(output, into: &input)
-      } catch let e8 {
-        do {
-          input = original
-          try self.p7.print(output, into: &input)
-        } catch let e7 {
-          do {
-            input = original
-            try self.p6.print(output, into: &input)
-          } catch let e6 {
-            do {
-              input = original
-              try self.p5.print(output, into: &input)
-            } catch let e5 {
-              do {
-                input = original
-                try self.p4.print(output, into: &input)
-              } catch let e4 {
-                do {
-                  input = original
-                  try self.p3.print(output, into: &input)
-                } catch let e3 {
-                  do {
-                    input = original
-                    try self.p2.print(output, into: &input)
-                  } catch let e2 {
-                    do {
-                      input = original
-                      try self.p1.print(output, into: &input)
-                    } catch let e1 {
-                      do {
-                        input = original
-                        try self.p0.print(output, into: &input)
-                      } catch let e0 {
+      do { input = original; try self.p8.print(output, into: &input) } catch let e8 {
+        do { input = original; try self.p7.print(output, into: &input) } catch let e7 {
+          do { input = original; try self.p6.print(output, into: &input) } catch let e6 {
+            do { input = original; try self.p5.print(output, into: &input) } catch let e5 {
+              do { input = original; try self.p4.print(output, into: &input) } catch let e4 {
+                do { input = original; try self.p3.print(output, into: &input) } catch let e3 {
+                  do { input = original; try self.p2.print(output, into: &input) } catch let e2 {
+                    do { input = original; try self.p1.print(output, into: &input) } catch let e1 {
+                      do { input = original; try self.p0.print(output, into: &input) } catch let e0 {
                         throw PrintingError.manyFailed(
                           [e9, e8, e7, e6, e5, e4, e3, e2, e1, e0], at: input
                         )
@@ -10548,8 +10196,7 @@ where
 
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9>(
-    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8,
-    _ p9: P9
+    _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8, _ p9: P9
   ) -> OneOfBuilder.OneOf10<P0, P1, P2, P3, P4, P5, P6, P7, P8, P9> {
     OneOfBuilder.OneOf10(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9)
   }

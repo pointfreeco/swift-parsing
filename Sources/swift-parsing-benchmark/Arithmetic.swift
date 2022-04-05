@@ -5,7 +5,7 @@ import Parsing
 /// This benchmark demonstrates how to parse a recursive grammar: arithmetic.
 let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   struct AdditionAndSubtraction: Parser {
-    func parse(_ input: inout Substring.UTF8View) throws -> Double {
+    func parse(_ input: inout Substring) throws -> Double {
       try InfixOperator(associativity: .left) {
         OneOf {
           "+".utf8.map { (+) }
@@ -19,7 +19,7 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   }
 
   struct MultiplicationAndDivision: Parser {
-    func parse(_ input: inout Substring.UTF8View) throws -> Double {
+    func parse(_ input: inout Substring) throws -> Double {
       try InfixOperator(associativity: .left) {
         OneOf {
           "*".utf8.map { (*) }
@@ -33,7 +33,7 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   }
 
   struct Exponent: Parser {
-    func parse(_ input: inout Substring.UTF8View) throws -> Double {
+    func parse(_ input: inout Substring) throws -> Double {
       try InfixOperator(associativity: .left) {
         "^".utf8.map { pow }
       } lowerThan: {
@@ -44,7 +44,7 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   }
 
   struct Factor: Parser {
-    func parse(_ input: inout Substring.UTF8View) throws -> Double {
+    func parse(_ input: inout Substring) throws -> Double {
       try OneOf {
         Parse {
           "(".utf8
@@ -61,7 +61,7 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   let input = "1+2*3/4-5^2"
   var output: Double!
   suite.benchmark("Parser") {
-    var input = input[...].utf8
+    var input = input[...]
     output = try AdditionAndSubtraction().parse(&input)
   } tearDown: {
     precondition(output == -22.5)

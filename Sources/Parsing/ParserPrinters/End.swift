@@ -47,13 +47,6 @@ public struct End<Input: Collection>: ParserPrinter {
 }
 
 extension End where Input == Substring {
-  @_disfavoredOverload
-  @inlinable
-  public init() {}
-}
-
-extension End where Input == Substring.UTF8View {
-  @_disfavoredOverload
   @inlinable
   public init() {}
 }
