@@ -73,7 +73,8 @@ final class CaseIterableRawRepresentableTests: XCTestCase {
         error: unexpected input
          --> input:1:4
         1 | 42,100
-          |    ^ expected case of "Person"
+          |    ^ expected "42"
+          |    ^ expected "4"
 
         error: unexpected input
          --> input:1:3
@@ -114,7 +115,8 @@ final class CaseIterableRawRepresentableTests: XCTestCase {
         error: unexpected input
          --> input:1:5
         1 | -42,-100
-          |     ^ expected case of "Person"
+          |     ^ expected "-42"
+          |     ^ expected "-4"
 
         error: unexpected input
          --> input:1:4

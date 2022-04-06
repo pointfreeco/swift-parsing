@@ -52,34 +52,90 @@ where
     self.fromBytes = fromBytes
   }
 
+//  @inlinable
+//  public func parse(_ input: inout Input) throws -> Int {
+//    var bytes = self.toBytes(input)
+//    defer { input = self.fromBytes(bytes) }
+//
+//    var prefix = self.maximum.map(bytes.prefix) ?? bytes
+//    prefix = prefix.prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
+//    let count = prefix.count
+//
+//    guard prefix.count >= self.minimum
+//    else {
+//      throw ParsingError.expectedInput(
+//        """
+//        \(self.minimum == self.maximum ? "" : "at least ")\(self.minimum) \
+//        digit\(self.minimum == 1 ? "" : "s")
+//        """,
+//        at: input
+//      )
+//    }
+//
+//    guard !prefix.isEmpty
+//    else { return 0 }
+//
+//    guard let digits = Int(String(decoding: prefix, as: UTF8.self))
+//    else { throw ParsingError.expectedInput("digits", at: input) }
+//
+//    bytes.removeFirst(count)
+//    return digits
+//  }
+
   @inlinable
   public func parse(_ input: inout Input) throws -> Int {
     var bytes = self.toBytes(input)
     defer { input = self.fromBytes(bytes) }
 
-    var prefix = self.maximum.map(bytes.prefix) ?? bytes
-    prefix = prefix.prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
-    let count = prefix.count
-
-    guard prefix.count >= self.minimum
-    else {
-      throw ParsingError.expectedInput(
+    @inline(__always)
+    func digit(for n: UTF8.CodeUnit) -> Int? {
+      switch n {
+      case .init(ascii: "0") ... .init(ascii: "9"):
+        return Output(n - .init(ascii: "0"))
+      default:
+        return nil
+      }
+    }
+    var length = 0
+    var iterator = bytes.makeIterator()
+    var overflow = false
+    var output = 0
+    let original = input
+    @inline(__always)
+    func digitsError() -> ParsingError {
+      ParsingError.expectedInput(
         """
         \(self.minimum == self.maximum ? "" : "at least ")\(self.minimum) \
         digit\(self.minimum == 1 ? "" : "s")
         """,
-        at: input
+        from: original,
+        to: input
       )
     }
-
-    guard !prefix.isEmpty
-    else { return 0 }
-
-    guard let digits = Int(String(decoding: prefix, as: UTF8.self))
-    else { throw ParsingError.expectedInput("digits", at: input) }
-
-    bytes.removeFirst(count)
-    return digits
+    while
+      self.maximum.map({ length < $0 }) ?? true,
+      let next = iterator.next(),
+      let n = digit(for: next)
+    {
+      bytes.removeFirst()
+      (output, overflow) = output.multipliedReportingOverflow(by: 10)
+      @inline(__always)
+      func overflowError() -> ParsingError {
+        ParsingError.failed(
+          summary: "failed to process integer from digits",
+          label: "overflowed \(Int.max)",
+          from: original,
+          to: input
+        )
+      }
+      guard !overflow else { throw overflowError() }
+      (output, overflow) = output.addingReportingOverflow(n)
+      guard !overflow else { throw overflowError() }
+      length += 1
+    }
+    guard length >= self.minimum
+    else { throw digitsError() }
+    return output
   }
 }
 
@@ -111,7 +167,7 @@ extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: Prepe
           round-trip expectation failed
 
           A "Digits" parser configured to parse at most \(maximum) digit\(maximum == 1 ? "" : "s") \
-          tried to print \(output) (\(count) digit\(count == 1 ? "" : "s").
+          tried to print \(output) (\(count) digit\(count == 1 ? "" : "s")).
           """,
         input: input
       )
@@ -168,6 +224,7 @@ extension Digits where Input == Substring.UTF8View, Bytes == Substring.UTF8View 
   }
 
   @_disfavoredOverload
+  @inlinable
   public init<R: CountingRange>(_ length: R) {
     self.init(length)
   }

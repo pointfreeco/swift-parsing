@@ -138,7 +138,7 @@ extension Parsers {
       while let next = iterator.next(), let n = digit(for: next) {
         input.removeFirst()
         (output, overflow) = output.multipliedReportingOverflow(by: radix)
-        func overflowError() -> Error {
+        func overflowError() -> ParsingError {
           ParsingError.failed(
             summary: "failed to process \"\(Output.self)\"",
             label: "overflowed \(Output.max)",

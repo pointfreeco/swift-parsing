@@ -63,7 +63,7 @@ class NotTests: XCTestCase {
     var input = "// a comment"[...]
     let parser = Not { "//" }
     XCTAssertThrowsError(try parser.print((), into: &input))
-    XCTAssertEqual(input, "// a comment"[...])
+    XCTAssertEqual(input, " a comment"[...])
   }
 
   func testPrintComplexParserSucceeds() {
@@ -92,7 +92,7 @@ class NotTests: XCTestCase {
     XCTAssertThrowsError(try uncommentedLine.print("// commented line"[...], into: &input))
     XCTAssertEqual(
       input,
-      "// commented line"
+      " commented line"
     )
   }
 }
