@@ -198,7 +198,7 @@ extension Conversion where Self == AnyConversion<(Double, Double), Double> {
   fileprivate static var multiplySign: Self {
     .init(
       apply: *,
-      unapply: { $0 < 0 ? (abs($0), -1) : ($0, 1) }
+      unapply: { $0 < 0 ? (-$0, -1) : ($0, 1) }
     )
   }
 }
@@ -206,7 +206,7 @@ extension Conversion where Self == AnyConversion<(Double, Double), Double> {
 extension Conversion where Self == AnyConversion<[Void], Int> {
   fileprivate static var count: Self {
     .init(
-      apply: \.count,
+      apply: { $0.count },
       unapply: { Array(repeating: (), count: $0) }
     )
   }
