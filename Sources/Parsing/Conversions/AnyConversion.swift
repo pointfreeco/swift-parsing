@@ -1,31 +1,75 @@
+
+struct Amount { var cents: Int }
+
+struct AmountConversion: Conversion {
+  func apply(_ dollarsAndCents: (Int, Int)) -> Amount {
+    return Amount(cents: dollarsAndCents.0 * 100 + dollarsAndCents.1)
+  }
+
+  func unapply(_ amount: Amount) -> (Int, Int) {
+    amount.cents.quotientAndRemainder(dividingBy: 100)
+  }
+}
+
+let amount = Parse(AmountConversion()) {
+  Digits()
+  "."
+  Digits(2)
+}
+
+
 extension Conversion {
   /// A conversion that invokes the given apply and unapply functions.
   ///
-  /// Useful for experimenting with conversions in a lightweight manner, without the ceremony of a
-  /// dedicated type. If performance is a concern, define a custom type that conforms to
-  /// ``Conversion`` instead, which gives the compiler the ability to further optimize.
+  /// Useful for experimenting with conversions in a lightweight manner, without the ceremony of
+  /// defining a dedicated type.
+  ///
+  /// ```swift
+  /// struct Amount {
+  ///   var cents: Int
+  /// }
+  ///
+  /// let amount = Parse(
+  ///   .convert(
+  ///     apply: { dollars, cents in Amount(cents: dollars * 100 + cents) },
+  ///     unapply: { amount in amount.cents.quotientAndRemainder(dividingBy: 100) }
+  ///   )
+  /// ) {
+  ///   Digits()
+  ///   "."
+  ///   Digits(2)
+  /// }
+  /// ```
+  ///
+  /// If performance is a concern, you should define a custom type that conforms to ``Conversion``
+  /// instead, which avoids the overhead of escaping closures, gives the compiler the ability to
+  /// better optimize, and puts your in a better position to test the conversion.
+  ///
+  /// ```swift
+  /// struct AmountConversion: Conversion {
+  ///   func apply(_ dollarsAndCents: (Int, Int)) -> Amount {
+  ///     return Amount(cents: dollarsAndCents.0 * 100 + dollarsAndCents.1)
+  ///   }
+  ///
+  ///   func unapply(_ amount: Amount) -> (Int, Int) {
+  ///     amount.cents.quotientAndRemainder(dividingBy: 100)
+  ///   }
+  /// }
+  ///
+  /// let amount = Parse(AmountConversion()) {
+  ///   Digits()
+  ///   "."
+  ///   Digits(2)
+  /// }
+  /// ```
   ///
   /// - Parameters:
-  ///   - apply: A closure that transforms an input into an output.
-  ///   - unapply: A closure that transforms an output into an input.
-  /// - Returns: A conversion that invokes the given apply and unapply functions.
-  @inlinable
-  public static func convert<Input, Output>(
-    apply: @escaping (Input) throws -> Output,
-    unapply: @escaping (Output) throws -> Input
-  ) -> Self where Self == AnyConversion<Input, Output> {
-    .init(apply: apply, unapply: unapply)
-  }
-
-  /// A conversion that invokes the given apply and unapply functions.
-  ///
-  /// Useful for experimenting with conversions in a lightweight manner, without the ceremony of a
-  /// dedicated type. If performance is a concern, define a custom type that conforms to
-  /// ``Conversion`` instead, which gives the compiler the ability to further optimize.
-  /// 
-  /// - Parameters:
-  ///   - apply: A closure that transforms an input into an output and can fail with `nil`.
-  ///   - unapply: A closure that transforms an output into an input and can fail with `nil`.
+  ///   - apply: A closure that attempts to convert an input into an output. `apply` is executed
+  ///     each time the ``apply(_:)`` method is called on the resulting conversion. If the closure
+  ///     returns `nil`, an error is thrown. Otherwise, the value is unwrapped.
+  ///   - unapply: A closure that attempts to convert an output into an input. `unapply` is executed
+  ///     each time the ``unapply(_:)`` method is called on the resulting conversion. If the closure
+  ///     returns `nil`, an error is thrown. Otherwise, the value is unwrapped.
   /// - Returns: A conversion that invokes the given apply and unapply functions.
   @inlinable
   public static func convert<Input, Output>(
@@ -88,22 +132,13 @@ public struct AnyConversion<Input, Output>: Conversion {
   @usableFromInline
   let _unapply: (Output) throws -> Input
 
-  /// Creates a conversion that wraps the given closures in its ``apply(_:)`` and ``unapply(_:)``
-  /// methods.
+  /// Creates a type-erasing conversion to wrap the given conversion.
   ///
-  /// - Parameters:
-  ///   - apply: A closure that attempts to convert an input into an output. `apply` is executed
-  ///     each time the ``apply(_:)`` method is called on the resulting conversion.
-  ///   - unapply: A closure that attempts to convert an output into an input. `unapply` is executed
-  ///     each time the ``unapply(_:)`` method is called on the resulting conversion.
-  @_disfavoredOverload
+  /// - Parameter conversion: A conversion to wrap with a type eraser.
   @inlinable
-  public init(
-    apply: @escaping (Input) throws -> Output,
-    unapply: @escaping (Output) throws -> Input
-  ) {
-    self._apply = apply
-    self._unapply = unapply
+  public init<C: Conversion>(_ conversion: C) where C.Input == Input, C.Output == Output {
+    self._apply = conversion.apply
+    self._unapply = conversion.unapply
   }
 
   /// Creates a conversion that wraps the given closures in its ``apply(_:)`` and ``unapply(_:)``
@@ -131,14 +166,6 @@ public struct AnyConversion<Input, Output>: Conversion {
       else { throw ConvertingError() }
       return value
     }
-  }
-
-  /// Creates a type-erasing conversion to wrap the given conversion.
-  ///
-  /// - Parameter conversion: A conversion to wrap with a type eraser.
-  @inlinable
-  public init<C: Conversion>(_ conversion: C) where C.Input == Input, C.Output == Output {
-    self.init(apply: conversion.apply, unapply: conversion.unapply)
   }
 
   @inlinable
