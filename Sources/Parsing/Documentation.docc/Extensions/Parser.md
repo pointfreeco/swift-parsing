@@ -61,8 +61,7 @@ to build complex parsers from simpler pieces.
 - ``flatMap(_:)``
 - ``compactMap(_:)``
 - ``filter(_:)``
-- ``pipe(_:)``
 - ``pullback(_:)``
 - ``replaceError(with:)``
+- ``pipe(_:)-2zck4``
 - ``eraseToAnyParser()``
-- ``pipe(_:)``
