@@ -4,7 +4,7 @@
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fpointfreeco%2Fswift-parsing%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/pointfreeco/swift-parsing)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fpointfreeco%2Fswift-parsing%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/pointfreeco/swift-parsing)
 
-A library for turning nebulous data into well-structured data, with a focus on composition, performance, generality, and ergonomics:
+A library for turning nebulous data into well-structured data, with a focus on composition, performance, generality, _and_ invertibility:
 
 * **Composition**: Ability to break large, complex parsing problems down into smaller, simpler ones. And the ability to take small, simple parsers and easily combine them into larger, more complex ones.
 
@@ -12,7 +12,7 @@ A library for turning nebulous data into well-structured data, with a focus on c
 
 * **Generality**: Ability to parse _any_ kind of input into _any_ kind of output. This allows you to choose which abstraction levels you want to work on based on how much performance you need or how much correctness you want guaranteed. For example, you can write a highly tuned parser on collections of UTF-8 code units, and it will automatically plug into parsers of strings, arrays, unsafe buffer pointers and more.
 
-* **Ergonomics**: Accomplish all of the above in a simple, fluent API that can succinctly describe your parsing problem.
+* **Invertibility**: Ability to invert your parsers so that they are printers. This allows you to transform your well-structured data back into unstructured data, which is useful for serializing, sending over the network, routing, and more.
 
 ---
 
