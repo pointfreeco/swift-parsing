@@ -53,11 +53,11 @@ extension Parser {
     .init(upstream: self, output: transform())
   }
 
-  /// Returns a parser that transforms the output of this parser with a given conversion.
+  /// Returns a parser-printer that transforms the output of this parser with a given conversion.
   ///
-  /// A printer-friendly version of ``Parser/map(_:)-18m9d`` that transforms this parser's output
-  /// using the conversion's ``Conversion/apply(_:)`` method, and prints using the conversion's
-  /// ``Conversion/unapply(_:)`` method.
+  /// This is a printer-friendly version of ``Parser/map(_:)-18m9d`` that transforms this parser's
+  /// output using the conversion's ``Conversion/apply(_:)`` method, and prints using the
+  /// conversion's ``Conversion/unapply(_:)`` method.
   ///
   /// - Parameter conversion: A conversion that transforms the output of this parser.
   /// - Returns: A parser of outputs.
