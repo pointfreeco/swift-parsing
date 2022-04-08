@@ -346,6 +346,8 @@ There are a few other parsing libraries in the Swift community that you might al
 * [Sparse](https://github.com/johnpatrickmorgan/Sparse)
 * [SwiftParsec](https://github.com/davedufresne/SwiftParsec)
 
+The printing functionality in this library is inspired by the paper ["Invertible syntax descriptions: Unifying parsing and pretty printing"](https://www.informatik.uni-marburg.de/~rendel/unparse/rendel10invertible.pdf), by Tillmann Rendel and Klaus Ostermann.
+
 ## License
 
 This library is released under the MIT license. See [LICENSE](LICENSE) for details.
