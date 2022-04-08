@@ -113,8 +113,7 @@ Already this can consume the beginning of the input:
 // Use a mutable substring to verify what is consumed
 var input = input[...]
 
-try user.parse(&input)  // 1
-input                   // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
+try user.parse("1,") // 1
 ```
 
 > Note that we use a `Substring` instead of `String` because it allows for more efficient mutations and copying. See the article ["String Abstractions"][string-abstractions-docs] for more information.
@@ -181,11 +180,11 @@ let user = Parse(User.init(id:name:isAdmin:)) {
 }
 ```
 
-That is enough to parse a single user from the input string, leaving behind a newline and the final two users:
+That is enough to parse a single user from the input string:
 
 ```swift
-try user.parse(&input)  // User(id: 1, name: "Blob", isAdmin: true)
-input                   // "\n2,Blob Jr.,false\n3,Blob Sr.,true"
+try user.parse("1,Blob,true") 
+// User(id: 1, name: "Blob", isAdmin: true)
 ```
 
 To parse multiple users from the input we can use the `Many` parser to run the user parser many times:
@@ -197,8 +196,8 @@ let users = Many {
   "\n"
 }
 
-try users.parse(&input)  // [User(id: 1, name: "Blob", isAdmin: true), ...]
-input                    // ""
+try users.parse(input)
+// [User(id: 1, name: "Blob", isAdmin: true), ...]
 ```
 
 Now this parser can process an entire document of users, and the code is simpler and more straightforward than the version that uses `.split` and `.compactMap`.
