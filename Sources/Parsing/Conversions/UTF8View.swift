@@ -10,7 +10,7 @@ extension Conversion where Self == Conversions.SubstringToUTF8View {
 extension Conversion where Output == Substring {
   /// Transforms this conversion to `Substring` into a conversion to `Substring.UTF8View`.
   ///
-  /// A fluent version of ``utf8-swift.type.property``.
+  /// A fluent version of ``Conversion/utf8-swift.type.property``.
   @inlinable
   public var utf8: Conversions.Map<Self, Conversions.SubstringToUTF8View> { self.map(.utf8) }
 }

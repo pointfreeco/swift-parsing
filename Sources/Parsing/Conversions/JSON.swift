@@ -22,8 +22,8 @@ extension Conversion {
 
   /// Transforms this conversion to `Data` into a conversion to the given codable type.
   ///
-  /// A fluent version of ``json(_:decoder:encoder:)-swift.type.method``. Equivalent to calling
-  /// ``map(_:)`` with ``json(_:decoder:encoder:)-swift.type.method``:
+  /// A fluent version of  ``Conversion/json(_:decoder:encoder:)-swift.type.method``. Equivalent to
+  /// calling ``map(_:)`` with ``Conversion/json(_:decoder:encoder:)-swift.type.method``:
   ///
   /// ```swift
   /// Parse(.data.json(User.self))

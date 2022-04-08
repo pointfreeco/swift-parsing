@@ -16,8 +16,8 @@ extension Conversion {
   /// Transforms this conversion to a string into a conversion to the given lossless
   /// string-convertible type.
   ///
-  /// A fluent version of ``lossless(_:)-swift.type.method``. Equivalent to calling ``map(_:)`` with
-  /// ``lossless(_:)-swift.type.method``:
+  /// A fluent version of ``Conversion/lossless(_:)-swift.type.method``. Equivalent to calling
+  /// ``map(_:)`` with ``Conversion/lossless(_:)-swift.type.method``:
   ///
   /// ```swift
   /// stringConversion.lossless(NewOutput.self)

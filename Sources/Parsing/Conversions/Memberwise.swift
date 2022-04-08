@@ -25,7 +25,7 @@ extension Conversion {
   /// coord.print(.init(x: -5, y: 10))  // "(-5.0,10.0)"
   /// ```
   ///
-  /// To transform the output of a ``ParserPrinter`` into an enum, see ``case(_:)``.
+  /// To transform the output of a ``ParserPrinter`` into an enum, see ``Conversion/case(_:)-4j2n7``.
   ///
   /// ## Careful usage
   ///

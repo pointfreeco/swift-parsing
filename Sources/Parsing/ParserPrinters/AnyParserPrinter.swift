@@ -31,7 +31,7 @@ public struct AnyParserPrinter<Input, Output>: ParserPrinter {
 
   /// Creates a type-erasing parser-printer to wrap the given parser-printer.
   ///
-  /// Equivalent to calling ``Parser/eraseToAnyParserPrinter()`` on the parser-printer.
+  /// Equivalent to calling ``ParserPrinter/eraseToAnyParserPrinter()`` on the parser-printer.
   ///
   /// - Parameter parser: A parser to wrap with a type eraser.
   @inlinable

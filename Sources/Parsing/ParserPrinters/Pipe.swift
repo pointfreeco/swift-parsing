@@ -55,7 +55,7 @@ extension Parsers {
   /// of the given parser.
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
-  /// the ``Parser/pipe(_:)`` operation, which constructs this type.
+  /// the ``Parser/pipe(_:)-2zck4`` operation, which constructs this type.
   public struct Pipe<Upstream: Parser, Downstream: Parser>: Parser
   where Upstream.Output == Downstream.Input {
     public let upstream: Upstream

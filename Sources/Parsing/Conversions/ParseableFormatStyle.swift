@@ -23,8 +23,8 @@
     /// Transforms this conversion to a parseable format style's parse input into a conversion to
     /// the parseable format style's parse output.
     ///
-    /// A fluent version of ``formatted(_:)-swift.type.method``. Equivalent to calling ``map(_:)``
-    /// with ``formatted(_:)-swift.type.method``:
+    /// A fluent version of ``Conversion/formatted(_:)-swift.type.method``. Equivalent to calling
+    /// ``map(_:)`` with ``Conversion/formatted(_:)-swift.type.method``:
     ///
     /// ```swift
     /// Parse(.string.formatted(.currency("USD")))

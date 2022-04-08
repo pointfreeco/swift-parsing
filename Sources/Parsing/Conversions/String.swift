@@ -14,7 +14,7 @@ extension Conversion where Self == Conversions.SubstringToString {
 extension Conversion where Output == Substring {
   /// Transforms this conversion to `Substring` into a conversion to `String`.
   ///
-  /// A fluent version of ``string-swift.type.property-3u2b5``.
+  /// A fluent version of ``Conversion/string-swift.type.property-3u2b5``.
   @inlinable
   public var string: Conversions.Map<Self, Conversions.SubstringToString> { self.map(.string) }
 }
@@ -34,7 +34,7 @@ extension Conversion where Self == Conversions.BytesToString<Substring.UTF8View>
 extension Conversion where Output == Substring.UTF8View {
   /// Transforms this conversion to `Substring.UTF8View` into a conversion to `String`.
   ///
-  /// A fluent version of ``string-swift.type.property-9owth``.
+  /// A fluent version of ``Conversion/string-swift.type.property-9owth``.
   @inlinable
   public var string: Conversions.Map<Self, Conversions.BytesToString<Output>> { self.map(.string) }
 }

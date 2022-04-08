@@ -15,8 +15,8 @@ extension Conversion {
   #warning("TODO: Should this be named differently to distinguish itself from 'Parser.parse'?")
   /// Transforms this conversion's output to a new output by using the given ``ParserPrinter``.
   ///
-  /// A fluent version of ``parse(_:)-swift.type.method``. Equivalent to calling ``map(_:)`` with
-  /// ``parse(_:)-swift.type.method``:
+  /// A fluent version of ``Conversion/parse(_:)-swift.type.method``. Equivalent to calling
+  /// ``map(_:)`` with ``Conversion/parse(_:)-swift.type.method``:
   ///
   /// ```swift
   /// substringConversion.parse { Int.parser() }

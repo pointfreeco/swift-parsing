@@ -9,7 +9,7 @@ extension Conversion where Self == Conversions.BytesToData<Substring.UTF8View> {
 extension Conversion where Output == Substring.UTF8View {
   /// Transforms this conversion to `Substring.UTF8View` into a conversion to `Data`.
   ///
-  /// A fluent version of ``data-swift.type.property-8z7qz``.
+  /// A fluent version of ``Conversion/data-swift.type.property-8z7qz``.
   @inlinable
   public var data: Conversions.Map<Self, Conversions.BytesToData<Output>> {
     self.map(.data)
@@ -25,7 +25,7 @@ extension Conversion where Self == Conversions.BytesToData<ArraySlice<UInt8>> {
 extension Conversion where Output == ArraySlice<UInt8> {
   /// Transforms this conversion to `ArraySlice<UInt8>` into a conversion to `Data`.
   ///
-  /// A fluent version of ``data-swift.type.property-7g9sj``.
+  /// A fluent version of ``Conversion/data-swift.type.property-7g9sj``.
   @inlinable
   public var data: Conversions.Map<Self, Conversions.BytesToData<Output>> {
     self.map(.data)

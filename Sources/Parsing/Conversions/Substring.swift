@@ -10,7 +10,7 @@ extension Conversion where Self == Conversions.UnicodeScalarViewToSubstring {
 extension Conversion where Output == Substring.UnicodeScalarView {
   /// Transforms this conversion to `Substring.UnicodeScalarView` into a conversion to `Substring`.
   ///
-  /// A fluent version of ``substring-swift.type.property-4r1aj``.
+  /// A fluent version of ``Conversion/substring-swift.type.property-4r1aj``.
   @inlinable
   public var substring: Conversions.Map<Self, Conversions.UnicodeScalarViewToSubstring> {
     self.map(.substring)
@@ -40,7 +40,7 @@ extension Conversion where Self == Conversions.UTF8ViewToSubstring {
 extension Conversion where Output == Substring.UTF8View {
   /// Transforms this conversion to `Substring.UTF8View` into a conversion to `Substring`.
   ///
-  /// A fluent version of ``substring-swift.type.property-1y3u3``.
+  /// A fluent version of ``Conversion/substring-swift.type.property-1y3u3``.
   @inlinable
   public var substring: Conversions.Map<Self, Conversions.UTF8ViewToSubstring> {
     self.map(.substring)

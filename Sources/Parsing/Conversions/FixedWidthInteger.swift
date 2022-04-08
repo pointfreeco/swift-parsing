@@ -14,8 +14,8 @@ extension Conversion where Self == Conversions.BinaryFloatingPointToFixedWidthIn
 extension Conversion where Output == Double {
   /// Transforms this conversion to `Double` into a conversion to `Int`.
   ///
-  /// A fluent version of ``int-swift.type.property``. Equivalent to calling ``map(_:)`` with
-  /// ``int-swift.type.property``:
+  /// A fluent version of ``Conversion/int-swift.type.property``. Equivalent to calling ``map(_:)``
+  /// with ``Conversion/int-swift.type.property``:
   ///
   /// ```swift
   /// doubleConversion.int
