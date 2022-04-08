@@ -1,9 +1,11 @@
 /// A parser that consumes whitespace from the beginning of input.
-public struct Whitespace<Input: Collection, Bytes: Collection>: Parser
+public struct Whitespace<Length: CountingRange, InputToBytes: Conversion>: Parser
 where
-  Input.SubSequence == Input,
-  Bytes.Element == UTF8.CodeUnit,
-  Bytes.SubSequence == Bytes
+  InputToBytes.Input: Collection,
+  InputToBytes.Input.SubSequence == InputToBytes.Input,
+  InputToBytes.Output: Collection,
+  InputToBytes.Output.Element == UTF8.CodeUnit,
+  InputToBytes.Output.SubSequence == InputToBytes.Output
 {
   public enum Configuration {
     case all
@@ -14,21 +16,14 @@ where
   public let configuration: Configuration
 
   @usableFromInline
-  let maximum: Int?
+  let length: Length
 
   @usableFromInline
-  let minimum: Int
-
-  @usableFromInline
-  let toBytes: (Input) -> Bytes
-
-  @usableFromInline
-  let fromBytes: (Bytes) -> Input
+  let inputToBytes: InputToBytes
 
   @inlinable
-  public func parse(_ input: inout Input) throws {
-    var bytes = self.toBytes(input)
-    defer { input = self.fromBytes(bytes) }
+  public func parse(_ input: inout InputToBytes.Input) throws {
+    var bytes = try self.inputToBytes.apply(input)
 
     @inline(__always)
     func consumeHorizontal() -> Bool {
@@ -123,24 +118,27 @@ where
 
     switch self.configuration {
     case .all:
-      while self.maximum.map({ count < $0 }) ?? true, consumeHorizontal() || consumeVertical() {
+      while
+        self.length.maximum.map({ count < $0 }) ?? true,
+        consumeHorizontal() || consumeVertical()
+      {
         count += 1
       }
 
     case .horizontal:
-      while self.maximum.map({ count < $0 }) ?? true, consumeHorizontal() { count += 1 }
+      while self.length.maximum.map({ count < $0 }) ?? true, consumeHorizontal() { count += 1 }
 
     case .vertical:
-      while self.maximum.map({ count < $0 }) ?? true, consumeVertical() { count += 1 }
+      while self.length.maximum.map({ count < $0 }) ?? true, consumeVertical() { count += 1 }
     }
 
-    input = self.fromBytes(bytes)
+    input = try self.inputToBytes.unapply(bytes)
 
-    guard count >= self.minimum else {
-      let atLeast = self.minimum - count
+    guard count >= self.length.minimum else {
+      let atLeast = self.length.minimum - count
       throw ParsingError.expectedInput(
         """
-        \(self.minimum - count) \(count == 0 ? "" : "more ")whitespace
+        \(self.length.minimum - count) \(count == 0 ? "" : "more ")whitespace
         character\(atLeast == 1 ? "" : "s")
         """,
         at: input
@@ -150,72 +148,71 @@ where
 }
 
 extension Whitespace: ParserPrinter
-where Input: PrependableCollection, Bytes: PrependableCollection {
+where InputToBytes.Input: PrependableCollection, InputToBytes.Output: PrependableCollection {
   @inlinable
-  public func print(_ output: (), into input: inout Input) {
-    var bytes = Bytes()
-    defer { input.prepend(contentsOf: self.fromBytes(bytes)) }
+  public func print(_ output: (), into input: inout Input) rethrows {
+    var bytes = InputToBytes.Output()
 
     switch self.configuration {
     case .all, .horizontal:
-      for _ in 0..<self.minimum {
+      for _ in 0..<self.length.minimum {
         bytes.prepend(.init(ascii: " "))
       }
 
     case .vertical:
-      for _ in 0..<self.minimum {
+      for _ in 0..<self.length.minimum {
         bytes.prepend(.init(ascii: "\n"))
       }
     }
+
+    input.prepend(contentsOf: try self.inputToBytes.unapply(bytes))
   }
 }
 
 // NB: Swift 5.7 fails to build with a simpler `Bytes == Input` constraint
-extension Whitespace where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
+extension Whitespace {
   @inlinable
-  public init<R: CountingRange>(_ length: R, _ configuration: Configuration = .all) {
-    self.minimum = length.minimum
-    self.maximum = length.maximum
-    self.configuration = configuration
-    self.toBytes = { $0 }
-    self.fromBytes = { $0 }
+  public init<C>(_ configuration: Configuration = .all)
+  where Length == PartialRangeFrom<Int>, InputToBytes == Conversions.Identity<C> {
+    self.init(0..., configuration)
   }
 
   @inlinable
-  public init(_ configuration: Configuration = .all) {
-    self.init(0..., configuration)
+  public init<C>(_ length: Length, _ configuration: Configuration = .all)
+  where InputToBytes == Conversions.Identity<C> {
+    self.length = length
+    self.configuration = configuration
+    self.inputToBytes = .init()
   }
 }
 
-extension Whitespace where Input == Substring, Bytes == Substring.UTF8View {
+extension Whitespace where InputToBytes == Conversions.SubstringToUTF8View {
   @_disfavoredOverload
   @inlinable
-  public init<R: CountingRange>(_ length: R, _ configuration: Configuration = .all) {
-    self.minimum = length.minimum
-    self.maximum = length.maximum
-    self.configuration = configuration
-    self.toBytes = { $0.utf8 }
-    self.fromBytes = Substring.init
+  public init(_ configuration: Configuration = .all) where Length == PartialRangeFrom<Int> {
+    self.init(0..., configuration)
   }
 
   @_disfavoredOverload
   @inlinable
-  public init(_ configuration: Configuration = .all) {
-    self.init(0..., configuration)
+  public init(_ length: Length, _ configuration: Configuration = .all) {
+    self.length = length
+    self.configuration = configuration
+    self.inputToBytes = .init()
   }
 }
 
-extension Whitespace where Input == Substring.UTF8View, Bytes == Substring.UTF8View {
+extension Whitespace where InputToBytes == Conversions.Identity<Substring.UTF8View> {
   @_disfavoredOverload
   @inlinable
-  public init<R: CountingRange>(_ length: R, _ configuration: Configuration = .all) {
-    self.init(length, configuration)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(_ configuration: Configuration = .all) {
+  public init(_ configuration: Configuration = .all) where Length == PartialRangeFrom<Int> {
     self.init(configuration)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(_ length: Length, _ configuration: Configuration = .all) {
+    self.init(length, configuration)
   }
 }
 

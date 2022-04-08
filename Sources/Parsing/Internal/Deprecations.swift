@@ -501,6 +501,70 @@ where
   }
 }
 
+@available(*, deprecated, message: "Use 'Whitespace(1, .vertical)' instead")
+public struct Newline<InputToBytes: Conversion>: Parser
+where
+  InputToBytes.Input: Collection,
+  InputToBytes.Input.SubSequence == InputToBytes.Input,
+  InputToBytes.Output: Collection,
+  InputToBytes.Output.Element == UTF8.CodeUnit,
+  InputToBytes.Output.SubSequence == InputToBytes.Output
+{
+  @usableFromInline
+  let inputToBytes: InputToBytes
+
+  @inlinable
+  public func parse(_ input: inout InputToBytes.Input) throws {
+    var bytes = try self.inputToBytes.apply(input)
+    if bytes.first == .init(ascii: "\n") {
+      bytes.removeFirst()
+    } else if bytes.first == .init(ascii: "\r"), bytes.dropFirst().first == .init(ascii: "\n") {
+      bytes.removeFirst(2)
+    } else {
+      throw ParsingError.expectedInput(#""\n" or "\r\n""#, at: input)
+    }
+    input = try self.inputToBytes.unapply(bytes)
+  }
+}
+
+@available(*, deprecated, message: "Use 'Whitespace(1, .vertical)' instead")
+extension Newline: ParserPrinter
+where InputToBytes.Input: PrependableCollection, InputToBytes.Output: PrependableCollection {
+  @inlinable
+  public func print(_ output: (), into input: inout Input) rethrows {
+    input.prepend(contentsOf: try self.inputToBytes.unapply(.init("\n".utf8)))
+  }
+}
+
+@available(*, deprecated, message: "Use 'Whitespace(1, .vertical)' instead")
+extension Newline {
+  @inlinable
+  public init<C>() where InputToBytes == Conversions.Identity<C> {
+    self.inputToBytes = .init()
+  }
+}
+
+@available(*, deprecated, message: "Use 'Whitespace(1, .vertical)' instead")
+extension Newline where InputToBytes == Conversions.SubstringToUTF8View {
+  @_disfavoredOverload
+  @inlinable
+  public init() {
+    self.inputToBytes = .init()
+  }
+}
+
+@available(*, deprecated, message: "Use 'Whitespace(1, .vertical)' instead")
+extension Newline where InputToBytes == Conversions.Identity<Substring.UTF8View> {
+  @_disfavoredOverload
+  @inlinable
+  public init() { self.init() }
+}
+
+extension Parsers {
+  @available(*, deprecated, message: "Use 'Whitespace(1, .vertical)' instead")
+  public typealias Newline = Parsing.Newline  // NB: Convenience type alias for discovery
+}
+
 extension Prefix {
   @available(*, deprecated, renamed: "minimum")
   public var minLength: Int { self.minimum }

@@ -1,23 +1,3 @@
-
-struct Amount { var cents: Int }
-
-struct AmountConversion: Conversion {
-  func apply(_ dollarsAndCents: (Int, Int)) -> Amount {
-    return Amount(cents: dollarsAndCents.0 * 100 + dollarsAndCents.1)
-  }
-
-  func unapply(_ amount: Amount) -> (Int, Int) {
-    amount.cents.quotientAndRemainder(dividingBy: 100)
-  }
-}
-
-let amount = Parse(AmountConversion()) {
-  Digits()
-  "."
-  Digits(2)
-}
-
-
 extension Conversion {
   /// A conversion that invokes the given apply and unapply functions.
   ///

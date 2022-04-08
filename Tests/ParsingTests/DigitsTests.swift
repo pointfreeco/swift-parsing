@@ -23,9 +23,9 @@ final class DigitsTests: XCTestCase {
       XCTAssertEqual(
         """
         error: unexpected input
-         --> input:1:7
+         --> input:1:5
         1 | 201801
-          |       ^ expected at least 4 digits
+          |     ^ expected at least 4 digits
         """,
         "\(error)"
       )

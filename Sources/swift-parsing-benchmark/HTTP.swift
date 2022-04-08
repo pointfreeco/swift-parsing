@@ -16,13 +16,18 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     Prefix { $0.isVersion }
   }
 
+  let newline = OneOf {
+    "\r\n".utf8
+    "\n".utf8
+  }
+
   let requestLine = ParsePrint(.memberwise(Request.init(method:uri:version:))) {
     method
     " ".utf8
     uri
     " ".utf8
     httpVersion
-    Newline()
+    newline
   }
 
   let headerValue = ParsePrint(.substring) {
@@ -31,7 +36,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     }
     .printing(" ".utf8)
     Prefix { !$0.isNewline }
-    Newline()
+    newline
   }
 
   let header = ParsePrint(.memberwise(Header.init(name:value:))) {

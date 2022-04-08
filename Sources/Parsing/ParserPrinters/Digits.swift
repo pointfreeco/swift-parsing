@@ -22,76 +22,35 @@
 /// }
 /// .parse("20220131")  // Date(year: 2022, month: 1, day: 31)
 /// ```
-public struct Digits<Input: Collection, Bytes: Collection>: Parser
+public struct Digits<Length: CountingRange, InputToBytes: Conversion>: Parser
 where
-  Input.SubSequence == Input,
-  Bytes.Element == UTF8.CodeUnit,
-  Bytes.SubSequence == Bytes
+  InputToBytes.Input: Collection,
+  InputToBytes.Input.SubSequence == InputToBytes.Input,
+  InputToBytes.Output: Collection,
+  InputToBytes.Output.Element == UTF8.CodeUnit,
+  InputToBytes.Output.SubSequence == InputToBytes.Output
 {
   @usableFromInline
-  let maximum: Int?
+  let length: Length
 
   @usableFromInline
-  let minimum: Int
+  let inputToBytes: InputToBytes
 
   @usableFromInline
-  let toBytes: (Input) -> Bytes
-
-  @usableFromInline
-  let fromBytes: (Bytes) -> Input
-
-  @usableFromInline
-  init<R: CountingRange>(
-    length: R,
-    toBytes: @escaping (Input) -> Bytes,
-    fromBytes: @escaping (Bytes) -> Input
-  ) {
-    self.minimum = length.minimum
-    self.maximum = length.maximum
-    self.toBytes = toBytes
-    self.fromBytes = fromBytes
+  init(length: Length, inputToBytes: InputToBytes) {
+    self.length = length
+    self.inputToBytes = inputToBytes
   }
 
-//  @inlinable
-//  public func parse(_ input: inout Input) throws -> Int {
-//    var bytes = self.toBytes(input)
-//    defer { input = self.fromBytes(bytes) }
-//
-//    var prefix = self.maximum.map(bytes.prefix) ?? bytes
-//    prefix = prefix.prefix(while: (.init(ascii: "0") ... .init(ascii: "9")).contains)
-//    let count = prefix.count
-//
-//    guard prefix.count >= self.minimum
-//    else {
-//      throw ParsingError.expectedInput(
-//        """
-//        \(self.minimum == self.maximum ? "" : "at least ")\(self.minimum) \
-//        digit\(self.minimum == 1 ? "" : "s")
-//        """,
-//        at: input
-//      )
-//    }
-//
-//    guard !prefix.isEmpty
-//    else { return 0 }
-//
-//    guard let digits = Int(String(decoding: prefix, as: UTF8.self))
-//    else { throw ParsingError.expectedInput("digits", at: input) }
-//
-//    bytes.removeFirst(count)
-//    return digits
-//  }
-
   @inlinable
-  public func parse(_ input: inout Input) throws -> Int {
-    var bytes = self.toBytes(input)
-    defer { input = self.fromBytes(bytes) }
+  public func parse(_ input: inout InputToBytes.Input) throws -> Int {
+    var bytes = try self.inputToBytes.apply(input)
 
     @inline(__always)
     func digit(for n: UTF8.CodeUnit) -> Int? {
       switch n {
       case .init(ascii: "0") ... .init(ascii: "9"):
-        return Output(n - .init(ascii: "0"))
+        return Int(n - .init(ascii: "0"))
       default:
         return nil
       }
@@ -105,15 +64,15 @@ where
     func digitsError() -> ParsingError {
       ParsingError.expectedInput(
         """
-        \(self.minimum == self.maximum ? "" : "at least ")\(self.minimum) \
-        digit\(self.minimum == 1 ? "" : "s")
+        \(self.length.minimum == self.length.maximum ? "" : "at least ")\(self.length.minimum) \
+        digit\(self.length.minimum == 1 ? "" : "s")
         """,
         from: original,
         to: input
       )
     }
     while
-      self.maximum.map({ length < $0 }) ?? true,
+      self.length.maximum.map({ length < $0 }) ?? true,
       let next = iterator.next(),
       let n = digit(for: next)
     {
@@ -133,16 +92,22 @@ where
       guard !overflow else { throw overflowError() }
       length += 1
     }
-    guard length >= self.minimum
+    guard length >= self.length.minimum
     else { throw digitsError() }
+
+    input = try self.inputToBytes.unapply(bytes)
     return output
   }
 }
 
-extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: PrependableCollection {
+extension Digits: ParserPrinter
+where
+  InputToBytes.Input: PrependableCollection,
+  InputToBytes.Output: PrependableCollection
+{
   @inlinable
-  public func print(_ output: Int, into input: inout Input) throws {
-    guard self.minimum != 0 || output != 0
+  public func print(_ output: Int, into input: inout InputToBytes.Input) throws {
+    guard self.length.minimum != 0 || output != 0
     else { return }
 
     guard output >= 0
@@ -158,10 +123,10 @@ extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: Prepe
       )
     }
 
-    var bytes = Bytes(String(output).utf8)
+    var bytes = InputToBytes.Output(String(output).utf8)
     let count = bytes.count
 
-    if let maximum = self.maximum, count > maximum {
+    if let maximum = self.length.maximum, count > maximum {
       throw PrintingError.failed(
         summary: """
           round-trip expectation failed
@@ -173,59 +138,54 @@ extension Digits: ParserPrinter where Input: PrependableCollection, Bytes: Prepe
       )
     }
 
-    for _ in 0..<max(0, self.minimum - count) {
+    for _ in 0..<max(0, self.length.minimum - count) {
       bytes.prepend(.init(ascii: "0"))
     }
 
-    input.prepend(contentsOf: self.fromBytes(bytes))
+    input.prepend(contentsOf: try self.inputToBytes.unapply(bytes))
   }
 }
 
-// NB: Swift 5.7 fails to build with a simpler `Bytes == Input` constraint
-extension Digits where Bytes == Input.SubSequence, Bytes.SubSequence == Input {
+extension Digits {
   @inlinable
-  public init() {
+  public init<C>()
+  where
+    Length == PartialRangeFrom<Int>,
+    InputToBytes == Conversions.Identity<C>
+  {
     self.init(1...)
   }
 
   @inlinable
-  public init<R: CountingRange>(_ length: R) {
-    self.init(
-      length: length,
-      toBytes: { $0 },
-      fromBytes: { $0 }
-    )
+  public init<C>(_ length: Length) where InputToBytes == Conversions.Identity<C> {
+    self.init(length: length, inputToBytes: .init())
   }
 }
 
-extension Digits where Input == Substring, Bytes == Substring.UTF8View {
+extension Digits where InputToBytes == Conversions.SubstringToUTF8View {
   @_disfavoredOverload
   @inlinable
-  public init() {
-    self.init(1...)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init<R: CountingRange>(_ length: R) {
-    self.init(
-      length: length,
-      toBytes: { $0.utf8 },
-      fromBytes: Substring.init
-    )
-  }
-}
-
-extension Digits where Input == Substring.UTF8View, Bytes == Substring.UTF8View {
-  @_disfavoredOverload
-  @inlinable
-  public init() {
+  public init() where Length == PartialRangeFrom<Int> {
     self.init(1...)
   }
 
   @_disfavoredOverload
   @inlinable
-  public init<R: CountingRange>(_ length: R) {
+  public init(_ length: Length) {
+    self.init(length: length, inputToBytes: .init())
+  }
+}
+
+extension Digits where InputToBytes == Conversions.Identity<Substring.UTF8View> {
+  @_disfavoredOverload
+  @inlinable
+  public init() where Length == PartialRangeFrom<Int> {
+    self.init(1...)
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(_ length: Length) {
     self.init(length)
   }
 }
