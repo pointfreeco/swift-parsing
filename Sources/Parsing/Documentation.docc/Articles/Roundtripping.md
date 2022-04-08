@@ -10,5 +10,5 @@ For every `input` for which `p.parse(input)` does not throw, `p.print(p.parse(in
 
 And:
 
-> For every `output` for which `p.print(output)` does not throw, `p.parse(p.print(output))` is equal
+For every `output` for which `p.print(output)` does not throw, `p.parse(p.print(output))` is equal
 to `output`.
