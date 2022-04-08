@@ -1,3 +1,18 @@
+/// Parses a request's query using field parsers.
+///
+/// For example, a search endpoint may include a few query items, which can be specified as fields:
+///
+/// ```swift
+/// Query {
+///   Field("q", .string, default: "")
+///   Field("page", default: 1) {
+///     Int.parser()
+///   }
+///   Field("per_page", default: 20) {
+///     Int.parser()
+///   }
+/// }
+/// ```
 public struct Query<FieldParsers: Parser>: Parser
 where FieldParsers.Input == URLRequestData.Fields {
   @usableFromInline

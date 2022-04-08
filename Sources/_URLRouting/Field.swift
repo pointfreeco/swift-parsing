@@ -2,6 +2,20 @@
 ///
 /// Useful for incrementally parsing values from various request fields, including ``Query``
 /// parameters, ``Headers`` and ``Cookies``, and ``FormData``.
+///
+/// For example, a search endpoint may include a few query items, which can be specified as fields:
+///
+/// ```swift
+/// Query {
+///   Field("q", .string, default: "")
+///   Field("page", default: 1) {
+///     Int.parser()
+///   }
+///   Field("per_page", default: 20) {
+///     Int.parser()
+///   }
+/// }
+/// ```
 public struct Field<Value: Parser>: Parser where Value.Input == Substring {
   @usableFromInline
   let defaultValue: Value.Output?
@@ -13,24 +27,25 @@ public struct Field<Value: Parser>: Parser where Value.Input == Substring {
   let valueParser: Value
 
   @inlinable
-  public init(
+  public init<C>(
     _ name: String,
-    _ value: Value,
-    default defaultValue: Value.Output
-  ) {
+    _ value: C,
+    default defaultValue: Value.Output? = nil
+  ) where Value == Parsers.MapConversion<Rest<Substring>, C> {
     self.defaultValue = defaultValue
     self.name = name
-    self.valueParser = value
+    self.valueParser = Rest().map(value)
   }
 
   @inlinable
   public init(
     _ name: String,
-    _ value: Value
+    default defaultValue: Value.Output? = nil,
+    @ParserBuilder _ value: () -> Value
   ) {
-    self.defaultValue = nil
+    self.defaultValue = defaultValue
     self.name = name
-    self.valueParser = value
+    self.valueParser = value()
   }
 
   @inlinable

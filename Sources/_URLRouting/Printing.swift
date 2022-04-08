@@ -2,6 +2,19 @@ import Parsing
 import Foundation
 
 extension ParserPrinter where Input == URLRequestData {
+  /// Prepends a router with a base URL for the purpose of printing.
+  ///
+  /// Useful for printing absolute URLs to a specific scheme, domain, and path prefix.
+  ///
+  /// ```swift
+  /// let apiRouter = router.baseURL("https://api.pointfree.co/v1")
+  ///
+  /// try apiRouter.print(.episodes(.episode(1, .index))
+  /// // https://api.pointfree.co/v1/episodes/1
+  /// ```
+  ///
+  /// - Parameter urlString: A base URL string.
+  /// - Returns: A parser-printer that prepends a base URL to whatever this parser-printer prints.
   @inlinable
   public func baseURL(_ urlString: String) -> BaseURLPrinter<Self> {
     guard let defaultRequestData = URLRequestData(string: urlString)
@@ -9,6 +22,15 @@ extension ParserPrinter where Input == URLRequestData {
     return BaseURLPrinter(defaultRequestData: defaultRequestData, upstream: self)
   }
 
+  /// Prepends a router with default request data for the purpose of printing.
+  ///
+  /// ```swift
+  /// let authenticatedRouter = router
+  ///   .baseRequestData(.init(headers: ["X-PointFree-Session": ["deadbeef"]]))
+  /// ```
+  ///
+  /// - Parameter requestData: Default request data to print into.
+  /// - Returns: A parser-printer that prints into some default request data.
   @inlinable
   public func baseRequestData(_ requestData: URLRequestData) -> BaseURLPrinter<Self> {
     BaseURLPrinter(defaultRequestData: requestData, upstream: self)

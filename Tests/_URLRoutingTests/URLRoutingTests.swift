@@ -10,8 +10,8 @@ class URLRoutingTests: XCTestCase {
   func testFormData() throws {
     let p = Body {
       FormData {
-        Field("name", Parse(.string))
-        Field("age", Int.parser())
+        Field("name", .string)
+        Field("age") { Int.parser() }
       }
     }
 
@@ -24,7 +24,7 @@ class URLRoutingTests: XCTestCase {
 
   func testHeaders() throws {
     let p = Headers {
-      Field("X-Haha", Parse(.string))
+      Field("X-Haha", .string)
     }
 
     var req = URLRequest(url: URL(string: "/")!)
@@ -39,8 +39,8 @@ class URLRoutingTests: XCTestCase {
 
   func testQuery() throws {
     let p = Query {
-      Field("name", Parse(.string))
-      Field("age", Int.parser())
+      Field("name", .string)
+      Field("age") { Int.parser() }
     }
 
     var request = URLRequestData(string: "/?name=Blob&age=42&debug=1")!
@@ -52,20 +52,22 @@ class URLRoutingTests: XCTestCase {
 
   func testQueryDefault() throws {
     let p = Query {
-      Field("page", Int.parser()).replaceError(with: 1)
+      Field("page", default: 1) {
+        Int.parser()
+      }
     }
 
     var request = URLRequestData(string: "/")!
-    let page = p.parse(&request)
+    let page = try p.parse(&request)
     XCTAssertEqual(1, page)
     XCTAssertEqual([:], request.query)
 
     XCTAssertEqual(
-      p.print(10),
+      try p.print(10),
       URLRequestData(query: ["page": ["10"]])
     )
     XCTAssertEqual(
-      p.print(1),
+      try p.print(1),
       URLRequestData(query: [:])
     )
   }
@@ -77,8 +79,8 @@ class URLRoutingTests: XCTestCase {
     }
 
     let p = Cookies /*(.destructure(Session.init(userId:isAdmin:)))*/ {
-      Field("userId", Int.parser())
-      Field("isAdmin", Bool.parser())
+      Field("userId") { Int.parser() }
+      Field("isAdmin") { Bool.parser() }
     }
     .map(.memberwise(Session.init(userId:isAdmin:)))
 
@@ -99,7 +101,7 @@ class URLRoutingTests: XCTestCase {
     }
 
     let p = Cookies {
-      Field("pf_session", Parse(.utf8.data.json(Session.self)))
+      Field("pf_session", .utf8.data.json(Session.self))
     }
 
     var request = URLRequestData(headers: ["cookie": [#"pf_session={"userId":42}; foo=bar"#]])

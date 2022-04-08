@@ -1,3 +1,7 @@
+/// A parser that attempts to run a number of parsers to accumulate output associated with a
+/// particular URL endpoint.
+///
+/// `Route` is a domain-specific version of `Parse`, suited to URL request routing.
 public struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestData {
   @usableFromInline
   let parsers: Parsers
