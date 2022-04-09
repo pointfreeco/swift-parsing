@@ -18,6 +18,7 @@ public struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestDa
     self.parsers = build().map(transform)
   }
 
+  @_disfavoredOverload
   @inlinable
   public init<Upstream, NewOutput>(
     _ output: NewOutput,
@@ -45,7 +46,7 @@ public struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestDa
   @inlinable
   public init<C: Conversion, P: Parser>(
     _ conversion: C,
-    @ParserBuilder to parsers: () -> P
+    @ParserBuilder with parsers: () -> P
   )
   where
     P.Input == URLRequestData,
