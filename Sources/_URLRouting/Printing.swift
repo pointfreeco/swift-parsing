@@ -59,7 +59,6 @@ where Upstream.Input == URLRequestData {
   @inlinable
   public func print(_ output: Upstream.Output, into input: inout URLRequestData) rethrows {
     try self.upstream.print(output, into: &input)
-    if let method = self.defaultRequestData.method { input.method = method }
     if let scheme = self.defaultRequestData.scheme { input.scheme = scheme }
     if let user = self.defaultRequestData.user { input.user = user }
     if let password = self.defaultRequestData.password { input.password = password }

@@ -7,6 +7,11 @@ import _URLRouting
 #endif
 
 class URLRoutingTests: XCTestCase {
+  func testMethod() {
+    XCTAssertNoThrow(try Method.post.parse(URLRequestData(method: "POST")))
+    XCTAssertEqual(try Method.post.print(), URLRequestData(method: "POST"))
+  }
+
   func testFormData() throws {
     let p = Body {
       FormData {
