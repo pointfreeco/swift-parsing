@@ -79,6 +79,7 @@ public struct URLRequestData: Equatable, _EmptyInitializable {
     self.method = method
     self.password = password
     self.path = path
+    self.port = port
     self.query = query
     self.scheme = scheme
     self.user = user

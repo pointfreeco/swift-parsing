@@ -133,5 +133,14 @@ class URLRoutingTests: XCTestCase {
           .print(.episodes)
       )?.url?.absoluteString
     )
+
+    XCTAssertEqual(
+      "http://localhost:8080/v1/episodes?token=deadbeef",
+      URLRequest(
+        data: try router
+          .baseURL("http://localhost:8080/v1?token=deadbeef")
+          .print(.episodes)
+      )?.url?.absoluteString
+    )
   }
 }
