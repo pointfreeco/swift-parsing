@@ -1,36 +1,3 @@
-extension Conversion {
-  #warning("TODO: Should this be named differently to distinguish itself from 'Parser.parse'?")
-  /// A conversion from a ``ParserPrinter``'s input to its output.
-  ///
-  /// This conversion forwards its ``apply(_:)`` and ``unapply(_:)`` methods to the underlying
-  /// ``ParserPrinter``'s ``Parser/parse(_:)-6h1d0`` and ``ParserPrinter/print(_:)`` methods. It
-  /// also requires the input to be fully parsed for the conversion to be successful.
-  @inlinable
-  public static func parse<P>(
-    @ParserBuilder _ parser: () -> P
-  ) -> Self where Self == Conversions.Parser<P> {
-    .init(parser: parser())
-  }
-
-  #warning("TODO: Should this be named differently to distinguish itself from 'Parser.parse'?")
-  /// Transforms this conversion's output to a new output by using the given ``ParserPrinter``.
-  ///
-  /// A fluent version of ``Conversion/parse(_:)-swift.type.method``. Equivalent to calling
-  /// ``map(_:)`` with ``Conversion/parse(_:)-swift.type.method``:
-  ///
-  /// ```swift
-  /// substringConversion.parse { Int.parser() }
-  /// // =
-  /// substringConversion.map(.parse { Int.parser() })
-  /// ```
-  @inlinable
-  public func parse<P>(
-    @ParserBuilder _ parser: () -> P
-  ) -> Conversions.Map<Self, Conversions.Parser<P>> {
-    self.map(.parse(parser))
-  }
-}
-
 extension Conversions {
   /// A conversion from a ``ParserPrinter``'s input to its output.
   ///
