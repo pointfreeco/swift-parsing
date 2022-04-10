@@ -251,7 +251,39 @@ README Example.Ad hoc             8029.000 ns ±  44.44 %     163719
 README Example.Scanner           19786.000 ns ±  35.26 %      62125
 ```
 
-That's the basics of parsing a simple string format, but there's a lot more operators and tricks to learn in order to performantly parse larger inputs. Read the [documentation][swift-parsing-docs] to dive more deeply into the concepts of parsing, and view the [benchmarks](Sources/swift-parsing-benchmark) for more examples of real life parsing scenarios.
+We can take things even further. With one small change we can turn the parser into a _printer_.
+
+```diff
+-let user = Parse(User.init(id:name:isAdmin:)) {
++let user = ParsePrint(.memberwise(User.init(id:name:isAdmin:))) {
+   Int.parser()
+   ","
+   Prefix { $0 != "," }.map(String.init)
+   ","
+   Bool.parser()
+ }
+
+ let users = Many {
+   user
+ } separator: {
+   "\n"
+ }
+```
+
+With this one change we can now print an array of users back into a string:
+
+```swift
+users.print([
+  User(id: 1, name: "Blob", isAdmin: true),
+  User(id: 2, name: "Blob Jr.", isAdmin: false),
+  User(id: 3, name: "Blob Sr.", isAdmin: true),
+])
+// 1,Blob,true
+// 2,Blob Jr.,false
+// 3,Blob Sr.,true
+```
+
+That's the basics of parsing and printing a simple string format, but there's a lot more operators and tricks to learn in order to performantly parse larger inputs. Read the [documentation][swift-parsing-docs] to dive more deeply into the concepts of parser-printers, and view the [benchmarks](Sources/swift-parsing-benchmark) for more examples of real life parsing scenarios.
 
 ## Benchmarks
 
