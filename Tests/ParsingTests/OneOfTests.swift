@@ -191,165 +191,165 @@ final class OneOfTests: XCTestCase {
     }
   }
 
-//  func testJSON() {
-//    enum JSONValue: Equatable {
-//      case array([Self])
-//      case boolean(Bool)
-//      case null
-//      case number(Double)
-//      case object([String: Self])
-//      case string(String)
-//    }
-//
-//    var json: AnyParserPrinter<Substring.UTF8View, JSONValue>!
-//
-//    let string = ParsePrint {
-//      "\"".utf8
-//      Many(into: "") { string, fragment in
-//        string.append(contentsOf: fragment)
-//      } iterator: { string in
-//        string.map(String.init).reversed().makeIterator()
-//      } element: {
-//        OneOf {
-//          Prefix(1...) {
-//            $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") && $0 >= .init(ascii: " ")
-//          }
-//          .map(.string)
-//
-//          Parse {
-//            "\\".utf8
-//
-//            OneOf {
-//              "\"".utf8.map { "\"" }
-//              "\\".utf8.map { "\\" }
-//              "/".utf8.map { "/" }
-//              "b".utf8.map { "\u{8}" }
-//              "f".utf8.map { "\u{c}" }
-//              "n".utf8.map { "\n" }
-//              "r".utf8.map { "\r" }
-//              "t".utf8.map { "\t" }
-//
-//              Prefix(4) { $0.isHexDigit }.map(.unicode)
-//            }
-//          }
-//        }
-//      } terminator: {
-//        "\"".utf8
-//      }
-//    }
-//
-//    let object = ParsePrint {
-//      "{".utf8
-//      Many(into: [String: JSONValue]()) { object, pair in
-//        let (name, value) = pair
-//        object[name] = value
-//      } iterator: { object in
-//        (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue)]).reversed().makeIterator()
-//      } element: {
-//        Whitespace()
-//        string
-//        Whitespace()
-//        ":".utf8
-//        Lazy { json! }
-//      } separator: {
-//        ",".utf8
-//      } terminator: {
-//        "}".utf8
-//      }
-//    }
-//
-//    let array = ParsePrint {
-//      "[".utf8
-//      Many {
-//        Lazy { json! }
-//      } separator: {
-//        ",".utf8
-//      } terminator: {
-//        "]".utf8
-//      }
-//    }
-//
-//    json = .init(
-//      ParsePrint {
-//        Whitespace()
-//        OneOf {
-//          object.map(.case(JSONValue.object))
-//          array.map(.case(JSONValue.array))
-//          string.map(.case(JSONValue.string))
-//          Double.parser().map(.case(JSONValue.number))
-//          Bool.parser().map(.case(JSONValue.boolean))
-//          "null".utf8.map { JSONValue.null }
-//        }
-//        Whitespace()
-//      }
-//    )
-//
-//    let input = #"""
-//      {
-//        "hello": true,
-//        "goodbye": 42.42,
-//        "whatever": null,
-//        "xs": [1, "hello, null, false],
-//        "ys": {
-//          "0": 2,
-//          "1": "goodbye"
-//        }
-//      }
-//      """#
-//
-//    XCTAssertThrowsError(try json.parse(input)) { error in
-//      XCTAssertEqual(
-//        #"""
-//        error: multiple failures occurred
-//
-//        error: unexpected input
-//         --> input:5:34
-//        5 | …hello, null, false],
-//          |                      ^ expected 1 element satisfying predicate
-//          |                      ^ expected "\\"
-//          |                      ^ expected "\""
-//
-//        error: unexpected input
-//         --> input:5:13
-//        5 |   "xs": [1, "hello, null, false],
-//          |             ^ expected "{"
-//          |             ^ expected "["
-//          |             ^ expected double
-//          |             ^ expected "true" or "false"
-//          |             ^ expected "null"
-//
-//        error: unexpected input
-//         --> input:5:11
-//        5 |   "xs": [1, "hello, null, false],
-//          |           ^ expected "]"
-//
-//        error: unexpected input
-//         --> input:5:9
-//        5 |   "xs": [1, "hello, null, false],
-//          |         ^ expected "{"
-//          |         ^ expected "\""
-//          |         ^ expected double
-//          |         ^ expected "true" or "false"
-//          |         ^ expected "null"
-//
-//        error: unexpected input
-//         --> input:4:19
-//        4 |   "whatever": null,
-//          |                   ^ expected "}"
-//
-//        error: unexpected input
-//         --> input:1:1
-//        1 | {
-//          | ^ expected "["
-//          | ^ expected "\""
-//          | ^ expected double
-//          | ^ expected "true" or "false"
-//          | ^ expected "null"
-//        """#,
-//        "\(error)"
-//      )
-//    }
-//  }
+  //  func testJSON() {
+  //    enum JSONValue: Equatable {
+  //      case array([Self])
+  //      case boolean(Bool)
+  //      case null
+  //      case number(Double)
+  //      case object([String: Self])
+  //      case string(String)
+  //    }
+  //
+  //    var json: AnyParserPrinter<Substring.UTF8View, JSONValue>!
+  //
+  //    let string = ParsePrint {
+  //      "\"".utf8
+  //      Many(into: "") { string, fragment in
+  //        string.append(contentsOf: fragment)
+  //      } iterator: { string in
+  //        string.map(String.init).reversed().makeIterator()
+  //      } element: {
+  //        OneOf {
+  //          Prefix(1...) {
+  //            $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") && $0 >= .init(ascii: " ")
+  //          }
+  //          .map(.string)
+  //
+  //          Parse {
+  //            "\\".utf8
+  //
+  //            OneOf {
+  //              "\"".utf8.map { "\"" }
+  //              "\\".utf8.map { "\\" }
+  //              "/".utf8.map { "/" }
+  //              "b".utf8.map { "\u{8}" }
+  //              "f".utf8.map { "\u{c}" }
+  //              "n".utf8.map { "\n" }
+  //              "r".utf8.map { "\r" }
+  //              "t".utf8.map { "\t" }
+  //
+  //              Prefix(4) { $0.isHexDigit }.map(.unicode)
+  //            }
+  //          }
+  //        }
+  //      } terminator: {
+  //        "\"".utf8
+  //      }
+  //    }
+  //
+  //    let object = ParsePrint {
+  //      "{".utf8
+  //      Many(into: [String: JSONValue]()) { object, pair in
+  //        let (name, value) = pair
+  //        object[name] = value
+  //      } iterator: { object in
+  //        (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue)]).reversed().makeIterator()
+  //      } element: {
+  //        Whitespace()
+  //        string
+  //        Whitespace()
+  //        ":".utf8
+  //        Lazy { json! }
+  //      } separator: {
+  //        ",".utf8
+  //      } terminator: {
+  //        "}".utf8
+  //      }
+  //    }
+  //
+  //    let array = ParsePrint {
+  //      "[".utf8
+  //      Many {
+  //        Lazy { json! }
+  //      } separator: {
+  //        ",".utf8
+  //      } terminator: {
+  //        "]".utf8
+  //      }
+  //    }
+  //
+  //    json = .init(
+  //      ParsePrint {
+  //        Whitespace()
+  //        OneOf {
+  //          object.map(.case(JSONValue.object))
+  //          array.map(.case(JSONValue.array))
+  //          string.map(.case(JSONValue.string))
+  //          Double.parser().map(.case(JSONValue.number))
+  //          Bool.parser().map(.case(JSONValue.boolean))
+  //          "null".utf8.map { JSONValue.null }
+  //        }
+  //        Whitespace()
+  //      }
+  //    )
+  //
+  //    let input = #"""
+  //      {
+  //        "hello": true,
+  //        "goodbye": 42.42,
+  //        "whatever": null,
+  //        "xs": [1, "hello, null, false],
+  //        "ys": {
+  //          "0": 2,
+  //          "1": "goodbye"
+  //        }
+  //      }
+  //      """#
+  //
+  //    XCTAssertThrowsError(try json.parse(input)) { error in
+  //      XCTAssertEqual(
+  //        #"""
+  //        error: multiple failures occurred
+  //
+  //        error: unexpected input
+  //         --> input:5:34
+  //        5 | …hello, null, false],
+  //          |                      ^ expected 1 element satisfying predicate
+  //          |                      ^ expected "\\"
+  //          |                      ^ expected "\""
+  //
+  //        error: unexpected input
+  //         --> input:5:13
+  //        5 |   "xs": [1, "hello, null, false],
+  //          |             ^ expected "{"
+  //          |             ^ expected "["
+  //          |             ^ expected double
+  //          |             ^ expected "true" or "false"
+  //          |             ^ expected "null"
+  //
+  //        error: unexpected input
+  //         --> input:5:11
+  //        5 |   "xs": [1, "hello, null, false],
+  //          |           ^ expected "]"
+  //
+  //        error: unexpected input
+  //         --> input:5:9
+  //        5 |   "xs": [1, "hello, null, false],
+  //          |         ^ expected "{"
+  //          |         ^ expected "\""
+  //          |         ^ expected double
+  //          |         ^ expected "true" or "false"
+  //          |         ^ expected "null"
+  //
+  //        error: unexpected input
+  //         --> input:4:19
+  //        4 |   "whatever": null,
+  //          |                   ^ expected "}"
+  //
+  //        error: unexpected input
+  //         --> input:1:1
+  //        1 | {
+  //          | ^ expected "["
+  //          | ^ expected "\""
+  //          | ^ expected double
+  //          | ^ expected "true" or "false"
+  //          | ^ expected "null"
+  //        """#,
+  //        "\(error)"
+  //      )
+  //    }
+  //  }
 }
 
 extension UTF8.CodeUnit {

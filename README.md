@@ -183,7 +183,7 @@ let user = Parse(User.init(id:name:isAdmin:)) {
 That is enough to parse a single user from the input string:
 
 ```swift
-try user.parse("1,Blob,true") 
+try user.parse("1,Blob,true")
 // User(id: 1, name: "Blob", isAdmin: true)
 ```
 

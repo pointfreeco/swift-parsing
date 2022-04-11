@@ -118,8 +118,7 @@ where
 
     switch self.configuration {
     case .all:
-      while
-        self.length.maximum.map({ count < $0 }) ?? true,
+      while self.length.maximum.map({ count < $0 }) ?? true,
         consumeHorizontal() || consumeVertical()
       {
         count += 1

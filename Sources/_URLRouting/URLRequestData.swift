@@ -16,7 +16,7 @@ public struct URLRequestData: Equatable, _EmptyInitializable {
   public var host: String?
 
   /// An HTTP method, _e.g._ `"GET"` or `"POST"`.
-  /// 
+  ///
   /// To parse, use the ``Method`` parser.
   public var method: String?
 

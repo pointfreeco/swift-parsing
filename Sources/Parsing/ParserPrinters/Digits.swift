@@ -71,8 +71,7 @@ where
         to: input
       )
     }
-    while
-      self.length.maximum.map({ length < $0 }) ?? true,
+    while self.length.maximum.map({ length < $0 }) ?? true,
       let next = iterator.next(),
       let n = digit(for: next)
     {

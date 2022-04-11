@@ -8,7 +8,7 @@ extension Conversion where Self == Conversions.FixedWidthIntegerToBinaryFloating
   ///
   /// ```swift
   /// Digits().map(.double).parse("123")  // ✅ 123.0
-  /// 
+  ///
   /// Digits().map(.double).parse("123.0")  // ❌
   /// // error: unexpected input
   /// //  --> input:1:4

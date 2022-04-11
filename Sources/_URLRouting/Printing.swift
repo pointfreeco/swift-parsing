@@ -1,5 +1,5 @@
-import Parsing
 import Foundation
+import Parsing
 
 extension ParserPrinter where Input == URLRequestData {
   /// Prepends a router with a base URL for the purpose of printing.

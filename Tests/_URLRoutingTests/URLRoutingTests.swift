@@ -133,7 +133,8 @@ class URLRoutingTests: XCTestCase {
     XCTAssertEqual(
       "https://api.pointfree.co/v1/episodes?token=deadbeef",
       URLRequest(
-        data: try router
+        data:
+          try router
           .baseURL("https://api.pointfree.co/v1?token=deadbeef")
           .print(.episodes)
       )?.url?.absoluteString
@@ -142,7 +143,8 @@ class URLRoutingTests: XCTestCase {
     XCTAssertEqual(
       "http://localhost:8080/v1/episodes?token=deadbeef",
       URLRequest(
-        data: try router
+        data:
+          try router
           .baseURL("http://localhost:8080/v1?token=deadbeef")
           .print(.episodes)
       )?.url?.absoluteString
