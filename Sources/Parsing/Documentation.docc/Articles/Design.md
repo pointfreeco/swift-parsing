@@ -95,8 +95,8 @@ try accountingNumber.parse("(100)")  // -100
 ## Operators
 
 Parser operators (also called "combinators") are methods defined on the ``Parser`` protocol that
-return a parser. For example, the ``Parser/map(_:)`` operator is a method that returns something
-called a ``Parsers/Map``:
+return a parser. For example, the ``Parser/map(_:)-4hsj5`` operator is a method that returns
+something called a ``Parsers/Map``:
 
 ```swift
 extension Parser {

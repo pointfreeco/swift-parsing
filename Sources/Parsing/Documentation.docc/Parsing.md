@@ -5,7 +5,7 @@ performance, generality, and ergonomics.
 
 ## Additional Resources
 
-- [GitHub Repo](https://github.com/pointfreeco/swift-parsing/)
+- [GitHub Repo](https://github.com/pointfreeco/swift-parsing)
 - [Discussions](https://github.com/pointfreeco/swift-parsing/discussions)
 - [Point-Free Videos](https://www.pointfree.co/collections/parsing)
 
@@ -85,6 +85,8 @@ try users.parse(input)
 //   |           ^ expected "true" or "false"
 ```
 
+With a few small changes we can also turn this parser into a ``ParserPrinter``
+
 That's the basics of parsing a simple string format, but there are a lot more operators and tricks
 to learn in order to performantly parse larger inputs.
 
@@ -100,7 +102,7 @@ to learn in order to performantly parse larger inputs.
 
 ## See Also
 
-The collecton of videos from [Point-Free](https://www.pointfree.co) that dive deep into the
+The collection of videos from [Point-Free](https://www.pointfree.co) that dive deep into the
 development of the Parsing library.
 
 * [Point-Free Videos](https://www.pointfree.co/collections/parsing)

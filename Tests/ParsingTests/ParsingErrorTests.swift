@@ -15,7 +15,8 @@ class ParsingErrorTests: XCTestCase {
       try Parse {
         MyParser()
         MyParser()
-      }.parse(MyInput())
+      }
+      .parse(MyInput())
     ) { error in
       XCTAssertEqual(
         """

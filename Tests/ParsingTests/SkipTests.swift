@@ -23,4 +23,15 @@ final class SkipTests: XCTestCase {
     }
     XCTAssertEqual("Hello, world!", Substring(input))
   }
+
+  func testPrintParserSkipSuccess() {
+    var input = "!"[...]
+    let parser = Parse {
+      Skip { "Hello, " }
+      Prefix { $0 != "!" }
+    }
+
+    XCTAssertNoThrow(try parser.print("world"[...], into: &input))
+    XCTAssertEqual(input, "Hello, world!")
+  }
 }

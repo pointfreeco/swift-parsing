@@ -42,7 +42,8 @@ final class DoubleTests: XCTestCase {
     XCTAssertEqual("E Hello", String(input))
 
     input = "1234567890123456789012345678901234567890 Hello"[...].utf8
-    XCTAssertEqual(1_234_567_890_123_456_846_996_462_118_072_609_669_120, try parser.parse(&input))
+    XCTAssertEqual(
+      1_234_567_890_123_456_846_996_462_118_072_609_669_120, try parser.parse(&input))
     XCTAssertEqual(" Hello", String(input))
 
     input = "-123 Hello"[...].utf8

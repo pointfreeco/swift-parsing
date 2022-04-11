@@ -23,20 +23,6 @@
          <BuildActionEntry
             buildForTesting = "YES"
             buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "swift-parsing-benchmark"
-               BuildableName = "swift-parsing-benchmark"
-               BlueprintName = "swift-parsing-benchmark"
-               ReferencedContainer = "container:">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
             buildForProfiling = "NO"
             buildForArchiving = "NO"
             buildForAnalyzing = "YES">
@@ -56,9 +42,37 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "swift-parsing-benchmark"
+               BuildableName = "swift-parsing-benchmark"
+               BlueprintName = "swift-parsing-benchmark"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "variadics-generator"
                BuildableName = "variadics-generator"
                BlueprintName = "variadics-generator"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "_URLRouting"
+               BuildableName = "_URLRouting"
+               BlueprintName = "_URLRouting"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -77,6 +91,16 @@
                BlueprintIdentifier = "ParsingTests"
                BuildableName = "ParsingTests"
                BlueprintName = "ParsingTests"
+               ReferencedContainer = "container:">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "_URLRoutingTests"
+               BuildableName = "_URLRoutingTests"
+               BlueprintName = "_URLRoutingTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

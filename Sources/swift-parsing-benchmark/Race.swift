@@ -2,8 +2,7 @@ import Benchmark
 import Parsing
 
 /// This benchmark implements a parser for a custom format covered in
-/// [a collection of episodes][parsing] on
-/// Point-Free.
+/// [a collection of episodes][parsing] on Point-Free.
 ///
 /// [parsing]: https://www.pointfree.co/collections/parsing
 let raceSuite = BenchmarkSuite(name: "Race") { suite in
@@ -22,8 +21,24 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
   struct Race {
     let location: String
     let entranceFee: Money
+    let difficulty: Int
     let path: [Coordinate]
   }
+
+  let locationName = Prefix { $0 != .init(ascii: ",") }.map(.string)
+
+  let currency = OneOf {
+    "€".utf8.map { Currency.eur }
+    "£".utf8.map { Currency.gbp }
+    "$".utf8.map { Currency.usd }
+  }
+
+  let money = ParsePrint(.memberwise(Money.init(currency:dollars:))) {
+    currency
+    Int.parser()
+  }
+
+  let difficulty = Many { "🥵".utf8 }.map(.count)
 
   let northSouthSign = OneOf {
     "N".utf8.map { 1.0 }
@@ -35,21 +50,24 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     "W".utf8.map { -1.0 }
   }
 
-  let latitude = Parse(*) {
+  let latitude = ParsePrint(.multiplySign) {
     Double.parser()
     "° ".utf8
     northSouthSign
   }
 
-  let longitude = Parse(*) {
+  let longitude = ParsePrint(.multiplySign) {
     Double.parser()
     "° ".utf8
     eastWestSign
   }
 
-  let zeroOrMoreSpaces = Prefix { $0 == .init(ascii: " ") }
+  let zeroOrMoreSpaces = Skip {
+    Prefix { $0 == .init(ascii: " ") }
+  }
+  .printing(" ".utf8)
 
-  let coord = Parse(Coordinate.init(latitude:longitude:)) {
+  let coord = ParsePrint(.memberwise(Coordinate.init(latitude:longitude:))) {
     latitude
     Skip {
       ",".utf8
@@ -58,27 +76,25 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     longitude
   }
 
-  let currency = OneOf {
-    "€".utf8.map { Currency.eur }
-    "£".utf8.map { Currency.gbp }
-    "$".utf8.map { Currency.usd }
-  }
-
-  let money = Parse(Money.init(currency:dollars:)) {
-    currency
-    Int.parser()
-  }
-
-  let locationName = Prefix { $0 != .init(ascii: ",") }
-
-  let race = Parse(Race.init(location:entranceFee:path:)) {
-    locationName.map { String(Substring($0)) }
-    Skip {
-      ",".utf8
-      zeroOrMoreSpaces
+  let race = ParsePrint(.memberwise(Race.init)) {
+    ParsePrint {
+      locationName
+      Skip {
+        ",".utf8
+        zeroOrMoreSpaces
+      }
     }
-    money
-    "\n".utf8
+    ParsePrint {
+      money
+      Skip {
+        ",".utf8
+        zeroOrMoreSpaces
+      }
+    }
+    ParsePrint {
+      difficulty
+      "\n".utf8
+    }
     Many {
       coord
     } separator: {
@@ -90,10 +106,12 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     race
   } separator: {
     "\n---\n".utf8
+  } terminator: {
+    End()
   }
 
   let input = """
-    New York City, $300
+    New York City, $300, 🥵🥵🥵🥵
     40.60248° N, 74.06433° W
     40.61807° N, 74.02966° W
     40.64953° N, 74.00929° W
@@ -111,7 +129,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     40.77392° N, 73.96917° W
     40.77293° N, 73.97671° W
     ---
-    Berlin, €100
+    Berlin, €100, 🥵🥵🥵
     13.36015° N, 52.51516° E
     13.33999° N, 52.51381° E
     13.32539° N, 52.51797° E
@@ -136,7 +154,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     13.39155° N, 52.51046° E
     13.37256° N, 52.51598° E
     ---
-    London, £500
+    London, £500, 🥵🥵
     51.48205° N, 0.04283° E
     51.47439° N, 0.0217° E
     51.47618° N, 0.02199° E
@@ -172,5 +190,24 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     output = try races.parse(&input)
   } tearDown: {
     precondition(output.count == 3)
+    precondition(try! races.print(output).elementsEqual(input.utf8) == true)
+  }
+}
+
+extension Conversion where Self == AnyConversion<(Double, Double), Double> {
+  fileprivate static var multiplySign: Self {
+    .init(
+      apply: *,
+      unapply: { $0 < 0 ? (-$0, -1) : ($0, 1) }
+    )
+  }
+}
+
+extension Conversion where Self == AnyConversion<[Void], Int> {
+  fileprivate static var count: Self {
+    .init(
+      apply: { $0.count },
+      unapply: { Array(repeating: (), count: $0) }
+    )
   }
 }

@@ -27,4 +27,26 @@ final class MapTests: XCTestCase {
     let array = "abc".utf8.map { "\($0)" }
     XCTAssert(type(of: array) == Array<String>.self)
   }
+
+  func testConstantPrinting() {
+    enum Person { case blob, blobJr, blobSr }
+    XCTAssertThrowsError(
+      try OneOf {
+        "Blob Sr".map { Person.blobSr }
+        "Blob".map { Person.blob }
+      }
+      .print(.blobJr)
+    ) { error in
+      XCTAssertEqual(
+        """
+        error: multiple failures occurred
+
+        error: expected blob
+
+        error: expected blobSr
+        """,
+        "\(error)"
+      )
+    }
+  }
 }

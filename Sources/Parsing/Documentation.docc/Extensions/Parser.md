@@ -57,12 +57,11 @@ to build complex parsers from simpler pieces.
 
 ### Parser operators
 
-- ``map(_:)``
+- ``Parser/map(_:)-4hsj5``
 - ``flatMap(_:)``
 - ``compactMap(_:)``
 - ``filter(_:)``
-- ``pipe(_:)``
 - ``pullback(_:)``
 - ``replaceError(with:)``
+- ``pipe(_:)-2zck4``
 - ``eraseToAnyParser()``
-- ``pipe(_:)``

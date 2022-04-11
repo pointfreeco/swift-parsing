@@ -37,6 +37,13 @@ format:
 	find . -type f -name '*.md' -print0 | xargs -0 perl -pi -e 's/ +$$//'
 
 generate-variadics:
-	swift run variadics-generator > Sources/Parsing/Builders/Variadics.swift
+	swift run variadics-generator \
+		--generate-zips \
+		--generate-one-ofs \
+		> Sources/Parsing/Builders/Variadics.swift
+
+	swift run variadics-generator \
+		--generate-path-zips \
+		> Sources/_URLRouting/Builders/Variadics.swift
 
 .PHONY: benchmarks format generate-variadics test

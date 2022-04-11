@@ -7,46 +7,47 @@ import Parsing
 ///
 /// In particular, it benchmarks the same HTTP header as that defined in `one_test`.
 let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
-  let method = Prefix { $0.isToken }
-    .map(Substring.init)
+  let method = ParsePrint(.substring) { Prefix { $0.isToken } }
 
-  let uri = Prefix { $0 != .init(ascii: " ") }
-    .map(Substring.init)
+  let uri = ParsePrint(.substring) { Prefix { $0 != .init(ascii: " ") } }
 
-  let httpVersion = Parse {
+  let httpVersion = ParsePrint(.substring) {
     "HTTP/".utf8
-    Prefix { $0.isVersion }.map(Substring.init)
+    Prefix { $0.isVersion }
   }
 
-  let requestLine = Parse(Request.init(method:uri:version:)) {
+  let newline = OneOf {
+    "\r\n".utf8
+    "\n".utf8
+  }
+
+  let requestLine = ParsePrint(.memberwise(Request.init(method:uri:version:))) {
     method
     " ".utf8
     uri
     " ".utf8
     httpVersion
-    Newline()
+    newline
   }
 
-  let headerValue = Parse {
+  let headerValue = ParsePrint(.substring) {
     Skip {
-      Prefix(1...) { $0 == .init(ascii: " ") || $0 == .init(ascii: "\t") }
+      Prefix(1...) { $0.isHorizontalSpace }
     }
-    Prefix { $0 != .init(ascii: "\r") && $0 != .init(ascii: "\n") }
-      .map(Substring.init)
-    Skip {
-      Newline()
-    }
+    .printing(" ".utf8)
+    Prefix { !$0.isNewline }
+    newline
   }
 
-  let header = Parse(Header.init(name:value:)) {
-    Prefix { $0.isToken }.map(Substring.init)
+  let header = ParsePrint(.memberwise(Header.init(name:value:))) {
+    Prefix { $0.isToken }.map(.substring)
     ":".utf8
     Many {
       headerValue
     }
   }
 
-  let request = Parse {
+  let request = ParsePrint {
     requestLine
     Many {
       header
@@ -93,6 +94,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     output = try request.parse(&input)
   } tearDown: {
     precondition(output == expected)
+    precondition(Substring(try! request.print(output)) == input)
   }
 }
 
@@ -108,6 +110,14 @@ private struct Header: Equatable {
 }
 
 extension UTF8.CodeUnit {
+  fileprivate var isHorizontalSpace: Bool {
+    self == .init(ascii: " ") || self == .init(ascii: "\t")
+  }
+
+  fileprivate var isNewline: Bool {
+    self == .init(ascii: "\n") || self == .init(ascii: "\r")
+  }
+
   fileprivate var isToken: Bool {
     switch self {
     case 128...,

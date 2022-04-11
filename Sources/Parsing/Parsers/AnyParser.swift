@@ -7,9 +7,9 @@ extension Parser {
   /// When you expose your composed parsers as the ``AnyParser`` type, you can change the underlying
   /// implementation over time without affecting existing clients.
   ///
-  /// Equivalent to passing `self` to `AnyParser.init(_:)`.
+  /// Equivalent to passing `self` to `AnyParser.init`.
   ///
-  /// - Returns: An ``AnyParser`` wrapping this publisher.
+  /// - Returns: An ``AnyParser`` wrapping this parser.
   @inlinable
   public func eraseToAnyParser() -> AnyParser<Input, Output> {
     .init(self)

@@ -53,16 +53,30 @@ enum ParsingError: Error {
   }
 
   @usableFromInline
-  static func wrap(_ error: Error, at remainingInput: Any) -> Self {
+  static func wrap(_ error: Error, from originalInput: Any, to remainingInput: Any) -> Self {
     error as? ParsingError
       ?? .failed(
         "",
         .init(
+          originalInput: originalInput,
           remainingInput: remainingInput,
           debugDescription: formatError(error),
           underlyingError: error
         )
       )
+  }
+
+  @usableFromInline
+  static func wrap(_ error: Error, at remainingInput: Any) -> Self {
+    .wrap(error, from: remainingInput, to: remainingInput)
+  }
+
+  @usableFromInline
+  var context: Context {
+    switch self {
+    case let .failed(_, context), let .manyFailed(_, context):
+      return context
+    }
   }
 
   @usableFromInline
@@ -95,14 +109,6 @@ enum ParsingError: Error {
           .map { $0.error },
         context
       )
-    }
-  }
-
-  @usableFromInline
-  var context: Context {
-    switch self {
-    case let .failed(_, context), let .manyFailed(_, context):
-      return context
     }
   }
 

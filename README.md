@@ -4,7 +4,7 @@
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fpointfreeco%2Fswift-parsing%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/pointfreeco/swift-parsing)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fpointfreeco%2Fswift-parsing%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/pointfreeco/swift-parsing)
 
-A library for turning nebulous data into well-structured data, with a focus on composition, performance, generality, and ergonomics:
+A library for turning unstructured data into structured data, with a focus on composition, performance, generality, and invertibility:
 
 * **Composition**: Ability to break large, complex parsing problems down into smaller, simpler ones. And the ability to take small, simple parsers and easily combine them into larger, more complex ones.
 
@@ -12,7 +12,7 @@ A library for turning nebulous data into well-structured data, with a focus on c
 
 * **Generality**: Ability to parse _any_ kind of input into _any_ kind of output. This allows you to choose which abstraction levels you want to work on based on how much performance you need or how much correctness you want guaranteed. For example, you can write a highly tuned parser on collections of UTF-8 code units, and it will automatically plug into parsers of strings, arrays, unsafe buffer pointers and more.
 
-* **Ergonomics**: Accomplish all of the above in a simple, fluent API that can succinctly describe your parsing problem.
+* **Invertibility**: Ability to invert your parsers so that they are printers. This allows you to transform your well-structured data back into unstructured data, which is useful for serialization, sending data over the network, routing, and more.
 
 ---
 
@@ -33,7 +33,7 @@ This library was designed over the course of many [episodes](https://www.pointfr
 
 ## Motivation
 
-Parsing is a surprisingly ubiquitous problem in programming. We can define parsing as trying to take a more nebulous blob of data and transform it into something more well-structured. The Swift standard library comes with a number of parsers that we reach for every day. For example, there are initializers on `Int`, `Double`, and even `Bool`, that attempt to parse numbers and booleans from strings:
+Parsing is a surprisingly ubiquitous problem in programming. We can define parsing as trying to transform unstructured data into structured data. The Swift standard library comes with a number of parsers that we reach for every day. For example, there are initializers on `Int`, `Double`, and even `Bool`, that attempt to parse numbers and booleans from strings:
 
 ```swift
 Int("42")          // 42
@@ -113,8 +113,7 @@ Already this can consume the beginning of the input:
 // Use a mutable substring to verify what is consumed
 var input = input[...]
 
-try user.parse(&input)  // 1
-input                   // "Blob,true\n2,Blob Jr.,false\n3,Blob Sr.,true"
+try user.parse("1,") // 1
 ```
 
 > Note that we use a `Substring` instead of `String` because it allows for more efficient mutations and copying. See the article ["String Abstractions"][string-abstractions-docs] for more information.
@@ -181,11 +180,11 @@ let user = Parse(User.init(id:name:isAdmin:)) {
 }
 ```
 
-That is enough to parse a single user from the input string, leaving behind a newline and the final two users:
+That is enough to parse a single user from the input string:
 
 ```swift
-try user.parse(&input)  // User(id: 1, name: "Blob", isAdmin: true)
-input                   // "\n2,Blob Jr.,false\n3,Blob Sr.,true"
+try user.parse("1,Blob,true") 
+// User(id: 1, name: "Blob", isAdmin: true)
 ```
 
 To parse multiple users from the input we can use the `Many` parser to run the user parser many times:
@@ -197,8 +196,8 @@ let users = Many {
   "\n"
 }
 
-try users.parse(&input)  // [User(id: 1, name: "Blob", isAdmin: true), ...]
-input                    // ""
+try users.parse(input)
+// [User(id: 1, name: "Blob", isAdmin: true), ...]
 ```
 
 Now this parser can process an entire document of users, and the code is simpler and more straightforward than the version that uses `.split` and `.compactMap`.
@@ -252,7 +251,39 @@ README Example.Ad hoc             8029.000 ns ±  44.44 %     163719
 README Example.Scanner           19786.000 ns ±  35.26 %      62125
 ```
 
-That's the basics of parsing a simple string format, but there's a lot more operators and tricks to learn in order to performantly parse larger inputs. Read the [documentation][swift-parsing-docs] to dive more deeply into the concepts of parsing, and view the [benchmarks](Sources/swift-parsing-benchmark) for more examples of real life parsing scenarios.
+We can take things even further. With one small change we can turn the parser into a _printer_.
+
+```diff
+-let user = Parse(User.init(id:name:isAdmin:)) {
++let user = ParsePrint(.memberwise(User.init(id:name:isAdmin:))) {
+   Int.parser()
+   ","
+   Prefix { $0 != "," }.map(String.init)
+   ","
+   Bool.parser()
+ }
+
+ let users = Many {
+   user
+ } separator: {
+   "\n"
+ }
+```
+
+With this one change we can now print an array of users back into a string:
+
+```swift
+users.print([
+  User(id: 1, name: "Blob", isAdmin: true),
+  User(id: 2, name: "Blob Jr.", isAdmin: false),
+  User(id: 3, name: "Blob Sr.", isAdmin: true),
+])
+// 1,Blob,true
+// 2,Blob Jr.,false
+// 3,Blob Sr.,true
+```
+
+That's the basics of parsing and printing a simple string format, but there's a lot more operators and tricks to learn in order to performantly parse larger inputs. Read the [documentation][swift-parsing-docs] to dive more deeply into the concepts of parser-printers, and view the [benchmarks](Sources/swift-parsing-benchmark) for more examples of real life parsing scenarios.
 
 ## Benchmarks
 
@@ -346,6 +377,8 @@ There are a few other parsing libraries in the Swift community that you might al
 * [Consumer](https://github.com/nicklockwood/Consumer)
 * [Sparse](https://github.com/johnpatrickmorgan/Sparse)
 * [SwiftParsec](https://github.com/davedufresne/SwiftParsec)
+
+The printing functionality in this library is inspired by the paper ["Invertible syntax descriptions: Unifying parsing and pretty printing"](https://www.informatik.uni-marburg.de/~rendel/unparse/rendel10invertible.pdf), by Tillmann Rendel and Klaus Ostermann.
 
 ## License
 

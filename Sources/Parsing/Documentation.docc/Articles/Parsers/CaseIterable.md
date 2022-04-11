@@ -1,6 +1,7 @@
 # CaseIterable
 
-A parser that consumes a case-iterable, raw representable value from the beginning of a string.
+A parser-printer that consumes a case-iterable, raw representable value from the beginning of a
+string.
 
 Given a type that conforms to `CaseIterable` and `RawRepresentable` with a `RawValue` of `String`
 or `Int`, we can incrementally parse a value of it.
@@ -15,12 +16,13 @@ enum Role: String, CaseIterable {
   case member
 }
 
-try Parse {
+let parser = ParsePrint {
   Int.parser()
   ","
   Role.parser()
 }
-.parse("123,member") // (123, .member)
+try parser.parse("123,member") // (123, .member)
+try parser.print((123, .member)) // "123,member"
 ```
 
 This also works with raw enumerations that are backed by integers:
@@ -32,12 +34,13 @@ enum Role: Int, CaseIterable {
   case member = 3
 }
 
-try Parse {
+let parser = ParsePrint {
   Int.parser()
   ","
   Role.parser()
 }
-.parse("123,1") // (123, .admin)
+try parser.print((123, .member)) // "123,member"
+try parser.parse("123,1") // (123, .admin)
 ```
 
 The `parser()` method on `CaseIterable` is overloaded to work on a variety of string representations
@@ -71,3 +74,4 @@ let parser = Parse {
 }
 
 try parser.parse("123member") // (123, .member)
+```

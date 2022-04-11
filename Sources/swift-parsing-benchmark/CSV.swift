@@ -7,7 +7,7 @@ import Parsing
 let csvSuite = BenchmarkSuite(name: "CSV") { suite in
   let plainField = Prefix { $0 != .init(ascii: ",") && $0 != .init(ascii: "\n") }
 
-  let quotedField = Parse {
+  let quotedField = ParsePrint {
     "\"".utf8
     Prefix { $0 != .init(ascii: "\"") }
     "\"".utf8
@@ -17,7 +17,7 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
     quotedField
     plainField
   }
-  .map { String(Substring($0)) }
+  .map(.string)
 
   let line = Many {
     field
@@ -42,6 +42,7 @@ let csvSuite = BenchmarkSuite(name: "CSV") { suite in
   } tearDown: {
     precondition(output.count == expectedRowCount)
     precondition(output.allSatisfy { $0.count == expectedColumnCount })
+    precondition(try! csv.parse(csv.print(output)) == output)
   }
 
   suite.benchmark("Ad hoc mutating methods") {

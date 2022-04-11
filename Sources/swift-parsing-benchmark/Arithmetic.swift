@@ -68,10 +68,8 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   }
 }
 
-public struct InfixOperator<Operator, Operand>: Parser
+public struct InfixOperator<Operator: Parser, Operand: Parser>: Parser
 where
-  Operator: Parser,
-  Operand: Parser,
   Operator.Input == Operand.Input,
   Operator.Output == (Operand.Output, Operand.Output) -> Operand.Output
 {

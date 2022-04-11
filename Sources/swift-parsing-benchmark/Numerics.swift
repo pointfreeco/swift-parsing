@@ -33,6 +33,13 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
         precondition(output == expected)
       }
     }
+
+    suite.benchmark("Digits") {
+      var input = input[...].utf8
+      output = try Digits().parse(&input)
+    } tearDown: {
+      precondition(output == expected)
+    }
   }
 
   do {

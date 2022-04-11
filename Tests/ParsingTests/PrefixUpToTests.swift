@@ -51,4 +51,10 @@ final class PrefixUpToTests: XCTestCase {
     XCTAssertEqual("Hello,world", Substring(try PrefixUpTo(", ".utf8).parse(&input)))
     XCTAssertEqual(", 42!", Substring(input))
   }
+
+  func testPrint() throws {
+    var input = ","[...]
+    try PrefixUpTo(",").print("Hello", into: &input)
+    XCTAssertEqual("Hello,", input)
+  }
 }

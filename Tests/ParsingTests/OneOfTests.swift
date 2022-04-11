@@ -191,151 +191,187 @@ final class OneOfTests: XCTestCase {
     }
   }
 
-  func testJSON() {
-    enum JSONValue: Equatable {
-      case array([Self])
-      case boolean(Bool)
-      case null
-      case number(Double)
-      case object([String: Self])
-      case string(String)
-    }
+//  func testJSON() {
+//    enum JSONValue: Equatable {
+//      case array([Self])
+//      case boolean(Bool)
+//      case null
+//      case number(Double)
+//      case object([String: Self])
+//      case string(String)
+//    }
+//
+//    var json: AnyParserPrinter<Substring.UTF8View, JSONValue>!
+//
+//    let string = ParsePrint {
+//      "\"".utf8
+//      Many(into: "") { string, fragment in
+//        string.append(contentsOf: fragment)
+//      } iterator: { string in
+//        string.map(String.init).reversed().makeIterator()
+//      } element: {
+//        OneOf {
+//          Prefix(1...) {
+//            $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") && $0 >= .init(ascii: " ")
+//          }
+//          .map(.string)
+//
+//          Parse {
+//            "\\".utf8
+//
+//            OneOf {
+//              "\"".utf8.map { "\"" }
+//              "\\".utf8.map { "\\" }
+//              "/".utf8.map { "/" }
+//              "b".utf8.map { "\u{8}" }
+//              "f".utf8.map { "\u{c}" }
+//              "n".utf8.map { "\n" }
+//              "r".utf8.map { "\r" }
+//              "t".utf8.map { "\t" }
+//
+//              Prefix(4) { $0.isHexDigit }.map(.unicode)
+//            }
+//          }
+//        }
+//      } terminator: {
+//        "\"".utf8
+//      }
+//    }
+//
+//    let object = ParsePrint {
+//      "{".utf8
+//      Many(into: [String: JSONValue]()) { object, pair in
+//        let (name, value) = pair
+//        object[name] = value
+//      } iterator: { object in
+//        (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue)]).reversed().makeIterator()
+//      } element: {
+//        Whitespace()
+//        string
+//        Whitespace()
+//        ":".utf8
+//        Lazy { json! }
+//      } separator: {
+//        ",".utf8
+//      } terminator: {
+//        "}".utf8
+//      }
+//    }
+//
+//    let array = ParsePrint {
+//      "[".utf8
+//      Many {
+//        Lazy { json! }
+//      } separator: {
+//        ",".utf8
+//      } terminator: {
+//        "]".utf8
+//      }
+//    }
+//
+//    json = .init(
+//      ParsePrint {
+//        Whitespace()
+//        OneOf {
+//          object.map(.case(JSONValue.object))
+//          array.map(.case(JSONValue.array))
+//          string.map(.case(JSONValue.string))
+//          Double.parser().map(.case(JSONValue.number))
+//          Bool.parser().map(.case(JSONValue.boolean))
+//          "null".utf8.map { JSONValue.null }
+//        }
+//        Whitespace()
+//      }
+//    )
+//
+//    let input = #"""
+//      {
+//        "hello": true,
+//        "goodbye": 42.42,
+//        "whatever": null,
+//        "xs": [1, "hello, null, false],
+//        "ys": {
+//          "0": 2,
+//          "1": "goodbye"
+//        }
+//      }
+//      """#
+//
+//    XCTAssertThrowsError(try json.parse(input)) { error in
+//      XCTAssertEqual(
+//        #"""
+//        error: multiple failures occurred
+//
+//        error: unexpected input
+//         --> input:5:34
+//        5 | …hello, null, false],
+//          |                      ^ expected 1 element satisfying predicate
+//          |                      ^ expected "\\"
+//          |                      ^ expected "\""
+//
+//        error: unexpected input
+//         --> input:5:13
+//        5 |   "xs": [1, "hello, null, false],
+//          |             ^ expected "{"
+//          |             ^ expected "["
+//          |             ^ expected double
+//          |             ^ expected "true" or "false"
+//          |             ^ expected "null"
+//
+//        error: unexpected input
+//         --> input:5:11
+//        5 |   "xs": [1, "hello, null, false],
+//          |           ^ expected "]"
+//
+//        error: unexpected input
+//         --> input:5:9
+//        5 |   "xs": [1, "hello, null, false],
+//          |         ^ expected "{"
+//          |         ^ expected "\""
+//          |         ^ expected double
+//          |         ^ expected "true" or "false"
+//          |         ^ expected "null"
+//
+//        error: unexpected input
+//         --> input:4:19
+//        4 |   "whatever": null,
+//          |                   ^ expected "}"
+//
+//        error: unexpected input
+//         --> input:1:1
+//        1 | {
+//          | ^ expected "["
+//          | ^ expected "\""
+//          | ^ expected double
+//          | ^ expected "true" or "false"
+//          | ^ expected "null"
+//        """#,
+//        "\(error)"
+//      )
+//    }
+//  }
+}
 
-    var json: AnyParser<Substring.UTF8View, JSONValue>!
+extension UTF8.CodeUnit {
+  fileprivate var isHexDigit: Bool {
+    (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
+      || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
+      || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
+  }
+}
 
-    let unicode = Prefix(4) {
-      (.init(ascii: "0") ... .init(ascii: "9")).contains($0)
-        || (.init(ascii: "A") ... .init(ascii: "F")).contains($0)
-        || (.init(ascii: "a") ... .init(ascii: "f")).contains($0)
-    }
-    .compactMap {
-      UInt32(Substring($0), radix: 16)
-        .flatMap(UnicodeScalar.init)
-        .map(String.init)
-    }
-
-    let string = Parse {
-      "\"".utf8
-      Many(into: "") { string, fragment in
-        string.append(contentsOf: fragment)
-      } element: {
-        OneOf {
-          Prefix(1...) { $0 != .init(ascii: "\"") && $0 != .init(ascii: "\\") }
-            .map { String(Substring($0)) }
-
-          Parse {
-            "\\".utf8
-
-            OneOf {
-              "\"".utf8.map { "\"" }
-              "\\".utf8.map { "\\" }
-              "/".utf8.map { "/" }
-              "b".utf8.map { "\u{8}" }
-              "f".utf8.map { "\u{c}" }
-              "n".utf8.map { "\n" }
-              "r".utf8.map { "\r" }
-              "t".utf8.map { "\t" }
-              unicode
-            }
-          }
-        }
-      } terminator: {
-        "\"".utf8
+extension Conversion where Self == AnyConversion<Substring.UTF8View, String> {
+  fileprivate static var unicode: Self {
+    Self(
+      apply: {
+        UInt32(Substring($0), radix: 16)
+          .flatMap(UnicodeScalar.init)
+          .map(String.init)
+      },
+      unapply: {
+        $0.unicodeScalars.first
+          .map { String(UInt32($0), radix: 16)[...].utf8 }
       }
-    }
-
-    let object = Parse {
-      "{".utf8
-      Many(into: [String: JSONValue]()) { object, pair in
-        let (name, value) = pair
-        object[name] = value
-      } element: {
-        Whitespace()
-        string
-        Whitespace()
-        ":".utf8
-        Lazy { json! }
-      } separator: {
-        ",".utf8
-      } terminator: {
-        "}".utf8
-      }
-    }
-
-    let array = Parse {
-      "[".utf8
-      Many {
-        Lazy { json! }
-      } separator: {
-        ",".utf8
-      } terminator: {
-        "]".utf8
-      }
-    }
-
-    json = Parse {
-      Whitespace()
-      OneOf {
-        object.map(JSONValue.object)
-        array.map(JSONValue.array)
-        string.map(JSONValue.string)
-        Double.parser().map(JSONValue.number)
-        Bool.parser().map(JSONValue.boolean)
-        "null".utf8.map { JSONValue.null }
-      }
-      Whitespace()
-    }
-    .eraseToAnyParser()
-
-    let input = #"""
-      {
-        "hello": true,
-        "goodbye": 42.42,
-        "whatever": null,
-        "xs": [1, "hello, null, false],
-        "ys": {
-          "0": 2,
-          "1": "goodbye"
-        }
-      }
-      """#
-
-    XCTAssertThrowsError(try json.parse(input)) { error in
-      XCTAssertEqual(
-        #"""
-        error: multiple failures occurred
-
-        error: unexpected input
-         --> input:6:4
-        6 |   "ys": {
-          |    ^ expected ","
-          |    ^ expected "]"
-
-        error: unexpected input
-         --> input:5:9
-        5 |   "xs": [1, "hello, null, false],
-          |         ^ expected "{"
-          |         ^ expected "\""
-          |         ^ expected double
-          |         ^ expected "true" or "false"
-          |         ^ expected "null"
-
-        error: unexpected input
-         --> input:4:19
-        4 |   "whatever": null,
-          |                   ^ expected "}"
-
-        error: unexpected input
-         --> input:1:1
-        1 | {
-          | ^ expected "["
-          | ^ expected "\""
-          | ^ expected double
-          | ^ expected "true" or "false"
-          | ^ expected "null"
-        """#,
-        "\(error)"
-      )
-    }
+    )
   }
 }

@@ -25,6 +25,24 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P0.Input == P1.Input
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1>(
     _ p0: P0, _ p1: P1
@@ -53,6 +71,22 @@ extension ParserBuilder {
         return o0
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Output == Void
+{
+  @inlinable public func print(
+    _ output: P0.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p1.print(into: &input)
+    try p0.print(output, into: &input)
   }
 }
 
@@ -87,6 +121,22 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P0.Input == P1.Input,
+  P0.Output == Void
+{
+  @inlinable public func print(
+    _ output: P1.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p1.print(output, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1>(
     _ p0: P0, _ p1: P1
@@ -115,6 +165,23 @@ extension ParserBuilder {
         try p1.parse(&input)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P0.Input == P1.Input,
+  P0.Output == Void,
+  P1.Output == Void
+{
+  @inlinable public func print(
+    _ output: Void,
+    into input: inout P0.Input
+  ) rethrows {
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -155,6 +222,28 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2>(
     _ p0: P0, _ p1: P1, _ p2: P2
@@ -189,6 +278,28 @@ extension ParserBuilder {
         return (o0, o1)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -229,6 +340,28 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P1.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2>(
     _ p0: P0, _ p1: P1, _ p2: P2
@@ -261,6 +394,26 @@ extension ParserBuilder {
         return o0
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P1.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: P0.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output, into: &input)
   }
 }
 
@@ -301,6 +454,28 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P0.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2>(
     _ p0: P0, _ p1: P1, _ p2: P2
@@ -333,6 +508,26 @@ extension ParserBuilder {
         return o1
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P0.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: P1.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p2.print(into: &input)
+    try p1.print(output, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -371,6 +566,26 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P0.Output == Void,
+  P1.Output == Void
+{
+  @inlinable public func print(
+    _ output: P2.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p2.print(output, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2>(
     _ p0: P0, _ p1: P1, _ p2: P2
@@ -403,6 +618,27 @@ extension ParserBuilder {
         try p2.parse(&input)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: Void,
+    into input: inout P0.Input
+  ) rethrows {
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -447,6 +683,32 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
@@ -485,6 +747,32 @@ extension ParserBuilder {
         return (o0, o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -529,6 +817,32 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
@@ -567,6 +881,32 @@ extension ParserBuilder {
         return (o0, o1)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -611,6 +951,32 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P1.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
@@ -649,6 +1015,32 @@ extension ParserBuilder {
         return (o0, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P1.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -693,6 +1085,32 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P1.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
@@ -729,6 +1147,30 @@ extension ParserBuilder {
         return o0
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: P0.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output, into: &input)
   }
 }
 
@@ -773,6 +1215,32 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P0.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
@@ -811,6 +1279,32 @@ extension ParserBuilder {
         return (o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P0.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -855,6 +1349,32 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P0.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
@@ -891,6 +1411,30 @@ extension ParserBuilder {
         return o1
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P0.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: P1.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -935,6 +1479,32 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P0.Output == Void,
+  P1.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
@@ -971,6 +1541,30 @@ extension ParserBuilder {
         return o2
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: P2.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(into: &input)
+    try p2.print(output, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1013,6 +1607,30 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: P3.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(output, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3
@@ -1049,6 +1667,31 @@ extension ParserBuilder {
         try p3.parse(&input)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: Void,
+    into input: inout P0.Input
+  ) rethrows {
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1097,6 +1740,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.4, into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -1139,6 +1812,36 @@ extension ParserBuilder {
         return (o0, o1, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1187,6 +1890,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.3, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -1229,6 +1962,36 @@ extension ParserBuilder {
         return (o0, o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1277,6 +2040,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -1319,6 +2112,36 @@ extension ParserBuilder {
         return (o0, o1, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P2.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1367,6 +2190,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -1409,6 +2262,36 @@ extension ParserBuilder {
         return (o0, o1)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1457,6 +2340,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P1.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -1499,6 +2412,36 @@ extension ParserBuilder {
         return (o0, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P1.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1547,6 +2490,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P1.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -1589,6 +2562,36 @@ extension ParserBuilder {
         return (o0, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P1.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1637,6 +2640,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P1.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -1679,6 +2712,36 @@ extension ParserBuilder {
         return (o0, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P1.Output == Void,
+  P2.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -1727,6 +2790,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -1767,6 +2860,34 @@ extension ParserBuilder {
         return o0
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: P0.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output, into: &input)
   }
 }
 
@@ -1815,6 +2936,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -1857,6 +3008,36 @@ extension ParserBuilder {
         return (o1, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1905,6 +3086,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -1947,6 +3158,36 @@ extension ParserBuilder {
         return (o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -1995,6 +3236,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -2037,6 +3308,36 @@ extension ParserBuilder {
         return (o1, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P2.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -2085,6 +3386,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -2125,6 +3456,34 @@ extension ParserBuilder {
         return o1
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: P1.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -2173,6 +3532,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P1.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P2.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -2215,6 +3604,36 @@ extension ParserBuilder {
         return (o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -2263,6 +3682,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P2.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -2303,6 +3752,34 @@ extension ParserBuilder {
         return o2
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: P2.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -2351,6 +3828,36 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output.1, into: &input)
+    try p3.print(output.0, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -2391,6 +3898,34 @@ extension ParserBuilder {
         return o3
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: P3.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(output, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -2437,6 +3972,34 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: P4.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(output, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4
@@ -2477,6 +4040,35 @@ extension ParserBuilder {
         try p4.parse(&input)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: Void,
+    into input: inout P0.Input
+  ) rethrows {
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -2530,6 +4122,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOOOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.5, into: &input)
+    try p4.print(output.4, into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -2577,6 +4203,40 @@ extension ParserBuilder {
         return (o0, o1, o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOOOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.4, into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2630,6 +4290,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOOOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.4, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -2677,6 +4371,40 @@ extension ParserBuilder {
         return (o0, o1, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOOOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.3, into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2730,6 +4458,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOOVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.4, into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -2777,6 +4539,40 @@ extension ParserBuilder {
         return (o0, o1, o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOOVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P3.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2830,6 +4626,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOOVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.3, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -2877,6 +4707,40 @@ extension ParserBuilder {
         return (o0, o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOOVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P3.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.2, into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -2930,6 +4794,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOVOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.4, into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -2977,6 +4875,40 @@ extension ParserBuilder {
         return (o0, o1, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOVOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P2.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -3030,6 +4962,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOVOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P2.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P3.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.3, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -3077,6 +5043,40 @@ extension ParserBuilder {
         return (o0, o1, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOVOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P2.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -3130,6 +5130,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOVVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -3177,6 +5211,40 @@ extension ParserBuilder {
         return (o0, o1, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOVVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P2.Output == Void,
+  P3.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -3230,6 +5298,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOOVVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -3277,6 +5379,40 @@ extension ParserBuilder {
         return (o0, o1)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOOVVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P1.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.1, into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -3330,6 +5466,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVOOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.4, into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -3377,6 +5547,40 @@ extension ParserBuilder {
         return (o0, o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVOOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -3430,6 +5634,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVOOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output,
+      P3.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.3, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -3477,6 +5715,40 @@ extension ParserBuilder {
         return (o0, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVOOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -3530,6 +5802,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVOVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -3577,6 +5883,40 @@ extension ParserBuilder {
         return (o0, o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVOVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P3.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -3630,6 +5970,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVOVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -3677,6 +6051,40 @@ extension ParserBuilder {
         return (o0, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVOVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -3730,6 +6138,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVVOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -3777,6 +6219,40 @@ extension ParserBuilder {
         return (o0, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVVOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P2.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -3830,6 +6306,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVVOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P2.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P3.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -3877,6 +6387,40 @@ extension ParserBuilder {
         return (o0, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVVOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P2.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -3930,6 +6474,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVVVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.2, into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -3977,6 +6555,40 @@ extension ParserBuilder {
         return (o0, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVVVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
   }
 }
 
@@ -4030,6 +6642,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipOVVVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P0.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.1, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output.0, into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -4075,6 +6721,38 @@ extension ParserBuilder {
         return o0
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipOVVVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: P0.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(output, into: &input)
   }
 }
 
@@ -4128,6 +6806,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOOOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.4, into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -4175,6 +6887,40 @@ extension ParserBuilder {
         return (o1, o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOOOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.3, into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -4228,6 +6974,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOOOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output,
+      P3.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.3, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -4275,6 +7055,40 @@ extension ParserBuilder {
         return (o1, o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOOOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.2, into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -4328,6 +7142,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOOVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -4375,6 +7223,40 @@ extension ParserBuilder {
         return (o1, o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOOVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P3.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -4428,6 +7310,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOOVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -4475,6 +7391,40 @@ extension ParserBuilder {
         return (o1, o2)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOOVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P2.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.1, into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -4528,6 +7478,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOVOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -4575,6 +7559,40 @@ extension ParserBuilder {
         return (o1, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOVOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P2.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -4628,6 +7646,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOVOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P2.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P3.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -4675,6 +7727,40 @@ extension ParserBuilder {
         return (o1, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOVOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P2.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -4728,6 +7814,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOVVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.2, into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -4775,6 +7895,40 @@ extension ParserBuilder {
         return (o1, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOVVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -4828,6 +7982,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVOVVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P1.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.1, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output.0, into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -4873,6 +8061,38 @@ extension ParserBuilder {
         return o1
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVOVVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: P1.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(output, into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -4926,6 +8146,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVOOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P2.Output,
+      P3.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.3, into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -4973,6 +8227,40 @@ extension ParserBuilder {
         return (o2, o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVOOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P2.Output,
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.2, into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -5026,6 +8314,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVOOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P2.Output,
+      P3.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.2, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -5073,6 +8395,40 @@ extension ParserBuilder {
         return (o2, o3)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVOOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P2.Output,
+      P3.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.1, into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -5126,6 +8482,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVOVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P2.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.2, into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -5173,6 +8563,40 @@ extension ParserBuilder {
         return (o2, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVOVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P3.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P2.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -5226,6 +8650,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVOVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P2.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.1, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output.0, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -5271,6 +8729,38 @@ extension ParserBuilder {
         return o2
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVOVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: P2.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(output, into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -5324,6 +8814,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVVOOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P3.Output,
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.2, into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(output.0, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -5371,6 +8895,40 @@ extension ParserBuilder {
         return (o3, o4)
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVVOOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P3.Output,
+      P4.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output.1, into: &input)
+    try p3.print(output.0, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -5424,6 +8982,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVVOVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P3.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.1, into: &input)
+    try p4.print(into: &input)
+    try p3.print(output.0, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -5469,6 +9061,38 @@ extension ParserBuilder {
         return o3
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVVOVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: P3.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(output, into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -5522,6 +9146,40 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVVVOO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void
+{
+  @inlinable public func print(
+    _ output: (
+      P4.Output,
+      P5.Output
+    ),
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output.1, into: &input)
+    try p4.print(output.0, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -5567,6 +9225,38 @@ extension ParserBuilder {
         return o4
       } catch { throw ParsingError.wrap(error, at: input) }
     }
+  }
+}
+
+extension ParserBuilder.ZipVVVVOV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: P4.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(output, into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
   }
 }
 
@@ -5618,6 +9308,38 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVVVVO: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void
+{
+  @inlinable public func print(
+    _ output: P5.Output,
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(output, into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -5666,6 +9388,39 @@ extension ParserBuilder {
   }
 }
 
+extension ParserBuilder.ZipVVVVVV: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == Void,
+  P1.Output == Void,
+  P2.Output == Void,
+  P3.Output == Void,
+  P4.Output == Void,
+  P5.Output == Void
+{
+  @inlinable public func print(
+    _ output: Void,
+    into input: inout P0.Input
+  ) rethrows {
+    try p5.print(into: &input)
+    try p4.print(into: &input)
+    try p3.print(into: &input)
+    try p2.print(into: &input)
+    try p1.print(into: &input)
+    try p0.print(into: &input)
+  }
+}
+
 extension ParserBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5
@@ -5698,6 +9453,28 @@ extension OneOfBuilder {
             [e0, e1], at: input
           )
         }
+      }
+    }
+  }
+}
+
+extension OneOfBuilder.OneOf2: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P0.Input == P1.Input,
+  P0.Output == P1.Output
+{
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
+    let original = input
+    do { try self.p1.print(output, into: &input) } catch let e1 {
+      do {
+        input = original
+        try self.p0.print(output, into: &input)
+      } catch let e0 {
+        throw PrintingError.manyFailed(
+          [e1, e0], at: input
+        )
       }
     }
   }
@@ -5742,6 +9519,36 @@ extension OneOfBuilder {
               [e0, e1, e2], at: input
             )
           }
+        }
+      }
+    }
+  }
+}
+
+extension OneOfBuilder.OneOf3: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P0.Output == P1.Output,
+  P1.Output == P2.Output
+{
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
+    let original = input
+    do { try self.p2.print(output, into: &input) } catch let e2 {
+      do {
+        input = original
+        try self.p1.print(output, into: &input)
+      } catch let e1 {
+        do {
+          input = original
+          try self.p0.print(output, into: &input)
+        } catch let e0 {
+          throw PrintingError.manyFailed(
+            [e2, e1, e0], at: input
+          )
         }
       }
     }
@@ -5794,6 +9601,44 @@ extension OneOfBuilder {
                 [e0, e1, e2, e3], at: input
               )
             }
+          }
+        }
+      }
+    }
+  }
+}
+
+extension OneOfBuilder.OneOf4: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P0.Output == P1.Output,
+  P1.Output == P2.Output,
+  P2.Output == P3.Output
+{
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
+    let original = input
+    do { try self.p3.print(output, into: &input) } catch let e3 {
+      do {
+        input = original
+        try self.p2.print(output, into: &input)
+      } catch let e2 {
+        do {
+          input = original
+          try self.p1.print(output, into: &input)
+        } catch let e1 {
+          do {
+            input = original
+            try self.p0.print(output, into: &input)
+          } catch let e0 {
+            throw PrintingError.manyFailed(
+              [e3, e2, e1, e0], at: input
+            )
           }
         }
       }
@@ -5854,6 +9699,52 @@ extension OneOfBuilder {
                   [e0, e1, e2, e3, e4], at: input
                 )
               }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+extension OneOfBuilder.OneOf5: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P0.Output == P1.Output,
+  P1.Output == P2.Output,
+  P2.Output == P3.Output,
+  P3.Output == P4.Output
+{
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
+    let original = input
+    do { try self.p4.print(output, into: &input) } catch let e4 {
+      do {
+        input = original
+        try self.p3.print(output, into: &input)
+      } catch let e3 {
+        do {
+          input = original
+          try self.p2.print(output, into: &input)
+        } catch let e2 {
+          do {
+            input = original
+            try self.p1.print(output, into: &input)
+          } catch let e1 {
+            do {
+              input = original
+              try self.p0.print(output, into: &input)
+            } catch let e0 {
+              throw PrintingError.manyFailed(
+                [e4, e3, e2, e1, e0], at: input
+              )
             }
           }
         }
@@ -5923,6 +9814,60 @@ extension OneOfBuilder {
                     [e0, e1, e2, e3, e4, e5], at: input
                   )
                 }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+extension OneOfBuilder.OneOf6: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P0.Output == P1.Output,
+  P1.Output == P2.Output,
+  P2.Output == P3.Output,
+  P3.Output == P4.Output,
+  P4.Output == P5.Output
+{
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
+    let original = input
+    do { try self.p5.print(output, into: &input) } catch let e5 {
+      do {
+        input = original
+        try self.p4.print(output, into: &input)
+      } catch let e4 {
+        do {
+          input = original
+          try self.p3.print(output, into: &input)
+        } catch let e3 {
+          do {
+            input = original
+            try self.p2.print(output, into: &input)
+          } catch let e2 {
+            do {
+              input = original
+              try self.p1.print(output, into: &input)
+            } catch let e1 {
+              do {
+                input = original
+                try self.p0.print(output, into: &input)
+              } catch let e0 {
+                throw PrintingError.manyFailed(
+                  [e5, e4, e3, e2, e1, e0], at: input
+                )
               }
             }
           }
@@ -6011,6 +9956,68 @@ extension OneOfBuilder {
   }
 }
 
+extension OneOfBuilder.OneOf7: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P6: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P5.Input == P6.Input,
+  P0.Output == P1.Output,
+  P1.Output == P2.Output,
+  P2.Output == P3.Output,
+  P3.Output == P4.Output,
+  P4.Output == P5.Output,
+  P5.Output == P6.Output
+{
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
+    let original = input
+    do { try self.p6.print(output, into: &input) } catch let e6 {
+      do {
+        input = original
+        try self.p5.print(output, into: &input)
+      } catch let e5 {
+        do {
+          input = original
+          try self.p4.print(output, into: &input)
+        } catch let e4 {
+          do {
+            input = original
+            try self.p3.print(output, into: &input)
+          } catch let e3 {
+            do {
+              input = original
+              try self.p2.print(output, into: &input)
+            } catch let e2 {
+              do {
+                input = original
+                try self.p1.print(output, into: &input)
+              } catch let e1 {
+                do {
+                  input = original
+                  try self.p0.print(output, into: &input)
+                } catch let e0 {
+                  throw PrintingError.manyFailed(
+                    [e6, e5, e4, e3, e2, e1, e0], at: input
+                  )
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5, P6>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6
@@ -6089,6 +10096,76 @@ extension OneOfBuilder {
                         [e0, e1, e2, e3, e4, e5, e6, e7], at: input
                       )
                     }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+extension OneOfBuilder.OneOf8: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P6: ParserPrinter,
+  P7: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P5.Input == P6.Input,
+  P6.Input == P7.Input,
+  P0.Output == P1.Output,
+  P1.Output == P2.Output,
+  P2.Output == P3.Output,
+  P3.Output == P4.Output,
+  P4.Output == P5.Output,
+  P5.Output == P6.Output,
+  P6.Output == P7.Output
+{
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
+    let original = input
+    do { try self.p7.print(output, into: &input) } catch let e7 {
+      do {
+        input = original
+        try self.p6.print(output, into: &input)
+      } catch let e6 {
+        do {
+          input = original
+          try self.p5.print(output, into: &input)
+        } catch let e5 {
+          do {
+            input = original
+            try self.p4.print(output, into: &input)
+          } catch let e4 {
+            do {
+              input = original
+              try self.p3.print(output, into: &input)
+            } catch let e3 {
+              do {
+                input = original
+                try self.p2.print(output, into: &input)
+              } catch let e2 {
+                do {
+                  input = original
+                  try self.p1.print(output, into: &input)
+                } catch let e1 {
+                  do {
+                    input = original
+                    try self.p0.print(output, into: &input)
+                  } catch let e0 {
+                    throw PrintingError.manyFailed(
+                      [e7, e6, e5, e4, e3, e2, e1, e0], at: input
+                    )
                   }
                 }
               }
@@ -6198,6 +10275,84 @@ extension OneOfBuilder {
   }
 }
 
+extension OneOfBuilder.OneOf9: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P6: ParserPrinter,
+  P7: ParserPrinter,
+  P8: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P5.Input == P6.Input,
+  P6.Input == P7.Input,
+  P7.Input == P8.Input,
+  P0.Output == P1.Output,
+  P1.Output == P2.Output,
+  P2.Output == P3.Output,
+  P3.Output == P4.Output,
+  P4.Output == P5.Output,
+  P5.Output == P6.Output,
+  P6.Output == P7.Output,
+  P7.Output == P8.Output
+{
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
+    let original = input
+    do { try self.p8.print(output, into: &input) } catch let e8 {
+      do {
+        input = original
+        try self.p7.print(output, into: &input)
+      } catch let e7 {
+        do {
+          input = original
+          try self.p6.print(output, into: &input)
+        } catch let e6 {
+          do {
+            input = original
+            try self.p5.print(output, into: &input)
+          } catch let e5 {
+            do {
+              input = original
+              try self.p4.print(output, into: &input)
+            } catch let e4 {
+              do {
+                input = original
+                try self.p3.print(output, into: &input)
+              } catch let e3 {
+                do {
+                  input = original
+                  try self.p2.print(output, into: &input)
+                } catch let e2 {
+                  do {
+                    input = original
+                    try self.p1.print(output, into: &input)
+                  } catch let e1 {
+                    do {
+                      input = original
+                      try self.p0.print(output, into: &input)
+                    } catch let e0 {
+                      throw PrintingError.manyFailed(
+                        [e8, e7, e6, e5, e4, e3, e2, e1, e0], at: input
+                      )
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
 extension OneOfBuilder {
   @inlinable public static func buildBlock<P0, P1, P2, P3, P4, P5, P6, P7, P8>(
     _ p0: P0, _ p1: P1, _ p2: P2, _ p3: P3, _ p4: P4, _ p5: P5, _ p6: P6, _ p7: P7, _ p8: P8
@@ -6292,6 +10447,92 @@ extension OneOfBuilder {
                             [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9], at: input
                           )
                         }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+extension OneOfBuilder.OneOf10: ParserPrinter
+where
+  P0: ParserPrinter,
+  P1: ParserPrinter,
+  P2: ParserPrinter,
+  P3: ParserPrinter,
+  P4: ParserPrinter,
+  P5: ParserPrinter,
+  P6: ParserPrinter,
+  P7: ParserPrinter,
+  P8: ParserPrinter,
+  P9: ParserPrinter,
+  P0.Input == P1.Input,
+  P1.Input == P2.Input,
+  P2.Input == P3.Input,
+  P3.Input == P4.Input,
+  P4.Input == P5.Input,
+  P5.Input == P6.Input,
+  P6.Input == P7.Input,
+  P7.Input == P8.Input,
+  P8.Input == P9.Input,
+  P0.Output == P1.Output,
+  P1.Output == P2.Output,
+  P2.Output == P3.Output,
+  P3.Output == P4.Output,
+  P4.Output == P5.Output,
+  P5.Output == P6.Output,
+  P6.Output == P7.Output,
+  P7.Output == P8.Output,
+  P8.Output == P9.Output
+{
+  @inlinable public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
+    let original = input
+    do { try self.p9.print(output, into: &input) } catch let e9 {
+      do {
+        input = original
+        try self.p8.print(output, into: &input)
+      } catch let e8 {
+        do {
+          input = original
+          try self.p7.print(output, into: &input)
+        } catch let e7 {
+          do {
+            input = original
+            try self.p6.print(output, into: &input)
+          } catch let e6 {
+            do {
+              input = original
+              try self.p5.print(output, into: &input)
+            } catch let e5 {
+              do {
+                input = original
+                try self.p4.print(output, into: &input)
+              } catch let e4 {
+                do {
+                  input = original
+                  try self.p3.print(output, into: &input)
+                } catch let e3 {
+                  do {
+                    input = original
+                    try self.p2.print(output, into: &input)
+                  } catch let e2 {
+                    do {
+                      input = original
+                      try self.p1.print(output, into: &input)
+                    } catch let e1 {
+                      do {
+                        input = original
+                        try self.p0.print(output, into: &input)
+                      } catch let e0 {
+                        throw PrintingError.manyFailed(
+                          [e9, e8, e7, e6, e5, e4, e3, e2, e1, e0], at: input
+                        )
                       }
                     }
                   }

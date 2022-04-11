@@ -9,16 +9,28 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
     let red, green, blue: UInt8
   }
 
-  let hexPrimary = Prefix<Substring.UTF8View>(2).pipe {
-    UInt8.parser(radix: 16)
-    End()
+  struct HexByte: ParserPrinter {
+    func parse(_ input: inout Substring.UTF8View) throws -> UInt8 {
+      let prefix = input.prefix(2)
+      guard
+        prefix.count == 2,
+        let byte = UInt8(String(decoding: prefix, as: UTF8.self), radix: 16)
+      else { throw ParsingError() }
+      input.removeFirst(2)
+      return byte
+    }
+
+    func print(_ output: UInt8, into input: inout Substring.UTF8View) {
+      let byte = String(output, radix: 16)
+      input.prepend(contentsOf: byte.count == 1 ? "0\(byte)".utf8 : "\(byte)".utf8)
+    }
   }
 
-  let hexColor = Parse(Color.init(red:green:blue:)) {
+  let hexColor = ParsePrint(.memberwise(Color.init(red:green:blue:))) {
     "#".utf8
-    hexPrimary
-    hexPrimary
-    hexPrimary
+    HexByte()
+    HexByte()
+    HexByte()
   }
 
   let input = "#FF0000"
@@ -30,5 +42,6 @@ let colorSuite = BenchmarkSuite(name: "Color") { suite in
     output = try hexColor.parse(&input)
   } tearDown: {
     precondition(output == expected)
+    precondition(try! hexColor.print(output).elementsEqual("#ff0000".utf8) == true)
   }
 }
