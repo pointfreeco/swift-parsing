@@ -486,6 +486,11 @@ private func normalize(_ input: Any) -> Any {
   case let input as Slice<[Substring]>:
     return input.endIndex == input.base.endIndex ? input[..<input.startIndex] : input
 
+  case let input as ArraySlice<Substring>:
+    let base = unsafeBitCast(input._owner!, to: Array<Substring>.self)
+    let slice = Slice(base: base, bounds: input.startIndex..<input.endIndex)
+    return normalize(slice)
+
   default:
     return input
   }
