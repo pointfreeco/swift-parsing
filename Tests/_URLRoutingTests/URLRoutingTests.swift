@@ -13,6 +13,7 @@ class URLRoutingTests: XCTestCase {
   }
 
   func testPath() {
+    XCTAssertEqual(123, try Path { Int.parser() }.parse(URLRequestData(path: "/123")))
     XCTAssertThrowsError(try Path { Int.parser() }.parse(URLRequestData(path: "/123-foo"))) { error in
       XCTAssertEqual(
         """
