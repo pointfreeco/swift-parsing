@@ -87,14 +87,14 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 
       let requests = [
         URLRequestData(),
-        URLRequestData(path: ["contact-us"]),
-        URLRequestData(path: ["episodes"]),
-        URLRequestData(path: ["episodes", "1"]),
-        URLRequestData(path: ["episodes", "1", "comments"]),
-        URLRequestData(path: ["episodes", "1", "comments"], query: ["count": ["20"]]),
+        URLRequestData(path: "/contact-us"),
+        URLRequestData(path: "/episodes"),
+        URLRequestData(path: "/episodes/1"),
+        URLRequestData(path: "/episodes/1/comments"),
+        URLRequestData(path: "/episodes/1/comments", query: ["count": ["20"]]),
         URLRequestData(
           method: "POST",
-          path: ["episodes", "1", "comments"],
+          path: "/episodes/1/comments",
           body: .init(#"{"commenter":"Blob","message":"Hi!"}"#.utf8)
         ),
       ]
