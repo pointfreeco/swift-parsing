@@ -12,6 +12,20 @@ class URLRoutingTests: XCTestCase {
     XCTAssertEqual(try Method.post.print(), URLRequestData(method: "POST"))
   }
 
+  func testPath() {
+    XCTAssertThrowsError(try Path { Int.parser() }.parse(URLRequestData(path: "/123-foo"))) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:5
+        1 | /123-foo
+          |     ^ expected end of input
+        """,
+        "\(error)"
+      )
+    }
+  }
+
   func testFormData() throws {
     let p = Body {
       FormData {

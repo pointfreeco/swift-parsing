@@ -59,6 +59,7 @@ extension Parser {
   ///
   /// - Parameter input: A nebulous piece of data to be parsed.
   /// - Returns: A more well-structured value parsed from the given input.
+  @_disfavoredOverload
   @inlinable
   public func parse(_ input: Input) rethrows -> Output {
     var input = input
@@ -127,10 +128,11 @@ extension Parser {
   @inlinable
   public func parse<C: Collection>(_ input: C) rethrows -> Output
   where Input == C.SubSequence {
-    try Parse {
+    var input = input[...]
+    return try Parse {
       self
       End<Input>()
-    }.parse(input[...])
+    }.parse(&input)
   }
 
   /// Parse a `String` into an output using a UTF-8 parser. This method is more ergnomic to use
@@ -196,9 +198,10 @@ extension Parser {
   @inlinable
   public func parse<S: StringProtocol>(_ input: S) rethrows -> Output
   where Input == S.SubSequence.UTF8View {
-    try Parse {
+    var input = input[...].utf8
+    return try Parse {
       self
       End<Input>()
-    }.parse(input[...].utf8)
+    }.parse(&input)
   }
 }
