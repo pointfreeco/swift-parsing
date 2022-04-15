@@ -46,7 +46,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 
         Route(.case(CommentsRoute.show)) {
           Query {
-            Field("count", default: 10) { Int.parser() }
+            Field("count", default: 10) { Digits() }
           }
         }
       }
@@ -65,7 +65,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
         Route(EpisodesRoute.index)
 
         Route(.case(EpisodesRoute.episode)) {
-          Path { Int.parser() }
+          Path { Digits() }
 
           episodeRouter
         }
