@@ -32,16 +32,12 @@ extension URLRequestData {
       host: components.host,
       port: components.port,
       path: components.path,
-      query: Fields(
-        components.queryItems?.reduce(into: [:]) { query, item in
-          query[item.name, default: []].append(item.value?[...])
-        } ?? [:]
-      ),
-      headers: Fields(
-        request.allHTTPHeaderFields?.mapValues {
-          $0.split(separator: ",", omittingEmptySubsequences: false).map(Optional.some)[...]
-        } ?? [:]
-      ),
+      query: components.queryItems?.reduce(into: [:]) { query, item in
+        query[item.name, default: []].append(item.value)
+      } ?? [:],
+      headers: request.allHTTPHeaderFields?.mapValues {
+        $0.split(separator: ",", omittingEmptySubsequences: false).map { String($0) }
+      } ?? [:],
       body: request.httpBody.map([UInt8].init)
     )
   }

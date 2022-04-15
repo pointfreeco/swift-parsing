@@ -6,10 +6,10 @@
 /// Query {
 ///   Field("q", .string, default: "")
 ///   Field("page", default: 1) {
-///     Int.parser()
+///     Digits()
 ///   }
 ///   Field("per_page", default: 20) {
-///     Int.parser()
+///     Digits()
 ///   }
 /// }
 /// ```
