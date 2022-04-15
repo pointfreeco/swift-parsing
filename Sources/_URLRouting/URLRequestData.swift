@@ -68,17 +68,17 @@ public struct URLRequestData: Equatable, _EmptyInitializable {
     password: String? = nil,
     host: String? = nil,
     port: Int? = nil,
-    path: ArraySlice<Substring> = [],
+    path: String = "",
     query: Fields = [:],
     headers: Fields = [:],
-    body: ArraySlice<UInt8>? = nil
+    body: [UInt8]? = nil
   ) {
-    self.body = body
+    self.body = body?[...]
     self.headers = headers
     self.host = host
     self.method = method
     self.password = password
-    self.path = path
+    self.path = path.split(separator: "/")[...]
     self.port = port
     self.query = query
     self.scheme = scheme
@@ -117,18 +117,18 @@ extension URLRequestData: Codable {
   @inlinable
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.body = try container.decodeIfPresent([UInt8].self, forKey: .body)?[...]
-    self.headers = try container.decodeIfPresent(Fields.self, forKey: .headers) ?? [:]
-    self.host = try container.decodeIfPresent(String.self, forKey: .host)
-    self.method = try container.decodeIfPresent(String.self, forKey: .method)
-    self.password = try container.decodeIfPresent(String.self, forKey: .password)
-    self.path =
-      try container.decodeIfPresent([String].self, forKey: .path)?.map { $0[...] }[...]
-      ?? []
-    self.port = try container.decodeIfPresent(Int.self, forKey: .port)
-    self.query = try container.decodeIfPresent(Fields.self, forKey: .query) ?? [:]
-    self.scheme = try container.decodeIfPresent(String.self, forKey: .scheme)
-    self.user = try container.decodeIfPresent(String.self, forKey: .user)
+    self.init(
+      method: try container.decodeIfPresent(String.self, forKey: .method),
+      scheme: try container.decodeIfPresent(String.self, forKey: .scheme),
+      user: try container.decodeIfPresent(String.self, forKey: .user),
+      password: try container.decodeIfPresent(String.self, forKey: .password),
+      host: try container.decodeIfPresent(String.self, forKey: .host),
+      port: try container.decodeIfPresent(Int.self, forKey: .port),
+      path: try container.decodeIfPresent(String.self, forKey: .path) ?? "",
+      query: try container.decodeIfPresent(Fields.self, forKey: .query) ?? [:],
+      headers: try container.decodeIfPresent(Fields.self, forKey: .headers) ?? [:],
+      body: try container.decodeIfPresent([UInt8].self, forKey: .body)
+    )
   }
 
   @inlinable
@@ -139,7 +139,7 @@ extension URLRequestData: Codable {
     try container.encodeIfPresent(self.host, forKey: .host)
     try container.encodeIfPresent(self.method, forKey: .method)
     try container.encodeIfPresent(self.password, forKey: .password)
-    if !self.path.isEmpty { try container.encode(self.path.map(String.init), forKey: .path) }
+    if !self.path.isEmpty { try container.encode(self.path.joined(separator: "/"), forKey: .path) }
     try container.encodeIfPresent(self.port, forKey: .port)
     if !self.query.isEmpty { try container.encode(self.query, forKey: .query) }
     try container.encodeIfPresent(self.scheme, forKey: .scheme)

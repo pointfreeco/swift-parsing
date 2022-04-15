@@ -4,7 +4,7 @@ public struct PathEnd: ParserPrinter {
 
   @inlinable
   public func parse(_ input: inout URLRequestData) throws {
-    try End().parse(&input.path)
+    try input.path.first.map { try End().parse($0) } ?? End().parse(input.path)
   }
 
   @inlinable

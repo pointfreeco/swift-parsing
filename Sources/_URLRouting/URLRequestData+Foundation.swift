@@ -31,7 +31,7 @@ extension URLRequestData {
       password: components.password,
       host: components.host,
       port: components.port,
-      path: components.path.split(separator: "/")[...],
+      path: components.path,
       query: Fields(
         components.queryItems?.reduce(into: [:]) { query, item in
           query[item.name, default: []].append(item.value?[...])
@@ -42,7 +42,7 @@ extension URLRequestData {
           $0.split(separator: ",", omittingEmptySubsequences: false).map(Optional.some)[...]
         } ?? [:]
       ),
-      body: request.httpBody.map { ArraySlice($0) }
+      body: request.httpBody.map([UInt8].init)
     )
   }
 

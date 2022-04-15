@@ -98,22 +98,16 @@ class RoutingErrorTests: XCTestCase {
       }
     }
 
-    XCTAssertThrowsError(try siteRouter.parse(URLRequestData(string: "/123")!)) { error in
+    XCTAssertThrowsError(try siteRouter.parse(URLRequestData(path: "/123"))) { error in
       XCTAssertEqual(
         """
-        error: multiple failures occurred
-
         error: unexpected input
          --> input:1:2
         1 | /123
           |  ^ expected "about-us"
           |  ^ expected "contact-us"
-          |  ^ expected "users"
-
-        error: unexpected input
-         --> input[0]
-        0 | ["123"]
           |  ^ expected end of input
+          |  ^ expected "users"
         """,
         "\(error)"
       )
