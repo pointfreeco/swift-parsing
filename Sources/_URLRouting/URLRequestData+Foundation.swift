@@ -55,6 +55,36 @@ extension URLRequestData {
   }
 }
 
+extension URLComponents {
+  /// Initializes `URLComponents` from parseable/printable request data.
+  ///
+  /// Useful for converting ``URLRequestData`` into a `URL`.
+  ///
+  /// ```swift
+  /// let requestData = try router.print(route)
+  /// guard let urlRequest = URLRequest(data: requestData)
+  /// else { return }
+  /// ```
+  ///
+  /// - Parameter data: URL request data.
+  public init(data: URLRequestData) {
+    self.init()
+    self.scheme = data.scheme
+    self.user = data.user
+    self.password = data.password
+    self.host = data.host
+    self.port = data.port
+    self.path = "/\(data.path.joined(separator: "/"))"
+    if !data.query.isEmpty {
+      self.queryItems = data.query
+        .sorted(by: { $0.key < $1.key })
+        .flatMap { name, values in
+          values.map { URLQueryItem(name: name, value: $0.map(String.init)) }
+        }
+    }
+  }
+}
+
 extension URLRequest {
   /// Initializes a `URLRequest` from parseable/printable request data.
   ///
@@ -68,21 +98,7 @@ extension URLRequest {
   ///
   /// - Parameter data: URL request data.
   public init?(data: URLRequestData) {
-    var urlComponents = URLComponents()
-    urlComponents.scheme = data.scheme
-    urlComponents.user = data.user
-    urlComponents.password = data.password
-    urlComponents.host = data.host
-    urlComponents.port = data.port
-    urlComponents.path = "/\(data.path.joined(separator: "/"))"
-    if !data.query.isEmpty {
-      urlComponents.queryItems = data.query
-        .sorted(by: { $0.key < $1.key })
-        .flatMap { name, values in
-          values.map { URLQueryItem(name: name, value: $0.map(String.init)) }
-        }
-    }
-    guard let url = urlComponents.url else { return nil }
+    guard let url = URLComponents(data: data).url else { return nil }
     self.init(url: url)
     self.httpMethod = data.method
     for (name, values) in data.headers.sorted(by: { $0.key < $1.key }) {
