@@ -6,21 +6,21 @@ import Foundation
 
 extension Parser where Input == URLRequestData {
   @inlinable
-  public func match(request: URLRequest) rethrows -> Output {
+  public func match(request: URLRequest) throws -> Output {
     guard let data = URLRequestData(request: request)
     else { throw RoutingError() }
     return try self.parse(data)
   }
 
   @inlinable
-  public func match(url: URL) rethrows -> Output {
+  public func match(url: URL) throws -> Output {
     guard let data = URLRequestData(url: url)
     else { throw RoutingError() }
     return try self.parse(data)
   }
 
   @inlinable
-  public func match(path: string) rethrows -> Output {
+  public func match(path: String) throws -> Output {
     guard let data = URLRequestData(string: path)
     else { throw RoutingError() }
     return try self.parse(data)
@@ -29,8 +29,10 @@ extension Parser where Input == URLRequestData {
 
 extension ParserPrinter where Input == URLRequestData {
   @inlinable
-  public func request(for route: Output) rethrows -> URLRequest {
-    try URLRequest(data: self.print(route))
+  public func request(for route: Output) throws -> URLRequest {
+    guard let request = try URLRequest(data: self.print(route))
+    else { throw RoutingError() }
+    return request
   }
 
   @inlinable
