@@ -6,8 +6,8 @@ import Foundation
 
 extension ParserPrinter where Input == URLRequestData {
   @inlinable
-  public func request(for route: Output) -> URLRequest? {
-    try? URLRequest(data: self.print(route))
+  public func request(for route: Output) throws -> URLRequest {
+    try URLRequest(data: self.print(route))
   }
 
   @inlinable
