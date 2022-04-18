@@ -20,7 +20,8 @@ class RoutingErrorTests: XCTestCase {
         case asc, desc
       }
       enum Sort: String, CaseIterable, Decodable {
-        case name, category = "category"
+        case name
+        case category = "category"
       }
     }
     enum BooksRoute {

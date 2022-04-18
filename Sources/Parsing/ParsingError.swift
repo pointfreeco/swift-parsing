@@ -463,10 +463,10 @@ extension ParsingError.Context {
     case let (lhsInput as Slice<[Substring]>, rhsInput as Substring):
       return lhsInput.first.map {
         $0.base != rhsInput.base
-        ? false
-        : $0.startIndex > rhsInput.startIndex
+          ? false
+          : $0.startIndex > rhsInput.startIndex
       }
-      ?? false
+        ?? false
 
     case (is Substring, is Slice<[Substring]>):
       return !(rhs > lhs)
