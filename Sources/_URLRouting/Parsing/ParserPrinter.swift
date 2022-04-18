@@ -4,9 +4,32 @@ import Foundation
   import FoundationNetworking
 #endif
 
+extension Parser where Input == URLRequestData {
+  @inlinable
+  public func match(request: URLRequest) rethrows -> Output {
+    guard let data = URLRequestData(request: request)
+    else { throw RoutingError() }
+    return try self.parse(data)
+  }
+
+  @inlinable
+  public func match(url: URL) rethrows -> Output {
+    guard let data = URLRequestData(url: url)
+    else { throw RoutingError() }
+    return try self.parse(data)
+  }
+
+  @inlinable
+  public func match(path: string) rethrows -> Output {
+    guard let data = URLRequestData(string: path)
+    else { throw RoutingError() }
+    return try self.parse(data)
+  }
+}
+
 extension ParserPrinter where Input == URLRequestData {
   @inlinable
-  public func request(for route: Output) throws -> URLRequest {
+  public func request(for route: Output) rethrows -> URLRequest {
     try URLRequest(data: self.print(route))
   }
 
