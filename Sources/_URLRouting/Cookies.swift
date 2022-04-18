@@ -13,7 +13,9 @@ public struct Cookies<Parsers: Parser>: Parser where Parsers.Input == URLRequest
     guard let cookie = input.headers["cookie"]
     else { throw RoutingError() }
 
-    var fields: Parsers.Input = cookie.reduce(into: [:]) { fields, field in
+    var fields: Parsers.Input = cookie.reduce(
+      into: .init([:], isNameCaseSensitive: true)
+    ) { fields, field in
       guard let cookies = field?.components(separatedBy: "; ")
       else { return }
 

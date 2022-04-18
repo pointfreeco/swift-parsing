@@ -46,7 +46,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 
         Route(.case(CommentsRoute.show)) {
           Query {
-            Field("count", default: 10) { Int.parser() }
+            Field("count", default: 10) { Digits() }
           }
         }
       }
@@ -65,7 +65,7 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
         Route(EpisodesRoute.index)
 
         Route(.case(EpisodesRoute.episode)) {
-          Path { Int.parser() }
+          Path { Digits() }
 
           episodeRouter
         }
@@ -87,14 +87,14 @@ let routingSuite = BenchmarkSuite(name: "Routing") { suite in
 
       let requests = [
         URLRequestData(),
-        URLRequestData(path: ["contact-us"]),
-        URLRequestData(path: ["episodes"]),
-        URLRequestData(path: ["episodes", "1"]),
-        URLRequestData(path: ["episodes", "1", "comments"]),
-        URLRequestData(path: ["episodes", "1", "comments"], query: ["count": ["20"]]),
+        URLRequestData(path: "/contact-us"),
+        URLRequestData(path: "/episodes"),
+        URLRequestData(path: "/episodes/1"),
+        URLRequestData(path: "/episodes/1/comments"),
+        URLRequestData(path: "/episodes/1/comments", query: ["count": ["20"]]),
         URLRequestData(
           method: "POST",
-          path: ["episodes", "1", "comments"],
+          path: "/episodes/1/comments",
           body: .init(#"{"commenter":"Blob","message":"Hi!"}"#.utf8)
         ),
       ]

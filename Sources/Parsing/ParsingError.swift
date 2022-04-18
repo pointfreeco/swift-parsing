@@ -224,10 +224,12 @@ extension ParsingError.Context {
       switch (normalize(lhs), normalize(rhs)) {
       case let (lhs as Substring, rhs as Substring):
         return lhs.startIndex == rhs.startIndex && lhs.endIndex == rhs.endIndex
+
       case let (lhs as Slice<[Substring]>, rhs as Slice<[Substring]>):
         return zip(lhs, rhs).allSatisfy { l, r in
           l.startIndex == r.startIndex && l.endIndex == r.endIndex
         }
+
       default:
         return false
       }
@@ -458,6 +460,17 @@ extension ParsingError.Context {
       }
       return lhsInput.endIndex > rhsInput.endIndex
 
+    case let (lhsInput as Slice<[Substring]>, rhsInput as Substring):
+      return lhsInput.first.map {
+        $0.base != rhsInput.base
+        ? false
+        : $0.startIndex > rhsInput.startIndex
+      }
+      ?? false
+
+    case (is Substring, is Slice<[Substring]>):
+      return !(rhs > lhs)
+
     default:
       return false
     }
@@ -485,6 +498,11 @@ private func normalize(_ input: Any) -> Any {
 
   case let input as Slice<[Substring]>:
     return input.endIndex == input.base.endIndex ? input[..<input.startIndex] : input
+
+  case let input as ArraySlice<Substring>:
+    let base = unsafeBitCast(input._owner!, to: Array<Substring>.self)
+    let slice = Slice(base: base, bounds: input.startIndex..<input.endIndex)
+    return normalize(slice)
 
   default:
     return input

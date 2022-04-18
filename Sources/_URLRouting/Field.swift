@@ -9,10 +9,10 @@
 /// Query {
 ///   Field("q", .string, default: "")
 ///   Field("page", default: 1) {
-///     Int.parser()
+///     Digits()
 ///   }
 ///   Field("per_page", default: 20) {
-///     Int.parser()
+///     Digits()
 ///   }
 /// }
 /// ```
@@ -26,17 +26,14 @@ public struct Field<Value: Parser>: Parser where Value.Input == Substring {
   @usableFromInline
   let valueParser: Value
 
-  @inlinable
-  public init<C>(
-    _ name: String,
-    _ value: C,
-    default defaultValue: Value.Output? = nil
-  ) where Value == Parsers.MapConversion<Rest<Substring>, C> {
-    self.defaultValue = defaultValue
-    self.name = name
-    self.valueParser = Rest().map(value)
-  }
-
+  /// Initializes a named field parser.
+  ///
+  /// - Parameters:
+  ///   - name: The name of the field.
+  ///   - defaultValue: A default value if the field is absent. Prefer specifying a default over
+  ///     applying `Parser.replaceError(with:)` if parsing should fail for invalid values.
+  ///   - value: A parser that parses the field's substring value into something more
+  ///     well-structured.
   @inlinable
   public init(
     _ name: String,
@@ -46,6 +43,25 @@ public struct Field<Value: Parser>: Parser where Value.Input == Substring {
     self.defaultValue = defaultValue
     self.name = name
     self.valueParser = value()
+  }
+
+  /// Initializes a named field parser.
+  ///
+  /// - Parameters:
+  ///   - name: The name of the field.
+  ///   - value: A conversion that transforms the field's substring value into something more
+  ///     well-structured.
+  ///   - defaultValue: A default value if the field is absent. Prefer specifying a default over
+  ///     applying `Parser.replaceError(with:)` if parsing should fail for invalid values.
+  @inlinable
+  public init<C>(
+    _ name: String,
+    _ value: C,
+    default defaultValue: Value.Output? = nil
+  ) where Value == Parsers.MapConversion<Rest<Substring>, C> {
+    self.defaultValue = defaultValue
+    self.name = name
+    self.valueParser = Rest().map(value)
   }
 
   @inlinable

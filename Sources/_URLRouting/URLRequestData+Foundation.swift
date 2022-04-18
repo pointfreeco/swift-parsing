@@ -31,18 +31,14 @@ extension URLRequestData {
       password: components.password,
       host: components.host,
       port: components.port,
-      path: components.path.split(separator: "/")[...],
-      query: Fields(
-        components.queryItems?.reduce(into: [:]) { query, item in
-          query[item.name, default: []].append(item.value?[...])
-        } ?? [:]
-      ),
-      headers: Fields(
-        request.allHTTPHeaderFields?.mapValues {
-          $0.split(separator: ",", omittingEmptySubsequences: false).map(Optional.some)[...]
-        } ?? [:]
-      ),
-      body: request.httpBody.map { ArraySlice($0) }
+      path: components.path,
+      query: components.queryItems?.reduce(into: [:]) { query, item in
+        query[item.name, default: []].append(item.value)
+      } ?? [:],
+      headers: request.allHTTPHeaderFields?.mapValues {
+        $0.split(separator: ",", omittingEmptySubsequences: false).map { String($0) }
+      } ?? [:],
+      body: request.httpBody.map([UInt8].init)
     )
   }
 
@@ -59,6 +55,36 @@ extension URLRequestData {
   }
 }
 
+extension URLComponents {
+  /// Initializes `URLComponents` from parseable/printable request data.
+  ///
+  /// Useful for converting ``URLRequestData`` into a `URL`.
+  ///
+  /// ```swift
+  /// let requestData = try router.print(route)
+  /// guard let urlRequest = URLRequest(data: requestData)
+  /// else { return }
+  /// ```
+  ///
+  /// - Parameter data: URL request data.
+  public init(data: URLRequestData) {
+    self.init()
+    self.scheme = data.scheme
+    self.user = data.user
+    self.password = data.password
+    self.host = data.host
+    self.port = data.port
+    self.path = "/\(data.path.joined(separator: "/"))"
+    if !data.query.isEmpty {
+      self.queryItems = data.query
+        .sorted(by: { $0.key < $1.key })
+        .flatMap { name, values in
+          values.map { URLQueryItem(name: name, value: $0.map(String.init)) }
+        }
+    }
+  }
+}
+
 extension URLRequest {
   /// Initializes a `URLRequest` from parseable/printable request data.
   ///
@@ -72,21 +98,7 @@ extension URLRequest {
   ///
   /// - Parameter data: URL request data.
   public init?(data: URLRequestData) {
-    var urlComponents = URLComponents()
-    urlComponents.scheme = data.scheme
-    urlComponents.user = data.user
-    urlComponents.password = data.password
-    urlComponents.host = data.host
-    urlComponents.port = data.port
-    urlComponents.path = "/\(data.path.joined(separator: "/"))"
-    if !data.query.isEmpty {
-      urlComponents.queryItems = data.query
-        .sorted(by: { $0.key < $1.key })
-        .flatMap { name, values in
-          values.map { URLQueryItem(name: name, value: $0.map(String.init)) }
-        }
-    }
-    guard let url = urlComponents.url else { return nil }
+    guard let url = URLComponents(data: data).url else { return nil }
     self.init(url: url)
     self.httpMethod = data.method
     for (name, values) in data.headers.sorted(by: { $0.key < $1.key }) {

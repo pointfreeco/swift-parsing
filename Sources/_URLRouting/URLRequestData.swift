@@ -10,7 +10,7 @@ public struct URLRequestData: Equatable, _EmptyInitializable {
   /// Modeled as ``Fields`` for efficient incremental parsing.
   ///
   /// To incrementally parse from these fields, use the ``Headers`` parser.
-  public var headers: Fields = [:]
+  public var headers: Fields = .init([:], isNameCaseSensitive: false)
 
   /// The host subcomponent of the request URL
   public var host: String?
@@ -36,7 +36,7 @@ public struct URLRequestData: Equatable, _EmptyInitializable {
   /// Modeled as ``Fields`` for efficient incremental parsing.
   ///
   /// To incrementally parse from these fields, use the ``Headers`` parser.
-  public var query: Fields = [:]
+  public var query: Fields = .init([:], isNameCaseSensitive: true)
 
   /// The scheme, _e.g._ `"https"` or `"http"`.
   public var scheme: String?
@@ -68,19 +68,19 @@ public struct URLRequestData: Equatable, _EmptyInitializable {
     password: String? = nil,
     host: String? = nil,
     port: Int? = nil,
-    path: ArraySlice<Substring> = [],
-    query: Fields = [:],
-    headers: Fields = [:],
-    body: ArraySlice<UInt8>? = nil
+    path: String = "",
+    query: [String: [String?]] = [:],
+    headers: [String: [String?]] = [:],
+    body: [UInt8]? = nil
   ) {
-    self.body = body
-    self.headers = headers
+    self.body = body?[...]
+    self.headers = .init(headers.mapValues { $0.map { $0?[...] }[...] }, isNameCaseSensitive: false)
     self.host = host
     self.method = method
     self.password = password
-    self.path = path
+    self.path = path.split(separator: "/")[...]
     self.port = port
-    self.query = query
+    self.query = .init(query.mapValues { $0.map { $0?[...] }[...] }, isNameCaseSensitive: true)
     self.scheme = scheme
     self.user = user
   }
@@ -89,26 +89,44 @@ public struct URLRequestData: Equatable, _EmptyInitializable {
   ///
   /// Used by ``URLRequestData`` to model query parameters and headers in a way that can be
   /// efficiently parsed.
-  public struct Fields: Equatable {
+  public struct Fields {
     public var fields: [String: ArraySlice<Substring?>]
 
+    @usableFromInline var isNameCaseSensitive: Bool
+
     @inlinable
-    public init(_ fields: [String: ArraySlice<Substring?>]) {
-      self.fields = fields
+    public init(
+      _ fields: [String: ArraySlice<Substring?>] = [:],
+      isNameCaseSensitive: Bool
+    ) {
+      self.fields = [:]
+      self.fields.reserveCapacity(fields.count)
+      self.isNameCaseSensitive = isNameCaseSensitive
+      for (key, value) in fields {
+        self[key] = value
+      }
     }
 
     @inlinable
     public subscript(name: String) -> ArraySlice<Substring?>? {
-      _read { yield self.fields[name] }
-      _modify { yield &self.fields[name] }
+      _read { yield self.fields[self.isNameCaseSensitive ? name : name.lowercased()] }
+      _modify { yield &self.fields[self.isNameCaseSensitive ? name : name.lowercased()] }
     }
 
     @inlinable
     public subscript(
       name: String, default defaultValue: @autoclosure () -> ArraySlice<Substring?>
     ) -> ArraySlice<Substring?> {
-      _read { yield self.fields[name, default: defaultValue()] }
-      _modify { yield &self.fields[name, default: defaultValue()] }
+      _read {
+        yield self.fields[
+          self.isNameCaseSensitive ? name : name.lowercased(), default: defaultValue()
+        ]
+      }
+      _modify {
+        yield &self.fields[
+          self.isNameCaseSensitive ? name : name.lowercased(), default: defaultValue()
+        ]
+      }
     }
   }
 }
@@ -117,31 +135,41 @@ extension URLRequestData: Codable {
   @inlinable
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.body = try container.decodeIfPresent([UInt8].self, forKey: .body)?[...]
-    self.headers = try container.decodeIfPresent(Fields.self, forKey: .headers) ?? [:]
-    self.host = try container.decodeIfPresent(String.self, forKey: .host)
-    self.method = try container.decodeIfPresent(String.self, forKey: .method)
-    self.password = try container.decodeIfPresent(String.self, forKey: .password)
-    self.path =
-      try container.decodeIfPresent([String].self, forKey: .path)?.map { $0[...] }[...]
-      ?? []
-    self.port = try container.decodeIfPresent(Int.self, forKey: .port)
-    self.query = try container.decodeIfPresent(Fields.self, forKey: .query) ?? [:]
-    self.scheme = try container.decodeIfPresent(String.self, forKey: .scheme)
-    self.user = try container.decodeIfPresent(String.self, forKey: .user)
+    self.init(
+      method: try container.decodeIfPresent(String.self, forKey: .method),
+      scheme: try container.decodeIfPresent(String.self, forKey: .scheme),
+      user: try container.decodeIfPresent(String.self, forKey: .user),
+      password: try container.decodeIfPresent(String.self, forKey: .password),
+      host: try container.decodeIfPresent(String.self, forKey: .host),
+      port: try container.decodeIfPresent(Int.self, forKey: .port),
+      path: try container.decodeIfPresent(String.self, forKey: .path) ?? "",
+      query: try container.decodeIfPresent([String: [String?]].self, forKey: .query) ?? [:],
+      headers: try container.decodeIfPresent([String: [String?]].self, forKey: .headers) ?? [:],
+      body: try container.decodeIfPresent([UInt8].self, forKey: .body)
+    )
   }
 
   @inlinable
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encodeIfPresent(self.body.map(Array.init), forKey: .body)
-    if !self.headers.isEmpty { try container.encode(self.headers, forKey: .headers) }
+    if !self.headers.isEmpty {
+      try container.encode(
+        self.headers.fields.mapValues { $0.map { $0.map(String.init) } },
+        forKey: .headers
+      )
+    }
     try container.encodeIfPresent(self.host, forKey: .host)
     try container.encodeIfPresent(self.method, forKey: .method)
     try container.encodeIfPresent(self.password, forKey: .password)
-    if !self.path.isEmpty { try container.encode(self.path.map(String.init), forKey: .path) }
+    if !self.path.isEmpty { try container.encode(self.path.joined(separator: "/"), forKey: .path) }
     try container.encodeIfPresent(self.port, forKey: .port)
-    if !self.query.isEmpty { try container.encode(self.query, forKey: .query) }
+    if !self.query.isEmpty {
+      try container.encode(
+        self.query.fields.mapValues { $0.map { $0.map(String.init) } },
+        forKey: .query
+      )
+    }
     try container.encodeIfPresent(self.scheme, forKey: .scheme)
     try container.encodeIfPresent(self.user, forKey: .user)
   }
@@ -177,20 +205,6 @@ extension URLRequestData: Hashable {
   }
 }
 
-extension URLRequestData.Fields: Codable {
-  @inlinable
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    self.init(try container.decode([String: [String?]].self).mapValues { $0.map { $0?[...] }[...] })
-  }
-
-  @inlinable
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    try container.encode(self.fields.mapValues { $0.map { $0.map(String.init) } })
-  }
-}
-
 extension URLRequestData.Fields: Collection {
   public typealias Element = Dictionary<String, ArraySlice<Substring?>>.Element
   public typealias Index = Dictionary<String, ArraySlice<Substring?>>.Index
@@ -219,7 +233,18 @@ extension URLRequestData.Fields: Collection {
 extension URLRequestData.Fields: ExpressibleByDictionaryLiteral {
   @inlinable
   public init(dictionaryLiteral elements: (String, ArraySlice<Substring?>)...) {
-    self.init(.init(uniqueKeysWithValues: elements))
+    self.init(.init(elements) { $0 + $1 }, isNameCaseSensitive: true)
+  }
+}
+
+extension URLRequestData.Fields: Equatable {
+  @inlinable
+  public static func == (lhs: Self, rhs: Self) -> Bool {
+    guard lhs.count == rhs.count else { return false }
+    for key in lhs.fields.keys {
+      guard lhs[key] == rhs[key] else { return false }
+    }
+    return true
   }
 }
 
