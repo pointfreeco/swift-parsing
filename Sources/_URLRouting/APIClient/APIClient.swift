@@ -32,11 +32,21 @@ extension APIClient {
   }
 }
 
-extension APIClient {
-  private struct Unimplemented: Error {}
+private struct UnimplementedEndpoint: Error {
+  let message: String
+}
 
+extension APIClient {
   public static var failing: Self {
-    Self { _ in throw Unimplemented() }
+    Self {
+      throw UnimplementedEndpoint(
+        message: """
+        Failed to respond to route: \($0)
+
+        Use 'ApiClient.override' to supply a default response for this route.
+        """
+      )
+    }
   }
 
   public func override(
