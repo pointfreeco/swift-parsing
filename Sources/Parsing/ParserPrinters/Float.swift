@@ -155,7 +155,7 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
   @inline(__always)
   func caseInsensitiveElementsEqualLowercase<S: Sequence>(_ other: S) -> Bool
   where S.Element == Element {
-    self.elementsEqual(other, by: { $0 == $1 || $0 + 32 == $1 })
+    self.elementsEqual(other, by: { $0 == $1 || ((65...90).contains($0) && $0 + 32 == $1) })
   }
 }
 
