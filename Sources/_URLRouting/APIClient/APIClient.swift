@@ -1,5 +1,6 @@
 import Foundation
 import Parsing
+import XCTestDynamicOverlay
 
 #if canImport(FoundationNetworking)
   import FoundationNetworking
@@ -43,13 +44,13 @@ private struct UnimplementedEndpoint: LocalizedError, CustomDebugStringConvertib
 extension APIClient {
   public static var failing: Self {
     Self {
-      throw UnimplementedEndpoint(
-        message: """
+      let message = """
         Failed to respond to route: \($0)
 
         Use 'ApiClient.override' to supply a default response for this route.
         """
-      )
+      XCTFail(message)
+      throw UnimplementedEndpoint(message: message)
     }
   }
 

@@ -17,6 +17,7 @@ let package = Package(
   dependencies: [
     .package(url: "https://github.com/apple/swift-argument-parser", from: "0.5.0"),
     .package(url: "https://github.com/pointfreeco/swift-case-paths", from: "0.8.0"),
+    .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "0.2.1"),
     .package(name: "Benchmark", url: "https://github.com/google/swift-benchmark", from: "0.1.1"),
   ],
   targets: [
@@ -46,7 +47,8 @@ let package = Package(
       name: "_URLRouting",
       dependencies: [
         "Parsing",
-        .product(name: "CasePaths", package: "swift-case-paths")
+        .product(name: "CasePaths", package: "swift-case-paths"),
+        .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay"),
       ]
     ),
     .testTarget(
