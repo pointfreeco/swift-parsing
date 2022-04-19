@@ -33,7 +33,7 @@ extension APIClient {
   }
 }
 
-private struct UnimplementedEndpoint: LocalizedError, CustomDebugStringConvertible {
+private struct UnimplementedEndpoint: LocalizedError {
   let message: String
 
   var errorDescription: String? {
