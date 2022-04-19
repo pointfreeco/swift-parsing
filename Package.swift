@@ -43,7 +43,11 @@ let package = Package(
       dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]
     ),
     .target(
-      name: "_URLRouting", dependencies: ["Parsing"]
+      name: "_URLRouting",
+      dependencies: [
+        "Parsing",
+        .product(name: "CasePaths", package: "swift-case-paths")
+      ]
     ),
     .testTarget(
       name: "_URLRoutingTests",
