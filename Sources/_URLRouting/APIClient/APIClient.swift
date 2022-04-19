@@ -2,6 +2,10 @@ import CasePaths
 import Foundation
 import Parsing
 
+#if canImport(FoundationNetworking)
+  import FoundationNetworking
+#endif
+
 public struct APIClient<Route> {
   var request: (Route) async throws -> (Data, URLResponse)
 
@@ -9,26 +13,22 @@ public struct APIClient<Route> {
     self.request = request
   }
 
-  public func request<D: Decodable>(
+  public func request<Value: Decodable>(
     _ route: Route,
-    as type: D.Type = D.self,
+    as type: Value.Type = Value.self,
     decoder: JSONDecoder = .init()
-  ) async throws -> D
-  {
+  ) async throws -> Value {
     let (data, _) = try await self.request(route)
     return try JSONDecoder().decode(type, from: data)
   }
 }
 
 extension APIClient {
-  @available(macOS 12.0, *)
-  public static func live<R: ParserPrinter>(
-    router: R
-  ) -> Self
-  where R.Input == URLRequestData, R.Output == Route
-  {
+  @available(macOS 12, iOS 15, watchOS 8, tvOS 15, *)
+  public static func live<R: ParserPrinter>(router: R, session: URLSession = .shared) -> Self
+  where R.Input == URLRequestData, R.Output == Route {
     Self { route in
-      try await URLSession.shared.data(for: router.request(for: route))
+      try await session.data(for: router.request(for: route))
     }
   }
 }
