@@ -32,8 +32,12 @@ extension APIClient {
   }
 }
 
-private struct UnimplementedEndpoint: Error {
+private struct UnimplementedEndpoint: Error, CustomDebugStringConvertible {
   let message: String
+
+  var debugDescription: String {
+    self.message
+  }
 }
 
 extension APIClient {
