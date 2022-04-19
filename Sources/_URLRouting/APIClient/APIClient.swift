@@ -33,27 +33,21 @@ extension APIClient {
   }
 }
 
-struct Failure: Error {}
 extension APIClient {
+  private struct Unimplemented: Error {}
+
   public static var failing: Self {
-    Self(
-      request: { _ in
-        throw Failure()
-      }
-    )
+    Self { _ in throw Unimplemented() }
   }
 
   public mutating func override(
-    route matchingRoute: Route,
-    withResponse response: Result<(data: Data, response: URLResponse), URLError>
-  )
-  where Route: Equatable
+    _ route: Route,
+    with response: @autoclosure @escaping () throws -> Result<(data: Data, response: URLResponse), URLError>
+  ) where Route: Equatable
   {
-    //    let fulfill = expectation(description: "route")
-    self.request = { [self] route in
-      if route == matchingRoute {
-        //        fulfill()
-        return try response.get()
+    self.request = { [self] in
+      if route == $0 {
+        return try response().get()
       } else {
         return try await self.request(route)
       }
@@ -61,19 +55,21 @@ extension APIClient {
   }
 
   public mutating func override<Value>(
-    routeCase matchingRoute: CasePath<Route, Value>,
-    withResponse response: @escaping (Value) -> Result<
-    (data: Data, response: URLResponse), URLError
-    >
+    _ extract: @escaping (Route) -> Value?,
+    with response: @escaping (Value) throws -> Result<(data: Data, response: URLResponse), URLError>
   ) {
-    //    let fulfill = expectation(description: "route")
     self.request = { [self] route in
-      if let value = matchingRoute.extract(from: route) {
-        //        fulfill()
+      if let value = extract(route) {
         return try response(value).get()
       } else {
         return try await self.request(route)
       }
     }
+  }
+}
+
+extension Result where Success == (data: Data, response: URLResponse), Failure == URLError {
+  public static func ok<T: Encodable>(_ value: T, encoder: JSONEncoder = .init()) throws -> Self {
+    .success((try encoder.encode(value), .init()))
   }
 }
