@@ -43,7 +43,7 @@ extension APIClient {
     _ route: Route,
     with response: @autoclosure @escaping () throws -> Result<(data: Data, response: URLResponse), URLError>
   ) -> Self where Route: Equatable {
-    self.override({ $0 == route }, with: response)
+    self.override({ $0 == route }, with: try response())
   }
 
   public func override<Value>(
