@@ -41,9 +41,9 @@ extension APIClient {
 
   public func override(
     _ route: Route,
-    with response: @autoclosure @escaping () throws -> Result<(data: Data, response: URLResponse), URLError>
+    with response: @escaping () throws -> Result<(data: Data, response: URLResponse), URLError>
   ) -> Self where Route: Equatable {
-    self.override({ $0 == route }, with: try response())
+    self.override({ $0 == route }, with: response)
   }
 
   public func override<Value>(
@@ -63,7 +63,7 @@ extension APIClient {
 
   public func override(
     _ predicate: @escaping (Route) -> Bool,
-    with response: @autoclosure @escaping () throws -> Result<(data: Data, response: URLResponse), URLError>
+    with response: @escaping () throws -> Result<(data: Data, response: URLResponse), URLError>
   ) -> Self {
     var copy = self
     copy.request = { [self] route in
