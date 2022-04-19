@@ -1,4 +1,3 @@
-import CasePaths
 import Foundation
 import Parsing
 
@@ -40,31 +39,41 @@ extension APIClient {
     Self { _ in throw Unimplemented() }
   }
 
-  public mutating func override(
+  public func override(
     _ route: Route,
     with response: @autoclosure @escaping () throws -> Result<(data: Data, response: URLResponse), URLError>
-  ) where Route: Equatable
-  {
-    self.request = { [self] in
-      if route == $0 {
-        return try response().get()
-      } else {
-        return try await self.request(route)
-      }
-    }
+  ) -> Self where Route: Equatable {
+    self.override({ $0 == route }, with: response)
   }
 
-  public mutating func override<Value>(
+  public func override<Value>(
     _ extract: @escaping (Route) -> Value?,
     with response: @escaping (Value) throws -> Result<(data: Data, response: URLResponse), URLError>
-  ) {
-    self.request = { [self] route in
+  ) -> Self {
+    var copy = self
+    copy.request = { [self] route in
       if let value = extract(route) {
         return try response(value).get()
       } else {
         return try await self.request(route)
       }
     }
+    return copy
+  }
+
+  public func override(
+    _ predicate: @escaping (Route) -> Bool,
+    with response: @autoclosure @escaping () throws -> Result<(data: Data, response: URLResponse), URLError>
+  ) -> Self {
+    var copy = self
+    copy.request = { [self] route in
+      if predicate(route) {
+        return try response().get()
+      } else {
+        return try await self.request(route)
+      }
+    }
+    return copy
   }
 }
 
