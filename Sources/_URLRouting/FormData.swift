@@ -12,7 +12,7 @@ where FieldParsers.Input == URLRequestData.Fields {
   }
 
   @inlinable
-  public func parse(_ input: inout ArraySlice<UInt8>) rethrows -> FieldParsers.Output {
+  public func parse(_ input: inout Data) rethrows -> FieldParsers.Output {
     var fields: FieldParsers.Input = String(decoding: input, as: UTF8.self)
       .split(separator: "&")
       .reduce(into: .init([:], isNameCaseSensitive: true)) { fields, field in
@@ -34,14 +34,14 @@ where FieldParsers.Input == URLRequestData.Fields {
 
 extension FormData: ParserPrinter where FieldParsers: ParserPrinter {
   @inlinable
-  public func print(_ output: FieldParsers.Output, into input: inout ArraySlice<UInt8>) rethrows {
+  public func print(_ output: FieldParsers.Output, into input: inout Data) rethrows {
     var fields = URLRequestData.Fields()
     try self.fieldParsers.print(output, into: &fields)
     input = .init(encoding: fields)
   }
 }
 
-extension ArraySlice where Element == UInt8 {
+extension Data {
   @usableFromInline
   init(encoding fields: URLRequestData.Fields) {
     self.init(

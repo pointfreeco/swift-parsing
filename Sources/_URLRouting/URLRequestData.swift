@@ -1,9 +1,12 @@
+import Foundation
+
 /// A parseable URL request.
 ///
 /// Models a URL request in manner that can be incrementally parsed in an efficient way, by storing
 /// its various fields as subsequences for parsers to consume.
 public struct URLRequestData: Equatable, _EmptyInitializable {
-  public var body: ArraySlice<UInt8>?
+  /// The request body.
+  public var body: Data?
 
   /// The request headers.
   ///
@@ -71,9 +74,9 @@ public struct URLRequestData: Equatable, _EmptyInitializable {
     path: String = "",
     query: [String: [String?]] = [:],
     headers: [String: [String?]] = [:],
-    body: [UInt8]? = nil
+    body: Data? = nil
   ) {
-    self.body = body?[...]
+    self.body = body
     self.headers = .init(headers.mapValues { $0.map { $0?[...] }[...] }, isNameCaseSensitive: false)
     self.host = host
     self.method = method
@@ -145,7 +148,7 @@ extension URLRequestData: Codable {
       path: try container.decodeIfPresent(String.self, forKey: .path) ?? "",
       query: try container.decodeIfPresent([String: [String?]].self, forKey: .query) ?? [:],
       headers: try container.decodeIfPresent([String: [String?]].self, forKey: .headers) ?? [:],
-      body: try container.decodeIfPresent([UInt8].self, forKey: .body)
+      body: try container.decodeIfPresent(Data.self, forKey: .body)
     )
   }
 
