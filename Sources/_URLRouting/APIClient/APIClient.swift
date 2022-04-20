@@ -6,6 +6,7 @@ import XCTestDynamicOverlay
   import FoundationNetworking
 #endif
 
+/// <#Description#>
 public struct APIClient<Route> {
   var request: (Route) async throws -> (Data, URLResponse)
 
@@ -24,20 +25,36 @@ public struct APIClient<Route> {
 }
 
 extension APIClient {
-  @available(macOS 12, iOS 15, watchOS 8, tvOS 15, *)
+  @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
   public static func live<R: ParserPrinter>(router: R, session: URLSession = .shared) -> Self
   where R.Input == URLRequestData, R.Output == Route {
     Self { route in
-      try await session.data(for: router.request(for: route))
+      let request = try router.request(for: route)
+
+      if #available(macOS 12, iOS 15, watchOS 8, tvOS 15, *) {
+        return try await session.data(for: request)
+      } else {
+        var dataTask: URLSessionDataTask?
+        let cancel: () -> Void = { dataTask?.cancel() }
+
+        return try await withTaskCancellationHandler(
+          handler: { cancel() },
+          operation: {
+            try await withCheckedThrowingContinuation { continuation in
+              dataTask = session.dataTask(with: request) { data, response, error in
+                guard let data = data, let response = response else {
+                  continuation.resume(throwing: error ?? URLError(.badServerResponse))
+                  return
+                }
+
+                continuation.resume(returning: (data, response))
+              }
+              dataTask?.resume()
+            }
+          }
+        )
+      }
     }
-  }
-}
-
-private struct UnimplementedEndpoint: LocalizedError {
-  let message: String
-
-  var errorDescription: String? {
-    self.message
   }
 }
 
@@ -95,5 +112,13 @@ extension APIClient {
 extension Result where Success == (data: Data, response: URLResponse), Failure == URLError {
   public static func ok<T: Encodable>(_ value: T, encoder: JSONEncoder = .init()) throws -> Self {
     .success((try encoder.encode(value), .init()))
+  }
+}
+
+private struct UnimplementedEndpoint: LocalizedError {
+  let message: String
+
+  var errorDescription: String? {
+    self.message
   }
 }
