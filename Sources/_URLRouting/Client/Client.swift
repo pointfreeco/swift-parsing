@@ -105,7 +105,7 @@ extension URLRoutingClient {
   public static var failing: Self {
     Self {
       let message = """
-        Failed to respond to route: \($0)
+        Failed to respond to route: \(debugPrint($0))
 
         Use 'ApiClient.override' to supply a default response for this route.
         """
@@ -215,4 +215,57 @@ private struct UnimplementedEndpoint: LocalizedError {
   var errorDescription: String? {
     self.message
   }
+}
+
+private func debugPrint(_ value: Any) -> String {
+  func debugTypeHelp(_ type: Any.Type) -> String {
+    var name = String(reflecting: type)
+    if let index = name.firstIndex(of: ".") {
+      name.removeSubrange(...index)
+    }
+    return
+      name
+      .replacingOccurrences(
+        of: #"<.+>|\(unknown context at \$[[:xdigit:]]+\)\."#,
+        with: "",
+        options: .regularExpression
+      )
+  }
+
+  func debugTupleHelp(_ children: Mirror.Children) -> String {
+    children.map { label, value in
+      let childOutput = debugHelp(value)
+      let label = label
+        .map { $0.firstIndex(where: { $0 != "." && !$0.isNumber }) == nil ? "" : "\($0): " }
+        ?? ""
+      return "\(label)\(childOutput)"
+    }
+    .joined(separator: ", ")
+  }
+
+  func debugHelp(_ value: Any) -> String {
+    let mirror = Mirror(reflecting: value)
+    switch (value, mirror.displayStyle) {
+    case (_, .enum):
+      guard let child = mirror.children.first else {
+        let childOutput = "\(value)"
+        return childOutput == "\(type(of: value))" ? "" : ".\(childOutput)"
+      }
+      let childOutput = debugHelp(child.value)
+      return ".\(child.label ?? "")\(childOutput.isEmpty ? "" : "(\(childOutput))")"
+    case (_, .tuple):
+      return debugTupleHelp(mirror.children)
+    case (_, .struct):
+      return "\(debugTypeHelp(mirror.subjectType))(\(debugTupleHelp(mirror.children)))"
+    case let (value as CustomDebugStringConvertible, _):
+      return value.debugDescription
+    case let (value as CustomStringConvertible, _):
+      return value.description
+    default:
+      return "_"
+    }
+  }
+
+  return (value as? CustomDebugStringConvertible)?.debugDescription
+    ?? "\(debugTypeHelp(type(of: value)))\(debugHelp(value))"
 }

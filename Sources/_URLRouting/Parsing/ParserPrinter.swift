@@ -49,6 +49,8 @@ extension ParserPrinter where Input == URLRequestData {
 
         The router has not been configured to parse this output and so it cannot print it back \
         into a URL. A '#route-not-found' fragment has been printed instead.
+
+        \(error)
         ---
         """
       )
@@ -69,7 +71,7 @@ extension ParserPrinter where Input == URLRequestData {
             values.map { URLQueryItem(name: name, value: $0.map(String.init)) }
           }
       }
-      return try URLComponents(data: self.print(route)).string ?? "#route-not-found"
+      return try components.string ?? "#route-not-found"
     } catch {
       breakpoint(
         """
@@ -80,6 +82,8 @@ extension ParserPrinter where Input == URLRequestData {
 
         The router has not been configured to parse this output and so it cannot print it back \
         into a URL. A '#route-not-found' fragment has been printed instead.
+
+        \(error)
         ---
         """
       )
