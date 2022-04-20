@@ -42,7 +42,10 @@ extension APIClient {
           operation: {
             try await withCheckedThrowingContinuation { continuation in
               dataTask = session.dataTask(with: request) { data, response, error in
-                guard let data = data, let response = response else {
+                guard
+                  let data = data,
+                  let response = response
+                else {
                   continuation.resume(throwing: error ?? URLError(.badServerResponse))
                   return
                 }
