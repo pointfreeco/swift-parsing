@@ -6,7 +6,6 @@ import XCTestDynamicOverlay
   import FoundationNetworking
 #endif
 
-/// <#Description#>
 public struct APIClient<Route> {
   var request: (Route) async throws -> (Data, URLResponse)
 
@@ -113,8 +112,22 @@ extension APIClient {
 }
 
 extension Result where Success == (data: Data, response: URLResponse), Failure == URLError {
-  public static func ok<T: Encodable>(_ value: T, encoder: JSONEncoder = .init()) throws -> Self {
-    .success((try encoder.encode(value), .init()))
+  public static func ok<T: Encodable>(
+    _ value: T,
+    headerFields: [String: String]? = nil,
+    encoder: JSONEncoder = .init()
+  ) throws -> Self {
+    .success(
+      (
+        try encoder.encode(value),
+        HTTPURLResponse(
+          url: .init(string: "/")!,
+          statusCode: 200,
+          httpVersion: nil,
+          headerFields: headerFields
+        )!
+      )
+    )
   }
 }
 
