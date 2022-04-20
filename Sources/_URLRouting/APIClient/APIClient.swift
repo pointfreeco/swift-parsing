@@ -31,32 +31,33 @@ extension APIClient {
     Self { route in
       let request = try router.request(for: route)
 
-      if #available(macOS 12, iOS 15, watchOS 8, tvOS 15, *) {
-        return try await session.data(for: request)
-      } else {
-        var dataTask: URLSessionDataTask?
-        let cancel: () -> Void = { dataTask?.cancel() }
+      #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+        if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
+          return try await session.data(for: request)
+        }
+      #endif
+      var dataTask: URLSessionDataTask?
+      let cancel: () -> Void = { dataTask?.cancel() }
 
-        return try await withTaskCancellationHandler(
-          handler: { cancel() },
-          operation: {
-            try await withCheckedThrowingContinuation { continuation in
-              dataTask = session.dataTask(with: request) { data, response, error in
-                guard
-                  let data = data,
-                  let response = response
-                else {
-                  continuation.resume(throwing: error ?? URLError(.badServerResponse))
-                  return
-                }
-
-                continuation.resume(returning: (data, response))
+      return try await withTaskCancellationHandler(
+        handler: { cancel() },
+        operation: {
+          try await withCheckedThrowingContinuation { continuation in
+            dataTask = session.dataTask(with: request) { data, response, error in
+              guard
+                let data = data,
+                let response = response
+              else {
+                continuation.resume(throwing: error ?? URLError(.badServerResponse))
+                return
               }
-              dataTask?.resume()
+
+              continuation.resume(returning: (data, response))
             }
+            dataTask?.resume()
           }
-        )
-      }
+        }
+      )
     }
   }
 }
