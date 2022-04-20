@@ -13,6 +13,7 @@ public struct APIClient<Route> {
     self.request = request
   }
 
+  @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
   public func request<Value: Decodable>(
     _ route: Route,
     as type: Value.Type = Value.self,

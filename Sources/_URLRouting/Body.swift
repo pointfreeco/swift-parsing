@@ -1,5 +1,7 @@
+import Foundation
+
 /// Parses a request's body using a byte parser.
-public struct Body<Bytes: Parser>: Parser where Bytes.Input == ArraySlice<UInt8> {
+public struct Body<Bytes: Parser>: Parser where Bytes.Input == Data {
   @usableFromInline
   let bytesParser: Bytes
 

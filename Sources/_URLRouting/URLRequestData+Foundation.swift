@@ -38,7 +38,7 @@ extension URLRequestData {
       headers: request.allHTTPHeaderFields?.mapValues {
         $0.split(separator: ",", omittingEmptySubsequences: false).map { String($0) }
       } ?? [:],
-      body: request.httpBody.map([UInt8].init)
+      body: request.httpBody
     )
   }
 
