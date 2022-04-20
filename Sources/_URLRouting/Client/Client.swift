@@ -56,9 +56,9 @@ extension URLRoutingClient {
   /// and then using `URLSession` to make the request.
   ///
   /// - Parameters:
-  ///   - router: <#router description#>
-  ///   - session: <#session description#>
-  /// - Returns: <#description#>
+  ///   - router: A router.
+  ///   - session: A URL session.
+  /// - Returns: A live API client that makes requests through a URL session.
   @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
   public static func live<R: ParserPrinter>(router: R, session: URLSession = .shared) -> Self
   where R.Input == URLRequestData, R.Output == Route {
