@@ -150,11 +150,13 @@ extension URLRoutingClient {
     return copy
   }
 
-  /// <#Description#>
-  /// - Parameters:
-  ///   - predicate: <#predicate description#>
-  ///   - response: <#response description#>
-  /// - Returns: A new ``URLRoutingClient``.
+  /// Constructs a new ``URLRoutingClient`` that returns a certain response for specific routes, and all
+   /// other routes are passed through to the receiver.
+   ///
+   /// - Parameters:
+   ///   - predicate: A closure that determines if a route matches.
+   ///   - response: A closure that determines the response for when a route matches.
+   /// - Returns: A new ``URLRoutingClient``.
   public func override(
     _ predicate: @escaping (Route) -> Bool,
     with response: @escaping () throws -> Result<(data: Data, response: URLResponse), URLError>
