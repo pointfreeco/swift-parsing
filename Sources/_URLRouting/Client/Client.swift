@@ -218,6 +218,20 @@ private struct UnimplementedEndpoint: LocalizedError {
 }
 
 private func debugPrint(_ value: Any) -> String {
+  func debugTypeHelp(_ type: Any.Type) -> String {
+    var name = String(reflecting: type)
+    if let index = name.firstIndex(of: ".") {
+      name.removeSubrange(...index)
+    }
+    return
+      name
+      .replacingOccurrences(
+        of: #"<.+>|\(unknown context at \$[[:xdigit:]]+\)\."#,
+        with: "",
+        options: .regularExpression
+      )
+  }
+
   func debugTupleHelp(_ children: Mirror.Children) -> String {
     children.map { label, value in
       let childOutput = debugHelp(value)
@@ -242,7 +256,7 @@ private func debugPrint(_ value: Any) -> String {
     case (_, .tuple):
       return debugTupleHelp(mirror.children)
     case (_, .struct):
-      return "\(mirror.subjectType)(\(debugTupleHelp(mirror.children)))"
+      return "\(debugTypeHelp(mirror.subjectType))(\(debugTupleHelp(mirror.children)))"
     case let (value as CustomDebugStringConvertible, _):
       return value.debugDescription
     case let (value as CustomStringConvertible, _):
@@ -253,5 +267,5 @@ private func debugPrint(_ value: Any) -> String {
   }
 
   return (value as? CustomDebugStringConvertible)?.debugDescription
-    ?? "\(type(of: value))\(debugHelp(value))"
+    ?? "\(debugTypeHelp(type(of: value)))\(debugHelp(value))"
 }
