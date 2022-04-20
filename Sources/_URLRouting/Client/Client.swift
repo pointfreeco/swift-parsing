@@ -235,7 +235,8 @@ private func debugPrint(_ value: Any) -> String {
   func debugTupleHelp(_ children: Mirror.Children) -> String {
     children.map { label, value in
       let childOutput = debugHelp(value)
-      let label = label
+      let label =
+        label
         .map { $0.firstIndex(where: { $0 != "." && !$0.isNumber }) == nil ? "" : "\($0): " }
         ?? ""
       return "\(label)\(childOutput)"
