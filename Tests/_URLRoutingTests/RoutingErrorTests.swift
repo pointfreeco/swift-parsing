@@ -69,7 +69,7 @@ class RoutingErrorTests: XCTestCase {
     let usersRouter = OneOf {
       Route(.case(UsersRoute.create)) {
         Method.post
-        Body(.data.json(CreateUser.self))
+        Body(.json(CreateUser.self))
       }
 
       Route(.case(UsersRoute.user(id:route:))) {
