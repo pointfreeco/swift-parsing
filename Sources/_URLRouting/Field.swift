@@ -58,10 +58,10 @@ public struct Field<Value: Parser>: Parser where Value.Input == Substring {
     _ name: String,
     _ value: C,
     default defaultValue: Value.Output? = nil
-  ) where Value == Parsers.MapConversion<Rest<Substring>, C> {
+  ) where Value == Parsers.MapConversion<Parsers.ReplaceError<Rest<Substring>>, C> {
     self.defaultValue = defaultValue
     self.name = name
-    self.valueParser = Rest().map(value)
+    self.valueParser = Rest().replaceError(with: "").map(value)
   }
 
   @inlinable
