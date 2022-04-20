@@ -14,7 +14,7 @@ import XCTestDynamicOverlay
 /// use the ``failing`` static variable for creating an API client that throws an error when a
 /// request is made and then use ``override(_:with:)-6149z`` to override certain routes with mocked
 /// responses.
-public struct APIClient<Route> {
+public struct URLRoutingClient<Route> {
   var request: (Route) async throws -> (Data, URLResponse)
 
   public init(request: @escaping (Route) async throws -> (Data, URLResponse)) {
@@ -33,13 +33,23 @@ public struct APIClient<Route> {
     _ route: Route,
     as type: Value.Type = Value.self,
     decoder: JSONDecoder = .init()
-  ) async throws -> Value {
-    let (data, _) = try await self.request(route)
-    return try JSONDecoder().decode(type, from: data)
+  ) async throws -> (value: Value, response: URLResponse) {
+    let (data, response) = try await self.request(route)
+    do {
+      return (try decoder.decode(type, from: data), response)
+    } catch {
+      throw URLRoutingDecodingError(bytes: data, response: response, underlyingError: error)
+    }
   }
 }
 
-extension APIClient {
+public struct URLRoutingDecodingError: Error {
+  public let bytes: Data
+  public let response: URLResponse
+  public let underlyingError: Error
+}
+
+extension URLRoutingClient {
   /// Constructs a "live" API client that makes a request to a server using a `URLSession`.
   ///
   /// This client makes live requests by using the router to turn routes into URL requests,
@@ -86,7 +96,7 @@ extension APIClient {
   }
 }
 
-extension APIClient {
+extension URLRoutingClient {
   /// An ``APIClient`` that immediately throws an error when a request is made.
   ///
   /// This client is useful when testing a feature that uses only a small subset of the available
@@ -104,13 +114,13 @@ extension APIClient {
     }
   }
 
-  /// Constructs a new ``APIClient`` that returns a certain response for a specified route, and all
+  /// Constructs a new ``URLRoutingClient`` that returns a certain response for a specified route, and all
   /// other routes are passed through to the receiver.
   ///
   /// - Parameters:
   ///   - route: The route you want to override.
   ///   - response: The response to return for the route.
-  /// - Returns: A new ``APIClient``.
+  /// - Returns: A new ``URLRoutingClient``.
   public func override(
     _ route: Route,
     with response: @escaping () throws -> Result<(data: Data, response: URLResponse), URLError>
@@ -118,13 +128,13 @@ extension APIClient {
     self.override({ $0 == route }, with: response)
   }
 
-  /// Constructs a new ``APIClient`` that returns a certain response for specific routes, and all
+  /// Constructs a new ``URLRoutingClient`` that returns a certain response for specific routes, and all
   /// other routes are passed through to the receiver.
   ///
   /// - Parameters:
   ///   - extract: A closure that determines which routes should be overridden.
   ///   - response: A closure that determines the response for when a route is overridden.
-  /// - Returns: A new ``APIClient``.
+  /// - Returns: A new ``URLRoutingClient``.
   public func override<Value>(
     _ extract: @escaping (Route) -> Value?,
     with response: @escaping (Value) throws -> Result<(data: Data, response: URLResponse), URLError>
@@ -144,7 +154,7 @@ extension APIClient {
   /// - Parameters:
   ///   - predicate: <#predicate description#>
   ///   - response: <#response description#>
-  /// - Returns: A new ``APIClient``.
+  /// - Returns: A new ``URLRoutingClient``.
   public func override(
     _ predicate: @escaping (Route) -> Bool,
     with response: @escaping () throws -> Result<(data: Data, response: URLResponse), URLError>
@@ -164,12 +174,12 @@ extension APIClient {
 extension Result where Success == (data: Data, response: URLResponse), Failure == URLError {
   /// Constructs a `Result` that represents a HTTP status 200 response.
   ///
-  /// This method is most useful when used in conjection with ``APIClient/override(_:with:)-6149z``
-  /// where you start with a ``APIClient/failing`` API client and then override certain routes to
+  /// This method is most useful when used in conjection with ``URLRoutingClient/override(_:with:)-6149z``
+  /// where you start with a ``URLRoutingClient/failing`` API client and then override certain routes to
   /// return mocked responses:
   ///
   /// ```swift
-  /// let apiClient = APIClient<SiteRoute>.failing
+  /// let apiClient = URLRoutingClient<SiteRoute>.failing
   ///   .override(SiteRoute.search, with: { .ok(SearchResponse()) })
   /// ```
   ///
