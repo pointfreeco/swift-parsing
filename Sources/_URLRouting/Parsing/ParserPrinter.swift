@@ -36,7 +36,7 @@ extension ParserPrinter where Input == URLRequestData {
   }
 
   @inlinable
-  public func url(to route: Output) -> URL {
+  public func url(for route: Output) -> URL {
     do {
       return try URLComponents(data: self.print(route)).url ?? URL(string: "#route-not-found")!
     } catch {
@@ -57,7 +57,7 @@ extension ParserPrinter where Input == URLRequestData {
   }
 
   @inlinable
-  public func path(to route: Output) -> String {
+  public func path(for route: Output) -> String {
     do {
       let data = try self.print(route)
       var components = URLComponents()
