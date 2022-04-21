@@ -71,7 +71,7 @@ extension ParserPrinter where Input == URLRequestData {
             values.map { URLQueryItem(name: name, value: $0.map(String.init)) }
           }
       }
-      return try components.string ?? "#route-not-found"
+      return components.string ?? "#route-not-found"
     } catch {
       breakpoint(
         """
