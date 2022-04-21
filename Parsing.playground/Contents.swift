@@ -1,4 +1,4 @@
-
+import Foundation
 
 /*
 
@@ -43,6 +43,39 @@ struct SearchOptions {
   enum Sort: String, CaseIterable {
     case title, category
   }
+}
+enum BookRoute {
+  case fetch
+}
+enum BooksRoute {
+  case book(UUID, BookRoute = .fetch)
+  case search(SearchOptions = .init())
+}
+enum UserRoute {
+  case books(BooksRoute = .search())
+  case fetch
+}
+enum UsersRoute {
+  case create(CreateUser)
+  case user(Int, UserRoute = .fetch)
+}
+enum SiteRoute {
+  case aboutUs
+  case contactUs
+  case home
+  case users(UsersRoute)
+}
+
+SiteRoute.users(.user(42, .books(.book(.init()))))
+
+let router = OneOf {
+  Route(.case(SiteRoute.aboutUs)) {
+    Path { "about-us" }
+  }
+  Route(.case(SiteRoute.contactUs)) {
+    Path { "contact-us" }
+  }
+  Route(.case(SiteRoute.home))
 }
 
 enum SiteRoute {
@@ -117,8 +150,6 @@ struct BookId {
 
 // users/42/books/search?sort=title&direction=asc
 // POST users/42/books, body={"title": "Blob Cookbook", "category": "Cooking", ...}
-
-import Foundation
 
 let request = URLRequest(url: URL(string: "users/42/books?sort=title&direction=asc")!)
 
