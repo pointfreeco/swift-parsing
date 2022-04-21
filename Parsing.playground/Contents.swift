@@ -46,9 +46,14 @@ struct SearchOptions {
 }
 
 enum SiteRoute {
+  case createUser(CreateUser)
   case user(id: Int)
-  case book(userId: Int, bookId: Int)
+  case book(userId: Int, bookId: UUID)
   case searchBooks(userId: Int, options: SearchOptions)
+}
+struct CreateUser: Codable {
+  let bio: String
+  let name: String
 }
 
 let router = OneOf {
@@ -64,7 +69,7 @@ let router = OneOf {
       "users"
       Digits()
       "books"
-      Digits()
+      UUID.parser()
     }
   }
 
@@ -78,14 +83,37 @@ let router = OneOf {
       }
     }
   }
+
+  Route(.case(SiteRoute.createUser)) {
+    Method.post
+    Path { "users" }
+    Body(.json(CreateUser.self))
+  }
+}
+
+do {
+  var request = URLRequest(url: URL(string: "/users")!)
+  request.httpMethod = "POST"
+  request.httpBody = try JSONEncoder().encode(CreateUser(bio: "Blobbed around the world", name: "Blob"))
+  try router.match(request: request)
+
+  try router.request(for: .createUser(.init(bio: "Blobbed around the world", name: "Blob"))) == request
+} catch {
+  print(error)
 }
 
 try router.match(path: "/users/42/books/search?count=100")
 router.path(for: .searchBooks(userId: 42, options: .init(sort: .category, direction: .desc, count: 100)))
 
-try router.match(path: "/users/42/books/123")
-router.path(for: .book(userId: 42, bookId: 123))
+try router.match(path: "/users/42/books/deadbeef-dead-beef-dead-beefdeadbeef")
+router.path(for: .book(userId: 42, bookId: .init()))
 router.path(for: .user(id: 42))
+
+"\(UUID())"
+struct BookId {
+  let id = UUID()
+}
+"\(BookId())"
 
 // users/42/books/search?sort=title&direction=asc
 // POST users/42/books, body={"title": "Blob Cookbook", "category": "Cooking", ...}
