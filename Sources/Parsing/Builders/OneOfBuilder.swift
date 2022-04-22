@@ -144,3 +144,12 @@ public enum OneOfBuilder {
     }
   }
 }
+
+extension OneOfBuilder.OptionalOneOf: ParserPrinter where Wrapped: ParserPrinter {
+  @inlinable
+  public func print(_ output: Wrapped.Output, into input: inout Wrapped.Input) throws {
+    guard let wrapped = self.wrapped
+    else { throw PrintingError.manyFailed([], at: input) }
+    try wrapped.print(output, into: &input)
+  }
+}
