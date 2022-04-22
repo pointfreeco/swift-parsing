@@ -20,7 +20,7 @@ public struct Body<Bytes: Parser>: Parser where Bytes.Input == Data {
   ///   var message: String
   /// }
   ///
-  /// Body(.data.json(Comment.self))
+  /// Body(.json(Comment.self))
   /// ```
   ///
   /// - Parameter bytesConversion: A conversion that transforms bytes into some other type.
