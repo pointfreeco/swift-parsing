@@ -12,7 +12,7 @@ import XCTestDynamicOverlay
 /// You do not typically construct this type directly from its initializer, and instead use the
 /// ``live(router:session:)`` static method for creating an API client from a parser-printer, or
 /// use the ``failing`` static variable for creating an API client that throws an error when a
-/// request is made and then use ``override(_:with:)-6149z`` to override certain routes with mocked
+/// request is made and then use ``override(_:with:)-1ot4o`` to override certain routes with mocked
 /// responses.
 public struct URLRoutingClient<Route> {
   var request: (Route) async throws -> (Data, URLResponse)
@@ -101,21 +101,21 @@ extension URLRoutingClient {
   ///
   /// This client is useful when testing a feature that uses only a small subset of the available
   /// routes in the API client. You can creating a failing API client, and then
-  /// ``override(_:with:)-2vsua`` certain routes that return mocked data.
+  /// ``override(_:with:)-1ot4o`` certain routes that return mocked data.
   public static var failing: Self {
     Self {
       let message = """
         Failed to respond to route: \(debugPrint($0))
 
-        Use 'ApiClient.override' to supply a default response for this route.
+        Use '\(Self.self).override' to supply a default response for this route.
         """
       XCTFail(message)
       throw UnimplementedEndpoint(message: message)
     }
   }
 
-  /// Constructs a new ``URLRoutingClient`` that returns a certain response for a specified route, and all
-  /// other routes are passed through to the receiver.
+  /// Constructs a new ``URLRoutingClient`` that returns a certain response for a specified route,
+  /// and all other routes are passed through to the receiver.
   ///
   /// - Parameters:
   ///   - route: The route you want to override.
@@ -128,8 +128,8 @@ extension URLRoutingClient {
     self.override({ $0 == route }, with: response)
   }
 
-  /// Constructs a new ``URLRoutingClient`` that returns a certain response for specific routes, and all
-  /// other routes are passed through to the receiver.
+  /// Constructs a new ``URLRoutingClient`` that returns a certain response for specific routes, and
+  /// all other routes are passed through to the receiver.
   ///
   /// - Parameters:
   ///   - extract: A closure that determines which routes should be overridden.
@@ -150,8 +150,8 @@ extension URLRoutingClient {
     return copy
   }
 
-  /// Constructs a new ``URLRoutingClient`` that returns a certain response for specific routes, and all
-  /// other routes are passed through to the receiver.
+  /// Constructs a new ``URLRoutingClient`` that returns a certain response for specific routes, and
+  /// all other routes are passed through to the receiver.
   ///
   /// - Parameters:
   ///   - predicate: A closure that determines if a route matches.
@@ -176,9 +176,10 @@ extension URLRoutingClient {
 extension Result where Success == (data: Data, response: URLResponse), Failure == URLError {
   /// Constructs a `Result` that represents a HTTP status 200 response.
   ///
-  /// This method is most useful when used in conjection with ``URLRoutingClient/override(_:with:)-6149z``
-  /// where you start with a ``URLRoutingClient/failing`` API client and then override certain routes to
-  /// return mocked responses:
+  /// This method is most useful when used in conjunction with
+  /// ``URLRoutingClient/override(_:with:)-4j1y4`` where you start with a
+  /// ``URLRoutingClient/failing`` API client and then override certain routes to return mocked
+  /// responses:
   ///
   /// ```swift
   /// let apiClient = URLRoutingClient<SiteRoute>.failing
