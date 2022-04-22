@@ -30,6 +30,14 @@ public struct Body<Bytes: Parser>: Parser where Bytes.Input == Data {
     self.bytesParser = Rest().replaceError(with: .init()).map(bytesConversion)
   }
 
+  /// Initializes a body parser that parses the body as data in its entirety.
+  @inlinable
+  public init() where Bytes == Parsers.MapConversion<
+    Parsers.ReplaceError<Rest<Bytes.Input>>, Conversions.Identity<Data>
+  > {
+    self.init(.init())
+  }
+
   @inlinable
   public func parse(_ input: inout URLRequestData) throws -> Bytes.Output {
     guard var body = input.body
