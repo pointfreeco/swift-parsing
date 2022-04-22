@@ -32,10 +32,8 @@ public struct Body<Bytes: Parser>: Parser where Bytes.Input == Data {
 
   /// Initializes a body parser that parses the body as data in its entirety.
   @inlinable
-  public init() where Bytes == Parsers.MapConversion<
-    Parsers.ReplaceError<Rest<Bytes.Input>>, Conversions.Identity<Data>
-  > {
-    self.init(.init())
+  public init() where Bytes == Parsers.ReplaceError<Rest<Bytes.Input>> {
+    self.bytesParser = Rest().replaceError(with: .init())
   }
 
   @inlinable
