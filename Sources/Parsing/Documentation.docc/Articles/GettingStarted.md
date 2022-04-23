@@ -365,7 +365,7 @@ process for converting from one type to another and back.
 
 If you map a parser-printer with a conversion, rather than just a simple function, you can transform
 a parser-printer to another parser-printer. This library ships with many conversions (see
-<doc:ConversionArticle>) that makes it easy to quickly transform outputs. For example, the `field`
+<doc:Conversions>) that makes it easy to quickly transform outputs. For example, the `field`
 parser can be transformed with the ``Conversion/string-swift.type.property-3u2b5`` conversion like
 so:
 

@@ -24,6 +24,7 @@ Some of the most commonly used parsers in the library. Use these parsers with op
 to build complex parsers from simpler pieces.
 
 - <doc:Int>
+- <doc:Digits>
 - <doc:String>
 - <doc:Bool>
 - <doc:Float>
@@ -37,6 +38,8 @@ to build complex parsers from simpler pieces.
 - ``PrefixThrough``
 - ``PrefixUpTo``
 - ``Optionally``
+- ``From``
+- ``Consumed``
 - ``Always``
 - ``End``
 - ``Rest``
