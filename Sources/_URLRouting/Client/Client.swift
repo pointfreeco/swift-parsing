@@ -14,11 +14,20 @@ import XCTestDynamicOverlay
 /// use the ``failing`` static variable for creating an API client that throws an error when a
 /// request is made and then use ``override(_:with:)-6149z`` to override certain routes with mocked
 /// responses.
-public struct URLRoutingClient<Route> {
+///
+/// ChildRoute
+/// AuthenticatedRoute
+///
+public struct URLRoutingClient<Route, ChildRoute> {
   var request: (Route) async throws -> (Data, URLResponse)
+  var toRoute: (ChildRoute) -> Route
 
-  public init(request: @escaping (Route) async throws -> (Data, URLResponse)) {
+  public init(
+    request: @escaping (Route) async throws -> (Data, URLResponse),
+    toRoute: @escaping (ChildRoute) -> Route
+  ) {
     self.request = request
+    self.toRoute = toRoute
   }
 
   /// Makes a request to a route.
@@ -30,11 +39,11 @@ public struct URLRoutingClient<Route> {
   /// - Returns: The decoded value.
   @available(iOS 13, macOS 10.15, tvOS 13, watchOS 6, *)
   public func request<Value: Decodable>(
-    _ route: Route,
+    _ route: ChildRoute,
     as type: Value.Type = Value.self,
     decoder: JSONDecoder = .init()
   ) async throws -> (value: Value, response: URLResponse) {
-    let (data, response) = try await self.request(route)
+    let (data, response) = try await self.request(self.toRoute(route))
     do {
       return (try decoder.decode(type, from: data), response)
     } catch {
@@ -60,39 +69,46 @@ extension URLRoutingClient {
   ///   - session: A URL session.
   /// - Returns: A live API client that makes requests through a URL session.
   @available(macOS 10.15, iOS 13, watchOS 6, tvOS 13, *)
-  public static func live<R: ParserPrinter>(router: R, session: URLSession = .shared) -> Self
+  public static func live<R: ParserPrinter>(
+    router: R,
+    prepare: @escaping (ChildRoute) -> Route,
+    session: URLSession = .shared
+  ) -> Self
   where R.Input == URLRequestData, R.Output == Route {
-    Self { route in
-      let request = try router.request(for: route)
+    Self(
+      request: { route in
+        let request = try router.request(for: route)
 
-      #if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS)
         if #available(macOS 12, iOS 15, tvOS 15, watchOS 8, *) {
           return try await session.data(for: request)
         }
-      #endif
-      var dataTask: URLSessionDataTask?
-      let cancel: () -> Void = { dataTask?.cancel() }
+#endif
+        var dataTask: URLSessionDataTask?
+        let cancel: () -> Void = { dataTask?.cancel() }
 
-      return try await withTaskCancellationHandler(
-        handler: { cancel() },
-        operation: {
-          try await withCheckedThrowingContinuation { continuation in
-            dataTask = session.dataTask(with: request) { data, response, error in
-              guard
-                let data = data,
-                let response = response
-              else {
-                continuation.resume(throwing: error ?? URLError(.badServerResponse))
-                return
+        return try await withTaskCancellationHandler(
+          handler: { cancel() },
+          operation: {
+            try await withCheckedThrowingContinuation { continuation in
+              dataTask = session.dataTask(with: request) { data, response, error in
+                guard
+                  let data = data,
+                  let response = response
+                else {
+                  continuation.resume(throwing: error ?? URLError(.badServerResponse))
+                  return
+                }
+
+                continuation.resume(returning: (data, response))
               }
-
-              continuation.resume(returning: (data, response))
+              dataTask?.resume()
             }
-            dataTask?.resume()
           }
-        }
-      )
-    }
+        )
+      },
+      toRoute: prepare
+    )
   }
 }
 
@@ -102,7 +118,7 @@ extension URLRoutingClient {
   /// This client is useful when testing a feature that uses only a small subset of the available
   /// routes in the API client. You can creating a failing API client, and then
   /// ``override(_:with:)-2vsua`` certain routes that return mocked data.
-  public static var failing: Self {
+  public static func failing(prepare: @escaping (ChildRoute) -> Route) -> Self {
     Self {
       let message = """
         Failed to respond to route: \(debugPrint($0))
@@ -111,7 +127,7 @@ extension URLRoutingClient {
         """
       XCTFail(message)
       throw UnimplementedEndpoint(message: message)
-    }
+    } toRoute: { prepare($0) }
   }
 
   /// Constructs a new ``URLRoutingClient`` that returns a certain response for a specified route, and all
