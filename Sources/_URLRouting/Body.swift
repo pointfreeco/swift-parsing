@@ -20,7 +20,7 @@ public struct Body<Bytes: Parser>: Parser where Bytes.Input == Data {
   ///   var message: String
   /// }
   ///
-  /// Body(.data.json(Comment.self))
+  /// Body(.json(Comment.self))
   /// ```
   ///
   /// - Parameter bytesConversion: A conversion that transforms bytes into some other type.
@@ -28,6 +28,12 @@ public struct Body<Bytes: Parser>: Parser where Bytes.Input == Data {
   public init<C>(_ bytesConversion: C)
   where Bytes == Parsers.MapConversion<Parsers.ReplaceError<Rest<Bytes.Input>>, C> {
     self.bytesParser = Rest().replaceError(with: .init()).map(bytesConversion)
+  }
+
+  /// Initializes a body parser that parses the body as data in its entirety.
+  @inlinable
+  public init() where Bytes == Parsers.ReplaceError<Rest<Bytes.Input>> {
+    self.bytesParser = Rest().replaceError(with: .init())
   }
 
   @inlinable
