@@ -70,6 +70,31 @@ class URLRoutingTests: XCTestCase {
     XCTAssertEqual(42, age)
     XCTAssertEqual(["debug": ["1"]], request.query)
   }
+	
+	func testScheme() throws {
+		enum AppRoute: String, CaseIterable, Equatable {
+			case foo
+		}
+		let p = Parse {
+			Scheme("myapp")
+			OneOf {
+				Route(.case(AppRoute.foo)) {
+					Path { "foo" }
+				}
+			}
+		}
+	
+		XCTAssertEqual(
+			try p.parse(URLRequestData(string: "myapp:///foo")!),
+			AppRoute.foo
+		)
+		XCTAssertThrowsError(
+			try p.parse(URLRequestData(string: "wrong:///foo")!)
+		)
+		XCTAssertThrowsError(
+			try p.parse(URLRequestData(string: "https:///foo")!)
+		)
+	}
 
   func testQueryDefault() throws {
     let p = Query {
