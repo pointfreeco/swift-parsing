@@ -1,7 +1,7 @@
 import Benchmark
 import Foundation
 import Parsing
-import _URLRouting
+import URLRouting
 
 #if canImport(FoundationNetworking)
   import FoundationNetworking

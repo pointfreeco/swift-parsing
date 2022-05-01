@@ -1,6 +1,6 @@
 import Parsing
 import XCTest
-import _URLRouting
+import URLRouting
 
 #if canImport(FoundationNetworking)
   import FoundationNetworking

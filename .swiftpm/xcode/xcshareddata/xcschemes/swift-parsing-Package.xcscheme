@@ -70,9 +70,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "_URLRouting"
-               BuildableName = "_URLRouting"
-               BlueprintName = "_URLRouting"
+               BlueprintIdentifier = "URLRouting"
+               BuildableName = "URLRouting"
+               BlueprintName = "URLRouting"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -98,9 +98,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "_URLRoutingTests"
-               BuildableName = "_URLRoutingTests"
-               BlueprintName = "_URLRoutingTests"
+               BlueprintIdentifier = "URLRoutingTests"
+               BuildableName = "URLRoutingTests"
+               BlueprintName = "URLRoutingTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

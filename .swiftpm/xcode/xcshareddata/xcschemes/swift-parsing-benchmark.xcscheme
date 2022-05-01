@@ -42,9 +42,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "_URLRoutingTests"
-               BuildableName = "_URLRoutingTests"
-               BlueprintName = "_URLRoutingTests"
+               BlueprintIdentifier = "URLRoutingTests"
+               BuildableName = "URLRoutingTests"
+               BlueprintName = "URLRoutingTests"
                ReferencedContainer = "container:">
             </BuildableReference>
          </TestableReference>

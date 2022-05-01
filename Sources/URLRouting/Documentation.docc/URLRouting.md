@@ -1,4 +1,4 @@
-# ``_URLRouting``
+# ``URLRouting``
 
 A library for turning nebulous URL requests into well-structured data, and turning data back into
 URL requests. This library is built upon [`Parsing`](../parsing).

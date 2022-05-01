@@ -1,6 +1,6 @@
 import Parsing
 import XCTest
-import _URLRouting
+import URLRouting
 
 class RoutingErrorTests: XCTestCase {
   func testError() {

@@ -10,8 +10,8 @@ let package = Package(
       targets: ["Parsing"]
     ),
     .library(
-      name: "_URLRouting",
-      targets: ["_URLRouting"]
+      name: "URLRouting",
+      targets: ["URLRouting"]
     ),
   ],
   dependencies: [
@@ -35,7 +35,7 @@ let package = Package(
       name: "swift-parsing-benchmark",
       dependencies: [
         "Parsing",
-        "_URLRouting",
+        "URLRouting",
         .product(name: "Benchmark", package: "Benchmark"),
       ]
     ),
@@ -44,7 +44,7 @@ let package = Package(
       dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]
     ),
     .target(
-      name: "_URLRouting",
+      name: "URLRouting",
       dependencies: [
         "Parsing",
         .product(name: "CasePaths", package: "swift-case-paths"),
@@ -52,9 +52,9 @@ let package = Package(
       ]
     ),
     .testTarget(
-      name: "_URLRoutingTests",
+      name: "URLRoutingTests",
       dependencies: [
-        "_URLRouting"
+        "URLRouting"
       ]
     ),
   ]

@@ -44,6 +44,6 @@ generate-variadics:
 
 	swift run variadics-generator \
 		--generate-path-zips \
-		> Sources/_URLRouting/Builders/Variadics.swift
+		> Sources/URLRouting/Builders/Variadics.swift
 
 .PHONY: benchmarks format generate-variadics test
