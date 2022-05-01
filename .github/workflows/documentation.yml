@@ -63,7 +63,7 @@ jobs:
 
       - name: Build documentation
         run: >
-          libraries=(Parsing URLRouting);
+          libraries=(URLRouting);
 
           rm -rf docs-out/.git;
           rm -rf docs-out/main;
