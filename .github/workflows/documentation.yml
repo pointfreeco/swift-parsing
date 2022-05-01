@@ -62,6 +62,11 @@ jobs:
           path: docs-out
 
       - name: Build documentation
+        strategy:
+          matrix:
+            library:
+              Parsing
+              _URLRouting
         run: >
           rm -rf docs-out/.git;
           rm -rf docs-out/main;
@@ -75,35 +80,31 @@ jobs:
                 continue;
             fi;
 
-            libraries = (Parsing _URLRouting);
-            for library in ${libraries[@]};
-            do
-              git checkout "$tag";
-              mkdir -p Sources/"$library"/Documentation.docc;
-              export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist";
+            git checkout "$tag";
+            mkdir -p Sources/${{ matrix.library }}/Documentation.docc;
+            export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist";
 
-              rm -rf .build/symbol-graphs;
-              mkdir -p .build/symbol-graphs;
-              swift build \
-                --target "$library" \
-                -Xswiftc \
-                -emit-symbol-graph \
-                -Xswiftc \
-                -emit-symbol-graph-dir \
-                -Xswiftc \
-                .build/symbol-graphs \
-                && echo "✅ Built "$library" library." \
-                && swift-docc/.build/release/docc convert Sources/"$library"/Documentation.docc \
-                  --fallback-display-name "$library" \
-                  --fallback-bundle-identifier co.pointfree."$library" \
-                  --fallback-bundle-version 0.0.0 \
-                  --additional-symbol-graph-dir .build/symbol-graphs \
-                  --transform-for-static-hosting \
-                  --hosting-base-path /swift-parsing/"$tag" \
-                  --output-path docs-out/"$tag" \
-                  && echo "✅ "$library" documentation generated for "$tag" release." \
-                  || echo "⚠️ "$library" documentation skipped for "$tag".";
-            done
+            rm -rf .build/symbol-graphs;
+            mkdir -p .build/symbol-graphs;
+            swift build \
+              --target ${{ matrix.library }} \
+              -Xswiftc \
+              -emit-symbol-graph \
+              -Xswiftc \
+              -emit-symbol-graph-dir \
+              -Xswiftc \
+              .build/symbol-graphs \
+              && echo "✅ Built ${{ matrix.library }} library." \
+              && swift-docc/.build/release/docc convert Sources/${{ matrix.library }}/Documentation.docc \
+                --fallback-display-name ${{ matrix.library }} \
+                --fallback-bundle-identifier co.pointfree.${{ matrix.library }} \
+                --fallback-bundle-version 0.0.0 \
+                --additional-symbol-graph-dir .build/symbol-graphs \
+                --transform-for-static-hosting \
+                --hosting-base-path /swift-parsing/"$tag" \
+                --output-path docs-out/"$tag" \
+                && echo "✅ ${{ matrix.library }} documentation generated for "$tag" release." \
+                || echo "⚠️ ${{ matrix.library }} documentation skipped for "$tag".";
           done
       
       - name: Fix permissions
