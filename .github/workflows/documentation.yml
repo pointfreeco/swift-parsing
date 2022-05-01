@@ -68,7 +68,7 @@ jobs:
           rm -rf docs-out/.git;
           rm -rf docs-out/main;
 
-          for tag in $(echo "main"; git tag);
+          for tag in $(echo "main"; git tag | grep "TODO");
           do
             echo "⏳ Generating documentation for "$tag" release.";
             if [ -d "docs-out/$tag" ];
