@@ -89,17 +89,17 @@ jobs:
                   -emit-symbol-graph-dir \
                   -Xswiftc \
                   .build/symbol-graphs \
+                  && echo "✅ Built Parsing library." \
                   && swift-docc/.build/release/docc convert Sources/Parsing/Documentation.docc \
                     --fallback-display-name Parsing \
                     --fallback-bundle-identifier co.pointfree.Parsing \
                     --fallback-bundle-version 0.0.0 \
-                    --additional-symbol-graph-dir \
-                    .build/symbol-graphs \
+                    --additional-symbol-graph-dir .build/symbol-graphs \
                     --transform-for-static-hosting \
                     --hosting-base-path /swift-parsing/"$tag" \
                     --output-path docs-out/"$tag" \
-                    && echo "✅ Documentation generated for "$tag" release." \
-                    || echo "⚠️ Documentation skipped for "$tag".";
+                    && echo "✅ Parsing documentation generated for "$tag" release." \
+                    || echo "⚠️ Parsing documentation skipped for "$tag".";
                 swift build \
                   --target _URLRouting \
                   -Xswiftc \
@@ -108,17 +108,17 @@ jobs:
                   -emit-symbol-graph-dir \
                   -Xswiftc \
                   .build/symbol-graphs \
+                  && echo "✅ Built _URLRouting library." \
                   && swift-docc/.build/release/docc convert Sources/_URLRouting/Documentation.docc \
                     --fallback-display-name _URLRouting \
                     --fallback-bundle-identifier co.pointfree._URLRouting \
                     --fallback-bundle-version 0.0.0 \
-                    --additional-symbol-graph-dir \
-                    .build/symbol-graphs \
+                    --additional-symbol-graph-dir .build/symbol-graphs \
                     --transform-for-static-hosting \
                     --hosting-base-path /swift-parsing/"$tag" \
                     --output-path docs-out/"$tag" \
-                    && echo "✅ Documentation generated for "$tag" release." \
-                    || echo "⚠️ Documentation skipped for "$tag".";
+                    && echo "✅ _URLRouting documentation generated for "$tag" release." \
+                    || echo "⚠️ _URLRouting documentation skipped for "$tag".";
             fi;
           done
       
