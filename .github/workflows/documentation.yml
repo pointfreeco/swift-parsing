@@ -63,12 +63,13 @@ jobs:
 
       - name: Build documentation
         run: >
-          libraries=(URLRouting);
+          libraries=(Parsing URLRouting);
 
           rm -rf docs-out/.git;
           rm -rf docs-out/main;
+          rm -rf docs-out/url-routing-fixes;
 
-          for tag in $(echo "main"; git tag);
+          for tag in $(echo "url-routing-fixes"; echo "main"; git tag);
           do
             echo "⏳ Generating documentation for "$tag" release.";
             if [ -d "docs-out/$tag" ];
