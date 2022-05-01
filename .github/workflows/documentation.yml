@@ -17,8 +17,8 @@ jobs:
     strategy:
       matrix:
         library:
-          Parsing
-          _URLRouting
+          - "Parsing"
+          - "_URLRouting"
     steps:
       - name: Checkout Package
         uses: actions/checkout@v2
