@@ -66,7 +66,7 @@ jobs:
           rm -rf docs-out/.git;
           rm -rf docs-out/main;
 
-          for tag in $(echo "main"; git tag);
+          for tag in $(echo "main"; git tag | grep "TODO");
           do
             echo "⏳ Generating documentation for "$tag" release.";
             
@@ -75,31 +75,31 @@ jobs:
                 echo "✅ Documentation for "$tag" already exists.";
             else 
                 git checkout "$tag";
-                mkdir -p Sources/Parsing/Documentation.docc;
-                mkdir -p Sources/_URLRouting/Documentation.docc;
+                mkdir -p Sources/Parsing/Documentation.docc \
+                         Sources/_URLRouting/Documentation.docc;
                 export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist";
 
                 rm -rf .build/symbol-graphs;
                 mkdir -p .build/symbol-graphs;
-                swift build \
-                  --target Parsing \
-                  -Xswiftc \
-                  -emit-symbol-graph \
-                  -Xswiftc \
-                  -emit-symbol-graph-dir \
-                  -Xswiftc \
-                  .build/symbol-graphs \
-                  && echo "✅ Built Parsing library." \
-                  && swift-docc/.build/release/docc convert Sources/Parsing/Documentation.docc \
-                    --fallback-display-name Parsing \
-                    --fallback-bundle-identifier co.pointfree.Parsing \
-                    --fallback-bundle-version 0.0.0 \
-                    --additional-symbol-graph-dir .build/symbol-graphs \
-                    --transform-for-static-hosting \
-                    --hosting-base-path /swift-parsing/"$tag" \
-                    --output-path docs-out/"$tag" \
-                    && echo "✅ Parsing documentation generated for "$tag" release." \
-                    || echo "⚠️ Parsing documentation skipped for "$tag".";
+                # swift build \
+                #   --target Parsing \
+                #   -Xswiftc \
+                #   -emit-symbol-graph \
+                #   -Xswiftc \
+                #   -emit-symbol-graph-dir \
+                #   -Xswiftc \
+                #   .build/symbol-graphs \
+                #   && echo "✅ Built Parsing library." \
+                #   && swift-docc/.build/release/docc convert Sources/Parsing/Documentation.docc \
+                #     --fallback-display-name Parsing \
+                #     --fallback-bundle-identifier co.pointfree.Parsing \
+                #     --fallback-bundle-version 0.0.0 \
+                #     --additional-symbol-graph-dir .build/symbol-graphs \
+                #     --transform-for-static-hosting \
+                #     --hosting-base-path /swift-parsing/"$tag" \
+                #     --output-path docs-out/"$tag" \
+                #     && echo "✅ Parsing documentation generated for "$tag" release." \
+                #     || echo "⚠️ Parsing documentation skipped for "$tag".";
                 swift build \
                   --target _URLRouting \
                   -Xswiftc \
