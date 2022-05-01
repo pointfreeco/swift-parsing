@@ -76,15 +76,14 @@ jobs:
                 echo "✅ Documentation for "$tag" already exists.";
                 continue;
             fi;
+            git checkout "$tag";
+            export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist";
+            rm -rf .build/symbol-graphs;
+            mkdir -p .build/symbol-graphs;
 
             for library in ${libraries[@]};
             do
-              git checkout "$tag";
               mkdir -p Sources/"$library"/Documentation.docc;
-              export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist";
-
-              rm -rf .build/symbol-graphs;
-              mkdir -p .build/symbol-graphs;
               swift build \
                 --target "$library" \
                 -Xswiftc \
