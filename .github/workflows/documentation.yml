@@ -68,6 +68,8 @@ jobs:
           rm -rf docs-out/.git;
           rm -rf docs-out/main;
           rm -rf docs-out/url-routing-docs;
+          rm -rf .build/symbol-graphs;
+          mkdir -p .build/symbol-graphs;
 
           for tag in $(echo "url-routing-docs"; echo "main"; git tag);
           do
@@ -79,8 +81,6 @@ jobs:
             fi;
             git checkout "$tag";
             export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist";
-            rm -rf .build/symbol-graphs;
-            mkdir -p .build/symbol-graphs;
 
             for library in ${libraries[@]};
             do
