@@ -76,7 +76,7 @@ jobs:
             fi;
 
             libraries = (Parsing _URLRouting);
-            for library in ${libraries[@]}
+            for library in ${libraries[@]};
             do
               git checkout "$tag";
               mkdir -p Sources/"$(library)"/Documentation.docc;
