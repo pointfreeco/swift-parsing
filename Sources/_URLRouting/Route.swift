@@ -2,7 +2,11 @@
 /// particular URL endpoint.
 ///
 /// `Route` is a domain-specific version of `Parse`, suited to URL request routing.
-@available(*, deprecated, message: "_URLRouting has been moved to a new repo: http://github.com/pointfreeco/swift-url-routing")
+@available(
+  *, deprecated,
+  message:
+    "_URLRouting has been moved to a new repo: http://github.com/pointfreeco/swift-url-routing"
+)
 public struct Route<Parsers: Parser>: Parser where Parsers.Input == URLRequestData {
   @usableFromInline
   let parsers: Parsers
