@@ -12,7 +12,7 @@ A library for turning unstructured data into structured data, with a focus on co
 
 * **Generality**: Ability to parse _any_ kind of input into _any_ kind of output. This allows you to choose which abstraction levels you want to work on based on how much performance you need or how much correctness you want guaranteed. For example, you can write a highly tuned parser on collections of UTF-8 code units, and it will automatically plug into parsers of strings, arrays, unsafe buffer pointers and more.
 
-* **Invertibility**: Ability to invert your parsers so that they are printers. This allows you to transform your well-structured data back into unstructured data, which is useful for serialization, sending data over the network, routing, and more.
+* **Invertibility**: Ability to invert your parsers so that they are printers. This allows you to transform your well-structured data back into unstructured data, which is useful for serialization, sending data over the network, [URL routing][swift-url-routing], and more.
 
 ---
 
@@ -296,7 +296,6 @@ This library comes with a benchmark executable that not only demonstrates the pe
 * [HTTP request](Sources/swift-parsing-benchmark/HTTP.swift)
 * [DNS header](Sources/swift-parsing-benchmark/BinaryData.swift)
 * [Arithmetic grammar](Sources/swift-parsing-benchmark/Arithmetic.swift)
-* [URL router](Sources/swift-parsing-benchmark/Routing.swift)
 * [Xcode test logs](Sources/swift-parsing-benchmark/XCTestLogs.swift)
 * and more
 
@@ -344,7 +343,6 @@ README Example.Parser: Substring                 4000.000 ns ±   3.79 %     347
 README Example.Parser: UTF8                      1125.000 ns ±   7.92 %    1000000
 README Example.Ad hoc                            3542.000 ns ±   4.13 %     394248
 README Example.Scanner                          14292.000 ns ±   2.82 %      97922
-Routing.Parser                                  21750.000 ns ±   3.23 %      64256
 String Abstractions.Substring                  934167.000 ns ±   0.60 %       1505
 String Abstractions.UTF8                       158750.000 ns ±   1.36 %       8816
 UUID.UUID.init                                    209.000 ns ±  15.02 %    1000000
@@ -388,3 +386,4 @@ This library is released under the MIT license. See [LICENSE](LICENSE) for detai
 [getting-started-docs]: https://pointfreeco.github.io/swift-parsing/main/documentation/parsing/gettingstarted
 [string-abstractions-docs]: https://pointfreeco.github.io/swift-parsing/main/documentation/parsing/stringabstractions
 [swift-parsing-docs]: https://pointfreeco.github.io/swift-parsing
+[swift-url-routing]: https://github.com/pointfreeco/swift-url-routing
