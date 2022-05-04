@@ -16,7 +16,6 @@ Benchmark.main(
     prefixUpToSuite,
     raceSuite,
     readmeExampleSuite,
-    routingSuite,
     stringAbstractionsSuite,
     uuidSuite,
     xcodeLogsSuite,
