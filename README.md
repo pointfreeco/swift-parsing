@@ -110,13 +110,8 @@ let user = Parse {
 Already this can consume the beginning of the input:
 
 ```swift
-// Use a mutable substring to verify what is consumed
-var input = input[...]
-
 try user.parse("1,") // 1
 ```
-
-> Note that we use a `Substring` instead of `String` because it allows for more efficient mutations and copying. See the article ["String Abstractions"][string-abstractions-docs] for more information.
 
 Next we want to take everything up until the next comma for the user's name, and then consume the comma:
 
