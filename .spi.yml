@@ -7,3 +7,4 @@ builder:
     scheme: Parsing
   - platform: watchos
     scheme: Parsing_watchOS
+  - documentation_targets: [Parsing]
