@@ -303,7 +303,7 @@ extension Many where Printability == Never {
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator,
     @ParserBuilder terminator: () -> Terminator
-  ) where Printability == Never {
+  ) {
     self.element = element()
     self.initialResult = initialResult
     self.decumulator = { _ in fatalError() }
@@ -331,7 +331,7 @@ extension Many where Printability == Never {
     @ParserBuilder element: () -> Element,
     @ParserBuilder separator: () -> Separator,
     @ParserBuilder terminator: () -> Terminator
-  ) where Printability == Never {
+  ) {
     self.init(
       0...,
       into: initialResult,
