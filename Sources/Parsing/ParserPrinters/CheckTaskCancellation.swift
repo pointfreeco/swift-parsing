@@ -1,9 +1,9 @@
-/// A trivial parser that fails if the parent task is cancelled.
+/// A trivial parser that fails if the parent task is canceled.
 ///
 /// Parsing can be a long-running procedure. For this reason, you may want to abord the execution of
-/// a parser if its parent task is cancelled. When you compose parsers using a ``ParserBuilder``,
+/// a parser if its parent task is canceled. When you compose parsers using a ``ParserBuilder``,
 /// you can insert this trivial parser before a potentially time-consuming sequence of parsers to
-/// abord processing it in any case the parent task is cancelled, and free the current thread. For
+/// abord processing it in any case the parent task is canceled, and free the current thread. For
 /// example:
 ///
 /// ```swift
@@ -16,11 +16,11 @@
 /// ```
 ///
 /// This parser's sole purpose is to stop processing if it is evaluated when the parent task is
-/// cancelled. It doesn't affect parsing or printing results.
+/// canceled. It doesn't affect parsing or printing results.
 ///
-/// - Throws: This parser throws a `CancellationError` if the parent task is cancelled.
+/// - Throws: This parser throws a `CancellationError` if the parent task is canceled.
 public struct CheckTaskCancellation<Input>: ParserPrinter {
-  /// Construct a parser that runs the next parsers only if the parent task is not cancelled.
+  /// Construct a parser that runs the next parsers only if the parent task is not canceled.
   @inlinable
   public init() {}
 

@@ -18,11 +18,11 @@ final class CheckTaskCancellationTests: XCTestCase {
       var values = Array(repeating: "1", count: count).joined(separator: ",")[...]
       return try parser.parse(&values)
     }
-    // We let the task run for a little while before cancelling it:
+    // We let the task run for a little while before canceling it:
     try await Task.sleep(nanoseconds: NSEC_PER_SEC / 10)
     task.cancel()
     // The parser shouldn't have had the time to parse all the digits, and should have stopped
-    // where it was was when the task was cancelled:
+    // where it was was when the task was canceled:
     let result = try await task.value
     XCTAssert(result.count > 0)
     XCTAssert(result.count < count)
