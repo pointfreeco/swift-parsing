@@ -1,9 +1,9 @@
 import Parsing
 import XCTest
 
+#if canImport(_Concurrency) && compiler(>=5.6)
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *)
 final class CheckTaskCancellationTests: XCTestCase {
-  #if canImport(_Concurrency) && compiler(>=5.5.2)
   func testCheckClassCancellation() async throws {
     let parser = Many {
       CheckTaskCancellation()
@@ -26,5 +26,5 @@ final class CheckTaskCancellationTests: XCTestCase {
     let result = try await task.value
     XCTAssert(result.count < count)
   }
-  #endif
 }
+#endif
