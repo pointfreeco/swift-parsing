@@ -14,12 +14,12 @@ final class CheckTaskCancellationTests: XCTestCase {
 
     let count = 1_000_000
 
-    let task = Task { () -> [Int] in 
+    let task = Task { () -> [Int] in
       var values = Array(repeating: "1", count: count).joined(separator: ",")[...]
       return try parser.parse(&values)
     }
     // We let the task run for a little while before canceling it:
-    try await Task.sleep(nanoseconds: NSEC_PER_SEC / 10)
+    try await Task.sleep(nanoseconds: 100_000_000)
     task.cancel()
     // The parser shouldn't have had the time to parse all the digits, and should have stopped
     // where it was was when the task was canceled:
