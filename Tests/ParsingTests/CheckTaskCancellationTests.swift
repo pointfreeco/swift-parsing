@@ -24,7 +24,6 @@ final class CheckTaskCancellationTests: XCTestCase {
     // The parser shouldn't have had the time to parse all the digits, and should have stopped
     // where it was was when the task was canceled:
     let result = try await task.value
-    XCTAssert(result.count > 0)
     XCTAssert(result.count < count)
   }
   #endif
