@@ -1,20 +1,19 @@
 import Parsing
 import XCTest
-  
+
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *)
 final class CheckTaskCancellationTests: XCTestCase {
   #if canImport(_Concurrency) && compiler(>=5.5.2)
   func testCheckClassCancellation() async throws {
-    let parser = Parse {
-      Many {
-        CheckTaskCancellation()
-        Digits(1)
-      } separator: {
-        ","
-      }
+    let parser = Many {
+      CheckTaskCancellation()
+      Digits(1)
+    } separator: {
+      ","
     }
+
     let count = 1_000_000
-    
+
     let task = Task {
       var values = Array(repeating: "1", count: count).joined(separator: ",")[...]
       return try parser.parse(&values)
@@ -25,6 +24,7 @@ final class CheckTaskCancellationTests: XCTestCase {
     // The parser shouldn't have had the time to parse all the digits, and should have stopped
     // where it was was when the task was cancelled:
     let result = try await task.value
+    XCTAssert(result.count > 0)
     XCTAssert(result.count < count)
   }
   #endif
