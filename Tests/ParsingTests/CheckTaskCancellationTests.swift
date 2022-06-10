@@ -19,7 +19,7 @@ final class CheckTaskCancellationTests: XCTestCase {
       return try parser.parse(&values)
     }
     // We let the task run for a little while before canceling it:
-    try await Task.sleep(nanoseconds: 100_000_000)
+    try await Task.sleep(nanoseconds: 50_000_000)
     task.cancel()
     // The parser shouldn't have had the time to parse all the digits, and should have stopped
     // where it was was when the task was canceled:
