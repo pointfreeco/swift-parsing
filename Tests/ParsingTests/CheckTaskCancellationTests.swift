@@ -14,7 +14,7 @@ final class CheckTaskCancellationTests: XCTestCase {
 
     let count = 1_000_000
 
-    let task = Task {
+    let task = Task { () -> [Int] in 
       var values = Array(repeating: "1", count: count).joined(separator: ",")[...]
       return try parser.parse(&values)
     }
