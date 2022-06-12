@@ -97,3 +97,23 @@ where
     try self.upstream.print(self.downstream.print(output), into: &input)
   }
 }
+
+extension Parsers.PipeEnd: ParserPrinter {
+  @inlinable
+  public func print(_ output: (), into input: inout Input) throws {
+    guard input.isEmpty else {
+      let description = describe(input).map { "\n\n\($0.debugDescription)" } ?? ""
+      throw PrintingError.failed(
+        summary: """
+          round-trip expectation failed
+
+          A "PipeEnd" parser-printer expected no more input, but more was printed.\(description)
+
+          During a round-trip, the "PipeEnd" parser-printer would have failed to parse at this \
+          remaining input.
+          """,
+        input: input
+      )
+    }
+  }
+}
