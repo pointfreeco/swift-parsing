@@ -37,11 +37,11 @@ final class PipeEndTests: XCTestCase {
         """
         error: round-trip expectation failed
 
-        A "PipeEnd" parser-printer expected no more input, but more was printed.
+        A piped parser-printer expected no more input, but more was printed.
 
         "Hello, world!"
 
-        During a round-trip, the "PipeEnd" parser-printer would have failed to parse at this \
+        During a round-trip, the piped parser-printer would have failed to parse at this \
         remaining input.
         """,
         "\(error)"
