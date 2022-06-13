@@ -1,16 +1,17 @@
-@testable import Parsing
 import XCTest
+
+@testable import Parsing
 
 final class PipeEndTests: XCTestCase {
   func testSuccess() {
     var input = ""[...]
-      XCTAssertNoThrow(try Parsers.PipeEnd().parse(&input))
+    XCTAssertNoThrow(try Parsers.PipeEnd().parse(&input))
     XCTAssertEqual("", input)
   }
 
   func testFailure() {
     var input = "Hello, world!"[...]
-      XCTAssertThrowsError(try Parsers.PipeEnd().parse(&input)) { error in
+    XCTAssertThrowsError(try Parsers.PipeEnd().parse(&input)) { error in
       XCTAssertEqual(
         """
         error: unexpected input
@@ -26,13 +27,13 @@ final class PipeEndTests: XCTestCase {
 
   func testPrintSuccess() {
     var input = ""[...]
-      XCTAssertNoThrow(try Parsers.PipeEnd().print(into: &input))
+    XCTAssertNoThrow(try Parsers.PipeEnd().print(into: &input))
     XCTAssertEqual(input, ""[...])
   }
 
   func testPrintFailure() {
     var input = "Hello, world!"[...]
-      XCTAssertThrowsError(try Parsers.PipeEnd().print(into: &input)) { error in
+    XCTAssertThrowsError(try Parsers.PipeEnd().print(into: &input)) { error in
       XCTAssertEqual(
         """
         error: round-trip expectation failed
