@@ -18,7 +18,7 @@ import Foundation
 ///   "m"
 /// }
 ///
-/// let lineParser = PrefixUntil { separatorParser }
+/// let lineParser = PrefixUntil("[") { separatorParser }
 ///
 /// var input = "Hello[31mworld[30m\n"[...]
 /// try line.parse(&input)  // "Hello"

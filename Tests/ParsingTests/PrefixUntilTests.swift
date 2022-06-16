@@ -1,16 +1,6 @@
 import Parsing
 import XCTest
 
-struct Attribute: Equatable {
-  public let at1: Int
-  public let at2: Int?
-}
-
-struct ParsedText: Equatable {
-  var attribute: Attribute?
-  var text: String
-}
-
 final class PrefixUntilTests: XCTestCase {
   func testSuccess() {
     var input = "Hello,world, 42!"[...]
@@ -104,5 +94,15 @@ final class PrefixUntilTests: XCTestCase {
   func testConsumeWholeString() {
     var input = "Hello world!"[...]
     XCTAssertEqual("Hello world!", try PrefixUntil(", ") { ", " }.parse(&input))
+  }
+  
+  struct Attribute: Equatable {
+    public let at1: Int
+    public let at2: Int?
+  }
+
+  struct ParsedText: Equatable {
+    var attribute: Attribute?
+    var text: String
   }
 }
