@@ -91,7 +91,7 @@ extension PrefixThrough where Input == Substring {
     _ possibleMatch: String,
     by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool = (==)
   ) {
-    self.init(possibleMatch[...])
+    self.init(possibleMatch[...], by: areEquivalent)
   }
 }
 
@@ -102,7 +102,7 @@ extension PrefixThrough where Input == Substring.UTF8View {
     _ possibleMatch: String.UTF8View,
     by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool = (==)
   ) {
-    self.init(String(possibleMatch)[...].utf8)
+    self.init(String(possibleMatch)[...].utf8, by: areEquivalent)
   }
 }
 

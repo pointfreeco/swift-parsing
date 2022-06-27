@@ -94,7 +94,7 @@ extension StartsWith where Input == Substring {
   public init(
     _ possiblePrefix: String,
     by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool = (==)) {
-    self.init(possiblePrefix[...])
+    self.init(possiblePrefix[...], by: areEquivalent)
   }
 }
 
@@ -104,7 +104,7 @@ extension StartsWith where Input == Substring.UTF8View {
   public init(
     _ possiblePrefix: String.UTF8View,
     by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool = (==)) {
-    self.init(String(possiblePrefix)[...].utf8)
+    self.init(String(possiblePrefix)[...].utf8, by: areEquivalent)
   }
 }
 
