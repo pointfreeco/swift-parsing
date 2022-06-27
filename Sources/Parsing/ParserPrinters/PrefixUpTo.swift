@@ -92,15 +92,21 @@ extension PrefixUpTo where Input.Element: Equatable {
 extension PrefixUpTo where Input == Substring {
   @_disfavoredOverload
   @inlinable
-  public init(_ possiblePrefix: String) {
-    self.init(possiblePrefix[...])
+  public init(
+    _ possibleMatch: String,
+    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool = (==)
+  ) {
+    self.init(possibleMatch[...])
   }
 }
 
 extension PrefixUpTo where Input == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init(_ possibleMatch: String.UTF8View) {
+  public init(
+    _ possibleMatch: String.UTF8View,
+    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool = (==)
+  ) {
     self.init(String(possibleMatch)[...].utf8)
   }
 }
