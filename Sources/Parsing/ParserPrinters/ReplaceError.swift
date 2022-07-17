@@ -85,3 +85,19 @@ extension Parsers.ReplaceError: ParserPrinter where Upstream: ParserPrinter {
     }
   }
 }
+
+@inlinable
+public func ?? <Upstream: Parser>(upstream: Upstream, default: Upstream.Output)
+  -> Parsers.ReplaceError<Upstream>
+{
+  upstream.replaceError(with: `default`)
+}
+
+@inlinable
+public func ?? <Upstream: Parser, Wrapped>(upstream: Upstream, default: Upstream.Output)
+  -> Parsers.ReplaceError<Parsers.Filter<Upstream>>
+where Upstream.Output == Wrapped? {
+  upstream
+    .filter { $0 != nil }
+    .replaceError(with: `default`)
+}
