@@ -16,20 +16,22 @@
 ///
 /// > Note: This parser is automatically inserted when you invoke the non-incremental
 /// > ``Parser/parse(_:)-6h1d0`` and ``Parser/parse(_:)-2wzcq`` methods.
-public struct End<Input: Collection>: ParserPrinter {
+public struct End<Input: Sequence>: ParserPrinter {
   @inlinable
   public init() {}
 
   @inlinable
   public func parse(_ input: inout Input) throws {
-    guard input.isEmpty else {
+    var iterator = input.makeIterator()
+    guard iterator.next() == nil else {
       throw ParsingError.expectedInput("end of input", at: input)
     }
   }
 
   @inlinable
   public func print(_ output: (), into input: inout Input) throws {
-    guard input.isEmpty else {
+    var iterator = input.makeIterator()
+    guard iterator.next() == nil else {
       let description = describe(input).map { "\n\n\($0.debugDescription)" } ?? ""
       throw PrintingError.failed(
         summary: """
