@@ -1,6 +1,6 @@
 # Round-tripping
 
-An important property that parser-printers must satisify in order to guarantee that large, complex
+An important property that parser-printers must satisfy in order to guarantee that large, complex
 parser-printers build from simpler ones will behave as you expect.
 
 A parser printer `p` is said to be round-tripping if:
