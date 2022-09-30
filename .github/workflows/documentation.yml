@@ -73,7 +73,8 @@ jobs:
             if [ -d "docs-out/$tag" ] 
             then 
                 echo "✅ Documentation for "$tag" already exists.";
-            else 
+            else
+                git checkout .;
                 git checkout "$tag";
                 mkdir -p Sources/Parsing/Documentation.docc;
                 export DOCC_HTML_DIR="$(pwd)/swift-docc-render/dist";
