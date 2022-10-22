@@ -167,19 +167,21 @@ extension Prefix: ParserPrinter where Input: PrependableCollection {
           input: input
         )
       }
-      guard input.first.map(predicate) != true
-      else {
-        throw PrintingError.failed(
-          summary: """
-            round-trip expectation failed
+      if count != maximum {
+        guard input.first.map(predicate) != true
+        else {
+          throw PrintingError.failed(
+            summary: """
+              round-trip expectation failed
 
-            A "Prefix" parser's predicate satisfied the first element printed by the next printer.
+              A "Prefix" parser's predicate satisfied the first element printed by the next printer.
 
-            During a round-trip, the "Prefix" parser would have parsed this element, which means \
-            the data handed to the next printer is in an invalid state.
-            """,
-          input: input
-        )
+              During a round-trip, the "Prefix" parser would have parsed this element, which means \
+              the data handed to the next printer is in an invalid state.
+              """,
+            input: input
+          )
+        }
       }
     }
     input.prepend(contentsOf: output)
