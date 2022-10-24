@@ -107,4 +107,12 @@ final class PrefixTests: XCTestCase {
       )
     }
   }
+
+  func testPrintWithMaxCountAllowMatchingNextElement() {
+    let p = ParsePrint {
+      Prefix(3) { $0.isNumber }
+      First()
+    }
+    XCTAssertEqual("1230", try p.print(("123", "0")))
+  }
 }
