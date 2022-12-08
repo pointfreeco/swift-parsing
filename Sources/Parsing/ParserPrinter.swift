@@ -5,7 +5,7 @@
   /// > in reverse. As such, new values should be prepended to the front of the input. This allows
   /// > parsers to check that the already-printed values match what is expected for any given
   /// > ``Parser``.
-  @rethrows public protocol ParserPrinter<Input, Output>: Parser {
+  @rethrows public protocol ParserPrinter<Input,Output>: Parser {
     /// Attempts to print a well-structured piece of data into something more nebulous.
     ///
     /// - Parameters

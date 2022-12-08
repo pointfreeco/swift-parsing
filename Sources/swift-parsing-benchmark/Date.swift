@@ -9,7 +9,7 @@ import Parsing
 /// parse fractional seconds and time zone offsets automatically, and it will parse to the
 /// nanosecond, while the formatters do not parse beyond the millisecond.
 let dateSuite = BenchmarkSuite(name: "Date") { suite in
-    #if swift(>=5.7)
+  #if swift(>=5.7)
     let timeDelim = OneOf {
       "T".utf8
       "t".utf8

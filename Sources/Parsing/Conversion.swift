@@ -4,7 +4,7 @@
   ///
   /// Useful in transforming the output of a parser-printer into some new type while preserving
   /// printability via ``Parser/map(_:)-18m9d``.
-  @rethrows public protocol Conversion<Input, Output> {
+  @rethrows public protocol Conversion<Input,Output> {
     // The type of values this conversion converts from.
     associatedtype Input
 

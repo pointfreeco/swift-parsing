@@ -24,7 +24,7 @@
   /// others can be implemented efficiently on substrings because they simply move the start and end
   /// indices, whereas their implementation on strings must make a copy of the string with the
   /// characters removed.
-  @rethrows public protocol Parser<Input, Output> {
+  @rethrows public protocol Parser<Input,Output> {
     /// The type of values this parser parses from.
     associatedtype Input
 
