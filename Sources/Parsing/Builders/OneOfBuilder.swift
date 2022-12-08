@@ -46,6 +46,13 @@ public enum OneOfBuilder {
     parser
   }
 
+  #if swift(<5.7)
+    @inlinable
+    static public func buildBlock<P0: Parser, P1: Parser>(_ p0: P0, _ p1: P1) -> OneOf2<P0, P1> {
+      OneOf2(p0, p1)
+    }
+  #endif
+
   /// Provides support for `if`-`else` statements in ``OneOfBuilder`` blocks, producing a
   /// conditional parser for the `if` branch.
   ///
