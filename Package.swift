@@ -15,10 +15,6 @@ let package = Package(
       name: "Parsing",
       targets: ["Parsing"]
     ),
-    .library(
-      name: "_URLRouting",
-      targets: ["_URLRouting"]
-    ),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-argument-parser", from: "0.5.0"),
@@ -41,27 +37,12 @@ let package = Package(
       name: "swift-parsing-benchmark",
       dependencies: [
         "Parsing",
-        "_URLRouting",
         .product(name: "Benchmark", package: "Benchmark"),
       ]
     ),
     .executableTarget(
       name: "variadics-generator",
       dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]
-    ),
-    .target(
-      name: "_URLRouting",
-      dependencies: [
-        "Parsing",
-        .product(name: "CasePaths", package: "swift-case-paths"),
-        .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay"),
-      ]
-    ),
-    .testTarget(
-      name: "_URLRoutingTests",
-      dependencies: [
-        "_URLRouting"
-      ]
     ),
   ]
 )
