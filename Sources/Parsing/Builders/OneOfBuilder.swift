@@ -29,9 +29,9 @@ public enum OneOfBuilder {
   ///   case member
   /// }
   ///
-  /// let roleParser = Parse {
+  /// let roleParser = OneOf {
   ///   for role in Role.allCases {
-  ///     status.rawValue.map { role }
+  ///     role.rawValue.map { role }
   ///   }
   /// }
   /// ```
