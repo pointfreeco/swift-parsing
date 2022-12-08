@@ -14,18 +14,7 @@
     func print(_ output: Output, into input: inout Input) throws
   }
 #else
-  /// A ``Parser`` that can incrementally "print" an output value back into an input.
-  ///
-  /// > Note: Printing is the reverse operation of parsing, so the `Input` is essentially built up
-  /// > in reverse. As such, new values should be prepended to the front of the input. This allows
-  /// > parsers to check that the already-printed values match what is expected for any given
-  /// > ``Parser``.
   @rethrows public protocol ParserPrinter: Parser {
-    /// Attempts to print a well-structured piece of data into something more nebulous.
-    ///
-    /// - Parameters
-    ///   - output: A well-structured value to be printed to the given input.
-    ///   - input: A nebulous, mutable piece of data to be incrementally printed into.
     func print(_ output: Output, into input: inout Input) throws
   }
 #endif
