@@ -87,7 +87,15 @@ struct VariadicsGenerator: ParsableCommand {
   var generateOneOfs = false
 
   func run() throws {
-    output("// BEGIN AUTO-GENERATED CONTENT\n\n")
+    output(
+      """
+      // BEGIN AUTO-GENERATED CONTENT
+
+      #if swift(<5.7)
+
+
+      """
+    )
 
     if self.generateZips {
       for arity in 2...6 {
@@ -96,12 +104,19 @@ struct VariadicsGenerator: ParsableCommand {
     }
 
     if self.generateOneOfs {
-      for arity in 2...10 {
+      for arity in 3...10 {
         emitOneOfDeclaration(arity: arity)
       }
     }
 
-    output("// END AUTO-GENERATED CONTENT\n")
+    output(
+      """
+      #endif
+
+      // END AUTO-GENERATED CONTENT
+
+      """
+    )
   }
 
   func emitZipDeclarations(arity: Int) {

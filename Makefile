@@ -9,12 +9,15 @@ benchmarks:
 
 test:
 	xcodebuild test \
+		-workspace Parsing.xcworkspace \
 		-scheme Parsing \
 		-destination platform="$(PLATFORM_IOS)"
 	xcodebuild test \
+		-workspace Parsing.xcworkspace \
 		-scheme Parsing \
 		-destination platform="$(PLATFORM_MACOS)"
 	xcodebuild test \
+		-workspace Parsing.xcworkspace \
 		-scheme Parsing \
 		-destination platform="$(PLATFORM_TVOS)"
 
