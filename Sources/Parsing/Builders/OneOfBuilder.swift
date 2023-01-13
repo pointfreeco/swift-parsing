@@ -48,8 +48,8 @@ public enum OneOfBuilder {
 
   #if swift(<5.7)
     @inlinable
-    static public func buildBlock<P0: Parser, P1: Parser>(_ p0: P0, _ p1: P1) -> OneOf2<P0, P1> {
-      OneOf2(p0, p1)
+    static public func buildBlock<P0: Parser, P1: Parser>(_ p0: P0, _ p1: P1) -> OneOfBuilderParsers.OneOf2<P0, P1> {
+      .init(p0, p1)
     }
   #endif
 
@@ -106,14 +106,14 @@ public enum OneOfBuilder {
   /// }
   /// ```
   @inlinable
-  public static func buildIf<P>(_ parser: P?) -> OptionalOneOf<P> {
+  public static func buildIf<P>(_ parser: P?) -> OneOfBuilderParsers.OptionalOneOf<P> {
     .init(wrapped: parser)
   }
 
   /// Provides support for `if #available` statements in ``OneOfBuilder`` blocks, producing an
   /// optional parser.
   @inlinable
-  public static func buildLimitedAvailability<P>(_ parser: P?) -> OptionalOneOf<P> {
+  public static func buildLimitedAvailability<P>(_ parser: P?) -> OneOfBuilderParsers.OptionalOneOf<P> {
     .init(wrapped: parser)
   }
 
@@ -123,10 +123,12 @@ public enum OneOfBuilder {
   }
 
   @inlinable
-  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> OneOf2<P0, P1> {
+  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> OneOfBuilderParsers.OneOf2<P0, P1> {
     .init(accumulated, next)
   }
+}
 
+public enum OneOfBuilderParsers {
   public struct OneOf2<P0: Parser, P1: Parser>: Parser
   where P0.Input == P1.Input, P0.Output == P1.Output {
     public let p0: P0, p1: P1
@@ -186,7 +188,7 @@ public enum OneOfBuilder {
   }
 }
 
-extension OneOfBuilder.OneOf2: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension OneOfBuilderParsers.OneOf2: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     let original = input
@@ -203,7 +205,7 @@ extension OneOfBuilder.OneOf2: ParserPrinter where P0: ParserPrinter, P1: Parser
   }
 }
 
-extension OneOfBuilder.OptionalOneOf: ParserPrinter where Wrapped: ParserPrinter {
+extension OneOfBuilderParsers.OptionalOneOf: ParserPrinter where Wrapped: ParserPrinter {
   @inlinable
   public func print(_ output: Wrapped.Output, into input: inout Wrapped.Input) throws {
     guard let wrapped = self.wrapped
