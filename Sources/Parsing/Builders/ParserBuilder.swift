@@ -107,18 +107,18 @@ public enum ParserBuilder {
 
   @_disfavoredOverload
   @inlinable
-  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> SkipFirst<P0, P1> {
+    public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> BuilderParsers.SkipFirst<P0, P1> {
     .init(accumulated, next)
   }
 
   @inlinable
-  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> SkipSecond<P0, P1> {
+    public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> BuilderParsers.SkipSecond<P0, P1> {
     .init(accumulated, next)
   }
 
   @_disfavoredOverload
   @inlinable
-  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> Take2<P0, P1> {
+  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> BuilderParsers.Take2<P0, P1> {
     .init(accumulated, next)
   }
 
@@ -126,7 +126,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1>(
     accumulated: P0, next: P1
-  ) -> Take3<P0, P1, O0, O1> {
+  ) -> BuilderParsers.Take3<P0, P1, O0, O1> {
     .init(accumulated, next)
   }
 
@@ -134,7 +134,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2>(
     accumulated: P0, next: P1
-  ) -> Take4<P0, P1, O0, O1, O2> {
+  ) -> BuilderParsers.Take4<P0, P1, O0, O1, O2> {
     .init(accumulated, next)
   }
 
@@ -142,7 +142,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3>(
     accumulated: P0, next: P1
-  ) -> Take5<P0, P1, O0, O1, O2, O3> {
+  ) -> BuilderParsers.Take5<P0, P1, O0, O1, O2, O3> {
     .init(accumulated, next)
   }
 
@@ -150,7 +150,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4>(
     accumulated: P0, next: P1
-  ) -> Take6<P0, P1, O0, O1, O2, O3, O4> {
+  ) -> BuilderParsers.Take6<P0, P1, O0, O1, O2, O3, O4> {
     .init(accumulated, next)
   }
 
@@ -158,7 +158,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5>(
     accumulated: P0, next: P1
-  ) -> Take7<P0, P1, O0, O1, O2, O3, O4, O5> {
+  ) -> BuilderParsers.Take7<P0, P1, O0, O1, O2, O3, O4, O5> {
     .init(accumulated, next)
   }
 
@@ -166,7 +166,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5, O6>(
     accumulated: P0, next: P1
-  ) -> Take8<P0, P1, O0, O1, O2, O3, O4, O5, O6> {
+  ) -> BuilderParsers.Take8<P0, P1, O0, O1, O2, O3, O4, O5, O6> {
     .init(accumulated, next)
   }
 
@@ -174,7 +174,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7>(
     accumulated: P0, next: P1
-  ) -> Take9<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7> {
+  ) -> BuilderParsers.Take9<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7> {
     .init(accumulated, next)
   }
 
@@ -182,10 +182,12 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7, O8>(
     accumulated: P0, next: P1
-  ) -> Take10<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7, O8> {
+  ) -> BuilderParsers.Take10<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7, O8> {
     .init(accumulated, next)
   }
+}
 
+public enum BuilderParsers {
   public struct SkipFirst<P0: Parser, P1: Parser>: Parser
   where P0.Input == P1.Input, P0.Output == Void {
     @usableFromInline let p0: P0, p1: P1
@@ -389,7 +391,7 @@ public enum ParserBuilder {
   }
 }
 
-extension ParserBuilder.SkipFirst: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension BuilderParsers.SkipFirst: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(_ output: P1.Output, into input: inout P0.Input) rethrows {
     try self.p1.print(output, into: &input)
@@ -397,7 +399,7 @@ extension ParserBuilder.SkipFirst: ParserPrinter where P0: ParserPrinter, P1: Pa
   }
 }
 
-extension ParserBuilder.SkipSecond: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension BuilderParsers.SkipSecond: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(_ output: P0.Output, into input: inout P0.Input) rethrows {
     try self.p1.print(into: &input)
@@ -405,7 +407,7 @@ extension ParserBuilder.SkipSecond: ParserPrinter where P0: ParserPrinter, P1: P
   }
 }
 
-extension ParserBuilder.Take2: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension BuilderParsers.Take2: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(_ output: (P0.Output, P1.Output), into input: inout P0.Input) rethrows {
     try self.p1.print(output.1, into: &input)
@@ -413,7 +415,7 @@ extension ParserBuilder.Take2: ParserPrinter where P0: ParserPrinter, P1: Parser
   }
 }
 
-extension ParserBuilder.Take3: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension BuilderParsers.Take3: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(_ output: (O0, O1, P1.Output), into input: inout P0.Input) rethrows {
     try self.p1.print(output.2, into: &input)
@@ -421,7 +423,7 @@ extension ParserBuilder.Take3: ParserPrinter where P0: ParserPrinter, P1: Parser
   }
 }
 
-extension ParserBuilder.Take4: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension BuilderParsers.Take4: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(_ output: (O0, O1, O2, P1.Output), into input: inout P0.Input) rethrows {
     try self.p1.print(output.3, into: &input)
@@ -429,7 +431,7 @@ extension ParserBuilder.Take4: ParserPrinter where P0: ParserPrinter, P1: Parser
   }
 }
 
-extension ParserBuilder.Take5: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension BuilderParsers.Take5: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(_ output: (O0, O1, O2, O3, P1.Output), into input: inout P0.Input) rethrows {
     try self.p1.print(output.4, into: &input)
@@ -437,7 +439,7 @@ extension ParserBuilder.Take5: ParserPrinter where P0: ParserPrinter, P1: Parser
   }
 }
 
-extension ParserBuilder.Take6: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension BuilderParsers.Take6: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(
     _ output: (O0, O1, O2, O3, O4, P1.Output),
@@ -448,7 +450,7 @@ extension ParserBuilder.Take6: ParserPrinter where P0: ParserPrinter, P1: Parser
   }
 }
 
-extension ParserBuilder.Take7: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension BuilderParsers.Take7: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(
     _ output: (O0, O1, O2, O3, O4, O5, P1.Output),
@@ -459,7 +461,7 @@ extension ParserBuilder.Take7: ParserPrinter where P0: ParserPrinter, P1: Parser
   }
 }
 
-extension ParserBuilder.Take8: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension BuilderParsers.Take8: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(
     _ output: (O0, O1, O2, O3, O4, O5, O6, P1.Output),
@@ -473,7 +475,7 @@ extension ParserBuilder.Take8: ParserPrinter where P0: ParserPrinter, P1: Parser
   }
 }
 
-extension ParserBuilder.Take9: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension BuilderParsers.Take9: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(
     _ output: (O0, O1, O2, O3, O4, O5, O6, O7, P1.Output),
@@ -487,7 +489,7 @@ extension ParserBuilder.Take9: ParserPrinter where P0: ParserPrinter, P1: Parser
   }
 }
 
-extension ParserBuilder.Take10: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
+extension BuilderParsers.Take10: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
   @inlinable
   public func print(
     _ output: (O0, O1, O2, O3, O4, O5, O6, O7, O8, P1.Output),
