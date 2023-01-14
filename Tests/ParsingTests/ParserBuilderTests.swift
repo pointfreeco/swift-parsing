@@ -137,7 +137,7 @@ final class ParserBuilderTests: XCTestCase {
     XCTAssertEqual(input, " Blob"[...])
 
     input = "123 Blob"[...]
-    func custom<P>(@ParserBuilder _ build: () -> P) -> P {
+    func custom<P>(@ParserBuilder<P.Input> _ build: () -> P) -> P {
       build()
     }
     XCTAssertThrowsError(

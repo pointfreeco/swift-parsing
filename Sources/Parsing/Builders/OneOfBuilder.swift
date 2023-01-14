@@ -17,7 +17,7 @@
 /// try currency.parse("$100") // (.usd, 100)
 /// ```
 @resultBuilder
-public enum OneOfBuilder {
+public enum OneOfBuilder<Input> {
   /// Provides support for `for`-`in` loops in ``OneOfBuilder`` blocks.
   ///
   /// Useful for building up a parser from a dynamic source, like for a case-iterable enum:
@@ -36,19 +36,19 @@ public enum OneOfBuilder {
   /// }
   /// ```
   @inlinable
-  public static func buildArray<P>(_ parsers: [P]) -> Parsers.OneOfMany<P> {
+  public static func buildArray<P>(_ parsers: [P]) -> Parsers.OneOfMany<P> where P.Input == Input {
     .init(parsers)
   }
 
   /// Provides support for specifying a parser in ``OneOfBuilder`` blocks.
   @inlinable
-  static public func buildBlock<P: Parser>(_ parser: P) -> P {
+  static public func buildBlock<P: Parser>(_ parser: P) -> P where P.Input == Input {
     parser
   }
 
   #if swift(<5.7)
     @inlinable
-    static public func buildBlock<P0: Parser, P1: Parser>(_ p0: P0, _ p1: P1) -> OneOfBuilderParsers.OneOf2<P0, P1> {
+    static public func buildBlock<P0: Parser, P1: Parser>(_ p0: P0, _ p1: P1) -> OneOfBuilderParsers.OneOf2<P0, P1> where P0.Input == Input {
       .init(p0, p1)
     }
   #endif
@@ -68,7 +68,7 @@ public enum OneOfBuilder {
   @inlinable
   public static func buildEither<TrueParser, FalseParser>(
     first parser: TrueParser
-  ) -> Parsers.Conditional<TrueParser, FalseParser> {
+  ) -> Parsers.Conditional<TrueParser, FalseParser> where TrueParser.Input == Input {
     .first(parser)
   }
 
@@ -87,7 +87,7 @@ public enum OneOfBuilder {
   @inlinable
   public static func buildEither<TrueParser, FalseParser>(
     second parser: FalseParser
-  ) -> Parsers.Conditional<TrueParser, FalseParser> {
+  ) -> Parsers.Conditional<TrueParser, FalseParser> where TrueParser.Input == Input {
     .second(parser)
   }
 
@@ -106,24 +106,24 @@ public enum OneOfBuilder {
   /// }
   /// ```
   @inlinable
-  public static func buildIf<P>(_ parser: P?) -> OneOfBuilderParsers.OptionalOneOf<P> {
+  public static func buildIf<P>(_ parser: P?) -> OneOfBuilderParsers.OptionalOneOf<P> where P.Input == Input {
     .init(wrapped: parser)
   }
 
   /// Provides support for `if #available` statements in ``OneOfBuilder`` blocks, producing an
   /// optional parser.
   @inlinable
-  public static func buildLimitedAvailability<P>(_ parser: P?) -> OneOfBuilderParsers.OptionalOneOf<P> {
+  public static func buildLimitedAvailability<P>(_ parser: P?) -> OneOfBuilderParsers.OptionalOneOf<P> where P.Input == Input {
     .init(wrapped: parser)
   }
 
   @inlinable
-  public static func buildPartialBlock<P0: Parser>(first: P0) -> P0 {
+  public static func buildPartialBlock<P0: Parser>(first: P0) -> P0 where P0.Input == Input  {
     first
   }
 
   @inlinable
-  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> OneOfBuilderParsers.OneOf2<P0, P1> {
+  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> OneOfBuilderParsers.OneOf2<P0, P1> where P0.Input == Input  {
     .init(accumulated, next)
   }
 }

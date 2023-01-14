@@ -123,7 +123,7 @@ struct VariadicsGenerator: ParsableCommand {
     for permutation in Permutations(arity: arity) {
       // Emit type declaration.
       let typeName = "Zip\(permutation.identifier)"
-      output("extension ParserBuilder {\n  public struct \(typeName)<")
+      output("extension BuilderParsers {\n  public struct \(typeName)<")
       outputForEach(0..<arity, separator: ", ") { "P\($0): Parser" }
       output(">: Parser\n  where\n    ")
       outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n    ") {
@@ -169,7 +169,7 @@ struct VariadicsGenerator: ParsableCommand {
       output("\n      } catch { throw ParsingError.wrap(error, at: input) }\n    }\n  }\n}\n\n")
 
       // Emit printer extension.
-      output("extension ParserBuilder.\(typeName): ParserPrinter\nwhere\n  ")
+      output("extension BuilderParsers.\(typeName): ParserPrinter\nwhere\n  ")
       outputForEach(0..<arity, separator: ",\n  ") { "P\($0): ParserPrinter" }
       output(",\n  ")
       outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
@@ -210,10 +210,10 @@ struct VariadicsGenerator: ParsableCommand {
       outputForEach(0..<arity, separator: ", ") { "P\($0)" }
       output(">(\n    ")
       outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
-      output("\n  ) -> ParserBuilder.\(typeName)<")
+      output("\n  ) -> BuilderParsers.\(typeName)<")
       outputForEach(0..<arity, separator: ", ") { "P\($0)" }
-      output("> {\n")
-      output("    ParserBuilder.\(typeName)(")
+      output("> where P0.Input == Input {\n")
+      output("    BuilderParsers.\(typeName)(")
       outputForEach(0..<arity, separator: ", ") { "p\($0)" }
       output(")\n  }\n}\n\n")
     }
@@ -222,7 +222,7 @@ struct VariadicsGenerator: ParsableCommand {
   func emitOneOfDeclaration(arity: Int) {
     // Emit type declaration.
     let typeName = "OneOf\(arity)"
-    output("extension OneOfBuilder {\n  public struct \(typeName)<")
+    output("extension OneOfBuilderParsers {\n  public struct \(typeName)<")
     outputForEach(0..<arity, separator: ", ") { "P\($0): Parser" }
     output(">: Parser\n  where\n    ")
     outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n    ") {
@@ -257,7 +257,7 @@ struct VariadicsGenerator: ParsableCommand {
     output("\n    }\n  }\n}\n\n")
 
     // Emit printer extension.
-    output("extension OneOfBuilder.\(typeName): ParserPrinter\nwhere\n  ")
+    output("extension OneOfBuilderParsers.\(typeName): ParserPrinter\nwhere\n  ")
     outputForEach(0..<arity, separator: ",\n  ") { "P\($0): ParserPrinter" }
     output(",\n  ")
     outputForEach(Array(zip(0..<arity, (0..<arity).dropFirst())), separator: ",\n  ") {
@@ -294,10 +294,10 @@ struct VariadicsGenerator: ParsableCommand {
     outputForEach(0..<arity, separator: ", ") { "P\($0)" }
     output(">(\n    ")
     outputForEach(0..<arity, separator: ", ") { "_ p\($0): P\($0)" }
-    output("\n  ) -> OneOfBuilder.\(typeName)<")
+    output("\n  ) -> OneOfBuilderParsers.\(typeName)<")
     outputForEach(0..<arity, separator: ", ") { "P\($0)" }
-    output("> {\n")
-    output("    OneOfBuilder.\(typeName)(")
+    output("> where P0.Input == Input {\n")
+    output("    OneOfBuilderParsers.\(typeName)(")
     outputForEach(0..<arity, separator: ", ") { "p\($0)" }
     output(")\n  }\n}\n\n")
   }

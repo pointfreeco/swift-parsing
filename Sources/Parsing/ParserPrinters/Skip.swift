@@ -4,7 +4,7 @@ public struct Skip<Parsers: Parser>: Parser {
   public let parsers: Parsers
 
   @inlinable
-  public init(@ParserBuilder _ build: () -> Parsers) {
+  public init(@ParserBuilder<Parsers.Input> _ build: () -> Parsers) {
     self.parsers = build()
   }
 

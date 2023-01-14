@@ -13,9 +13,9 @@
 /// .parse("123,456") // (123, 456)
 /// ```
 @resultBuilder
-public enum ParserBuilder {
+public enum ParserBuilder<Input> {
   @inlinable
-  public static func buildBlock<P: Parser>(_ parser: P) -> P {
+  public static func buildBlock<P: Parser>(_ parser: P) -> P where P.Input == Input {
     parser
   }
 
@@ -36,7 +36,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildEither<TrueParser, FalseParser>(
     first parser: TrueParser
-  ) -> Parsers.Conditional<TrueParser, FalseParser> {
+  ) -> Parsers.Conditional<TrueParser, FalseParser> where TrueParser.Input == Input {
     .first(parser)
   }
 
@@ -57,14 +57,14 @@ public enum ParserBuilder {
   @inlinable
   public static func buildEither<TrueParser, FalseParser>(
     second parser: FalseParser
-  ) -> Parsers.Conditional<TrueParser, FalseParser> {
+  ) -> Parsers.Conditional<TrueParser, FalseParser> where TrueParser.Input == Input {
     .second(parser)
   }
 
   /// Provides support for `if` statements in ``ParserBuilder`` blocks, producing an optional
   /// parser.
   @inlinable
-  public static func buildIf<P: Parser>(_ parser: P?) -> P? {
+  public static func buildIf<P: Parser>(_ parser: P?) -> P? where P.Input == Input {
     parser
   }
 
@@ -82,43 +82,48 @@ public enum ParserBuilder {
   /// }
   /// ```
   @inlinable
-  public static func buildIf<P>(_ parser: P?) -> Parsers.OptionalVoid<P> {
+  public static func buildIf<P>(_ parser: P?) -> Parsers.OptionalVoid<P> where P.Input == Input {
     .init(wrapped: parser)
   }
 
   /// Provides support for `if #available` statements in ``ParserBuilder`` blocks, producing an
   /// optional parser.
   @inlinable
-  public static func buildLimitedAvailability<P: Parser>(_ parser: P?) -> P? {
+  public static func buildLimitedAvailability<P: Parser>(_ parser: P?) -> P? where P.Input == Input {
     parser
   }
 
   /// Provides support for `if #available` statements in ``ParserBuilder`` blocks, producing a void
   /// parser for a given void parser.
   @inlinable
-  public static func buildLimitedAvailability<P>(_ parser: P?) -> Parsers.OptionalVoid<P> {
+  public static func buildLimitedAvailability<P>(_ parser: P?) -> Parsers.OptionalVoid<P> where P.Input == Input {
     .init(wrapped: parser)
+  }
+    
+  @inlinable
+  public static func buildExpression<P: Parser>(_ expression: P) -> P where P.Input == Input {
+    expression
   }
 
   @inlinable
-  public static func buildPartialBlock<P: Parser>(first: P) -> P {
+  public static func buildPartialBlock<P: Parser>(first: P) -> P where P.Input == Input {
     first
   }
 
   @_disfavoredOverload
   @inlinable
-    public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> BuilderParsers.SkipFirst<P0, P1> {
+  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> BuilderParsers.SkipFirst<P0, P1> where P0.Input == Input {
     .init(accumulated, next)
   }
 
   @inlinable
-    public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> BuilderParsers.SkipSecond<P0, P1> {
+    public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> BuilderParsers.SkipSecond<P0, P1> where P0.Input == Input {
     .init(accumulated, next)
   }
 
   @_disfavoredOverload
   @inlinable
-  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> BuilderParsers.Take2<P0, P1> {
+  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> BuilderParsers.Take2<P0, P1> where P0.Input == Input {
     .init(accumulated, next)
   }
 
@@ -126,7 +131,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1>(
     accumulated: P0, next: P1
-  ) -> BuilderParsers.Take3<P0, P1, O0, O1> {
+  ) -> BuilderParsers.Take3<P0, P1, O0, O1> where P0.Input == Input {
     .init(accumulated, next)
   }
 
@@ -134,7 +139,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2>(
     accumulated: P0, next: P1
-  ) -> BuilderParsers.Take4<P0, P1, O0, O1, O2> {
+  ) -> BuilderParsers.Take4<P0, P1, O0, O1, O2> where P0.Input == Input {
     .init(accumulated, next)
   }
 
@@ -142,7 +147,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3>(
     accumulated: P0, next: P1
-  ) -> BuilderParsers.Take5<P0, P1, O0, O1, O2, O3> {
+  ) -> BuilderParsers.Take5<P0, P1, O0, O1, O2, O3> where P0.Input == Input {
     .init(accumulated, next)
   }
 
@@ -150,7 +155,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4>(
     accumulated: P0, next: P1
-  ) -> BuilderParsers.Take6<P0, P1, O0, O1, O2, O3, O4> {
+  ) -> BuilderParsers.Take6<P0, P1, O0, O1, O2, O3, O4> where P0.Input == Input {
     .init(accumulated, next)
   }
 
@@ -158,7 +163,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5>(
     accumulated: P0, next: P1
-  ) -> BuilderParsers.Take7<P0, P1, O0, O1, O2, O3, O4, O5> {
+  ) -> BuilderParsers.Take7<P0, P1, O0, O1, O2, O3, O4, O5> where P0.Input == Input {
     .init(accumulated, next)
   }
 
@@ -166,7 +171,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5, O6>(
     accumulated: P0, next: P1
-  ) -> BuilderParsers.Take8<P0, P1, O0, O1, O2, O3, O4, O5, O6> {
+  ) -> BuilderParsers.Take8<P0, P1, O0, O1, O2, O3, O4, O5, O6> where P0.Input == Input {
     .init(accumulated, next)
   }
 
@@ -174,7 +179,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7>(
     accumulated: P0, next: P1
-  ) -> BuilderParsers.Take9<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7> {
+  ) -> BuilderParsers.Take9<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7> where P0.Input == Input {
     .init(accumulated, next)
   }
 
@@ -182,7 +187,7 @@ public enum ParserBuilder {
   @inlinable
   public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7, O8>(
     accumulated: P0, next: P1
-  ) -> BuilderParsers.Take10<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7, O8> {
+  ) -> BuilderParsers.Take10<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7, O8> where P0.Input == Input {
     .init(accumulated, next)
   }
 }

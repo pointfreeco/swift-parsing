@@ -24,7 +24,7 @@ public struct Not<Upstream: Parser>: ParserPrinter {
   /// - Parameter build: A parser that causes this parser to fail if it succeeds, or succeed if it
   ///   fails.
   @inlinable
-  public init(@ParserBuilder _ build: () -> Upstream) {
+  public init(@ParserBuilder<Upstream.Input> _ build: () -> Upstream) {
     self.upstream = build()
   }
 

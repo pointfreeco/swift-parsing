@@ -80,8 +80,8 @@ where
   @inlinable
   public init(
     associativity: Associativity,
-    @ParserBuilder _ operator: () -> Operator,
-    @ParserBuilder lowerThan operand: () -> Operand  // Should this be called `precedes operand:`?
+    @ParserBuilder<Operator.Input> _ operator: () -> Operator,
+    @ParserBuilder<Operand.Input> lowerThan operand: () -> Operand  // Should this be called `precedes operand:`?
   ) {
     self.associativity = `associativity`
     self.operand = operand()

@@ -234,9 +234,9 @@ extension Many where Printability == Void {
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     decumulator: @escaping (Result) throws -> I,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) where I.Element == Element.Output {
     self.element = element()
     self.initialResult = initialResult
@@ -265,9 +265,9 @@ extension Many where Printability == Void {
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     decumulator: @escaping (Result) throws -> I,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) where I.Element == Element.Output {
     self.init(
       0...,
@@ -300,9 +300,9 @@ extension Many where Printability == Never {
     _ length: R,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.element = element()
     self.initialResult = initialResult
@@ -328,9 +328,9 @@ extension Many where Printability == Never {
   public init(
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       0...,
@@ -368,7 +368,7 @@ where
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     decumulator: @escaping (Result) throws -> I,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Element.Input> element: () -> Element
   ) where I.Element == Element.Output {
     self.init(
       length,
@@ -397,7 +397,7 @@ where
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     decumulator: @escaping (Result) throws -> I,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Element.Input> element: () -> Element
   ) where I.Element == Element.Output {
     self.init(
       0...,
@@ -433,7 +433,7 @@ where
     _ length: R,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Element.Input> element: () -> Element
   ) {
     self.init(
       length,
@@ -457,7 +457,7 @@ where
   public init(
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Element.Input> element: () -> Element
   ) {
     self.init(
       0...,
@@ -489,8 +489,8 @@ extension Many where Separator == Always<Input, Void>, Printability == Void {
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     decumulator: @escaping (Result) throws -> I,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) where I.Element == Element.Output {
     self.init(
       length,
@@ -519,8 +519,8 @@ extension Many where Separator == Always<Input, Void>, Printability == Void {
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     decumulator: @escaping (Result) throws -> I,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) where I.Element == Element.Output {
     self.init(
       0...,
@@ -551,8 +551,8 @@ extension Many where Separator == Always<Input, Void>, Printability == Never {
     _ length: R,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       length,
@@ -577,8 +577,8 @@ extension Many where Separator == Always<Input, Void>, Printability == Never {
   public init(
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       0...,
@@ -611,8 +611,8 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     decumulator: @escaping (Result) throws -> I,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) where I.Element == Element.Output {
     self.init(
       length,
@@ -641,8 +641,8 @@ extension Many where Terminator == Always<Input, Void>, Printability == Void {
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     decumulator: @escaping (Result) throws -> I,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) where I.Element == Element.Output {
     self.init(
       0...,
@@ -673,8 +673,8 @@ extension Many where Terminator == Always<Input, Void>, Printability == Never {
     _ length: R,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) {
     self.init(
       length,
@@ -699,8 +699,8 @@ extension Many where Terminator == Always<Input, Void>, Printability == Never {
   public init(
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) {
     self.init(
       0...,
@@ -726,9 +726,9 @@ extension Many where Result == [Element.Output], Printability == Void {
   @inlinable
   public init<R: CountingRange>(
     _ length: R,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       length,
@@ -751,9 +751,9 @@ extension Many where Result == [Element.Output], Printability == Void {
   ///   - terminator: A parser that consumes any leftover input.
   @inlinable
   public init(
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       0...,
@@ -782,7 +782,7 @@ where
   @inlinable
   public init<R: CountingRange>(
     _ length: R,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Element.Input> element: () -> Element
   ) {
     self.init(
       length,
@@ -798,7 +798,7 @@ where
   ///
   /// - Parameter element: A parser to run multiple times to accumulate into a result.
   @inlinable
-  public init(@ParserBuilder element: () -> Element) {
+  public init(@ParserBuilder<Element.Input> element: () -> Element) {
     self.init(0..., element: element)
   }
 }
@@ -821,8 +821,8 @@ where
   @inlinable
   public init<R: CountingRange>(
     _ length: R,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       length,
@@ -842,8 +842,8 @@ where
   ///   - terminator: A parser that consumes any leftover input.
   @inlinable
   public init(
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       0...,
@@ -871,8 +871,8 @@ where
   @inlinable
   public init<R: CountingRange>(
     _ length: R,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) {
     self.init(
       length,
@@ -892,8 +892,8 @@ where
   ///   - separator: A parser that consumes input between each parsed output.
   @inlinable
   public init(
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) {
     self.init(
       0...,

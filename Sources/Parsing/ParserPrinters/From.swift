@@ -7,7 +7,7 @@ where Upstream.Output == Downstream.Input {
   let parser: Downstream
 
   @inlinable
-  public init(_ conversion: Upstream, @ParserBuilder _ parser: () -> Downstream) {
+  public init(_ conversion: Upstream, @ParserBuilder<Downstream.Input> _ parser: () -> Downstream) {
     self.conversion = conversion
     self.parser = parser()
   }

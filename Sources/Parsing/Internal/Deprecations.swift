@@ -11,9 +11,9 @@ extension Many where Printability == Never {
     atLeast minimum: Int,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       minimum...maximum,
@@ -34,9 +34,9 @@ extension Many where Printability == Never {
     into initialResult: Result,
     atLeast minimum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       minimum...,
@@ -57,9 +57,9 @@ extension Many where Printability == Never {
     into initialResult: Result,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       ...maximum,
@@ -88,7 +88,7 @@ where
     atLeast minimum: Int,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Element.Input> element: () -> Element
   ) {
     self.init(
       minimum...maximum,
@@ -107,7 +107,7 @@ where
     into initialResult: Result,
     atLeast minimum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Element.Input> element: () -> Element
   ) {
     self.init(
       minimum...,
@@ -126,7 +126,7 @@ where
     into initialResult: Result,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Element.Input> element: () -> Element
   ) {
     self.init(
       ...maximum,
@@ -148,8 +148,8 @@ extension Many where Separator == Always<Input, Void>, Printability == Never {
     atLeast minimum: Int,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       minimum...maximum,
@@ -169,8 +169,8 @@ extension Many where Separator == Always<Input, Void>, Printability == Never {
     into initialResult: Result,
     atLeast minimum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       minimum...,
@@ -190,8 +190,8 @@ extension Many where Separator == Always<Input, Void>, Printability == Never {
     into initialResult: Result,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       ...maximum,
@@ -214,8 +214,8 @@ extension Many where Terminator == Always<Input, Void>, Printability == Never {
     atLeast minimum: Int,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) {
     self.init(
       minimum...maximum,
@@ -235,8 +235,8 @@ extension Many where Terminator == Always<Input, Void>, Printability == Never {
     into initialResult: Result,
     atLeast minimum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) {
     self.init(
       minimum...,
@@ -256,8 +256,8 @@ extension Many where Terminator == Always<Input, Void>, Printability == Never {
     into initialResult: Result,
     atMost maximum: Int,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) {
     self.init(
       ...maximum,
@@ -278,9 +278,9 @@ extension Many where Result == [Element.Output], Printability == Void {
   public init(
     atLeast minimum: Int,
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       minimum...maximum,
@@ -297,9 +297,9 @@ extension Many where Result == [Element.Output], Printability == Void {
   @inlinable
   public init(
     atLeast minimum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       minimum...,
@@ -316,9 +316,9 @@ extension Many where Result == [Element.Output], Printability == Void {
   @inlinable
   public init(
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       ...maximum,
@@ -344,7 +344,7 @@ where
   public init(
     atLeast minimum: Int,
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Element.Input> element: () -> Element
   ) {
     self.init(
       minimum...maximum,
@@ -359,7 +359,7 @@ where
   @inlinable
   public init(
     atLeast minimum: Int,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Element.Input> element: () -> Element
   ) {
     self.init(
       minimum...,
@@ -374,7 +374,7 @@ where
   @inlinable
   public init(
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element
+    @ParserBuilder<Element.Input> element: () -> Element
   ) {
     self.init(
       ...maximum,
@@ -397,8 +397,8 @@ where
   public init(
     atLeast minimum: Int,
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       minimum...maximum,
@@ -414,8 +414,8 @@ where
   @inlinable
   public init(
     atLeast minimum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       minimum...,
@@ -431,8 +431,8 @@ where
   @inlinable
   public init(
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder terminator: () -> Terminator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Terminator.Input> terminator: () -> Terminator
   ) {
     self.init(
       ...maximum,
@@ -456,8 +456,8 @@ where
   public init(
     atLeast minimum: Int,
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) {
     self.init(
       minimum...maximum,
@@ -473,8 +473,8 @@ where
   @inlinable
   public init(
     atLeast minimum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) {
     self.init(
       minimum...,
@@ -490,8 +490,8 @@ where
   @inlinable
   public init(
     atMost maximum: Int,
-    @ParserBuilder element: () -> Element,
-    @ParserBuilder separator: () -> Separator
+    @ParserBuilder<Element.Input> element: () -> Element,
+    @ParserBuilder<Separator.Input> separator: () -> Separator
   ) {
     self.init(
       ...maximum,
@@ -720,7 +720,7 @@ where SubstringParser.Input == Substring {
 @available(*, deprecated, message: "Use 'From(.substring)' instead.")
 extension FromSubstring where Input == ArraySlice<UInt8> {
   @inlinable
-  public init(@ParserBuilder _ build: () -> SubstringParser) {
+  public init(@ParserBuilder<SubstringParser.Input> _ build: () -> SubstringParser) {
     self.substringParser = build()
     self.toSubstring = { Substring(decoding: $0, as: UTF8.self) }
     self.fromSubstring = { ArraySlice($0.utf8) }
@@ -730,7 +730,7 @@ extension FromSubstring where Input == ArraySlice<UInt8> {
 @available(*, deprecated, message: "Use 'From(.substring)' instead.")
 extension FromSubstring where Input == Substring.UnicodeScalarView {
   @inlinable
-  public init(@ParserBuilder _ build: () -> SubstringParser) {
+  public init(@ParserBuilder<SubstringParser.Input> _ build: () -> SubstringParser) {
     self.substringParser = build()
     self.toSubstring = Substring.init
     self.fromSubstring = \.unicodeScalars
@@ -740,7 +740,7 @@ extension FromSubstring where Input == Substring.UnicodeScalarView {
 @available(*, deprecated, message: "Use 'From(.substring)' instead.")
 extension FromSubstring where Input == Substring.UTF8View {
   @inlinable
-  public init(@ParserBuilder _ build: () -> SubstringParser) {
+  public init(@ParserBuilder<SubstringParser.Input> _ build: () -> SubstringParser) {
     self.substringParser = build()
     self.toSubstring = Substring.init
     self.fromSubstring = \.utf8
@@ -765,7 +765,7 @@ where UnicodeScalarsParser.Input == Substring.UnicodeScalarView {
 @available(*, deprecated, message: "Use 'From(.unicodeScalars)' instead.")
 extension FromUnicodeScalarView where Input == ArraySlice<UInt8> {
   @inlinable
-  public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+  public init(@ParserBuilder<UnicodeScalarsParser.Input> _ build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = { Substring(decoding: $0, as: UTF8.self).unicodeScalars }
     self.fromUnicodeScalars = { ArraySlice(Substring($0).utf8) }
@@ -775,7 +775,7 @@ extension FromUnicodeScalarView where Input == ArraySlice<UInt8> {
 @available(*, deprecated, message: "Use 'From(.unicodeScalars)' instead.")
 extension FromUnicodeScalarView where Input == Substring {
   @inlinable
-  public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+  public init(@ParserBuilder<UnicodeScalarsParser.Input> _ build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = \.unicodeScalars
     self.fromUnicodeScalars = Substring.init
@@ -785,7 +785,7 @@ extension FromUnicodeScalarView where Input == Substring {
 @available(*, deprecated, message: "Use 'From(.unicodeScalars)' instead.")
 extension FromUnicodeScalarView where Input == Substring.UTF8View {
   @inlinable
-  public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+  public init(@ParserBuilder<UnicodeScalarsParser.Input> _ build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = { Substring($0).unicodeScalars }
     self.fromUnicodeScalars = { Substring($0).utf8 }
@@ -810,7 +810,7 @@ where UTF8Parser.Input == Substring.UTF8View {
 @available(*, deprecated, message: "Use 'From(.utf8)' instead.")
 extension FromUTF8View where Input == Substring {
   @inlinable
-  public init(@ParserBuilder _ build: () -> UTF8Parser) {
+  public init(@ParserBuilder<UTF8Parser.Input> _ build: () -> UTF8Parser) {
     self.utf8Parser = build()
     self.toUTF8 = \.utf8
     self.fromUTF8 = Substring.init
@@ -820,7 +820,7 @@ extension FromUTF8View where Input == Substring {
 @available(*, deprecated, message: "Use 'From(.utf8)' instead.")
 extension FromUTF8View where Input == Substring.UnicodeScalarView {
   @inlinable
-  public init(@ParserBuilder _ build: () -> UTF8Parser) {
+  public init(@ParserBuilder<UTF8Parser.Input> _ build: () -> UTF8Parser) {
     self.utf8Parser = build()
     self.toUTF8 = { Substring($0).utf8 }
     self.fromUTF8 = { Substring($0).unicodeScalars }

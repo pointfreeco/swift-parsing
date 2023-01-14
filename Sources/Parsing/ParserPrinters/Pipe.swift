@@ -31,7 +31,7 @@ extension Parser {
   /// - Parameter downstream: A parser that parses the output of this parser.
   /// - Returns: A parser that pipes this parser's output into another parser.  @inlinable
   public func pipe<Downstream>(
-    @ParserBuilder _ build: () -> Downstream
+    @ParserBuilder<Downstream.Input> _ build: () -> Downstream
   ) -> Parsers.Pipe<Self, Downstream> {
     .init(upstream: self, downstream: build())
   }
@@ -39,7 +39,7 @@ extension Parser {
 
 extension Parser where Input: Collection {
   public func pipe<Downstream>(
-    @ParserBuilder _ build: () -> Downstream
+    @ParserBuilder<Downstream.Input> _ build: () -> Downstream
   ) -> Parsers.Pipe<Self, BuilderParsers.SkipSecond<Downstream, Parsers.PipeEnd<Self.Input>>> {
     .init(
       upstream: self,
