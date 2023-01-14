@@ -33,13 +33,13 @@ let package = Package(
         "Parsing"
       ]
     ),
-    .executableTarget(
-      name: "swift-parsing-benchmark",
-      dependencies: [
-        "Parsing",
-        .product(name: "Benchmark", package: "Benchmark"),
-      ]
-    ),
+//    .executableTarget(
+//      name: "swift-parsing-benchmark",
+//      dependencies: [
+//        "Parsing",
+//        .product(name: "Benchmark", package: "Benchmark"),
+//      ]
+//    ),
     .executableTarget(
       name: "variadics-generator",
       dependencies: [.product(name: "ArgumentParser", package: "swift-argument-parser")]
