@@ -116,6 +116,11 @@ public enum OneOfBuilder<Input> {
   public static func buildLimitedAvailability<P>(_ parser: P?) -> OneOfBuilderParsers.OptionalOneOf<P> where P.Input == Input {
     .init(wrapped: parser)
   }
+    
+  @inlinable
+    public static func buildExpression<P: Parser>(_ expression: P) -> P where P.Input == Input {
+        expression
+    }
 
   @inlinable
   public static func buildPartialBlock<P0: Parser>(first: P0) -> P0 where P0.Input == Input  {
