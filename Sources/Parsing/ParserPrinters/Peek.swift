@@ -23,14 +23,14 @@
 /// // 1 | 1_foo123
 /// //   | ^ expected 1 element satisfying predicate
 /// ```
-public struct Peek<Upstream: Parser>: ParserPrinter {
+public struct Peek<Input, Upstream: Parser>: ParserPrinter where Upstream.Input == Input {
   public let upstream: Upstream
 
   /// Construct a parser that runs the given parser, but does not consume any input.
   ///
   /// - Parameter build: A parser this parser wants to inspect.
   @inlinable
-  public init(@ParserBuilder<Upstream.Input> _ build: () -> Upstream) {
+  public init(@ParserBuilder<Input> _ build: () -> Upstream) {
     self.upstream = build()
   }
 

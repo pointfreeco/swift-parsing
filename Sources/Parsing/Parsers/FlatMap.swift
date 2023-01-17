@@ -17,8 +17,8 @@ extension Parser {
   /// - Returns: A parser that transforms output from an upstream parser into a new parser.
   @inlinable
   public func flatMap<NewParser>(
-    @ParserBuilder<NewParser.Input> _ transform: @escaping (Output) -> NewParser
-  ) -> Parsers.FlatMap<NewParser, Self> {
+    @ParserBuilder<Input> _ transform: @escaping (Output) -> NewParser
+  ) -> Parsers.FlatMap<Input, NewParser, Self> where NewParser.Input == Input {
     .init(upstream: self, transform: transform)
   }
 }
@@ -28,8 +28,8 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/flatMap(_:)`` operation, which constructs this type.
-  public struct FlatMap<NewParser: Parser, Upstream: Parser>: Parser
-  where NewParser.Input == Upstream.Input {
+  public struct FlatMap<Input, NewParser: Parser, Upstream: Parser>: Parser
+  where Input == NewParser.Input, Input == Upstream.Input {
     public let upstream: Upstream
     public let transform: (Upstream.Output) -> NewParser
 

@@ -1,10 +1,10 @@
 /// A parser that discards the output of another parser.
-public struct Skip<Parsers: Parser>: Parser {
+public struct Skip<Input, Parsers: Parser>: Parser where Parsers.Input == Input {
   /// The parser from which this parser receives output.
   public let parsers: Parsers
 
   @inlinable
-  public init(@ParserBuilder<Parsers.Input> _ build: () -> Parsers) {
+  public init(@ParserBuilder<Input> _ build: () -> Parsers) {
     self.parsers = build()
   }
 

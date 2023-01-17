@@ -30,11 +30,11 @@
 ///
 /// try newlineSeparatedIntegers.parse(&stdin)
 /// ```
-public struct Stream<Parsers: Parser>: Parser where Parsers.Input: RangeReplaceableCollection {
+public struct Stream<Input, Parsers: Parser>: Parser where Parsers.Input: RangeReplaceableCollection, Input == Parsers.Input {
   public let parsers: Parsers
 
   @inlinable
-  public init(@ParserBuilder<Parsers.Input> build: () -> Parsers) {
+  public init(@ParserBuilder<Input> build: () -> Parsers) {
     self.parsers = build()
   }
 

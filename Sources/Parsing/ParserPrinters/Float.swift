@@ -27,7 +27,7 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self
-  ) -> From<Conversions.SubstringToUTF8View, Parsers.FloatParser<Substring.UTF8View, Self>> {
+  ) -> From<Substring, Conversions.SubstringToUTF8View, Parsers.FloatParser<Substring.UTF8View, Self>> {
     From(.utf8) { Parsers.FloatParser<Substring.UTF8View, Self>() }
   }
 

@@ -20,7 +20,7 @@
 /// // 1 | (42,blob)
 /// //   |     ^ expected integer
 /// ```
-public struct Parse<Parsers: Parser>: Parser {
+public struct Parse<Input, Parsers: Parser>: Parser where Parsers.Input == Input {
   public let parsers: Parsers
 
   /// An entry point into ``ParserBuilder`` syntax.
@@ -43,7 +43,7 @@ public struct Parse<Parsers: Parser>: Parser {
   ///
   /// - Parameter with: A parser builder that will accumulate non-void outputs in a tuple.
   @inlinable
-  public init(@ParserBuilder<Parsers.Input> with build: () -> Parsers) {
+  public init(@ParserBuilder<Input> with build: () -> Parsers) {
     self.parsers = build()
   }
 
@@ -78,7 +78,7 @@ public struct Parse<Parsers: Parser>: Parser {
   @inlinable
   public init<Upstream, NewOutput>(
     _ transform: @escaping (Upstream.Output) -> NewOutput,
-    @ParserBuilder<Upstream.Input> with build: () -> Upstream
+    @ParserBuilder<Input> with build: () -> Upstream
   ) where Parsers == Parsing.Parsers.Map<Upstream, NewOutput> {
     self.parsers = build().map(transform)
   }
@@ -101,8 +101,8 @@ public struct Parse<Parsers: Parser>: Parser {
   @inlinable
   public init<Upstream, NewOutput>(
     _ output: NewOutput,
-    @ParserBuilder<Upstream.Input> with build: () -> Upstream
-  ) where Parsers == Parsing.Parsers.MapConstant<Upstream, NewOutput> {
+    @ParserBuilder<Input> with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.MapConstant<Upstream, NewOutput>{
     self.parsers = build().map { output }
   }
 
@@ -137,7 +137,7 @@ public struct Parse<Parsers: Parser>: Parser {
   @inlinable
   public init<Upstream, Downstream>(
     _ conversion: Downstream,
-    @ParserBuilder<Upstream.Input> with build: () -> Upstream
+    @ParserBuilder<Input> with build: () -> Upstream
   ) where Parsers == Parsing.Parsers.MapConversion<Upstream, Downstream> {
     self.parsers = build().map(conversion)
   }
@@ -188,26 +188,26 @@ extension Parse: ParserPrinter where Parsers: ParserPrinter {
 ///
 /// `ParsePrint` is a type alias for the ``Parse`` parser with its underlying parser constrained to
 /// ``ParserPrinter``.
-public struct ParsePrint<ParserPrinters: ParserPrinter>: ParserPrinter {
+public struct ParsePrint<Input, ParserPrinters: ParserPrinter>: ParserPrinter where ParserPrinters.Input == Input {
   public let parserPrinters: ParserPrinters
 
   @inlinable
-  public init(@ParserBuilder<ParserPrinters.Input> with build: () -> ParserPrinters) {
+  public init(@ParserBuilder<Input> with build: () -> ParserPrinters) {
     self.parserPrinters = build()
   }
 
   @inlinable
   public init<Upstream, NewOutput>(
     _ output: NewOutput,
-    @ParserBuilder<Upstream.Input> with build: () -> Upstream
-  ) where ParserPrinters == Parsers.MapConstant<Upstream, NewOutput> {
+    @ParserBuilder<Input> with build: () -> Upstream
+  ) where ParserPrinters == Parsers.MapConstant<Upstream, NewOutput>{
     self.parserPrinters = build().map { output }
   }
 
   @inlinable
   public init<Upstream, Downstream>(
     _ conversion: Downstream,
-    @ParserBuilder<Upstream.Input> with build: () -> Upstream
+    @ParserBuilder<Input> with build: () -> Upstream
   ) where ParserPrinters == Parsers.MapConversion<Upstream, Downstream> {
     self.parserPrinters = build().map(conversion)
   }

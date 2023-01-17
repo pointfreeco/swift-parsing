@@ -16,7 +16,7 @@
 /// // 1 | // let x = 1
 /// //   | ^^ expected not to be processed
 /// ```
-public struct Not<Upstream: Parser>: ParserPrinter {
+public struct Not<Input, Upstream: Parser>: ParserPrinter where Upstream.Input == Input {
   public let upstream: Upstream
 
   /// Creates a parser that succeeds if the given parser fails, and does not consume any input.
@@ -24,7 +24,7 @@ public struct Not<Upstream: Parser>: ParserPrinter {
   /// - Parameter build: A parser that causes this parser to fail if it succeeds, or succeed if it
   ///   fails.
   @inlinable
-  public init(@ParserBuilder<Upstream.Input> _ build: () -> Upstream) {
+  public init(@ParserBuilder<Input> _ build: () -> Upstream) {
     self.upstream = build()
   }
 

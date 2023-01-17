@@ -68,9 +68,10 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   }
 }
 
-public struct InfixOperator<Operator: Parser, Operand: Parser>: Parser
+public struct InfixOperator<Input, Operator: Parser, Operand: Parser>: Parser
 where
-  Operator.Input == Operand.Input,
+  Input == Operator.Input,
+  Input == Operand.Input,
   Operator.Output == (Operand.Output, Operand.Output) -> Operand.Output
 {
   public let `associativity`: Associativity
@@ -80,8 +81,8 @@ where
   @inlinable
   public init(
     associativity: Associativity,
-    @ParserBuilder<Operator.Input> _ operator: () -> Operator,
-    @ParserBuilder<Operand.Input> lowerThan operand: () -> Operand  // Should this be called `precedes operand:`?
+    @ParserBuilder<Input> _ operator: () -> Operator,
+    @ParserBuilder<Input> lowerThan operand: () -> Operand  // Should this be called `precedes operand:`?
   ) {
     self.associativity = `associativity`
     self.operand = operand()

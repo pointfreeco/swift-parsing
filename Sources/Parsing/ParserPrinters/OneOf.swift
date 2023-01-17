@@ -151,16 +151,16 @@
 /// The ``OneOf`` parser is the primary tool for introducing backtracking into your parsers,
 /// which means to undo the consumption of a parser when it fails. For more information, see the
 /// article <doc:Backtracking>.
-public struct OneOf<Parsers: Parser>: Parser {
+public struct OneOf<Input, Parsers: Parser>: Parser where Parsers.Input == Input {
   public let parsers: Parsers
 
   @inlinable
-  public init(@OneOfBuilder<Parsers.Input> _ build: () -> Parsers) {
+  public init(@OneOfBuilder<Input> _ build: () -> Parsers) {
     self.parsers = build()
   }
 
   @inlinable
-  public func parse(_ input: inout Parsers.Input) rethrows -> Parsers.Output {
+  public func parse(_ input: inout Input) rethrows -> Parsers.Output {
     try self.parsers.parse(&input)
   }
 }

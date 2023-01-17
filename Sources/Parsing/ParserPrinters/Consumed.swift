@@ -1,13 +1,14 @@
 /// A parser that returns the subsequence of input consumed by another parser.
-public struct Consumed<Upstream: Parser>: Parser
+public struct Consumed<Input, Upstream: Parser>: Parser
 where
+  Input == Upstream.Input,
   Upstream.Input: Collection,
   Upstream.Input.SubSequence == Upstream.Input
 {
   public let upstream: Upstream
 
   @inlinable
-  public init(@ParserBuilder<Upstream.Input> _ build: () -> Upstream) {
+  public init(@ParserBuilder<Input> _ build: () -> Upstream) {
     self.upstream = build()
   }
 

@@ -37,7 +37,7 @@ extension FixedWidthInteger {
   public static func parser(
     of inputType: Substring.Type = Substring.self,
     radix: Int = 10
-  ) -> From<Conversions.SubstringToUTF8View, Parsers.IntParser<Substring.UTF8View, Self>> {
+  ) -> From<Substring, Conversions.SubstringToUTF8View, Parsers.IntParser<Substring.UTF8View, Self>> {
     From(.utf8) { Parsers.IntParser<Substring.UTF8View, Self>(radix: radix) }
   }
 
