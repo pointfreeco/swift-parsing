@@ -369,8 +369,8 @@ The documentation for releases and main are available here:
 
 ## Community
 
-If you want to discuss this library or have a question about how to use it to solve 
-a particular problem, there are a number of places you can discuss with fellow 
+If you want to discuss this library or have a question about how to use it to solve
+a particular problem, there are a number of places you can discuss with fellow
 [Point-Free](http://www.pointfree.co) enthusiasts:
 
 * For long-form discussions, we recommend the [discussions](http://github.com/pointfreeco/swift-parsing/discussions) tab of this repo.
