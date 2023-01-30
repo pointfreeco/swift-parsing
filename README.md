@@ -1,6 +1,7 @@
 # swift-parsing
 
 ![CI](https://github.com/pointfreeco/swift-parsing/workflows/CI/badge.svg)
+[![Slack](https://img.shields.io/badge/slack-chat-informational.svg?label=Slack&logo=slack)](http://pointfree.co/slack-invite)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fpointfreeco%2Fswift-parsing%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/pointfreeco/swift-parsing)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fpointfreeco%2Fswift-parsing%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/pointfreeco/swift-parsing)
 
@@ -20,6 +21,7 @@ A library for turning unstructured data into structured data, with a focus on co
 * [Getting started](#getting-started)
 * [Benchmarks](#benchmarks)
 * [Documentation](#documentation)
+* [Community](#community)
 * [Other libraries](#other-libraries)
 * [License](#license)
 
@@ -364,6 +366,15 @@ The documentation for releases and main are available here:
   * [0.5](https://pointfreeco.github.io/swift-parsing/0.5.0/documentation/parsing)
 
 </details>
+
+## Community
+
+If you want to discuss this library or have a question about how to use it to solve 
+a particular problem, there are a number of places you can discuss with fellow 
+[Point-Free](http://www.pointfree.co) enthusiasts:
+
+* For long-form discussions, we recommend the [discussions](http://github.com/pointfreeco/swift-parsing/discussions) tab of this repo.
+* For casual chat, we recommend the [Point-Free Community Slack](http://pointfree.co/slack-invite).
 
 ## Other libraries
 
