@@ -79,7 +79,12 @@ extension Conversions {
   /// the ``Conversion/representing(_:)-swift.type.method`` operation, which constructs this type.
   public struct FromRawValue<Output: RawRepresentable>: Conversion {
     @inlinable
-    public init() {}
+    public init() {
+      self.init(internal: ())
+    }
+    
+    @usableFromInline
+    init(internal: Void) {}
 
     @inlinable
     public func apply(_ input: Output.RawValue) throws -> Output {

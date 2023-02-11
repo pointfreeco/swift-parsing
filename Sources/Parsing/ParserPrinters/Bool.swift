@@ -61,7 +61,12 @@ extension Parsers {
     Input.Element == UTF8.CodeUnit
   {
     @inlinable
-    public init() {}
+    public init() {
+      self.init(internal: ())
+    }
+    
+    @usableFromInline
+    init(internal: Void) {}
 
     @inlinable
     public func parse(_ input: inout Input) throws -> Bool {

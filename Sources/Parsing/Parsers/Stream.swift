@@ -35,6 +35,11 @@ public struct Stream<Parsers: Parser>: Parser where Parsers.Input: RangeReplacea
 
   @inlinable
   public init(@ParserBuilder build: () -> Parsers) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(internal build: () -> Parsers) {
     self.parsers = build()
   }
 

@@ -22,6 +22,11 @@ extension Parsers {
 
     @inlinable
     public init(_ parsers: [Parsers]) {
+      self.init(internal: parsers)
+    }
+    
+    @usableFromInline
+    init(internal parsers: [Parsers]) {
       self.parsers = parsers
     }
 

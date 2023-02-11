@@ -34,6 +34,11 @@ public struct Fail<Input, Output>: ParserPrinter {
   /// - Parameter error: An error to throw when the parser is run.
   @inlinable
   public init(throwing error: Error) {
+    self.init(internal: error)
+  }
+  
+  @usableFromInline
+  init(internal error: Error) {
     self.error = error
   }
 

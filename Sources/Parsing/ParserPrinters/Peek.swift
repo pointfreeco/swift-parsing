@@ -31,6 +31,11 @@ public struct Peek<Upstream: Parser>: ParserPrinter {
   /// - Parameter build: A parser this parser wants to inspect.
   @inlinable
   public init(@ParserBuilder _ build: () -> Upstream) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(@ParserBuilder internal build: () -> Upstream) {
     self.upstream = build()
   }
 

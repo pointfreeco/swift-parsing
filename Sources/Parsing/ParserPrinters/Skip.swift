@@ -5,6 +5,11 @@ public struct Skip<Parsers: Parser>: Parser {
 
   @inlinable
   public init(@ParserBuilder _ build: () -> Parsers) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(internal build: () -> Parsers) {
     self.parsers = build()
   }
 

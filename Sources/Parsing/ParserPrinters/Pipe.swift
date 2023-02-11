@@ -61,6 +61,11 @@ extension Parsers {
 
     @inlinable
     public init(upstream: Upstream, downstream: Downstream) {
+      self.init(internal: upstream, downstream: downstream)
+    }
+    
+    @usableFromInline
+    init(internal upstream: Upstream, downstream: Downstream) {
       self.upstream = upstream
       self.downstream = downstream
     }

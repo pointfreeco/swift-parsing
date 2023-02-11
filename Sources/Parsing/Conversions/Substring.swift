@@ -55,7 +55,12 @@ extension Conversions {
   /// type under the hood.
   public struct UnicodeScalarViewToSubstring: Conversion {
     @inlinable
-    public init() {}
+    public init() {
+      self.init(internal: ())
+    }
+    
+    @usableFromInline
+    init(internal: Void) {}
 
     @inlinable
     public func apply(_ input: Substring.UnicodeScalarView) -> Substring {
@@ -74,8 +79,13 @@ extension Conversions {
   /// the ``Conversion/substring-swift.type.property-4r1aj`` operation, which constructs this type.
   public struct UTF8ViewToSubstring: Conversion {
     @inlinable
-    public init() {}
-
+    public init() {
+      self.init(internal: ())
+    }
+    
+    @usableFromInline
+    init(internal: Void) {}
+    
     @inlinable
     public func apply(_ input: Substring.UTF8View) -> Substring {
       Substring(input)

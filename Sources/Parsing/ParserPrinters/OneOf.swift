@@ -156,6 +156,11 @@ public struct OneOf<Parsers: Parser>: Parser {
 
   @inlinable
   public init(@OneOfBuilder _ build: () -> Parsers) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(internal build: () -> Parsers) {
     self.parsers = build()
   }
 

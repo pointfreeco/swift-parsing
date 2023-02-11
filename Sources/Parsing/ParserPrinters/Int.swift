@@ -84,6 +84,11 @@ extension Parsers {
 
     @inlinable
     public init(radix: Int = 10) {
+      self.init(internal: radix)
+    }
+    
+    @usableFromInline
+    init(internal radix: Int = 10) {
       precondition((2...36).contains(radix), "Radix not in range 2...36")
       self.radix = radix
     }

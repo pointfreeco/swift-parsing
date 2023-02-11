@@ -55,6 +55,15 @@ public struct StartsWith<Input: Collection>: Parser where Input.SubSequence == I
     by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool
   )
   where PossiblePrefix.Element == Input.Element {
+    self.init(internal: possiblePrefix, by: areEquivalent)
+  }
+  
+  @usableFromInline
+  init<PossiblePrefix: Collection>(
+    internal possiblePrefix: PossiblePrefix,
+    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool
+  )
+  where PossiblePrefix.Element == Input.Element {
     self.count = possiblePrefix.count
     self.possiblePrefix = AnyCollection(possiblePrefix)
     self.startsWith = { input in input.starts(with: possiblePrefix, by: areEquivalent) }

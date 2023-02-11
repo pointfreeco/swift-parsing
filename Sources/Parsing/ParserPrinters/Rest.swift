@@ -23,7 +23,12 @@
 /// to coalesce the error into a default output value.
 public struct Rest<Input: Collection>: Parser where Input.SubSequence == Input {
   @inlinable
-  public init() {}
+  public init() {
+    self.init(internal: ())
+  }
+  
+  @usableFromInline
+  init(internal: Void) {}
 
   @inlinable
   public func parse(_ input: inout Input) throws -> Input {
@@ -74,13 +79,23 @@ extension Rest: ParserPrinter where Input: PrependableCollection {
 extension Rest where Input == Substring {
   @_disfavoredOverload
   @inlinable
-  public init() {}
+  public init() {
+    self.init(internal: ())
+  }
+  
+  @usableFromInline
+  init(internal: Void) {}
 }
 
 extension Rest where Input == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init() {}
+  public init() {
+    self.init(internal: ())
+  }
+  
+  @usableFromInline
+  init(internal: Void) {}
 }
 
 extension Parsers {

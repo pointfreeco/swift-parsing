@@ -44,6 +44,11 @@ public struct AnyParser<Input, Output>: Parser {
   ///   executed each time the ``parse(_:)`` method is called on the resulting parser.
   @inlinable
   public init(_ parse: @escaping (inout Input) throws -> Output) {
+    self.init(internal: parse)
+  }
+  
+  @usableFromInline
+  init(internal parse: @escaping (inout Input) throws -> Output) {
     self.parser = parse
   }
 

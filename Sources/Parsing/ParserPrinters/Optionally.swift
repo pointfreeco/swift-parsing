@@ -37,6 +37,11 @@ public struct Optionally<Wrapped: Parser>: Parser {
 
   @inlinable
   public init(@ParserBuilder _ build: () -> Wrapped) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(@ParserBuilder internal build: () -> Wrapped) {
     self.wrapped = build()
   }
 
