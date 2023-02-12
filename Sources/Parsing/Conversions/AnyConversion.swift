@@ -142,21 +142,21 @@ public struct AnyConversion<Input, Output>: Conversion {
     apply: @escaping (Input) -> Output?,
     unapply: @escaping (Output) -> Input?
   ) {
-    self.init(_apply: apply, _unapply: unapply)
+    self.init(internal: apply, unapply: unapply)
   }
   
   @usableFromInline
   init(
-    _apply: @escaping (Input) -> Output?,
-    _unapply: @escaping (Output) -> Input?
+    internal apply: @escaping (Input) -> Output?,
+    unapply: @escaping (Output) -> Input?
   ) {
     self._apply = {
-      guard let value = _apply($0)
+      guard let value = apply($0)
       else { throw ConvertingError() }
       return value
     }
     self._unapply = {
-      guard let value = _unapply($0)
+      guard let value = unapply($0)
       else { throw ConvertingError() }
       return value
     }

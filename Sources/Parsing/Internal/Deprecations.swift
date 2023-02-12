@@ -610,7 +610,6 @@ extension Prefix {
     self.predicate = predicate
   }
   
-
   @available(
     *, deprecated,
     message: "Use the initializer that takes a Length (Int or range expression), instead."
