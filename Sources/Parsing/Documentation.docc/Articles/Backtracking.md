@@ -70,7 +70,7 @@ It backtracks the input to its original value when the parser fails so that late
 The only time you need to worry about explicitly backtracking input is when making your own
 ``Parser`` conformances. As a general rule of thumb, if your parser recovers from all failures
 in the `parse` method then it should backtrack the input to its state before the error was thrown.
-This is exactly how ``OneOf``, ``Backtrack``, ``Optionally``, ``Not`` and ``Parser/replaceError(with:)`` 
+This is exactly how ``OneOf``, ``Backtracking``, ``Optionally``, ``Not`` and ``Parser/replaceError(with:)`` 
 work.
 
 ## Performance
