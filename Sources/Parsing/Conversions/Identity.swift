@@ -3,7 +3,12 @@ import Foundation
 extension Conversions {
   public struct Identity<Value>: Conversion {
     @inlinable
-    public init() {}
+    public init() {
+      self.init(internal: ())
+    }
+    
+    @usableFromInline
+    init(internal: Void) {}
 
     @inlinable
     @inline(__always)

@@ -35,6 +35,11 @@ extension Parsers {
 
     @inlinable
     public init(upstream: Upstream, transform: @escaping (Upstream.Output) -> NewParser) {
+      self.init(internal: upstream, transform: transform)
+    }
+    
+    @usableFromInline
+    init(internal upstream: Upstream, transform: @escaping (Upstream.Output) -> NewParser) {
       self.upstream = upstream
       self.transform = transform
     }

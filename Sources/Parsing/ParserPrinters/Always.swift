@@ -66,6 +66,11 @@ public struct Always<Input, Output>: ParserPrinter {
 
   @inlinable
   public init(_ output: Output) {
+    self.init(internal: output)
+  }
+  
+  @usableFromInline
+  init(internal output: Output) {
     self.output = output
   }
 
@@ -81,6 +86,11 @@ public struct Always<Input, Output>: ParserPrinter {
 extension Always where Input == Substring {
   @inlinable
   public init(_ output: Output) {
+    self.init(internal: output)
+  }
+  
+  @usableFromInline
+  init(internal output: Output) {
     self.output = output
   }
 }
@@ -88,6 +98,11 @@ extension Always where Input == Substring {
 extension Always where Input == Substring.UTF8View {
   @inlinable
   public init(_ output: Output) {
+    self.init(internal: output)
+  }
+  
+  @usableFromInline
+  init(internal output: Output) {
     self.output = output
   }
 }

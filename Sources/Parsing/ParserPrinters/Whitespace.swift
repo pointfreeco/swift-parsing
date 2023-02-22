@@ -179,6 +179,12 @@ extension Whitespace {
   @inlinable
   public init<C>(_ length: Length, _ configuration: Configuration = .all)
   where InputToBytes == Conversions.Identity<C> {
+    self.init(internal: length, configuration)
+  }
+  
+  @usableFromInline
+  init<C>(internal length: Length, _ configuration: Configuration)
+  where InputToBytes == Conversions.Identity<C> {
     self.length = length
     self.configuration = configuration
     self.inputToBytes = .init()
@@ -195,6 +201,11 @@ extension Whitespace where InputToBytes == Conversions.SubstringToUTF8View {
   @_disfavoredOverload
   @inlinable
   public init(_ length: Length, _ configuration: Configuration = .all) {
+    self.init(internal: length, configuration)
+  }
+  
+  @usableFromInline
+  init(internal length: Length, _ configuration: Configuration) {
     self.length = length
     self.configuration = configuration
     self.inputToBytes = .init()

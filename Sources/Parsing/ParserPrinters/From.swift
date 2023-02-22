@@ -8,6 +8,11 @@ where Upstream.Output == Downstream.Input {
 
   @inlinable
   public init(_ conversion: Upstream, @ParserBuilder _ parser: () -> Downstream) {
+    self.init(internal: conversion, parser)
+  }
+  
+  @usableFromInline
+  init(internal conversion: Upstream, @ParserBuilder _ parser: () -> Downstream) {
     self.conversion = conversion
     self.parser = parser()
   }
@@ -49,6 +54,11 @@ extension Parsers {
 extension From {
   @inlinable
   public init(_ conversion: Upstream) where Downstream == Parsers.Identity<Upstream.Output> {
+    self.init(internal: conversion)
+  }
+  
+  @usableFromInline
+  init(internal conversion: Upstream) where Downstream == Parsers.Identity<Upstream.Output> {
     self.conversion = conversion
     self.parser = .init()
   }

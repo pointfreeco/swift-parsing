@@ -81,6 +81,11 @@ extension Parsers {
 
     @inlinable
     public init(upstream: Upstream, transform: @escaping (Upstream.Output) -> NewOutput) {
+      self.init(internal: upstream, transform: transform)
+    }
+    
+    @usableFromInline
+    init(internal upstream: Upstream, transform: @escaping (Upstream.Output) -> NewOutput) {
       self.upstream = upstream
       self.transform = transform
     }
@@ -102,6 +107,11 @@ extension Parsers {
 
     @inlinable
     public init(upstream: Upstream, output: Output) {
+      self.init(internal: upstream, output: output)
+    }
+    
+    @usableFromInline
+    init(internal upstream: Upstream, output: Output) {
       self.upstream = upstream
       self.output = output
     }
@@ -125,6 +135,11 @@ extension Parsers {
 
     @inlinable
     public init(upstream: Upstream, downstream: Downstream) {
+      self.init(internal: upstream, downstream: downstream)
+    }
+    
+    @usableFromInline
+    init(internal upstream: Upstream, downstream: Downstream) {
       self.upstream = upstream
       self.downstream = downstream
     }

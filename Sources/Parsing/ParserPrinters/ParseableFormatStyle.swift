@@ -12,6 +12,11 @@
 
     @inlinable
     public init(_ style: Style) {
+      self.init(internal: style)
+    }
+    
+    @usableFromInline
+    init(internal style: Style) {
       self.style = style
     }
 

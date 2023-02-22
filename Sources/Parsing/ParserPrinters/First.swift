@@ -23,7 +23,12 @@
 /// ```
 public struct First<Input: Collection>: Parser where Input.SubSequence == Input {
   @inlinable
-  public init() {}
+  public init() {
+    self.init(internal: ())
+  }
+  
+  @usableFromInline
+  init(internal: Void) {}
 
   @inlinable
   public func parse(_ input: inout Input) throws -> Input.Element {
@@ -45,13 +50,23 @@ extension First: ParserPrinter where Input: PrependableCollection {
 extension First where Input == Substring {
   @_disfavoredOverload
   @inlinable
-  public init() {}
+  public init() {
+    self.init(internal: ())
+  }
+  
+  @usableFromInline
+  init(internal: Void) {}
 }
 
 extension First where Input == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init() {}
+  public init() {
+    self.init(internal: ())
+  }
+  
+  @usableFromInline
+  init(internal: Void) {}
 }
 
 extension Parsers {

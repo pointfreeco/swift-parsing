@@ -38,6 +38,11 @@ extension Parsers {
 
     @inlinable
     public init(upstream: Upstream, predicate: @escaping (Upstream.Output) -> Bool) {
+      self.init(internal: upstream, predicate: predicate)
+    }
+    
+    @usableFromInline
+    init(internal upstream: Upstream, predicate: @escaping (Upstream.Output) -> Bool) {
       self.upstream = upstream
       self.predicate = predicate
     }

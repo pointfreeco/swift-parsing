@@ -65,6 +65,19 @@ extension Conversions {
       decoder: JSONDecoder = .init(),
       encoder: JSONEncoder = .init()
     ) {
+      self.init(
+        internal: type,
+        decoder: decoder,
+        encoder: encoder
+      )
+    }
+    
+    @usableFromInline
+    init(
+      internal type: Value.Type,
+      decoder: JSONDecoder = .init(),
+      encoder: JSONEncoder = .init()
+    ) {
       self.decoder = decoder
       self.encoder = encoder
     }

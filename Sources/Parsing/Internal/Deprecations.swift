@@ -540,6 +540,11 @@ where InputToBytes.Input: PrependableCollection, InputToBytes.Output: Prependabl
 extension Newline {
   @inlinable
   public init<C>() where InputToBytes == Conversions.Identity<C> {
+    self.init(internal: ())
+  }
+  
+  @usableFromInline
+  init<C>(internal: Void) where InputToBytes == Conversions.Identity<C> {
     self.inputToBytes = .init()
   }
 }
@@ -549,6 +554,11 @@ extension Newline where InputToBytes == Conversions.SubstringToUTF8View {
   @_disfavoredOverload
   @inlinable
   public init() {
+    self.init(internal: ())
+  }
+  
+  @usableFromInline
+  init(internal: Void) {
     self.inputToBytes = .init()
   }
 }
@@ -582,11 +592,24 @@ extension Prefix {
     maxLength: Int?,
     while predicate: @escaping (Input.Element) -> Bool
   ) {
+    self.init(
+      minLength: minLength,
+      maxLength: maxLength,
+      predicate: predicate
+    )
+  }
+  
+  @usableFromInline
+  init(
+    minLength: Int,
+    maxLength: Int?,
+    predicate: @escaping (Input.Element) -> Bool
+  ) {
     self.minimum = minLength
     self.maximum = maxLength
     self.predicate = predicate
   }
-
+  
   @available(
     *, deprecated,
     message: "Use the initializer that takes a Length (Int or range expression), instead."
@@ -595,6 +618,18 @@ extension Prefix {
   public init(
     minLength: Int,
     while predicate: @escaping (Input.Element) -> Bool
+  ) {
+    self.init(
+      minLength: minLength,
+      predicate: predicate
+    )
+  }
+  
+  @usableFromInline
+  init(
+    minLength: Int,
+    predicate: @escaping (Input.Element) -> Bool
+    
   ) {
     self.minimum = minLength
     self.maximum = nil
@@ -609,6 +644,14 @@ extension Prefix {
   public init(
     maxLength: Int,
     while predicate: @escaping (Input.Element) -> Bool
+  ) {
+    self.init(maxLength: maxLength, predicate: predicate)
+  }
+  
+  @usableFromInline
+  init(
+    maxLength: Int,
+    predicate: @escaping (Input.Element) -> Bool
   ) {
     self.minimum = 0
     self.maximum = maxLength
@@ -721,6 +764,11 @@ where SubstringParser.Input == Substring {
 extension FromSubstring where Input == ArraySlice<UInt8> {
   @inlinable
   public init(@ParserBuilder _ build: () -> SubstringParser) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(@ParserBuilder internal build: () -> SubstringParser) {
     self.substringParser = build()
     self.toSubstring = { Substring(decoding: $0, as: UTF8.self) }
     self.fromSubstring = { ArraySlice($0.utf8) }
@@ -731,6 +779,11 @@ extension FromSubstring where Input == ArraySlice<UInt8> {
 extension FromSubstring where Input == Substring.UnicodeScalarView {
   @inlinable
   public init(@ParserBuilder _ build: () -> SubstringParser) {
+    self.init(build, internal: ())
+  }
+  
+  @usableFromInline
+  init(@ParserBuilder _ build: () -> SubstringParser, internal: Void) {
     self.substringParser = build()
     self.toSubstring = Substring.init
     self.fromSubstring = \.unicodeScalars
@@ -741,6 +794,11 @@ extension FromSubstring where Input == Substring.UnicodeScalarView {
 extension FromSubstring where Input == Substring.UTF8View {
   @inlinable
   public init(@ParserBuilder _ build: () -> SubstringParser) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(@ParserBuilder internal build: () -> SubstringParser) {
     self.substringParser = build()
     self.toSubstring = Substring.init
     self.fromSubstring = \.utf8
@@ -766,6 +824,11 @@ where UnicodeScalarsParser.Input == Substring.UnicodeScalarView {
 extension FromUnicodeScalarView where Input == ArraySlice<UInt8> {
   @inlinable
   public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(@ParserBuilder internal build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = { Substring(decoding: $0, as: UTF8.self).unicodeScalars }
     self.fromUnicodeScalars = { ArraySlice(Substring($0).utf8) }
@@ -776,6 +839,10 @@ extension FromUnicodeScalarView where Input == ArraySlice<UInt8> {
 extension FromUnicodeScalarView where Input == Substring {
   @inlinable
   public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+    self.init(internal: build)
+  }
+  @usableFromInline
+  init(@ParserBuilder internal build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = \.unicodeScalars
     self.fromUnicodeScalars = Substring.init
@@ -786,6 +853,11 @@ extension FromUnicodeScalarView where Input == Substring {
 extension FromUnicodeScalarView where Input == Substring.UTF8View {
   @inlinable
   public init(@ParserBuilder _ build: () -> UnicodeScalarsParser) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(@ParserBuilder internal build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = { Substring($0).unicodeScalars }
     self.fromUnicodeScalars = { Substring($0).utf8 }
@@ -811,6 +883,11 @@ where UTF8Parser.Input == Substring.UTF8View {
 extension FromUTF8View where Input == Substring {
   @inlinable
   public init(@ParserBuilder _ build: () -> UTF8Parser) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(@ParserBuilder internal build: () -> UTF8Parser) {
     self.utf8Parser = build()
     self.toUTF8 = \.utf8
     self.fromUTF8 = Substring.init
@@ -821,6 +898,11 @@ extension FromUTF8View where Input == Substring {
 extension FromUTF8View where Input == Substring.UnicodeScalarView {
   @inlinable
   public init(@ParserBuilder _ build: () -> UTF8Parser) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(@ParserBuilder internal build: () -> UTF8Parser) {
     self.utf8Parser = build()
     self.toUTF8 = { Substring($0).utf8 }
     self.fromUTF8 = { Substring($0).unicodeScalars }

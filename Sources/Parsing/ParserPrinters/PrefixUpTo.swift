@@ -20,6 +20,14 @@ public struct PrefixUpTo<Input: Collection>: Parser where Input.SubSequence == I
     _ possibleMatch: Input,
     by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool
   ) {
+    self.init(internal: possibleMatch, by: areEquivalent)
+  }
+  
+  @usableFromInline
+  init(
+    internal possibleMatch: Input,
+    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool
+  ) {
     self.possibleMatch = possibleMatch
     self.areEquivalent = areEquivalent
   }

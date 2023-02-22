@@ -74,6 +74,11 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
   ///     Once the predicate returns `false` it will not be called again.
   @inlinable
   public init<R: CountingRange>(_ length: R, while predicate: ((Input.Element) -> Bool)? = nil) {
+    self.init(internal: length, while: predicate)
+  }
+  
+  @usableFromInline
+  init<R: CountingRange>(internal length: R, while predicate: ((Input.Element) -> Bool)? = nil) {
     self.minimum = length.minimum
     self.maximum = length.maximum
     self.predicate = predicate
@@ -93,6 +98,11 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
   ///     the predicate returns `false` it will not be called again.
   @inlinable
   public init(while predicate: @escaping (Input.Element) -> Bool) {
+    self.init(internal: predicate)
+  }
+  
+  @usableFromInline
+  init(internal predicate: @escaping (Input.Element) -> Bool) {
     self.minimum = 0
     self.maximum = nil
     self.predicate = predicate

@@ -238,6 +238,27 @@ extension Many where Printability == Void {
     @ParserBuilder separator: () -> Separator,
     @ParserBuilder terminator: () -> Terminator
   ) where I.Element == Element.Output {
+    self.init(
+      internal: length,
+      into: initialResult,
+      updateAccumulatingResult,
+      decumulator: decumulator,
+      element: element,
+      separator: separator,
+      terminator: terminator
+    )
+  }
+  
+  @usableFromInline
+  init<R: CountingRange, I: IteratorProtocol>(
+    internal length: R,
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    decumulator: @escaping (Result) throws -> I,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator,
+    @ParserBuilder terminator: () -> Terminator
+  ) where I.Element == Element.Output {
     self.element = element()
     self.initialResult = initialResult
     self.decumulator = { AnyIterator(try decumulator($0)) }
@@ -298,6 +319,25 @@ extension Many where Printability == Never {
   @inlinable
   public init<R: CountingRange>(
     _ length: R,
+    into initialResult: Result,
+    _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
+    @ParserBuilder element: () -> Element,
+    @ParserBuilder separator: () -> Separator,
+    @ParserBuilder terminator: () -> Terminator
+  ) {
+    self.init(
+      internal: length,
+      into: initialResult,
+      updateAccumulatingResult,
+      element: element,
+      separator: separator,
+      terminator: terminator
+    )
+  }
+  
+  @usableFromInline
+  init<R: CountingRange>(
+    internal length: R,
     into initialResult: Result,
     _ updateAccumulatingResult: @escaping (inout Result, Element.Output) throws -> Void,
     @ParserBuilder element: () -> Element,

@@ -52,6 +52,14 @@ public struct AnyParserPrinter<Input, Output>: ParserPrinter {
     parse: @escaping (inout Input) throws -> Output,
     print: @escaping (Output, inout Input) throws -> Void
   ) {
+    self.init(internal: parse, print: print)
+  }
+  
+  @usableFromInline
+  init(
+    internal parse: @escaping (inout Input) throws -> Output,
+    print: @escaping (Output, inout Input) throws -> Void
+  ) {
     self.parser = parse
     self.printer = print
   }

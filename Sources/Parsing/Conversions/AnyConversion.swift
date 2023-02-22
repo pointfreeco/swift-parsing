@@ -117,8 +117,14 @@ public struct AnyConversion<Input, Output>: Conversion {
   /// - Parameter conversion: A conversion to wrap with a type eraser.
   @inlinable
   public init<C: Conversion>(_ conversion: C) where C.Input == Input, C.Output == Output {
+    self.init(internal: conversion)
+  }
+  
+  @usableFromInline
+  init<C: Conversion>(internal conversion: C) where C.Input == Input, C.Output == Output {
     self._apply = conversion.apply
     self._unapply = conversion.unapply
+
   }
 
   /// Creates a conversion that wraps the given closures in its ``apply(_:)`` and ``unapply(_:)``
@@ -134,6 +140,14 @@ public struct AnyConversion<Input, Output>: Conversion {
   @inlinable
   public init(
     apply: @escaping (Input) -> Output?,
+    unapply: @escaping (Output) -> Input?
+  ) {
+    self.init(internal: apply, unapply: unapply)
+  }
+  
+  @usableFromInline
+  init(
+    internal apply: @escaping (Input) -> Output?,
     unapply: @escaping (Output) -> Input?
   ) {
     self._apply = {

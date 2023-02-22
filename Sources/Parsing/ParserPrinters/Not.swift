@@ -25,6 +25,11 @@ public struct Not<Upstream: Parser>: ParserPrinter {
   ///   fails.
   @inlinable
   public init(@ParserBuilder _ build: () -> Upstream) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(internal build: () -> Upstream) {
     self.upstream = build()
   }
 

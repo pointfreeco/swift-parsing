@@ -18,7 +18,12 @@
 /// > ``Parser/parse(_:)-6h1d0`` and ``Parser/parse(_:)-2wzcq`` methods.
 public struct End<Input: Sequence>: ParserPrinter {
   @inlinable
-  public init() {}
+  public init() {
+    self.init(internal: ())
+  }
+  
+  @usableFromInline
+  init(internal: Void) {}
 
   @inlinable
   public func parse(_ input: inout Input) throws {
@@ -51,13 +56,23 @@ public struct End<Input: Sequence>: ParserPrinter {
 extension End where Input == Substring {
   @_disfavoredOverload
   @inlinable
-  public init() {}
+  public init() {
+    self.init(internal: ())
+  }
+  
+  @usableFromInline
+  init(internal: Void) {}
 }
 
 extension End where Input == Substring.UTF8View {
   @_disfavoredOverload
   @inlinable
-  public init() {}
+  public init() {
+    self.init(internal: ())
+  }
+  
+  @usableFromInline
+  init(internal: Void) {}
 }
 
 extension Parsers {

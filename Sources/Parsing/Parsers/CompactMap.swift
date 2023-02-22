@@ -63,6 +63,14 @@ extension Parsers {
       upstream: Upstream,
       transform: @escaping (Upstream.Output) -> Output?
     ) {
+      self.init(internal: upstream, transform: transform)
+    }
+    
+    @usableFromInline
+    init(
+      internal upstream: Upstream,
+      transform: @escaping (Upstream.Output) -> Output?
+    ) {
       self.upstream = upstream
       self.transform = transform
     }

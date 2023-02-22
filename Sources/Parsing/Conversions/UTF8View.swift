@@ -22,7 +22,12 @@ extension Conversions {
   /// the ``Conversion/utf8-swift.type.property`` operation, which constructs this type.
   public struct SubstringToUTF8View: Conversion {
     @inlinable
-    public init() {}
+    public init() {
+      self.init(internal: ())
+    }
+    
+    @usableFromInline
+    init(internal: Void) {}
 
     @inlinable
     public func apply(_ input: Substring) -> Substring.UTF8View {

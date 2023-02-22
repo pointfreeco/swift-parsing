@@ -44,6 +44,11 @@ public struct Parse<Parsers: Parser>: Parser {
   /// - Parameter with: A parser builder that will accumulate non-void outputs in a tuple.
   @inlinable
   public init(@ParserBuilder with build: () -> Parsers) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(internal build: () -> Parsers) {
     self.parsers = build()
   }
 
@@ -80,6 +85,14 @@ public struct Parse<Parsers: Parser>: Parser {
     _ transform: @escaping (Upstream.Output) -> NewOutput,
     @ParserBuilder with build: () -> Upstream
   ) where Parsers == Parsing.Parsers.Map<Upstream, NewOutput> {
+    self.init(internal: transform, with: build)
+  }
+  
+  @usableFromInline
+  init<Upstream, NewOutput>(
+    internal transform: @escaping (Upstream.Output) -> NewOutput,
+    @ParserBuilder with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.Map<Upstream, NewOutput> {
     self.parsers = build().map(transform)
   }
 
@@ -101,6 +114,14 @@ public struct Parse<Parsers: Parser>: Parser {
   @inlinable
   public init<Upstream, NewOutput>(
     _ output: NewOutput,
+    @ParserBuilder with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.MapConstant<Upstream, NewOutput> {
+    self.init(internal: output, with: build)
+  }
+  
+  @usableFromInline
+  init<Upstream, NewOutput>(
+    internal output: NewOutput,
     @ParserBuilder with build: () -> Upstream
   ) where Parsers == Parsing.Parsers.MapConstant<Upstream, NewOutput> {
     self.parsers = build().map { output }
@@ -137,6 +158,14 @@ public struct Parse<Parsers: Parser>: Parser {
   @inlinable
   public init<Upstream, Downstream>(
     _ conversion: Downstream,
+    @ParserBuilder with build: () -> Upstream
+  ) where Parsers == Parsing.Parsers.MapConversion<Upstream, Downstream> {
+    self.init(internal: conversion, with: build)
+  }
+  
+  @usableFromInline
+  init<Upstream, Downstream>(
+    internal conversion: Downstream,
     @ParserBuilder with build: () -> Upstream
   ) where Parsers == Parsing.Parsers.MapConversion<Upstream, Downstream> {
     self.parsers = build().map(conversion)
@@ -193,6 +222,11 @@ public struct ParsePrint<ParserPrinters: ParserPrinter>: ParserPrinter {
 
   @inlinable
   public init(@ParserBuilder with build: () -> ParserPrinters) {
+    self.init(internal: build)
+  }
+  
+  @usableFromInline
+  init(internal build: () -> ParserPrinters) {
     self.parserPrinters = build()
   }
 
@@ -201,12 +235,28 @@ public struct ParsePrint<ParserPrinters: ParserPrinter>: ParserPrinter {
     _ output: NewOutput,
     @ParserBuilder with build: () -> Upstream
   ) where ParserPrinters == Parsers.MapConstant<Upstream, NewOutput> {
+    self.init(internal: output, with: build)
+  }
+  
+  @usableFromInline
+  init<Upstream, NewOutput>(
+    internal output: NewOutput,
+    @ParserBuilder with build: () -> Upstream
+  ) where ParserPrinters == Parsers.MapConstant<Upstream, NewOutput> {
     self.parserPrinters = build().map { output }
   }
 
   @inlinable
   public init<Upstream, Downstream>(
     _ conversion: Downstream,
+    @ParserBuilder with build: () -> Upstream
+  ) where ParserPrinters == Parsers.MapConversion<Upstream, Downstream> {
+    self.init(internal: conversion, with: build)
+  }
+  
+  @usableFromInline
+  init<Upstream, Downstream>(
+    internal conversion: Downstream,
     @ParserBuilder with build: () -> Upstream
   ) where ParserPrinters == Parsers.MapConversion<Upstream, Downstream> {
     self.parserPrinters = build().map(conversion)

@@ -46,7 +46,12 @@ extension Conversions {
   /// the ``Conversion/string-swift.type.property-3u2b5`` operation, which constructs this type.
   public struct SubstringToString: Conversion {
     @inlinable
-    public init() {}
+    public init() {
+      self.init(internal: ())
+    }
+    
+    @usableFromInline
+    init(internal: Void) {}
 
     @inlinable
     public func apply(_ input: Substring) -> String {
@@ -69,7 +74,12 @@ extension Conversions {
     Input.Element == UTF8.CodeUnit
   {
     @inlinable
-    public init() {}
+    public init() {
+      self.init(internal: ())
+    }
+    
+    @usableFromInline
+    init(internal: Void) {}
 
     @inlinable
     public func apply(_ input: Input) -> String {

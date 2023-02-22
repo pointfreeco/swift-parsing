@@ -131,7 +131,13 @@ public enum OneOfBuilder {
   where P0.Input == P1.Input, P0.Output == P1.Output {
     public let p0: P0, p1: P1
 
-    @inlinable public init(_ p0: P0, _ p1: P1) {
+    @inlinable
+    public init(_ p0: P0, _ p1: P1) {
+      self.init(internal: p0, p1)
+    }
+    
+    @usableFromInline
+    init(internal p0: P0, _ p1: P1) {
       self.p0 = p0
       self.p1 = p1
     }

@@ -57,6 +57,14 @@ extension Parsers {
       parser: Parser,
       printer: Printer
     ) {
+      self.init(internal: parser, printer: printer)
+    }
+    
+    @usableFromInline
+    init(
+      internal parser: Parser,
+      printer: Printer
+    ) {
       self.parser = parser
       self.printer = printer
     }
@@ -81,6 +89,14 @@ extension Parsers {
       parser: Upstream,
       printer: @escaping (Upstream.Output, inout Upstream.Input) -> Void
     ) {
+      self.init(internal: parser, printer: printer)
+    }
+    
+    @usableFromInline
+    init(
+      internal parser: Upstream,
+      printer: @escaping (Upstream.Output, inout Upstream.Input) -> Void
+    ) {
       self.parser = parser
       self.printer = printer
     }
@@ -103,6 +119,14 @@ extension Parsers {
     @inlinable
     public init(
       parser: Upstream,
+      printer: @escaping (Upstream.Output, inout Upstream.Input) throws -> Void
+    ) {
+      self.init(internal: parser, printer: printer)
+    }
+    
+    @usableFromInline
+    init(
+      internal parser: Upstream,
       printer: @escaping (Upstream.Output, inout Upstream.Input) throws -> Void
     ) {
       self.parser = parser

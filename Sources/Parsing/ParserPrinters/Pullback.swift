@@ -39,6 +39,11 @@ extension Parsers {
 
     @inlinable
     public init(downstream: Downstream, keyPath: WritableKeyPath<Input, Downstream.Input>) {
+      self.init(internal: downstream, keyPath: keyPath)
+    }
+    
+    @usableFromInline
+    init(internal downstream: Downstream, keyPath: WritableKeyPath<Input, Downstream.Input>) {
       self.downstream = downstream
       self.keyPath = keyPath
     }
