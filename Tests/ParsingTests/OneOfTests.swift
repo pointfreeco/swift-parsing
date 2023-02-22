@@ -2,6 +2,15 @@ import Parsing
 import XCTest
 
 final class OneOfTests: XCTestCase {
+  func testOneOfSingleton() {
+    var input = "AB"[...]
+    XCTAssertThrowsError(
+      try OneOf { Prefix(2) { $0 == "A" } }
+        .parse(&input)
+    )
+    XCTAssertEqual("B", Substring(input))
+  }
+
   func testOneOfFirstSuccess() {
     var input = "New York, Hello!"[...]
     XCTAssertNoThrow(
