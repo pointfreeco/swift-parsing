@@ -4,7 +4,7 @@
 /// Use this parser if you want to manually manage the backtracking behavior of your parsers.
 /// Another tool for managing backtracking is the ``OneOf`` parser. Also see the
 /// <doc:Backtracking> article for more information on backtracking.
-public struct Backtrack<Upstream: Parser>: Parser {
+public struct Backtracking<Upstream: Parser>: Parser {
   public let upstream: Upstream
 
   public init(
@@ -24,7 +24,7 @@ public struct Backtrack<Upstream: Parser>: Parser {
   }
 }
 
-extension Backtrack: ParserPrinter where Upstream: ParserPrinter {
+extension Backtracking: ParserPrinter where Upstream: ParserPrinter {
   public func print(_ output: Upstream.Output, into input: inout Upstream.Input) throws {
     try self.upstream.print(output, into: &input)
   }

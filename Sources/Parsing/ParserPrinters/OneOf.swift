@@ -150,12 +150,12 @@
 ///
 /// The ``OneOf`` parser is the primary tool for introducing backtracking into your parsers,
 /// which means to undo the consumption of a parser when it fails. For more information, see the
-/// article <doc:Backtracking> and the ``Backtrack`` parser.
+/// article <doc:Backtracking> and the ``Backtracking`` parser.
 ///
 /// > Note: While ``OneOf`` does undo any input consumption before running each parser listed
 /// in the builder closure, it does _not_ undo the consumption of the last parser. If you want to
 /// enforce backtracking for the entire ``OneOf`` parser you need to further wrap it inside the
-/// ``Backtrack`` parser.
+/// ``Backtracking`` parser.
 public struct OneOf<Parsers: Parser>: Parser {
   public let parsers: Parsers
 
