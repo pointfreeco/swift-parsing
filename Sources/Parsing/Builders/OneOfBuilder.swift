@@ -17,7 +17,7 @@
 /// try currency.parse("$100") // (.usd, 100)
 /// ```
 @resultBuilder
-public enum OneOfBuilder {
+public enum OneOfBuilder<Input, Output> {
   /// Provides support for `for`-`in` loops in ``OneOfBuilder`` blocks.
   ///
   /// Useful for building up a parser from a dynamic source, like for a case-iterable enum:
@@ -36,22 +36,22 @@ public enum OneOfBuilder {
   /// }
   /// ```
   @inlinable
-  public static func buildArray<P>(_ parsers: [P]) -> Parsers.OneOfMany<P> {
+  public static func buildArray<P>(_ parsers: [P]) -> Parsers.OneOfMany<P>
+  where P.Input == Input, P.Output == Output {
     .init(parsers)
+  }
+
+  @inlinable
+  static public func buildBlock() -> Fail<Input, Output> {
+    Fail()
   }
 
   /// Provides support for specifying a parser in ``OneOfBuilder`` blocks.
   @inlinable
-  static public func buildBlock<P: Parser>(_ parser: P) -> P {
+  static public func buildBlock<P: Parser>(_ parser: P) -> P
+  where P.Input == Input, P.Output == Output {
     parser
   }
-
-  #if swift(<5.7)
-    @inlinable
-    static public func buildBlock<P0: Parser, P1: Parser>(_ p0: P0, _ p1: P1) -> OneOf2<P0, P1> {
-      OneOf2(p0, p1)
-    }
-  #endif
 
   /// Provides support for `if`-`else` statements in ``OneOfBuilder`` blocks, producing a
   /// conditional parser for the `if` branch.
@@ -68,7 +68,13 @@ public enum OneOfBuilder {
   @inlinable
   public static func buildEither<TrueParser, FalseParser>(
     first parser: TrueParser
-  ) -> Parsers.Conditional<TrueParser, FalseParser> {
+  ) -> Parsers.Conditional<TrueParser, FalseParser>
+  where
+    TrueParser.Input == Input,
+    TrueParser.Output == Output,
+    FalseParser.Input == Input,
+    FalseParser.Output == Output
+  {
     .first(parser)
   }
 
@@ -87,8 +93,20 @@ public enum OneOfBuilder {
   @inlinable
   public static func buildEither<TrueParser, FalseParser>(
     second parser: FalseParser
-  ) -> Parsers.Conditional<TrueParser, FalseParser> {
+  ) -> Parsers.Conditional<TrueParser, FalseParser>
+  where
+    TrueParser.Input == Input,
+    TrueParser.Output == Output,
+    FalseParser.Input == Input,
+    FalseParser.Output == Output
+  {
     .second(parser)
+  }
+
+  @inlinable
+  public static func buildExpression<P: Parser>(_ parser: P) -> P
+  where P.Input == Input, P.Output == Output {
+    parser
   }
 
   /// Provides support for `if` statements in ``OneOfBuilder`` blocks, producing an optional parser.
@@ -106,24 +124,27 @@ public enum OneOfBuilder {
   /// }
   /// ```
   @inlinable
-  public static func buildIf<P>(_ parser: P?) -> OptionalOneOf<P> {
+  public static func buildIf<P>(_ parser: P?) -> OptionalOneOf<P> where P.Input == Input {
     .init(wrapped: parser)
   }
 
   /// Provides support for `if #available` statements in ``OneOfBuilder`` blocks, producing an
   /// optional parser.
   @inlinable
-  public static func buildLimitedAvailability<P>(_ parser: P?) -> OptionalOneOf<P> {
+  public static func buildLimitedAvailability<P>(_ parser: P?) -> OptionalOneOf<P>
+  where P.Input == Input, P.Output == Output {
     .init(wrapped: parser)
   }
 
   @inlinable
-  public static func buildPartialBlock<P0: Parser>(first: P0) -> P0 {
+  public static func buildPartialBlock<P: Parser>(first: P) -> P
+  where P.Input == Input, P.Output == Output {
     first
   }
 
   @inlinable
-  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> OneOf2<P0, P1> {
+  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> OneOf2<P0, P1>
+  where P0.Input == Input, P0.Output == Output, P1.Input == Input, P1.Output == Output {
     .init(accumulated, next)
   }
 
@@ -209,5 +230,24 @@ extension OneOfBuilder.OptionalOneOf: ParserPrinter where Wrapped: ParserPrinter
     guard let wrapped = self.wrapped
     else { throw PrintingError.manyFailed([], at: input) }
     try wrapped.print(output, into: &input)
+  }
+}
+
+extension OneOfBuilder where Input == Substring {
+  @_disfavoredOverload
+  public static func buildExpression<P: Parser>(_ parser: P)
+  -> From<Conversions.SubstringToUTF8View, Substring.UTF8View, P>
+  where P.Input == Substring.UTF8View {
+    From(.utf8) {
+      parser
+    }
+  }
+}
+
+extension OneOfBuilder where Input == Substring.UTF8View {
+  @_disfavoredOverload
+  public static func buildExpression<P: Parser>(_ parser: P) -> P
+  where P.Input == Substring.UTF8View {
+    parser
   }
 }

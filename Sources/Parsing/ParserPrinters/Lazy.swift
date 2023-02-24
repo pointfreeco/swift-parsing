@@ -1,13 +1,41 @@
 /// A parser that waits for a call to its ``parse(_:)`` method before running the given closure to
 /// create a parser for the given input.
-public final class Lazy<LazyParser: Parser>: Parser {
+@available(
+  iOS,
+  deprecated: 9999,
+  message: """
+    Lazily evaluate a parser by specifying it in a computed 'Parser.body' property, instead.
+    """
+)
+@available(
+  macOS,
+  deprecated: 9999,
+  message: """
+    Lazily evaluate a parser by specifying it in a computed 'Parser.body' property, instead.
+    """
+)
+@available(
+  tvOS,
+  deprecated: 9999,
+  message: """
+    Lazily evaluate a parser by specifying it in a computed 'Parser.body' property, instead.
+    """
+)
+@available(
+  watchOS,
+  deprecated: 9999,
+  message: """
+    Lazily evaluate a parser by specifying it in a computed 'Parser.body' property, instead.
+    """
+)
+public final class Lazy<Input, LazyParser: Parser>: Parser where Input == LazyParser.Input {
   @usableFromInline
   internal var lazyParser: LazyParser?
 
   public let createParser: () -> LazyParser
 
   @inlinable
-  public init(@ParserBuilder createParser: @escaping () -> LazyParser) {
+  public init(@ParserBuilder<Input> createParser: @escaping () -> LazyParser) {
     self.createParser = createParser
   }
 

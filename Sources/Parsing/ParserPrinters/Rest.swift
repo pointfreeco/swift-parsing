@@ -71,18 +71,6 @@ extension Rest: ParserPrinter where Input: PrependableCollection {
   }
 }
 
-extension Rest where Input == Substring {
-  @_disfavoredOverload
-  @inlinable
-  public init() {}
-}
-
-extension Rest where Input == Substring.UTF8View {
-  @_disfavoredOverload
-  @inlinable
-  public init() {}
-}
-
 extension Parsers {
   public typealias Rest = Parsing.Rest  // NB: Convenience type alias for discovery
 }

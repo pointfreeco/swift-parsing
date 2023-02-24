@@ -23,21 +23,31 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
   }
 
   do {
-    let user = Parse(User.init(id:name:isAdmin:)) {
-      Int.parser()
-      ","
-      Prefix { $0 != "," }.map(String.init)
-      ","
-      Bool.parser()
-    }
-    let users = Many {
-      user
-    } separator: {
-      "\n"
-    } terminator: {
-      End()
+    struct UserParser: Parser {
+      var body: some Parser<Substring, User> {
+        Parse(User.init(id:name:isAdmin:)) {
+          Int.parser()
+          ","
+          Prefix { $0 != "," }.map(String.init)
+          ","
+          Bool.parser()
+        }
+      }
     }
 
+    struct UsersParser: Parser {
+      var body: some Parser<Substring, [User]> {
+        Many {
+          UserParser()
+        } separator: {
+          "\n"
+        } terminator: {
+          End()
+        }
+      }
+    }
+
+    let users = UsersParser()
     suite.benchmark("Parser: Substring") {
       var input = input[...]
       output = try users.parse(&input)
@@ -47,21 +57,31 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
   }
 
   do {
-    let user = Parse(User.init(id:name:isAdmin:)) {
-      Int.parser()
-      ",".utf8
-      Prefix { $0 != .init(ascii: ",") }.map { String(Substring($0)) }
-      ",".utf8
-      Bool.parser()
-    }
-    let users = Many {
-      user
-    } separator: {
-      "\n".utf8
-    } terminator: {
-      End()
+    struct UserParser: Parser {
+      var body: some Parser<Substring.UTF8View, User> {
+        Parse(User.init(id:name:isAdmin:)) {
+          Int.parser()
+          ",".utf8
+          Prefix { $0 != UInt8(ascii: ",") }.map { String(Substring($0)) }
+          ",".utf8
+          Bool.parser()
+        }
+      }
     }
 
+    struct UsersParser: Parser {
+      var body: some Parser<Substring.UTF8View, [User]> {
+        Many {
+          UserParser()
+        } separator: {
+          "\n".utf8
+        } terminator: {
+          End()
+        }
+      }
+    }
+
+    let users = UsersParser()
     suite.benchmark("Parser: UTF8") {
       var input = input[...].utf8
       output = try users.parse(&input)

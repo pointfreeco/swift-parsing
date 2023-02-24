@@ -9,48 +9,58 @@ let xcodeLogsSuite = BenchmarkSuite(name: "Xcode Logs") { suite in
 
   suite.benchmark("Parser") {
     var input = xcodeLogs[...].utf8
-    output = try testResultsUtf8.parse(&input)
+    output = try TestResults().parse(&input)
   } tearDown: {
     precondition(output.count == 284)
   }
 }
 
-private let testCaseFinishedLine = Parse {
-  Skip {
-    PrefixThrough(" (".utf8)
+private struct TestCaseFinishedLine: Parser {
+  var body: some Parser<Substring.UTF8View, Double> {
+    Skip {
+      PrefixThrough(" (".utf8)
+    }
+    Double.parser()
+    " seconds).\n".utf8
   }
-  Double.parser()
-  " seconds).\n".utf8
 }
 
-private let testCaseStartedLine = Parse {
-  Skip {
-    PrefixUpTo("Test Case '-[".utf8)
+private struct TestCaseStartedLine: Parser {
+  var body: some Parser<Substring.UTF8View, Substring> {
+    Skip {
+      PrefixUpTo("Test Case '-[".utf8)
+    }
+    PrefixThrough("\n".utf8)
+      .map { line in line.split(separator: .init(ascii: " "))[3].dropLast(2) }
+      .map(Substring.init)
   }
-  PrefixThrough("\n".utf8)
-    .map { line in line.split(separator: .init(ascii: " "))[3].dropLast(2) }
 }
 
-private let fileName = Parse {
-  "/".utf8
-  PrefixThrough(".swift".utf8)
-    .compactMap { $0.split(separator: .init(ascii: "/")).last }
+private struct FileName: Parser {
+  var body: some Parser<Substring.UTF8View, Substring> {
+    "/".utf8
+    PrefixThrough(".swift".utf8)
+      .compactMap { $0.split(separator: .init(ascii: "/")).last }
+      .map(Substring.init)
+  }
 }
 
-private let testCaseBody = Parse {
-  fileName
-  ":".utf8
-  Int.parser()
-  Skip {
-    PrefixThrough("] : ".utf8)
+private struct _TestCaseBody: Parser {
+  var body: some Parser<Substring.UTF8View, (Substring, Int, Substring)> {
+    FileName()
+    ":".utf8
+    Int.parser()
+    Skip {
+      PrefixThrough("] : ".utf8)
+    }
+    Rest().map(Substring.init)
   }
-  Rest()
 }
 
 struct TestCaseBody: Parser {
   func parse(
     _ input: inout Substring.UTF8View
-  ) throws -> (file: Substring.UTF8View, line: Int, message: Substring.UTF8View) {
+  ) throws -> (file: Substring, line: Int, message: Substring) {
     guard input.first == .init(ascii: "/")
     else { throw ParsingError() }
 
@@ -71,7 +81,7 @@ struct TestCaseBody: Parser {
       .parse(&input)
 
       failure.removeLast()  // trailing newline
-      let output = try testCaseBody.parse(&failure)
+      let output = try _TestCaseBody().parse(&failure)
       return output
     } catch {
       throw error
@@ -90,36 +100,44 @@ enum TestResult {
   case passed(testName: Substring, time: Double)
 }
 
-private let testFailed = Parse {
-  testCaseStartedLine
-  Many { TestCaseBody() }
-  testCaseFinishedLine
-}
-.map { testName, bodyData, time in
-  bodyData.map { body in
-    TestResult.failed(
-      failureMessage: Substring(body.2),
-      file: Substring(body.0),
-      line: body.1,
-      testName: Substring(testName),
-      time: time
-    )
+private struct TestFailed: Parser {
+  var body: some Parser<Substring.UTF8View, [TestResult]> {
+    Parse { testName, bodyData, time in
+      bodyData.map { body in
+        TestResult.failed(
+          failureMessage: body.2,
+          file: body.0,
+          line: body.1,
+          testName: testName,
+          time: time
+        )
+      }
+    } with: {
+      TestCaseStartedLine()
+      Many(1...) { TestCaseBody() }
+      TestCaseFinishedLine()
+    }
   }
 }
-.filter { !$0.isEmpty }
 
-private let testPassed = Parse {
-  testCaseStartedLine.map(Substring.init)
-  testCaseFinishedLine
+private struct TestPassed: Parser {
+  var body: some Parser<Substring.UTF8View, [TestResult]> {
+    Parse {
+      [TestResult.passed(testName: $0, time: $1)]
+    } with: {
+      TestCaseStartedLine()
+      TestCaseFinishedLine()
+    }
+  }
 }
-.map { [TestResult.passed(testName: $0, time: $1)] }
 
-private let testResult = OneOf {
-  testFailed
-  testPassed
+private struct TestResults: Parser {
+  var body: some Parser<Substring.UTF8View, [TestResult]> {
+    Many(into: [TestResult](), +=) {
+      OneOf {
+        TestFailed()
+        TestPassed()
+      }
+    }
+  }
 }
-
-let testResultsUtf8 = Many {
-  testResult
-}
-.map { $0.flatMap { $0 } }

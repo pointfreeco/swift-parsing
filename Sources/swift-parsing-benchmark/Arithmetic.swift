@@ -5,47 +5,44 @@ import Parsing
 /// This benchmark demonstrates how to parse a recursive grammar: arithmetic.
 let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   struct AdditionAndSubtraction: Parser {
-    func parse(_ input: inout Substring.UTF8View) throws -> Double {
-      try InfixOperator(associativity: .left) {
+    var body: some Parser<Substring.UTF8View, Double> {
+      InfixOperator(associativity: .left) {
         OneOf {
-          "+".utf8.map { (+) }
+          "+".utf8.map { (+) as (Double, Double) -> Double }
           "-".utf8.map { (-) }
         }
       } lowerThan: {
         MultiplicationAndDivision()
       }
-      .parse(&input)
     }
   }
 
   struct MultiplicationAndDivision: Parser {
-    func parse(_ input: inout Substring.UTF8View) throws -> Double {
-      try InfixOperator(associativity: .left) {
+    var body: some Parser<Substring.UTF8View, Double> {
+      InfixOperator(associativity: .left) {
         OneOf {
-          "*".utf8.map { (*) }
+          "*".utf8.map { (*) as (Double, Double) -> Double }
           "/".utf8.map { (/) }
         }
       } lowerThan: {
         Exponent()
       }
-      .parse(&input)
     }
   }
 
   struct Exponent: Parser {
-    func parse(_ input: inout Substring.UTF8View) throws -> Double {
-      try InfixOperator(associativity: .left) {
-        "^".utf8.map { pow }
+    var body: some Parser<Substring.UTF8View, Double> {
+      InfixOperator(associativity: .left) {
+        "^".utf8.map { pow as (Double, Double) -> Double }
       } lowerThan: {
         Factor()
       }
-      .parse(&input)
     }
   }
 
   struct Factor: Parser {
-    func parse(_ input: inout Substring.UTF8View) throws -> Double {
-      try OneOf {
+    var body: some Parser<Substring.UTF8View, Double> {
+      OneOf {
         Parse {
           "(".utf8
           AdditionAndSubtraction()
@@ -54,7 +51,6 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
 
         Double.parser()
       }
-      .parse(&input)
     }
   }
 
@@ -68,9 +64,10 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   }
 }
 
-public struct InfixOperator<Operator: Parser, Operand: Parser>: Parser
+public struct InfixOperator<Input, Operator: Parser, Operand: Parser>: Parser
 where
-  Operator.Input == Operand.Input,
+  Operator.Input == Input,
+  Operand.Input == Input,
   Operator.Output == (Operand.Output, Operand.Output) -> Operand.Output
 {
   public let `associativity`: Associativity
@@ -80,8 +77,8 @@ where
   @inlinable
   public init(
     associativity: Associativity,
-    @ParserBuilder _ operator: () -> Operator,
-    @ParserBuilder lowerThan operand: () -> Operand  // Should this be called `precedes operand:`?
+    @ParserBuilder<Input> _ operator: () -> Operator,
+    @ParserBuilder<Input> lowerThan operand: () -> Operand  // Should this be called `precedes:`?
   ) {
     self.associativity = `associativity`
     self.operand = operand()
@@ -89,7 +86,7 @@ where
   }
 
   @inlinable
-  public func parse(_ input: inout Operand.Input) rethrows -> Operand.Output {
+  public func parse(_ input: inout Input) rethrows -> Operand.Output {
     switch associativity {
     case .left:
       var lhs = try self.operand.parse(&input)

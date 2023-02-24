@@ -3,7 +3,7 @@ import XCTest
 
 final class FromSubstringTests: XCTestCase {
   func testUTF8View() {
-    let p = Parse {
+    let p = Parse(input: Substring.UTF8View.self) {
       "caf".utf8
       From(.substring) { "é" }
     }

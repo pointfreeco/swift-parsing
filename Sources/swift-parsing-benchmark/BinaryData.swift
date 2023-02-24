@@ -37,56 +37,55 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
     }
   }
 
-  let id = Word16Parser()
+  struct DNSHeaderParser: Parser {
+    var body: some Parser<ArraySlice<UInt8>, DNSHeader> {
+      Parse { id, fields1, fields2, counts in
+        DNSHeader(
+          id: id,
+          qr: fields1.qr,
+          opcode: fields1.opcode,
+          aa: fields1.aa,
+          tc: fields1.tc,
+          rd: fields1.rd,
+          ra: fields2.ra,
+          z: fields2.z,
+          rcode: fields2.rcode,
+          qdcount: counts.qd,
+          ancount: counts.an,
+          nscount: counts.ns,
+          arcount: counts.ar
+        )
+      } with: {
+        Word16Parser()
 
-  let fields1 = First<ArraySlice<UInt8>>().map { (byte: UInt8) in
-    (
-      qr: Bit(rawValue: byte & 0b00000001)!,
-      opcode: Opcode(rawValue: (byte & 0b00011110) >> 1),
-      aa: Bit(rawValue: (byte & 0b00100000) >> 5)!,
-      tc: Bit(rawValue: (byte & 0b01000000) >> 6)!,
-      rd: Bit(rawValue: (byte & 0b10000000) >> 7)!
-    )
-  }
+        First().map { byte in
+          (
+            qr: Bit(rawValue: byte & 0b00000001)!,
+            opcode: Opcode(rawValue: (byte & 0b00011110) >> 1),
+            aa: Bit(rawValue: (byte & 0b00100000) >> 5)!,
+            tc: Bit(rawValue: (byte & 0b01000000) >> 6)!,
+            rd: Bit(rawValue: (byte & 0b10000000) >> 7)!
+          )
+        }
 
-  let fields2 = First<ArraySlice<UInt8>>().map { byte in
-    (
-      ra: Bit(rawValue: byte & 0b00000001)!,
-      z: UInt3(uint8: (byte & 0b00001110) >> 1)!,
-      rcode: Rcode(rawValue: (byte & 0b11110000) >> 4)
-    )
-  }
+        First().map { byte in
+          (
+            ra: Bit(rawValue: byte & 0b00000001)!,
+            z: UInt3(uint8: (byte & 0b00001110) >> 1)!,
+            rcode: Rcode(rawValue: (byte & 0b11110000) >> 4)
+          )
+        }
 
-  let counts = Parse {
-    (qd: $0, an: $1, ns: $2, ar: $3)
-  } with: {
-    Word16Parser()
-    Word16Parser()
-    Word16Parser()
-    Word16Parser()
-  }
-
-  let header = Parse { id, fields1, fields2, counts in
-    DnsHeader(
-      id: id,
-      qr: fields1.qr,
-      opcode: fields1.opcode,
-      aa: fields1.aa,
-      tc: fields1.tc,
-      rd: fields1.rd,
-      ra: fields2.ra,
-      z: fields2.z,
-      rcode: fields2.rcode,
-      qdcount: counts.qd,
-      ancount: counts.an,
-      nscount: counts.ns,
-      arcount: counts.ar
-    )
-  } with: {
-    id
-    fields1
-    fields2
-    counts
+        Parse {
+          (qd: $0, an: $1, ns: $2, ar: $3)
+        } with: {
+          Word16Parser()
+          Word16Parser()
+          Word16Parser()
+          Word16Parser()
+        }
+      }
+    }
   }
 
   let input: [UInt8] = [
@@ -101,17 +100,17 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
     // rest of packet
     0xDE, 0xAD, 0xBE, 0xEF,
   ]
-  var output: DnsHeader!
+  var output: DNSHeader!
   var rest: ArraySlice<UInt8>!
 
   suite.benchmark("Parser") {
     var input = input[...]
-    output = try header.parse(&input)
+    output = try DNSHeaderParser().parse(&input)
     rest = input
   } tearDown: {
     precondition(
       output
-        == DnsHeader(
+        == DNSHeader(
           id: 36_394,
           qr: .one,
           opcode: .inverseQuery,
@@ -130,7 +129,7 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
     precondition(rest == [0xDE, 0xAD, 0xBE, 0xEF])
   }
 
-  struct DnsHeader: Equatable {
+  struct DNSHeader: Equatable {
     let id: UInt16
     let qr: Bit
     let opcode: Opcode

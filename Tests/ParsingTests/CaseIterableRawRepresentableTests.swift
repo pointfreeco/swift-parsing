@@ -8,14 +8,15 @@ final class CaseIterableRawRepresentableTests: XCTestCase {
       case blobJr = "Blob Jr"
     }
 
-    let peopleParser = Many {
-      Person.parser()
-    } separator: {
-      ",".utf8
-    } terminator: {
-      End()
+    let peopleParser = Parse(input: Substring.UTF8View.self) {
+      Many {
+        Person.parser()
+      } separator: {
+        ",".utf8
+      } terminator: {
+        End()
+      }
     }
-
     var input = "Blob,Blob Jr"[...].utf8
     XCTAssertEqual(try peopleParser.parse(&input), [.blob, .blobJr])
 
@@ -50,22 +51,26 @@ final class CaseIterableRawRepresentableTests: XCTestCase {
       case blobJr = 42
     }
 
-    let peopleParser = Many {
-      Person.parser()
-    } separator: {
-      ",".utf8
-    } terminator: {
-      End()
+    struct People: Parser {
+      var body: some Parser<Substring.UTF8View, [Person]> {
+        Many {
+          Person.parser()
+        } separator: {
+          ",".utf8
+        } terminator: {
+          End()
+        }
+      }
     }
 
     var input = "4,42"[...].utf8
-    XCTAssertEqual(try peopleParser.parse(&input), [.blob, .blobJr])
+    XCTAssertEqual(try People().parse(&input), [.blob, .blobJr])
 
     input = "42,4"[...].utf8
-    XCTAssertEqual(try peopleParser.parse(&input), [.blobJr, .blob])
+    XCTAssertEqual(try People().parse(&input), [.blobJr, .blob])
 
     input = "42,100"[...].utf8
-    XCTAssertThrowsError(try peopleParser.parse(&input)) { error in
+    XCTAssertThrowsError(try People().parse(&input)) { error in
       XCTAssertEqual(
         """
         error: multiple failures occurred
@@ -92,22 +97,26 @@ final class CaseIterableRawRepresentableTests: XCTestCase {
       case blobJr = -42
     }
 
-    let peopleParser = Many {
-      Person.parser()
-    } separator: {
-      ",".utf8
-    } terminator: {
-      End()
+    struct People: Parser {
+      var body: some Parser<Substring.UTF8View, [Person]> {
+        Many {
+          Person.parser()
+        } separator: {
+          ",".utf8
+        } terminator: {
+          End()
+        }
+      }
     }
 
     var input = "-4,-42"[...].utf8
-    XCTAssertEqual(try peopleParser.parse(&input), [.blob, .blobJr])
+    XCTAssertEqual(try People().parse(&input), [.blob, .blobJr])
 
     input = "-42,-4"[...].utf8
-    XCTAssertEqual(try peopleParser.parse(&input), [.blobJr, .blob])
+    XCTAssertEqual(try People().parse(&input), [.blobJr, .blob])
 
     input = "-42,-100"[...].utf8
-    XCTAssertThrowsError(try peopleParser.parse(&input)) { error in
+    XCTAssertThrowsError(try People().parse(&input)) { error in
       XCTAssertEqual(
         """
         error: multiple failures occurred

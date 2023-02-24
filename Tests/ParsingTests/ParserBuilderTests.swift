@@ -4,7 +4,7 @@ import XCTest
 final class ParserBuilderTests: XCTestCase {
   func testBuildIfVoid() {
     var parseComma = true
-    var parser = Parse {
+    var parser = Parse(input: Substring.self) {
       "Hello"
       if parseComma {
         ","
@@ -62,7 +62,7 @@ final class ParserBuilderTests: XCTestCase {
 
   func testBuildIfOutput() throws {
     var parseInt = true
-    var parser = Parse {
+    var parser = Parse(input: Substring.self) {
       if parseInt {
         Int.parser()
         " "
@@ -118,7 +118,7 @@ final class ParserBuilderTests: XCTestCase {
 
     var input = "123 Blob"[...]
     XCTAssertThrowsError(
-      try Parse {
+      try Parse(input: Substring.self) {
         Int.parser()
         MyParser()
       }
@@ -137,7 +137,8 @@ final class ParserBuilderTests: XCTestCase {
     XCTAssertEqual(input, " Blob"[...])
 
     input = "123 Blob"[...]
-    func custom<P>(@ParserBuilder _ build: () -> P) -> P {
+    
+    func custom<P>(@ParserBuilder<Substring> _ build: () -> P) -> P {
       build()
     }
     XCTAssertThrowsError(

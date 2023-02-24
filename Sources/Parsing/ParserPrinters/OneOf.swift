@@ -156,11 +156,16 @@
 /// in the builder closure, it does _not_ undo the consumption of the last parser. If you want to
 /// enforce backtracking for the entire ``OneOf`` parser you need to further wrap it inside the
 /// ``Backtracking`` parser.
-public struct OneOf<Parsers: Parser>: Parser {
+public struct OneOf<Input, Output, Parsers: Parser>: Parser
+where Parsers.Input == Input, Parsers.Output == Output {
   public let parsers: Parsers
 
   @inlinable
-  public init(@OneOfBuilder _ build: () -> Parsers) {
+  public init(
+    input inputType: Input.Type = Input.self,
+    output outputType: Output.Type = Output.self,
+    @OneOfBuilder<Input, Output> _ build: () -> Parsers
+  ) {
     self.parsers = build()
   }
 

@@ -185,36 +185,6 @@ extension Whitespace {
   }
 }
 
-extension Whitespace where InputToBytes == Conversions.SubstringToUTF8View {
-  @_disfavoredOverload
-  @inlinable
-  public init(_ configuration: Configuration = .all) where Length == PartialRangeFrom<Int> {
-    self.init(0..., configuration)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(_ length: Length, _ configuration: Configuration = .all) {
-    self.length = length
-    self.configuration = configuration
-    self.inputToBytes = .init()
-  }
-}
-
-extension Whitespace where InputToBytes == Conversions.Identity<Substring.UTF8View> {
-  @_disfavoredOverload
-  @inlinable
-  public init(_ configuration: Configuration = .all) where Length == PartialRangeFrom<Int> {
-    self.init(configuration)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(_ length: Length, _ configuration: Configuration = .all) {
-    self.init(length, configuration)
-  }
-}
-
 extension Parsers {
   public typealias Whitespace = Parsing.Whitespace  // NB: Convenience type alias for discovery
 }

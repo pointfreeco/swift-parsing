@@ -47,14 +47,20 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     let expected = Array(1...100_000)
     var output: [Int]!
 
+    struct IntsParser: Parser {
+      var body: some Parser<Substring.UTF8View, [Int]> {
+        Many {
+          Int.parser()
+        } separator: {
+          ",".utf8
+        }
+      }
+    }
+
+    let parser = IntsParser()
     suite.benchmark("Comma separated: Int.parser") {
       var input = input[...].utf8
-      output = try Many {
-        Int.parser()
-      } separator: {
-        ",".utf8
-      }
-      .parse(&input)
+      output = try parser.parse(&input)
     } tearDown: {
       precondition(output == expected)
     }
@@ -120,14 +126,20 @@ let numericsSuite = BenchmarkSuite(name: "Numerics") { suite in
     let expected = (1...100_000).map(Double.init)
     var output: [Double]!
 
+    struct DoublesParser: Parser {
+      var body: some Parser<Substring.UTF8View, [Double]> {
+        Many {
+          Double.parser()
+        } separator: {
+          ",".utf8
+        }
+      }
+    }
+
+    let parser = DoublesParser()
     suite.benchmark("Comma separated: Double.parser") {
       var input = input[...].utf8
-      output = try Many {
-        Double.parser()
-      } separator: {
-        ",".utf8
-      }
-      .parse(&input)
+      output = try parser.parse(&input)
     } tearDown: {
       precondition(output == expected)
     }

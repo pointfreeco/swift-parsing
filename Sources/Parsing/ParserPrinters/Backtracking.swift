@@ -4,11 +4,11 @@
 /// Use this parser if you want to manually manage the backtracking behavior of your parsers.
 /// Another tool for managing backtracking is the ``OneOf`` parser. Also see the
 /// <doc:Backtracking> article for more information on backtracking.
-public struct Backtracking<Upstream: Parser>: Parser {
+public struct Backtracking<Input, Upstream: Parser>: Parser where Upstream.Input == Input {
   public let upstream: Upstream
 
   public init(
-    @ParserBuilder upstream: () -> Upstream
+    @ParserBuilder<Input> upstream: () -> Upstream
   ) {
     self.upstream = upstream()
   }

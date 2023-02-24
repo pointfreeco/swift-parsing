@@ -42,18 +42,6 @@ extension First: ParserPrinter where Input: PrependableCollection {
   }
 }
 
-extension First where Input == Substring {
-  @_disfavoredOverload
-  @inlinable
-  public init() {}
-}
-
-extension First where Input == Substring.UTF8View {
-  @_disfavoredOverload
-  @inlinable
-  public init() {}
-}
-
 extension Parsers {
   public typealias First = Parsing.First  // NB: Convenience type alias for discovery
 }

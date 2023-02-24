@@ -14,45 +14,60 @@ class ManyTests: XCTestCase {
   }
 
   func testSeparator() {
+    struct IntsParser: Parser {
+      var body: some Parser<Substring.UTF8View, [Int]> {
+        Many {
+          Int.parser()
+        } separator: {
+          ",".utf8
+        }
+      }
+    }
+
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      try Many {
-        Int.parser()
-      } separator: {
-        ",".utf8
-      }
-      .parse(&input),
+      try IntsParser().parse(&input),
       [1, 2, 3, 4, 5]
     )
     XCTAssertEqual(Substring(input), "")
   }
 
   func testTrailingSeparator() {
+    struct IntsParser: Parser {
+      var body: some Parser<Substring.UTF8View, [Int]> {
+        Many {
+          Int.parser()
+        } separator: {
+          ",".utf8
+        }
+      }
+    }
+
     var input = "1,2,3,4,5,"[...].utf8
 
     XCTAssertEqual(
-      try Many {
-        Int.parser()
-      } separator: {
-        ",".utf8
-      }
-      .parse(&input),
+      try IntsParser().parse(&input),
       [1, 2, 3, 4, 5]
     )
     XCTAssertEqual(Substring(input), ",")
   }
 
   func testMinimum() {
+    struct SixOrMoreInts: ParserPrinter {
+      var body: some ParserPrinter<Substring.UTF8View, [Int]> {
+        Many(6...) {
+          Int.parser()
+        } separator: {
+          ",".utf8
+        }
+      }
+    }
+
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertThrowsError(
-      try Many(6...) {
-        Int.parser()
-      } separator: {
-        ",".utf8
-      }
-      .parse(&input)
+      try SixOrMoreInts().parse(&input)
     ) { error in
       XCTAssertEqual(
         """
@@ -67,12 +82,7 @@ class ManyTests: XCTestCase {
     XCTAssertEqual(Substring(input), "")
 
     XCTAssertThrowsError(
-      try Many(6...) {
-        Int.parser()
-      } separator: {
-        ",".utf8
-      }
-      .print([1, 2, 3, 4, 5])
+      try SixOrMoreInts().print([1, 2, 3, 4, 5])
     ) { error in
       XCTAssertEqual(
         """
@@ -84,40 +94,45 @@ class ManyTests: XCTestCase {
       )
     }
 
+    struct FiveOrMoreInts: Parser {
+      var body: some Parser<Substring.UTF8View, [Int]> {
+        Many(5...) {
+          Int.parser()
+        } separator: {
+          ",".utf8
+        }
+      }
+    }
+
     input = "1,2,3,4,5"[...].utf8
     XCTAssertEqual(
-      try Many(5...) {
-        Int.parser()
-      } separator: {
-        ",".utf8
-      }
-      .parse(&input),
+      try FiveOrMoreInts().parse(&input),
       [1, 2, 3, 4, 5]
     )
     XCTAssertEqual(Substring(input), "")
   }
 
   func testMaximum() {
+    struct AtMostThreeInts: ParserPrinter {
+      var body: some ParserPrinter<Substring.UTF8View, [Int]> {
+        Many(...3) {
+          Int.parser()
+        } separator: {
+          ",".utf8
+        }
+      }
+    }
+
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      try Many(...3) {
-        Int.parser()
-      } separator: {
-        ",".utf8
-      }
-      .parse(&input),
+      try AtMostThreeInts().parse(&input),
       [1, 2, 3]
     )
     XCTAssertEqual(Substring(input), ",4,5")
 
     XCTAssertThrowsError(
-      try Many(...3) {
-        Int.parser()
-      } separator: {
-        ",".utf8
-      }
-      .print([1, 2, 3, 4, 5])
+      try AtMostThreeInts().print([1, 2, 3, 4, 5])
     ) { error in
       XCTAssertEqual(
         """
@@ -132,29 +147,39 @@ class ManyTests: XCTestCase {
   }
 
   func testReduce() {
+    struct SumParser: Parser {
+      var body: some Parser<Substring.UTF8View, Int> {
+        Many(into: 0, +=) {
+          Int.parser()
+        } separator: {
+          ",".utf8
+        }
+      }
+    }
+
     var input = "1,2,3,4,5"[...].utf8
 
     XCTAssertEqual(
-      try Many(into: 0, +=) {
-        Int.parser()
-      } separator: {
-        ",".utf8
-      }
-      .parse(&input),
+      try SumParser().parse(&input),
       15
     )
     XCTAssertEqual(Substring(input), "")
   }
 
   func testEmptyComponents() {
+    struct MACAddressParser: Parser {
+      var body: some Parser<Substring, [Substring]> {
+        Many {
+          Prefix(while: \.isHexDigit)
+        } separator: {
+          ":"
+        }
+      }
+    }
+
     var input = "2001:db8::2:1"[...]
     XCTAssertEqual(
-      try Many {
-        Prefix(while: \.isHexDigit)
-      } separator: {
-        ":"
-      }
-      .parse(&input),
+      try MACAddressParser().parse(&input),
       ["2001", "db8", "", "2", "1"]
     )
   }
@@ -166,20 +191,28 @@ class ManyTests: XCTestCase {
       var isAdmin: Bool
     }
 
-    let user = Parse(User.init) {
-      Int.parser()
-      ","
-      Prefix { $0 != "," }.map(String.init)
-      ","
-      Bool.parser()
+    struct UserParser: Parser {
+      var body: some Parser<Substring, User> {
+        Parse(input: Substring.self, User.init) {
+          Int.parser()
+          ","
+          Prefix { $0 != "," }.map(String.init)
+          ","
+          Bool.parser()
+        }
+      }
     }
 
-    let users = Many {
-      user
-    } separator: {
-      "\n"
-    } terminator: {
-      End()
+    struct UsersParser: Parser {
+      var body: some Parser<Substring, [User]> {
+        Many {
+          UserParser()
+        } separator: {
+          "\n"
+        } terminator: {
+          End()
+        }
+      }
     }
 
     var input = """
@@ -193,7 +226,7 @@ class ManyTests: XCTestCase {
         User(id: 2, name: "Blob Sr", isAdmin: false),
         User(id: 3, name: "Blob Jr", isAdmin: true),
       ],
-      try users.parse(&input)
+      try UsersParser().parse(&input)
     )
 
     input = """
@@ -201,7 +234,7 @@ class ManyTests: XCTestCase {
       2,Blob Sr,false
       3,Blob Jr,tru
       """
-    XCTAssertThrowsError(try users.parse(&input)) { error in
+    XCTAssertThrowsError(try UsersParser().parse(&input)) { error in
       XCTAssertEqual(
         """
         error: multiple failures occurred
@@ -222,16 +255,20 @@ class ManyTests: XCTestCase {
   }
 
   func testTerminatorFails() {
-    let intsParser = Many {
-      Int.parser()
-    } separator: {
-      ","
-    } terminator: {
-      "---"
+    struct IntsParser: Parser {
+      var body: some Parser<Substring, [Int]> {
+        Many {
+          Int.parser()
+        } separator: {
+          ","
+        } terminator: {
+          "---"
+        }
+      }
     }
 
     var input = "1,2,3-"[...]
-    XCTAssertThrowsError(try intsParser.parse(&input)) { error in
+    XCTAssertThrowsError(try IntsParser().parse(&input)) { error in
       XCTAssertEqual(
         """
         error: unexpected input
@@ -246,7 +283,13 @@ class ManyTests: XCTestCase {
   }
 
   func testInfiniteLoop() {
-    XCTAssertThrowsError(try Many { Prefix(while: \.isNumber) }.parse("Hello world!")) { error in
+    struct ParserWithInfiniteLoop: Parser {
+      var body: some Parser<Substring, [Substring]> {
+        Many { Prefix(while: \.isNumber) }
+      }
+    }
+
+    XCTAssertThrowsError(try ParserWithInfiniteLoop().parse("Hello world!")) { error in
       XCTAssertEqual(
         """
         error: infinite loop
@@ -260,7 +303,7 @@ class ManyTests: XCTestCase {
   }
 
   func testThrowingAccumulator() {
-    let parser = Many(into: [Int]()) { (xs, x) throws in
+    let parser: some Parser<Substring, [Int]> = Many(into: [Int]()) { (xs, x) throws in
       struct UniqueIntegerError: Error {}
       guard !xs.contains(x)
       else { throw UniqueIntegerError() }

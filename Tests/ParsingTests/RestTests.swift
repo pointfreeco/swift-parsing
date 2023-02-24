@@ -25,7 +25,7 @@ final class RestTests: XCTestCase {
   }
 
   func testPrintRest() {
-    XCTAssertEqual(try Rest().print("Hello"), "Hello")
+    XCTAssertEqual(try Rest().print("Hello"[...]), "Hello")
   }
 
   func testPrintRestFailsOnUpcoming() throws {
@@ -47,7 +47,7 @@ final class RestTests: XCTestCase {
   }
 
   func testPrintRestFailsOnEmpty() throws {
-    XCTAssertThrowsError(try Rest().print("")) { error in
+    XCTAssertThrowsError(try Rest().print(""[...])) { error in
       XCTAssertEqual(
         """
         error: round-trip expectation failed

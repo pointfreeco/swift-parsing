@@ -48,18 +48,6 @@ public struct End<Input: Sequence>: ParserPrinter {
   }
 }
 
-extension End where Input == Substring {
-  @_disfavoredOverload
-  @inlinable
-  public init() {}
-}
-
-extension End where Input == Substring.UTF8View {
-  @_disfavoredOverload
-  @inlinable
-  public init() {}
-}
-
 extension Parsers {
   public typealias End = Parsing.End  // NB: Convenience type alias for discovery
 }

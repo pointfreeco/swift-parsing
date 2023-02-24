@@ -100,13 +100,14 @@ class ParsingErrorTests: XCTestCase {
   }
 
   func testComplexStringLiteralParserError() {
-    let stringLiteral = Parse {
+    let asciiByte = Prefix<Substring>(1...) { $0 != "\"" && $0 >= " " }.map(String.init)
+    let stringLiteral = Parse(input: Substring.self) {
       "\""
       Many(into: "") {
         $0.append(contentsOf: $1)
       } element: {
         OneOf {
-          Prefix(1...) { $0 != "\"" && $0 >= " " }.map(String.init)
+          asciiByte
           Parse {
             "\\"
             OneOf {

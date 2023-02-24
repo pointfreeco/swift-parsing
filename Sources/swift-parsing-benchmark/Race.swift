@@ -25,89 +25,82 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     let path: [Coordinate]
   }
 
-  let locationName = Prefix { $0 != .init(ascii: ",") }.map(.string)
+  struct SignParser: ParserPrinter {
+    let positive: String.UTF8View
+    let negative: String.UTF8View
 
-  let currency = OneOf {
-    "€".utf8.map { Currency.eur }
-    "£".utf8.map { Currency.gbp }
-    "$".utf8.map { Currency.usd }
-  }
-
-  let money = ParsePrint(.memberwise(Money.init(currency:dollars:))) {
-    currency
-    Int.parser()
-  }
-
-  let difficulty = Many { "🥵".utf8 }.map(.count)
-
-  let northSouthSign = OneOf {
-    "N".utf8.map { 1.0 }
-    "S".utf8.map { -1.0 }
-  }
-
-  let eastWestSign = OneOf {
-    "E".utf8.map { 1.0 }
-    "W".utf8.map { -1.0 }
-  }
-
-  let latitude = ParsePrint(.multiplySign) {
-    Double.parser()
-    "° ".utf8
-    northSouthSign
-  }
-
-  let longitude = ParsePrint(.multiplySign) {
-    Double.parser()
-    "° ".utf8
-    eastWestSign
-  }
-
-  let zeroOrMoreSpaces = Skip {
-    Prefix { $0 == .init(ascii: " ") }
-  }
-  .printing(" ".utf8)
-
-  let coord = ParsePrint(.memberwise(Coordinate.init(latitude:longitude:))) {
-    latitude
-    Skip {
-      ",".utf8
-      zeroOrMoreSpaces
-    }
-    longitude
-  }
-
-  let race = ParsePrint(.memberwise(Race.init)) {
-    ParsePrint {
-      locationName
-      Skip {
-        ",".utf8
-        zeroOrMoreSpaces
+    var body: some ParserPrinter<Substring.UTF8View, Double> {
+      ParsePrint(.multiplySign) {
+        Double.parser()
+        "° ".utf8
+        OneOf {
+          self.positive.map { 1.0 }
+          self.negative.map { -1 }
+        }
       }
     }
-    ParsePrint {
-      money
-      Skip {
-        ",".utf8
-        zeroOrMoreSpaces
+  }
+
+  struct CoordinateParser: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, Coordinate> {
+      ParsePrint(.memberwise(Coordinate.init(latitude:longitude:))) {
+        SignParser(positive: "N".utf8, negative: "S".utf8)
+        Skip {
+          ",".utf8
+          Whitespace(.horizontal).printing(" ".utf8)
+        }
+        SignParser(positive: "E".utf8, negative: "W".utf8)
       }
-    }
-    ParsePrint {
-      difficulty
-      "\n".utf8
-    }
-    Many {
-      coord
-    } separator: {
-      "\n".utf8
     }
   }
 
-  let races = Many {
-    race
-  } separator: {
-    "\n---\n".utf8
-  } terminator: {
-    End()
+  struct RaceParser: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, Race> {
+      ParsePrint(.memberwise(Race.init(location:entranceFee:difficulty:path:))) {
+        Prefix { $0 != UInt8(ascii: ",") }.map(.string)
+
+        Skip {
+          ",".utf8
+          Whitespace(.horizontal).printing(" ".utf8)
+        }
+
+        ParsePrint(.memberwise(Money.init(currency:dollars:))) {
+          OneOf {
+            "€".utf8.map { Currency.eur }
+            "£".utf8.map { .gbp }
+            "$".utf8.map { .usd }
+          }
+          Int.parser()
+        }
+
+        Skip {
+          ",".utf8
+          Whitespace(.horizontal).printing(" ".utf8)
+        }
+
+        Many { "🥵".utf8 }.map(.count)
+
+        "\n".utf8
+
+        Many {
+          CoordinateParser()
+        } separator: {
+          "\n".utf8
+        }
+      }
+    }
+  }
+
+  struct RacesParser: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, [Race]> {
+      Many {
+        RaceParser()
+      } separator: {
+        "\n---\n".utf8
+      } terminator: {
+        End()
+      }
+    }
   }
 
   let input = """
@@ -185,6 +178,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     """
   var output: [Race]!
 
+  let races = RacesParser()
   suite.benchmark("Parser") {
     var input = input[...].utf8
     output = try races.parse(&input)
