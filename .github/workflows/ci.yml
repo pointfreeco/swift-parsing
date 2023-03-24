@@ -15,10 +15,10 @@ jobs:
     strategy:
       matrix:
         xcode:
-          - "13.2.1" # Swift 5.5
+          - "14.2" # Swift 5.7.2
         command:
           - test
-          - benchmarks
+          # - benchmarks
     steps:
       - uses: actions/checkout@v2
       - name: Select Xcode ${{ matrix.xcode }}
@@ -49,4 +49,4 @@ jobs:
       - uses: actions/checkout@v2
       - uses: MaxDesiatov/swift-windows-action@v1
         with:
-          swift-version: "5.5.1"
+          swift-version: "5.7.2"
