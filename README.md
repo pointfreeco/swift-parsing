@@ -109,6 +109,10 @@ let user = Parse(input: Substring.self) {
 }
 ```
 
+Note that this parsing library is quite general, allowing one to parse _any_ kind of input into 
+_any_ kind of output. For this reason we sometimes need to specify the exact input type the parser
+can process, in this case substrings.
+
 Already this can consume the beginning of the input:
 
 ```swift

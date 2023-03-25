@@ -69,11 +69,15 @@ as an entry point into describing a list of parsers that you want to run one aft
 consume from an input:
 
 ```swift
-let user = Parse {
+let user = Parse(input: Substring.self) {
   Int.parser()
   ","
 }
 ```
+
+> Note: This parsing library is quite general, allowing one to parse _any_ kind of input into 
+_any_ kind of output. For this reason we sometimes need to specify the exact input type the parser
+can process, in this case substrings.
 
 Already this can consume the leading integer and comma from the beginning of the input:
 
@@ -89,7 +93,7 @@ Next we want to take everything up until the next comma for the user's name, and
 comma:
 
 ```swift
-let user = Parse {
+let user = Parse(input: Substring.self) {
   Int.parser()
   ","
   Prefix { $0 != "," }
@@ -100,7 +104,7 @@ let user = Parse {
 And then we want to take the boolean at the end of the row for the user's admin status:
 
 ```swift
-let user = Parse {
+let user = Parse(input: Substring.self) {
   Int.parser()
   ","
   Prefix { $0 != "," }
@@ -113,7 +117,7 @@ Currently this will parse a tuple `(Int, Substring, Bool)` from the input, and w
 that to turn it into a `User`:
 
 ```swift
-let user = Parse {
+let user = Parse(input: Substring.self) {
   Int.parser()
   ","
   Prefix { $0 != "," }
@@ -127,7 +131,7 @@ To make the data we are parsing to more prominent, we can instead pass the trans
 first argument to `Parse`:
 
 ```swift
-let user = Parse {
+let user = Parse(input: Substring.self) {
   User(id: $0, name: String($1), isAdmin: $2)
 } with: {
   Int.parser()
@@ -142,7 +146,7 @@ Or we can pass the `User` initializer to `Parse` in a point-free style by first 
 `Prefix` parser's output from a `Substring` to a `String`:
 
 ```swift
-let user = Parse(User.init(id:name:isAdmin:)) {
+let user = Parse(input: Substring.self, User.init(id:name:isAdmin:)) {
   Int.parser()
   ","
   Prefix { $0 != "," }.map(String.init)
