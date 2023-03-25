@@ -9,6 +9,7 @@ import Parsing
 /// parse fractional seconds and time zone offsets automatically, and it will parse to the
 /// nanosecond, while the formatters do not parse beyond the millisecond.
 let dateSuite = BenchmarkSuite(name: "Date") { suite in
+#if swift(>=5.8)
   struct DateTime: Parser {
     var body: some Parser<Substring.UTF8View, DateComponents> {
       Parse { year, month, day, hour, minute, second, nanosecond, timeZone in
@@ -88,4 +89,5 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
       precondition(output == expected)
     }
   }
+  #endif
 }

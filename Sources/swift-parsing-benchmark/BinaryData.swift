@@ -24,6 +24,7 @@ import Parsing
 ///     |                    ARCOUNT                    |
 ///     +--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+
 let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
+#if swift(>=5.8)
   struct Word16Parser: Parser {
     func parse(_ input: inout ArraySlice<UInt8>) throws -> UInt16 {
       guard input.count >= 2
@@ -196,4 +197,5 @@ let binaryDataSuite = BenchmarkSuite(name: "BinaryData") { suite in
     static let inverseQuery = Self(rawValue: 1)
     static let status = Self(rawValue: 2)
   }
+  #endif
 }

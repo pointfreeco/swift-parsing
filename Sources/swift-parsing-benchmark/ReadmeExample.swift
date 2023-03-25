@@ -4,6 +4,7 @@ import Parsing
 
 /// This benchmark measures the performance of the examples given in the library's README.
 let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
+#if swift(>=5.8)
   let input = """
     1,Blob,true
     2,Blob Jr.,false
@@ -130,4 +131,5 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
       precondition(output == expectedOutput)
     }
   }
+  #endif
 }

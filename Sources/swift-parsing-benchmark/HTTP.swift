@@ -7,6 +7,7 @@ import Parsing
 ///
 /// In particular, it benchmarks the same HTTP header as that defined in `one_test`.
 let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
+#if swift(>=5.8)
   struct RequestParser: ParserPrinter {
     var body: some ParserPrinter<Substring.UTF8View, Request> {
       let newline = OneOf {
@@ -78,6 +79,7 @@ let httpSuite = BenchmarkSuite(name: "HTTP") { suite in
     precondition(output == expected)
     precondition(Substring(try! parser.print(output)) == input)
   }
+  #endif
 }
 
 private struct Header: Equatable {

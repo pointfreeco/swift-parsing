@@ -6,6 +6,7 @@ import Parsing
 ///
 /// [parsing]: https://www.pointfree.co/collections/parsing
 let raceSuite = BenchmarkSuite(name: "Race") { suite in
+#if swift(>=5.8)
   struct Coordinate {
     let latitude: Double
     let longitude: Double
@@ -186,6 +187,7 @@ let raceSuite = BenchmarkSuite(name: "Race") { suite in
     precondition(output.count == 3)
     precondition(try! races.print(output).elementsEqual(input.utf8) == true)
   }
+  #endif
 }
 
 extension Conversion where Self == AnyConversion<(Double, Double), Double> {
