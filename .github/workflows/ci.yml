@@ -20,7 +20,7 @@ jobs:
           - test
           # - benchmarks
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Select Xcode ${{ matrix.xcode }}
         run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app
       - name: System
@@ -36,17 +36,20 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         run: swift build
       - name: Run tests
         run: swift test
 
-  windows_tests:
-    runs-on: windows-2019
-
+  windows:
+    name: Windows
+    runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: MaxDesiatov/swift-windows-action@v1
+      - uses: compnerd/gha-setup-swift@main
         with:
-          swift-version: "5.7.2"
+          branch: swift-5.7-release
+          tag: 5.7.2-RELEASE
+
+      - uses: actions/checkout@v3
+      - run: swift test
