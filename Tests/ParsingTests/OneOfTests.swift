@@ -207,169 +207,171 @@ final class OneOfTests: XCTestCase {
     }
   }
 
-  func testJSON() {
-    struct JSONValue: ParserPrinter {
-      enum Output: Equatable {
-        case array([Self])
-        case boolean(Bool)
-        case null
-        case number(Double)
-        case object([String: Self])
-        case string(String)
-      }
-
-      var body: some ParserPrinter<Substring.UTF8View, Output> {
-        Whitespace()
-        OneOf {
-          JSONObject().map(.case(Output.object))
-          JSONArray().map(.case(Output.array))
-          JSONString().map(.case(Output.string))
-          Double.parser().map(.case(Output.number))
-          Bool.parser().map(.case(Output.boolean))
-          "null".utf8.map { Output.null }
+  #if swift(>=5.8)
+    func testJSON() {
+      struct JSONValue: ParserPrinter {
+        enum Output: Equatable {
+          case array([Self])
+          case boolean(Bool)
+          case null
+          case number(Double)
+          case object([String: Self])
+          case string(String)
         }
-        Whitespace()
-      }
-    }
 
-    struct JSONString: ParserPrinter {
-      var body: some ParserPrinter<Substring.UTF8View, String> {
-        "\"".utf8
-        Many(into: "") { string, fragment in
-          string.append(contentsOf: fragment)
-        } decumulator: { string in
-          string.map(String.init).reversed().makeIterator()
-        } element: {
+        var body: some ParserPrinter<Substring.UTF8View, Output> {
+          Whitespace()
           OneOf {
-            Prefix(1) { $0.isUnescapedJSONStringByte }.map(.string)
+            JSONObject().map(.case(Output.object))
+            JSONArray().map(.case(Output.array))
+            JSONString().map(.case(Output.string))
+            Double.parser().map(.case(Output.number))
+            Bool.parser().map(.case(Output.boolean))
+            "null".utf8.map { Output.null }
+          }
+          Whitespace()
+        }
+      }
 
-            Parse {
-              "\\".utf8
+      struct JSONString: ParserPrinter {
+        var body: some ParserPrinter<Substring.UTF8View, String> {
+          "\"".utf8
+          Many(into: "") { string, fragment in
+            string.append(contentsOf: fragment)
+          } decumulator: { string in
+            string.map(String.init).reversed().makeIterator()
+          } element: {
+            OneOf {
+              Prefix(1) { $0.isUnescapedJSONStringByte }.map(.string)
 
-              OneOf {
-                "\"".utf8.map { "\"" }
-                "\\".utf8.map { "\\" }
-                "/".utf8.map { "/" }
-                "b".utf8.map { "\u{8}" }
-                "f".utf8.map { "\u{c}" }
-                "n".utf8.map { "\n" }
-                "r".utf8.map { "\r" }
-                "t".utf8.map { "\t" }
-                ParsePrint(.unicode) {
-                  Prefix(4) { $0.isHexDigit }
+              Parse {
+                "\\".utf8
+
+                OneOf {
+                  "\"".utf8.map { "\"" }
+                  "\\".utf8.map { "\\" }
+                  "/".utf8.map { "/" }
+                  "b".utf8.map { "\u{8}" }
+                  "f".utf8.map { "\u{c}" }
+                  "n".utf8.map { "\n" }
+                  "r".utf8.map { "\r" }
+                  "t".utf8.map { "\t" }
+                  ParsePrint(.unicode) {
+                    Prefix(4) { $0.isHexDigit }
+                  }
                 }
               }
             }
+          } terminator: {
+            "\"".utf8
           }
-        } terminator: {
-          "\"".utf8
         }
       }
-    }
 
-    struct JSONObject: ParserPrinter {
-      var body: some ParserPrinter<Substring.UTF8View, [String: JSONValue.Output]> {
-        "{".utf8
-        Many(into: [String: JSONValue.Output]()) { object, pair in
-          let (name, value) = pair
-          object[name] = value
-        } decumulator: { object in
-          (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue.Output)])
-            .reversed()
-            .makeIterator()
-        } element: {
-          Whitespace()
-          JSONString()
-          Whitespace()
-          ":".utf8
-          JSONValue()
-        } separator: {
-          ",".utf8
-        } terminator: {
-          "}".utf8
+      struct JSONObject: ParserPrinter {
+        var body: some ParserPrinter<Substring.UTF8View, [String: JSONValue.Output]> {
+          "{".utf8
+          Many(into: [String: JSONValue.Output]()) { object, pair in
+            let (name, value) = pair
+            object[name] = value
+          } decumulator: { object in
+            (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue.Output)])
+              .reversed()
+              .makeIterator()
+          } element: {
+            Whitespace()
+            JSONString()
+            Whitespace()
+            ":".utf8
+            JSONValue()
+          } separator: {
+            ",".utf8
+          } terminator: {
+            "}".utf8
+          }
         }
       }
-    }
 
-    struct JSONArray: ParserPrinter {
-      var body: some ParserPrinter<Substring.UTF8View, [JSONValue.Output]> {
-        "[".utf8
-        Many {
-          JSONValue()
-        } separator: {
-          ",".utf8
-        } terminator: {
-          "]".utf8
+      struct JSONArray: ParserPrinter {
+        var body: some ParserPrinter<Substring.UTF8View, [JSONValue.Output]> {
+          "[".utf8
+          Many {
+            JSONValue()
+          } separator: {
+            ",".utf8
+          } terminator: {
+            "]".utf8
+          }
         }
       }
-    }
 
-    let input = #"""
-      {
-        "hello": true,
-        "goodbye": 42.42,
-        "whatever": null,
-        "xs": [1, "hello, null, false],
-        "ys": {
-          "0": 2,
-          "1": "goodbye"
+      let input = #"""
+        {
+          "hello": true,
+          "goodbye": 42.42,
+          "whatever": null,
+          "xs": [1, "hello, null, false],
+          "ys": {
+            "0": 2,
+            "1": "goodbye"
+          }
         }
+        """#
+
+      XCTAssertThrowsError(try JSONValue().parse(input)) { error in
+        XCTAssertEqual(
+          #"""
+          error: multiple failures occurred
+
+          error: unexpected input
+           --> input:5:34
+          5 | …hello, null, false],
+            |                      ^ expected 1 element satisfying predicate
+            |                      ^ expected "\\"
+            |                      ^ expected "\""
+
+          error: unexpected input
+           --> input:5:13
+          5 |   "xs": [1, "hello, null, false],
+            |             ^ expected "{"
+            |             ^ expected "["
+            |             ^ expected double
+            |             ^ expected "true" or "false"
+            |             ^ expected "null"
+
+          error: unexpected input
+           --> input:5:11
+          5 |   "xs": [1, "hello, null, false],
+            |           ^ expected "]"
+
+          error: unexpected input
+           --> input:5:9
+          5 |   "xs": [1, "hello, null, false],
+            |         ^ expected "{"
+            |         ^ expected "\""
+            |         ^ expected double
+            |         ^ expected "true" or "false"
+            |         ^ expected "null"
+
+          error: unexpected input
+           --> input:4:19
+          4 |   "whatever": null,
+            |                   ^ expected "}"
+
+          error: unexpected input
+           --> input:1:1
+          1 | {
+            | ^ expected "["
+            | ^ expected "\""
+            | ^ expected double
+            | ^ expected "true" or "false"
+            | ^ expected "null"
+          """#,
+          "\(error)"
+        )
       }
-      """#
-
-    XCTAssertThrowsError(try JSONValue().parse(input)) { error in
-      XCTAssertEqual(
-        #"""
-        error: multiple failures occurred
-
-        error: unexpected input
-         --> input:5:34
-        5 | …hello, null, false],
-          |                      ^ expected 1 element satisfying predicate
-          |                      ^ expected "\\"
-          |                      ^ expected "\""
-
-        error: unexpected input
-         --> input:5:13
-        5 |   "xs": [1, "hello, null, false],
-          |             ^ expected "{"
-          |             ^ expected "["
-          |             ^ expected double
-          |             ^ expected "true" or "false"
-          |             ^ expected "null"
-
-        error: unexpected input
-         --> input:5:11
-        5 |   "xs": [1, "hello, null, false],
-          |           ^ expected "]"
-
-        error: unexpected input
-         --> input:5:9
-        5 |   "xs": [1, "hello, null, false],
-          |         ^ expected "{"
-          |         ^ expected "\""
-          |         ^ expected double
-          |         ^ expected "true" or "false"
-          |         ^ expected "null"
-
-        error: unexpected input
-         --> input:4:19
-        4 |   "whatever": null,
-          |                   ^ expected "}"
-
-        error: unexpected input
-         --> input:1:1
-        1 | {
-          | ^ expected "["
-          | ^ expected "\""
-          | ^ expected double
-          | ^ expected "true" or "false"
-          | ^ expected "null"
-        """#,
-        "\(error)"
-      )
     }
-  }
+  #endif
 }
 
 extension UTF8.CodeUnit {
