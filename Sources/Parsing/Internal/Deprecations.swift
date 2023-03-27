@@ -720,7 +720,7 @@ where SubstringParser.Input == Substring {
 @available(*, deprecated, message: "Use 'From(.substring)' instead.")
 extension FromSubstring where Input == ArraySlice<UInt8> {
   @inlinable
-  public init(@ParserBuilder<ArraySlice<UInt8>> _ build: () -> SubstringParser) {
+  public init(@ParserBuilder<Substring> _ build: () -> SubstringParser) {
     self.substringParser = build()
     self.toSubstring = { Substring(decoding: $0, as: UTF8.self) }
     self.fromSubstring = { ArraySlice($0.utf8) }
@@ -730,7 +730,7 @@ extension FromSubstring where Input == ArraySlice<UInt8> {
 @available(*, deprecated, message: "Use 'From(.substring)' instead.")
 extension FromSubstring where Input == Substring.UnicodeScalarView {
   @inlinable
-  public init(@ParserBuilder<Substring.UnicodeScalarView> _ build: () -> SubstringParser) {
+  public init(@ParserBuilder<Substring> _ build: () -> SubstringParser) {
     self.substringParser = build()
     self.toSubstring = Substring.init
     self.fromSubstring = \.unicodeScalars
@@ -740,7 +740,7 @@ extension FromSubstring where Input == Substring.UnicodeScalarView {
 @available(*, deprecated, message: "Use 'From(.substring)' instead.")
 extension FromSubstring where Input == Substring.UTF8View {
   @inlinable
-  public init(@ParserBuilder<Substring.UTF8View> _ build: () -> SubstringParser) {
+  public init(@ParserBuilder<Substring> _ build: () -> SubstringParser) {
     self.substringParser = build()
     self.toSubstring = Substring.init
     self.fromSubstring = \.utf8
@@ -765,7 +765,7 @@ where UnicodeScalarsParser.Input == Substring.UnicodeScalarView {
 @available(*, deprecated, message: "Use 'From(.unicodeScalars)' instead.")
 extension FromUnicodeScalarView where Input == ArraySlice<UInt8> {
   @inlinable
-  public init(@ParserBuilder<ArraySlice<UInt8>> _ build: () -> UnicodeScalarsParser) {
+  public init(@ParserBuilder<Substring.UnicodeScalarView> _ build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = { Substring(decoding: $0, as: UTF8.self).unicodeScalars }
     self.fromUnicodeScalars = { ArraySlice(Substring($0).utf8) }
@@ -775,7 +775,7 @@ extension FromUnicodeScalarView where Input == ArraySlice<UInt8> {
 @available(*, deprecated, message: "Use 'From(.unicodeScalars)' instead.")
 extension FromUnicodeScalarView where Input == Substring {
   @inlinable
-  public init(@ParserBuilder<Substring> _ build: () -> UnicodeScalarsParser) {
+  public init(@ParserBuilder<Substring.UnicodeScalarView> _ build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = \.unicodeScalars
     self.fromUnicodeScalars = Substring.init
@@ -785,7 +785,7 @@ extension FromUnicodeScalarView where Input == Substring {
 @available(*, deprecated, message: "Use 'From(.unicodeScalars)' instead.")
 extension FromUnicodeScalarView where Input == Substring.UTF8View {
   @inlinable
-  public init(@ParserBuilder<Substring.UTF8View> _ build: () -> UnicodeScalarsParser) {
+  public init(@ParserBuilder<Substring.UnicodeScalarView> _ build: () -> UnicodeScalarsParser) {
     self.unicodeScalarsParser = build()
     self.toUnicodeScalars = { Substring($0).unicodeScalars }
     self.fromUnicodeScalars = { Substring($0).utf8 }
@@ -810,7 +810,7 @@ where UTF8Parser.Input == Substring.UTF8View {
 @available(*, deprecated, message: "Use 'From(.utf8)' instead.")
 extension FromUTF8View where Input == Substring {
   @inlinable
-  public init(@ParserBuilder<Substring> _ build: () -> UTF8Parser) {
+  public init(@ParserBuilder<Substring.UTF8View> _ build: () -> UTF8Parser) {
     self.utf8Parser = build()
     self.toUTF8 = \.utf8
     self.fromUTF8 = Substring.init
@@ -820,7 +820,7 @@ extension FromUTF8View where Input == Substring {
 @available(*, deprecated, message: "Use 'From(.utf8)' instead.")
 extension FromUTF8View where Input == Substring.UnicodeScalarView {
   @inlinable
-  public init(@ParserBuilder<Substring.UnicodeScalarView> _ build: () -> UTF8Parser) {
+  public init(@ParserBuilder<Substring.UTF8View> _ build: () -> UTF8Parser) {
     self.utf8Parser = build()
     self.toUTF8 = { Substring($0).utf8 }
     self.fromUTF8 = { Substring($0).unicodeScalars }
