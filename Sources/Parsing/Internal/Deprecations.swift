@@ -6,7 +6,7 @@ extension Bool {
   @available(*, deprecated, message: "Delete 'of: Substring.self' to silence this warning.")
   @inlinable
   public static func parser(
-    of inputType: Substring.Type = Substring.self
+    of inputType: Substring.Type
   ) -> From<
     Conversions.SubstringToUTF8View, Substring.UTF8View, Parsers.BoolParser<Substring.UTF8View>
   > {
@@ -19,7 +19,7 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
   @available(*, deprecated, message: "Delete 'of: Substring.self' to silence this warning.")
   @inlinable
   public static func parser(
-    of inputType: Substring.Type = Substring.self
+    of inputType: Substring.Type
   ) -> From<
     Conversions.SubstringToUTF8View,
     Substring.UTF8View,
@@ -34,7 +34,7 @@ extension FixedWidthInteger {
   @available(*, deprecated, message: "Delete 'of: Substring.self' to silence this warning.")
   @inlinable
   public static func parser(
-    of inputType: Substring.Type = Substring.self,
+    of inputType: Substring.Type,
     radix: Int = 10
   ) -> From<
     Conversions.SubstringToUTF8View, Substring.UTF8View, Parsers.IntParser<Substring.UTF8View, Self>
@@ -48,7 +48,7 @@ extension UUID {
   @available(*, deprecated, message: "Delete 'of: Substring.self' to silence this warning.")
   @inlinable
   public static func parser(
-    of inputType: Substring.Type = Substring.self
+    of inputType: Substring.Type
   ) -> From<
     Conversions.SubstringToUTF8View, Substring.UTF8View, Parsers.UUIDParser<Substring.UTF8View>
   > {
