@@ -1,8 +1,37 @@
+import Foundation
+
 // NB: Deprecated after 0.11.0
+
+extension Bool {
+  @available(*, deprecated, message: "Delete 'of: Substring.self' to silence this warning.")
+  @inlinable
+  public static func parser(
+    of inputType: Substring.Type = Substring.self
+  ) -> From<
+    Conversions.SubstringToUTF8View, Substring.UTF8View, Parsers.BoolParser<Substring.UTF8View>
+  > {
+    From(.utf8) { Parsers.BoolParser<Substring.UTF8View>() }
+  }
+}
+
+extension BinaryFloatingPoint where Self: LosslessStringConvertible {
+  @_disfavoredOverload
+  @available(*, deprecated, message: "Delete 'of: Substring.self' to silence this warning.")
+  @inlinable
+  public static func parser(
+    of inputType: Substring.Type = Substring.self
+  ) -> From<
+    Conversions.SubstringToUTF8View,
+    Substring.UTF8View,
+    Parsers.FloatParser<Substring.UTF8View, Self>
+  > {
+    From(.utf8) { Parsers.FloatParser<Substring.UTF8View, Self>() }
+  }
+}
 
 extension FixedWidthInteger {
   @_disfavoredOverload
-  @available(*, deprecated, renamed: "parser()")
+  @available(*, deprecated, message: "Delete 'of: Substring.self' to silence this warning.")
   @inlinable
   public static func parser(
     of inputType: Substring.Type = Substring.self,
@@ -11,6 +40,19 @@ extension FixedWidthInteger {
     Conversions.SubstringToUTF8View, Substring.UTF8View, Parsers.IntParser<Substring.UTF8View, Self>
   > {
     From(.utf8) { Parsers.IntParser<Substring.UTF8View, Self>(radix: radix) }
+  }
+}
+
+extension UUID {
+  @_disfavoredOverload
+  @available(*, deprecated, message: "Delete 'of: Substring.self' to silence this warning.")
+  @inlinable
+  public static func parser(
+    of inputType: Substring.Type = Substring.self
+  ) -> From<
+    Conversions.SubstringToUTF8View, Substring.UTF8View, Parsers.UUIDParser<Substring.UTF8View>
+  > {
+    From(.utf8) { Parsers.UUIDParser<Substring.UTF8View>() }
   }
 }
 
