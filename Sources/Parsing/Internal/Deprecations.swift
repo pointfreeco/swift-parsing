@@ -1,3 +1,19 @@
+// NB: Deprecated after 0.11.0
+
+extension FixedWidthInteger {
+  @_disfavoredOverload
+  @available(*, deprecated, renamed: "parser()")
+  @inlinable
+  public static func parser(
+    of inputType: Substring.Type = Substring.self,
+    radix: Int = 10
+  ) -> From<
+    Conversions.SubstringToUTF8View, Substring.UTF8View, Parsers.IntParser<Substring.UTF8View, Self>
+  > {
+    From(.utf8) { Parsers.IntParser<Substring.UTF8View, Self>(radix: radix) }
+  }
+}
+
 // NB: Deprecated after 0.8.0
 
 extension Many where Printability == Never {
