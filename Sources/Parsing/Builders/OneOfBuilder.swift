@@ -236,7 +236,7 @@ extension OneOfBuilder.OptionalOneOf: ParserPrinter where Wrapped: ParserPrinter
 extension OneOfBuilder where Input == Substring {
   @_disfavoredOverload
   public static func buildExpression<P: Parser>(_ parser: P)
-  -> From<Conversions.SubstringToUTF8View, Substring.UTF8View, P>
+    -> From<Conversions.SubstringToUTF8View, Substring.UTF8View, P>
   where P.Input == Substring.UTF8View {
     From(.utf8) {
       parser

@@ -531,7 +531,7 @@ extension ParserBuilder.Take10: ParserPrinter where P0: ParserPrinter, P1: Parse
 extension ParserBuilder where Input == Substring {
   @_disfavoredOverload
   public static func buildExpression<P: Parser>(_ expression: P)
-  -> From<Conversions.SubstringToUTF8View, Substring.UTF8View, P>
+    -> From<Conversions.SubstringToUTF8View, Substring.UTF8View, P>
   where P.Input == Substring.UTF8View {
     From(.utf8) {
       expression
