@@ -2,41 +2,51 @@ import Benchmark
 import Foundation
 import Parsing
 
-/// This benchmark demonstrates how to define a simple CSV parser with quoted fields and measures its
-/// performance against more a more ad hoc approach at the same level of abstraction.
+/// This benchmark demonstrates how to define a simple CSV parser with quoted fields and measures
+/// its performance against more a more ad hoc approach at the same level of abstraction.
 let csvSuite = BenchmarkSuite(name: "CSV") { suite in
-  let plainField = Prefix { $0 != .init(ascii: ",") && $0 != .init(ascii: "\n") }
+  struct FieldParser: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, String> {
+      OneOf {
+        Parse {
+          "\"".utf8
+          Prefix { $0 != UInt8(ascii: "\"") }
+          "\"".utf8
+        }
 
-  let quotedField = ParsePrint {
-    "\"".utf8
-    Prefix { $0 != .init(ascii: "\"") }
-    "\"".utf8
+        Prefix { $0 != UInt8(ascii: ",") && $0 != UInt8(ascii: "\n") }
+      }
+      .map(.string)
+    }
   }
 
-  let field = OneOf {
-    quotedField
-    plainField
-  }
-  .map(.string)
-
-  let line = Many {
-    field
-  } separator: {
-    ",".utf8
+  struct LineParser: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, [String]> {
+      Many {
+        FieldParser()
+      } separator: {
+        ",".utf8
+      }
+    }
   }
 
-  let csv = Many {
-    line
-  } separator: {
-    "\n".utf8
-  } terminator: {
-    End()
+  struct CSVParser: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, [[String]]> {
+      Many {
+        LineParser()
+      } separator: {
+        "\n".utf8
+      } terminator: {
+        End()
+      }
+    }
   }
 
   let expectedRowCount = 1_000
   let expectedColumnCount = 5
   var output: [[String]] = []
 
+  let csv = CSVParser()
   suite.benchmark("Parser") {
     output = try csv.parse(csvInput)
   } tearDown: {

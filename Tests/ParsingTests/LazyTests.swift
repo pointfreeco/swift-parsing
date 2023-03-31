@@ -6,7 +6,7 @@ final class LazyTests: XCTestCase {
     var input = "123 Hello"[...]
 
     var evaluated = 0
-    let parser = Lazy<Always<Substring, Void>> {
+    let parser = Lazy<Substring, Always<Substring, Void>> {
       evaluated += 1
       return Always(())
     }

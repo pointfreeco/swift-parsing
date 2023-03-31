@@ -103,22 +103,26 @@ It would be more straightforward and efficient to instead describe how to consum
 We can start by describing what it means to parse a single row, first by parsing an integer off the front of the string, and then parsing a comma. We can do this by using the `Parse` type, which acts as an entry point into describing a list of parsers that you want to run one after the other to consume from an input:
 
 ```swift
-let user = Parse {
+let user = Parse(input: Substring.self) {
   Int.parser()
   ","
 }
 ```
 
+Note that this parsing library is quite general, allowing one to parse _any_ kind of input into
+_any_ kind of output. For this reason we sometimes need to specify the exact input type the parser
+can process, in this case substrings.
+
 Already this can consume the beginning of the input:
 
 ```swift
-try user.parse("1,") // 1
+try user.parse("1,")  // 1
 ```
 
 Next we want to take everything up until the next comma for the user's name, and then consume the comma:
 
 ```swift
-let user = Parse {
+let user = Parse(input: Substring.self) {
   Int.parser()
   ","
   Prefix { $0 != "," }
@@ -129,7 +133,7 @@ let user = Parse {
 And then we want to take the boolean at the end of the row for the user's admin status:
 
 ```swift
-let user = Parse {
+let user = Parse(input: Substring.self) {
   Int.parser()
   ","
   Prefix { $0 != "," }
@@ -141,7 +145,7 @@ let user = Parse {
 Currently this will parse a tuple `(Int, Substring, Bool)` from the input, and we can `.map` on that to turn it into a `User`:
 
 ```swift
-let user = Parse {
+let user = Parse(input: Substring.self) {
   Int.parser()
   ","
   Prefix { $0 != "," }
@@ -154,7 +158,7 @@ let user = Parse {
 To make the data we are parsing to more prominent, we can instead pass the transform closure as the first argument to `Parse`:
 
 ```swift
-let user = Parse {
+let user = Parse(input: Substring.self) {
   User(id: $0, name: String($1), isAdmin: $2)
 } with: {
   Int.parser()
@@ -168,7 +172,7 @@ let user = Parse {
 Or we can pass the `User` initializer to `Parse` in a point-free style by transforming the `Prefix` parser's output from a `Substring` to ` String` first:
 
 ```swift
-let user = Parse(User.init(id:name:isAdmin:)) {
+let user = Parse(input: Substring.self, User.init(id:name:isAdmin:)) {
   Int.parser()
   ","
   Prefix { $0 != "," }.map(String.init)
@@ -305,46 +309,47 @@ Apple M1 Pro (10 cores, 8 performance and 2 efficiency)
 
 name                                         time            std        iterations
 ----------------------------------------------------------------------------------
-Arithmetic.Parser                                8042.000 ns ±   5.91 %     174657
-BinaryData.Parser                                  42.000 ns ±  56.81 %    1000000
-Bool.Bool.init                                     41.000 ns ±  60.69 %    1000000
-Bool.Bool.parser                                   42.000 ns ±  57.28 %    1000000
-Bool.Scanner.scanBool                            1041.000 ns ±  25.98 %    1000000
-Color.Parser                                      209.000 ns ±  13.68 %    1000000
-CSV.Parser                                    4047750.000 ns ±   1.18 %        349
-CSV.Ad hoc mutating methods                    898604.000 ns ±   1.49 %       1596
-Date.Parser                                      6416.000 ns ±   2.56 %     219218
-Date.DateFormatter                              25625.000 ns ±   2.19 %      54110
-Date.ISO8601DateFormatter                       35125.000 ns ±   1.71 %      39758
-HTTP.HTTP                                        9709.000 ns ±   3.81 %     138868
-JSON.Parser                                     32292.000 ns ±   3.18 %      41890
-JSON.JSONSerialization                           1833.000 ns ±   8.58 %     764057
-Numerics.Int.init                                  41.000 ns ±  84.54 %    1000000
-Numerics.Int.parser                                42.000 ns ±  72.17 %    1000000
-Numerics.Scanner.scanInt                          125.000 ns ±  20.26 %    1000000
-Numerics.Comma separated: Int.parser          8096459.000 ns ±   0.44 %        173
-Numerics.Comma separated: Scanner.scanInt    49178770.500 ns ±   0.24 %         28
-Numerics.Comma separated: String.split       14922583.500 ns ±   0.67 %         94
-Numerics.Double.init                               42.000 ns ±  72.61 %    1000000
-Numerics.Double.parser                            125.000 ns ±  58.57 %    1000000
-Numerics.Scanner.scanDouble                       167.000 ns ±  18.84 %    1000000
-Numerics.Comma separated: Double.parser      11313395.500 ns ±   0.96 %        124
-Numerics.Comma separated: Scanner.scanDouble 50431521.000 ns ±   0.19 %         28
-Numerics.Comma separated: String.split       18744125.000 ns ±   0.46 %         75
-PrefixUpTo.Parser: Substring                   249958.000 ns ±   0.88 %       5595
-PrefixUpTo.Parser: UTF8                         13250.000 ns ±   2.96 %     105812
-PrefixUpTo.String.range(of:)                    43084.000 ns ±   1.57 %      32439
-PrefixUpTo.Scanner.scanUpToString               47500.000 ns ±   1.27 %      29444
-Race.Parser                                     34417.000 ns ±   2.73 %      40502
-README Example.Parser: Substring                 4000.000 ns ±   3.79 %     347868
-README Example.Parser: UTF8                      1125.000 ns ±   7.92 %    1000000
-README Example.Ad hoc                            3542.000 ns ±   4.13 %     394248
-README Example.Scanner                          14292.000 ns ±   2.82 %      97922
-String Abstractions.Substring                  934167.000 ns ±   0.60 %       1505
-String Abstractions.UTF8                       158750.000 ns ±   1.36 %       8816
-UUID.UUID.init                                    209.000 ns ±  15.02 %    1000000
-UUID.UUID.parser                                  208.000 ns ±  24.17 %    1000000
-Xcode Logs.Parser                             3768437.500 ns ±   0.56 %        372
+Arithmetic.Parser                                6166.000 ns ±  10.73 %     228888
+BinaryData.Parser                                 208.000 ns ±  39.64 %    1000000
+Bool.Bool.init                                     41.000 ns ±  84.71 %    1000000
+Bool.Bool.parser                                   42.000 ns ±  87.86 %    1000000
+Bool.Scanner.scanBool                             916.000 ns ±  30.55 %    1000000
+Color.Parser                                      208.000 ns ±  28.34 %    1000000
+CSV.Parser                                    3675250.000 ns ±   1.16 %        380
+CSV.Ad hoc mutating methods                    651333.000 ns ±   1.00 %       2143
+Date.Parser                                      5833.000 ns ±   5.65 %     238924
+Date.DateFormatter                              23542.000 ns ±   5.50 %      58766
+Date.ISO8601DateFormatter                       29041.000 ns ±   3.31 %      48028
+HTTP.HTTP                                       10250.000 ns ±   6.24 %     135657
+JSON.Parser                                     38167.000 ns ±   3.26 %      36423
+JSON.JSONSerialization                           1792.000 ns ±  54.14 %     753770
+Numerics.Int.init                                   0.000 ns ±    inf %    1000000
+Numerics.Int.parser                                83.000 ns ±  67.28 %    1000000
+Numerics.Scanner.scanInt                          125.000 ns ±  38.65 %    1000000
+Numerics.Digits                                    83.000 ns ±  65.03 %    1000000
+Numerics.Comma separated: Int.parser         15364583.000 ns ±   0.63 %         91
+Numerics.Comma separated: Scanner.scanInt    50654458.500 ns ±   0.30 %         28
+Numerics.Comma separated: String.split       15452542.000 ns ±   1.30 %         90
+Numerics.Double.init                               42.000 ns ± 152.57 %    1000000
+Numerics.Double.parser                            166.000 ns ±  45.23 %    1000000
+Numerics.Scanner.scanDouble                       167.000 ns ±  42.36 %    1000000
+Numerics.Comma separated: Double.parser      18539833.000 ns ±   0.57 %         75
+Numerics.Comma separated: Scanner.scanDouble 55239167.000 ns ±   0.46 %         25
+Numerics.Comma separated: String.split       17636000.000 ns ±   1.34 %         78
+PrefixUpTo.Parser: Substring                   182041.000 ns ±   1.78 %       7643
+PrefixUpTo.Parser: UTF8                         40417.000 ns ±   2.71 %      34379
+PrefixUpTo.String.range(of:)                    49792.000 ns ±   2.70 %      27891
+PrefixUpTo.Scanner.scanUpToString               53959.000 ns ±   3.87 %      25745
+Race.Parser                                     59583.000 ns ±   2.78 %      23333
+README Example.Parser: Substring                 2834.000 ns ±  12.87 %     488264
+README Example.Parser: UTF8                      1291.000 ns ±  22.65 %    1000000
+README Example.Ad hoc                            2459.000 ns ±  20.61 %     561930
+README Example.Scanner                          12084.000 ns ±   5.53 %     115388
+String Abstractions.Substring                  472083.500 ns ±   1.38 %       2962
+String Abstractions.UTF8                       196041.000 ns ±   3.38 %       7059
+UUID.UUID.init                                    208.000 ns ±  43.60 %    1000000
+UUID.UUID.parser                                  167.000 ns ±  42.00 %    1000000
+Xcode Logs.Parser                             4511625.500 ns ±   0.58 %        226
 ```
 
 ## Documentation

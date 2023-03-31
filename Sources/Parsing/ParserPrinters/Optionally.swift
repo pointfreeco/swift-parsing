@@ -32,11 +32,11 @@
 /// Int.parser()
 ///   .replaceError(with: 0)
 /// ```
-public struct Optionally<Wrapped: Parser>: Parser {
+public struct Optionally<Input, Wrapped: Parser>: Parser where Wrapped.Input == Input {
   public let wrapped: Wrapped
 
   @inlinable
-  public init(@ParserBuilder _ build: () -> Wrapped) {
+  public init(@ParserBuilder<Input> _ build: () -> Wrapped) {
     self.wrapped = build()
   }
 

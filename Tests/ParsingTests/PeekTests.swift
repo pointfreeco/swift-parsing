@@ -5,7 +5,7 @@ class PeekTests: XCTestCase {
   func testPeekMatches() throws {
     var input = "_foo1 = nil"[...]
 
-    let identifier = Parse {
+    let identifier = Parse(input: Substring.self) {
       Peek { Prefix(1) { $0.isLetter || $0 == "_" } }
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
@@ -17,7 +17,7 @@ class PeekTests: XCTestCase {
   func testPeekFails() throws {
     var input = "1foo = nil"[...]
 
-    let identifier = Parse {
+    let identifier = Parse(input: Substring.self) {
       Peek { Prefix(1) { $0.isLetter || $0 == "_" } }
       Prefix { $0.isNumber || $0.isLetter || $0 == "_" }
     }
@@ -61,7 +61,7 @@ class PeekTests: XCTestCase {
   func testPrintSkippedPeekSucceeds() {
     var input = "!"[...]
 
-    let identifier = Parse {
+    let identifier = Parse(input: Substring.self) {
       Peek {
         Prefix(1) { $0.isLetter || $0 == "_" }
       }
@@ -76,7 +76,7 @@ class PeekTests: XCTestCase {
   func testPrintSkippedPeekSucceedsUnexpectedly() {
     var input = "!"[...]
 
-    let identifier = Parse {
+    let identifier = Parse(input: Substring.self) {
       Peek {
         Prefix(1) { $0.isLetter || $0 == "_" }
       }

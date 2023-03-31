@@ -4,13 +4,15 @@ import XCTest
 final class SkipTests: XCTestCase {
   func testSkipSuccess() {
     var input = "42 Hello, world!"[...].utf8
-    XCTAssert(try () == XCTUnwrap(Skip { Int.parser() }.parse(&input)))
+    XCTAssert(try () == XCTUnwrap(Skip { Int.parser(of: Substring.UTF8View.self) }.parse(&input)))
     XCTAssertEqual(" Hello, world!", Substring(input))
   }
 
   func testSkipFailure() {
     var input = "Hello, world!"[...].utf8
-    XCTAssertThrowsError(try Skip { Int.parser() }.parse(&input)) { error in
+    XCTAssertThrowsError(
+      try Skip { Int.parser(of: Substring.UTF8View.self) }.parse(&input)
+    ) { error in
       XCTAssertEqual(
         """
         error: unexpected input

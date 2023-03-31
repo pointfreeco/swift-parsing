@@ -1,5 +1,5 @@
-public struct From<Upstream: Conversion, Downstream: ParserPrinter>: ParserPrinter
-where Upstream.Output == Downstream.Input {
+public struct From<Upstream: Conversion, DownstreamInput, Downstream: Parser>: Parser
+where Upstream.Output == DownstreamInput, Downstream.Input == DownstreamInput {
   @usableFromInline
   let conversion: Upstream
 
@@ -7,7 +7,7 @@ where Upstream.Output == Downstream.Input {
   let parser: Downstream
 
   @inlinable
-  public init(_ conversion: Upstream, @ParserBuilder _ parser: () -> Downstream) {
+  public init(_ conversion: Upstream, @ParserBuilder<DownstreamInput> _ parser: () -> Downstream) {
     self.conversion = conversion
     self.parser = parser()
   }
@@ -19,7 +19,9 @@ where Upstream.Output == Downstream.Input {
     input = try self.conversion.unapply(parserInput)
     return output
   }
+}
 
+extension From: ParserPrinter where Downstream: ParserPrinter {
   @inlinable
   public func print(_ output: Downstream.Output, into input: inout Upstream.Input) rethrows {
     var parserInput = try self.conversion.apply(input)

@@ -33,7 +33,7 @@ A parser can be constructed for transforming the input string into an array of u
 and fluent API:
 
 ```swift
-let user = Parse(User.init) {
+let user = Parse(input: Substring.self, User.init) {
   Int.parser()
   ","
   Prefix { $0 != "," }.map(String.init)
@@ -52,7 +52,7 @@ let users = Many {
 try users.parse(input)  // [User(id: 1, name: "Blob", isAdmin: true), ...]
 ```
 
-This says that to parse a user we:
+This says that to parse a user from a `Substring` we:
 
 * Parse and consume an integer from the beginning of the input
 * then a comma
@@ -99,6 +99,7 @@ to learn in order to performantly parse larger inputs.
 * <doc:StringAbstractions>
 * <doc:ErrorMessages>
 * <doc:Backtracking>
+* <doc:Roundtripping>
 
 ## See Also
 

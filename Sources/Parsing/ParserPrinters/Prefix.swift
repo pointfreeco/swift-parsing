@@ -188,34 +188,6 @@ extension Prefix: ParserPrinter where Input: PrependableCollection {
   }
 }
 
-extension Prefix where Input == Substring {
-  @_disfavoredOverload
-  @inlinable
-  public init<R: CountingRange>(_ length: R, while predicate: ((Input.Element) -> Bool)? = nil) {
-    self.init(length, while: predicate)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(while predicate: @escaping (Input.Element) -> Bool) {
-    self.init(while: predicate)
-  }
-}
-
-extension Prefix where Input == Substring.UTF8View {
-  @_disfavoredOverload
-  @inlinable
-  public init<R: CountingRange>(_ length: R, while predicate: ((Input.Element) -> Bool)? = nil) {
-    self.init(length, while: predicate)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public init(while predicate: @escaping (Input.Element) -> Bool) {
-    self.init(while: predicate)
-  }
-}
-
 extension Parsers {
   public typealias Prefix = Parsing.Prefix  // NB: Convenience type alias for discovery
 }

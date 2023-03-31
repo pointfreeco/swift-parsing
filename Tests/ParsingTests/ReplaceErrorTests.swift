@@ -6,7 +6,7 @@ final class ReplaceErrorTests: XCTestCase {
     var input = "123"[...]
     XCTAssertEqual(
       0,
-      Parse {
+      Parse(input: Substring.self) {
         Int.parser()
         "!"
       }.replaceError(with: 0).parse(&input))

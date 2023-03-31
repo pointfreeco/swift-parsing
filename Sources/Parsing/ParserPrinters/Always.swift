@@ -37,7 +37,7 @@
 /// }
 ///
 /// extension Many where Separator == Always<Input, Void>, Terminator == Always<Input, Void> {
-///   init(@ParserBuilder element: () -> Element) {
+///   init(@ParserBuilder<Input> element: () -> Element) {
 ///     self.element = element()
 ///     self.separator = Always(())
 ///     self.terminator = Always(())
@@ -76,20 +76,6 @@ public struct Always<Input, Output>: ParserPrinter {
 
   @inlinable
   public func print(_ output: Output, into input: inout Input) {}
-}
-
-extension Always where Input == Substring {
-  @inlinable
-  public init(_ output: Output) {
-    self.output = output
-  }
-}
-
-extension Always where Input == Substring.UTF8View {
-  @inlinable
-  public init(_ output: Output) {
-    self.output = output
-  }
 }
 
 extension Parsers {

@@ -4,7 +4,7 @@ import XCTest
 final class UTF8Tests: XCTestCase {
   func testSubstringNormalization() {
     var input = "\u{00E9}e\u{0301}e\u{0341} Hello, world"[...].utf8
-    let parser = From<Conversions.UTF8ViewToSubstring, String>(.substring) { "é" }
+    let parser = From<Conversions.UTF8ViewToSubstring, Substring, String>(.substring) { "é" }
     XCTAssertNoThrow(try parser.parse(&input))
     XCTAssertEqual("e\u{0301}e\u{0341} Hello, world", Substring(input))
     XCTAssertNoThrow(try parser.parse(&input))

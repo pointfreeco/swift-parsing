@@ -50,18 +50,22 @@ final class DigitsTests: XCTestCase {
   func testZeroMinimum() {
     struct Rational: Equatable { var numerator, denominator: Int }
 
-    let rational = Parse(.memberwise(Rational.init)) {
-      Digits(0...)
-      "."
-      Digits(1...)
+    struct RationalParser: ParserPrinter {
+      var body: some ParserPrinter<Substring, Rational> {
+        Parse(.memberwise(Rational.init)) {
+          Digits(0...)
+          "."
+          Digits(1...)
+        }
+      }
     }
 
     XCTAssertEqual(
-      try rational.parse(".123"),
+      try RationalParser().parse(".123"),
       .init(numerator: 0, denominator: 123)
     )
     XCTAssertEqual(
-      try rational.print(.init(numerator: 0, denominator: 123)),
+      try RationalParser().print(Rational(numerator: 0, denominator: 123)),
       ".123"
     )
   }

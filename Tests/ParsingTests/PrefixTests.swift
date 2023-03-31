@@ -89,11 +89,13 @@ final class PrefixTests: XCTestCase {
   }
 
   func testPrintUpstreamInputFailure() {
-    let p = ParsePrint {
-      Prefix { $0 != "\n" }
-      First()
+    struct MyParserPrinter: ParserPrinter {
+      var body: some ParserPrinter<Substring, (Substring, Character)> {
+        Prefix { $0 != "\n" }
+        First()
+      }
     }
-    XCTAssertThrowsError(try p.print(("Hello", " "))) { error in
+    XCTAssertThrowsError(try MyParserPrinter().print(("Hello", " "))) { error in
       XCTAssertEqual(
         """
         error: round-trip expectation failed
@@ -109,10 +111,12 @@ final class PrefixTests: XCTestCase {
   }
 
   func testPrintWithMaxCountAllowMatchingNextElement() {
-    let p = ParsePrint {
-      Prefix(3) { $0.isNumber }
-      First()
+    struct MyParserPrinter: ParserPrinter {
+      var body: some ParserPrinter<Substring, (Substring, Character)> {
+        Prefix(3) { $0.isNumber }
+        First()
+      }
     }
-    XCTAssertEqual("1230", try p.print(("123", "0")))
+    XCTAssertEqual("1230", try MyParserPrinter().print(("123", "0")))
   }
 }

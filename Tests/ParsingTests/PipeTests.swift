@@ -49,4 +49,18 @@ final class PipeTests: XCTestCase {
     }
     XCTAssertEqual("true", Substring(input))
   }
+
+  func testUsingDownstreamInput() {
+    let utf8InputParser = Parse(input: Substring.UTF8View.self) {
+      Always("Hello world"[...])
+    }
+    let pipedParser = utf8InputParser.pipe {
+      Parse(input: Substring.self) {
+        Always("123")
+      }
+    }
+    var input = ""[...].utf8
+    let output = pipedParser.parse(&input)
+    XCTAssertEqual("123", output)
+  }
 }

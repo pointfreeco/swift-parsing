@@ -11,16 +11,16 @@ on:
 
 jobs:
   macos_tests:
-    runs-on: macos-11
+    runs-on: macos-12
     strategy:
       matrix:
         xcode:
-          - "13.2.1" # Swift 5.5
+          - "14.2" # Swift 5.7.2
         command:
           - test
-          - benchmarks
+          # - benchmarks
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Select Xcode ${{ matrix.xcode }}
         run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app
       - name: System
@@ -31,22 +31,13 @@ jobs:
   ubuntu_tests:
     strategy:
       matrix:
-        os: [ubuntu-18.04, ubuntu-20.04]
+        os: [ubuntu-20.04]
 
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Build
         run: swift build
       - name: Run tests
         run: swift test
-
-  windows_tests:
-    runs-on: windows-2019
-
-    steps:
-      - uses: actions/checkout@v2
-      - uses: MaxDesiatov/swift-windows-action@v1
-        with:
-          swift-version: "5.5.1"
