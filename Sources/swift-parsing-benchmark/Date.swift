@@ -47,9 +47,9 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
                 "+".utf8.map { 1 }
                 "-".utf8.map { -1 }
               }
-              Digits(2).map { $0 * 60 }
+              Digits(2).map { $0 * 60 * 60 }
               ":".utf8
-              Digits(2)
+              Digits(2).map { $0 * 60 }
             }
             .map { $0 * ($1 + $2) }
           }
