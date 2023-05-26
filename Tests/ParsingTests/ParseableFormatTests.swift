@@ -19,5 +19,11 @@
         "TOTAL: $42.42"
       )
     }
+
+    func testFormatted_PartiallyConsumes() throws {
+      var input = "12.34°N"[...]
+      XCTAssertEqual(12.34, try Formatted(.number).parse(&input))
+      XCTAssertEqual(String(input), "°N")
+    }
   }
 #endif

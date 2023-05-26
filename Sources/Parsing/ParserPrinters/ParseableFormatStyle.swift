@@ -24,7 +24,7 @@
           at: input
         )
       }
-      input.removeFirst(input.distance(from: input.startIndex, to: input.endIndex))
+      input.removeFirst(input.distance(from: match.range.lowerBound, to: match.range.upperBound))
       return match.output
     }
 
