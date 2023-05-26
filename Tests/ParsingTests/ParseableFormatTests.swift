@@ -21,8 +21,12 @@
     }
 
     func testFormatted_PartiallyConsumes() throws {
-      var input = "12.34°N"[...]
-      XCTAssertEqual(12.34, try Formatted(.number).parse(&input))
+      var input = "COORD: 12.34°N"[...]
+      let p = Parse {
+        "COORD: "
+        Formatted(.number)
+      }
+      XCTAssertEqual(12.34, try p.parse(&input))
       XCTAssertEqual(String(input), "°N")
     }
   }
