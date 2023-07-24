@@ -1,5 +1,6 @@
 import Benchmark
 import Foundation
+import Parse3339
 import Parsing
 
 struct DateTime: Parser {
@@ -84,6 +85,12 @@ let dateSuite = BenchmarkSuite(name: "Date") { suite in
 
     suite.benchmark("Parser") {
       output = try DateTime().parse(input)
+    } tearDown: {
+      precondition(output == expected)
+    }
+
+    suite.benchmark("Parse3339") {
+      output = Parse3339.parse(input)?.date
     } tearDown: {
       precondition(output == expected)
     }
