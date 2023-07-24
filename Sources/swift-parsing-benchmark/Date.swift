@@ -40,8 +40,8 @@ import Parsing
     }
   }
 
-  private extension Date {
-    init(
+  extension Date {
+    fileprivate init(
       year: Int,
       month: Int,
       day: Int,
