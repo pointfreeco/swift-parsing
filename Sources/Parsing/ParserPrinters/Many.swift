@@ -118,11 +118,15 @@ where
         loopError = error
         break
       }
-      if memcmp(&input, &previous, MemoryLayout<Element.Input>.size) == 0 {
-        throw ParsingError.failed(
-          "expected input to be consumed",
-          .init(remainingInput: input, debugDescription: "infinite loop", underlyingError: nil)
-        )
+      try withUnsafePointer(to: input) { inputPtr in
+        try withUnsafePointer(to: previous) { previousPtr in
+          if memcmp(inputPtr, previousPtr, MemoryLayout<Element.Input>.size) == 0 {
+            throw ParsingError.failed(
+              "expected input to be consumed",
+              .init(remainingInput: input, debugDescription: "infinite loop", underlyingError: nil)
+            )
+          }
+        }
       }
     }
     input = rest
