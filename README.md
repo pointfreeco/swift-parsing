@@ -317,7 +317,7 @@ Bool.Scanner.scanBool                             916.000 ns ±  30.55 %    1000
 Color.Parser                                      208.000 ns ±  28.34 %    1000000
 CSV.Parser                                    3675250.000 ns ±   1.16 %        380
 CSV.Ad hoc mutating methods                    651333.000 ns ±   1.00 %       2143
-Date.Parser                                      5833.000 ns ±   5.65 %     238924
+Date.Parser                                      3500.000 ns ±   5.65 %     238924
 Date.DateFormatter                              23542.000 ns ±   5.50 %      58766
 Date.ISO8601DateFormatter                       29041.000 ns ±   3.31 %      48028
 HTTP.HTTP                                       10250.000 ns ±   6.24 %     135657
