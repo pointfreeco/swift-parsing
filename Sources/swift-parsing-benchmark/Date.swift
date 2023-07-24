@@ -66,7 +66,7 @@ import Parsing
       )
       let time = timegm(&components)
       var timeIntervalSince1970 = TimeInterval(time - timeZone)
-      timeIntervalSince1970 += TimeInterval(nanosecond) / TimeInterval(NSEC_PER_SEC)
+      timeIntervalSince1970 += TimeInterval(nanosecond) / 1_000_000_000
       self.init(timeIntervalSince1970: timeIntervalSince1970)
     }
   }
