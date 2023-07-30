@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-case-paths",
       "state" : {
-        "revision" : "241301b67d8551c26d8f09bd2c0e52cc49f18007",
-        "version" : "0.8.0"
+        "revision" : "5da6989aae464f324eef5c5b52bdb7974725ab81",
+        "version" : "1.0.0"
       }
     },
     {
@@ -33,6 +33,15 @@
       "location" : "https://github.com/apple/swift-docc-plugin",
       "state" : {
         "revision" : "3303b164430d9a7055ba484c8ead67a52f7b74f6",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "xctest-dynamic-overlay",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/pointfreeco/xctest-dynamic-overlay",
+      "state" : {
+        "revision" : "302891700c7fa3b92ebde9fe7b42933f8349f3c7",
         "version" : "1.0.0"
       }
     }
