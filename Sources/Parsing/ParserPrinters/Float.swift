@@ -1,3 +1,5 @@
+import Foundation
+
 extension BinaryFloatingPoint where Self: LosslessStringConvertible {
   /// A parser that consumes a floating-point number from the beginning of a collection of UTF-8
   /// code units.
@@ -9,9 +11,10 @@ extension BinaryFloatingPoint where Self: LosslessStringConvertible {
   ///   of UTF-8 code units.
   @inlinable
   public static func parser<Input>(
-    of inputType: Input.Type = Input.self
+    of inputType: Input.Type = Input.self,
+    locale: Locale? = nil
   ) -> Parsers.FloatParser<Input, Self> {
-    .init()
+    .init(locale: locale)
   }
 }
 
@@ -30,14 +33,37 @@ extension Parsers {
     Input.Element == UTF8.CodeUnit,
     Output: LosslessStringConvertible
   {
+    /// The locale to use for converting text to a floating value.
+    public let locale: Locale?
+
     @inlinable
-    public init() {}
+    public init(locale: Locale? = nil) {
+      self.locale = locale
+    }
 
     @inlinable
     public func parse(_ input: inout Input) throws -> Output {
       let original = input
-      let s = input.parseFloat()
-      guard let n = Output(String(decoding: s, as: UTF8.self))
+      let decimalSeparator: Unicode.Scalar = {
+        guard
+          let separator = locale?.decimalSeparator,
+          let asciiValue = Character(separator).asciiValue
+        else {
+          return "."
+        }
+        return .init(asciiValue)
+      }()
+      let s = input.parseFloat(decimalSeparator: decimalSeparator)
+      // BinaryFloatingPoint initializer has no concept of localization
+      // or decimal separators, so passing it a localized number
+      // (e.g. 123,5) will result in getting a nil value. This however
+      // is not a problem because the parser has already extracted
+      // the correct floating point value from the substring
+      let tmp = String(decoding: s, as: UTF8.self).replacingOccurrences(
+        of: String(decimalSeparator),
+        with: "."
+      )
+      guard let n = Output(tmp)
       else {
         throw ParsingError.expectedInput("\(Output.self)".lowercased(), from: original, to: input)
       }
@@ -56,7 +82,7 @@ extension Parsers.FloatParser: ParserPrinter where Input: PrependableCollection 
 extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
   @inlinable
   @inline(__always)
-  mutating func parseFloat() -> SubSequence {
+  mutating func parseFloat(decimalSeparator: Unicode.Scalar) -> SubSequence {
     let original = self
     if self.first?.isSign == true {
       self.removeFirst()
@@ -68,7 +94,7 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
       self.removeFirst(2)
       let integer = self.prefix(while: { $0.isHexDigit })
       self.removeFirst(integer.count)
-      if self.first == .init(ascii: ".") {
+      if self.first == .init(ascii: decimalSeparator) {
         let fractional =
           self
           .dropFirst()
@@ -85,10 +111,10 @@ extension Collection where SubSequence == Self, Element == UTF8.CodeUnit {
         guard !exponent.isEmpty else { return original[..<self.startIndex] }
         self.removeFirst(n + exponent.count)
       }
-    } else if self.first?.isDigit == true || self.first == .init(ascii: ".") {
+    } else if self.first?.isDigit == true || self.first == .init(ascii: decimalSeparator) {
       let integer = self.prefix(while: { $0.isDigit })
       self.removeFirst(integer.count)
-      if self.first == .init(ascii: ".") {
+      if self.first == .init(ascii: decimalSeparator) {
         let fractional =
           self
           .dropFirst()
