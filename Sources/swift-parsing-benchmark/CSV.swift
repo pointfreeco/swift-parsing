@@ -3,7 +3,7 @@ import Foundation
 import Parsing
 
 /// This benchmark demonstrates how to define a simple CSV parser with quoted fields and measures
-/// its performance against more a more ad hoc approach at the same level of abstraction.
+/// its performance against a more ad hoc approach at the same level of abstraction.
 let csvSuite = BenchmarkSuite(name: "CSV") { suite in
   struct FieldParser: ParserPrinter {
     var body: some ParserPrinter<Substring.UTF8View, String> {
