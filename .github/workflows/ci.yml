@@ -20,7 +20,7 @@ jobs:
           - test
           # - benchmarks
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Select Xcode ${{ matrix.xcode }}
         run: sudo xcode-select -s /Applications/Xcode_${{ matrix.xcode }}.app
       - name: System
@@ -29,15 +29,15 @@ jobs:
         run: make ${{ matrix.command }}
 
   ubuntu_tests:
+    name: Ubuntu (Swift ${{ matrix.swift }})
+    runs-on: ubuntu-20.04
     strategy:
       matrix:
-        os: [ubuntu-20.04]
-
-    runs-on: ${{ matrix.os }}
-
+        swift:
+          - '5.9'
     steps:
-      - uses: actions/checkout@v3
-      - name: Build
-        run: swift build
-      - name: Run tests
-        run: swift test
+      - uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: ${{ matrix.swift }}
+      - uses: actions/checkout@v4
+      - run: swift test
