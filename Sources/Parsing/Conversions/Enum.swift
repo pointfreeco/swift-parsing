@@ -7,17 +7,23 @@ extension Conversion {
   /// Useful for transforming the output of a ``ParserPrinter`` into an enum:
   ///
   /// ```swift
+  /// @CasePathable
   /// enum Expression {
   ///   case add(Int, Int)
   ///   ...
   /// }
   ///
-  /// let add = ParsePrint(.case(Expression.add)) {
-  ///   Int.parser()
-  ///   "+"
-  ///   Int.parser()
+  /// struct Add: ParserPrinter{
+  ///   var body: some ParserPrinter<Substring, Expression> {
+  ///     ParsePrint(.case(\Expression.Cases.add)) {
+  ///       Int.parser()
+  ///       "+"
+  ///       Int.parser()
+  ///     }
+  ///   }
   /// }
-  /// try add.parse("1+2")  // Expression.add(1, 2)
+  ///
+  /// try Add().parse("1+2")  // Expression.add(1, 2)
   /// ```
   ///
   /// To transform the output of a ``ParserPrinter`` into a struct, see ``memberwise(_:)``.
@@ -28,21 +34,28 @@ extension Conversion {
   /// - Returns: A conversion that can embed the associated values of an enum case into the case,
   ///   and extract the associated values from the case.
   @inlinable
+  public static func `case`<Values, Enum: CasePathable>(
+    _ keyPath: CaseKeyPath<Enum, Values>
+  ) -> Self where Self == AnyCasePath<Enum, Values> {
+    AnyCasePath(keyPath)
+  }
+
+  @inlinable
   public static func `case`<Values, Enum>(
     _ initializer: @escaping (Values) -> Enum
-  ) -> Self where Self == CasePath<Enum, Values> {
+  ) -> Self where Self == AnyCasePath<Enum, Values> {
     /initializer
   }
 
   @inlinable
   public static func `case`<Enum>(
     _ initializer: Enum
-  ) -> Self where Self == CasePath<Enum, Void> {
+  ) -> Self where Self == AnyCasePath<Enum, Void> {
     /initializer
   }
 }
 
-extension CasePath: Conversion {
+extension AnyCasePath: Conversion {
   @inlinable
   public func apply(_ input: Value) -> Root {
     self.embed(input)
