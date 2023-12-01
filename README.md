@@ -356,14 +356,16 @@ Xcode Logs.Parser                             4511625.500 ns ±   0.58 %        
 
 The documentation for releases and main are available here:
 
-* [main][swift-parsing-docs]
-* [0.10.0](https://pointfreeco.github.io/swift-parsing/0.10.0/documentation/parsing)
+* [latest release](https://swiftpackageindex.com/pointfreeco/swift-parsing/documentation)
+* [main](https://swiftpackageindex.com/pointfreeco/swift-parsing/documentation/main)
+  
 <details>
   <summary>
   Other versions
   </summary>
 
- * [0.9.0](https://pointfreeco.github.io/swift-parsing/0.9.0/documentation/parsing)
+  * [0.10.0](https://pointfreeco.github.io/swift-parsing/0.10.0/documentation/parsing)
+  * [0.9.0](https://pointfreeco.github.io/swift-parsing/0.9.0/documentation/parsing)
   * [0.8.0](https://pointfreeco.github.io/swift-parsing/0.8.0/documentation/parsing)
   * [0.7.1](https://pointfreeco.github.io/swift-parsing/0.7.1/documentation/parsing)
   * [0.7](https://pointfreeco.github.io/swift-parsing/0.7.0/documentation/parsing)
