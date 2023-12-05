@@ -415,6 +415,9 @@ func formatValue<Input>(
 
   case let input as Substring.UTF8View:
     return Substring(input).debugDescription
+    
+  case let input as AnyCollection<UInt8>:
+    return String(bytes: input, encoding: .utf8) ?? "\(input)"
 
   default:
     return "\(input)"
