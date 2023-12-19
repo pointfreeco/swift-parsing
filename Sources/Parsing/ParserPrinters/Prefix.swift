@@ -86,8 +86,6 @@ public struct Prefix<Input: Collection>: Parser where Input.SubSequence == Input
   /// ```
   ///
   /// - Parameters:
-  ///   - length: A length that provides a minimum number and maximum of elements to consume for
-  ///     parsing to be considered successful.
   ///   - predicate: An closure that takes an element of the input sequence as its argument and
   ///     returns `true` if the element should be included or `false` if it should be excluded. Once
   ///     the predicate returns `false` it will not be called again.
