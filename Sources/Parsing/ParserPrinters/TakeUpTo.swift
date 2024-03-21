@@ -30,16 +30,16 @@ where Input.SubSequence == Input, Upstream.Input == Input
 
   @inlinable
   @inline(__always)
-  public func parse(_ input: inout Input) throws -> (Input, Upstream.Output) {
+  public func parse(_ input: inout Input) throws -> Input {
     let original = input
     
     var currentIndex = input.startIndex
     while currentIndex <= input.endIndex {
       do {
         var test = input[currentIndex...]
-        let result = try terminator.parse(&test)
-        input = test
-        return (original[..<currentIndex], result)
+        let _ = try terminator.parse(&test)
+        input = original[currentIndex...]
+        return original[..<currentIndex]
       } catch {
         // do nothing
       }
@@ -49,15 +49,6 @@ where Input.SubSequence == Input, Upstream.Input == Input
       currentIndex = input.index(after: currentIndex)
     }
     throw ParsingError.expectedInput("take up to \(formatValue(self.terminator))", at: input)
-  }
-}
-
-extension TakeUpTo: ParserPrinter where Input: PrependableCollection, Upstream: ParserPrinter {
-  @inlinable
-  public func print(_ output: Output, into input: inout Input) throws {
-    let (originalInput, terminatorOutput) = output
-    try terminator.print(terminatorOutput, into: &input)
-    input.prepend(contentsOf: originalInput)
   }
 }
 

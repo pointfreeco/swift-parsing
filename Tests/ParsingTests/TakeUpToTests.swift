@@ -8,7 +8,8 @@ final class TakeUpToTests: XCTestCase {
     }
 
     var input = "123.456"[...]
-    XCTAssertEqual("123", try parser.parse(&input).0)
+    XCTAssertEqual("123", try parser.parse(&input))
+    XCTAssertEqual(".456", input)
   }
 
   func testUnterminated() throws {
@@ -27,8 +28,8 @@ final class TakeUpToTests: XCTestCase {
     }
     var input = "123456"[...]
     let output = try parser.parse(&input)
-    XCTAssertEqual("123", output.0)
-    XCTAssertEqual(456, output.1)
+    XCTAssertEqual("123", output)
+    XCTAssertEqual("456", input)
   }
 
   func testTakeSubstring() throws {
@@ -37,9 +38,8 @@ final class TakeUpToTests: XCTestCase {
     }
     var input = "123456"[...]
     let output = try parser.parse(&input)
-    XCTAssertEqual("123", output.0)
-    XCTAssertEqual(456, output.1)
-    XCTAssertEqual("", input)
+    XCTAssertEqual("123", output)
+    XCTAssertEqual("456", input)
   }
 
   func testTakeUpToEnd() throws {
@@ -48,7 +48,7 @@ final class TakeUpToTests: XCTestCase {
     }
 
     var input = "123"[...]
-    XCTAssertEqual("123", try parser.parse(&input).0)
-    XCTAssertEqual("", input)
+    XCTAssertEqual("123", try parser.parse(&input))
+    XCTAssertTrue(input.isEmpty)
   }
 }
