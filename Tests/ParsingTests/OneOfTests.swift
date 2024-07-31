@@ -271,7 +271,10 @@ final class OneOfTests: XCTestCase {
       struct JSONObject: ParserPrinter {
         var body: some ParserPrinter<Substring.UTF8View, [String: JSONValue.Output]> {
           "{".utf8
-          Many(into: [String: JSONValue.Output]()) { object, pair in
+          Many(into: [String: JSONValue.Output]()) { (
+            object: inout [String: JSONValue.Output],
+            pair: (String, JSONValue.Output)
+          ) in
             let (name, value) = pair
             object[name] = value
           } decumulator: { object in
