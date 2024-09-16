@@ -53,20 +53,20 @@ struct Instructions {
 
 // MARK: - Parsers
 
-let dot = ParsePrint(.memberwise(Dot.init)) {
+let dot = ParsePrint(input: Substring.self, .memberwise(Dot.init)) {
   Digits()
   ","
   Digits()
 }
 
-let fold = ParsePrint(.memberwise(Fold.init)) {
+let fold = ParsePrint(input: Substring.self, .memberwise(Fold.init)) {
   "fold along "
   Direction.parser()
   "="
   Digits()
 }
 
-let instructions = ParsePrint(.memberwise(Instructions.init)) {
+let instructions = ParsePrint(input: Substring.self, .memberwise(Instructions.init)) {
   Many {
     dot
   } separator: {
