@@ -252,14 +252,15 @@ README Example.Ad hoc             8029.000 ns ±  44.44 %     163719
 README Example.Scanner           19786.000 ns ±  35.26 %      62125
 ```
 
-We can take things even further. With one small change we can turn the parser into a _printer_.
+We can take things even further. With small change we can turn the parser into a _printer_.
 
 ```diff
 -let user = Parse(User.init(id:name:isAdmin:)) {
 +let user = ParsePrint(.memberwise(User.init(id:name:isAdmin:))) {
    Int.parser()
    ","
-   Prefix { $0 != "," }.map(String.init)
+-   Prefix { $0 != "," }.map(String.init)
++   Prefix { $0 != "," }.map(.string)
    ","
    Bool.parser()
  }
