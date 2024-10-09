@@ -34,7 +34,7 @@ jobs:
         swift:
           - '6'
     runs-on: ${{ matrix.os }}
-  container: swift:${{ matrix.swift }}
+    container: swift:${{ matrix.swift }}
     steps:
       - uses: actions/checkout@v4
       - name: Build
