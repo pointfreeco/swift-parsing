@@ -1,6 +1,7 @@
 import Parsing
 import XCTest
 
+@available(*, deprecated)
 final class FromSubstringTests: XCTestCase {
   func testUTF8View() {
     let p = Parse(input: Substring.UTF8View.self) {
