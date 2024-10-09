@@ -30,7 +30,7 @@ jobs:
   linux:
     strategy:
       matrix:
-        os: ubuntu-latest
+        os: [ubuntu-latest]
         swift:
           - '6'
     runs-on: ${{ matrix.os }}
