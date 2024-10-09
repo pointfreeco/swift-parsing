@@ -32,7 +32,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         swift:
-          - '6'
+          - '6.0'
     runs-on: ${{ matrix.os }}
     container: swift:${{ matrix.swift }}
     steps:
