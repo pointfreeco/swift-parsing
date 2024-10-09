@@ -32,12 +32,11 @@ public struct PrefixThrough<Input: Collection>: Parser where Input.SubSequence =
     let original = input
     while let index = input.firstIndex(where: { self.areEquivalent(first, $0) }) {
       input = input[index...]
-      if input.count >= count,
-        zip(input[index...], self.possibleMatch).allSatisfy(self.areEquivalent)
+      if let matchEndIndex = input.index(index, offsetBy: count, limitedBy: input.endIndex),
+        zip(input[..<matchEndIndex], self.possibleMatch).allSatisfy(self.areEquivalent)
       {
-        let index = input.index(index, offsetBy: count)
-        input = input[index...]
-        return original[..<index]
+        input = input[matchEndIndex...]
+        return original[..<matchEndIndex]
       }
       input.removeFirst()
     }
