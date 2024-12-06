@@ -121,6 +121,24 @@ public struct AnyConversion<Input, Output>: Conversion {
     self._unapply = conversion.unapply
   }
 
+
+  /// Creates a conversion that wraps the given closures in its ``apply(_:)`` and ``unapply(_:)``
+  /// methods
+  ///
+  /// - Parameters:
+  ///   - apply: A closure that attempts to convert an input into an output. `apply` is executed
+  ///     each time the ``apply(_:)`` method is called on the resulting conversion
+  ///   - unapply: A closure that attempts to convert an output into an input. `unapply` is executed
+  ///     each time the ``unapply(_:)`` method is called on the resulting conversion.
+  @inlinable
+  public init(
+    apply: @escaping (Input) throws -> Output,
+    unapply: @escaping (Output) throws -> Input
+  ) {
+    self._apply = apply
+    self._unapply = unapply
+  }
+
   /// Creates a conversion that wraps the given closures in its ``apply(_:)`` and ``unapply(_:)``
   /// methods, throwing an error when `nil` is returned.
   ///

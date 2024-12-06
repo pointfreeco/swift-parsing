@@ -1,3 +1,5 @@
+import Conversions
+
 /// A parser that consumes a subsequence from the beginning of its input.
 ///
 /// This parser is named after `Sequence.prefix`, which it uses under the hood to consume a number

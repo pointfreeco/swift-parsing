@@ -113,23 +113,23 @@ enum ParsingError: Error {
   }
 
   @usableFromInline
-  struct Context {
+  struct Context: Sendable {
     @usableFromInline
     var debugDescription: String
 
     @usableFromInline
-    var originalInput: Any
+    var originalInput: any Sendable
 
     @usableFromInline
-    var remainingInput: Any
+    var remainingInput: any Sendable
 
     @usableFromInline
     var underlyingError: Error?
 
     @usableFromInline
     init(
-      originalInput: Any,
-      remainingInput: Any,
+      originalInput: any Sendable,
+      remainingInput: any Sendable,
       debugDescription: String,
       underlyingError: Error? = nil
     ) {
@@ -141,7 +141,7 @@ enum ParsingError: Error {
 
     @usableFromInline
     init(
-      remainingInput: Any,
+      remainingInput: any Sendable,
       debugDescription: String,
       underlyingError: Error? = nil
     ) {

@@ -1,3 +1,5 @@
+import Conversions
+
 extension Parser {
   /// Returns a parser that transforms the output of this parser with a given closure.
   ///

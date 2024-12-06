@@ -1,3 +1,5 @@
+import Conversions
+
 public struct From<Upstream: Conversion, DownstreamInput, Downstream: Parser>: Parser
 where Upstream.Output == DownstreamInput, Downstream.Input == DownstreamInput {
   @usableFromInline
