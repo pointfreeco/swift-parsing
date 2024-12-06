@@ -9,6 +9,9 @@
 public extension Conversions {
 
   @available(iOS 17, *)
+  @available(macOS 14, *)
+  @available(tvOS 16, *)
+  @available(watchOS 9, *)
   struct Tuple<each C: Conversion>: Conversion {
     public typealias Input = (repeat (each C).Input)
     public typealias Output = (repeat (each C).Output)
