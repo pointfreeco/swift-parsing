@@ -35,7 +35,8 @@ let package = Package(
     .target(
       name: "Conversions",
       dependencies: [
-        .product(name: "CustomDump", package: "swift-custom-dump")
+        .product(name: "CustomDump", package: "swift-custom-dump"),
+        .product(name: "CasePaths", package: "swift-case-paths")
       ]
     ),
     .testTarget(
