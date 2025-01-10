@@ -127,23 +127,23 @@ public enum ParserBuilder<Input> {
   where P0.Input == Input, P1.Input == Input {
     .init(accumulated, next)
   }
-  
+
   @inlinable
   public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> SkipSecond<P0, P1>
   where P0.Input == Input, P1.Input == Input {
     .init(accumulated, next)
   }
-  
+
   @_disfavoredOverload
   public static func buildPartialBlock<P0: Parser, P1: Parser, each O1, O2>(
     accumulated: P0,
     next: P1
   ) -> Take2<P0, P1>.Map<(repeat each O1, O2)>
   where
-  P0.Input == Input,
-  P1.Input == Input,
-  P0.Output == (repeat each O1),
-  P1.Output == O2
+    P0.Input == Input,
+    P1.Input == Input,
+    P0.Output == (repeat each O1),
+    P1.Output == O2
   {
     Take2(accumulated, next)
       .map { tuple, next in
@@ -232,7 +232,6 @@ extension ParserBuilder.Take2: ParserPrinter where P0: ParserPrinter, P1: Parser
   }
 }
 
-
 extension ParserBuilder where Input == Substring {
   @_disfavoredOverload
   public static func buildExpression<P: Parser>(_ expression: P)
@@ -256,14 +255,16 @@ extension ParserBuilder.Take2 {
   public struct Map<NewOutput>: Parser where P0.Input == P1.Input {
     let upstream: ParserBuilder.Take2<P0, P1>
     let transform: (P0.Output, P1.Output) -> NewOutput
-    
+
     public func parse(_ input: inout P0.Input) throws -> NewOutput {
       let (first, second) = try upstream.parse(&input)
       return transform(first, second)
     }
   }
-  
-  public func map<NewOutput>(_ transform: @escaping (P0.Output, P1.Output) -> NewOutput) -> Map<NewOutput> {
+
+  public func map<NewOutput>(_ transform: @escaping (P0.Output, P1.Output) -> NewOutput) -> Map<
+    NewOutput
+  > {
     Map(upstream: self, transform: transform)
   }
 }
