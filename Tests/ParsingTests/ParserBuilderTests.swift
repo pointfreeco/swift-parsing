@@ -160,4 +160,46 @@ final class ParserBuilderTests: XCTestCase {
     }
     XCTAssertEqual(input, " Blob"[...])
   }
+
+  func testNestedPrint() throws {
+    let p1 = ParsePrint(input: Substring.self) {
+      Digits()
+      ","
+      Digits()
+    }
+    let p2 = ParsePrint(input: Substring.self) {
+      Digits()
+      ","
+      Digits()
+    }
+    let p3 = ParsePrint {
+      p1
+      ","
+      p2
+    }
+    var input = ""[...]
+    try p3.print((1, 2, (3, 4)), into: &input)
+    XCTAssertEqual(input, "1,2,3,4")
+  }
+
+  func testNestedPrint_differentLayouts() throws {
+    let p1 = ParsePrint(input: Substring.self) {
+      Int32.parser()
+      ","
+      Int8.parser()
+    }
+    let p2 = ParsePrint(input: Substring.self) {
+      Int8.parser()
+      ","
+      Int32.parser()
+    }
+    let p3 = ParsePrint {
+      p1
+      ","
+      p2
+    }
+    var input = ""[...]
+    try p3.print((1, 2, (3, 4)), into: &input)
+    XCTAssertEqual(input, "1,2,3,4")
+  }
 }

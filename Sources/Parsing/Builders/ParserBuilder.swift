@@ -272,13 +272,23 @@ extension ParserBuilder.Take2 {
 extension ParserBuilder.Take2.Map: ParserPrinter
 where P0: ParserPrinter, P1: ParserPrinter {
   public func print(_ output: NewOutput, into input: inout P0.Input) throws {
-    guard let tuple = output as? (P0.Output, P1.Output) else {
+    guard canBitCast(NewOutput.self, to: (P0.Output, P1.Output).self)
+    else {
       throw ParsingError.failed(
         summary: "Could not convert output to required tuple type",
         from: output,
         to: input
       )
     }
-    try upstream.print(tuple, into: &input)
+    try upstream.print(
+      unsafeBitCast(output, to: (P0.Output, P1.Output).self),
+      into: &input
+    )
   }
+}
+
+private func canBitCast<T, U>(_ type: T.Type, to otherType: U.Type) -> Bool {
+  MemoryLayout<T>.size == MemoryLayout<U>.size
+    && MemoryLayout<T>.alignment == MemoryLayout<U>.alignment
+    && MemoryLayout<T>.stride == MemoryLayout<U>.stride
 }
