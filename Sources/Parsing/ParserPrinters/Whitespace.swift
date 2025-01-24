@@ -1,3 +1,5 @@
+import Conversions
+
 /// A parser that consumes whitespace from the beginning of input.
 public struct Whitespace<Length: CountingRange, InputToBytes: Conversion>: Parser
 where

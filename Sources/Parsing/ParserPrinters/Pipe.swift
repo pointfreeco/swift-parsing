@@ -1,3 +1,5 @@
+import Conversions
+
 extension Parser {
   /// Returns a parser that runs this parser, pipes its output into the given parser, and returns
   /// the output of the given parser.

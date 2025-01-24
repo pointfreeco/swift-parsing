@@ -1,3 +1,5 @@
+import Conversions
+
 extension CaseIterable where Self: RawRepresentable, RawValue: FixedWidthInteger {
   /// A parser that consumes a case-iterable, raw representable value from the beginning of a
   /// collection of a substring.

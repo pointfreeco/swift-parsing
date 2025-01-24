@@ -1,3 +1,5 @@
+import Conversions
+
 extension Bool {
   /// A parser that consumes a Boolean value from the beginning of a collection of UTF-8 code units.
   ///

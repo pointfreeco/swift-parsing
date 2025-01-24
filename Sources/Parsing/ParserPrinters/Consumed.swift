@@ -1,3 +1,5 @@
+import Conversions
+
 /// A parser that returns the subsequence of input consumed by another parser.
 public struct Consumed<Input: Collection, Upstream: Parser>: Parser
 where

@@ -1,3 +1,5 @@
+import Conversions
+
 /// A custom parameter attribute that constructs parsers from closures. The constructed parser
 /// runs a number of parsers, one after the other, and accumulates their outputs.
 ///
