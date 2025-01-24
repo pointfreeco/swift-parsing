@@ -7,4 +7,19 @@ final class StartsWithTests: XCTestCase {
     XCTAssertNoThrow(try StartsWith("Hello".utf8).parse(&str))
     XCTAssertEqual(", world!", Substring(str))
   }
+  
+  func testParseFailure() {
+    var input = "Goodnight, Blob!"[...].utf8
+    XCTAssertThrowsError(try StartsWith("Hello, ".utf8).parse(&input)) { error in
+      XCTAssertEqual(
+        """
+        error: unexpected input
+         --> input:1:1
+        1 | Goodnight, Blob!
+          | ^ expected "Hello, "
+        """,
+        "\(error)"
+      )
+    }
+  }
 }
