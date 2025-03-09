@@ -1,5 +1,4 @@
 // swift-tools-version:5.9
-
 import PackageDescription
 
 let package = Package(
@@ -31,13 +30,6 @@ let package = Package(
       dependencies: [
         "Parsing"
       ]
-    ),
-    .executableTarget(
-      name: "swift-parsing-benchmark",
-      dependencies: [
-        "Parsing",
-        .product(name: "Benchmark", package: "swift-benchmark"),
-      ]
-    ),
+    )
   ]
 )
