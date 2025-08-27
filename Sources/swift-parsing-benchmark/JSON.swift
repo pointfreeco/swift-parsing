@@ -24,7 +24,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           JSONArray().map(.case(Output.array))
           JSONString().map(.case(Output.string))
           JSONNumber().pipe {
-            Rest().map(.string.lossless(Double.self)).map(.case(Output.number))
+            Double.parser().map(.case(Output.number))
           }
           Bool.parser().map(.case(Output.boolean))
           "null".utf8.map { Output.null }
