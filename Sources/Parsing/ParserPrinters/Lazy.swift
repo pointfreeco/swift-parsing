@@ -3,32 +3,28 @@
 @available(
   iOS,
   deprecated: 9999,
-  message:
-    """
+  message: """
     Lazily evaluate a parser by specifying it in a computed 'Parser.body' property, instead.
     """
 )
 @available(
   macOS,
   deprecated: 9999,
-  message:
-    """
+  message: """
     Lazily evaluate a parser by specifying it in a computed 'Parser.body' property, instead.
     """
 )
 @available(
   tvOS,
   deprecated: 9999,
-  message:
-    """
+  message: """
     Lazily evaluate a parser by specifying it in a computed 'Parser.body' property, instead.
     """
 )
 @available(
   watchOS,
   deprecated: 9999,
-  message:
-    """
+  message: """
     Lazily evaluate a parser by specifying it in a computed 'Parser.body' property, instead.
     """
 )

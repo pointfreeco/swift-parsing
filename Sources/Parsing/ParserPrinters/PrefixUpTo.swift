@@ -32,8 +32,8 @@ public struct PrefixUpTo<Input: Collection>: Parser where Input.SubSequence == I
     let original = input
     while let index = input.firstIndex(where: { self.areEquivalent(first, $0) }) {
       input = input[index...]
-      if input.count >= count,
-        zip(input[index...], self.possibleMatch).allSatisfy(self.areEquivalent)
+      if let matchEndIndex = input.index(index, offsetBy: count, limitedBy: input.endIndex),
+        zip(input[..<matchEndIndex], self.possibleMatch).allSatisfy(self.areEquivalent)
       {
         return original[..<index]
       }

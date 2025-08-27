@@ -14,7 +14,7 @@
 /// }
 /// let money = Parse { currency; Digits() }
 ///
-/// try currency.parse("$100") // (.usd, 100)
+/// try money.parse("$100") // (.usd, 100)
 /// ```
 @resultBuilder
 public enum OneOfBuilder<Input, Output> {

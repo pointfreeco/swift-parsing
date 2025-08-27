@@ -7,14 +7,14 @@ extension Parser {
   /// a single space:
   ///
   /// ```swift
-  /// let spaces = Skip { Prefix { $0.isWhitespace } }.printing(" ")
+  /// let spaces = Skip { Prefix(while: \.isWhitespace) }.printing(" ")
   ///
   /// var input = "     123"[...]
   /// try spaces.parse(&input)  // ()
   /// input                     // "123"
   ///
-  /// spaces.print(to: &input)
-  /// input                     // "123 "
+  /// try spaces.print(into: &input)
+  /// input                     // " 123"
   /// ```
   ///
   /// - Parameter printer: A printer.

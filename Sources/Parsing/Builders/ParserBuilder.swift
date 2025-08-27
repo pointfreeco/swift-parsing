@@ -135,82 +135,20 @@ public enum ParserBuilder<Input> {
   }
 
   @_disfavoredOverload
-  @inlinable
-  public static func buildPartialBlock<P0, P1>(accumulated: P0, next: P1) -> Take2<P0, P1>
-  where P0.Input == Input, P1.Input == Input {
-    .init(accumulated, next)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public static func buildPartialBlock<P0, P1, O0, O1>(
-    accumulated: P0, next: P1
-  ) -> Take3<P0, P1, O0, O1>
-  where P0.Input == Input, P1.Input == Input {
-    .init(accumulated, next)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public static func buildPartialBlock<P0, P1, O0, O1, O2>(
-    accumulated: P0, next: P1
-  ) -> Take4<P0, P1, O0, O1, O2>
-  where P0.Input == Input, P1.Input == Input {
-    .init(accumulated, next)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public static func buildPartialBlock<P0, P1, O0, O1, O2, O3>(
-    accumulated: P0, next: P1
-  ) -> Take5<P0, P1, O0, O1, O2, O3>
-  where P0.Input == Input, P1.Input == Input {
-    .init(accumulated, next)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4>(
-    accumulated: P0, next: P1
-  ) -> Take6<P0, P1, O0, O1, O2, O3, O4>
-  where P0.Input == Input, P1.Input == Input {
-    .init(accumulated, next)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5>(
-    accumulated: P0, next: P1
-  ) -> Take7<P0, P1, O0, O1, O2, O3, O4, O5>
-  where P0.Input == Input, P1.Input == Input {
-    .init(accumulated, next)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5, O6>(
-    accumulated: P0, next: P1
-  ) -> Take8<P0, P1, O0, O1, O2, O3, O4, O5, O6>
-  where P0.Input == Input, P1.Input == Input {
-    .init(accumulated, next)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7>(
-    accumulated: P0, next: P1
-  ) -> Take9<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7>
-  where P0.Input == Input, P1.Input == Input {
-    .init(accumulated, next)
-  }
-
-  @_disfavoredOverload
-  @inlinable
-  public static func buildPartialBlock<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7, O8>(
-    accumulated: P0, next: P1
-  ) -> Take10<P0, P1, O0, O1, O2, O3, O4, O5, O6, O7, O8>
-  where P0.Input == Input, P1.Input == Input {
-    .init(accumulated, next)
+  public static func buildPartialBlock<P0: Parser, P1: Parser, each O1, O2>(
+    accumulated: P0,
+    next: P1
+  ) -> Take2<P0, P1>.Map<(repeat each O1, O2)>
+  where
+    P0.Input == Input,
+    P1.Input == Input,
+    P0.Output == (repeat each O1),
+    P1.Output == O2
+  {
+    Take2(accumulated, next)
+      .map { tuple, next in
+        (repeat each tuple, next)
+      }
   }
 
   public struct SkipFirst<P0: Parser, P1: Parser>: Parser
@@ -268,152 +206,6 @@ public enum ParserBuilder<Input> {
       } catch { throw ParsingError.wrap(error, at: input) }
     }
   }
-
-  public struct Take3<P0: Parser, P1: Parser, O0, O1>: Parser
-  where P0.Input == P1.Input, P0.Output == (O0, O1) {
-    @usableFromInline let p0: P0, p1: P1
-
-    @usableFromInline init(_ p0: P0, _ p1: P1) {
-      self.p0 = p0
-      self.p1 = p1
-    }
-
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (O0, O1, P1.Output) {
-      do {
-        let (o0, o1) = try self.p0.parse(&input)
-        return try (o0, o1, self.p1.parse(&input))
-      } catch { throw ParsingError.wrap(error, at: input) }
-    }
-  }
-
-  public struct Take4<P0: Parser, P1: Parser, O0, O1, O2>: Parser
-  where P0.Input == P1.Input, P0.Output == (O0, O1, O2) {
-    @usableFromInline let p0: P0, p1: P1
-
-    @usableFromInline init(_ p0: P0, _ p1: P1) {
-      self.p0 = p0
-      self.p1 = p1
-    }
-
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (O0, O1, O2, P1.Output) {
-      do {
-        let (o0, o1, o2) = try self.p0.parse(&input)
-        return try (o0, o1, o2, self.p1.parse(&input))
-      } catch { throw ParsingError.wrap(error, at: input) }
-    }
-  }
-
-  public struct Take5<P0: Parser, P1: Parser, O0, O1, O2, O3>: Parser
-  where P0.Input == P1.Input, P0.Output == (O0, O1, O2, O3) {
-    @usableFromInline let p0: P0, p1: P1
-
-    @usableFromInline init(_ p0: P0, _ p1: P1) {
-      self.p0 = p0
-      self.p1 = p1
-    }
-
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (O0, O1, O2, O3, P1.Output) {
-      do {
-        let (o0, o1, o2, o3) = try self.p0.parse(&input)
-        return try (o0, o1, o2, o3, self.p1.parse(&input))
-      } catch { throw ParsingError.wrap(error, at: input) }
-    }
-  }
-
-  public struct Take6<P0: Parser, P1: Parser, O0, O1, O2, O3, O4>: Parser
-  where P0.Input == P1.Input, P0.Output == (O0, O1, O2, O3, O4) {
-    @usableFromInline let p0: P0, p1: P1
-
-    @usableFromInline init(_ p0: P0, _ p1: P1) {
-      self.p0 = p0
-      self.p1 = p1
-    }
-
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      O0, O1, O2, O3, O4, P1.Output
-    ) {
-      do {
-        let (o0, o1, o2, o3, o4) = try self.p0.parse(&input)
-        return try (o0, o1, o2, o3, o4, self.p1.parse(&input))
-      } catch { throw ParsingError.wrap(error, at: input) }
-    }
-  }
-
-  public struct Take7<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5>: Parser
-  where P0.Input == P1.Input, P0.Output == (O0, O1, O2, O3, O4, O5) {
-    @usableFromInline let p0: P0, p1: P1
-
-    @usableFromInline init(_ p0: P0, _ p1: P1) {
-      self.p0 = p0
-      self.p1 = p1
-    }
-
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      O0, O1, O2, O3, O4, O5, P1.Output
-    ) {
-      do {
-        let (o0, o1, o2, o3, o4, o5) = try self.p0.parse(&input)
-        return try (o0, o1, o2, o3, o4, o5, self.p1.parse(&input))
-      } catch { throw ParsingError.wrap(error, at: input) }
-    }
-  }
-
-  public struct Take8<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5, O6>: Parser
-  where P0.Input == P1.Input, P0.Output == (O0, O1, O2, O3, O4, O5, O6) {
-    @usableFromInline let p0: P0, p1: P1
-
-    @usableFromInline init(_ p0: P0, _ p1: P1) {
-      self.p0 = p0
-      self.p1 = p1
-    }
-
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      O0, O1, O2, O3, O4, O5, O6, P1.Output
-    ) {
-      do {
-        let (o0, o1, o2, o3, o4, o5, o6) = try self.p0.parse(&input)
-        return try (o0, o1, o2, o3, o4, o5, o6, self.p1.parse(&input))
-      } catch { throw ParsingError.wrap(error, at: input) }
-    }
-  }
-
-  public struct Take9<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5, O6, O7>: Parser
-  where P0.Input == P1.Input, P0.Output == (O0, O1, O2, O3, O4, O5, O6, O7) {
-    @usableFromInline let p0: P0, p1: P1
-
-    @usableFromInline init(_ p0: P0, _ p1: P1) {
-      self.p0 = p0
-      self.p1 = p1
-    }
-
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      O0, O1, O2, O3, O4, O5, O6, O7, P1.Output
-    ) {
-      do {
-        let (o0, o1, o2, o3, o4, o5, o6, o7) = try self.p0.parse(&input)
-        return try (o0, o1, o2, o3, o4, o5, o6, o7, self.p1.parse(&input))
-      } catch { throw ParsingError.wrap(error, at: input) }
-    }
-  }
-
-  public struct Take10<P0: Parser, P1: Parser, O0, O1, O2, O3, O4, O5, O6, O7, O8>: Parser
-  where P0.Input == P1.Input, P0.Output == (O0, O1, O2, O3, O4, O5, O6, O7, O8) {
-    @usableFromInline let p0: P0, p1: P1
-
-    @usableFromInline init(_ p0: P0, _ p1: P1) {
-      self.p0 = p0
-      self.p1 = p1
-    }
-
-    @inlinable public func parse(_ input: inout P0.Input) rethrows -> (
-      O0, O1, O2, O3, O4, O5, O6, O7, O8, P1.Output
-    ) {
-      do {
-        let (o0, o1, o2, o3, o4, o5, o6, o7, o8) = try self.p0.parse(&input)
-        return try (o0, o1, o2, o3, o4, o5, o6, o7, o8, self.p1.parse(&input))
-      } catch { throw ParsingError.wrap(error, at: input) }
-    }
-  }
 }
 
 extension ParserBuilder.SkipFirst: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
@@ -440,94 +232,6 @@ extension ParserBuilder.Take2: ParserPrinter where P0: ParserPrinter, P1: Parser
   }
 }
 
-extension ParserBuilder.Take3: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
-  @inlinable
-  public func print(_ output: (O0, O1, P1.Output), into input: inout P0.Input) rethrows {
-    try self.p1.print(output.2, into: &input)
-    try self.p0.print((output.0, output.1), into: &input)
-  }
-}
-
-extension ParserBuilder.Take4: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
-  @inlinable
-  public func print(_ output: (O0, O1, O2, P1.Output), into input: inout P0.Input) rethrows {
-    try self.p1.print(output.3, into: &input)
-    try self.p0.print((output.0, output.1, output.2), into: &input)
-  }
-}
-
-extension ParserBuilder.Take5: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
-  @inlinable
-  public func print(_ output: (O0, O1, O2, O3, P1.Output), into input: inout P0.Input) rethrows {
-    try self.p1.print(output.4, into: &input)
-    try self.p0.print((output.0, output.1, output.2, output.3), into: &input)
-  }
-}
-
-extension ParserBuilder.Take6: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
-  @inlinable
-  public func print(
-    _ output: (O0, O1, O2, O3, O4, P1.Output),
-    into input: inout P0.Input
-  ) rethrows {
-    try self.p1.print(output.5, into: &input)
-    try self.p0.print((output.0, output.1, output.2, output.3, output.4), into: &input)
-  }
-}
-
-extension ParserBuilder.Take7: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
-  @inlinable
-  public func print(
-    _ output: (O0, O1, O2, O3, O4, O5, P1.Output),
-    into input: inout P0.Input
-  ) rethrows {
-    try self.p1.print(output.6, into: &input)
-    try self.p0.print((output.0, output.1, output.2, output.3, output.4, output.5), into: &input)
-  }
-}
-
-extension ParserBuilder.Take8: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
-  @inlinable
-  public func print(
-    _ output: (O0, O1, O2, O3, O4, O5, O6, P1.Output),
-    into input: inout P0.Input
-  ) rethrows {
-    try self.p1.print(output.7, into: &input)
-    try self.p0.print(
-      (output.0, output.1, output.2, output.3, output.4, output.5, output.6),
-      into: &input
-    )
-  }
-}
-
-extension ParserBuilder.Take9: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
-  @inlinable
-  public func print(
-    _ output: (O0, O1, O2, O3, O4, O5, O6, O7, P1.Output),
-    into input: inout P0.Input
-  ) rethrows {
-    try self.p1.print(output.8, into: &input)
-    try self.p0.print(
-      (output.0, output.1, output.2, output.3, output.4, output.5, output.6, output.7),
-      into: &input
-    )
-  }
-}
-
-extension ParserBuilder.Take10: ParserPrinter where P0: ParserPrinter, P1: ParserPrinter {
-  @inlinable
-  public func print(
-    _ output: (O0, O1, O2, O3, O4, O5, O6, O7, O8, P1.Output),
-    into input: inout P0.Input
-  ) rethrows {
-    try self.p1.print(output.9, into: &input)
-    try self.p0.print(
-      (output.0, output.1, output.2, output.3, output.4, output.5, output.6, output.7, output.8),
-      into: &input
-    )
-  }
-}
-
 extension ParserBuilder where Input == Substring {
   @_disfavoredOverload
   public static func buildExpression<P: Parser>(_ expression: P)
@@ -545,4 +249,46 @@ extension ParserBuilder where Input == Substring.UTF8View {
   where P.Input == Substring.UTF8View {
     expression
   }
+}
+
+extension ParserBuilder.Take2 {
+  public struct Map<NewOutput>: Parser where P0.Input == P1.Input {
+    let upstream: ParserBuilder.Take2<P0, P1>
+    let transform: (P0.Output, P1.Output) -> NewOutput
+
+    public func parse(_ input: inout P0.Input) throws -> NewOutput {
+      let (first, second) = try upstream.parse(&input)
+      return transform(first, second)
+    }
+  }
+
+  public func map<NewOutput>(_ transform: @escaping (P0.Output, P1.Output) -> NewOutput) -> Map<
+    NewOutput
+  > {
+    Map(upstream: self, transform: transform)
+  }
+}
+
+extension ParserBuilder.Take2.Map: ParserPrinter
+where P0: ParserPrinter, P1: ParserPrinter {
+  public func print(_ output: NewOutput, into input: inout P0.Input) throws {
+    guard canBitCast(NewOutput.self, to: (P0.Output, P1.Output).self)
+    else {
+      throw ParsingError.failed(
+        summary: "Could not convert output to required tuple type",
+        from: output,
+        to: input
+      )
+    }
+    try upstream.print(
+      unsafeBitCast(output, to: (P0.Output, P1.Output).self),
+      into: &input
+    )
+  }
+}
+
+private func canBitCast<T, U>(_ type: T.Type, to otherType: U.Type) -> Bool {
+  MemoryLayout<T>.size == MemoryLayout<U>.size
+    && MemoryLayout<T>.alignment == MemoryLayout<U>.alignment
+    && MemoryLayout<T>.stride == MemoryLayout<U>.stride
 }

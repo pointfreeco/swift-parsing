@@ -116,9 +116,9 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
         while scanner.currentIndex != input.endIndex {
           guard
             let id = scanner.scanInt(),
-            let _ = scanner.scanString(","),
+            scanner.scanString(",") != nil,
             let name = scanner.scanUpToString(","),
-            let _ = scanner.scanString(","),
+            scanner.scanString(",") != nil,
             let isAdmin = scanner.scanBool()
           else { break }
 
