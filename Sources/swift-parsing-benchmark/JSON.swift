@@ -11,9 +11,8 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       enum Output: Equatable {
         case array([Self])
         case boolean(Bool)
-        case float(Double)
-        case integer(Int)
         case null
+        case number(Double)
         case object([String: Self])
         case string(String)
       }
@@ -25,10 +24,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           JSONArray().map(.case(Output.array))
           JSONString().map(.case(Output.string))
           JSONNumber().pipe {
-            OneOf {
-              Rest().map(.string.lossless(Int.self)).map(.case(Output.integer))
-              Rest().map(.string.lossless(Double.self)).map(.case(Output.float))
-            }
+            Rest().map(.string.lossless(Double.self)).map(.case(Output.number))
           }
           Bool.parser().map(.case(Output.boolean))
           "null".utf8.map { Output.null }
@@ -191,10 +187,10 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
         jsonOutput
           == .object([
             "hello": .boolean(true),
-            "goodbye": .float(42.42),
-            "xs": .array([.integer(1), .string("hello"), .null, .boolean(false)]),
+            "goodbye": .number(42.42),
+            "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
             "ys": .object([
-              "0": .integer(2),
+              "0": .number(2),
               "1": .string("goodbye\n"),
             ]),
             "𝄞": .null,
@@ -206,8 +202,8 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           {\
           "goodbye":42.42,\
           "hello":true,\
-          "xs":[1,"hello",null,false],\
-          "ys":{"0":2,"1":"goodbye\\n"},\
+          "xs":[1.0,"hello",null,false],\
+          "ys":{"0":2.0,"1":"goodbye\\n"},\
           "𝄞":null\
           }
           """
