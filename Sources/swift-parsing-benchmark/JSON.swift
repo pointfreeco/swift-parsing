@@ -23,9 +23,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           JSONObject().map(.case(Output.object))
           JSONArray().map(.case(Output.array))
           JSONString().map(.case(Output.string))
-          JSONNumber().pipe {
-            Double.parser().map(.case(Output.number))
-          }
+          JSONNumber().map(.case(Output.number))
           Bool.parser().map(.case(Output.boolean))
           "null".utf8.map { Output.null }
         }
@@ -104,7 +102,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
     }
 
     struct JSONNumber: ParserPrinter {
-      var body: some ParserPrinter<Substring.UTF8View, Substring.UTF8View> {
+      var body: some ParserPrinter<Substring.UTF8View, Double> {
         Consumed {
           Optionally { "-".utf8 }
 
@@ -124,6 +122,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
             Digits(1...)
           }
         }
+        .map(.string.lossless(Double.self))
       }
     }
 
