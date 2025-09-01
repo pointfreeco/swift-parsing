@@ -4,8 +4,7 @@ import Parsing
 
 /// This benchmark shows how to create a naive JSON parser with combinators.
 ///
-/// It is mostly implemented according to the [spec](https://www.json.org/json-en.html) (we take a
-/// shortcut and use `Double.parser()`, which behaves accordingly).
+/// It is implemented according to the [spec](https://www.json.org/json-en.html).
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   #if swift(>=5.8)
     struct JSONValue: ParserPrinter {
@@ -24,11 +23,48 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           JSONObject().map(.case(Output.object))
           JSONArray().map(.case(Output.array))
           JSONString().map(.case(Output.string))
-          Double.parser().map(.case(Output.number))
+          JSONNumber().map(.case(Output.number))
           Bool.parser().map(.case(Output.boolean))
           "null".utf8.map { Output.null }
         }
         Whitespace()
+      }
+    }
+
+    struct EscapedSingleChar: ParserPrinter {
+      var body: some ParserPrinter<Substring.UTF8View, String> {
+        "\\".utf8
+
+        OneOf {
+          "\"".utf8.map { "\"" }
+          "\\".utf8.map { "\\" }
+          "/".utf8.map { "/" }
+          "b".utf8.map { "\u{8}" }
+          "f".utf8.map { "\u{c}" }
+          "n".utf8.map { "\n" }
+          "r".utf8.map { "\r" }
+          "t".utf8.map { "\t" }
+        }
+      }
+    }
+
+    struct UnescapedString: ParserPrinter {
+      var body: some ParserPrinter<Substring.UTF8View, String> {
+        Prefix(1...) { $0.isUnescapedJSONStringByte }
+          .printing { output, input in
+            try Prefix(output.count) { $0.isUnescapedJSONStringByte }.print(output, into: &input)
+          }
+          .map(.string)
+      }
+    }
+
+    struct LiteralUnicodeCodePoint: ParserPrinter {
+      var body: some ParserPrinter<Substring.UTF8View, UInt32> {
+        "\\".utf8
+        Parse {
+          "u".utf8
+          Prefix(4) { $0.isHexDigit }.map(.base16Int)
+        }
       }
     }
 
@@ -41,29 +77,52 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           string.map(String.init).reversed().makeIterator()
         } element: {
           OneOf {
-            Prefix(1) { $0.isUnescapedJSONStringByte }.map(.string)
-
-            Parse {
-              "\\".utf8
-
-              OneOf {
-                "\"".utf8.map { "\"" }
-                "\\".utf8.map { "\\" }
-                "/".utf8.map { "/" }
-                "b".utf8.map { "\u{8}" }
-                "f".utf8.map { "\u{c}" }
-                "n".utf8.map { "\n" }
-                "r".utf8.map { "\r" }
-                "t".utf8.map { "\t" }
-                ParsePrint(.unicode) {
-                  Prefix(4) { $0.isHexDigit }
-                }
+            OneOf {
+              // surrogate pair
+              Parse(.surrogateCodePoint) {
+                LiteralUnicodeCodePoint()
+                  .filter((0xD800 ... 0xDBFF).contains)
+                LiteralUnicodeCodePoint()
+                  .filter((0xDC00 ... 0xDFFF).contains)
               }
+
+              // single unicode scalar
+              LiteralUnicodeCodePoint()
             }
+            .map(.codePointToString)
+
+            EscapedSingleChar()
+
+            UnescapedString()
           }
         } terminator: {
           "\"".utf8
         }
+      }
+    }
+
+    struct JSONNumber: ParserPrinter {
+      var body: some ParserPrinter<Substring.UTF8View, Double> {
+        Consumed {
+          Optionally { "-".utf8 }
+
+          OneOf {
+            "0".utf8
+            Parse {
+              Digits(1).filter { $0 != 0 }
+              Digits(0...)
+            }.map { _ in }
+          }
+
+          Optionally { ".".utf8; Digits(1...) }
+
+          Optionally {
+            OneOf { "e".utf8; "E".utf8 }
+            Optionally { OneOf { "+".utf8; "-".utf8 } }
+            Digits(1...)
+          }
+        }
+        .map(.string.lossless(Double.self))
       }
     }
 
@@ -110,12 +169,12 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
       {
         "hello": true,
         "goodbye": 42.42,
-        "whatever": null,
         "xs": [1, "hello", null, false],
         "ys": {
           "0": 2,
           "1": "goodbye\n"
-        }
+        },
+        "\uD834\uDD1E": null
       }
       """#
     var jsonOutput: JSONValue.Output!
@@ -128,12 +187,12 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           == .object([
             "hello": .boolean(true),
             "goodbye": .number(42.42),
-            "whatever": .null,
             "xs": .array([.number(1), .string("hello"), .null, .boolean(false)]),
             "ys": .object([
               "0": .number(2),
               "1": .string("goodbye\n"),
             ]),
+            "𝄞": .null,
           ])
       )
       precondition(
@@ -142,9 +201,9 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           {\
           "goodbye":42.42,\
           "hello":true,\
-          "whatever":null,\
           "xs":[1.0,"hello",null,false],\
-          "ys":{"0":2.0,"1":"goodbye\\n"}\
+          "ys":{"0":2.0,"1":"goodbye\\n"},\
+          "𝄞":null\
           }
           """
       )
@@ -160,42 +219,77 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
         (objectOutput as! NSDictionary) == [
           "hello": true,
           "goodbye": 42.42,
-          "whatever": NSNull(),
           "xs": [1, "hello", nil, false] as [Any?],
           "ys": [
             "0": 2,
             "1": "goodbye\n",
           ] as [String: Any],
+          "𝄞": NSNull(),
         ]
       )
     }
   #endif
 }
 
-extension UTF8.CodeUnit {
-  fileprivate var isHexDigit: Bool {
+private extension UTF8.CodeUnit {
+  var isHexDigit: Bool {
     (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
       || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
       || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
   }
 
-  fileprivate var isUnescapedJSONStringByte: Bool {
+  var isUnescapedJSONStringByte: Bool {
     self != .init(ascii: "\"") && self != .init(ascii: "\\") && self >= .init(ascii: " ")
   }
 }
 
-extension Conversion where Self == AnyConversion<Substring.UTF8View, String> {
-  fileprivate static var unicode: Self {
+private extension Conversion where Self == AnyConversion<Substring.UTF8View, UInt32> {
+  static var base16Int: Self {
     Self(
-      apply: {
-        UInt32(Substring($0), radix: 16)
-          .flatMap(UnicodeScalar.init)
-          .map(String.init)
-      },
-      unapply: {
-        $0.unicodeScalars.first
-          .map { String(UInt32($0), radix: 16)[...].utf8 }
+      apply: { UInt32(Substring($0), radix: 16) },
+      unapply: { int in
+        var utf8View = String(int, radix: 16)[...].utf8
+        utf8View.prepend(contentsOf: Array("000"[...].utf8))
+        return utf8View.suffix(4)
       }
+    )
+  }
+}
+
+private extension Conversion where Self == AnyConversion<(UInt32, UInt32), UInt32> {
+  static var surrogateCodePoint: Self {
+    Self(
+      apply: { (h, l) in
+        let a = (h - 0xD800) * 0x400
+        let b = (l - 0xDC00) + 0x10000
+        return a + b
+      },
+      unapply: { codePoint in
+        let h = (codePoint - 0x10000) / 0x400 + 0xD800
+        let l = (codePoint - 0x10000) % 0x400 + 0xDC00
+        return (h, l)
+      }
+    )
+  }
+}
+
+private extension Conversion where Self == AnyConversion<UInt32, String> {
+  static var codePointToString: Self {
+    Self(.unicodeScalar.map(.unicodeScalarView.substring.string))
+  }
+}
+
+private extension Conversion where Self == AnyConversion<UInt32, UnicodeScalar> {
+  static var unicodeScalar: Self {
+    Self(apply: { UnicodeScalar($0) }, unapply: { UInt32($0) })
+  }
+}
+
+private extension Conversion where Self == AnyConversion<UnicodeScalar, Substring.UnicodeScalarView> {
+  static var unicodeScalarView: Self {
+    Self(
+      apply: { .init([$0]) },
+      unapply: { $0.count == 1 ? $0.first : nil }
     )
   }
 }
