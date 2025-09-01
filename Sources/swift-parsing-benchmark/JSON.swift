@@ -81,9 +81,9 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
               // surrogate pair
               Parse(.surrogateCodePoint) {
                 LiteralUnicodeCodePoint()
-                  .filter((0xD800 ... 0xDBFF).contains)
+                  .filter((0xD800...0xDBFF).contains)
                 LiteralUnicodeCodePoint()
-                  .filter((0xDC00 ... 0xDFFF).contains)
+                  .filter((0xDC00...0xDFFF).contains)
               }
 
               // single unicode scalar
@@ -114,11 +114,22 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
             }.map { _ in }
           }
 
-          Optionally { ".".utf8; Digits(1...) }
+          Optionally {
+            ".".utf8
+            Digits(1...)
+          }
 
           Optionally {
-            OneOf { "e".utf8; "E".utf8 }
-            Optionally { OneOf { "+".utf8; "-".utf8 } }
+            OneOf {
+              "e".utf8
+              "E".utf8
+            }
+            Optionally {
+              OneOf {
+                "+".utf8
+                "-".utf8
+              }
+            }
             Digits(1...)
           }
         }
@@ -231,20 +242,20 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
   #endif
 }
 
-private extension UTF8.CodeUnit {
-  var isHexDigit: Bool {
+extension UTF8.CodeUnit {
+  fileprivate var isHexDigit: Bool {
     (.init(ascii: "0") ... .init(ascii: "9")).contains(self)
       || (.init(ascii: "A") ... .init(ascii: "F")).contains(self)
       || (.init(ascii: "a") ... .init(ascii: "f")).contains(self)
   }
 
-  var isUnescapedJSONStringByte: Bool {
+  fileprivate var isUnescapedJSONStringByte: Bool {
     self != .init(ascii: "\"") && self != .init(ascii: "\\") && self >= .init(ascii: " ")
   }
 }
 
-private extension Conversion where Self == AnyConversion<Substring.UTF8View, UInt32> {
-  static var base16Int: Self {
+extension Conversion where Self == AnyConversion<Substring.UTF8View, UInt32> {
+  fileprivate static var base16Int: Self {
     Self(
       apply: { UInt32(Substring($0), radix: 16) },
       unapply: { int in
@@ -256,8 +267,8 @@ private extension Conversion where Self == AnyConversion<Substring.UTF8View, UIn
   }
 }
 
-private extension Conversion where Self == AnyConversion<(UInt32, UInt32), UInt32> {
-  static var surrogateCodePoint: Self {
+extension Conversion where Self == AnyConversion<(UInt32, UInt32), UInt32> {
+  fileprivate static var surrogateCodePoint: Self {
     Self(
       apply: { (h, l) in
         let a = (h - 0xD800) * 0x400
@@ -273,20 +284,20 @@ private extension Conversion where Self == AnyConversion<(UInt32, UInt32), UInt3
   }
 }
 
-private extension Conversion where Self == AnyConversion<UInt32, String> {
-  static var codePointToString: Self {
+extension Conversion where Self == AnyConversion<UInt32, String> {
+  fileprivate static var codePointToString: Self {
     Self(.unicodeScalar.map(.unicodeScalarView.substring.string))
   }
 }
 
-private extension Conversion where Self == AnyConversion<UInt32, UnicodeScalar> {
-  static var unicodeScalar: Self {
+extension Conversion where Self == AnyConversion<UInt32, UnicodeScalar> {
+  fileprivate static var unicodeScalar: Self {
     Self(apply: { UnicodeScalar($0) }, unapply: { UInt32($0) })
   }
 }
 
-private extension Conversion where Self == AnyConversion<UnicodeScalar, Substring.UnicodeScalarView> {
-  static var unicodeScalarView: Self {
+extension Conversion where Self == AnyConversion<UnicodeScalar, Substring.UnicodeScalarView> {
+  fileprivate static var unicodeScalarView: Self {
     Self(
       apply: { .init([$0]) },
       unapply: { $0.count == 1 ? $0.first : nil }
