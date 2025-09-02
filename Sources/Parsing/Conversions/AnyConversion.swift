@@ -58,6 +58,58 @@ extension Conversion {
   ) -> Self where Self == AnyConversion<Input, Output> {
     .init(apply: apply, unapply: unapply)
   }
+
+  /// A conversion that invokes the given throwing apply and unapply functions.
+  ///
+  /// This overload is useful when your conversion logic can fail and you want to throw specific
+  /// errors rather than relying on the optional-based conversion that throws a generic
+  /// ``ConvertingError``.
+  ///
+  /// ```swift
+  /// enum ValidationError: Error {
+  ///   case invalidAmount
+  /// }
+  ///
+  /// struct Amount {
+  ///   var cents: Int
+  ///   init(dollars: Int, cents: Int) throws {
+  ///     guard dollars >= 0, cents >= 0, cents < 100 else {
+  ///       throw ValidationError.invalidAmount
+  ///     }
+  ///     self.cents = dollars * 100 + cents
+  ///   }
+  /// }
+  ///
+  /// let amount = Parse(
+  ///   .convert(
+  ///     apply: { (dollars: Int, cents: Int) in try Amount(dollars: dollars, cents: cents) },
+  ///     unapply: { amount in amount.cents.quotientAndRemainder(dividingBy: 100) }
+  ///   )
+  /// ) {
+  ///   Digits()
+  ///   "."
+  ///   Digits(2)
+  /// }
+  /// ```
+  ///
+  /// For better performance, consider defining a custom type that conforms to ``Conversion``.
+  ///
+  /// - Parameters:
+  ///   - apply: A closure that attempts to convert an input into an output. `apply` is executed
+  ///     each time the ``apply(_:)`` method is called on the resulting conversion. The closure
+  ///     can throw an error if the conversion fails.
+  ///   - unapply: A closure that attempts to convert an output into an input. `unapply` is executed
+  ///     each time the ``unapply(_:)`` method is called on the resulting conversion. The closure
+  ///     can throw an error if the conversion fails.
+  /// - Returns: A conversion that invokes the given throwing apply and unapply functions.
+  @inlinable
+  @_disfavoredOverload
+  public static func convert<Input, Output>(
+    apply: @escaping (Input) throws -> Output,
+    unapply: @escaping (Output) throws -> Input
+  ) -> Self where Self == AnyConversion<Input, Output> {
+    .init(apply: apply, unapply: unapply)
+  }
 }
 
 /// A type-erased ``Conversion``.
@@ -146,6 +198,25 @@ public struct AnyConversion<Input, Output>: Conversion {
       else { throw ConvertingError() }
       return value
     }
+  }
+
+  /// Creates a conversion that wraps the given throwing closures in its ``apply(_:)`` and ``unapply(_:)``
+  /// methods.
+  ///
+  /// - Parameters:
+  ///   - apply: A closure that attempts to convert an input into an output. `apply` is executed
+  ///     each time the ``apply(_:)`` method is called on the resulting conversion. The closure
+  ///     can throw an error if the conversion fails.
+  ///   - unapply: A closure that attempts to convert an output into an input. `unapply` is executed
+  ///     each time the ``unapply(_:)`` method is called on the resulting conversion. The closure
+  ///     can throw an error if the conversion fails.
+  @inlinable
+  public init(
+    apply: @escaping (Input) throws -> Output,
+    unapply: @escaping (Output) throws -> Input
+  ) {
+    self._apply = apply
+    self._unapply = unapply
   }
 
   @inlinable
