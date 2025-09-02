@@ -1,5 +1,5 @@
 import Foundation
-
+import Conversions
 // NB: Deprecated after 0.11.0
 
 extension Bool {

@@ -1,3 +1,5 @@
+import Conversions
+
 /// A parser that consumes a subsequence from the beginning of its input through a given sequence of
 /// elements.
 ///

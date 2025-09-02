@@ -117,7 +117,7 @@ extension Conversion {
   ///   struct back into a tuple of values.
   @inlinable
   public static func memberwise<Values, Struct>(
-    _ initializer: @escaping (Values) -> Struct
+    _ initializer: @escaping @Sendable (Values) -> Struct
   ) -> Self where Self == Conversions.Memberwise<Values, Struct> {
     .init(initializer: initializer)
   }
@@ -126,10 +126,10 @@ extension Conversion {
 extension Conversions {
   public struct Memberwise<Values, Struct>: Conversion {
     @usableFromInline
-    let initializer: (Values) -> Struct
+    let initializer: @Sendable (Values) -> Struct
 
     @usableFromInline
-    init(initializer: @escaping (Values) -> Struct) {
+      init(initializer: @escaping @Sendable (Values) -> Struct) {
       self.initializer = initializer
     }
 
