@@ -111,7 +111,8 @@ enum ParsingError: Error {
       )
     }
   }
-
+  
+  @preconcurrency // TODO: Make this concurrency safe
   @usableFromInline
   struct Context {
     @usableFromInline

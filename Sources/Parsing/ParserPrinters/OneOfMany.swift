@@ -66,3 +66,5 @@ extension Parsers.OneOfMany: ParserPrinter where Parsers: ParserPrinter {
     throw PrintingError.manyFailed(errors, at: input)
   }
 }
+
+extension Parsers.OneOfMany: Sendable where Parsers: Sendable { }

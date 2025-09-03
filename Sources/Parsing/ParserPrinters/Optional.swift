@@ -50,3 +50,5 @@ extension Parsers.OptionalVoid: ParserPrinter where Wrapped: ParserPrinter {
     try self.wrapped?.print(into: &input)
   }
 }
+
+extension Parsers.OptionalVoid: Sendable where Wrapped: Sendable { }

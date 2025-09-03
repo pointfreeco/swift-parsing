@@ -4,7 +4,7 @@ import PackageDescription
 
 // For migration to Swift 6
 let swift6Settings: [SwiftSetting] = [
-//  .enableUpcomingFeature("StrictConcurrency"),
+  .enableUpcomingFeature("StrictConcurrency"),
   .enableUpcomingFeature("ExistentialAny"),
 ]
 

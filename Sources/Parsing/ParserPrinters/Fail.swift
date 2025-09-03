@@ -25,7 +25,7 @@
 /// // 1 | 123
 /// //   | ^^^
 /// ```
-public struct Fail<Input, Output>: ParserPrinter {
+public struct Fail<Input, Output>: ParserPrinter, Sendable {
   @usableFromInline
   let error: any Error
 
