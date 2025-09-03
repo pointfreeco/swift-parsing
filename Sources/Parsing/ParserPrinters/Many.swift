@@ -95,7 +95,7 @@ where
     var previous = input
     var result = self.initialResult
     var count = 0
-    var loopError: Error?
+    var loopError: (any Error)?
     while self.maximum.map({ count < $0 }) ?? true {
       let output: Element.Output
       do {

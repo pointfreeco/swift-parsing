@@ -77,19 +77,7 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           string.map(String.init).reversed().makeIterator()
         } element: {
           OneOf {
-            OneOf {
-              // surrogate pair
-              Parse(.surrogateCodePoint) {
-                LiteralUnicodeCodePoint()
-                  .filter((0xD800...0xDBFF).contains)
-                LiteralUnicodeCodePoint()
-                  .filter((0xDC00...0xDFFF).contains)
-              }
-
-              // single unicode scalar
-              LiteralUnicodeCodePoint()
-            }
-            .map(.codePointToString)
+            codePointToString
 
             EscapedSingleChar()
 
@@ -99,6 +87,24 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
           "\"".utf8
         }
       }
+      
+      // Done otherwise the type checker gives up
+      private var codePointToString: some ParserPrinter<Substring.UTF8View, String> {
+        OneOf {
+          // surrogate pair
+          Parse(.surrogateCodePoint) {
+            LiteralUnicodeCodePoint()
+              .filter((0xD800...0xDBFF as ClosedRange<UInt32>).contains)
+            LiteralUnicodeCodePoint()
+              .filter((0xDC00...0xDFFF as ClosedRange<UInt32>).contains)
+          }
+
+          // single unicode scalar
+          LiteralUnicodeCodePoint()
+        }
+        .map(.codePointToString)
+      }
+      
     }
 
     struct JSONNumber: ParserPrinter {
