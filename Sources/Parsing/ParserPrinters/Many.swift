@@ -74,6 +74,7 @@ import Foundation
 /// // 1 | 1,2,Hello---
 /// //   |     ^ expected integer
 /// ```
+@preconcurrency
 public struct Many<
   Input, Element: Parser, Result, Separator: Parser, Terminator: Parser, Printability
 >: Parser

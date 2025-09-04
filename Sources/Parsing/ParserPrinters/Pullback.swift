@@ -33,6 +33,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/pullback(_:)`` operator, which constructs this type.
+  @preconcurrency
   public struct Pullback<Downstream: Parser, Input>: Parser {
     public let downstream: Downstream
     public let keyPath: WritableKeyPath<Input, Downstream.Input>

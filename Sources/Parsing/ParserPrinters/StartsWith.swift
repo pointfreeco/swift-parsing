@@ -36,6 +36,7 @@
 /// try "Hello, ".parse(&input)  // ()
 /// input                        // "Blob!"
 /// ```
+@preconcurrency
 public struct StartsWith<Input: Collection>: Parser where Input.SubSequence == Input {
   public let count: Int
   public let possiblePrefix: AnyCollection<Input.Element>

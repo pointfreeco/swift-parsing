@@ -54,3 +54,5 @@ where Parsers.Input == Input {
 extension Parsers {
   public typealias Stream = Parsing.Stream  // NB: Convenience type alias for discovery
 }
+
+extension Stream: Sendable where Parsers: Sendable { }

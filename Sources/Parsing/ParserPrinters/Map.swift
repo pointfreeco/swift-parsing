@@ -74,6 +74,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/map(_:)-4hsj5`` operation, which constructs this type.
+  @preconcurrency // Can be sendable when Upstream and transform are Sendable
   public struct Map<Upstream: Parser, NewOutput>: Parser {
     /// The parser from which this parser receives output.
     public let upstream: Upstream

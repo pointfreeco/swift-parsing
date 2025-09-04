@@ -13,12 +13,12 @@
 /// ```
 public struct PrefixThrough<Input: Collection>: Parser where Input.SubSequence == Input {
   public let possibleMatch: Input
-  public let areEquivalent: (Input.Element, Input.Element) -> Bool
+  public let areEquivalent: @Sendable (Input.Element, Input.Element) -> Bool
 
   @inlinable
   public init(
     _ possibleMatch: Input,
-    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool
+    by areEquivalent: @Sendable @escaping (Input.Element, Input.Element) -> Bool
   ) {
     self.possibleMatch = possibleMatch
     self.areEquivalent = areEquivalent
@@ -78,8 +78,8 @@ extension PrefixThrough: ParserPrinter where Input: PrependableCollection {
 
 extension PrefixThrough where Input.Element: Equatable {
   @inlinable
-  public init(_ possibleMatch: Input) {
-    self.init(possibleMatch, by: ==)
+  public init(_ possibleMatch: Input) where Input: Sendable {
+    self.init(possibleMatch) { $0 == $1 }
   }
 }
 
@@ -88,7 +88,7 @@ extension PrefixThrough where Input == Substring {
   @inlinable
   public init(
     _ possibleMatch: String,
-    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool = (==)
+    by areEquivalent: @Sendable @escaping (Input.Element, Input.Element) -> Bool = { $0 == $1 } // Operator sugar not sendable by default
   ) {
     self.init(possibleMatch[...], by: areEquivalent)
   }
@@ -99,7 +99,7 @@ extension PrefixThrough where Input == Substring.UTF8View {
   @inlinable
   public init(
     _ possibleMatch: String.UTF8View,
-    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool = (==)
+    by areEquivalent: @Sendable @escaping (Input.Element, Input.Element) -> Bool = { $0 == $1 }
   ) {
     self.init(String(possibleMatch)[...].utf8, by: areEquivalent)
   }
@@ -108,3 +108,5 @@ extension PrefixThrough where Input == Substring.UTF8View {
 extension Parsers {
   public typealias PrefixThrough = Parsing.PrefixThrough  // NB: Convenience type alias for discovery
 }
+
+extension PrefixThrough: Sendable where Input: Sendable { }

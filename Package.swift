@@ -46,7 +46,7 @@ let package = Package(
         "Parsing",
         .product(name: "Benchmark", package: "swift-benchmark"),
       ],
-      swiftSettings: swift6Settings,
+//      swiftSettings: swift6Settings,
     ),
     .testTarget(
       name: "Swift6Tests",
