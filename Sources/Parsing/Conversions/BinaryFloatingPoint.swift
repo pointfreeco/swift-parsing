@@ -45,7 +45,7 @@ extension Conversions {
   /// the ``Conversion/double-swift.type.property`` operation, which constructs this type.
   public struct FixedWidthIntegerToBinaryFloatingPoint<
     Input: FixedWidthInteger, Output: BinaryFloatingPoint
-  >: Conversion {
+  >: Conversion, Sendable {
     @usableFromInline
     init() {}
 

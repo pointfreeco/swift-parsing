@@ -77,7 +77,7 @@ extension Conversions {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/representing(_:)-swift.type.method`` operation, which constructs this type.
-  public struct FromRawValue<Output: RawRepresentable>: Conversion {
+  public struct FromRawValue<Output: RawRepresentable>: Conversion, Sendable {
     @inlinable
     public init() {}
 

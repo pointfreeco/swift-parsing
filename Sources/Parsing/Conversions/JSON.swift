@@ -52,7 +52,7 @@ extension Conversions {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/json(_:decoder:encoder:)-swift.type.method`` operation, which constructs this
   /// type.
-  public struct JSON<Value: Codable>: Conversion {
+  public struct JSON<Value: Codable>: Conversion, Sendable {
     @usableFromInline
     let decoder: JSONDecoder
 

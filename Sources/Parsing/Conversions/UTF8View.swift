@@ -20,7 +20,7 @@ extension Conversions {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/utf8-swift.type.property`` operation, which constructs this type.
-  public struct SubstringToUTF8View: Conversion {
+  public struct SubstringToUTF8View: Conversion, Sendable {
     @inlinable
     public init() {}
 

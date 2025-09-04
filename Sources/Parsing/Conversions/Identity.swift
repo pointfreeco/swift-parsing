@@ -1,7 +1,7 @@
 import Foundation
 
 extension Conversions {
-  public struct Identity<Value>: Conversion {
+  public struct Identity<Value>: Conversion, Sendable {
     @inlinable
     public init() {}
 
