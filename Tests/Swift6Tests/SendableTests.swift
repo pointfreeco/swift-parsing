@@ -25,5 +25,19 @@ enum GlobalParsers {
     }
   }
   
+  static let mapParser: some Parser<Substring, Int> & Sendable = Parse {
+    let ns = NotSendable()
+    Int.parser()
+      .map { n in
+//        let capture = ns // Should be a warning in Swift 6, not an error
+        return n * 2
+      }
+  }
+  
 }
+
+class NotSendable { }
+
+@available(*, unavailable)
+extension NotSendable: Sendable { }
  

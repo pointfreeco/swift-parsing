@@ -1,5 +1,3 @@
-// TODO: Audit for Sendability
-
 extension Parser {
   /// Returns a parser that transforms the output of this parser with a given closure.
   ///
@@ -15,9 +13,9 @@ extension Parser {
   /// - Parameter transform: A closure that transforms values of this parser's output.
   /// - Returns: A parser of transformed outputs.
   @_disfavoredOverload
-  @inlinable
+  @inlinable @preconcurrency
   public func map<NewOutput>(
-    _ transform: @escaping (Output) -> NewOutput
+    _ transform: @Sendable @escaping (Output) -> NewOutput
   ) -> Parsers.Map<Self, NewOutput> {
     .init(upstream: self, transform: transform)
   }
@@ -74,16 +72,15 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/map(_:)-4hsj5`` operation, which constructs this type.
-  @preconcurrency // Can be sendable when Upstream and transform are Sendable
   public struct Map<Upstream: Parser, NewOutput>: Parser {
     /// The parser from which this parser receives output.
     public let upstream: Upstream
 
     /// The closure that transforms output from the upstream parser.
-    public let transform: (Upstream.Output) -> NewOutput
+    public let transform: @Sendable (Upstream.Output) -> NewOutput
 
-    @inlinable
-    public init(upstream: Upstream, transform: @escaping (Upstream.Output) -> NewOutput) {
+    @inlinable @preconcurrency
+    public init(upstream: Upstream, transform: @Sendable @escaping (Upstream.Output) -> NewOutput) {
       self.upstream = upstream
       self.transform = transform
     }
@@ -159,3 +156,7 @@ extension Parsers.MapConstant: ParserPrinter where Upstream: ParserPrinter, Outp
     try self.upstream.print((), into: &input)
   }
 }
+
+extension Parsers.Map: Sendable where Upstream: Sendable { } // TODO: Language does not support checking if a closure is Sendable.
+extension Parsers.MapConstant: Sendable where Upstream: Sendable, Output: Sendable { }
+extension Parsers.MapConversion: Sendable where Upstream: Sendable, Downstream: Sendable { }
