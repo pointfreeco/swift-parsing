@@ -79,8 +79,8 @@ extension PrefixThrough: ParserPrinter where Input: PrependableCollection {
 
 extension PrefixThrough where Input.Element: Equatable {
   @inlinable
-  public init(_ possibleMatch: Input) where Input: Sendable {
-    self.init(possibleMatch) { $0 == $1 }
+  public init(_ possibleMatch: Input) {
+    self.init(possibleMatch, by: ==)
   }
 }
 

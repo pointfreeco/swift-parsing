@@ -7,7 +7,7 @@ let swift6Settings: [SwiftSetting] = [
   .enableUpcomingFeature("StrictConcurrency"),
   .enableUpcomingFeature("ExistentialAny"),
   .enableUpcomingFeature("MemberImportVisibility"),
-//  .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
+//  .enableUpcomingFeature("NonisolatedNonsendingByDefault"), // should not matter, package doesn't use Concurrency yet
 ]
 
 let package = Package(
