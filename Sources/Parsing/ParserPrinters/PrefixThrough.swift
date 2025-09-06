@@ -11,14 +11,15 @@
 /// try line.parse(&input)  // "Hello\n"
 /// input                   // "world\n"
 /// ```
+@preconcurrency
 public struct PrefixThrough<Input: Collection>: Parser where Input.SubSequence == Input {
   public let possibleMatch: Input
-  public let areEquivalent: @Sendable (Input.Element, Input.Element) -> Bool
+  public let areEquivalent: (Input.Element, Input.Element) -> Bool
 
   @inlinable
   public init(
     _ possibleMatch: Input,
-    by areEquivalent: @Sendable @escaping (Input.Element, Input.Element) -> Bool
+    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool
   ) {
     self.possibleMatch = possibleMatch
     self.areEquivalent = areEquivalent
@@ -88,7 +89,7 @@ extension PrefixThrough where Input == Substring {
   @inlinable
   public init(
     _ possibleMatch: String,
-    by areEquivalent: @Sendable @escaping (Input.Element, Input.Element) -> Bool = { $0 == $1 } // Operator sugar not sendable by default
+    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool = (==)
   ) {
     self.init(possibleMatch[...], by: areEquivalent)
   }
@@ -99,7 +100,7 @@ extension PrefixThrough where Input == Substring.UTF8View {
   @inlinable
   public init(
     _ possibleMatch: String.UTF8View,
-    by areEquivalent: @Sendable @escaping (Input.Element, Input.Element) -> Bool = { $0 == $1 }
+    by areEquivalent: @escaping (Input.Element, Input.Element) -> Bool = (==)
   ) {
     self.init(String(possibleMatch)[...].utf8, by: areEquivalent)
   }
@@ -108,5 +109,3 @@ extension PrefixThrough where Input == Substring.UTF8View {
 extension Parsers {
   public typealias PrefixThrough = Parsing.PrefixThrough  // NB: Convenience type alias for discovery
 }
-
-extension PrefixThrough: Sendable where Input: Sendable { }
