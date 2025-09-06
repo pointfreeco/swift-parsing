@@ -13,9 +13,9 @@ extension Parser {
   /// - Parameter transform: A closure that transforms values of this parser's output.
   /// - Returns: A parser of transformed outputs.
   @_disfavoredOverload
-  @inlinable @preconcurrency
+  @inlinable
   public func map<NewOutput>(
-    _ transform: @Sendable @escaping (Output) -> NewOutput
+    _ transform: @escaping (Output) -> NewOutput
   ) -> Parsers.Map<Self, NewOutput> {
     .init(upstream: self, transform: transform)
   }
@@ -72,15 +72,16 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/map(_:)-4hsj5`` operation, which constructs this type.
+  @preconcurrency
   public struct Map<Upstream: Parser, NewOutput>: Parser {
     /// The parser from which this parser receives output.
     public let upstream: Upstream
 
     /// The closure that transforms output from the upstream parser.
-    public let transform: @Sendable (Upstream.Output) -> NewOutput
+    public let transform: (Upstream.Output) -> NewOutput
 
-    @inlinable @preconcurrency
-    public init(upstream: Upstream, transform: @Sendable @escaping (Upstream.Output) -> NewOutput) {
+    @inlinable
+    public init(upstream: Upstream, transform: @escaping (Upstream.Output) -> NewOutput) {
       self.upstream = upstream
       self.transform = transform
     }
@@ -157,6 +158,6 @@ extension Parsers.MapConstant: ParserPrinter where Upstream: ParserPrinter, Outp
   }
 }
 
-extension Parsers.Map: Sendable where Upstream: Sendable { } // TODO: Language does not support checking if a closure is Sendable.
+//extension Parsers.Map: Sendable where Upstream: Sendable { } // TODO: Language does not support checking if a closure is Sendable.
 extension Parsers.MapConstant: Sendable where Upstream: Sendable, Output: Sendable { }
 extension Parsers.MapConversion: Sendable where Upstream: Sendable, Downstream: Sendable { }

@@ -6,6 +6,8 @@ import PackageDescription
 let swift6Settings: [SwiftSetting] = [
   .enableUpcomingFeature("StrictConcurrency"),
   .enableUpcomingFeature("ExistentialAny"),
+//  .enableUpcomingFeature("MemberImportVisibility"),
+//  .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
 ]
 
 let package = Package(
@@ -46,7 +48,7 @@ let package = Package(
         "Parsing",
         .product(name: "Benchmark", package: "swift-benchmark"),
       ],
-//      swiftSettings: swift6Settings,
+      swiftSettings: swift6Settings,
     ),
     .testTarget(
       name: "Swift6Tests",

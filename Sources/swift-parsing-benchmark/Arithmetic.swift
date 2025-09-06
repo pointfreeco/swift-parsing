@@ -1,4 +1,4 @@
-import Benchmark
+@preconcurrency import Benchmark
 import Foundation
 import Parsing
 
