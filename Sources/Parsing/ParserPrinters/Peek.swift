@@ -58,3 +58,5 @@ public struct Peek<Input, Upstream: Parser>: ParserPrinter where Upstream.Input 
     }
   }
 }
+
+extension Peek: Sendable where Upstream: Sendable { }

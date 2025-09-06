@@ -30,7 +30,7 @@ extension Parsers {
     public func parse(_ input: inout Parsers.Input) throws -> Parsers.Output {
       let original = input
       var count = self.parsers.count
-      var errors: [Error] = []
+      var errors: [any Error] = []
       errors.reserveCapacity(count)
       for parser in self.parsers {
         do {
@@ -51,7 +51,7 @@ extension Parsers.OneOfMany: ParserPrinter where Parsers: ParserPrinter {
   public func print(_ output: Parsers.Output, into input: inout Parsers.Input) throws {
     let original = input
     var count = self.parsers.count
-    var errors: [Error] = []
+    var errors: [any Error] = []
     errors.reserveCapacity(count)
     for parser in self.parsers.reversed() {
       do {
@@ -66,3 +66,5 @@ extension Parsers.OneOfMany: ParserPrinter where Parsers: ParserPrinter {
     throw PrintingError.manyFailed(errors, at: input)
   }
 }
+
+extension Parsers.OneOfMany: Sendable where Parsers: Sendable { }

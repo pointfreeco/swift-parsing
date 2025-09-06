@@ -1,3 +1,5 @@
+// TODO: Audit for Sendability
+
 import Foundation
 
 /// A parser that attempts to run another parser as many times as specified, accumulating the result
@@ -72,6 +74,7 @@ import Foundation
 /// // 1 | 1,2,Hello---
 /// //   |     ^ expected integer
 /// ```
+@preconcurrency
 public struct Many<
   Input, Element: Parser, Result, Separator: Parser, Terminator: Parser, Printability
 >: Parser
@@ -95,7 +98,7 @@ where
     var previous = input
     var result = self.initialResult
     var count = 0
-    var loopError: Error?
+    var loopError: (any Error)?
     while self.maximum.map({ count < $0 }) ?? true {
       let output: Element.Output
       do {

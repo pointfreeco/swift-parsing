@@ -54,6 +54,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/compactMap(_:)`` operation, which constructs this type.
+  @preconcurrency
   public struct CompactMap<Upstream: Parser, Output>: Parser {
     public let upstream: Upstream
     public let transform: (Upstream.Output) -> Output?

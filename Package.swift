@@ -2,6 +2,14 @@
 
 import PackageDescription
 
+// For migration to Swift 6
+let swift6Settings: [SwiftSetting] = [
+  .enableUpcomingFeature("StrictConcurrency"),
+  .enableUpcomingFeature("ExistentialAny"),
+  .enableUpcomingFeature("MemberImportVisibility"),
+//  .enableUpcomingFeature("NonisolatedNonsendingByDefault"), // should not matter, package doesn't use Concurrency yet
+]
+
 let package = Package(
   name: "swift-parsing",
   platforms: [
@@ -13,7 +21,7 @@ let package = Package(
   products: [
     .library(
       name: "Parsing",
-      targets: ["Parsing"]
+      targets: ["Parsing"],
     )
   ],
   dependencies: [
@@ -24,20 +32,30 @@ let package = Package(
   targets: [
     .target(
       name: "Parsing",
-      dependencies: [.product(name: "CasePaths", package: "swift-case-paths")]
+      dependencies: [.product(name: "CasePaths", package: "swift-case-paths")],
+      swiftSettings: swift6Settings,
     ),
     .testTarget(
       name: "ParsingTests",
       dependencies: [
-        "Parsing"
-      ]
+        "Parsing",
+      ],
+      swiftSettings: swift6Settings,
     ),
     .executableTarget(
       name: "swift-parsing-benchmark",
       dependencies: [
         "Parsing",
         .product(name: "Benchmark", package: "swift-benchmark"),
-      ]
+      ],
+      swiftSettings: swift6Settings,
     ),
-  ]
+    .testTarget(
+      name: "Swift6Tests",
+      dependencies: [
+        "Parsing",
+      ],
+      swiftSettings: swift6Settings,
+    )
+  ],
 )

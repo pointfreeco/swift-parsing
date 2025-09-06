@@ -81,3 +81,5 @@ public struct Always<Input, Output>: ParserPrinter {
 extension Parsers {
   public typealias Always = Parsing.Always  // NB: Convenience type alias for discovery
 }
+
+extension Always: Sendable where Output: Sendable { }

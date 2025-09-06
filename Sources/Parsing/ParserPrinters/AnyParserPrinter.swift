@@ -25,6 +25,7 @@ extension ParserPrinter {
 /// Use `AnyParserPrinter` to wrap a parser whose type has details you don't want to expose across
 /// API boundaries, such as different modules. When you use type erasure this way, you can change
 /// the underlying parser over time without affecting existing clients.
+@preconcurrency // Don't know if this could ever be removed, maybe with a new type AnySendableParserPrinter?
 public struct AnyParserPrinter<Input, Output>: ParserPrinter {
   @usableFromInline let parser: (inout Input) throws -> Output
   @usableFromInline let printer: (Output, inout Input) throws -> Void

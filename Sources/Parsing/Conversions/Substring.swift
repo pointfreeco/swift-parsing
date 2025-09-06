@@ -53,7 +53,7 @@ extension Conversions {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/substring-swift.type.property-1y3u3`` and operation, which constructs this
   /// type under the hood.
-  public struct UnicodeScalarViewToSubstring: Conversion {
+  public struct UnicodeScalarViewToSubstring: Conversion, Sendable {
     @inlinable
     public init() {}
 

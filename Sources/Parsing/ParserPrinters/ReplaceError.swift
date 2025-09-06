@@ -85,3 +85,5 @@ extension Parsers.ReplaceError: ParserPrinter where Upstream: ParserPrinter {
     }
   }
 }
+
+extension Parsers.ReplaceError: Sendable where Upstream: Sendable, Output: Sendable { }

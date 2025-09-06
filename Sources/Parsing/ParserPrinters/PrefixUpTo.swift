@@ -11,6 +11,7 @@
 /// try line.parse(&input)  // "Hello"
 /// input                   // "\nworld\n"
 /// ```
+@preconcurrency
 public struct PrefixUpTo<Input: Collection>: Parser where Input.SubSequence == Input {
   public let possibleMatch: Input
   public let areEquivalent: (Input.Element, Input.Element) -> Bool

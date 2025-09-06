@@ -188,3 +188,5 @@ extension Digits where InputToBytes == Conversions.Identity<Substring.UTF8View> 
     self.init(length)
   }
 }
+
+extension Digits: Sendable where Length: Sendable, InputToBytes: Sendable { }

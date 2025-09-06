@@ -44,7 +44,7 @@ extension Conversions {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/string-swift.type.property-3u2b5`` operation, which constructs this type.
-  public struct SubstringToString: Conversion {
+  public struct SubstringToString: Conversion, Sendable {
     @inlinable
     public init() {}
 
@@ -63,7 +63,7 @@ extension Conversions {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/string-swift.type.property-9owth`` operation, which constructs this type.
-  public struct BytesToString<Input: PrependableCollection>: Conversion
+  public struct BytesToString<Input: PrependableCollection>: Conversion, Sendable
   where
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit

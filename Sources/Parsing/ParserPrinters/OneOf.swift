@@ -181,3 +181,5 @@ extension OneOf: ParserPrinter where Parsers: ParserPrinter {
     try self.parsers.print(output, into: &input)
   }
 }
+
+extension OneOf: Sendable where Parsers: Sendable { }

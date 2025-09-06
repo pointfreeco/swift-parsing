@@ -1,4 +1,4 @@
-import Benchmark
+@preconcurrency import Benchmark
 import Foundation
 import Parsing
 
@@ -29,7 +29,7 @@ let readmeExampleSuite = BenchmarkSuite(name: "README Example") { suite in
           Parse(User.init(id:name:isAdmin:)) {
             Int.parser()
             ","
-            Prefix { $0 != "," }.map(String.init)
+            Prefix { $0 != "," }.map(String.init) // Can't use String.init if map expects a @Sendable closure directly, or compiler will emit a warning.
             ","
             Bool.parser()
           }
