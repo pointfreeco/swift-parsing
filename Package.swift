@@ -6,7 +6,7 @@ import PackageDescription
 let swift6Settings: [SwiftSetting] = [
   .enableUpcomingFeature("StrictConcurrency"),
   .enableUpcomingFeature("ExistentialAny"),
-//  .enableUpcomingFeature("MemberImportVisibility"),
+  .enableUpcomingFeature("MemberImportVisibility"),
 //  .enableUpcomingFeature("NonisolatedNonsendingByDefault"),
 ]
 
