@@ -21,7 +21,7 @@ let package = Package(
   products: [
     .library(
       name: "Parsing",
-      targets: ["Parsing"],
+      targets: ["Parsing"]
     )
   ],
   dependencies: [
@@ -33,14 +33,14 @@ let package = Package(
     .target(
       name: "Parsing",
       dependencies: [.product(name: "CasePaths", package: "swift-case-paths")],
-      swiftSettings: swift6Settings,
+      swiftSettings: swift6Settings
     ),
     .testTarget(
       name: "ParsingTests",
       dependencies: [
         "Parsing",
       ],
-      swiftSettings: swift6Settings,
+      swiftSettings: swift6Settings
     ),
     .executableTarget(
       name: "swift-parsing-benchmark",
@@ -48,14 +48,14 @@ let package = Package(
         "Parsing",
         .product(name: "Benchmark", package: "swift-benchmark"),
       ],
-      swiftSettings: swift6Settings,
+      swiftSettings: swift6Settings
     ),
     .testTarget(
       name: "Swift6Tests",
       dependencies: [
         "Parsing",
       ],
-      swiftSettings: swift6Settings,
+      swiftSettings: swift6Settings
     )
-  ],
+  ]
 )
