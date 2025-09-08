@@ -9,7 +9,15 @@ nonisolated final class SendableTests: XCTestCase {
     var test: Substring = "this,is,a,word,list"
     let expected: [Substring] = ["this", "is", "a", "word", "list"]
     
-    let result = try GlobalParsers.wordParser.parse(&test)
+    let result: [Substring] = try GlobalParsers.wordParser.parse(&test)
+    XCTAssertEqual(result, expected)
+  }
+
+  func testGlobalParserWithTransformClosure() throws {
+    var test: Substring = "67"
+    let expected: Int = 134
+
+    let result: Int = try GlobalParsers.mapParser.parse(&test)
     XCTAssertEqual(result, expected)
   }
   
@@ -29,7 +37,7 @@ enum GlobalParsers {
     let ns = NotSendable()
     Int.parser()
       .map { n in
-//        let capture = ns // Should be a warning in Swift 6, not an error
+        // let capture = ns // Should be a warning in Swift 6, not an error
         return n * 2
       }
   }

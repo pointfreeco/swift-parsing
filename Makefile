@@ -45,4 +45,42 @@ generate-variadics:
 		--generate-one-ofs \
 		> Sources/Parsing/Builders/Variadics.swift
 
+
+# MARK: - Swift Compiler build tests
+
+DOCKER_CMD = \
+	docker run \
+	--rm \
+	-v $(PWD):/host \
+	-w "/host"
+
+TEST_SCRIPT = bash -c "\
+	cd ..; \
+	cp -r host container; \
+	cd container; \
+	swift package clean; \
+	swift test --parallel; \
+	"
+
+test-5-9:
+	$(DOCKER_CMD) \
+	swift:5.9.2 \
+	$(TEST_SCRIPT)
+
+test-5-10:
+	$(DOCKER_CMD) \
+	swift:5.10.1 \
+	$(TEST_SCRIPT)
+
+test-6-0:
+	$(DOCKER_CMD) \
+	swift:6.0.3 \
+	$(TEST_SCRIPT)
+
+test-latest:
+	$(DOCKER_CMD) \
+	swift:latest \
+	$(TEST_SCRIPT)
+
+
 .PHONY: benchmarks format generate-variadics test
