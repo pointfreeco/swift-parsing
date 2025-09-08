@@ -3,7 +3,7 @@ import XCTest
 import Foundation
 import Parsing
 
-nonisolated final class SendableTests: XCTestCase {
+/* nonisolated */ final class SendableTests: XCTestCase {
   
   func testGlobalParser() throws {
     var test: Substring = "this,is,a,word,list"
