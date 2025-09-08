@@ -59,3 +59,5 @@ extension Optionally: ParserPrinter where Wrapped: ParserPrinter {
     try self.wrapped.print(output, into: &input)
   }
 }
+
+extension Optionally: Sendable where Wrapped: Sendable { }

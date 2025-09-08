@@ -1,4 +1,4 @@
-import Benchmark
+@preconcurrency import Benchmark
 import Parsing
 
 /// This benchmark demonstrates how to parse on multiple string abstractions at once, and the costs

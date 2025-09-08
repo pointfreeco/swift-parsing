@@ -116,3 +116,5 @@ extension Parsers.PipeEnd: ParserPrinter {
     }
   }
 }
+
+extension Parsers.Pipe: Sendable where Upstream: Sendable, Downstream: Sendable { }

@@ -38,7 +38,7 @@ extension Conversions {
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/data-swift.type.property-8z7qz`` and
   /// ``Conversion/data-swift.type.property-7g9sj`` operations, which constructs this type.
-  public struct BytesToData<Input: PrependableCollection>: Conversion where Input.Element == UInt8 {
+  public struct BytesToData<Input: PrependableCollection>: Conversion, Sendable where Input.Element == UInt8 {
     @usableFromInline
     init() {}
 

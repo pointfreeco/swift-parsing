@@ -52,3 +52,5 @@ extension Conversions {
     }
   }
 }
+
+extension Conversions.Map: Sendable where Upstream: Sendable, Downstream: Sendable { }

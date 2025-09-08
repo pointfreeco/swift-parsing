@@ -3,7 +3,7 @@ import Foundation
 @usableFromInline
 enum ParsingError: Error {
   case failed(String, Context)
-  case manyFailed([Error], Context)
+  case manyFailed([any Error], Context)
 
   @usableFromInline
   static func expectedInput(_ description: String, at remainingInput: Any) -> Self {
@@ -48,12 +48,12 @@ enum ParsingError: Error {
   }
 
   @usableFromInline
-  static func manyFailed(_ errors: [Error], at remainingInput: Any) -> Self {
+  static func manyFailed(_ errors: [any Error], at remainingInput: Any) -> Self {
     .manyFailed(errors, .init(remainingInput: remainingInput, debugDescription: ""))
   }
 
   @usableFromInline
-  static func wrap(_ error: Error, from originalInput: Any, to remainingInput: Any) -> Self {
+  static func wrap(_ error: any Error, from originalInput: Any, to remainingInput: Any) -> Self {
     error as? ParsingError
       ?? .failed(
         "",
@@ -67,7 +67,7 @@ enum ParsingError: Error {
   }
 
   @usableFromInline
-  static func wrap(_ error: Error, at remainingInput: Any) -> Self {
+  static func wrap(_ error: any Error, at remainingInput: Any) -> Self {
     .wrap(error, from: remainingInput, to: remainingInput)
   }
 
@@ -81,7 +81,7 @@ enum ParsingError: Error {
 
   @usableFromInline
   func flattened() -> Self {
-    func flatten(_ depth: Int = 0) -> (Error) -> [(depth: Int, error: Error)] {
+    func flatten(_ depth: Int = 0) -> (any Error) -> [(depth: Int, error: any Error)] {
       { error in
         switch error {
         case let ParsingError.manyFailed(errors, _):
@@ -111,7 +111,8 @@ enum ParsingError: Error {
       )
     }
   }
-
+  
+  @preconcurrency // TODO: Make this concurrency safe
   @usableFromInline
   struct Context {
     @usableFromInline
@@ -124,14 +125,14 @@ enum ParsingError: Error {
     var remainingInput: Any
 
     @usableFromInline
-    var underlyingError: Error?
+    var underlyingError: (any Error)?
 
     @usableFromInline
     init(
       originalInput: Any,
       remainingInput: Any,
       debugDescription: String,
-      underlyingError: Error? = nil
+      underlyingError: (any Error)? = nil
     ) {
       self.originalInput = originalInput
       self.remainingInput = remainingInput
@@ -143,7 +144,7 @@ enum ParsingError: Error {
     init(
       remainingInput: Any,
       debugDescription: String,
-      underlyingError: Error? = nil
+      underlyingError: (any Error)? = nil
     ) {
       self.originalInput = remainingInput
       self.remainingInput = remainingInput
@@ -168,8 +169,8 @@ extension ParsingError: CustomDebugStringConvertible {
     }
   }
 
-  fileprivate func debugDescription(for errors: [Error]) -> String {
-    func failed(_ error: Error) -> (String, Context)? {
+  fileprivate func debugDescription(for errors: [any Error]) -> String {
+    func failed(_ error: any Error) -> (String, Context)? {
       guard
         let error = error as? ParsingError,
         case .failed(let label, let context) = error
@@ -380,12 +381,12 @@ func format(labels: [String], context: ParsingError.Context) -> String {
   return formatHelp(from: context.originalInput, to: context.remainingInput)
 }
 
-private func formatError(_ error: Error) -> String {
+private func formatError(_ error: any Error) -> String {
   switch error {
   case let error as ParsingError:
     return error.debugDescription
 
-  case let error as LocalizedError:
+  case let error as any LocalizedError:
     return error.localizedDescription
 
   default:

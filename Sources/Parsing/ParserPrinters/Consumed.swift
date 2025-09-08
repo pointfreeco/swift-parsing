@@ -31,3 +31,5 @@ extension Consumed: ParserPrinter where Upstream.Input: PrependableCollection {
     }
   }
 }
+
+extension Consumed: Sendable where Upstream: Sendable { }

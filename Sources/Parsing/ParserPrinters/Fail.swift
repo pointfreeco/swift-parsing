@@ -25,15 +25,15 @@
 /// // 1 | 123
 /// //   | ^^^
 /// ```
-public struct Fail<Input, Output>: ParserPrinter {
+public struct Fail<Input, Output>: ParserPrinter, Sendable {
   @usableFromInline
-  let error: Error
+  let error: any Error
 
   /// Creates a parser that throws an error when it runs.
   ///
   /// - Parameter error: An error to throw when the parser is run.
   @inlinable
-  public init(throwing error: Error) {
+  public init(throwing error: any Error) {
     self.error = error
   }
 

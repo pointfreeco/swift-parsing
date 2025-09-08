@@ -26,7 +26,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// `UUID.parser()`, which constructs this type.
-  public struct UUIDParser<Input: Collection>: Parser
+  public struct UUIDParser<Input: Collection>: Parser, Sendable
   where
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit

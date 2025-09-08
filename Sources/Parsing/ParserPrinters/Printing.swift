@@ -71,7 +71,8 @@ extension Parsers {
       try self.printer.print(output, into: &input)
     }
   }
-
+  
+  @preconcurrency
   public struct Print<Upstream: Parser>: ParserPrinter {
     public let parser: Upstream
     public let printer: (Upstream.Output, inout Upstream.Input) -> Void
@@ -95,7 +96,8 @@ extension Parsers {
       self.printer(output, &input)
     }
   }
-
+  
+  @preconcurrency
   public struct TryPrint<Upstream: Parser>: ParserPrinter {
     public let parser: Upstream
     public let printer: (Upstream.Output, inout Upstream.Input) throws -> Void
@@ -120,3 +122,5 @@ extension Parsers {
     }
   }
 }
+
+extension Parsers.OverridePrinting: Sendable where Parser: Sendable, Printer: Sendable { }

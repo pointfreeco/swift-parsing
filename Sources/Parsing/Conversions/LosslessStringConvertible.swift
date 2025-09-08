@@ -40,7 +40,7 @@ extension Conversions {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Conversion/lossless(_:)-swift.type.method`` operation, which constructs this type.
-  public struct FromLosslessString<Output: LosslessStringConvertible>: Conversion {
+  public struct FromLosslessString<Output: LosslessStringConvertible>: Conversion, Sendable {
     @usableFromInline
     init() {}
 

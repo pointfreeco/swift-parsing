@@ -105,6 +105,7 @@ extension Conversion {
 ///
 /// If performance is a consideration of your parser-printer, you should avoid `AnyConversion` and
 /// instead create custom types that conform to the ``Conversion`` protocol.
+@preconcurrency // TODO: Would be Sendable if _apply and _unapply where also @Sendable
 public struct AnyConversion<Input, Output>: Conversion {
   @usableFromInline
   let _apply: (Input) throws -> Output

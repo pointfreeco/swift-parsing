@@ -24,3 +24,5 @@ extension Skip: ParserPrinter where Parsers: ParserPrinter, Parsers.Output == Vo
 extension Parsers {
   public typealias Skip = Parsing.Skip  // NB: Convenience type alias for discovery
 }
+
+extension Skip: Sendable where Parsers: Sendable { }

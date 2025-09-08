@@ -101,6 +101,8 @@ extension CaseIterable where Self: RawRepresentable, RawValue == String {
 }
 
 extension Parsers {
+  
+  @preconcurrency // Should be Sendable when toPrefix and areEquivalent are Sendable
   public struct CaseIterableRawRepresentableParser<
     Input: Collection, Output: CaseIterable & RawRepresentable, Prefix: Collection
   >: Parser

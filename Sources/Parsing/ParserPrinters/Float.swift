@@ -24,7 +24,7 @@ extension Parsers {
   /// `Double.parser()`, `Float80.parser()`, etc., all of which construct this type.
   ///
   /// See <doc:Float> for more information about this parser.
-  public struct FloatParser<Input: Collection, Output: BinaryFloatingPoint>: Parser
+  public struct FloatParser<Input: Collection, Output: BinaryFloatingPoint>: Parser, Sendable
   where
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit,

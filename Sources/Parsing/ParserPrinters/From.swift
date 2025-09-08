@@ -30,9 +30,11 @@ extension From: ParserPrinter where Downstream: ParserPrinter {
   }
 }
 
+extension From: Sendable where Upstream: Sendable, Downstream: Sendable { }
+
 // TODO: Do we want to ship this?
 extension Parsers {
-  public struct Identity<InputOutput>: ParserPrinter {
+  public struct Identity<InputOutput>: ParserPrinter, Sendable {
     @usableFromInline
     init() {}
 

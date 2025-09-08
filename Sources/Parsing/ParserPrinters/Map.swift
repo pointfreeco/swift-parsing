@@ -72,6 +72,7 @@ extension Parsers {
   ///
   /// You will not typically need to interact with this type directly. Instead you will usually use
   /// the ``Parser/map(_:)-4hsj5`` operation, which constructs this type.
+  @preconcurrency
   public struct Map<Upstream: Parser, NewOutput>: Parser {
     /// The parser from which this parser receives output.
     public let upstream: Upstream
@@ -156,3 +157,7 @@ extension Parsers.MapConstant: ParserPrinter where Upstream: ParserPrinter, Outp
     try self.upstream.print((), into: &input)
   }
 }
+
+//extension Parsers.Map: Sendable where Upstream: Sendable { } // TODO: Language does not support checking if a closure is Sendable.
+extension Parsers.MapConstant: Sendable where Upstream: Sendable, Output: Sendable { }
+extension Parsers.MapConversion: Sendable where Upstream: Sendable, Downstream: Sendable { }

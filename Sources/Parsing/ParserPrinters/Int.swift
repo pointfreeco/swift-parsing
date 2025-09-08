@@ -28,7 +28,7 @@ extension Parsers {
   /// `UInt8.parser()`, etc., all of which construct this type.
   ///
   /// See <doc:Int> for more information about this parser.
-  public struct IntParser<Input: Collection, Output: FixedWidthInteger>: Parser
+  public struct IntParser<Input: Collection, Output: FixedWidthInteger>: Parser, Sendable
   where
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit

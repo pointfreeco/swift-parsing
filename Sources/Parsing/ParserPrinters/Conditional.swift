@@ -63,3 +63,5 @@ where
     }
   }
 }
+
+extension Parsers.Conditional: Sendable where First: Sendable, Second: Sendable { }

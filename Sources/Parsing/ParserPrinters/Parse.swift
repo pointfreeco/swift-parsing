@@ -236,3 +236,5 @@ where Input == ParserPrinters.Input {
     try self.parserPrinters.print(output, into: &input)
   }
 }
+
+extension Parse: Sendable where Parsers: Sendable { }

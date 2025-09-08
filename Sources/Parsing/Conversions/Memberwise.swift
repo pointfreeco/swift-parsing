@@ -124,6 +124,8 @@ extension Conversion {
 }
 
 extension Conversions {
+  
+  @preconcurrency // Sendable when initializer is Sendable
   public struct Memberwise<Values, Struct>: Conversion {
     @usableFromInline
     let initializer: (Values) -> Struct

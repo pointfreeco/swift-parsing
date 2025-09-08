@@ -7,7 +7,7 @@ where
   InputToBytes.Output.Element == UTF8.CodeUnit,
   InputToBytes.Output.SubSequence == InputToBytes.Output
 {
-  public enum Configuration {
+  public enum Configuration: Sendable {
     case all
     case horizontal
     case vertical
@@ -188,3 +188,5 @@ extension Whitespace {
 extension Parsers {
   public typealias Whitespace = Parsing.Whitespace  // NB: Convenience type alias for discovery
 }
+
+extension Whitespace: Sendable where Length: Sendable, InputToBytes: Sendable { }

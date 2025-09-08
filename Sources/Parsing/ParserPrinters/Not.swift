@@ -57,3 +57,5 @@ public struct Not<Input, Upstream: Parser>: ParserPrinter where Upstream.Input =
     )
   }
 }
+
+extension Not: Sendable where Upstream: Sendable { }

@@ -21,7 +21,7 @@ extension Parsers {
   /// `Bool.parser()`, which constructs this type.
   ///
   /// See <doc:Bool> for more information about this parser.
-  public struct BoolParser<Input: Collection>: Parser
+  public struct BoolParser<Input: Collection>: Parser, Sendable
   where
     Input.SubSequence == Input,
     Input.Element == UTF8.CodeUnit

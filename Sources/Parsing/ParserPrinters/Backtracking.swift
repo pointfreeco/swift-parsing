@@ -29,3 +29,5 @@ extension Backtracking: ParserPrinter where Upstream: ParserPrinter {
     try self.upstream.print(output, into: &input)
   }
 }
+
+extension Backtracking: Sendable where Upstream: Sendable { }

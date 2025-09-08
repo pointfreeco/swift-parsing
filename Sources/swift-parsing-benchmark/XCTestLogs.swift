@@ -1,4 +1,4 @@
-import Benchmark
+@preconcurrency import Benchmark
 import Parsing
 
 /// This benchmark demonstrates how to build process a dump of Xcode test logs to transform them

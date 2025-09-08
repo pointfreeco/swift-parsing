@@ -1,7 +1,7 @@
 @usableFromInline
 func isEqual(_ lhs: Any, _ rhs: Any) -> Bool {
   func open<LHS>(_: LHS.Type) -> Bool? {
-    (Box<LHS>.self as? AnyEquatable.Type)?.isEqual(lhs, rhs)
+    (Box<LHS>.self as? (any AnyEquatable.Type))?.isEqual(lhs, rhs)
   }
   return _openExistential(type(of: lhs), do: open) ?? false
 }
