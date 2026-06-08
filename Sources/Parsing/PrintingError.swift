@@ -1,7 +1,7 @@
 @usableFromInline
 enum PrintingError: Error {
   case failed(Context)
-  case manyFailed([Error], Context)
+  case manyFailed([any Error], Context)
 
   @available(*, deprecated)
   @usableFromInline
@@ -15,7 +15,7 @@ enum PrintingError: Error {
   }
 
   @usableFromInline
-  static func manyFailed(_ errors: [Error], at input: Any) -> Self {
+  static func manyFailed(_ errors: [any Error], at input: Any) -> Self {
     .manyFailed(errors, .init(input: input, debugDescription: ""))
   }
 
@@ -29,7 +29,7 @@ enum PrintingError: Error {
 
   @usableFromInline
   func flattened() -> Self {
-    func flatten(_ depth: Int = 0) -> (Error) -> [(depth: Int, error: Error)] {
+    func flatten(_ depth: Int = 0) -> (any Error) -> [(depth: Int, error: any Error)] {
       { error in
         switch error {
         case let PrintingError.manyFailed(errors, _):
@@ -69,13 +69,13 @@ enum PrintingError: Error {
     var input: Any
 
     @usableFromInline
-    var underlyingError: Error?
+    var underlyingError: (any Error)?
 
     @usableFromInline
     init(
       input: Any,
       debugDescription: String,
-      underlyingError: Error? = nil
+      underlyingError: (any Error)? = nil
     ) {
       self.input = input
       self.debugDescription = debugDescription

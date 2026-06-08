@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 extension UUID {
   /// A parser that consumes a hexadecimal UUID from the beginning of a collection of UTF-8 code
