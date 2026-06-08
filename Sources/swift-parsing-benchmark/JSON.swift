@@ -81,9 +81,9 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
               // surrogate pair
               Parse(.surrogateCodePoint) {
                 LiteralUnicodeCodePoint()
-                  .filter { (0xD800 as UInt32)...0xDBFF ~= $0 }
+                  .filter { (0xD800...0xDBFF).contains($0) }
                 LiteralUnicodeCodePoint()
-                  .filter { (0xDC00 as UInt32)...0xDFFF ~= $0 }
+                  .filter { (0xDC00...0xDFFF).contains($0) }
               }
 
               // single unicode scalar
