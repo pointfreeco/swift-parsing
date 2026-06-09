@@ -1,4 +1,4 @@
-import CasePaths
+public import CasePaths
 
 extension Conversion {
   /// Converts the associated values of an enum case into the case, and an enum case into its

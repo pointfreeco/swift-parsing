@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 /// A collection that supports empty initialization and the ability to prepend a sequence of
 /// elements of elements to itself.

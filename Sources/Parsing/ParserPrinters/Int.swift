@@ -77,7 +77,7 @@ extension Parsers {
         parsedSign = true
         isPositive = true
         output = 0
-      case let (_, n):
+      case (_, let n):
         guard let n = digit(for: n) else {
           throw ParsingError.expectedInput("integer", at: input)
         }

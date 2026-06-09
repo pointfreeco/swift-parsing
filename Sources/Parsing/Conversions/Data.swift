@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 extension Conversion where Self == Conversions.BytesToData<Substring.UTF8View> {
   /// A conversion from `Substring.UTF8View` to `Data`.

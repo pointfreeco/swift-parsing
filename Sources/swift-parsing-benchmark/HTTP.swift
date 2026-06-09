@@ -1,4 +1,4 @@
-import Benchmark
+@preconcurrency import Benchmark
 import Parsing
 
 /// This benchmark reproduces an HTTP parser from [a Rust parser benchmark suite][rust-parser].

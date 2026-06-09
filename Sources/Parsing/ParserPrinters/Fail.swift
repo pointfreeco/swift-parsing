@@ -27,13 +27,13 @@
 /// ```
 public struct Fail<Input, Output>: ParserPrinter {
   @usableFromInline
-  let error: Error
+  let error: any Error
 
   /// Creates a parser that throws an error when it runs.
   ///
   /// - Parameter error: An error to throw when the parser is run.
   @inlinable
-  public init(throwing error: Error) {
+  public init(throwing error: any Error) {
     self.error = error
   }
 

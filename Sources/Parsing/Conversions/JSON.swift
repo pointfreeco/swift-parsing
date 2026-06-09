@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 extension Conversion {
   /// A conversion from `Data` to the given codable type.

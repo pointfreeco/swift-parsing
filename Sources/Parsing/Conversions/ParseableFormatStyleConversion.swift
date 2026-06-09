@@ -1,5 +1,5 @@
 #if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
-  import Foundation
+  public import Foundation
 
   @available(iOS 15, macOS 12, tvOS 15, watchOS 8, *)
   extension Conversion {

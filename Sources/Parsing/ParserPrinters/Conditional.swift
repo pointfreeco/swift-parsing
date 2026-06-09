@@ -39,9 +39,9 @@ extension Parsers {
     @inlinable
     public func parse(_ input: inout First.Input) rethrows -> First.Output {
       switch self {
-      case let .first(first):
+      case .first(let first):
         return try first.parse(&input)
-      case let .second(second):
+      case .second(let second):
         return try second.parse(&input)
       }
     }
@@ -56,9 +56,9 @@ where
   @inlinable
   public func print(_ output: First.Output, into input: inout First.Input) rethrows {
     switch self {
-    case let .first(first):
+    case .first(let first):
       try first.print(output, into: &input)
-    case let .second(second):
+    case .second(let second):
       try second.print(output, into: &input)
     }
   }

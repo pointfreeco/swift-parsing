@@ -1,4 +1,4 @@
-import Foundation
+public import Foundation
 
 // NB: Deprecated after 0.11.0
 

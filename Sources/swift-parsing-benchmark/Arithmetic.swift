@@ -1,4 +1,4 @@
-import Benchmark
+@preconcurrency import Benchmark
 import Foundation
 import Parsing
 
@@ -64,18 +64,17 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
   }
 }
 
-public struct InfixOperator<Input, Operator: Parser, Operand: Parser>: Parser
+struct InfixOperator<Input, Operator: Parser, Operand: Parser>: Parser
 where
   Operator.Input == Input,
   Operand.Input == Input,
   Operator.Output == (Operand.Output, Operand.Output) -> Operand.Output
 {
-  public let `associativity`: Associativity
-  public let operand: Operand
-  public let `operator`: Operator
+  let `associativity`: Associativity
+  let operand: Operand
+  let `operator`: Operator
 
-  @inlinable
-  public init(
+  init(
     associativity: Associativity,
     @ParserBuilder<Input> _ operator: () -> Operator,
     @ParserBuilder<Input> lowerThan operand: () -> Operand  // Should this be called `precedes:`?
@@ -85,8 +84,7 @@ where
     self.operator = `operator`()
   }
 
-  @inlinable
-  public func parse(_ input: inout Input) rethrows -> Operand.Output {
+  func parse(_ input: inout Input) rethrows -> Operand.Output {
     switch associativity {
     case .left:
       var lhs = try self.operand.parse(&input)
@@ -120,7 +118,7 @@ where
   }
 }
 
-public enum Associativity {
+enum Associativity {
   case left
   case right
 }

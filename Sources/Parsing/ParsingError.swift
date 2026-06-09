@@ -3,7 +3,7 @@ import Foundation
 @usableFromInline
 enum ParsingError: Error {
   case failed(String, Context)
-  case manyFailed([Error], Context)
+  case manyFailed([any Error], Context)
 
   @usableFromInline
   static func expectedInput(_ description: String, at remainingInput: Any) -> Self {
@@ -48,12 +48,12 @@ enum ParsingError: Error {
   }
 
   @usableFromInline
-  static func manyFailed(_ errors: [Error], at remainingInput: Any) -> Self {
+  static func manyFailed(_ errors: [any Error], at remainingInput: Any) -> Self {
     .manyFailed(errors, .init(remainingInput: remainingInput, debugDescription: ""))
   }
 
   @usableFromInline
-  static func wrap(_ error: Error, from originalInput: Any, to remainingInput: Any) -> Self {
+  static func wrap(_ error: any Error, from originalInput: Any, to remainingInput: Any) -> Self {
     error as? ParsingError
       ?? .failed(
         "",
@@ -67,24 +67,24 @@ enum ParsingError: Error {
   }
 
   @usableFromInline
-  static func wrap(_ error: Error, at remainingInput: Any) -> Self {
+  static func wrap(_ error: any Error, at remainingInput: Any) -> Self {
     .wrap(error, from: remainingInput, to: remainingInput)
   }
 
   @usableFromInline
   var context: Context {
     switch self {
-    case let .failed(_, context), let .manyFailed(_, context):
+    case .failed(_, let context), .manyFailed(_, let context):
       return context
     }
   }
 
   @usableFromInline
   func flattened() -> Self {
-    func flatten(_ depth: Int = 0) -> (Error) -> [(depth: Int, error: Error)] {
+    func flatten(_ depth: Int = 0) -> (any Error) -> [(depth: Int, error: any Error)] {
       { error in
         switch error {
-        case let ParsingError.manyFailed(errors, _):
+        case ParsingError.manyFailed(let errors, _):
           return errors.flatMap(flatten(depth + 1))
         default:
           return [(depth, error)]
@@ -95,12 +95,12 @@ enum ParsingError: Error {
     switch self {
     case .failed:
       return self
-    case let .manyFailed(errors, context):
+    case .manyFailed(let errors, let context):
       return .manyFailed(
         errors.flatMap(flatten())
           .sorted {
             switch ($0.error, $1.error) {
-            case let (lhs as ParsingError, rhs as ParsingError):
+            case (let lhs as ParsingError, let rhs as ParsingError):
               return lhs.context > rhs.context
             default:
               return $0.depth > $1.depth
@@ -124,14 +124,14 @@ enum ParsingError: Error {
     var remainingInput: Any
 
     @usableFromInline
-    var underlyingError: Error?
+    var underlyingError: (any Error)?
 
     @usableFromInline
     init(
       originalInput: Any,
       remainingInput: Any,
       debugDescription: String,
-      underlyingError: Error? = nil
+      underlyingError: (any Error)? = nil
     ) {
       self.originalInput = originalInput
       self.remainingInput = remainingInput
@@ -143,7 +143,7 @@ enum ParsingError: Error {
     init(
       remainingInput: Any,
       debugDescription: String,
-      underlyingError: Error? = nil
+      underlyingError: (any Error)? = nil
     ) {
       self.originalInput = remainingInput
       self.remainingInput = remainingInput
@@ -157,19 +157,19 @@ extension ParsingError: CustomDebugStringConvertible {
   @usableFromInline
   var debugDescription: String {
     switch self.flattened() {
-    case let .failed(label, context):
+    case .failed(let label, let context):
       return format(labels: [label], context: context)
 
-    case let .manyFailed(errors, context) where errors.isEmpty:
+    case .manyFailed(let errors, let context) where errors.isEmpty:
       return format(labels: [""], context: context)
 
-    case let .manyFailed(errors, _):
+    case .manyFailed(let errors, _):
       return debugDescription(for: errors)
     }
   }
 
-  fileprivate func debugDescription(for errors: [Error]) -> String {
-    func failed(_ error: Error) -> (String, Context)? {
+  fileprivate func debugDescription(for errors: [any Error]) -> String {
+    func failed(_ error: any Error) -> (String, Context)? {
       guard
         let error = error as? ParsingError,
         case .failed(let label, let context) = error
@@ -222,10 +222,10 @@ extension ParsingError.Context {
   fileprivate func canGroup(with other: Self) -> Bool {
     func areSame(_ lhs: Any, _ rhs: Any) -> Bool {
       switch (normalize(lhs), normalize(rhs)) {
-      case let (lhs as Substring, rhs as Substring):
+      case (let lhs as Substring, let rhs as Substring):
         return lhs.startIndex == rhs.startIndex && lhs.endIndex == rhs.endIndex
 
-      case let (lhs as Slice<[Substring]>, rhs as Slice<[Substring]>):
+      case (let lhs as Slice<[Substring]>, let rhs as Slice<[Substring]>):
         return zip(lhs, rhs).allSatisfy { l, r in
           l.startIndex == r.startIndex && l.endIndex == r.endIndex
         }
@@ -257,7 +257,7 @@ extension Array where Element == (label: String, context: ParsingError.Context) 
 func format(labels: [String], context: ParsingError.Context) -> String {
   func formatHelp<Input>(from originalInput: Input, to remainingInput: Input) -> String {
     switch (normalize(originalInput), normalize(remainingInput)) {
-    case let (originalInput as Substring, remainingInput as Substring):
+    case (let originalInput as Substring, let remainingInput as Substring):
       let substring =
         originalInput.startIndex == remainingInput.startIndex
         ? originalInput
@@ -322,7 +322,7 @@ func format(labels: [String], context: ParsingError.Context) -> String {
         diagnostic: diagnostic
       )
 
-    case let (originalInput as Slice<[Substring]>, remainingInput as Slice<[Substring]>):
+    case (let originalInput as Slice<[Substring]>, let remainingInput as Slice<[Substring]>):
       let slice =
         originalInput.startIndex == remainingInput.startIndex
         ? originalInput
@@ -333,7 +333,7 @@ func format(labels: [String], context: ParsingError.Context) -> String {
 
       let expectation: String
       if let error = context.underlyingError as? ParsingError,
-        case let .failed(elementLabel, elementContext) = error,
+        case .failed(let elementLabel, let elementContext) = error,
         let originalInput = normalize(elementContext.originalInput) as? Substring,
         let remainingInput = normalize(elementContext.remainingInput) as? Substring
       {
@@ -380,12 +380,12 @@ func format(labels: [String], context: ParsingError.Context) -> String {
   return formatHelp(from: context.originalInput, to: context.remainingInput)
 }
 
-private func formatError(_ error: Error) -> String {
+private func formatError(_ error: any Error) -> String {
   switch error {
   case let error as ParsingError:
     return error.debugDescription
 
-  case let error as LocalizedError:
+  case let error as any LocalizedError:
     return error.localizedDescription
 
   default:
@@ -444,13 +444,13 @@ private func formatError(
 extension ParsingError.Context {
   fileprivate static func > (lhs: Self, rhs: Self) -> Bool {
     switch (normalize(lhs.remainingInput), normalize(rhs.remainingInput)) {
-    case let (lhsInput as Substring, rhsInput as Substring):
+    case (let lhsInput as Substring, let rhsInput as Substring):
       return lhsInput.endIndex > rhsInput.endIndex
 
-    case let (lhsInput as Slice<[Substring]>, rhsInput as Slice<[Substring]>):
+    case (let lhsInput as Slice<[Substring]>, let rhsInput as Slice<[Substring]>):
       guard lhsInput.endIndex != rhsInput.endIndex else {
         switch (lhs.underlyingError, rhs.underlyingError) {
-        case let (lhs as ParsingError, rhs as ParsingError):
+        case (let lhs as ParsingError, let rhs as ParsingError):
           return lhs.context > rhs.context
         case (is ParsingError, _):
           return true
@@ -460,7 +460,7 @@ extension ParsingError.Context {
       }
       return lhsInput.endIndex > rhsInput.endIndex
 
-    case let (lhsInput as Slice<[Substring]>, rhsInput as Substring):
+    case (let lhsInput as Slice<[Substring]>, let rhsInput as Substring):
       return lhsInput.first.map {
         $0.base != rhsInput.base
           ? false
