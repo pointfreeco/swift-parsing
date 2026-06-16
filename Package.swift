@@ -20,7 +20,7 @@ let package = Package(
     .default(enabledTraits: ["CasePaths"]),
     .trait(
       name: "CasePaths",
-      description: "Integrate with the swift-case-paths package for parsing and printing enums."
+      description: "Easily parse and print enums using CasePaths"
     ),
   ],
   dependencies: [
