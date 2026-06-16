@@ -8,12 +8,13 @@
     /// Useful for transforming the output of a ``ParserPrinter`` into an enum:
     ///
     /// ```swift
+    /// @CasePathable
     /// enum Expression {
     ///   case add(Int, Int)
     ///   ...
     /// }
     ///
-    /// let add = ParsePrint(.case(Expression.add)) {
+    /// let add = ParsePrint(.case(\Expression.Cases.add)) {
     ///   Int.parser()
     ///   "+"
     ///   Int.parser()
@@ -29,21 +30,37 @@
     /// - Returns: A conversion that can embed the associated values of an enum case into the case,
     ///   and extract the associated values from the case.
     @inlinable
-    public static func `case`<Values, Enum>(
-      _ initializer: @escaping (Values) -> Enum
-    ) -> Self where Self == CasePath<Enum, Values> {
-      /initializer
+    public static func `case`<Values, Enum: CasePathable>(
+      _ keyPath: KeyPath<Enum.AllCasePaths, AnyCasePath<Enum, Values>>
+    ) -> Self where Self == AnyCasePath<Enum, Values> {
+      Enum.allCasePaths[keyPath: keyPath]
     }
 
     @inlinable
+    public static func `case`<Values, Enum: CasePathable>(
+      _ keyPath: CaseKeyPath<Enum, Values>
+    ) -> Self where Self == AnyCasePath<Enum, Values> {
+      AnyCasePath(keyPath)
+    }
+
+    @available(*, deprecated, message: "Use a 'CasePathable' case key path, instead")
+    @inlinable
+    public static func `case`<Values, Enum>(
+      _ initializer: @escaping (Values) -> Enum
+    ) -> Self where Self == AnyCasePath<Enum, Values> {
+      /initializer
+    }
+
+    @available(*, deprecated, message: "Use a 'CasePathable' case key path, instead")
+    @inlinable
     public static func `case`<Enum>(
       _ initializer: Enum
-    ) -> Self where Self == CasePath<Enum, Void> {
+    ) -> Self where Self == AnyCasePath<Enum, Void> {
       /initializer
     }
   }
 
-  extension CasePath: Conversion {
+  extension AnyCasePath: Conversion {
     @inlinable
     public func apply(_ input: Value) -> Root {
       self.embed(input)

@@ -208,6 +208,7 @@ final class OneOfTests: XCTestCase {
   }
 
   #if CasePaths
+    @available(*, deprecated)
     func testJSON() {
       struct JSONValue: ParserPrinter {
         enum Output: Equatable {
