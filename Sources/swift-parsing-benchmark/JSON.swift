@@ -1,4 +1,5 @@
 @preconcurrency import Benchmark
+import CasePaths
 import Foundation
 import Parsing
 
@@ -6,175 +7,7 @@ import Parsing
 ///
 /// It is implemented according to the [spec](https://www.json.org/json-en.html).
 let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
-  #if swift(>=5.8)
-    struct JSONValue: ParserPrinter {
-      enum Output: Equatable {
-        case array([Self])
-        case boolean(Bool)
-        case null
-        case number(Double)
-        case object([String: Self])
-        case string(String)
-      }
-
-      var body: some ParserPrinter<Substring.UTF8View, Output> {
-        Whitespace()
-        OneOf {
-          JSONObject().map(.case(Output.object))
-          JSONArray().map(.case(Output.array))
-          JSONString().map(.case(Output.string))
-          JSONNumber().map(.case(Output.number))
-          Bool.parser().map(.case(Output.boolean))
-          "null".utf8.map { Output.null }
-        }
-        Whitespace()
-      }
-    }
-
-    struct EscapedSingleChar: ParserPrinter {
-      var body: some ParserPrinter<Substring.UTF8View, String> {
-        "\\".utf8
-
-        OneOf {
-          "\"".utf8.map { "\"" }
-          "\\".utf8.map { "\\" }
-          "/".utf8.map { "/" }
-          "b".utf8.map { "\u{8}" }
-          "f".utf8.map { "\u{c}" }
-          "n".utf8.map { "\n" }
-          "r".utf8.map { "\r" }
-          "t".utf8.map { "\t" }
-        }
-      }
-    }
-
-    struct UnescapedString: ParserPrinter {
-      var body: some ParserPrinter<Substring.UTF8View, String> {
-        Prefix(1...) { $0.isUnescapedJSONStringByte }
-          .printing { output, input in
-            try Prefix(output.count) { $0.isUnescapedJSONStringByte }.print(output, into: &input)
-          }
-          .map(.string)
-      }
-    }
-
-    struct LiteralUnicodeCodePoint: ParserPrinter {
-      var body: some ParserPrinter<Substring.UTF8View, UInt32> {
-        "\\".utf8
-        Parse {
-          "u".utf8
-          Prefix(4) { $0.isHexDigit }.map(.base16Int)
-        }
-      }
-    }
-
-    struct JSONString: ParserPrinter {
-      var body: some ParserPrinter<Substring.UTF8View, String> {
-        "\"".utf8
-        Many(into: "") { string, fragment in
-          string.append(contentsOf: fragment)
-        } decumulator: { string in
-          string.map(String.init).reversed().makeIterator()
-        } element: {
-          OneOf {
-            OneOf {
-              // surrogate pair
-              Parse(.surrogateCodePoint) {
-                LiteralUnicodeCodePoint()
-                  .filter { (0xD800...0xDBFF).contains($0) }
-                LiteralUnicodeCodePoint()
-                  .filter { (0xDC00...0xDFFF).contains($0) }
-              }
-
-              // single unicode scalar
-              LiteralUnicodeCodePoint()
-            }
-            .map(.codePointToString)
-
-            EscapedSingleChar()
-
-            UnescapedString()
-          }
-        } terminator: {
-          "\"".utf8
-        }
-      }
-    }
-
-    struct JSONNumber: ParserPrinter {
-      var body: some ParserPrinter<Substring.UTF8View, Double> {
-        Consumed {
-          Optionally { "-".utf8 }
-
-          OneOf {
-            "0".utf8
-            Parse {
-              Digits(1).filter { $0 != 0 }
-              Digits(0...)
-            }.map { _ in }
-          }
-
-          Optionally {
-            ".".utf8
-            Digits(1...)
-          }
-
-          Optionally {
-            OneOf {
-              "e".utf8
-              "E".utf8
-            }
-            Optionally {
-              OneOf {
-                "+".utf8
-                "-".utf8
-              }
-            }
-            Digits(1...)
-          }
-        }
-        .map(.string.lossless(Double.self))
-      }
-    }
-
-    struct JSONObject: ParserPrinter {
-      var body: some ParserPrinter<Substring.UTF8View, [String: JSONValue.Output]> {
-        "{".utf8
-        Many(into: [String: JSONValue.Output]()) {
-          (object: inout [String: JSONValue.Output], pair: (String, JSONValue.Output)) in
-          let (name, value) = pair
-          object[name] = value
-        } decumulator: { object in
-          (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue.Output)])
-            .reversed()
-            .makeIterator()
-        } element: {
-          Whitespace()
-          JSONString()
-          Whitespace()
-          ":".utf8
-          JSONValue()
-        } separator: {
-          ",".utf8
-        } terminator: {
-          "}".utf8
-        }
-      }
-    }
-
-    struct JSONArray: ParserPrinter {
-      var body: some ParserPrinter<Substring.UTF8View, [JSONValue.Output]> {
-        "[".utf8
-        Many {
-          JSONValue()
-        } separator: {
-          ",".utf8
-        } terminator: {
-          "]".utf8
-        }
-      }
-    }
-
+  #if CasePaths
     let json = JSONValue()
     let input = #"""
       {
@@ -241,6 +74,177 @@ let jsonSuite = BenchmarkSuite(name: "JSON") { suite in
     }
   #endif
 }
+
+#if CasePaths
+  struct JSONValue: ParserPrinter {
+    @CasePathable
+    enum Output: Equatable {
+      case array([Self])
+      case boolean(Bool)
+      case null
+      case number(Double)
+      case object([String: Self])
+      case string(String)
+    }
+
+    var body: some ParserPrinter<Substring.UTF8View, Output> {
+      Whitespace()
+      OneOf(output: Output.self) {
+        JSONObject().map(.case(\.object))
+        JSONArray().map(.case(\.array))
+        JSONString().map(.case(\.string))
+        JSONNumber().map(.case(\.number))
+        Bool.parser().map(.case(\.boolean))
+        "null".utf8.map { .null }
+      }
+      Whitespace()
+    }
+  }
+
+  struct EscapedSingleChar: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, String> {
+      "\\".utf8
+
+      OneOf {
+        "\"".utf8.map { "\"" }
+        "\\".utf8.map { "\\" }
+        "/".utf8.map { "/" }
+        "b".utf8.map { "\u{8}" }
+        "f".utf8.map { "\u{c}" }
+        "n".utf8.map { "\n" }
+        "r".utf8.map { "\r" }
+        "t".utf8.map { "\t" }
+      }
+    }
+  }
+
+  struct UnescapedString: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, String> {
+      Prefix(1...) { $0.isUnescapedJSONStringByte }
+        .printing { output, input in
+          try Prefix(output.count) { $0.isUnescapedJSONStringByte }.print(output, into: &input)
+        }
+        .map(.string)
+    }
+  }
+
+  struct LiteralUnicodeCodePoint: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, UInt32> {
+      "\\".utf8
+      Parse {
+        "u".utf8
+        Prefix(4) { $0.isHexDigit }.map(.base16Int)
+      }
+    }
+  }
+
+  struct JSONString: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, String> {
+      "\"".utf8
+      Many(into: "") { string, fragment in
+        string.append(contentsOf: fragment)
+      } decumulator: { string in
+        string.map(String.init).reversed().makeIterator()
+      } element: {
+        OneOf {
+          OneOf {
+            // surrogate pair
+            Parse(.surrogateCodePoint) {
+              LiteralUnicodeCodePoint()
+                .filter { (0xD800...0xDBFF).contains($0) }
+              LiteralUnicodeCodePoint()
+                .filter { (0xDC00...0xDFFF).contains($0) }
+            }
+
+            // single unicode scalar
+            LiteralUnicodeCodePoint()
+          }
+          .map(.codePointToString)
+
+          EscapedSingleChar()
+
+          UnescapedString()
+        }
+      } terminator: {
+        "\"".utf8
+      }
+    }
+  }
+
+  struct JSONNumber: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, Double> {
+      Consumed {
+        Optionally { "-".utf8 }
+
+        OneOf {
+          "0".utf8
+          Parse {
+            Digits(1).filter { $0 != 0 }
+            Digits(0...)
+          }.map { _ in }
+        }
+
+        Optionally {
+          ".".utf8
+          Digits(1...)
+        }
+
+        Optionally {
+          OneOf {
+            "e".utf8
+            "E".utf8
+          }
+          Optionally {
+            OneOf {
+              "+".utf8
+              "-".utf8
+            }
+          }
+          Digits(1...)
+        }
+      }
+      .map(.string.lossless(Double.self))
+    }
+  }
+
+  struct JSONObject: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, [String: JSONValue.Output]> {
+      "{".utf8
+      Many(into: [String: JSONValue.Output]()) {
+        (object: inout [String: JSONValue.Output], pair: (String, JSONValue.Output)) in
+        let (name, value) = pair
+        object[name] = value
+      } decumulator: { object in
+        (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue.Output)])
+          .reversed()
+          .makeIterator()
+      } element: {
+        Whitespace()
+        JSONString()
+        Whitespace()
+        ":".utf8
+        JSONValue()
+      } separator: {
+        ",".utf8
+      } terminator: {
+        "}".utf8
+      }
+    }
+  }
+
+  struct JSONArray: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, [JSONValue.Output]> {
+      "[".utf8
+      Many {
+        JSONValue()
+      } separator: {
+        ",".utf8
+      } terminator: {
+        "]".utf8
+      }
+    }
+  }
+#endif
 
 extension UTF8.CodeUnit {
   fileprivate var isHexDigit: Bool {
