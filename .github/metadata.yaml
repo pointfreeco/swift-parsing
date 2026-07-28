@@ -1,0 +1,11 @@
+# .github/metadata.yaml
+description: "A fork of pointfreeco/swift-parsing."
+homepage: "https://swift-institute.org"
+topics:
+  - combinators
+  - fork
+  - parsing
+  - pointfree
+  - swift
+readme:
+  family: E
