@@ -358,7 +358,7 @@ Xcode Logs.Parser                             4511625.500 ns ±   0.58 %        
 The documentation for releases and main are available here:
 
 * [main][swift-parsing-docs]
-* [0.10.0](https://pointfreeco.github.io/swift-parsing/0.10.0/documentation/parsing)
+* [0.10.0](https://swiftpackageindex.com/pointfreeco/swift-parsing/0.10.0/documentation/parsing)
 <details>
   <summary>
   Other versions
@@ -396,7 +396,7 @@ The printing functionality in this library is inspired by the paper ["Invertible
 
 This library is released under the MIT license. See [LICENSE](LICENSE) for details.
 
-[getting-started-docs]: https://pointfreeco.github.io/swift-parsing/main/documentation/parsing/gettingstarted
-[string-abstractions-docs]: https://pointfreeco.github.io/swift-parsing/main/documentation/parsing/stringabstractions
-[swift-parsing-docs]: https://pointfreeco.github.io/swift-parsing
+[getting-started-docs]: https://swiftpackageindex.com/pointfreeco/swift-parsing/main/documentation/parsing/gettingstarted
+[string-abstractions-docs]: https://swiftpackageindex.com/pointfreeco/swift-parsing/main/documentation/parsing/stringabstractions
+[swift-parsing-docs]: https://swiftpackageindex.com/pointfreeco/swift-parsing/main/documentation/parsing
 [swift-url-routing]: https://github.com/pointfreeco/swift-url-routing
