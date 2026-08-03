@@ -168,7 +168,7 @@ extension Parser {
   /// - Parameter input: A nebulous collection of data to be parsed.
   /// - Returns: A more well-structured value parsed from the given input.
   @inlinable
-  public func parse<C: Collection>(_ input: C) rethrows -> Output
+  public func parse<C: Collection>(_ input: C) throws -> Output
   where Input == C.SubSequence {
     var input = input[...]
     return try Parse {
@@ -238,7 +238,7 @@ extension Parser {
   /// - Returns: A more well-structured value parsed from the given input.
   @_disfavoredOverload
   @inlinable
-  public func parse<S: StringProtocol>(_ input: S) rethrows -> Output
+  public func parse<S: StringProtocol>(_ input: S) throws -> Output
   where Input == S.SubSequence.UTF8View {
     var input = input[...].utf8
     return try Parse {

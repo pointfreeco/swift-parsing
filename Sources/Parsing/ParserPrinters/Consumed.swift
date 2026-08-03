@@ -22,7 +22,7 @@ where
 
 extension Consumed: ParserPrinter where Upstream.Input: PrependableCollection {
   @inlinable
-  public func print(_ output: Upstream.Input, into input: inout Upstream.Input) rethrows {
+  public func print(_ output: Upstream.Input, into input: inout Upstream.Input) throws {
     do {
       _ = try self.upstream.parse(output)
       input.prepend(contentsOf: output)
