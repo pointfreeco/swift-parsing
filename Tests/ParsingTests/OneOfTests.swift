@@ -1,6 +1,10 @@
 import Parsing
 import XCTest
 
+#if CasePaths
+  import CasePaths
+#endif
+
 final class OneOfTests: XCTestCase {
   func testOneOfSingleton() {
     var input = "AB"[...]
@@ -210,103 +214,6 @@ final class OneOfTests: XCTestCase {
   #if CasePaths
     @available(*, deprecated)
     func testJSON() {
-      struct JSONValue: ParserPrinter {
-        enum Output: Equatable {
-          case array([Self])
-          case boolean(Bool)
-          case null
-          case number(Double)
-          case object([String: Self])
-          case string(String)
-        }
-
-        var body: some ParserPrinter<Substring.UTF8View, Output> {
-          Whitespace()
-          OneOf {
-            JSONObject().map(.case(Output.object))
-            JSONArray().map(.case(Output.array))
-            JSONString().map(.case(Output.string))
-            Double.parser().map(.case(Output.number))
-            Bool.parser().map(.case(Output.boolean))
-            "null".utf8.map { Output.null }
-          }
-          Whitespace()
-        }
-      }
-
-      struct JSONString: ParserPrinter {
-        var body: some ParserPrinter<Substring.UTF8View, String> {
-          "\"".utf8
-          Many(into: "") { string, fragment in
-            string.append(contentsOf: fragment)
-          } decumulator: { string in
-            string.map(String.init).reversed().makeIterator()
-          } element: {
-            OneOf {
-              Prefix(1) { $0.isUnescapedJSONStringByte }.map(.string)
-
-              Parse {
-                "\\".utf8
-
-                OneOf {
-                  "\"".utf8.map { "\"" }
-                  "\\".utf8.map { "\\" }
-                  "/".utf8.map { "/" }
-                  "b".utf8.map { "\u{8}" }
-                  "f".utf8.map { "\u{c}" }
-                  "n".utf8.map { "\n" }
-                  "r".utf8.map { "\r" }
-                  "t".utf8.map { "\t" }
-                  ParsePrint(.unicode) {
-                    Prefix(4) { $0.isHexDigit }
-                  }
-                }
-              }
-            }
-          } terminator: {
-            "\"".utf8
-          }
-        }
-      }
-
-      struct JSONObject: ParserPrinter {
-        var body: some ParserPrinter<Substring.UTF8View, [String: JSONValue.Output]> {
-          "{".utf8
-          Many(into: [String: JSONValue.Output]()) {
-            (object: inout [String: JSONValue.Output], pair: (String, JSONValue.Output)) in
-            let (name, value) = pair
-            object[name] = value
-          } decumulator: { object in
-            (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue.Output)])
-              .reversed()
-              .makeIterator()
-          } element: {
-            Whitespace()
-            JSONString()
-            Whitespace()
-            ":".utf8
-            JSONValue()
-          } separator: {
-            ",".utf8
-          } terminator: {
-            "}".utf8
-          }
-        }
-      }
-
-      struct JSONArray: ParserPrinter {
-        var body: some ParserPrinter<Substring.UTF8View, [JSONValue.Output]> {
-          "[".utf8
-          Many {
-            JSONValue()
-          } separator: {
-            ",".utf8
-          } terminator: {
-            "]".utf8
-          }
-        }
-      }
-
       let input = #"""
         {
           "hello": true,
@@ -375,6 +282,106 @@ final class OneOfTests: XCTestCase {
     }
   #endif
 }
+
+#if CasePaths
+  struct JSONValue: ParserPrinter {
+    @CasePathable
+    enum Output: Equatable {
+      case array([Self])
+      case boolean(Bool)
+      case null
+      case number(Double)
+      case object([String: Self])
+      case string(String)
+    }
+
+    var body: some ParserPrinter<Substring.UTF8View, Output> {
+      Whitespace()
+      OneOf(output: Output.self) {
+        JSONObject().map(.case(\.object))
+        JSONArray().map(.case(\.array))
+        JSONString().map(.case(\.string))
+        Double.parser().map(.case(\.number))
+        Bool.parser().map(.case(\.boolean))
+        "null".utf8.map { .null }
+      }
+      Whitespace()
+    }
+  }
+
+  struct JSONString: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, String> {
+      "\"".utf8
+      Many(into: "") { string, fragment in
+        string.append(contentsOf: fragment)
+      } decumulator: { string in
+        string.map(String.init).reversed().makeIterator()
+      } element: {
+        OneOf {
+          Prefix(1) { $0.isUnescapedJSONStringByte }.map(.string)
+
+          Parse {
+            "\\".utf8
+
+            OneOf {
+              "\"".utf8.map { "\"" }
+              "\\".utf8.map { "\\" }
+              "/".utf8.map { "/" }
+              "b".utf8.map { "\u{8}" }
+              "f".utf8.map { "\u{c}" }
+              "n".utf8.map { "\n" }
+              "r".utf8.map { "\r" }
+              "t".utf8.map { "\t" }
+              ParsePrint(.unicode) {
+                Prefix(4) { $0.isHexDigit }
+              }
+            }
+          }
+        }
+      } terminator: {
+        "\"".utf8
+      }
+    }
+  }
+
+  struct JSONObject: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, [String: JSONValue.Output]> {
+      "{".utf8
+      Many(into: [String: JSONValue.Output]()) {
+        (object: inout [String: JSONValue.Output], pair: (String, JSONValue.Output)) in
+        let (name, value) = pair
+        object[name] = value
+      } decumulator: { object in
+        (object.sorted(by: { $0.key < $1.key }) as [(String, JSONValue.Output)])
+          .reversed()
+          .makeIterator()
+      } element: {
+        Whitespace()
+        JSONString()
+        Whitespace()
+        ":".utf8
+        JSONValue()
+      } separator: {
+        ",".utf8
+      } terminator: {
+        "}".utf8
+      }
+    }
+  }
+
+  struct JSONArray: ParserPrinter {
+    var body: some ParserPrinter<Substring.UTF8View, [JSONValue.Output]> {
+      "[".utf8
+      Many {
+        JSONValue()
+      } separator: {
+        ",".utf8
+      } terminator: {
+        "]".utf8
+      }
+    }
+  }
+#endif
 
 extension UTF8.CodeUnit {
   fileprivate var isHexDigit: Bool {
