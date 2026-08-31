@@ -237,7 +237,7 @@ extension OneOfBuilder where Input == Substring {
   @_disfavoredOverload
   public static func buildExpression<P: Parser>(_ parser: P)
     -> From<Conversions.SubstringToUTF8View, Substring.UTF8View, P>
-  where P.Input == Substring.UTF8View {
+  where P.Input == Substring.UTF8View, P.Output == Output {
     From(.utf8) {
       parser
     }
@@ -247,7 +247,7 @@ extension OneOfBuilder where Input == Substring {
 extension OneOfBuilder where Input == Substring.UTF8View {
   @_disfavoredOverload
   public static func buildExpression<P: Parser>(_ parser: P) -> P
-  where P.Input == Substring.UTF8View {
+  where P.Input == Substring.UTF8View, P.Output == Output {
     parser
   }
 }

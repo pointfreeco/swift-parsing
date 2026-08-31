@@ -20,13 +20,13 @@ let package = Package(
     .default(enabledTraits: ["CasePaths"]),
     .trait(
       name: "CasePaths",
-      description: "Easily parse and print enums using CasePaths"
+      description: "Parse and print enums using CasePaths"
     ),
   ],
   dependencies: [
     .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
     .package(url: "https://github.com/google/swift-benchmark", from: "0.1.1"),
-    .package(url: "https://github.com/pointfreeco/swift-case-paths", from: "1.1.0"),
+    .package(url: "https://github.com/pointfreeco/swift-case-paths", from: "1.10.0"),
   ],
   targets: [
     .target(
