@@ -27,7 +27,7 @@ let package = Package(
     .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0"),
     .package(url: "https://github.com/google/swift-benchmark", from: "0.1.1"),
     // .package(url: "https://github.com/pointfreeco/swift-case-paths", from: "1.10.0"),
-    .package(url: "https://github.com/pointfreeco/swift-case-paths", branch: "macro-spec"),
+    .package(url: "https://github.com/pointfreeco/swift-case-paths", branch: "main"),
   ],
   targets: [
     .target(
