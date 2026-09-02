@@ -44,6 +44,7 @@
     }
 
     @available(*, deprecated, message: "Use a 'CasePathable' case key path, instead")
+    @_disfavoredOverload
     @inlinable
     public static func `case`<Values, Enum>(
       _ initializer: @escaping (Values) -> Enum
@@ -52,6 +53,7 @@
     }
 
     @available(*, deprecated, message: "Use a 'CasePathable' case key path, instead")
+    @_disfavoredOverload
     @inlinable
     public static func `case`<Enum>(
       _ initializer: Enum
