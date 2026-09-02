@@ -12,3 +12,26 @@ enum ValueOrEmpty {
     }
   }
 }
+
+// https://github.com/pointfreeco/swift-url-routing/discussions/120#discussioncomment-18238093
+#if CasePaths
+  import CasePaths
+
+  @CasePathable
+  enum FooRoute {
+    case index
+    case book(Int)
+  }
+
+  struct IndexRouter: ParserPrinter {
+    var body: some ParserPrinter<Substring, FooRoute> {
+      ParsePrint(.case(\FooRoute.Cases.index)) { "index" }
+    }
+  }
+
+  struct BookRouter: ParserPrinter {
+    var body: some ParserPrinter<Substring, FooRoute> {
+      ParsePrint(.case(\FooRoute.Cases.book)) { Int.parser() }
+    }
+  }
+#endif
