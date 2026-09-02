@@ -8,8 +8,8 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
     var body: some Parser<Substring.UTF8View, Double> {
       InfixOperator(associativity: .left) {
         OneOf {
-          "+".utf8.map { (+) as (Double, Double) -> Double }
-          "-".utf8.map { (-) }
+          "+".utf8.map { () in (+) as (Double, Double) -> Double }
+          "-".utf8.map { () in (-) }
         }
       } lowerThan: {
         MultiplicationAndDivision()
@@ -21,8 +21,8 @@ let arithmeticSuite = BenchmarkSuite(name: "Arithmetic") { suite in
     var body: some Parser<Substring.UTF8View, Double> {
       InfixOperator(associativity: .left) {
         OneOf {
-          "*".utf8.map { (*) as (Double, Double) -> Double }
-          "/".utf8.map { (/) }
+          "*".utf8.map { () in (*) as (Double, Double) -> Double }
+          "/".utf8.map { () in (/) }
         }
       } lowerThan: {
         Exponent()
