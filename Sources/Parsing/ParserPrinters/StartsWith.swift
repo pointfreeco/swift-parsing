@@ -39,6 +39,7 @@
 public struct StartsWith<Input: Collection>: Parser where Input.SubSequence == Input {
   public let count: Int
   public let possiblePrefix: AnyCollection<Input.Element>
+  public let originalPossiblePrefix: Any
   public let startsWith: (Input) -> Bool
 
   /// Initializes a parser that successfully returns `Void` when the initial elements of its input
@@ -57,13 +58,14 @@ public struct StartsWith<Input: Collection>: Parser where Input.SubSequence == I
   where PossiblePrefix.Element == Input.Element {
     self.count = possiblePrefix.count
     self.possiblePrefix = AnyCollection(possiblePrefix)
+    self.originalPossiblePrefix = possiblePrefix
     self.startsWith = { input in input.starts(with: possiblePrefix, by: areEquivalent) }
   }
 
   @inlinable
   public func parse(_ input: inout Input) throws {
     guard self.startsWith(input) else {
-      throw ParsingError.expectedInput(formatValue(self.possiblePrefix), at: input)
+      throw ParsingError.expectedInput(formatValue(self.originalPossiblePrefix), at: input)
     }
     input.removeFirst(self.count)
   }
