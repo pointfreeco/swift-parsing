@@ -14,10 +14,12 @@ let uuidSuite = BenchmarkSuite(name: "UUID") { suite in
     precondition(output == expected)
   }
 
-  suite.benchmark("UUID.parser") {
-    var input = input[...].utf8
-    output = try UUID.parser().parse(&input)
-  } tearDown: {
-    precondition(output == expected)
-  }
+  #if Foundation
+    suite.benchmark("UUID.parser") {
+      var input = input[...].utf8
+      output = try UUID.parser().parse(&input)
+    } tearDown: {
+      precondition(output == expected)
+    }
+  #endif
 }

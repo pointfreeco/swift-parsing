@@ -1,4 +1,6 @@
-public import Foundation
+#if Foundation
+  public import Foundation
+#endif
 
 // NB: Deprecated after 0.11.0
 
@@ -43,18 +45,20 @@ extension FixedWidthInteger {
   }
 }
 
-extension UUID {
-  @_disfavoredOverload
-  @available(*, deprecated, message: "Delete 'of: Substring.self' to silence this warning.")
-  @inlinable
-  public static func parser(
-    of inputType: Substring.Type
-  ) -> From<
-    Conversions.SubstringToUTF8View, Substring.UTF8View, Parsers.UUIDParser<Substring.UTF8View>
-  > {
-    From(.utf8) { Parsers.UUIDParser<Substring.UTF8View>() }
+#if Foundation
+  extension UUID {
+    @_disfavoredOverload
+    @available(*, deprecated, message: "Delete 'of: Substring.self' to silence this warning.")
+    @inlinable
+    public static func parser(
+      of inputType: Substring.Type
+    ) -> From<
+      Conversions.SubstringToUTF8View, Substring.UTF8View, Parsers.UUIDParser<Substring.UTF8View>
+    > {
+      From(.utf8) { Parsers.UUIDParser<Substring.UTF8View>() }
+    }
   }
-}
+#endif
 
 // NB: Deprecated after 0.8.0
 

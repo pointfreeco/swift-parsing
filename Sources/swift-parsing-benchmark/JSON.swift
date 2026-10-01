@@ -1,7 +1,10 @@
 @preconcurrency import Benchmark
-import CasePaths
 import Foundation
 import Parsing
+
+#if CasePaths
+  import CasePaths
+#endif
 
 /// This benchmark shows how to create a naive JSON parser with combinators.
 ///

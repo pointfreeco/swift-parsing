@@ -104,62 +104,64 @@ final class ParserBuilderTests: XCTestCase {
     XCTAssertEqual(input, ""[...])
   }
 
-  func testWrapsCustomErrors() {
-    struct MyParser: Parser {
-      func parse(_ input: inout Substring) throws {
-        struct MyError: LocalizedError {
-          var errorDescription: String? {
-            "whoops!"
+  #if Foundation
+    func testWrapsCustomErrors() {
+      struct MyParser: Parser {
+        func parse(_ input: inout Substring) throws {
+          struct MyError: LocalizedError {
+            var errorDescription: String? {
+              "whoops!"
+            }
           }
+          throw MyError()
         }
-        throw MyError()
       }
-    }
 
-    var input = "123 Blob"[...]
-    XCTAssertThrowsError(
-      try Parse(input: Substring.self) {
-        Int.parser()
-        MyParser()
+      var input = "123 Blob"[...]
+      XCTAssertThrowsError(
+        try Parse(input: Substring.self) {
+          Int.parser()
+          MyParser()
+        }
+        .parse(&input)
+      ) { error in
+        XCTAssertEqual(
+          """
+          error: whoops!
+           --> input:1:4
+          1 | 123 Blob
+            |    ^
+          """,
+          "\(error)"
+        )
       }
-      .parse(&input)
-    ) { error in
-      XCTAssertEqual(
-        """
-        error: whoops!
-         --> input:1:4
-        1 | 123 Blob
-          |    ^
-        """,
-        "\(error)"
-      )
-    }
-    XCTAssertEqual(input, " Blob"[...])
+      XCTAssertEqual(input, " Blob"[...])
 
-    input = "123 Blob"[...]
+      input = "123 Blob"[...]
 
-    func custom<P>(@ParserBuilder<Substring> _ build: () -> P) -> P {
-      build()
-    }
-    XCTAssertThrowsError(
-      try custom {
-        Int.parser()
-        MyParser()
+      func custom<P>(@ParserBuilder<Substring> _ build: () -> P) -> P {
+        build()
       }
-      .parse(&input)
-    ) { error in
-      XCTAssertEqual(
-        """
-        error: whoops!
-         --> input:1:4
-        1 | 123 Blob
-          |    ^
-        """,
-        "\(error)"
-      )
+      XCTAssertThrowsError(
+        try custom {
+          Int.parser()
+          MyParser()
+        }
+        .parse(&input)
+      ) { error in
+        XCTAssertEqual(
+          """
+          error: whoops!
+           --> input:1:4
+          1 | 123 Blob
+            |    ^
+          """,
+          "\(error)"
+        )
+      }
+      XCTAssertEqual(input, " Blob"[...])
     }
-    XCTAssertEqual(input, " Blob"[...])
-  }
+  #endif
 
   func testNestedPrint() throws {
     let p1 = ParsePrint(input: Substring.self) {

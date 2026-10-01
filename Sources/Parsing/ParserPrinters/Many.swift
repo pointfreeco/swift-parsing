@@ -1,4 +1,18 @@
-public import Foundation
+#if canImport(Darwin)
+  public import Darwin
+#elseif canImport(Glibc)
+  public import Glibc
+#elseif canImport(Musl)
+  public import Musl
+#elseif canImport(Bionic)
+  public import Bionic
+#elseif canImport(WASILibc)
+  public import WASILibc
+#elseif os(Windows)
+  public import ucrt
+#else
+  #error("Unsupported platform")
+#endif
 
 /// A parser that attempts to run another parser as many times as specified, accumulating the result
 /// of the outputs.

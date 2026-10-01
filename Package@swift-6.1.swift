@@ -48,6 +48,7 @@ for target in package.targets {
   target.swiftSettings = target.swiftSettings ?? []
   target.swiftSettings?.append(contentsOf: [
     .define("CasePaths"),
+    .define("Foundation"),
     .swiftLanguageMode(.v5),
     .enableUpcomingFeature("ExistentialAny"),
     .enableUpcomingFeature("ImmutableWeakCaptures"),
