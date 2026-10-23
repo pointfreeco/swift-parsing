@@ -40,26 +40,8 @@
     @inlinable
     public static func `case`<Values, Enum: CasePathable>(
       _ keyPath: CaseKeyPath<Enum, Values>
-    ) -> Self where Self == AnyCasePath<Enum, Values> {
+    ) -> Self where Self == AnyCasePath<Enum, Values>, Self.Value == Values.Value {
       AnyCasePath(keyPath)
-    }
-
-    @available(*, deprecated, message: "Use a 'CasePathable' case key path, instead")
-    @_disfavoredOverload
-    @inlinable
-    public static func `case`<Values, Enum>(
-      _ initializer: @escaping (Values) -> Enum
-    ) -> Self where Self == AnyCasePath<Enum, Values> {
-      /initializer
-    }
-
-    @available(*, deprecated, message: "Use a 'CasePathable' case key path, instead")
-    @_disfavoredOverload
-    @inlinable
-    public static func `case`<Enum>(
-      _ initializer: Enum
-    ) -> Self where Self == AnyCasePath<Enum, Void> {
-      /initializer
     }
   }
 
