@@ -1,5 +1,5 @@
 {
-  "originHash" : "b8682349ddb8df2f031486450e17fdd9833bed70e0043fb4795a71c96f1303c2",
+  "originHash" : "20ee61c17b227b04a4e795752e2487f3b089f38571c776bd2fed9629d5cabb55",
   "pins" : [
     {
       "identity" : "swift-argument-parser",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-case-paths",
       "state" : {
-        "revision" : "cb4cba6a8a46a86db0d37dbe09935ead6b24c91a",
-        "version" : "1.10.0"
+        "branch" : "unlabeled-values",
+        "revision" : "b0f4e7316d70b8287846d6a9d8c347e603624305"
       }
     },
     {
@@ -35,15 +35,6 @@
       "state" : {
         "revision" : "3303b164430d9a7055ba484c8ead67a52f7b74f6",
         "version" : "1.0.0"
-      }
-    },
-    {
-      "identity" : "swift-issue-reporting",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/pointfreeco/swift-issue-reporting",
-      "state" : {
-        "revision" : "71c7c9a761d1ca6ed4ccb6ced040fe1c1a39e8e7",
-        "version" : "2.1.0"
       }
     },
     {
