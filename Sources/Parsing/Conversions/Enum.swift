@@ -24,9 +24,7 @@
     ///
     /// To transform the output of a ``ParserPrinter`` into a struct, see ``memberwise(_:)``.
     ///
-    /// - Parameter embed: An embed function where `Values` directly maps to the memory
-    ///   layout of `Enum`, for example the internal, default initializer that is automatically
-    ///   synthesized for structs.
+    /// - Parameter keyPath: A case key path to an enum case.
     /// - Returns: A conversion that can embed the associated values of an enum case into the case,
     ///   and extract the associated values from the case.
     @inlinable
@@ -37,30 +35,32 @@
       CasePathConversion(path: Enum.allCasePaths[keyPath: keyPath])
     }
 
-    @inlinable
-    public static func `case`<Values, Enum: CasePathable>(
-      _ keyPath: CaseKeyPath<Enum, Values>
-    ) -> Self where Self == AnyCasePath<Enum, Values> {
-      AnyCasePath(keyPath)
-    }
+    #if !canImport(CasePaths2)
+      @inlinable
+      public static func `case`<Values, Enum: CasePathable>(
+        _ keyPath: CaseKeyPath<Enum, Values>
+      ) -> Self where Self == AnyCasePath<Enum, Values> {
+        AnyCasePath(keyPath)
+      }
 
-    @available(*, deprecated, message: "Use a 'CasePathable' case key path, instead")
-    @_disfavoredOverload
-    @inlinable
-    public static func `case`<Values, Enum>(
-      _ initializer: @escaping (Values) -> Enum
-    ) -> Self where Self == AnyCasePath<Enum, Values> {
-      /initializer
-    }
+      @available(*, deprecated, message: "Use a 'CasePathable' case key path, instead")
+      @_disfavoredOverload
+      @inlinable
+      public static func `case`<Values, Enum>(
+        _ initializer: @escaping (Values) -> Enum
+      ) -> Self where Self == AnyCasePath<Enum, Values> {
+        /initializer
+      }
 
-    @available(*, deprecated, message: "Use a 'CasePathable' case key path, instead")
-    @_disfavoredOverload
-    @inlinable
-    public static func `case`<Enum>(
-      _ initializer: Enum
-    ) -> Self where Self == AnyCasePath<Enum, Void> {
-      /initializer
-    }
+      @available(*, deprecated, message: "Use a 'CasePathable' case key path, instead")
+      @_disfavoredOverload
+      @inlinable
+      public static func `case`<Enum>(
+        _ initializer: Enum
+      ) -> Self where Self == AnyCasePath<Enum, Void> {
+        /initializer
+      }
+    #endif
   }
 
   public struct CasePathConversion<Enum: CasePathable, Path: CasePath>: Conversion
@@ -73,23 +73,43 @@
       self.path = path
     }
 
-    @inlinable
-    public func apply(_ input: Path.Value) -> Path.Root {
-      path.embed(input)
-    }
-
-    @inlinable
-    public func unapply(_ output: Path.Root) throws -> Path.Value {
-      guard let value = path.extract(from: output)
-      else {
-        throw ConvertingError(
-          """
-          case: Failed to extract \(Path.Value.self) from \(output).
-          """
-        )
+    #if canImport(CasePaths2)
+      @inlinable
+      public func apply(_ input: Path._UnlabeledValue) -> Path.Root {
+        path._embed(input)
       }
-      return value
-    }
+
+      @inlinable
+      public func unapply(_ output: Path.Root) throws -> Path._UnlabeledValue {
+        guard let value = path._extract(from: output)
+        else {
+          throw ConvertingError(
+            """
+            case: Failed to extract \(Path._UnlabeledValue.self) from \(output).
+            """
+          )
+        }
+        return value
+      }
+    #else
+      @inlinable
+      public func apply(_ input: Path.Value) -> Path.Root {
+        path.embed(input)
+      }
+
+      @inlinable
+      public func unapply(_ output: Path.Root) throws -> Path.Value {
+        guard let value = path.extract(from: output)
+        else {
+          throw ConvertingError(
+            """
+            case: Failed to extract \(Path.Value.self) from \(output).
+            """
+          )
+        }
+        return value
+      }
+    #endif
   }
 
   extension AnyCasePath: Conversion {
