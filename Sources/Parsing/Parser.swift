@@ -51,7 +51,7 @@
   /// together.
   ///
   /// Do not invoke this property directly.
-  @ParserBuilder<Input>
+  @_OutputParserBuilder<Input, Output>
   var body: Body { get }
 }
 
