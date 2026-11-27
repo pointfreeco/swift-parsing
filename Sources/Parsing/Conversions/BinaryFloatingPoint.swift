@@ -1,5 +1,3 @@
-import Foundation
-
 extension Conversion where Self == Conversions.FixedWidthIntegerToBinaryFloatingPoint<Int, Double> {
   /// A conversion from an `Int` to a `Double`.
   ///

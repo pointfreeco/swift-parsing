@@ -1,4 +1,6 @@
-import Foundation
+#if Foundation
+  import Foundation
+#endif
 
 @usableFromInline
 enum ParsingError: Error {
@@ -385,8 +387,10 @@ private func formatError(_ error: any Error) -> String {
   case let error as ParsingError:
     return error.debugDescription
 
-  case let error as any LocalizedError:
-    return error.localizedDescription
+  #if Foundation
+    case let error as any LocalizedError:
+      return error.localizedDescription
+  #endif
 
   default:
     return "\(error)"

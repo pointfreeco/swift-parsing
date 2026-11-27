@@ -1,4 +1,6 @@
-public import Foundation
+#if Foundation
+  public import Foundation
+#endif
 
 /// A collection that supports empty initialization and the ability to prepend a sequence of
 /// elements of elements to itself.
@@ -120,7 +122,9 @@ extension RangeReplaceableCollection {
 extension Array: PrependableCollection {}
 extension ArraySlice: PrependableCollection {}
 extension ContiguousArray: PrependableCollection {}
-extension Data: PrependableCollection {}
+#if Foundation
+  extension Data: PrependableCollection {}
+#endif
 extension Slice: PrependableCollection, _EmptyInitializable
 where Base: RangeReplaceableCollection {}
 extension String: PrependableCollection {}

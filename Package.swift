@@ -17,10 +17,14 @@ let package = Package(
     )
   ],
   traits: [
-    .default(enabledTraits: ["CasePaths"]),
+    .default(enabledTraits: ["CasePaths", "Foundation"]),
     .trait(
       name: "CasePaths",
       description: "Parse and print enums using CasePaths"
+    ),
+    .trait(
+      name: "Foundation",
+      description: "Parse and print Foundation types like Data, UUID, and CharacterSet"
     ),
   ],
   dependencies: [

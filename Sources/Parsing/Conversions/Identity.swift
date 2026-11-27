@@ -1,5 +1,3 @@
-import Foundation
-
 extension Conversions {
   public struct Identity<Value>: Conversion {
     @inlinable

@@ -1,4 +1,4 @@
-#if os(iOS) || os(macOS) || os(tvOS) || os(watchOS)
+#if Foundation && (os(iOS) || os(macOS) || os(tvOS) || os(watchOS))
   public import Foundation
 
   @available(iOS 16, macOS 13, tvOS 16, watchOS 9, *)
