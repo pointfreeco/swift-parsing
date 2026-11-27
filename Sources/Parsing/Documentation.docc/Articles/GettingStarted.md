@@ -286,7 +286,7 @@ We can use this parser in the `user` parser, and now it properly handles quoted 
 fields:
 
 ```swift
-let user = Parse(User.init) {
+let user = Parse(input: Substring.self, User.init) {
   Int.parser()
   ","
   field
@@ -390,7 +390,7 @@ try field.print("Blob, Esq.")      // ✅ "\"Blob, Esq.\""
 Although the `field` parser is now a parser-printer, the same is not true of the `user` parser:
 
 ```swift
-let user = Parse(User.init) {
+let user = Parse(input: Substring.self, User.init) {
   Int.parser()
   ","
   field
@@ -411,7 +411,7 @@ derive a conversion between a tuple of data and a struct by specify the structs 
 initializer:
 
 ```swift
-let user = ParsePrint(.memberwise(User.init)) {
+let user = ParsePrint(input: Substring.self, .memberwise(User.init)) {
   Int.parser()
   ","
   field
