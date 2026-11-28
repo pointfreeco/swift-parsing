@@ -52,10 +52,11 @@ public struct Parse<Input, Output, Parsers: Parser<Input, Output>>: Parser {
 
   @_disfavoredOverload
   @inlinable
-  public init<P>(
+  public init(
     input inputType: Input.Type = Input.self,
-    @_OutputParserBuilder<Input, Output> with build: () -> P
-  ) where Parsers == P {
+    output outputType: Output.Type = Output.self,
+    @_OutputParserBuilder<Input, Output> with build: () -> Parsers
+  ) {
     self.parsers = build()
   }
 
@@ -157,7 +158,6 @@ public struct Parse<Input, Output, Parsers: Parser<Input, Output>>: Parser {
     self.parsers = build().map(conversion)
   }
 
-
   @inlinable
   public func parse(_ input: inout Parsers.Input) rethrows -> Parsers.Output {
     try self.parsers.parse(&input)
@@ -218,10 +218,11 @@ public struct ParsePrint<Input, Output, ParserPrinters: ParserPrinter<Input, Out
 
   @_disfavoredOverload
   @inlinable
-  public init<P>(
+  public init(
     input inputType: Input.Type = Input.self,
-    @_OutputParserBuilder<Input, Output> with build: () -> P
-  ) where ParserPrinters == P {
+    output outputType: Output.Type = Output.self,
+    @_OutputParserBuilder<Input, Output> with build: () -> ParserPrinters
+  ) {
     self.parserPrinters = build()
   }
 
@@ -242,7 +243,6 @@ public struct ParsePrint<Input, Output, ParserPrinters: ParserPrinter<Input, Out
   ) where ParserPrinters == Parsers.MapConversion<Upstream, Downstream> {
     self.parserPrinters = build().map(conversion)
   }
-
 
   @inlinable
   public func parse(_ input: inout ParserPrinters.Input) rethrows -> ParserPrinters.Output {
