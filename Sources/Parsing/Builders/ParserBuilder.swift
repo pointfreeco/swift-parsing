@@ -13,7 +13,7 @@
 /// .parse("123,456") // (123, 456)
 /// ```
 @resultBuilder
-public enum ParserBuilder<Input> {
+public class ParserBuilder<Input> {
   @inlinable
   public static func buildBlock() -> Always<Input, Void> {
     Always(())

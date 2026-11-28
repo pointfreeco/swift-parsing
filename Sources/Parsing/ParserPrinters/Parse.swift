@@ -20,7 +20,7 @@
 /// // 1 | (42,blob)
 /// //   |     ^ expected integer
 /// ```
-public struct Parse<Input, Parsers: Parser>: Parser where Parsers.Input == Input {
+public struct Parse<Input, Output, Parsers: Parser<Input, Output>>: Parser {
   public let parsers: Parsers
 
   /// An entry point into ``ParserBuilder`` syntax.
@@ -46,6 +46,16 @@ public struct Parse<Input, Parsers: Parser>: Parser where Parsers.Input == Input
   public init(
     input inputType: Input.Type = Input.self,
     @ParserBuilder<Input> with build: () -> Parsers
+  ) {
+    self.parsers = build()
+  }
+
+  @_disfavoredOverload
+  @inlinable
+  public init(
+    input inputType: Input.Type = Input.self,
+    output outputType: Output.Type = Output.self,
+    @_OutputParserBuilder<Input, Output> with build: () -> Parsers
   ) {
     self.parsers = build()
   }
@@ -79,11 +89,11 @@ public struct Parse<Input, Parsers: Parser>: Parser where Parsers.Input == Input
   ///   - transform: A transform to apply to the output of the parser builder.
   ///   - with: A parser builder that will accumulate non-void outputs in a tuple.
   @inlinable
-  public init<Upstream, NewOutput>(
+  public init<Upstream>(
     input inputType: Input.Type = Input.self,
-    _ transform: @escaping (Upstream.Output) -> NewOutput,
+    _ transform: @escaping (Upstream.Output) -> Output,
     @ParserBuilder<Input> with build: () -> Upstream
-  ) where Parsers == Parsing.Parsers.Map<Upstream, NewOutput> {
+  ) where Parsers == Parsing.Parsers.Map<Upstream, Output> {
     self.parsers = build().map(transform)
   }
 
@@ -103,11 +113,11 @@ public struct Parse<Input, Parsers: Parser>: Parser where Parsers.Input == Input
   /// Parse(Role.admin) { "admin" }
   /// ```
   @inlinable
-  public init<Upstream, NewOutput>(
+  public init<Upstream>(
     input inputType: Input.Type = Input.self,
-    _ output: NewOutput,
+    _ output: Output,
     @ParserBuilder<Input> with build: () -> Upstream
-  ) where Parsers == Parsing.Parsers.MapConstant<Upstream, NewOutput> {
+  ) where Parsers == Parsing.Parsers.MapConstant<Upstream, Output> {
     self.parsers = build().map { output }
   }
 
@@ -140,10 +150,10 @@ public struct Parse<Input, Parsers: Parser>: Parser where Parsers.Input == Input
   ///   - conversion: A conversion to apply to the output of the parser builder.
   ///   - with: A parser builder that will accumulate non-void outputs in a tuple.
   @inlinable
-  public init<Upstream, Downstream>(
+  public init<Downstream, Upstream>(
     input inputType: Input.Type = Input.self,
     _ conversion: Downstream,
-    @ParserBuilder<Input> with build: () -> Upstream
+    @_OutputParserBuilder<Input, Downstream.Input> with build: () -> Upstream
   ) where Parsers == Parsing.Parsers.MapConversion<Upstream, Downstream> {
     self.parsers = build().map(conversion)
   }
@@ -194,8 +204,8 @@ extension Parse: ParserPrinter where Parsers: ParserPrinter {
 ///
 /// `ParsePrint` is a type alias for the ``Parse`` parser with its underlying parser constrained to
 /// ``ParserPrinter``.
-public struct ParsePrint<Input, ParserPrinters: ParserPrinter>: ParserPrinter
-where Input == ParserPrinters.Input {
+public struct ParsePrint<Input, Output, ParserPrinters: ParserPrinter<Input, Output>>: ParserPrinter
+{
   public let parserPrinters: ParserPrinters
 
   @inlinable
@@ -206,20 +216,30 @@ where Input == ParserPrinters.Input {
     self.parserPrinters = build()
   }
 
+  @_disfavoredOverload
   @inlinable
-  public init<Upstream, NewOutput>(
+  public init(
     input inputType: Input.Type = Input.self,
-    _ output: NewOutput,
+    output outputType: Output.Type = Output.self,
+    @_OutputParserBuilder<Input, Output> with build: () -> ParserPrinters
+  ) {
+    self.parserPrinters = build()
+  }
+
+  @inlinable
+  public init<Upstream>(
+    input inputType: Input.Type = Input.self,
+    _ output: Output,
     @ParserBuilder<Input> with build: () -> Upstream
-  ) where ParserPrinters == Parsers.MapConstant<Upstream, NewOutput> {
+  ) where ParserPrinters == Parsers.MapConstant<Upstream, Output> {
     self.parserPrinters = build().map { output }
   }
 
   @inlinable
-  public init<Upstream, Downstream>(
+  public init<Downstream, Upstream>(
     input inputType: Input.Type = Input.self,
     _ conversion: Downstream,
-    @ParserBuilder<Input> with build: () -> Upstream
+    @_OutputParserBuilder<Input, Downstream.Input> with build: () -> Upstream
   ) where ParserPrinters == Parsers.MapConversion<Upstream, Downstream> {
     self.parserPrinters = build().map(conversion)
   }
